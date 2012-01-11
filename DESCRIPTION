@@ -1,0 +1,75 @@
+Package: mosaic
+Type: Package
+Title: Project MOSAIC (mosaic-web.org) math and stats teaching utilities
+Version: 0.3-0
+Date: 2012-01-10
+Depends:
+    lattice,
+    grid,
+    methods,
+    Hmisc,
+    utils
+Suggests:
+    MASS,
+    reshape2,
+    manipulate
+Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
+    <kaplan@macalester.edu>, Nicholas Horton <nhorton@smith.edu>
+Maintainer: Randall Pruim <rpruim@calvin.edu>
+Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
+    to teach mathematics, statistics, computation and modeling.  Funded by the
+    NSF, Project MOSAIC is creating a community of educators working to tie
+    together aspects of quantitative work that students in science, technology,
+    engineering and mathematics will need in their professional lives, but
+    which are usually taught in isolation, if at all.
+License: GPL
+LazyLoad: yes
+LazyData: yes
+Collate:
+    'favstats.R'
+    'CIsim.R'
+    'DiffEQ.R'
+    'adapt_seq.R'
+    'aggregating.R'
+    'binom.test.R'
+    'confint.R'
+    'cross.R'
+    'dfapply.R'
+    'distPlot.R'
+    'do.R'
+    'dotPlot.R'
+    'enterxtab.R'
+    'fetchData.R'
+    'findZeros.R'
+    'functions.R'
+    'graphPaper.R'
+    'interval.R'
+    'ladd.R'
+    'linear-algebra.R'
+    'logit.R'
+    'newAntiD.R'
+    'newD.R'
+    'perctable.R'
+    'plt.R'
+    'pqrdata.R'
+    'prop.test.R'
+    'rand.R'
+    'read.file.R'
+    'resample.R'
+    'rfun.R'
+    'rgeo.R'
+    'rpoly2.R'
+    'settings.R'
+    'smoothers.R'
+    'statTally.R'
+    'surround.R'
+    'utils.R'
+    'xchisq.test.R'
+    'xhistogram.R'
+    'xpnorm.R'
+    'xqqmath.R'
+    'zzz.R'
+    'Calculus.R'
+    'mosaic-package.R'
+    'datasets.R'
+    'themes.R'
