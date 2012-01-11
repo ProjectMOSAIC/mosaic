@@ -1,0 +1,31 @@
+\name{cross}
+\alias{cross}
+\title{Factor cross products}
+\usage{
+  cross(..., sep = ":", drop.unused.levels = FALSE)
+}
+\arguments{
+  \item{\dots}{factors to be crossed.}
+
+  \item{sep}{separator between levels}
+
+  \item{drop.unused.levels}{should levels that do not
+  appear in cross product be dropped?}
+}
+\value{
+  a factor
+}
+\description{
+  Construct a product of factors.
+}
+\examples{
+x <- letters[1:3]
+y <- c(1,2,1,1,3,1,3)
+cross(x, y)
+cross(x, y, drop.unused.levels=TRUE)
+}
+\author{
+  Randall Pruim (\email{rpruim@calvin.edu})
+}
+\keyword{manipulate}
+

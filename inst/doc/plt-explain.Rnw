@@ -1,0 +1,4 @@
+%\VignetteIndexEntry{Plotting, Derivatives and Integrals for Calculus in R}
+\documentclass{article}
+\begin{document}
+\end{document}
