@@ -1,3 +1,5 @@
 sandbox
 bin
 *.Rproj
+.*.swp
+.*.swo
