@@ -1,6 +1,10 @@
 sandbox
 bin
-*.Rproj
-.*.swp
-.*.swo
+^\.Rproj\.user$
+^.*\.swp$
+^.*\.swo$
+^\.git.*
 TeachingStatsWithR
+^.*bk$
+^.*~$
+README\.mediawiki
