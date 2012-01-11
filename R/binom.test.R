@@ -88,7 +88,7 @@ setMethod(
 					function(
 									 x, n, p = 0.5, 
 									 alternative = c("two.sided", "less", "greater"), 
-									 conf.level = 0.95, success, data.name, data, ...) 
+									 conf.level = 0.95, success=NULL, data.name, data, ...) 
 					{
 							formula <- x
 							missing.n <- missing(n)
@@ -132,7 +132,7 @@ setMethod(
 					'numeric',
 					function( x,  n, p = 0.5, 
 									 alternative = c("two.sided", "less", "greater"), 
-									 conf.level = 0.95, success, data.name, ...) 
+									 conf.level = 0.95, success=NULL, data.name, ...) 
 					{
 							if ( length(x) == 1 ) {
 									result <-  stats::binom.test(x=x, n=n, p=p, alternative=alternative,
@@ -167,7 +167,7 @@ setMethod(
 					function(
 									 x,  n, p = 0.5, 
 									 alternative = c("two.sided", "less", "greater"), 
-									 conf.level = 0.95, success, data.name, ...) 
+									 conf.level = 0.95, success=NULL, data.name, ...) 
 					{
 							if (missing(data.name)) { 
 									data.name <- deparse(substitute(x)) 
@@ -187,7 +187,7 @@ setMethod(
 					function(
 									 x,  n, p = 0.5, 
 									 alternative = c("two.sided", "less", "greater"), 
-									 conf.level = 0.95, success, data.name, ...) 
+									 conf.level = 0.95, success=NULL, data.name, ...) 
 					{
 							if (missing(data.name)) { 
 									data.name <- deparse(substitute(x)) 
@@ -207,12 +207,12 @@ setMethod(
 					function(
 									 x,  n, p = 0.5, 
 									 alternative = c("two.sided", "less", "greater"), 
-									 conf.level = 0.95, success, data.name, ...) 
+									 conf.level = 0.95, success=NULL, data.name, ...) 
 					{
 							if (missing(data.name)) { 
 									data.name <- deparse(substitute(x)) 
 							}
-							if (missing(success)) {
+							if ( missing(success) || is.null(success) ) {
 									success <- levels(x)[1]
 							}
 							x <- x [!is.na(x)]
