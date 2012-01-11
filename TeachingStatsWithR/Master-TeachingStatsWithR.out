@@ -1,0 +1,59 @@
+\BOOKMARK [0][-]{chapter.1}{Getting Started: The First Week With R }{}% 1
+\BOOKMARK [1][-]{section.1.1}{Getting Students Familiar with R}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{ Examples for Early in the Course }{chapter.1}% 3
+\BOOKMARK [0][-]{chapter.2}{An Introduction to R}{}% 4
+\BOOKMARK [1][-]{section.2.1}{Welcome to R and RStudio}{chapter.2}% 5
+\BOOKMARK [1][-]{section.2.2}{Using R as a Calculator}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.3}{R Packages}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.4}{Getting Help}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.5}{Data}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.6}{Summarizing Data}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.7}{Additional Notes on R Syntax}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.8}{Installing R}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.9}{R Examples}{chapter.2}% 13
+\BOOKMARK [1][-]{section.2.10}{Exercises}{chapter.2}% 14
+\BOOKMARK [0][-]{chapter.3}{Getting Interactive with manipulate}{}% 15
+\BOOKMARK [1][-]{section.3.1}{Simple Things}{chapter.3}% 16
+\BOOKMARK [0][-]{chapter.4}{Multivariate Statistics \205 Early?}{}% 17
+\BOOKMARK [1][-]{section.4.1}{The Mathematical Foundations}{chapter.4}% 18
+\BOOKMARK [1][-]{section.4.2}{The Language of Models}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.3}{Finding Formulas from Data}{chapter.4}% 20
+\BOOKMARK [1][-]{section.4.4}{Example: Genetics before Genes}{chapter.4}% 21
+\BOOKMARK [0][-]{chapter.5}{Computing by Hand}{}% 22
+\BOOKMARK [0][-]{chapter.6}{Simulation Based Inference}{}% 23
+\BOOKMARK [1][-]{section.6.1}{Simulation and Randomization with the mosaic Package}{chapter.6}% 24
+\BOOKMARK [1][-]{section.6.2}{The Multi-World Metaphor for Statistical Inference}{chapter.6}% 25
+\BOOKMARK [1][-]{section.6.3}{More Examples}{chapter.6}% 26
+\BOOKMARK [1][-]{section.6.4}{Bootstrap Confidence Intervals}{chapter.6}% 27
+\BOOKMARK [1][-]{section.6.5}{Power}{chapter.6}% 28
+\BOOKMARK [1][-]{section.6.6}{Exercises, Problems, and Activities}{chapter.6}% 29
+\BOOKMARK [0][-]{chapter.7}{Taking Advantage of the Internet}{}% 30
+\BOOKMARK [1][-]{section.7.1}{Sharing With and Among Your Students}{chapter.7}% 31
+\BOOKMARK [1][-]{section.7.2}{Data Mining Activities}{chapter.7}% 32
+\BOOKMARK [0][-]{chapter.8}{The Core of a Traditional Course}{}% 33
+\BOOKMARK [1][-]{section.8.1}{One Quantitative Variable}{chapter.8}% 34
+\BOOKMARK [1][-]{section.8.2}{One Categorical Variable}{chapter.8}% 35
+\BOOKMARK [1][-]{section.8.3}{Two Quantitative Variables}{chapter.8}% 36
+\BOOKMARK [1][-]{section.8.4}{Two Categorical Variables}{chapter.8}% 37
+\BOOKMARK [1][-]{section.8.5}{Quantitative Response to a Categorical Predictor}{chapter.8}% 38
+\BOOKMARK [1][-]{section.8.6}{Categorical Response to a Quantitative Predictor}{chapter.8}% 39
+\BOOKMARK [1][-]{section.8.7}{Survival Time Outcomes}{chapter.8}% 40
+\BOOKMARK [1][-]{section.8.8}{More than Two Variables}{chapter.8}% 41
+\BOOKMARK [1][-]{section.8.9}{Probability and Random Variables}{chapter.8}% 42
+\BOOKMARK [1][-]{section.8.10}{Power Calculations}{chapter.8}% 43
+\BOOKMARK [1][-]{section.8.11}{Exercises and Problems}{chapter.8}% 44
+\BOOKMARK [0][-]{chapter.9}{More Examples: Favorite Data Sets and What to Do With Them}{}% 45
+\BOOKMARK [1][-]{section.9.1}{Health Evaluation and Linkage to Primary Care \(HELP\) Study}{chapter.9}% 46
+\BOOKMARK [0][-]{chapter.10}{Teaching Statistics With Calculus and Linear Algebra}{}% 47
+\BOOKMARK [1][-]{section.10.1}{Calculus in R}{chapter.10}% 48
+\BOOKMARK [1][-]{section.10.2}{Linear Algebra}{chapter.10}% 49
+\BOOKMARK [0][-]{chapter.1}{Handouts}{}% 50
+\BOOKMARK [1][-]{section.1.1}{What percentage of Earth is Covered with Water?}{chapter.1}% 51
+\BOOKMARK [0][-]{chapter.2}{More About R}{}% 52
+\BOOKMARK [1][-]{section.2.1}{Installing and Using Packages}{chapter.2}% 53
+\BOOKMARK [1][-]{section.2.2}{Some Workflow Suggestions}{chapter.2}% 54
+\BOOKMARK [1][-]{section.2.3}{Working with Data}{chapter.2}% 55
+\BOOKMARK [1][-]{section.2.4}{Primary R Data Structures}{chapter.2}% 56
+\BOOKMARK [1][-]{section.2.5}{More About Vectors}{chapter.2}% 57
+\BOOKMARK [1][-]{section.2.6}{Manipulating Data Frames}{chapter.2}% 58
+\BOOKMARK [1][-]{section.2.7}{Functions in R}{chapter.2}% 59

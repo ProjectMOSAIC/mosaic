@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d (TeX Live 2010/MacPorts 2010_4)
+Capacity: max_strings=500000, hash_size=500000, hash_prime=425003
+The top-level auxiliary file: Master-TeachingStatsWithR.aux
+A level-1 auxiliary file: Chap-FrontMatter.aux
+A level-1 auxiliary file: Chap-GettingStarted.aux
+A level-1 auxiliary file: Chap-RIntro.aux
+A level-1 auxiliary file: Chap-Manipulate.aux
+A level-1 auxiliary file: Chap-Multivariate.aux
+A level-1 auxiliary file: Chap-ByHand.aux
+A level-1 auxiliary file: Chap-SimulationBased.aux
+A level-1 auxiliary file: Chap-Internet.aux
+A level-1 auxiliary file: Chap-Core.aux
+A level-1 auxiliary file: Chap-MoreExamples.aux
+A level-1 auxiliary file: Chap-CalculusForStats.aux
+A level-1 auxiliary file: Chap-Handouts.aux
+A level-1 auxiliary file: Chap-MoreR.aux
+The style file: amsalpha.bst
+Database file #1: USCOTS.bib
+Warning--missing pages in USCOTS-cobb-2005
+You've used 26 entries,
+            2624 wiz_defined-function locations,
+            725 strings with 8736 characters,
+and the built_in function-call counts, 10172 in all, are:
+= -- 895
+> -- 554
+< -- 10
++ -- 197
+- -- 192
+* -- 920
+:= -- 1704
+add.period$ -- 26
+call.type$ -- 26
+change.case$ -- 183
+chr.to.int$ -- 26
+cite$ -- 27
+duplicate$ -- 382
+empty$ -- 751
+format.name$ -- 220
+if$ -- 2002
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 59
+newline$ -- 89
+num.names$ -- 77
+pop$ -- 197
+preamble$ -- 1
+purify$ -- 204
+quote$ -- 0
+skip$ -- 264
+stack$ -- 0
+substring$ -- 537
+swap$ -- 27
+text.length$ -- 10
+text.prefix$ -- 10
+top$ -- 0
+type$ -- 176
+warning$ -- 1
+while$ -- 91
+width$ -- 27
+write$ -- 286
+(There was 1 warning)

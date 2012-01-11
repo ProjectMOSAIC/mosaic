@@ -3,3 +3,14 @@
 .*.swp
 .*.swo
 .svn*
+*.aux
+*.ind
+*.bbl
+*._latexmk
+*.toc
+*.ilg
+*.log
+TeachingStatsWithR/cache
+TeachingStatsWithR/figures
+TeachingStatsWithR/Chap-*.R
+

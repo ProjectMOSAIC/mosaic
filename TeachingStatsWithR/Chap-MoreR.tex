@@ -1,0 +1,2589 @@
+\chapter{More About R}
+
+
+
+
+
+
+
+
+\begin{center}
+\it
+This material is more advanced than students in Intro Stats need, 
+
+\vspace{-4mm}
+
+but is good for more advanced students and instructors to know.
+\end{center}
+
+\DefineShortVerb{\&}
+
+\section{Installing and Using Packages}
+
+\R\ is open source software.  Its development is supported by
+a team of core developers and a large community of users.
+One way that users support
+\R\ is by providing \term{packages} that contain data and functions
+for a wide variety of tasks.  
+
+\subsection{Installing packages from \cran}
+If you need to install a package, most likely it will be on \cran.
+Before a package can be used, it must be \term{installed} 
+(once per computer) and 
+\term{loaded} (once per \R\ session).  For example, to use \pkg{mosaic}:
+\Rindex{install.packages()}%
+\Rindex{require()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{install.packages}\hlkeyword{(}\hlstring{"{}mosaic"{}}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }fetch{\ }package{\ }from{\ }CRAN{\ }to{\ }local{\ }machine.}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{require}\hlkeyword{(}\hlsymbol{mosaic}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }load{\ }the{\ }package{\ }so{\ }it{\ }can{\ }be{\ }used.}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+If you are running on a machine where you don't have privileges to
+write to the default library location, you can install a personal 
+copy of a package.  If the location of your personal library is 
+first in &R_LIBS&, this will probably happen automatically.  If not,
+you can specify the location manually:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{install.packages}\hlkeyword{(}\hlstring{"{}mosaic"{}}\hlkeyword{,}{\ }\hlargument{lib}{\ }\hlargument{=}{\ }\hlstring{"{}\urltilda{}/R/library"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+On a networked machine, be sure to use a different local directory for 
+each platform since packages must match the platform.
+
+Installing  packages on a Mac or PC is something you might like to do 
+from the GUI since it will provide you with a list of packages from 
+which you can select the ones of interest.
+Binary packages have been precompiled for a 
+particular platform and are generally faster and easier to set up, if they 
+are available.  Source packages need to be compiled and built on your local
+machine.  Usually this happens automatically -- provided you have all the 
+necessary tools installed on your machine -- so the only disadvantage is the
+extra time it takes to do the compiling and building.
+%Most packages can be obtained as binary packages for PC's and Mac's.
+
+\subsection{Installing other packages}
+
+Occasionally you might find a package of interest that is not available via
+a repository like \cran.  
+Typically, if you find such a package, you will also find instructions
+on how to install it.  If not, you can usually install directly from the 
+zipped up package file.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{install.packages}\hlkeyword{(}\hlstring{"{}some-package.tar.gz"{}}\hlkeyword{,}{\ }\hlargument{repos}{\ }\hlargument{=}{\ }NULL\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }use{\ }a{\ }file,{\ }not{\ }a{\ }repository}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+
+
+\subsection{Finding packages}
+There are several ways to find packages
+\begin{itemize}
+  \item Ask your friends.
+  \item Google:  Put `cran' in the search.
+  \item Rseek:  \url{http://rseek.org} provides a search engine specifically
+  designed to find information about \R.
+  \item CRAN task views.
+
+  A number of folks have put together task views that annotate a large
+  number of packages and summarize they are good for.  They are 
+  organized according to themes.  Here are a few examples
+  of available task views:
+\authNote{NJH to update}
+
+  \UndefineShortVerb{\&}
+  \begin{center}
+    \begin{tabular}{lp{0.7\textwidth}}
+    Bayesian &    Bayesian Inference \\
+%    Cluster &   Cluster Analysis \& Finite Mixture Models \\
+    Econometrics &   Computational Econometrics \\
+%    Environmetrics &   Analysis of ecological and environmental data \\
+    Finance &   Empirical Finance \\
+    Genetics &   Statistical Genetics \\
+    Graphics &   Graphic Displays,  Dynamic Graphics,
+          Graphic Devices, and Visualization \\
+%    gR &   gRaphical models in R \\
+%    MachineLearning &   Machine Learning \& Statistical Learning \\
+    Multivariate &   Multivariate Statistics \\
+%    Psychometrics &   Psychometric Models and Methods \\
+    SocialSciences &   Statistics for the Social Sciences \\
+%    Spatial &   Analysis of Spatial Data \\
+    \end{tabular}
+  \end{center}
+  \DefineShortVerb{\&}
+
+  \item Bioconductor (\url{http://www.bioconductor.org/}) 
+  and Omegahat (\url{http://www.omegahat.org/R}) 
+are another
+  sources of packages (specify the \verb!repos=! option to use these).
+
+  \item 
+  \textit{R Journal}  (formerly \textit{R News})
+  is available via \cran\ and 
+  often has articles about new packages and their capabilities.
+
+  \item Write your own.
+
+  You can write your own packages, and it isn't that hard to do (but 
+we won't cover this here).
+\end{itemize}
+
+%\subsection{Some Useful Packages}
+%Below are a few packages that may be of interest.
+%In this
+%section we present a few ``\R\ extras'' related to the material we have 
+%covered so far.  The material is organized by the packages involved.
+
+%\subsubsection*{\texttt{mosaic}}
+
+%\subsubsection*{\texttt{Hmisc}}
+
+\section{Some Workflow Suggestions}
+
+In short: \emph{Think like a programmer.}  
+\begin{itemize}
+  \item Use \R\ interactively only to get documentation and for quick one-offs.
+  \item Store your code in a file.  %# rather than entering it at the prompt.
+
+\smallskip
+  You can execute all the code in a file using 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{source}\hlkeyword{(}\hlstring{"{}file.R"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+\Rstudio\ has options for executing some or all lines in a file, too. 
+See the buttons in the panel for any \R\ script.  (You can create a new \R\ script
+file in the main file menu.)
+
+\smallskip\noindent
+If you work at the interactive prompt in the console and later wish you had 
+been putting your commands into a file, you can save your past commands with
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{savehistory}\hlkeyword{(}\hlstring{"{}someRCommandsIalmostLost.R"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+You can selectively save portions of your history to a script file
+using the History panel in \Rstudio.
+
+\noindent
+Then you can go back and edit the file.
+\FoodForThought{\RStudio\ makes this especially easy by providing a 
+integrated environment for working with \R\ script files, an active
+\R\ session, the \R\ session history, etc.  Many of these tasks can 
+be done with the click of a button in \RStudio.}
+
+
+
+  \item Use meaningful names.
+  \item Write reusable functions.
+
+  Learning to write your own functions will greatly increase your efficiency.
+  (Stay tuned for details.)
+
+  \item Comment your code.
+
+  It's amazing what you can forget.  The comment character in \R\ is &#&.
+  \myindex{comment character in R@comment character in {\sf R} (\texttt{\#})}%
+  \Rindex{\#}%
+\end{itemize}
+
+\section{Working with Data}
+\label{sec:MoreR-Data}%
+
+\subsection{Data in {\sf R} packages}
+
+Data sets in the \verb!datasets! package or any other loaded package
+are available via the \verb!data()! function.  Usually, the use
+of \verb!data()! is unnecessary, however, since \R\ will search
+most loaded packages (they must have been created with the 
+lazy-load option) for data sets without the explicit use of 
+\verb!data()!.  The \verb!data()! function can be used to 
+restore data after it has been modified or to control which package
+is used when data sets with the same name appear in multiple packages.
+
+\subsection{Loading data from flat files}
+\R\ can read data from a number of file formats.  
+The two most useful formats are &.csv& 
+(comma separated values) and white space delimited.  
+Excel and most statistical packages can read and write data in these 
+formats, so these formats  make it easy to transfer data
+between different software.  
+\R\ provides \function{read.csv()} and \function{read.table()} to
+\Rindex{read.csv()}%
+\Rindex{read.table()}%
+\Rindex{read.file()}%
+handle these two situations.  They work nearly identically except for their 
+default settings:
+\function{read.csv()} assumes that the first line of the file contains
+the variable names but \function{read.table()} assumes that the data begins on the first
+line with no names for the variables,
+and \function{read.table()} will ignore lines that begin with `&#&' but \function{read.csv()} will
+not.
+
+The default behavior can be overridden for each function, 
+and there are a number of options that make it possible to 
+read other file formats,
+to omit a specified number of lines at the top of the file, etc.
+If you are making the file yourself,
+always include meaningful names in either file format. 
+
+
+It is also possible to read data from a file located on the Internet.  
+Simply replace the file name with a URL.
+The data read below come from \cite{Tufte:2001:Visual}.
+\authNoted{Check citation for Tufte.}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }need{\ }header=TRUE{\ }because{\ }there{\ }is{\ }a{\ }header{\ }line.}\hspace*{\fill}\\
+\hlstd{}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }could{\ }also{\ }use{\ }read.file(){\ }without{\ }header=TRUE}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{traffic}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{read.table}\hlkeyword{(}\hlstring{"{}http://www.calvin.edu/\urltilda{}rpruim/fastR/trafficTufte.txt"{}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlargument{header}{\ }\hlargument{=}{\ }\hlnumber{TRUE}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{traffic}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  year cn.deaths   ny   cn   ma   ri
+1 1951       265 13.9 13.0 10.2  8.0
+2 1952       230 13.8 10.8 10.0  8.5
+3 1953       275 14.4 12.8 11.0  8.5
+4 1954       240 13.0 10.8 10.5  7.5
+5 1955       325 13.5 14.0 11.8 10.0
+6 1956       280 13.4 12.1 11.0  8.2
+7 1957       273 13.3 11.9 10.2  9.4
+8 1958       248 13.0 10.1 11.8  8.6
+9 1959       245 12.9 10.0 11.0  9.0
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+Notice the use of \code{<-} in the example above.  
+This is the \rterm{assignment operator}
+%\myindex{<-@\texttt{<-}|seeonly{assignment operator}}%
+%\myindex{assignment operator}%
+in \R.  
+It can be used in either direction (\code{<-} or \code{->}).  In the first line of the 
+example above, the results of \function{read.table()} are stored in a variable called 
+\dfn{traffic}.  \dfn{traffic} is a \rterm{data frame}, \R's preferred container for
+data.  (More about data types in \R\ as we go along.)
+
+
+
+The \option{na.strings} argument can be used to specify
+codes for missing values.  
+The following can be useful for SAS output, for example:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{someData}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{read.csv}\hlkeyword{(}\hlstring{"{}file.csv"{}}\hlkeyword{,}{\ }\hlargument{na.strings}{\ }\hlargument{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}NA"{}}\hlkeyword{,}{\ }\hlstring{"{}"{}}\hlkeyword{,}{\ }\hlstring{"{}."{}}\hlkeyword{,}{\ }\hlstring{"{}na"{}}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+because SAS uses a period (\verb!.!) to code missing data, but \R\ by default
+reads that as string data, which forces the entire variable to be of character 
+type instead of numeric.
+
+For convenience the \verb!mosaic! package provides \function{read.file()} which
+uses the file name to determine which of \function{read.csv()},
+\function{read.table()}, and \function{load()} to use and sets the defaults
+to 
+\begin{itemize}
+\item
+\option{header=TRUE}, 
+\item
+\verb!comment.char="#"!, and 
+\item
+\verb!na.strings=c('NA','','.','na')! 
+\end{itemize}
+for \function{read.csv()} and \function{read.table()}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{traffic}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{read.file}\hlkeyword{(}\hlstring{"{}http://www.calvin.edu/\urltilda{}rpruim/fastR/trafficTufte.txt"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+\subsection{Manually typing in data}
+
+If you need to enter a small data set by hand, 
+the \function{scan()} function is quick and easy.
+\Rindex{scan()}%
+Individual values are separated by white space or new lines.  
+A blank line is used to signal the end of the data.
+By default, \function{scan()} is expecting decimal data (which it calls \rterm{double}, 
+for double precision), but it is possible to tell \function{scan()} to expect something else,
+like \rterm{character} data (i.e., text). 
+There are other options for data types, but numerical and text data will usually suffice
+for our purposes.  See \code{?scan} for more information and examples.
+
+\begin{Rcode}
+myData1 <- scan()
+15 18
+12
+21 23 50 15
+
+myData1
+
+myData2 <- scan(what="character")
+"red" "red" "orange" "green" "blue" "blue" "red"
+
+myData2
+\end{Rcode}
+
+
+
+%
+Be sure when using \function{scan()} that you remember to save your data somewhere.
+Otherwise you will have to type it again.
+
+\subsection{Creating data frames from vectors}
+
+\Rindex{data.frame()}%
+The \function{scan()} function puts data into a \rterm{vector}, not a \rterm{data frame}.  We can
+build a \rterm{data frame} for our data as follows.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{myDataFrame}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{color}{\ }\hlargument{=}{\ }\hlsymbol{myData2}\hlkeyword{,}{\ }\hlargument{number}{\ }\hlargument{=}{\ }\hlsymbol{myData1}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{myDataFrame}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+   color number
+1    red     15
+2    red     18
+3 orange     12
+4  green     21
+5   blue     23
+6   blue     50
+7    red     15
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\subsection{Getting data from mySQL data bases}
+
+The \pkg{RMySQL} package allows direct access to data in MySQL data bases.
+This can be convenient when dealing with subsets of very large data sets.
+A great example of this is the 12 gigabytes of data from the Airline on-time
+performance dataset included in the 2009 Data Expo (\url{http://stat-computing.org/dataexpo/2009}).
+\Rindex{RMySQL}%
+\myindex{SQL}%
+There is an \href{http://csg.sph.umich.edu/docs/R/rsql.html}{online document}
+describing this type of manipulation. 
+
+
+\subsection{Generating data}
+\label{sec:generatingData}
+\Rindex{rep()}%
+\Rindex{seq()}%
+\Rindex{c()}%
+\Rindex{rnorm()}%
+\Rindex{sample()}%
+
+The following code shows a number of ways to generate data systematically.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{5}\hlkeyword{:}\hlnumber{20}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }all{\ }integers{\ }in{\ }a{\ }range}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1]  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }structured{\ }sequences}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{50}\hlkeyword{,}{\ }\hlargument{by}{\ }\hlargument{=}{\ }\hlnumber{5}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1]  0  5 10 15 20 25 30 35 40 45 50
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}{\ }\hlnumber{50}\hlkeyword{,}{\ }\hlargument{length}{\ }\hlargument{=}{\ }\hlnumber{7}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  0.000  8.333 16.667 25.000 33.333 41.667 50.000
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{rep}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{,}{\ }\hlargument{each}{\ }\hlargument{=}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{rep}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{,}{\ }\hlargument{times}{\ }\hlargument{=}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{c}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{,}{\ }\hlnumber{10}\hlkeyword{,}{\ }\hlnumber{3}\hlkeyword{:}\hlnumber{5}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }c(){\ }concatenates{\ }vectors}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  1  2  3  4  5 10  3  4  5
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\R\ can also sample from several different distributions.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{10}\hlkeyword{,}{\ }\hlargument{mean}{\ }\hlargument{=}{\ }\hlnumber{10}\hlkeyword{,}{\ }\hlargument{sd}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }random{\ }draws{\ }from{\ }normal{\ }distribution}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1]  9.592 12.791 10.913  8.458 12.701  8.198  8.215 13.055  8.773 15.302
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{5}\hlkeyword{:}\hlnumber{20}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }all{\ }integers{\ }in{\ }a{\ }range}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{sample}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlargument{size}{\ }\hlargument{=}{\ }\hlnumber{5}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }random{\ }sample{\ }of{\ }size{\ }5{\ }from{\ }x{\ }(no{\ }replacement)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 12 10 13 18 14
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+Functions for sampling from other distributions include
+\function{rbinom()},
+\function{rchisq()},
+\function{rt()},
+\function{rf()},
+\function{rhyper()},
+etc.
+See Section~\ref{sec:DiscreteDistributions} for more information.
+
+
+
+\subsection{Saving Data}
+\function{write.table()} and \function{write.csv()} can be used to save data from \R\ into
+delimited flat files.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{ddd}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{number}{\ }\hlargument{=}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{,}{\ }\hlargument{letter}{\ }\hlargument{=}{\ }\hlsymbol{letters}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{]}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{args}\hlkeyword{(}\hlsymbol{write.table}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+function (x, file = "", append = FALSE, quote = TRUE, sep = " ", 
+    eol = "\n", na = "NA", dec = ".", row.names = TRUE, col.names = TRUE, 
+    qmethod = c("escape", "double"), fileEncoding = "") 
+NULL
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{write.table}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{,}{\ }\hlstring{"{}ddd.txt"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{write.csv}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{,}{\ }\hlstring{"{}ddd.csv"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }this{\ }system{\ }call{\ }should{\ }work{\ }on{\ }a{\ }Mac{\ }or{\ }Linux{\ }machine}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{system}\hlkeyword{(}\hlstring{"{}head{\ }-20{\ }ddd.txt{\ }ddd.csv"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+
+
+Data can also be saved in native \R\ format.  Saving data sets 
+(and other \R\ objects) using \function{save()} has some advantages over other file formats:
+\begin{itemize}
+  \item 
+  Complete information about the objects is saved, including attributes.
+  \item
+  Data saved this way takes less space and loads much more quickly.
+  \item
+  Multiple objects can be saved to and loaded from a single file.
+\end{itemize}
+The downside is that these files are only readable in \R.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{abc}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}abc"{}}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{ddd}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{number}{\ }\hlargument{=}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{,}{\ }\hlargument{letter}{\ }\hlargument{=}{\ }\hlsymbol{letters}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{]}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{save}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{,}{\ }\hlsymbol{abc}\hlkeyword{,}{\ }\hlargument{file}{\ }\hlargument{=}{\ }\hlstring{"{}ddd.rda"{}}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }saves{\ }both{\ }objects{\ }in{\ }a{\ }single{\ }file}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{load}\hlkeyword{(}\hlstring{"{}ddd.rda"{}}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }loads{\ }them{\ }both}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+For more on importing and exporting data, especially from other
+formats, see the 
+%\href{http://cran.r-project.org/manuals.html}%
+\textit{R Data Import/Export} manual available on \cran.
+
+%\subsection{Making Data Available to Students}
+
+\authNote{Need to decide what to say about making data available to 
+students.  Perhaps multiple methods? --RJP}%
+
+\section{Primary \R\ Data Structures}
+\label{sec:datastruct}
+
+\subsection{Modes and other attributes} %factors, numeric, character, etc.}
+In \R, data is stored in objects.  Each \rterm{object} 
+has a \emph{name}, \emph{contents}, and also various \emph{attributes}.
+Attributes are used to tell \R\ something about the kind
+of data stored in an object and to store other auxiliary information.  
+Two important attributes shared 
+by all objects are \rterm{mode} and \rterm{length}.
+
+\Rindex{mode()}%
+\Rindex{attributes()}%
+\Rindex{length()}%
+\Rindex{attr()}%
+\Rindex{[ ]}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{w}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{2.5}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlnumber{1}\hlkeyword{,}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}foo"{}}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{TRUE}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{abc}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlsymbol{letters}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{3}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{mode}\hlkeyword{(}\hlsymbol{w}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "numeric"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{w}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{mode}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "numeric"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 2
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{mode}\hlkeyword{(}\hlsymbol{y}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "character"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{y}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{y}\hlkeyword{[}\hlnumber{1}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "foo"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{y}\hlkeyword{[}\hlnumber{2}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }not{\ }an{\ }error{\ }to{\ }ask{\ }for{\ }y[2]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] NA
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{mode}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "logical"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{abc}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "a" "b" "c"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{mode}\hlkeyword{(}\hlsymbol{abc}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "character"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{abc}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 3
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{abc}\hlkeyword{[}\hlnumber{3}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "c"
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+Each of the objects in the example above is a \rterm{vector}, an ordered container
+of values that all have the same mode.%
+\footnote{
+There are other modes in addition to the ones shown here, including
+\code{complex} (for complex numbers), 
+\code{function}, \code{list}, \code{call}, and \code{expression}.}
+The \function{c()} function concatenates vectors (or lists).
+Notice that \code{w}, \code{y}, and \code{z} are 
+vectors of length~1.  Missing values are coded as \code{NA} (not available).  Asking
+for an entry ``off the end'' of a vector returns \code{NA}.
+Assigning a value ``off the end'' of a vector results in the vector being
+lengthened so that the new value can be stored in the appropriate location.
+
+There are important ways that \R\ has 
+been optimized to work with vectors since they correspond to variables 
+(in the sense of statistics).
+For categorical data, a \rterm{factor} is a special type of vector that includes
+an additional attribute called \emph{levels}.  
+A factor can be ordered or unordered (which can affect how statistics
+are done and graphs are made) and its elements can have mode
+\code{numeric} or \code{character}.
+
+A \rterm{list} is similar to a vector, but its elements may be of different 
+modes (including \code{list}, \code{vector}, etc.).
+A \rterm{data frame} is a list of vectors (or factors), 
+each of the same length, but not necessarily of the same mode.  
+This is \R's primary way of storing data sets.
+An \rterm{array} is a multi-dimensional table of values that all have the same 
+mode.  A \rterm{matrix} is a 2-dimensional array.
+\Rindex{matrix()}%
+
+\Rindex{[ ]}%
+\Rindex{[[ ]]}%
+The access operators (\code{[ ]} for vectors, matrices, arrays, and data frames,
+and  \code{[[ ]]} for lists) are actually \emph{functions} in \R.
+This has some important consequences:
+\begin{itemize}
+  \item Accessing elements is slower than in a language like C/C++
+  where access is done by pointer arithmetic.
+  \item
+  These functions also have named arguments, so you can see code like the following
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{xm}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{matrix}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{16}\hlkeyword{,}{\ }\hlargument{nrow}{\ }\hlargument{=}{\ }\hlnumber{4}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{xm}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+     [,1] [,2] [,3] [,4]
+[1,]    1    5    9   13
+[2,]    2    6   10   14
+[3,]    3    7   11   15
+[4,]    4    8   12   16
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{xm}\hlkeyword{[}\hlnumber{5}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{xm}\hlkeyword{[}\hlkeyword{,}{\ }\hlnumber{2}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }this{\ }is{\ }1{\ }dimensional{\ }(a{\ }vector)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 5 6 7 8
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{xm}\hlkeyword{[}\hlkeyword{,}{\ }\hlnumber{2}\hlkeyword{,}{\ }\hlargument{drop}{\ }\hlargument{=}{\ }\hlnumber{FALSE}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }this{\ }is{\ }2{\ }dimensional{\ }(still{\ }a{\ }matrix)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+     [,1]
+[1,]    5
+[2,]    6
+[3,]    7
+[4,]    8
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+Many objects have a \rterm{dim attribute} that stores the dimension
+of the object.  You can change it to change the shape (or even the number
+of dimensions) of a vector, matrix, or array.
+You can see all of the non-intrinsic attributes (mode and 
+length are intrinsic) using &attributes()&, 
+and you can set attributes (including 
+new ones you make up) using &attr()&.  Some attributes, like dimension,
+have special functions for accessing or setting.
+The \verb!dim()! function returns the dimensions of an object
+as a vector.  Alternatively the number of rows and columns can be 
+obtained using \verb!nrow()! and \verb!ncol()!.
+
+\Rindex{dim()}%
+\Rindex{nrow()}%
+\Rindex{ncol()}%
+\Rindex{letters[]}%
+\Rindex{names()}%
+\Rindex{row.names()}%
+\Rindex{attr()}%
+\Rindex{attributes()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{ddd}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{number}{\ }\hlargument{=}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{,}{\ }\hlargument{letter}{\ }\hlargument{=}{\ }\hlsymbol{letters}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{]}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{attributes}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+$names
+[1] "number" "letter"
+
+$row.names
+[1] 1 2 3 4 5
+
+$class
+[1] "data.frame"
+
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{dim}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 5 2
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{nrow}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{ncol}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 2
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "number" "letter"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{row.names}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "1" "2" "3" "4" "5"
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+
+\subsection{What \texttt{is} it?}
+
+\R\ provides a number of functions for testing the mode or class of an object.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{mode}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "numeric"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{class}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "matrix"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{is.numeric}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{is.character}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{is.integer}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{is.logical}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  TRUE FALSE  TRUE FALSE
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{is.vector}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{is.matrix}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{is.array}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] FALSE  TRUE  TRUE
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+
+\subsection{Changing modes (coercion)}
+\Rindex{is.numeric()}%
+\Rindex{as.numeric()}%
+\Rindex{is.integer()}%
+\Rindex{as.integer()}%
+
+If \R\ is expecting an object of a certain mode or class but gets 
+something else, it will often try to \rterm{coerce} the object to meet 
+its expectations.  You
+can also coerce things manually using one of the many &as.???()& functions.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{apropos}\hlkeyword{(}\hlstring{"{}\usebox{\hlnormalsizeboxhat}as\usebox{\hlnormalsizeboxbackslash}\usebox{\hlnormalsizeboxbackslash}."{}}\hlkeyword{)}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{10}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }just{\ }a{\ }small{\ }sample}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] "as.array"               "as.array.default"       "as.call"               
+ [4] "as.category"            "as.character"           "as.character.condition"
+ [7] "as.character.Date"      "as.character.default"   "as.character.error"    
+[10] "as.character.factor"   
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{xm}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+     [,1] [,2] [,3] [,4]
+[1,]    1    5    9   13
+[2,]    2    6   10   14
+[3,]    3    7   11   15
+[4,]    4    8   12   16
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }convert{\ }numbers{\ }to{\ }strings{\ }(this{\ }drops{\ }attributes,{\ }including{\ }dimension)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{as.character}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12" "13" "14" "15" "16"
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }convert{\ }matrix{\ }to{\ }vector}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{as.vector}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{as.logical}\hlkeyword{(}\hlsymbol{xm}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{alpha}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}a"{}}\hlkeyword{,}{\ }\hlstring{"{}1"{}}\hlkeyword{,}{\ }\hlstring{"{}b"{}}\hlkeyword{,}{\ }\hlstring{"{}0.5"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{mode}\hlkeyword{(}\hlsymbol{alpha}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "character"
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{as.numeric}\hlkeyword{(}\hlsymbol{alpha}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }can\usebox{\hlnormalsizeboxsinglequote}t{\ }do{\ }the{\ }coercion,{\ }so{\ }NAs{\ }are{\ }introduced}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+Warning message: NAs introduced by coercion
+\end{verbatim}
+\begin{verbatim}
+[1]  NA 1.0  NA 0.5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{as.integer}\hlkeyword{(}\hlsymbol{alpha}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }notice{\ }coercion{\ }of{\ }0.5{\ }to{\ }0}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+Warning message: NAs introduced by coercion
+\end{verbatim}
+\begin{verbatim}
+[1] NA  1 NA  0
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\section{More About Vectors}
+\label{sec:Rvectors}
+Vectors are so important in \R\ that they deserve some additional discussion.
+In Section~\ref{sec:generatingData} we learned how to generate some simple
+vectors.  Here we will learn about some of the operations and functions
+that can be applied to vectors.
+
+\subsection{Names and vectors}
+
+We can give each position in a vector a name.  This can be very handy for certain uses
+of vectors.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{myvec}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{myvec}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1 2 3 4 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{myvec}\hlkeyword{)}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}one"{}}\hlkeyword{,}{\ }\hlstring{"{}two"{}}\hlkeyword{,}{\ }\hlstring{"{}three"{}}\hlkeyword{,}{\ }\hlstring{"{}four"{}}\hlkeyword{,}{\ }\hlstring{"{}five"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{myvec}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  one   two three  four  five 
+    1     2     3     4     5 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+Names can also be specified as a vector is created using \function{c()}.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{another}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlargument{mean}{\ }\hlargument{=}{\ }\hlnumber{10}\hlkeyword{,}{\ }\hlargument{sd}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{,}{\ }\hlargument{\usebox{\hlnormalsizeboxbacktick}trimmed{\ }mean\usebox{\hlnormalsizeboxbacktick}}{\ }\hlargument{=}{\ }\hlnumber{9.7}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{another}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+        mean           sd trimmed mean 
+        10.0          2.0          9.7 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\subsection{Vectorized functions}
+
+Many \R\ functions and operations are ``vectorized'' and can be applied
+not just to an individual value but to an entire vector, in which case
+they are applied componentwise and return a vector of transformed values.  
+Most traditional mathematics functions are available and work this way.
+\Rindex{mean()}%
+\Rindex{sd()}%
+\Rindex{var()}%
+\Rindex{median()}%
+\Rindex{log()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{10}\hlkeyword{,}{\ }\hlnumber{60}\hlkeyword{,}{\ }\hlargument{by}{\ }\hlargument{=}{\ }\hlnumber{10}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{10}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1 2 3 4 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{y}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 10 20 30 40 50 60
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{y}{\ }\hlkeyword{+}{\ }\hlnumber{1}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 11 21 31 41 51 61
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlkeyword{*}{\ }\hlnumber{10}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 10 20 30 40 50
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlkeyword{\usebox{\hlnormalsizeboxlessthan}}{\ }\hlnumber{3}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  TRUE  TRUE FALSE FALSE FALSE
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}\hlkeyword{\usebox{\hlnormalsizeboxhat}}\hlnumber{2}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  1  4  9 16 25
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{log}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 0.0000 0.6931 1.0986 1.3863 1.6094
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{log}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlargument{base}{\ }\hlargument{=}{\ }\hlnumber{10}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }natural{\ }and{\ }base{\ }10{\ }logs}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 0.0000 0.3010 0.4771 0.6021 0.6990
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\noindent
+Vectors can be combined into a matrix using &rbind()& or &cbind()&.  
+This can facilitate side-by-side comparisons.
+\Rindex{rbind()}%
+\Rindex{cbind()}%
+\Rindex{round()}%
+\Rindex{signif()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }compare{\ }round(){\ }and{\ }signif(){\ }by{\ }binding{\ }rowwise{\ }into{\ }matrix}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{rbind}\hlkeyword{(}\hlfunctioncall{round}\hlkeyword{(}\hlsymbol{z}\hlkeyword{,}{\ }\hlargument{digits}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{signif}\hlkeyword{(}\hlsymbol{z}\hlkeyword{,}{\ }\hlargument{digits}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+       [,1] [,2] [,3]  [,4]  [,5] [,6] [,7] [,8] [,9] [,10]
+[1,] -0.050 0.85 -1.3 0.100 -0.43 0.13 0.43 -0.2 -0.6 -0.15
+[2,] -0.052 0.85 -1.3 0.097 -0.43 0.13 0.43 -0.2 -0.6 -0.15
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+
+\subsection{Functions that act on vectors as vectors}
+
+Other functions, including many statistical functions,
+are designed to work on the vector as a vector.  Often these 
+return a single value (technically a vector of length~1), but
+other return types are used as appropriate.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{10}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{mean}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+   mean 
+-0.0412 
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{sd}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+    sd 
+0.9808 
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{var}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+   var 
+0.9619 
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{median}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }basic{\ }statistical{\ }functions}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ median 
+-0.1279 
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{range}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }range{\ }returns{\ }a{\ }vector{\ }of{\ }length{\ }2}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] -2.702  2.984
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{sum}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 55
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{prod}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }sums{\ }and{\ }products}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 3628800
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{5}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{z}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] -1.9358 -1.2877  0.2551  0.1804  0.4576
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{sort}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] -1.9358 -1.2877  0.1804  0.2551  0.4576
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{rank}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1 2 4 3 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{order}\hlkeyword{(}\hlsymbol{z}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }sort,{\ }rank,{\ }order}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1 2 4 3 5
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{rev}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }reverse{\ }x}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] 10  9  8  7  6  5  4  3  2  1
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{diff}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }pairwise{\ }differences}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 1 1 1 1 1 1 1 1 1
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{cumsum}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }cumulative{\ }sum}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1]  1  3  6 10 15 21 28 36 45 55
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{cumprod}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }cumulative{\ }product}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1]       1       2       6      24     120     720    5040   40320  362880 3628800
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{sum}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 55
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{prod}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }sums{\ }and{\ }products}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 3628800
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\label{r:sumprod}%
+
+Whether a function is vectorized or treats a vector as a unit
+depends on its implementation.  Usually, things are implemented 
+the way you would expect.  Occasionally you may discover a function
+that you wish were vectorized and is not.    
+When writing your own functions, give some thought to whether they
+should be vectorized, and test them with vectors of length greater than 1
+to make sure you get the intended behavior.
+\Rindex{sum()}%
+\Rindex{prod()}%
+\Rindex{cumsum()}%
+\Rindex{cumprod()}%
+\Rindex{cummin()}%
+\Rindex{cummax()}%
+\Rindex{diff()}%
+\Rindex{rev()}%
+\Rindex{sort()}%
+\Rindex{rank()}%
+\Rindex{order()}%
+\Rindex{which()}%
+\Rindex{any()}%
+\Rindex{unique()}%
+\Rindex{table()}%
+\Rindex{paste()}%
+\Rindex{na.omit()}%
+\Rindex{pmin()}%
+\Rindex{pmax()}%
+
+
+Some additional useful functions are included in Table~\ref{table:useful-functions}.
+
+\begin{table}
+\caption{Some useful \R\ functions.}
+\label{table:useful-functions}%
+\begin{center}
+\UndefineShortVerb{\&}
+  \begin{longtable}{|p{1.2in}|p{3.5in}|}
+  \hline
+  \verb!cumsum()!
+
+  \verb!cumprod()!
+
+  \verb!cummin()!
+
+  \verb!cummax()!
+  &
+  Returns vector of cumulative sums, products, minima, or maxima.
+  \\ \hline
+  \verb!pmin(x,y,...)!
+
+  \verb!pmax(x,y,...)!
+  &
+  Returns vector of parallel minima or maxima where $i$th element is
+  max or min of \verb!x[i]!, \verb!y[i]!, \dots.
+  \\ \hline
+  \verb!which(x)! 
+  &
+  Returns a vector of indices of elements of \verb!x! that are true.
+  Typical use: \verb!which(y > 5)! returns the indices where elements
+  of \verb&y& are larger than 5.
+  \\ \hline
+  \verb!any(x)! 
+  &
+  Returns a \verb!logical! indicating whether any elements of \verb!x! 
+  are true.
+  Typical use: \verb!if ( any(y > 5) ) { ...}!.
+  \\ \hline
+  \verb!na.omit(x)! & Returns a vector with missing values removed.
+  \\ \hline
+  \verb!unique(x)! & Returns a vector with repeated values removed.
+  \\ \hline
+  \verb!table(x)! & Returns a table of counts of the number of 
+  occurrences of each value in \verb!x!.  The table is similar
+  to a vector with names indicating the values, but it is not a vector.
+  \\ \hline
+  \verb!paste(x,y,...,!
+  
+  \verb!  sep=" ")! 
+  & Pastes \verb!x! and \verb!y! together
+  componentwise (as strings) with \verb!sep! between elements.
+  Recycling applies.
+  \\ \hline
+  \end{longtable}
+\DefineShortVerb{\&}
+\end{center}
+\end{table}
+
+
+\subsection{Recycling}
+\myindex{recycling}%
+When vectors operate on each other, the operation is done componentwise, 
+recycling the shorter vector to match the length of the longer.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{10}\hlkeyword{,}{\ }\hlnumber{70}\hlkeyword{,}{\ }\hlargument{by}{\ }\hlargument{=}{\ }\hlnumber{10}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}{\ }\hlkeyword{+}{\ }\hlsymbol{y}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+Warning message: longer object length is not a multiple of shorter object length
+\end{verbatim}
+\begin{verbatim}
+[1] 11 22 33 44 55 61 72
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\noindent
+In fact, this is exactly how things like &x + 1& actually work.
+If &x& is a vector of length $n$, then \verb!1! (a vector of length 1) is 
+first recycled into a vector of length $n$; then the two vectors are
+added componentwise.
+Some vectorized functions that take multiple vectors as arguments
+will first use recycling to make them the same length.
+
+\subsection{Accessing elements of vectors}
+\R\ allows for some very interesting and useful methods for accessing
+elements of a vector that combine the ideas above.
+First, recall that the &[ ]& operator is actually a function.
+Furthermore, it is vectorized.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{2}\hlkeyword{,}{\ }\hlnumber{20}\hlkeyword{,}{\ }\hlargument{by}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  2  4  6  8 10
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}\hlkeyword{[}\hlfunctioncall{c}\hlkeyword{(}\hlnumber{1}\hlkeyword{,}{\ }\hlnumber{4}\hlkeyword{,}{\ }\hlnumber{7}\hlkeyword{)}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  2  8 14
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+&[ ]& accepts &logicals& as arguments well.
+The boolean values (recycled, if necessary)
+are used to select or deselect elements of the vector.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{2}\hlkeyword{,}{\ }\hlnumber{20}\hlkeyword{,}{\ }\hlargument{by}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}\hlkeyword{[}\hlfunctioncall{c}\hlkeyword{(}\hlnumber{TRUE}\hlkeyword{,}{\ }\hlnumber{TRUE}\hlkeyword{,}{\ }\hlnumber{FALSE}\hlkeyword{)}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }skips{\ }every{\ }third{\ }element{\ }(recycling!)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  2  4  8 10 14 16 20
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}\hlkeyword{[}\hlsymbol{x}{\ }\hlkeyword{\usebox{\hlnormalsizeboxgreaterthan}}{\ }\hlnumber{10}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }more{\ }typical{\ }use{\ }of{\ }boolean{\ }in{\ }selection}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 12 14 16 18 20
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\noindent
+Negative indices are used to omit elements.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{2}\hlkeyword{,}{\ }\hlnumber{20}\hlkeyword{,}{\ }\hlargument{by}{\ }\hlargument{=}{\ }\hlnumber{2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}\hlkeyword{[}\hlfunctioncall{c}\hlkeyword{(}\hlnumber{TRUE}\hlkeyword{,}{\ }\hlnumber{TRUE}\hlkeyword{,}{\ }\hlnumber{FALSE}\hlkeyword{)}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }skips{\ }every{\ }third{\ }element{\ }(recycling!)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  2  4  8 10 14 16 20
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{x}\hlkeyword{[}\hlsymbol{x}{\ }\hlkeyword{\usebox{\hlnormalsizeboxgreaterthan}}{\ }\hlnumber{10}\hlkeyword{]}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }more{\ }typical{\ }use{\ }of{\ }boolean{\ }in{\ }selection}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 12 14 16 18 20
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\noindent
+Here are some more examples.
+\Rindex{toupper()}%
+\Rindex{tolower()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{notes}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{toupper}\hlkeyword{(}\hlsymbol{letters}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{7}\hlkeyword{]}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{a}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{b}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlnumber{10}\hlkeyword{,}{\ }\hlnumber{100}\hlkeyword{,}{\ }\hlargument{by}{\ }\hlargument{=}{\ }\hlnumber{10}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{toupper}\hlkeyword{(}\hlsymbol{letters}\hlkeyword{[}\hlnumber{5}\hlkeyword{:}\hlnumber{10}\hlkeyword{]}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "E" "F" "G" "H" "I" "J"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{paste}\hlkeyword{(}\hlsymbol{letters}\hlkeyword{[}\hlnumber{1}\hlkeyword{:}\hlnumber{5}\hlkeyword{]}\hlkeyword{,}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{3}\hlkeyword{,}{\ }\hlargument{sep}{\ }\hlargument{=}{\ }\hlstring{"{}-"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "a-1" "b-2" "c-3" "d-1" "e-2"
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{a}{\ }\hlkeyword{+}{\ }\hlsymbol{b}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1]  11  22  33  44  55  61  72  83  94 105
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlkeyword{(}\hlsymbol{a}{\ }\hlkeyword{+}{\ }\hlsymbol{b}\hlkeyword{)}\hlkeyword{[}\hlsymbol{a}{\ }\hlkeyword{+}{\ }\hlsymbol{b}{\ }\hlkeyword{\usebox{\hlnormalsizeboxgreaterthan}}{\ }\hlnumber{50}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1]  55  61  72  83  94 105
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{length}\hlkeyword{(}\hlkeyword{(}\hlsymbol{a}{\ }\hlkeyword{+}{\ }\hlsymbol{b}\hlkeyword{)}\hlkeyword{[}\hlsymbol{a}{\ }\hlkeyword{+}{\ }\hlsymbol{b}{\ }\hlkeyword{\usebox{\hlnormalsizeboxgreaterthan}}{\ }\hlnumber{50}\hlkeyword{]}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] 6
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{table}\hlkeyword{(}\hlsymbol{a}{\ }\hlkeyword{+}{\ }\hlsymbol{b}{\ }\hlkeyword{\usebox{\hlnormalsizeboxgreaterthan}}{\ }\hlnumber{50}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+
+FALSE  TRUE 
+    4     6 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+%\includepdf[pages=35-39,frame]{Paradis-rdebuts_en.pdf}
+
+%\includepdf[pages=36-37,landscape,rotateoversize,turn=false,nup=1x2,frame]{Paradis-rdebuts_en.pdf}
+
+\section{Manipulating Data Frames}
+\label{sec:manipulatingData}%
+
+%\subsection{Cross Tabulation with \texttt{xtabs()}}
+%\subsection{\texttt{aggregate()} and \texttt{Hmisc::summary()}}
+\subsection{Adding new variables to a data frame}
+We can add additional variables to an existing data frame by simple assignment.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{summary}\hlkeyword{(}\hlsymbol{iris}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  Sepal.Length   Sepal.Width    Petal.Length   Petal.Width        Species  
+ Min.   :4.30   Min.   :2.00   Min.   :1.00   Min.   :0.1   setosa    :50  
+ 1st Qu.:5.10   1st Qu.:2.80   1st Qu.:1.60   1st Qu.:0.3   versicolor:50  
+ Median :5.80   Median :3.00   Median :4.35   Median :1.3   virginica :50  
+ Mean   :5.84   Mean   :3.06   Mean   :3.76   Mean   :1.2                  
+ 3rd Qu.:6.40   3rd Qu.:3.30   3rd Qu.:5.10   3rd Qu.:1.8                  
+ Max.   :7.90   Max.   :4.40   Max.   :6.90   Max.   :2.5                  
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{iris}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{SLength}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{cut}\hlkeyword{(}\hlsymbol{iris}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{Sepal.Length}\hlkeyword{,}{\ }\hlnumber{4}\hlkeyword{:}\hlnumber{8}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }cut{\ }places{\ }data{\ }into{\ }bins}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{summary}\hlkeyword{(}\hlsymbol{iris}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  Sepal.Length   Sepal.Width    Petal.Length   Petal.Width        Species    SLength  
+ Min.   :4.30   Min.   :2.00   Min.   :1.00   Min.   :0.1   setosa    :50   (4,5]:32  
+ 1st Qu.:5.10   1st Qu.:2.80   1st Qu.:1.60   1st Qu.:0.3   versicolor:50   (5,6]:57  
+ Median :5.80   Median :3.00   Median :4.35   Median :1.3   virginica :50   (6,7]:49  
+ Mean   :5.84   Mean   :3.06   Mean   :3.76   Mean   :1.2                   (7,8]:12  
+ 3rd Qu.:6.40   3rd Qu.:3.30   3rd Qu.:5.10   3rd Qu.:1.8                             
+ Max.   :7.90   Max.   :4.40   Max.   :6.90   Max.   :2.5                             
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\Rindex{summary()}
+
+It is an error to add a vector of the wrong length.
+
+The \dfn{CPS} data frame contains data from a Current Population Survey (current in 1985, that is).
+Two of the variables in this data frame are \variable{age} and \variable{educ}.  We can estimate
+the number of years a worker has been in the workforce if we assume they have been in the workforce
+since completing their education and that their age at graduation is 6 more than the number
+of years of education obtained.  We can this as a new variable in the data frame simply
+by assigning to it:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{CPS}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{workforce.years}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{with}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{,}{\ }\hlsymbol{age}{\ }\hlkeyword{-}{\ }\hlnumber{6}{\ }\hlkeyword{-}{\ }\hlsymbol{educ}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{favstats}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{workforce.years}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+    0%    25%    50%    75%   100%   mean     sd    var 
+ -4.00   8.00  15.00  26.00  55.00  17.81  12.39 153.55 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+In fact this is what was done for all but one of the cases to create the \variable{exper} 
+variable that is already in the \dfn{CPS} data.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{with}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{,}{\ }\hlfunctioncall{table}\hlkeyword{(}\hlsymbol{exper}{\ }\hlkeyword{-}{\ }\hlsymbol{workforce.years}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+
+  0   4 
+533   1 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\subsection{Dropping variables}
+Since we already have \variable{educ}, there is no reason to keep our new variable.  Let's drop it.
+Notice the clever use of the minus sign.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{CPS1}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{subset}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{,}{\ }\hlargument{select}{\ }\hlargument{=}{\ }\hlkeyword{-}\hlsymbol{workforce.years}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+Any number of variables can be dropped or kept in this manner by supplying a vectors
+of variables names.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{CPS1}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{subset}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{,}{\ }\hlargument{select}{\ }\hlargument{=}{\ }\hlkeyword{-}\hlfunctioncall{c}\hlkeyword{(}\hlsymbol{workforce.years}\hlkeyword{,}{\ }\hlsymbol{exper}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+If we only want to work with the first few variables, we can discard the rest in a similar way.
+Columns can be specified by number as well as name (but this can be dangerous if you are wrong 
+about where the columns are):
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{CPSsmall}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{subset}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{,}{\ }\hlargument{select}{\ }\hlargument{=}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{4}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{CPSsmall}\hlkeyword{,}{\ }\hlnumber{2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  wage educ race sex
+1  9.0   10    W   M
+2  5.5   12    W   M
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\subsection{Renaming variables}
+Both the column (variable) names and the row names of a data frames can be changed by
+simple assignment using \function{names()} or \function{row.names()}.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{ddd}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }small{\ }data{\ }frame{\ }we{\ }defined{\ }earlier}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  number letter
+1      1      a
+2      2      b
+3      3      c
+4      4      d
+5      5      e
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{row.names}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}Abe"{}}\hlkeyword{,}{\ }\hlstring{"{}Betty"{}}\hlkeyword{,}{\ }\hlstring{"{}Claire"{}}\hlkeyword{,}{\ }\hlstring{"{}Don"{}}\hlkeyword{,}{\ }\hlstring{"{}Ethel"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{ddd}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }row.names{\ }affects{\ }how{\ }a{\ }data.frame{\ }prints}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+       number letter
+Abe         1      a
+Betty       2      b
+Claire      3      c
+Don         4      d
+Ethel       5      e
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+More interestingly, it is possible to reset just individual names with the following
+syntax.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{row.names}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\hlkeyword{[}\hlnumber{2}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}Bette"{}}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }misspelled{\ }a{\ }name,{\ }let\usebox{\hlnormalsizeboxsinglequote}s{\ }fix{\ }it}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{row.names}\hlkeyword{(}\hlsymbol{ddd}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "Abe"    "Bette"  "Claire" "Don"    "Ethel" 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+The \dfn{faithful} data set (in the \pkg{datasets} package, which is always available)
+has very unfortunate names.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+[1] "eruptions" "waiting"  
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+The measurements are the duration of an euption and the time until the subsequent eruption,
+so let's give it some better names.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{)}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}duration"{}}\hlkeyword{,}{\ }\hlstring{"{}time.til.next"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{,}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  duration time.til.next
+1    3.600            79
+2    1.800            54
+3    3.333            74
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{xyplot}\hlkeyword{(}\hlsymbol{time.til.next}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{duration}\hlkeyword{,}{\ }\hlsymbol{faithful}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+
+
+\centering{}\includegraphics{figures/fig-faithful-xy} 
+
+\end{kframe}}
+\end{knitrout}
+
+\end{center}
+If the variable containing a data frame is modified or used to store a different object,
+the original data from the package can be recovered using \function{data()}.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{data}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{,}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  eruptions waiting
+1     3.600      79
+2     1.800      54
+3     3.333      74
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{problem}
+Using \dfn{faithful} data frame, make a scatter plot of eruption duration times vs. the time
+since the previous eruption.
+\end{problem}
+
+If we want to rename a variable, we can do this using \function{names()}.
+For example, perhaps we want to rename \variable{educ} (the second column) to \variable{education}.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{)}\hlkeyword{[}\hlnumber{2}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}education"{}}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{CPS}\hlkeyword{[}\hlnumber{1}\hlkeyword{,}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{4}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  wage education race sex
+1    9        10    W   M
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+If we don't know the column number (or generally to make our code clearer), a few more 
+keystrokes produces
+\FoodForThought{See Section \ref{sec:Rvectors} for information that will make 
+it clearer what is going on here.}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{)}\hlkeyword{[}\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{CPS}\hlkeyword{)}{\ }=={\ }\hlstring{"{}education"{}}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}educ"{}}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{CPS}\hlkeyword{[}\hlnumber{1}\hlkeyword{,}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{4}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  wage educ race sex
+1    9   10    W   M
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\subsection{Creating subsets}
+\label{sec:subsets}
+We can also use \function{subset()} to reduce the size of a data set by selecting 
+only certain rows.
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{data}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{)}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}duration"{}}\hlkeyword{,}{\ }\hlstring{"{}time.til.next"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }any{\ }logical{\ }can{\ }be{\ }used{\ }to{\ }create{\ }subsets}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{faithfulLong}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{subset}\hlkeyword{(}\hlsymbol{faithful}\hlkeyword{,}{\ }\hlsymbol{duration}{\ }\hlkeyword{\usebox{\hlnormalsizeboxgreaterthan}}{\ }\hlnumber{3}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{xyplot}\hlkeyword{(}\hlsymbol{time.til.next}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{duration}\hlkeyword{,}{\ }\hlsymbol{faithfulLong}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+
+
+\centering{}\includegraphics{figures/fig-faithful-long-xy} 
+
+\end{kframe}}
+\end{knitrout}
+
+\end{center}
+
+Of course, if all we want to do is produce a graph, there is no reason to create 
+a new data frame.  The plot above could also be made with
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{xyplot}\hlkeyword{(}\hlsymbol{time.til.next}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{duration}\hlkeyword{,}{\ }\hlsymbol{faithful}\hlkeyword{,}{\ }\hlargument{subset}{\ }\hlargument{=}{\ }\hlsymbol{duration}{\ }\hlkeyword{\usebox{\hlnormalsizeboxgreaterthan}}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}}
+\end{knitrout}
+
+
+
+\authNote{rjp: deleted stubs for creating variables and accounting for missing data.
+We can add them back in if/when we write them.}%
+%\subsection{Creating variables}
+%
+%% HELP$newsex <- factor(HELP$female, labels=c('M','F'))
+%
+%\subsubsection{character variables}
+%\subsubsection{coercing variables}
+%\subsubsection{recoding variables}
+%\subsection{Accounting for missing data}
+
+\subsection{Merging datasets}
+
+The \dfn{fusion1} data frame in the \pkg{fastR} package contains 
+genotype information for a SNP (single nucleotide polymorphism) in the gene
+\emph{TCF7L2}.  
+The \dfn{pheno} data frame contains phenotypes
+(including type 2 diabetes case/control status) for an intersecting set of individuals.
+We can merge these together to explore the association between
+genotypes and phenotypes using \verb!merge()!.
+
+%\Rindex{merge()}%
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{require}\hlkeyword{(}\hlsymbol{fastR}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{fusion1}\hlkeyword{,}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+     id     marker markerID allele1 allele2 genotype Adose Cdose Gdose Tdose
+1  9735 RS12255372        1       3       3       GG     0     0     2     0
+2 10158 RS12255372        1       3       3       GG     0     0     2     0
+3  9380 RS12255372        1       3       4       GT     0     0     1     1
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{pheno}\hlkeyword{,}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+    id     t2d   bmi sex   age smoker chol waist weight height    whr sbp dbp
+1 1002    case 32.86   F 70.76 former 4.57 112.0   85.6  161.4 0.9868 135  77
+2 1009    case 27.39   F 53.92  never 7.32  93.5   77.4  168.1 0.9397 158  88
+3 1012 control 30.47   M 53.86 former 5.02 104.0   94.6  176.2 0.9327 143  89
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }merge{\ }fusion1{\ }and{\ }pheno{\ }keeping{\ }only{\ }id\usebox{\hlnormalsizeboxsinglequote}s{\ }that{\ }are{\ }in{\ }both}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{fusion1m}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{merge}\hlkeyword{(}\hlsymbol{fusion1}\hlkeyword{,}{\ }\hlsymbol{pheno}\hlkeyword{,}{\ }\hlargument{by.x}{\ }\hlargument{=}{\ }\hlstring{"{}id"{}}\hlkeyword{,}{\ }\hlargument{by.y}{\ }\hlargument{=}{\ }\hlstring{"{}id"{}}\hlkeyword{,}{\ }\hlargument{all.x}{\ }\hlargument{=}{\ }\hlnumber{FALSE}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlargument{all.y}{\ }\hlargument{=}{\ }\hlnumber{FALSE}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{fusion1m}\hlkeyword{,}{\ }\hlnumber{3}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+    id     marker markerID allele1 allele2 genotype Adose Cdose Gdose Tdose     t2d   bmi sex   age
+1 1002 RS12255372        1       3       3       GG     0     0     2     0    case 32.86   F 70.76
+2 1009 RS12255372        1       3       3       GG     0     0     2     0    case 27.39   F 53.92
+3 1012 RS12255372        1       3       3       GG     0     0     2     0 control 30.47   M 53.86
+  smoker chol waist weight height    whr sbp dbp
+1 former 4.57 112.0   85.6  161.4 0.9868 135  77
+2  never 7.32  93.5   77.4  168.1 0.9397 158  88
+3 former 5.02 104.0   94.6  176.2 0.9327 143  89
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+In this case, since the values are the same for each data frame, we could collapse
+\option{by.x} and \option{by.y} to \option{by} and collapse
+\option{all.x} and \option{all.y} to \option{all}.
+The first of these specifies which column(s) to use to identify matching cases.
+The second indicates whether cases in one data frame that do not appear in the other 
+should be kept (\code{TRUE}) or dropped 
+(filling in \code{NA} as needed) or dropped from the merged data frame.
+
+Now we are ready to begin our analysis.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{xtabs}\hlkeyword{(}\hlkeyword{\urltilda{}}\hlsymbol{t2d}{\ }\hlkeyword{+}{\ }\hlsymbol{genotype}{\ }\hlkeyword{+}{\ }\hlsymbol{marker}\hlkeyword{,}{\ }\hlsymbol{fusion1m}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+, , marker = RS12255372
+
+         genotype
+t2d        GG  GT  TT
+  case    737 375  48
+  control 835 309  27
+
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\begin{problem}
+The \dfn{fusion2} data set in the \pkg{fastR} package contains genotypes for 
+another SNP.  Merge \dfn{fusion1}, \dfn{fusion2}, and \dfn{pheno} into a single data
+frame.
+
+Note that \dfn{fusion1} and \dfn{fusion2} have the same columns.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{fusion1}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] "id"       "marker"   "markerID" "allele1"  "allele2"  "genotype" "Adose"    "Cdose"   
+ [9] "Gdose"    "Tdose"   
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{fusion2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ [1] "id"       "marker"   "markerID" "allele1"  "allele2"  "genotype" "Adose"    "Cdose"   
+ [9] "Gdose"    "Tdose"   
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+You may want to use the \option{suffixes} argument to \function{merge()} or rename the variables
+after you are done merging to make the resulting data frame easier to navigate.
+
+Tidy up your data frame by dropping any columns that are redundant or that you just don't want to
+have in your final data frame.
+\end{problem}
+
+\subsection{Slicing and dicing}
+\authNote{NH to expand}
+
+
+&reshape()& provides a flexible way to change the arrangement of data.  
+\Rindex{reshape()}%
+It was designed for converting between long and wide versions of 
+time series data and its arguments are named with that in mind.
+
+A common situation is when we want to convert from a wide form to a 
+long form because of a change in perspective about what a unit of 
+observation is.  For example, in the \dfn{traffic} data frame, each 
+row is a year, and data for multiple states are provided.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{traffic}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  year cn.deaths   ny   cn   ma   ri
+1 1951       265 13.9 13.0 10.2  8.0
+2 1952       230 13.8 10.8 10.0  8.5
+3 1953       275 14.4 12.8 11.0  8.5
+4 1954       240 13.0 10.8 10.5  7.5
+5 1955       325 13.5 14.0 11.8 10.0
+6 1956       280 13.4 12.1 11.0  8.2
+7 1957       273 13.3 11.9 10.2  9.4
+8 1958       248 13.0 10.1 11.8  8.6
+9 1959       245 12.9 10.0 11.0  9.0
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+We can reformat this so that each row contains a measurement for a 
+single state in one year.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{longTraffic}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{reshape}\hlkeyword{(}\hlsymbol{traffic}\hlkeyword{[}\hlkeyword{,}{\ }\hlkeyword{-}\hlnumber{2}\hlkeyword{]}\hlkeyword{,}{\ }\hlargument{idvar}{\ }\hlargument{=}{\ }\hlstring{"{}year"{}}\hlkeyword{,}{\ }\hlargument{ids}{\ }\hlargument{=}{\ }\hlfunctioncall{row.names}\hlkeyword{(}\hlsymbol{traffic}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlargument{times}{\ }\hlargument{=}{\ }\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{traffic}\hlkeyword{)}\hlkeyword{[}\hlnumber{3}\hlkeyword{:}\hlnumber{6}\hlkeyword{]}\hlkeyword{,}{\ }\hlargument{timevar}{\ }\hlargument{=}{\ }\hlstring{"{}state"{}}\hlkeyword{,}{\ }\hlargument{varying}{\ }\hlargument{=}{\ }\hlfunctioncall{list}\hlkeyword{(}\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{traffic}\hlkeyword{)}\hlkeyword{[}\hlnumber{3}\hlkeyword{:}\hlnumber{6}\hlkeyword{]}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlargument{v.names}{\ }\hlargument{=}{\ }\hlstring{"{}deathRate"{}}\hlkeyword{,}{\ }\hlargument{direction}{\ }\hlargument{=}{\ }\hlstring{"{}long"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{longTraffic}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+        year state deathRate
+1951.ny 1951    ny      13.9
+1952.ny 1952    ny      13.8
+1953.ny 1953    ny      14.4
+1954.ny 1954    ny      13.0
+1955.ny 1955    ny      13.5
+1956.ny 1956    ny      13.4
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+And now we can reformat the other way, this time having all data for a given state 
+form a row in the data frame.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{stateTraffic}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{reshape}\hlkeyword{(}\hlsymbol{longTraffic}\hlkeyword{,}{\ }\hlargument{direction}{\ }\hlargument{=}{\ }\hlstring{"{}wide"{}}\hlkeyword{,}{\ }\hlargument{v.names}{\ }\hlargument{=}{\ }\hlstring{"{}deathRate"{}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlargument{idvar}{\ }\hlargument{=}{\ }\hlstring{"{}state"{}}\hlkeyword{,}{\ }\hlargument{timevar}{\ }\hlargument{=}{\ }\hlstring{"{}year"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{stateTraffic}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+        state deathRate.1951 deathRate.1952 deathRate.1953 deathRate.1954 deathRate.1955
+1951.ny    ny           13.9           13.8           14.4           13.0           13.5
+1951.cn    cn           13.0           10.8           12.8           10.8           14.0
+1951.ma    ma           10.2           10.0           11.0           10.5           11.8
+1951.ri    ri            8.0            8.5            8.5            7.5           10.0
+        deathRate.1956 deathRate.1957 deathRate.1958 deathRate.1959
+1951.ny           13.4           13.3           13.0           12.9
+1951.cn           12.1           11.9           10.1           10.0
+1951.ma           11.0           10.2           11.8           11.0
+1951.ri            8.2            9.4            8.6            9.0
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+In simpler cases, &stack()& or &unstack()& may suffice.
+\verb!Hmisc! also provides \verb!reShape()! as an alternative 
+to \verb!reshape()!.
+\Rindex{stack()}%
+\Rindex{unstack()}%
+
+%\subsection{Simple Relational Database Operations}
+%
+%\subsubsection*{Example: Grades/Courses}
+%
+%Using the grade/courses database, show how to combine data from
+%different data frames. [DTK]
+
+%\subsubsection{Example: Merging Genotype and Phenotype Data}
+%\label{example:fusion1-glm1}%
+%\myindex{FUSION|exampleidx}%
+%\myindex{logistic regression}%
+
+\section{Functions in \R} %{An introduction to writing functions}
+\label{sec:writingFunctions}
+\myindex{functions in {\sf R}}%
+
+%To really customize a &lattice& plot -- and for many other applications in \R\ -- 
+%you need to learn how to use the &panel& argument,
+%which means you need to learn how to write functions.
+Functions in \R\ have several components:
+\begin{itemize}
+  \item a \rterm{name} (like &histogram&)\footnote{Actually, it is possible to define 
+	functions without naming them; and for short functions that are only needed once,
+	this can actually be useful.}
+  \item
+	an ordered list of named \rterm{arguments} that serve as inputs to the function
+	\myindex{argument of an R function@argument of an {\sf R} function}%
+
+	These are matched first by name and then by order to the values supplied by
+	the call to the function.  This is why we don't always include the argument name
+	in our function calls.  On the other hand, the availability of names means that
+	we don't have to remember the order in which arguments are listed.
+
+	Arguments often have \rterm{default values} which are used if no value is 
+	supplied in the function call.
+  \item
+	a \rterm{return value}
+
+	This is the output of the function.  It can be assigned to a variable
+	using the assignment operator (&=&, &<-&, or &->&).
+	\Rindex{->}%
+	\Rindex{<-}%
+	\Rindex{=}%
+
+  \item
+	\rterm{side effects}
+	
+	A function may do other things (like make a graph or set some preferences) 
+	that are not necessarily part of the return value.
+
+\end{itemize}
+When you read the help pages for an \R\ function, you will see that they are organized
+in sections related to these components.  
+The list of arguments appears in the \rterm{Usage} section along 
+with any default values.  Details about how the arguments are used appear in the 
+\rterm{Arguments} section.  The return value is listed in the \rterm{Value} section.
+Any side effects are typically mentioned in the \rterm{Details} section.  
+
+Now let's try writing our own function.  Suppose you frequently wanted to compute
+the mean, median, and standard deviation of a distribution.  You could make 
+a function to do all three to save some typing.  
+Let's name our function  &favstats()&.  
+&favstats()& will have one argument, which we are assuming will be a vector of
+numeric values.%
+\Rindex{favstats()}%
+\Rindex{function()}%
+\footnote{There are ways to check the \rterm{class} of an argument
+to see if it is a data frame, a vector, numeric, etc.  A really robust function
+should check to make sure that the values supplied to the arguments are of appropriate
+types.}
+Here is how we could define it:
+\Rindex{favstats()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{favstats}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{x}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{mean}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{median}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{sd}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{favstats}\hlkeyword{(}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{20}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxhat}}\hlnumber{2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+   sd 
+127.9 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+The first line says that we are defining a function called &favstats()& with one
+argument, named &x&.  The lines surrounded by curly braces give the code
+to be executed when the function is called.  So our function computes 
+the mean, then the median, then the standard deviation of its argument.
+
+But as you see, this doesn't do exactly what we wanted.  So what's going on?  
+The value returned by the last line of a function is (by default) returned
+by the function to its calling environment, where it is (by default) printed
+to the screen so you can see it.  In our case, we computed the mean, median,
+and standard deviation, but only the standard deviation is being returned 
+by the function and hence displayed.  So this function is just an inefficient
+version of &sd()&.  That isn't really what we wanted.
+
+We can use &print()& to print out things along the way if we like.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{favstats}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{x}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{print}\hlkeyword{(}\hlfunctioncall{mean}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{print}\hlkeyword{(}\hlfunctioncall{median}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{print}\hlkeyword{(}\hlfunctioncall{sd}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{favstats}\hlkeyword{(}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{20}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxhat}}\hlnumber{2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ mean 
+143.5 
+median 
+ 110.5 
+   sd 
+127.9 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+Alternatively, we could use a combination of \verb!cat()! and \verb!paste()!, which
+would give us more control over how the output is displayed.
+\Rindex{cat()}%
+\Rindex{paste()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{altfavstats}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{x}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{cat}\hlkeyword{(}\hlfunctioncall{paste}\hlkeyword{(}\hlstring{"{}{\ }{\ }mean:"{}}\hlkeyword{,}{\ }\hlfunctioncall{format}\hlkeyword{(}\hlfunctioncall{mean}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlnumber{4}\hlkeyword{)}\hlkeyword{,}{\ }\hlstring{"{}\usebox{\hlnormalsizeboxbackslash}n"{}}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{cat}\hlkeyword{(}\hlfunctioncall{paste}\hlkeyword{(}\hlstring{"{}{\ }edian:"{}}\hlkeyword{,}{\ }\hlfunctioncall{format}\hlkeyword{(}\hlfunctioncall{median}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlnumber{4}\hlkeyword{)}\hlkeyword{,}{\ }\hlstring{"{}\usebox{\hlnormalsizeboxbackslash}n"{}}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{cat}\hlkeyword{(}\hlfunctioncall{paste}\hlkeyword{(}\hlstring{"{}{\ }{\ }{\ }{\ }sd:"{}}\hlkeyword{,}{\ }\hlfunctioncall{format}\hlkeyword{(}\hlfunctioncall{sd}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlnumber{4}\hlkeyword{)}\hlkeyword{,}{\ }\hlstring{"{}\usebox{\hlnormalsizeboxbackslash}n"{}}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{altfavstats}\hlkeyword{(}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{20}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxhat}}\hlnumber{2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  mean: 143.5 
+ edian: 110.5 
+    sd: 127.9 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+Either of these methods will allow us to see all three values, 
+but if we try to store them \dots
+\authNote{Talk about \function{paste()} some more somewhere?}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{temp}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{favstats}\hlkeyword{(}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{20}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxhat}}\hlnumber{2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+ mean 
+143.5 
+median 
+ 110.5 
+   sd 
+127.9 
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{temp}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+   sd 
+127.9 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+A function in \R\ can only have one return value, and by default it is the 
+value of the last line in the function.  
+In the preceding example we only get the standard deviation since 
+that is the value we calculated last.
+
+We would really like the function to return all three summary statistics.  
+Our solution will be to
+store all three in a vector and return the vector.%
+\footnote{If the values had not all been of the same mode, we 
+could have used a list instead.}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{favstats}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{x}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{mean}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{median}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{sd}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{favstats}\hlkeyword{(}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{20}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxhat}}\hlnumber{2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+  mean median     sd 
+ 143.5  110.5  127.9 
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+Now the only problem is that we have to remember which number is which.
+We can fix this by giving names to the slots in our vector.
+While we're at it, let's add a few more favorites to the list.
+We'll also add an explicit &return()&.
+\Rindex{return()}%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{favstats}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{x}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlsymbol{result}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{min}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{max}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{mean}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{median}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{sd}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{result}\hlkeyword{)}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlstring{"{}min"{}}\hlkeyword{,}{\ }\hlstring{"{}max"{}}\hlkeyword{,}{\ }\hlstring{"{}mean"{}}\hlkeyword{,}{\ }\hlstring{"{}median"{}}\hlkeyword{,}{\ }\hlstring{"{}sd"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{return}\hlkeyword{(}\hlsymbol{result}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{favstats}\hlkeyword{(}\hlkeyword{(}\hlnumber{1}\hlkeyword{:}\hlnumber{20}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxhat}}\hlnumber{2}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+   min    max   mean median     sd 
+   1.0  400.0  143.5  110.5  127.9 
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{summary}\hlkeyword{(}\hlsymbol{Sepal.Length}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Species}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{iris}\hlkeyword{,}{\ }\hlargument{fun}{\ }\hlargument{=}{\ }\hlsymbol{favstats}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+Sepal.Length    N=150
+
++-------+----------+---+---+---+-----+------+------+
+|       |          |N  |min|max|mean |median|sd    |
++-------+----------+---+---+---+-----+------+------+
+|Species|setosa    | 50|4.3|5.8|5.006|5.0   |0.3525|
+|       |versicolor| 50|4.9|7.0|5.936|5.9   |0.5162|
+|       |virginica | 50|4.9|7.9|6.588|6.5   |0.6359|
++-------+----------+---+---+---+-----+------+------+
+|Overall|          |150|4.3|7.9|5.843|5.8   |0.8281|
++-------+----------+---+---+---+-----+------+------+
+\end{verbatim}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{aggregate}\hlkeyword{(}\hlsymbol{Sepal.Length}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Species}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{iris}\hlkeyword{,}{\ }\hlargument{FUN}{\ }\hlargument{=}{\ }\hlsymbol{favstats}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+     Species Sepal.Length.min Sepal.Length.max Sepal.Length.mean Sepal.Length.median
+1     setosa           4.3000           5.8000            5.0060              5.0000
+2 versicolor           4.9000           7.0000            5.9360              5.9000
+3  virginica           4.9000           7.9000            6.5880              6.5000
+  Sepal.Length.sd
+1          0.3525
+2          0.5162
+3          0.6359
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+Notice how nicely this works with \function{aggregate()} and with the \function{summary()} 
+function from the \pkg{Hmisc} package.
+You can, of course, define your own favorite function to use with \function{summary()}.
+\Rindex{favstats()}%
+The \function{favstats()} function in the \pkg{mosaic} package includes the 
+quartiles, mean, standard, deviation, sample size and number of missing observations.
+\FoodForThought{Notice the use of \code{::} to select 
+the \function{favstats} function from the \pkg{mosaic}
+package rather than the one we just defined.}%
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{.97, .97, .97}{\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlpackage{mosaic}\hlkeyword{::}\hlfunctioncall{favstats}\hlkeyword{(}\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\begin{verbatim}
+    min      Q1  median     Q3   max    mean     sd   n missing
+ -2.607 -0.6012 -0.0893 0.5085 2.923 -0.0897 0.9326 100       0
+\end{verbatim}
+\end{kframe}}
+\end{knitrout}
+
+
+\authNote{Add a problem to create a function to \dots}
+
+
+\section*{Exercises}
+
+\shipoutProblems
+
+\Rindex{summary()}%
+\Rindex{Hmisc}%
+
+
+
+\UndefineShortVerb{\&}

@@ -1,0 +1,9 @@
+\SweaveOpts{
+tidy=TRUE,
+pdf=T,
+fig.path=figures/fig-,  
+fig.width=3, fig.height=2,
+fig.align=center,
+fig.show=hold,
+comment=NA
+}
