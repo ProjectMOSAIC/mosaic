@@ -65,6 +65,9 @@
   \code{\dots} so must be named using their full names.
 }
 \examples{
+x <- rnorm(10)
+SD(x)
+sd(x)
 mean(age, data=HELPrct)
 mean(~age, data=HELPrct)
 mean(age ~ ., data=HELPrct)
@@ -108,7 +111,7 @@ prop(HELPrct$sex)
   Randall Pruim (\email{rpruim@calvin.edu})
 }
 \seealso{
-  \code{link[stats]{aggregate}}, \code{\link[stats]{sd}},
+  \code{\link[stats]{aggregate}}, \code{\link[stats]{sd}},
   \code{\link[stats]{var}}, \code{\link[stats]{median}},
   \code{\link[base]{mean}}, \code{\link[base]{max}},
   \code{\link[base]{min}}, \code{\link[base]{sum}}

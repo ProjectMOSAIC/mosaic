@@ -75,11 +75,11 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 #' things multiple time using a different syntax and different output
 #' format from that used by, for example, \code{\link{replicate}}.
 #'
-#' The structure of the class is 
-#' \describe{
-#' \item \code{n} number of times to repeat something
-#' \item \code{cull} a function used to cull output
-#' \item \code{mode} the mode used for results (NULL or data frame or matrix)
+#' The class is 
+#' \itemize{
+#' \item{\code{n}} number of times to repeat something
+#' \item{\code{cull}} a function used to cull output
+#' \item{\code{mode}} the mode used for results (NULL or data frame or matrix)
 #' }
 #' @rdname repeater-class
 #' @name repeater-class

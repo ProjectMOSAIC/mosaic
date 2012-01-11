@@ -14,7 +14,7 @@
 #' their full names.
 #'
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
-#' @seealso \code{link[stats]{aggregate}},
+#' @seealso \code{\link[stats]{aggregate}},
 #' \code{\link[stats]{sd}},
 #' \code{\link[stats]{var}},
 #' \code{\link[stats]{median}},
@@ -28,18 +28,20 @@
 #' @keywords methods 
 #' 
 #' 
-
 #' Compute standard deviation
 #'
 #' This computes the standard deviation as the square root of variance to avoid
 #' direct use of \code{\link[stats]{sd}}
 #'
-#' @rdname aggregating-methods
-#'
 #' @param x a vector or formula
 #'
 #' @return a numeric containing the standard deviaiton
 #'
+#' @examples
+#' x <- rnorm(10)
+#' SD(x)
+#' sd(x)
+
 SD <- function(x) {
 	sqrt(stats::var(x))
 }
