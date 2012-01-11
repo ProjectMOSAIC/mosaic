@@ -1,0 +1,4 @@
+=The mosaic Package and Project MOSAIC=
+
+==News==
+* 2012-02-11: Project MOSAIC migrates its mosaic R package from R-forge to github.  Simultaneously, we are converting to roxygen documentation.  (Wish us luck in the transition.)
