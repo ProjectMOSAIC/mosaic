@@ -25,7 +25,7 @@
 	if (is.factor(x) | is.character(x) ) {
 		stop("Input must be a numerical variable, not categorical.")
 	}
-	return(TRUE)
+	return(TRUE )
 }
 
 #' Compute quantiles from data
