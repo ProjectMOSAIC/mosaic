@@ -1,10 +1,12 @@
-sandbox
-bin
+^sandbox$
+^bin$
+^builds$
 ^\.Rproj\.user$
 ^.*\.swp$
 ^.*\.swo$
-^\.git.*
-TeachingStatsWithR
+^\.git
+^TeachingStatsWithR$
 ^.*bk$
 ^.*~$
-README\.mediawiki
+^README\.mediawiki$
+^mosaic.*\.gz$
