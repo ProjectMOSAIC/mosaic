@@ -14,7 +14,7 @@ option_list <- list(
 		make_option(c("-q", "--quietly"), action="store_false",
 			dest="verbose", help="Print little output"),
 		make_option(c("-c", "--clean"), action="store_true", default=FALSE,
-		    dest="clean", help="Clean old Rd files first?"),
+		    dest="clean", help="Clean old Rd files first? (requires devtools)"),
 		make_option(c("-p", "--package.dir"), type="character", default=".",
 			dest='path',
 			help="path to package [default %default]",
@@ -30,6 +30,11 @@ opt <- parse_args(OptionParser(option_list=option_list))
 		write(paste("Processing package", opt$path, "...\n"), stderr())
 	}
 
-roxygenize(opt$path,clean=opt$clean)
+if (require(devtools)) {
+	suppressPackageStartupMessages(library("devtools"))
+	document(opt$path, clean=opt$clean)
+} else {
+	roxygenize(opt$path,clean=opt$clean)
+}
 
 cat("\n")
