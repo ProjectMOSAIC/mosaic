@@ -1,6 +1,5 @@
 \docType{methods}
 \name{SD}
-\alias{SD}
 \alias{count}
 \alias{count,ANY-method}
 \alias{count,data.frame-method}
@@ -24,6 +23,7 @@
 \alias{prop,formula-method}
 \alias{prop,logical-method}
 \alias{sd}
+\alias{SD}
 \alias{sd,ANY-method}
 \alias{sd,data.frame-method}
 \alias{sd,formula-method}
@@ -116,11 +116,10 @@ prop(HELPrct$sex)
   \code{\link[base]{mean}}, \code{\link[base]{max}},
   \code{\link[base]{min}}, \code{\link[base]{sum}}
 }
-\keyword{Compute}
-\keyword{This}
 \keyword{\code{\link[stats]{sd}}}
 \keyword{as}
 \keyword{avoid}
+\keyword{Compute}
 \keyword{computes}
 \keyword{deviation}
 \keyword{direct}
@@ -130,6 +129,7 @@ prop(HELPrct$sex)
 \keyword{square}
 \keyword{standard}
 \keyword{the}
+\keyword{This}
 \keyword{to}
 \keyword{use}
 \keyword{variance}

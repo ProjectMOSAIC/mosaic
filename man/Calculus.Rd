@@ -1,6 +1,6 @@
 \name{D}
-\alias{D}
 \alias{antiD}
+\alias{D}
 \title{Derivative and Anti-derivative operators}
 \usage{
   D(expr, ..., ..h.. = NULL, symbolic = TRUE,

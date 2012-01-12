@@ -1,10 +1,10 @@
 \name{do}
-\alias{*}
-\alias{*,repeater,ANY-method}
 \alias{.clean_names}
 \alias{.make.data.frame}
 \alias{.merge_data_frames}
 \alias{.squash_names}
+\alias{*}
+\alias{*,repeater,ANY-method}
 \alias{do}
 \alias{print}
 \alias{print,repeater-method}
