@@ -1,8 +1,14 @@
 \name{interval}
 \alias{interval}
+\alias{pval}
+\alias{stat}
 \title{Extract summary statistics}
 \usage{
   interval(x, ...)
+
+  pval(x, ...)
+
+  stat(x, ...)
 }
 \arguments{
   \item{x}{An object of class \code{htest}.}

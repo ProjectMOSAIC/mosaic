@@ -48,6 +48,7 @@ interval.htest <- function (x, verbose=FALSE, ...){
   return(int)
 }
 
+#' @rdname interval
 pval <- function(x, ...){UseMethod("pval", x)}
 
 pval.htest <- function (x, digits=4, verbose=FALSE, ...){
@@ -101,6 +102,7 @@ pval.htest <- function (x, digits=4, verbose=FALSE, ...){
   return( c(p.value=pval) )
 }
 
+#' @rdname interval
 stat <- function(x,...) { UseMethod("stat", x)}
 
 stat.htest <- function(x,...) {
