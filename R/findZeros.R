@@ -6,9 +6,9 @@
 #' All variables named in the expression must be assigned values via \code{\ldots}
 #' @param \dots Specific numerical values for the unbound variables in the expression.
 #' @param xlim The range of the dependent variable to search for zeros. \code{Inf} is a legitimate value, 
-#' but is interpretted in the numerical sense.
-#' @param npts How many sub-intervals to divide the \code{xlim} into when looking for candidates for zeros.  
-#' If \code{Inf} is involved, the intervals are numerically spaced up to the largest finite floating point number.
+#' but is interpreted in the numerical sense as the non-Inf largest floating point number.
+#' @param npts How many sub-intervals to divide the \code{xlim} into when looking for candidates for zeros.  The default is usually good enough.
+#' If \code{Inf} is involved, the intervals are logarithmically spaced up to the largest finite floating point number.  No guarantee that all the roots will be found.
 #' 
 #' 
 #' @details
