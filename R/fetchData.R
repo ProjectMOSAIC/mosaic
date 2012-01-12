@@ -4,9 +4,11 @@
 #' Data can be pre-loaded for off-line sessions, can be positioned on identified web sites, and can be loaded from packages.  
 #' \code{fetchData} also will load local \code{.csv} files using \code{file.choose()}.
 #'
+#' @name fetchData
+#'
 #' @param name a character string naming a data set.  
-#'    This will often end in \code{.csv}.  It can also name a web directory (always ending in \code{/}). 
-#' It can also name a data set to be stored in the cached library.
+#'    This will often end in \code{.csv} for reading in a data set. When used in conjunction with \code{TRUE} values for the following arguments, it can also name a web directory (always ending in \code{/}). 
+#' It can also give a name to a data set to be stored in the cached library.  See
 #' 
 #' @param add.to.path If \code{TRUE}, indicates that the web search path is to printed out, or, 
 #' if \code{name} is specified, the name should be a web directory (ending in \code{/}), which should be pre-pended 
@@ -27,7 +29,7 @@
 #' differs from the behavior of \code{data}, which doesn't return a value but
 #' instead creates an object without explicit assignment.
 #' 
-#' The other is to allow instructors (or other group leaders) to post data on
+#' The other purpose is to allow instructors or other group leaders to post data on
 #' web sites that can be searched as naturally as if the data were on the users'
 #' own machines.  For instance, an instructor might want to post a new data set
 #' just before class, enabling her students to access it in class.
@@ -42,6 +44,38 @@
 #' @return a data frame.
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu}) and Randall Pruim (\email{rpruim@@calvin.edu})
 #'
+# ############## Local Data Storage #########
+# internal fetch data function
+#'
+#' @rdname fetchData
+#' @keywords internal
+.fetchData.storage.helper <- function( ){
+  local.library <- list()
+  search.path <- c("http://www.mosaic-web.org/datasets/",
+                   "http://www.macalester.edu/~kaplan/ISM/datasets/",
+                   "http://dl.dropbox.com/u/5098197/Math155/Data/")
+  
+  fun <- function(library=FALSE,searchpath=FALSE,val=NULL,name=NULL,action) {
+    if( library ) {
+      if( action=="add"){ local.library[[name]] <- val; return(c())}
+      if( action=="get"){ return( local.library[[name]] ) }
+      if( action=="names"){ return( names(local.library) ) }
+    }
+    if( searchpath ){
+      if( action=="add") {search.path <- c(val, search.path); return(search.path)}
+      if( action=="delete") {
+        if( is.null(val) ) search.path <- c()
+        else search.path <- search.path[ val != search.path ]
+        return(search.path)
+      }
+      if( action=="get") return(search.path)
+    }
+    stop("Can use only for the fetchData library and search path.")
+  }
+  return(fun)
+}
+# ###############
+.fetchData.storage <- .fetchData.storage.helper() # run the function to create .fetchData.storage
 #' @export
 #' @examples
 #' kids <- fetchData("KidsFeet.csv")
@@ -55,51 +89,11 @@
 #' @keywords mosaic 
 #' 
 
-# ############## Local Data Storage #########
-#' internal fetch data function
-#'
-#' @rdname fetchData
-#' @return a function
-#'
-.fetchData.storage.helper <- function( ){
-   local.library <- list()
-   search.path <- c("http://www.mosaic-web.org/datasets/",
-   "http://www.macalester.edu/~kaplan/ISM/datasets/",
-   "http://dl.dropbox.com/u/5098197/Math155/Data/")
-   
-   fun <- function(library=FALSE,searchpath=FALSE,val=NULL,name=NULL,action) {
-     if( library ) {
-       if( action=="add"){ local.library[[name]] <- val; return(c())}
-       if( action=="get"){ return( local.library[[name]] ) }
-       if( action=="names"){ return( names(local.library) ) }
-     }
-     if( searchpath ){
-       if( action=="add") {search.path <- c(val, search.path); return(search.path)}
-       if( action=="delete") {
-         if( is.null(val) ) search.path <- c()
-         else search.path <- search.path[ val != search.path ]
-         return(search.path)
-       }
-       if( action=="get") return(search.path)
-     }
-     stop("Can use only for the fetchData library and search path.")
-   }
-   return(fun)
-}
-# ###############
-.fetchData.storage <- .fetchData.storage.helper() # run the function to create .fetchData.storage
 
 # ############
 #' Fetch data sets from internet repositories
 #'
-#' @param name
-#' @param add.to.path path to add to search path
-#' @param drop.from.path path to remove from search path
-#' @param add.to.library 
-#' @param directory
-#' @param var
-#' @return a data frame containing data
-#' 
+#' @export
 fetchData <- function(name=NULL,
   add.to.path=FALSE, drop.from.path=FALSE,
   add.to.library=FALSE, directory=NULL, var=NULL){

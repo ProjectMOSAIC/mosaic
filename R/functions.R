@@ -1,4 +1,27 @@
-
+#' Utilities for creating mathematical functions from expressions
+#'
+#' \code{makeFun} turns a mathematical expression (written as a formula)
+#' into the corresponding R function.  It's purely a convenience that uses the
+#' same expression syntax as \code{plotFun}, \code{D} and \code{antiD}.
+#'
+#' @name makeFun
+#'
+#' @param sexpr the mathematical expression written as a formula
+#'
+#' @param ... additional arguments setting default numerical values
+#' for arguments or parameters
+#'
+#' @return a function
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#' @export
+#'
+#' @examples
+#' f = makeFun(sin(x^2) ~ x)
+#' g = makeFun(a*x + b ~ x,a=2,b=4)
+#' g(x=10)
+#' g(x=10,a=5,b=2)
+#' h = makeFun(sin(x)*y ~ x&y)
+#'
 makeFun = function( sexpr=NULL, ... ) {
   foo = .createMathFun( sexpr=sexpr, ... )   # find this
   x = foo$fun
@@ -8,6 +31,30 @@ makeFun = function( sexpr=NULL, ... ) {
   return(x)
 }
 
+#' @rdname printfunction
+#' @method print function
+#' @title Printing Calculus Functions
+#' @name print.function
+#'
+#' @param x the function to be printed
+#' @param default use the standard function printing methods
+#' @param useSource passed along to the standard function printing methods
+#' @return nothing
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#'
+#' @details
+#' The mosaic calculus operators such as
+#' \code{D} and \code{antiD} and \code{linearModel}
+#' sometimes create functions with an obscure numerical method as the
+#' internal contents.
+#' This print method detects such functions (through their \code{kind} attribute) and
+#' provides a more friendly display
+#' @examples
+#' F <- antiD(sin(x^2)~x)
+#' F
+#' print(F)
+#' print(F, default=TRUE)
+#'
 
 print.function = function(x, useSource=TRUE, default=FALSE, ...) {
   kind = attr(x,"mosaicType")
@@ -34,9 +81,3 @@ print.function = function(x, useSource=TRUE, default=FALSE, ...) {
   }
   base::print.function(x, useSource=useSource, ...)
 }
-
-# for printing the arguments to a function, nicely
-#arguments = function(f) {
-#  nms = names(formals(f))
-#  nms[ !nms %in% c("..args","init.x","init.val") ]
-#}
