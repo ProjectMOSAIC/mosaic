@@ -30,7 +30,7 @@
 
 #' Compute quantiles from data
 #'
-#' A wrapper around \code{\link{quantile}} that makes the syntax more like 
+#' \code{qdata} is a wrapper around \code{\link{quantile}} that makes the syntax more like 
 #' the syntax for quantiles from theoretical distributions
 #'
 #' @param p a vector of probabilities
@@ -57,7 +57,7 @@ qdata <- function(p, vals, data=NULL, ... ) {
 }
 
 
-#' Compute cumulative probabilities data
+#' \code{pdata} computes cumulative probabilities from data.
 #'
 #' @param q a vector of quantiles
 #' @param lower.tail a logical indicating whether to use the lower or upper tail probability
@@ -84,9 +84,7 @@ pdata = function(q, vals, data=NULL, lower.tail=TRUE, ... ) {
   }
 }
 
-#' Randomly sample from data
-#'
-#' A wrapper around \code{sample} that unifies syntax.
+#' \code{rdata} randomly samples from data. It is a wrapper around \code{sample} that unifies syntax.
 #'
 #' @param n number of values to sample
 #' @param replace  a logical indicating whether to sample with replacement
@@ -107,7 +105,7 @@ rdata = function(n, vals, data=NULL, replace=TRUE, ... ) {
 }
 
 
-#' Density function computed from data
+#' \code{ddata} computes a probability mass function from data.
 #'
 #' @param x a vector of quantiles
 #' @param log  a logical indicating whether the result should be log transformed
