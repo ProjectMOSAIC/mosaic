@@ -47,8 +47,6 @@ Collate:
     'ladd.R'
     'linear-algebra.R'
     'logit.R'
-    'newAntiD.R'
-    'newD.R'
     'perctable.R'
     'plt.R'
     'pqrdata.R'
