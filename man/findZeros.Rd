@@ -16,12 +16,15 @@
 
   \item{xlim}{The range of the dependent variable to search
   for zeros. \code{Inf} is a legitimate value, but is
-  interpretted in the numerical sense.}
+  interpreted in the numerical sense as the non-Inf largest
+  floating point number.}
 
   \item{npts}{How many sub-intervals to divide the
   \code{xlim} into when looking for candidates for zeros.
-  If \code{Inf} is involved, the intervals are numerically
-  spaced up to the largest finite floating point number.}
+  The default is usually good enough. If \code{Inf} is
+  involved, the intervals are logarithmically spaced up to
+  the largest finite floating point number.  No guarantee
+  that all the roots will be found.}
 }
 \value{
   A set of zero or more numerical values.  Plugging these
