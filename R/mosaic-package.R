@@ -10,8 +10,8 @@
 #' \tabular{ll}{
 #' Package: \tab mosaic\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.3-0\cr
-#' Date: \tab 2012-01-10\cr
+#' Version: \tab 0.3-2\cr
+#' Date: \tab 2012-01-12\cr
 #' License: \tab GPL (>= 2)\cr
 #' LazyLoad: \tab yes\cr
 #' }

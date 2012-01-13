@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) math and stats teaching utilities
-Version: 0.3-1
-Date: 2012-01-11
+Version: 0.3-2
+Date: 2012-01-12
 Depends:
     lattice,
     grid,
@@ -38,7 +38,6 @@ Collate:
     'distPlot.R'
     'do.R'
     'dotPlot.R'
-    'enterxtab.R'
     'fetchData.R'
     'findZeros.R'
     'functions.R'
