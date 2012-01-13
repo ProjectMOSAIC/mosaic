@@ -15,4 +15,5 @@ TeachingStatsWithR/figures
 TeachingStatsWithR/Chap-*.R
 builds
 *.Rcheck
-
+man/*.Rd
+NAMESPACE
