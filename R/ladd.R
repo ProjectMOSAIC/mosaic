@@ -15,7 +15,6 @@
 #' 
 #' @export
 #' @examples
-#' ladd <- function(x,col=1,row=1) { trellis.focus('panel',col,row); x ; trellis.unfocus() 
 #' print(xyplot(rnorm(100) ~rnorm(100)))
 #' ladd(panel.abline(a=0,b=1))
 #' ladd(panel.abline(h=0,col='red'))
@@ -26,7 +25,7 @@
 #' ladd( grid.text("(2,1)",gp=gpar(cex=3,alpha=.5)), 2,1)
 #' ladd( grid.text("(1,2)",gp=gpar(cex=3,alpha=.5)), 1,2)
 #' ladd( grid.text("(2,2)",gp=gpar(cex=3,alpha=.5)), 2,2)
-#' }
+#'
 #' @keywords graphics 
 #' 
 #' 
