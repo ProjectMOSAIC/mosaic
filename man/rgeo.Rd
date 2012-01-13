@@ -1,6 +1,4 @@
 \name{deg2rad}
-\alias{.googleMapURL}
-\alias{.googleMapURL2}
 \alias{deg2rad}
 \alias{googleMap}
 \alias{latlon2xyz}
@@ -28,16 +26,6 @@
     zoom = 12,
     maptype = c("roadmap", "satellite", "terrain", "hybrid"),
     mark = FALSE, radius = 0, browse = TRUE, ...)
-
-  .googleMapURL(latitude, longitude, position = NULL,
-    zoom = 11,
-    maptype = c("roadmap", "satellite", "terrain", "hybrid"),
-    mark = FALSE, radius = 0)
-
-  .googleMapURL2(latitude, longitude, position = NULL,
-    zoom = 12, width = 600, height = 400,
-    maptype = c("roadmap", "satellite", "terrain", "hybrid"),
-    mark = FALSE)
 }
 \arguments{
   \item{x}{a numeric vector}
@@ -76,9 +64,6 @@
 
   \item{\dots}{additional arguments passed to
   \code{browseURL}}
-
-  \item{width,height}{width and height of window containing
-  google map}
 }
 \value{
   a numeric vector
@@ -101,8 +86,6 @@
 
   a string containing a URL.  Optionally, as a side-effect,
   the URL is visited in a browser
-
-  a URL as a string
 }
 \description{
   Randomly samples longitude and latitude on earth so that
@@ -148,6 +131,5 @@ rgeo2(4)
   \code{\link{googleMap}}
 }
 \keyword{geometry}
-\keyword{internal}
 \keyword{random}
 

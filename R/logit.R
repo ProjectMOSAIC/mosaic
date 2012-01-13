@@ -17,14 +17,18 @@
 #' p <- seq(.1, .9, by=.10)
 #' l <- logit(p); l
 #' ilogit(l)
+#' ilogit(l) == p
 #' 
-#' 
+logit <- function(x) 
+{
+	log(x/(1 - x))
+}
+
+#' @rdname logit
+#' @export
+
 ilogit <- function (x) 
 {
     exp(x)/(1 + exp(x))
 }
 
-logit <- function(x) 
-{
-	log(x/(1 - x))
-}

@@ -1,11 +1,13 @@
 \docType{methods}
-\name{SD}
+\name{aggregating-methods}
+\alias{aggregating-methods}
 \alias{count}
 \alias{count,ANY-method}
 \alias{count,data.frame-method}
 \alias{count,factor-method}
 \alias{count,formula-method}
 \alias{count,logical-method}
+\alias{max}
 \alias{mean}
 \alias{mean,ANY-method}
 \alias{mean,data.frame-method}
@@ -16,6 +18,7 @@
 \alias{median,data.frame-method}
 \alias{median,formula-method}
 \alias{median,numeric-method}
+\alias{min}
 \alias{prop}
 \alias{prop,ANY-method}
 \alias{prop,data.frame-method}
@@ -23,7 +26,6 @@
 \alias{prop,formula-method}
 \alias{prop,logical-method}
 \alias{sd}
-\alias{SD}
 \alias{sd,ANY-method}
 \alias{sd,data.frame-method}
 \alias{sd,formula-method}
@@ -38,15 +40,9 @@
 \alias{var,numeric,numeric,ANY,ANY,ANY-method}
 \title{Aggregating summary statistics}
 \usage{
-  SD(x)
-}
-\arguments{
-  \item{x}{a vector or formula}
+  min(x, ..., na.rm = TRUE)
 
-  \item{\dots}{additional arguments}
-}
-\value{
-  a numeric containing the standard deviaiton
+  max(x, ..., na.rm = TRUE)
 }
 \description{
   These drop-in replacements and new summary statistics
@@ -65,9 +61,6 @@
   \code{\dots} so must be named using their full names.
 }
 \examples{
-x <- rnorm(10)
-SD(x)
-sd(x)
 mean(age, data=HELPrct)
 mean(~age, data=HELPrct)
 mean(age ~ ., data=HELPrct)
@@ -100,6 +93,15 @@ var(age ~ NULL, data=HELPrct)
 var(HELPrct$age)
 var(age ~ sex, data=HELPrct)
 var(age ~ sex + treat, data=HELPrct)
+min(age, data=HELPrct)
+max(age, data=HELPrct)
+max(~age, data=HELPrct)
+max(age ~ ., data=HELPrct)
+max(age ~ 1, data=HELPrct)
+max(age ~ NULL, data=HELPrct)
+max(HELPrct$age)
+max(age ~ sex, data=HELPrct)
+max(age ~ sex + treat, data=HELPrct)
 count(sex, data=HELPrct)
 count(sex, data=HELPrct, level='male')
 count(HELPrct$sex)
@@ -116,21 +118,6 @@ prop(HELPrct$sex)
   \code{\link[base]{mean}}, \code{\link[base]{max}},
   \code{\link[base]{min}}, \code{\link[base]{sum}}
 }
-\keyword{\code{\link[stats]{sd}}}
-\keyword{as}
-\keyword{avoid}
-\keyword{Compute}
-\keyword{computes}
-\keyword{deviation}
-\keyword{direct}
 \keyword{methods}
-\keyword{of}
-\keyword{root}
-\keyword{square}
-\keyword{standard}
-\keyword{the}
-\keyword{This}
-\keyword{to}
-\keyword{use}
-\keyword{variance}
+\keyword{stats}
 

@@ -1,6 +1,6 @@
 #' Augmented versions of pnorm and qnorm
 #' 
-#' These functions all behave similarly to the functions with the initial \code{x}
+#' These functions behave similarly to the functions with the initial \code{x}
 #' removed from their names but add more verbose output and graphics.
 #'
 #' @param p probability
@@ -84,6 +84,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     return(pnorm(q, mean = mean, sd = sd, lower.tail = lower.tail, log.p = log.p))
 }
 
+#' @rdname xpnorm
 
 xqnorm <-
 function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4, 
@@ -112,10 +113,12 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
 	}
     return(q)
 }
+
 # midpoints along a sequence
 .mid <- function(x) { 
 	x[-1] - .5 * diff(x)
 }
+
 
 .plot_multi_norm <- function(p, q, mean, sd, xlim, ylim, digits=4, dlwd=2, 
     vlwd=2, vcol=trellis.par.get('add.line')$col,

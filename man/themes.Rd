@@ -23,7 +23,7 @@
 \note{
   These two functions are identical.  \code{col.mosaic} is
   named in similarity to
-  \code{\link[lattice]{col.whitebg()}}, but since more just
+  \code{\link[lattice]{col.whitebg}}, but since more just
   colors are set, \code{theme.mosaic} seems like a
   preferable name.
 }

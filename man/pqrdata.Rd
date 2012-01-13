@@ -50,15 +50,17 @@
   densities)
 }
 \description{
-  A wrapper around \code{\link{quantile}} that makes the
-  syntax more like the syntax for quantiles from
-  theoretical distributions
+  \code{qdata} is a wrapper around \code{\link{quantile}}
+  that makes the syntax more like the syntax for quantiles
+  from theoretical distributions
 
-  Compute cumulative probabilities data
+  \code{pdata} computes cumulative probabilities from data.
 
-  A wrapper around \code{sample} that unifies syntax.
+  \code{rdata} randomly samples from data. It is a wrapper
+  around \code{sample} that unifies syntax.
 
-  Density function computed from data
+  \code{ddata} computes a probability mass function from
+  data.
 }
 \examples{
 data(iris)

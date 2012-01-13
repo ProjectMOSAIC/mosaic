@@ -1,8 +1,11 @@
 \name{perctable}
 \alias{perctable}
+\alias{proptable}
 \title{Cross tabulation displayed as percents or proportions}
 \usage{
   perctable(...)
+
+  proptable(...)
 }
 \arguments{
   \item{\dots}{arguments passed directly to
@@ -24,7 +27,7 @@
   levels.
 }
 \details{
-  #' See \code{\link{table}}.
+  See \code{\link{table}}.
 }
 \examples{
 perctable(rbinom(1000,10,.5))

@@ -8,10 +8,10 @@
   example, \code{\link{replicate}}.
 }
 \details{
-  The class is \itemize{ \item{\code{n}} number of times to
-  repeat something \item{\code{cull}} a function used to
-  cull output \item{\code{mode}} the mode used for results
-  (NULL or data frame or matrix) }
+  Each object contains slots for \itemize{ \item{\code{n}}
+  number of times to repeat something \item{\code{cull}} a
+  function used to cull output \item{\code{mode}} the mode
+  used for results (NULL or data frame or matrix) }
 }
 \seealso{
   \code{\link{do}}

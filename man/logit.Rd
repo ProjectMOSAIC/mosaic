@@ -1,7 +1,10 @@
-\name{ilogit}
+\name{logit}
 \alias{ilogit}
+\alias{logit}
 \title{Logit and inverse logit functions}
 \usage{
+  logit(x)
+
   ilogit(x)
 }
 \arguments{
@@ -19,6 +22,7 @@
 p <- seq(.1, .9, by=.10)
 l <- logit(p); l
 ilogit(l)
+ilogit(l) == p
 }
 \author{
   Randall Pruim (\email{rpruim@calvin.edu})

@@ -9,7 +9,7 @@
 #' \code{\link{trellis.par.set}()}.
 #' @note
 #'   These two functions are identical.  \code{col.mosaic} is named 
-#' in similarity to \code{\link[lattice]{col.whitebg()}}, but since more 
+#' in similarity to \code{\link[lattice]{col.whitebg}}, but since more 
 #' just colors are set, \code{theme.mosaic} seems like a preferable name.
 #'
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
