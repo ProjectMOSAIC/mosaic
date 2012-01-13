@@ -195,9 +195,15 @@ googleMap <- function(latitude, longitude, position=NULL,
 	}
 }
 
-	
-#' @rdname rgeo
+
+#' rgeo internal functions
+#' 
+#' These are not really intended for public consumption.
+#'
+#' @name rgeo-internals
+#' @rdname rgeo-internals
 #' @return a URL as a string
+#' @inheritParams googleMap
 #' @keywords internal
 #' 
 .googleMapURL <- function(latitude, longitude, position=NULL,
@@ -239,7 +245,7 @@ googleMap <- function(latitude, longitude, position=NULL,
 		sep=""))
 }
 
-#' @rdname rgeo
+#' @rdname rgeo-internals
 #' @param width,height width and height of window containing google map
 #' @keywords internal
 #'
