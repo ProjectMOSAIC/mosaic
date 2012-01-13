@@ -26,7 +26,7 @@
 #' @export
 #' @examples
 #' xhistogram(~age | substance, HELPrct, v=35, fit='normal')
-#' xhistogram(~age, HELPrct, labels=T, type='count')
+#' xhistogram(~age, HELPrct, labels=TRUE, type='count')
 #' xhistogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
 #' xhistogram(~age, HELPrct, groups=sex, stripes='horizontal')
 
