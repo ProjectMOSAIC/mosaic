@@ -1,29 +1,26 @@
 ##############################################
-# aliases
-#
-deal    <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) {
-	sample(x, size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids )
-}
-
-resample <- function(x, size, replace=TRUE, prob=NULL, groups=NULL, orig.ids=FALSE, ...) {
-	sample(x, size=size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids, ...)
-}
-
-shuffle <- function(x, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) 
-{
-	if (!is.null(groups)){
-		return( .shuffle_within(x, groups=groups, replace=replace) )
-	}
-	return( sample(x, replace=replace, prob=prob) )
-}
-
-##############################################
 # coin toss
 #
 
-nflip <- function(n=1, prob=.5, ...) {
-	as.numeric( rflip(n=n, prob=prob, ...) )
-}
+#' Tossing Coins
+#'
+#' These functions simplify simulating coin tosses for those (students primarily)
+#' who are not yet familair with the binomial distributions or just like this syntax
+#' and verbosity better.
+#'
+#' @rdname rflip
+#' @return  for \code{rflip}, a cointoss object 
+
+#' @param n the number of coins to toss
+#' @param prob probability of heads on each toss
+#' quiet a logical.  If \code{TRUE}, less verbose output is used.
+#' verbose  a logical.  If \code{TRUE}, more verbose output is used.
+#' 
+#' @export
+#' @examples
+#' rflip(10)
+#' rflip(10, prob=1/6, quiet=TRUE)
+#' do(5) * rflip(10)
 
 rflip <- function(n=1, prob=.5, quiet=FALSE, verbose = !quiet) {
 	if ( ( prob > 1 && is.integer(prob) ) ) {  
@@ -48,6 +45,13 @@ rflip <- function(n=1, prob=.5, quiet=FALSE, verbose = !quiet) {
 }
 
 
+#' @method print cointoss
+#' @rdname rflip
+#' @param x an object 
+#' @param \dots additional arguments
+#' @export 
+
+
 print.cointoss <- function(x, ...) {
 	heads <- as.numeric(x)
 	other <- attributes(x)
@@ -63,6 +67,69 @@ print.cointoss <- function(x, ...) {
 			cat(paste('\nResult: ', heads, ' heads.\n\n', sep=""))
 	}
 }
+
+#' @rdname rflip
+#' @return  for \code{nflip}, a numeric vector
+#' @export
+#' @examples
+#' as.numeric(rflip(10))
+#' nflip(10)
+nflip <- function(n=1, prob=.5, ...) {
+	as.numeric( rflip(n=n, prob=prob, ...) )
+}
+
+##############################################
+# aliases
+#
+
+#' More Random Samples
+#'
+#' These functions simplify and unify sampling in various ways.
+#'
+#' @rdname resample
+
+#' @param size
+#' @param replace a logical indicating whether to sample with or without replacement
+#' @param x	Either a vector of one or more elements from which to choose, or a positive integer. See ‘Details.’
+#' @param n	a positive number, the number of items to choose from. See ‘Details.’
+#' @param size	a non-negative integer giving the number of items to choose.
+#' @param replace	Should sampling be with replacement?
+#' @param prob	A vector of probability weights for obtaining the elements of the vector being sampled.
+#'
+#' @details These functions are wrappers around \code{\link{sample}} providing different defaults and 
+#' natural names.
+#'
+#' @export
+#' @examples
+#' deal(Cards,13)    # A Bridge hand
+ 
+deal    <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) {
+	sample(x, size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids )
+}
+
+#' rdname resample
+#' @export
+#' @examples
+#' # 100 Bernoulli trials -- no need for replace=TRUE
+#' resample(c(0,1), 100)
+
+resample <- function(x, size, replace=TRUE, prob=NULL, groups=NULL, orig.ids=FALSE, ...) {
+	sample(x, size=size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids, ...)
+}
+
+#' rdname resample
+#' @export
+#' @examples
+#' shuffle(Cards)
+
+shuffle <- function(x, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) 
+{
+	if (!is.null(groups)){
+		return( .shuffle_within(x, groups=groups, replace=replace) )
+	}
+	return( sample(x, replace=replace, prob=prob) )
+}
+
 
 
 ##############################################
@@ -107,7 +174,8 @@ sample <- function (x, size, replace=FALSE, ...) {
 }
 
 
-
+#' @method sample default
+#' @rdname resample
 sample.default <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE, ...) { 
 	if (! is.null(groups) ) {
 		if (! missing(size) ) warning("'size' is ignored when groups is non-null")
@@ -119,6 +187,8 @@ sample.default <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.
 	return(result)
 }
 
+#' @method sample data.frame
+#' @rdname resample
 
 sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, 
       orig.ids=TRUE, fixed=names(x), shuffled=c(),
@@ -159,6 +229,8 @@ sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL
 	if (invisibly.return) { invisible(result) } else {return(result)}
 }
 
+#' @method sample matrix
+#' @rdname resample
 sample.matrix <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, orig.ids=FALSE, ...) {
 	if (! is.null(groups) ) {
 		return(
@@ -175,6 +247,8 @@ sample.matrix <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 		if (length(ids) < 50) { return(data) } else {invisible(data)}
 }
 
+#' @method sample factor
+#' @rdname resample
 sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, orig.ids=FALSE, 
 					drop.unused.levels = FALSE, ...) {
 	if (! is.null(groups) ) {
