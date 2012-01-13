@@ -13,8 +13,8 @@
 
 #' @param n the number of coins to toss
 #' @param prob probability of heads on each toss
-#' quiet a logical.  If \code{TRUE}, less verbose output is used.
-#' verbose  a logical.  If \code{TRUE}, more verbose output is used.
+#' @param quiet a logical.  If \code{TRUE}, less verbose output is used.
+#' @param verbose  a logical.  If \code{TRUE}, more verbose output is used.
 #' 
 #' @export
 #' @examples
