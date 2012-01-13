@@ -3,19 +3,19 @@
 #' A character vector with two or three character representations of 
 #' each card in a standard 52-card deck.
 #' 
-#' @name cards
+#' @name Cards
 #' @aliases card
 #' @docType data
 #' 
-#' @usage cards
+#' @usage Cards
 #' 
 #' @details
 #' The 2 of clubs is represented as "2C", while the 10 of diamonds is "10D".
 #' 
 #' @examples
-#' deal(cards, 13)        # bridge hand
-#' deal(cards, 5)         # poker hand
-#' shuffle(cards)         # shuffled deck
+#' deal(Cards, 13)        # bridge hand
+#' deal(Cards, 5)         # poker hand
+#' shuffle(Cards)         # shuffled deck
 #' 
 #' @keywords datasets
 
