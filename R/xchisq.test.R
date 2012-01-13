@@ -9,7 +9,6 @@
 #' 
 #' @seealso \code{\link{chisq.test}} 
 #' 
-#' 
 #' @export
 #' @examples
 #' # Physicians' Health Study data
@@ -18,8 +17,7 @@
 #' colnames(phs) <- c("heart attack","no heart attack") 
 #' phs 
 #' xchisq.test(phs) 
-#' 
-#' 
+
 xchisq.test <-
 function (...) 
 {
@@ -30,11 +28,11 @@ function (...)
     else {
         dd <- c(1, length(ttt$observed))
     }
-    obs <- .surround(ttt$observed, " ", " ", digits = 2, nsmall = 2)
-    exp <- .surround(ttt$expected, "(", ")", digits = 2, nsmall = 2)
-    contrib <- .surround(ttt$residuals^2, "[", "]", digits = 2, 
+    obs <- surround(ttt$observed, " ", " ", digits = 2, nsmall = 2)
+    exp <- surround(ttt$expected, "(", ")", digits = 2, nsmall = 2)
+    contrib <- surround(ttt$residuals^2, "[", "]", digits = 2, 
         nsmall = 2)
-    resid <- .surround(ttt$residuals, "<", ">", digits = 2, nsmall = 2)
+    resid <- surround(ttt$residuals, "<", ">", digits = 2, nsmall = 2)
     blank <- rep(" ", prod(dd))
     result <- c(obs, exp, contrib, resid, blank)
     dim(result) <- c(dd, 5)
