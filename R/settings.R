@@ -1,16 +1,15 @@
+#' Setting options for mosaic package functions
+#'
+#' A mechanism for setting options in the mosaic package.
+#'
+#' @rdname mosaic.options
+#' @name mosaic.options
+#' @aliases mosaicGetOption mosaic.par.set
+#'
+#' @param name the name of the option being set
+#' @param value the value to which to set the option
 
 ## copied from lattice
-.updateList <- function(x, val)
-{
-    if (is.null(x)) x <- list()
-    modifyList(x, val)
-}
-
-.defaultMosaicOptions <- function()
-    list(na.rm=TRUE,
-         aggregate.overall=FALSE,
-	 graphics='lattice'
-		 )
 
 mosaic.options <- function (...) 
 {
@@ -32,12 +31,12 @@ mosaic.options <- function (...)
     .mosaicEnv$mosaic.options <- .updateList(old, new[nm])
     invisible(retVal)
 }
-
+#' @rdname mosaic.options
 mosaic.getOption <- function (name) 
 {
     get("lattice.options", envir = .LatticeEnv)[[name]]
 }
-
+#' @rdname mosaic.options
 mosaic.par.set <- function (name, value, ..., theme, warn = TRUE, strict = FALSE) 
 {
     mosaic.theme <- get("mosaic.theme", envir = .mosaicEnv)
@@ -70,7 +69,7 @@ mosaic.par.set <- function (name, value, ..., theme, warn = TRUE, strict = FALSE
     assign("mosaic.theme", mosaic.theme, envir = .mosaicEnv)
     invisible(old.mosaic.theme)
 }
-
+#' @rdname mosaic.options
 mosaic.par.get <- function (name = NULL) 
 {
     mosaic.theme <- get("mosaic.theme", envir = .mosaicEnv)
@@ -84,3 +83,15 @@ mosaic.par.get <- function (name = NULL)
         mosaic.theme[[name]]
     else NULL
 }
+#' @keywords ignore
+.updateList <- function(x, val)
+{
+  if (is.null(x)) x <- list()
+  modifyList(x, val)
+}
+#' @keywords ignore
+.defaultMosaicOptions <- function()
+  list(na.rm=TRUE,
+       aggregate.overall=FALSE,
+       graphics='lattice'
+       )

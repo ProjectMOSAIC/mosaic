@@ -1,7 +1,8 @@
 #' Random Regressors
 #' 
-#' A utility function for producing random regressors.
-#' @param df degrees of freedom, i.e., number of regressors
+#' A utility function for producing random regressors with a specified
+#' number of degrees of freedom.
+#' @param df degrees of freedom, i.e., number of random regressors
 #' @param rdist random distribution function for sampling
 #' @param args arguments for \code{rdist} 
 #' @param nr number of rows in resulting matrix.  This can often be omitted in

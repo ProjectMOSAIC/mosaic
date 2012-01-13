@@ -113,7 +113,7 @@ plotFun1 = function(expr, ..., add=FALSE,
     vals = list(...)
     ..currentAxisNames = mosaic.par.get("currentAxisNames")
     ..currentAxisLimitX= mosaic.par.get("currentAxisLimitX")
-    ..currentAxisLimitY= mosaic.par.get("currentAxisLimitX")
+    ..currentAxisLimitY= mosaic.par.get("currentAxisLimitY")
     if ( is.null(..currentAxisNames) )  ..currentAxisNames= c("", "")
     if ( is.null(..currentAxisLimitX) ) ..currentAxisLimitX =  c(0,1)
     if ( is.null(..currentAxisLimitY) ) ..currentAxisLimitY =  c(0,1)
@@ -292,6 +292,8 @@ plotFun1 = function(expr, ..., add=FALSE,
     invisible(..f..$fun)
   }
 # =============================
+# Create an environment for storing axis limits, etc.
+.plotFun.envir = new.env(parent=baseenv())
 
 plotFun <- function(expr, ..., add=FALSE,
                    xlim=NULL,ylim=NULL,npts=NULL,
@@ -304,26 +306,20 @@ plotFun <- function(expr, ..., add=FALSE,
   ..f.. <- .createMathFun( sexpr=substitute(expr), ...)
 
   vars <- formals(..f..$fun)
-#  if (length(..f..$names) == 0 ) {
-#    if( ..currentAxisNames[1] == "" )
-#      stop("No plotting variable defined")
-#    else ..f..$names <- ..currentAxisNames[ ..currentAxisNames != ""]
-#  }
 
   ndims <- length(..f..$names)
   if( ndims == 1 ){
     npts <- ifelse( is.null(npts), 200, npts)
     # create a function of that one variable
     pfun <- function(.x){
-	  mydots <- dots
+	    mydots <- dots
       mydots[[..f..$names]] <- .x
       eval( ..f..$sexpr, envir=mydots, enclos=parent.frame())
     }
 
-    # since plot will handle expressions nicely, let it do so.
-    # but note that zlab in 3-d plots doesn't handle expressions
-    # so it's necessary to deparse things there.
-    if( is.null(ylab) ) ylab <- expr(..f..$sexpr) #deparse(..f..$sexpr)
+    # Set the axis labels
+    # deparse needed for lattice (not originally for plot)
+    if( is.null(ylab) ) ylab <- deparse(..f..$sexpr)
     if( is.null(xlab) ) xlab <- ..f..$names
 
     # figure out the limits.  
@@ -334,11 +330,11 @@ plotFun <- function(expr, ..., add=FALSE,
     }
 
     if( length(xlim2) < 2 ) { # no limits were specified
-      if( FALSE && ..f..$names != ..currentAxisNames[1] )
-        stop(paste("Dependent variable in add-on plot, ",
-                   ..f..$names, ", does not match existing plot variable ", 
-                   ..currentAxisNames[1], sep=""))
-      else xlim2 <- c(0,1)   # ..currentAxisLimitX
+       if (add) xlim2 = get("xlim",.plotFun.envir)
+       else {
+        warning("No dependent variable limit set.") 
+        xlim2 <- c(0,1)   # meaningless default
+       }
     } 
 
     if( (length( xlim2) < 2) & (length( xlim ) <2 ) ) {
@@ -346,39 +342,32 @@ plotFun <- function(expr, ..., add=FALSE,
                  ..f..$names, "= or xlim=", sep=""))
     }
     # Evaluate the function.
-	#if( require(mosaic) ) {
-		.xset <- mosaic:::.adapt_seq(min(xlim2), max(xlim2), 
+		.xset <- mosaic::adapt_seq(min(xlim2), max(xlim2), 
 									 f=function(xxqq){ pfun(xxqq) }, length=npts)
-        #dots[[..f..$names]] <- .x
-    #} else {
-	#	.xset <- seq(min(xlim2),max(xlim2),length=npts)
-	#}
 
-	.yset <- pfun(.xset)
-	if( length(.yset) != length(.xset) ){
-		.yset == rep(0, length(.xset)) 
-		for (k in 1:length(.xset) ) {
-			.yset[k] <- pfun(.xset[k]) 
-			dots[[..f..$names]] <- .xset[k]
-		}
-	}
+  	.yset <- pfun(.xset)
+	  if( length(.yset) != length(.xset) ){ # if pfun isn't vectorized, loop over .xset
+		  .yset == rep(0, length(.xset)) 
+		  for (k in 1:length(.xset) ) {
+			 .yset[k] <- pfun(.xset[k]) 
+			  dots[[..f..$names]] <- .xset[k]
+	   	}
+  	}
 
     if (add) { # add to existing plot using ladd()
-
-      # Check to make sure the new plot will show up
-      #if( all(.yset > max(..currentAxisLimitY)) |
-      #  all(.yset < min(..currentAxisLimitY)) )
-      #  warning("New values are outside of the y-axis range.")
-      
       ladd(panel.lines(.xset, .yset, lwd=lwd, col=col, ...))       
-	} else { # draw a new plot
-      # ..currentAxisLimitX <- xlim2
-      # ..currentAxisNames <- c(..f..$names, "")
-      thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
+	  } else { # draw a new plot
+	    assign("xlim", xlim2, .plotFun.envir)
+      if( is.null(ylim)) thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
                       lwd=lwd, col=col, 
-					  xlim=xlim, ylim=ylim,
+					            xlim=xlim2, 
                       xlab=xlab,ylab=ylab,
-					  main=main)
+					            main=main)
+      else thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
+                                      lwd=lwd, col=col, 
+                                      xlim=xlim2, ylim=ylim, 
+                                      xlab=xlab,ylab=ylab,
+                                      main=main)
       # goo <- par("usr") # get the limits of the plot
       # ..currentAxisLimitY <- goo[c(3,4)]
       # mosaic.par.set(currentAxisLimitX = ..currentAxisLimitX )
@@ -406,17 +395,10 @@ plotFun <- function(expr, ..., add=FALSE,
       ylim2 <- dots[[..f..$names[2]]]
     }
     if (add  | length(xlim2)==0 | length(ylim2) == 0) {
-      xlim2 <- ..currentAxisLimitX
-      ylim2 <- ..currentAxisLimitY
+      if (length(xlim2)==0) xlim2 <- get("xlim", .plotFun.envir)
+      if (length(ylim2)==0) ylim2 <- get("ylim", .plotFun.envir)
       add <- TRUE
-      if( !all(..f..$names == ..currentAxisNames) ){
-        stop(paste("Dependent variables in add-on plot, ",
-                   ..f..$names[1], " and ", 
-                   ..f..$names[2], ", do not match existing plotting variable ", 
-                   ..currentAxisNames[1], " and ", ..currentAxisNames[2], sep=""))
-      }
     }
-    
     
     if( (length( xlim2) < 2) & (length( xlim ) <2 ) ) {
       stop(paste("Must provide x-axis limit via ", 
@@ -432,9 +414,9 @@ plotFun <- function(expr, ..., add=FALSE,
     #    }
     #   }
     
-    if( !add ){
-      ..currentAxisLimitX<-c(min(xlim2),max(xlim2))
-      ..currentAxisLimitY<-c(min(ylim2),max(ylim2))
+    if( !add ){ # store the axis information
+      assign('xlim', range(xlim2), .plotFun.envir)
+      assign('ylim', range(ylim2), .plotFun.envir)
     }
     
     zvals <- outer(.xset, .yset, function(x,y){pfun(x,y)} )
@@ -478,10 +460,6 @@ plotFun <- function(expr, ..., add=FALSE,
   }
   else if( ndims > 2 ) 
     stop("More than 2 plotting variables.")
-  
-  mosaic.par.set(currentAxisNames <- ..currentAxisNames)
-  mosaic.par.set(currentAxisLimitX <- ..currentAxisLimitX)
-  mosaic.par.set(currentAxisLimitY <- ..currentAxisLimitY)
   
   invisible(..f..$fun)
 }

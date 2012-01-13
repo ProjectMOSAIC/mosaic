@@ -1,6 +1,8 @@
 #' random 2nd degree polynomials
 #'
-#' Generates a random 2nd degree poly of 2 vars (as a function)
+#' \code{rpoly2} generates a random 2nd degree poly of 2 vars (as a function)
+#'
+#' @rdname RandomFunctions
 #' @param seed random seed
 #'
 #' @return a function defined by a 2nd degree polynomial of 2 variables

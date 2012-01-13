@@ -1,12 +1,31 @@
-#' Produce a random function that is a low-degree polynomial 
+#' Generate a natural-looking function
+#'
+#' Produce a random function that is sum of gaussians 
+#'
 #' @param vars a formula; the LHS is empty and the RHS indicates the variables used 
 #' for input to the function (separated by &)
 #'
 #' @param seed seed for random number generator, passed to \code{\link{set.seed}}.
-#' @param n ****** needs documentation ******
+#' @param n the number of gaussians.  By default, this will be selected randomly.
 #' @return a function with the appropriate number of inputs
+#'
+#' @details
+#' \code{rfun} is an easy way to generate a natural-looking but random function with ups and downs
+#' much as you might draw on paper.  In two variables, a good way to produce
+#' a random landscape that is smooth.
+#' Things happen in the domain -5 to 5. The function is pretty flat outside of that.
+#' Use \code{seed} to create a fixed function that will be the same for everybody
+#'
+#' @rdname RandomFunctions
+#' @name randomFunctions
+#' @keywords random
+#' @aliases rfun rpoly2
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#'
 #' @examples
-#' rfun( ~ u & v)
+#' f <- rfun( ~ u & v)
+#' plotFun(f(u,v)~u&v,u=range(-5,5),v=range(-5,5))
+#' myfun <- rfun(~ u & v, seed=1959)
 rfun <- function(vars=~x&y, seed=NULL, n=0) {
   if( !is.null(seed) ) set.seed(seed)
   if( class(vars) != "formula" )
