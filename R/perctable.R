@@ -7,7 +7,7 @@
 #'   one or more objects which can be interpreted as factors (including character strings), 
 #'   or a list (or data frame) whose components can be so interpreted. 
 #' 
-#' @details #' See \code{\link{table}}.
+#' @details See \code{\link{table}}.
 #' @return a contingency table, an object of class "table", an array of percentage or proportion
 #' values. Note that unlike S the result is always an array, a 1D array if one factor is given.
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
@@ -27,6 +27,7 @@ perctable <- function(...)
 	t/sum(t) * 100
 }
 
+#' @rdname perctable
 proptable <- function(...) 
 {
 	t <- table(...)
