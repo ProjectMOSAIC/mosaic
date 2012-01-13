@@ -1,38 +1,82 @@
-# functions for doing linear algebra.
-
+#' Functions for teaching linear algebra.
+#'
+#' These functions provide a formula based interface to the construction
+#' of matrices from data and for fitting.  You can use them both for numerical vectors
+#' and for functions of variables in data frames.
+#' @rdname linearalgebra
+#'
+#' @name linearAlgebra
+#' @aliases project mat singvals
+#'
+#' @param A a formula.  In \code{mat()} and \code{singvals()},
+#' only the right-hand side is used.
+#' In \code{project()}, both sides are used, but the left-hand side should
+#' be a single quantity
+#' 
+#' @param data a data frame from which to pull out numerical values
+#' for the variables in the formula
+#'
+#' @details
+#' \code{mat()} enerates a model matrix from a formula while \code{project()}
+#'  carries out the operation of least-squares fitting using a 
+#' singular value method. This means that even when the matrix is singular, 
+#' a solution, either exact or least-squares, will be found.
+#' To demonstrate singularity, use \code{singvals()}.
+#' NOTE: unlike the standard formula expansion in \code{lm()}, 
+#' these linear algebra functions do NOT include an intercept by default.
+#' If you want
+#' an intercept, put \code{+1} as a term in your formula.  (See the examples.)
+#'
+#' @return \code{mat()} return a matrix, \code{project()} returns a vector of coefficients, \code{singvals()} gives singular values for each column in the model matrix.
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#'
+#' @usage project(A,data=NULL)           mat(A,data=NULL)
+#' @seealso \code{\link{linearModel}}, which returns a function.
+#' @examples
+#' a <- c(1,0,0)
+#' b <- c(1,2,3)
+#' mat(~a+b)
+#' mat(~a+b+1)
+#' kids = fetchData("KidsFeet.csv")
+#' mat(~length+sex,data=kids)
+#' project(a~b)
+#' project(width~length+sex,data=kids)
+#' project(log(width)~I(length^2)+sin(length)+sex,data=kids)
+#' singvals(~length*sex*width,data=kids)
 mat <- function(A, data=NULL) {
-  # Need to figure out how to suppress the automatic creation of an intercept
-  # looks like deparse(A)
   if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")
+  A <- update(A, ~-1+.) #kill off automatic Intercept term
   if( is.null(data) )
     M <- model.matrix( A )
   else
-    M <- model.matrix( A, data=data )
+    M <- model.matrix( A, data=data ) 
 
   attr(M,"assign") <- NULL
   rownames(M) <- NULL
 
   return(M)
 }
-
-
-
+#
+##################
+#' @rdname linearalgebra
+#' @export
+singvals <- function(A,data=NULL){
+        M = mat(A,data=data)
+        # formulated to give one singular value for each column in A
+	svs <- La.svd(M, nv=ncol(M), nu=ncol(M))$d;
+        c( svs, rep(0,ncol(M) - length(svs)));
+}
+##################
 setGeneric( 
 	"project", 
 	function(x, u, ... )  {
 		standardGeneric('project')
 	}
 )
-
-setMethod(
-	'project',
-	signature=c('numeric','ANY'),
-	function (x, u = rep(1, length(x)), type = c("vector", "length"), ...) {
-		type <- match.arg(type)
-		switch(type, vector = u * (dot(x, u)/dot(u, u)), length = dot(x, u)/sqrt(dot(u, u)), )
-	}
-)  
-
+##################
+#' @rdname linearalgebra
+#' @export
+# projection based on a formula object
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -42,11 +86,28 @@ setMethod(
 			  foo <- model.frame( x, data=data )
 			  u <- model.response(foo)
 			  M <- mat( x, data=data )
-			  project( M, u )
+			  n <- svd(M);
+			  zeros <- n$d < .0000001;
+			  recip <- n$d;
+			  recip[!zeros] <- 1/recip[!zeros];
+        if (length(recip)==1) recip = matrix(recip)
+        else recip = diag(recip)
+			  coefs <- n$v%*%recip%*%t(n$u)%*%u
+        rownames(coefs) <- colnames(M)
+        return(coefs)
 		  }
 		  )
-
-
+##################
+if (FALSE) { # Do we need this with the formula-based interface?
+setMethod(
+	'project',
+	signature=c('numeric','ANY'),
+	function (x, u = rep(1, length(x)), type = c("vector", "length"), ...) {
+		type <- match.arg(type)
+		switch(type, vector = u * (dot(x, u)/dot(u, u)), length = dot(x, u)/sqrt(dot(u, u)), )
+	}
+)
+#=======
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),
@@ -81,15 +142,9 @@ setMethod(
 
 
 dot <- function(u,v){
-#	if (length(u) != length(v)) {
-#		stop('Vectors not of equal length.');
-#        }
 	return( sum(u*v) )
 }
 
-singvals <- function(A){ 
-        # formulated to give one singular value for each column in A
-	foo <- La.svd(A, nv=ncol(A), nu=ncol(A))$d;
-        c( foo, rep(0,ncol(A) - length(foo)));
-}
+} # end of if(FALSE)
+
 

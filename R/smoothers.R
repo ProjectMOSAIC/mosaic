@@ -1,3 +1,65 @@
+#' Function from data.
+#'
+#' These functions create mathematical functions from data, by smoothing, splining, or linear
+#' combination (fitting).  Each of them takes a formula and a data frame as an argument
+#' @rdname FunctionsFromData
+#' @name FunctionsFromData
+#' @aliases smoother linearModel spliner connector
+#'
+#' @param formula a formula.  Only one quantity is allowed on the left-hand side, the
+#' output quantity
+#' @param data a data frame
+#' @param method a method for splining.  See \code{\link{spline}}.
+#' @param monotonic a \code{TRUE/FALSE} flag specifying whether the spline should
+#' respect monotonicity in the data
+#' @param span parameter to smoother.  How smooth it should be.
+#' @param degree parameter to smoother. 1 is locally linear, 2 is locally quadratic.
+#'
+#' @details
+#' These functions use data to create a mathematical, single-valued function of the inputs.
+#' All return a function whose arguments are the variables used on the right-hand side of the formula.
+#' If the formula involves a transformation, e.g. \code{sqrt(age)} or \code{log(income)},
+#' only the variable itself, e.g. \code{age} or \code{income}, is an argument to the function.
+#' \code{linearModel} takes a linear combination of the vectors specified on the right-hand side.
+#' It differs from \code{project} in that \code{linearModel} returns a function
+#' whereas \code{project} returns the coefficients.  NOTE: An intercept term is not included
+#' unless that is explicitly part of the formula with \code{+1}.  This conflicts with the
+#' standard usage of formulas as found in \code{lm}.  \code{spliner} and \code{connector}
+#' currently work for only one input variable.
+#'
+#' @seealso \code{\link{project}} method for formulas
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#'
+#' @examples
+#' cps = fetchData("CPS.csv")
+#' f = smoother(wage~age,span=.9, data=cps)
+#' f(40)
+#' df = D(f(age)~age)
+#' df(40)
+#' g = linearModel(log(wage)~age+educ+1,data=cps)
+#' g(age=40,educ=12)
+#' dgdeduc=D(g(age=age,educ=educ)~educ)
+#' dgdeduc(age=40,educ=12)
+#' x=1:5; y=c(1,2,4,8,8.2)
+#' f1 = spliner(y~x)
+#' f1(x=8:10)
+#' f2 = spliner(x~y, monotonic=TRUE)
+#' f2(x=8:10)
+#' f3 = connector(x~y)
+#' f2(x=8:10)
+
+# ==============
+spliner <- function(formula, data=NULL,method="fmm",monotonic=FALSE) {
+  .interpolatingFunction(formula, data, method=method, monotonic=monotonic)
+}
+# ==============
+#' @rdname FunctionsFromData
+#' @export
+connector <- function(formula, data=NULL, method="linear") {
+  .interpolatingFunction(formula, data, connect=TRUE)
+}
+#' @export
+#' @rdname FunctionsFromData
 smoother <- function(formula, data, span=0.5, degree=2, ... ) {
   input.names <- all.vars(formula)[-1]
   L <- loess(formula, data, span=span, degree=degree, ..., control=loess.control(surface="direct"))
@@ -12,9 +74,10 @@ smoother <- function(formula, data, span=0.5, degree=2, ... ) {
   return(F)
 }
 # =============================
+#' @rdname FunctionsFromData
 linearModel <- function(formula, data, ...) {
   input.names <- all.vars(formula)[-1]
-  L <- lm(formula, data, ...)
+  L <- lm(update(formula,~-1+.), data, ...)
   makeDF <- paste( "data.frame( ", paste(input.names,collapse=",",sep=""),")")
   F <- function() {
     if( showcoefs ) coef(L)
@@ -30,12 +93,14 @@ linearModel <- function(formula, data, ...) {
   return(F)
 }
 # =============================
-interpolatingFunction <- function(formula, data, method="fmm",monotonic=FALSE,connect=FALSE) {
+.interpolatingFunction <- function(formula, data, method="fmm",monotonic=FALSE,connect=FALSE) {
   fnames <- all.vars(formula)
   if( length(fnames) > 2 )
     stop("Sorry: Doesn't yet handle multiple input variables.")
-  y <- get(fnames[1],pos=data)
-  x <- get(fnames[2],pos=data)
+  
+  values <- model.frame(formula,data=data )
+  y <- model.response(values)
+  x <- mat(formula,data=data)
   if( connect ) SF <- approxfun(x,y,rule=2)
   else {
     if( ! monotonic )  SF <- splinefun(x,y,method=method)
@@ -50,12 +115,4 @@ interpolatingFunction <- function(formula, data, method="fmm",monotonic=FALSE,co
   else tmp <- paste("alist( ", fnames[2], "=, deriv=0)", sep="")
   formals(F) <- eval(parse(text=tmp))
   return(F)
-}
-# ==============
-spliner <- function(formula, data,method="fmm",monotonic=FALSE) {
-  interpolatingFunction(formula, data, method=method, monotonic=monotonic)
-}
-# ==============
-connector <- function(formula, data, method="linear") {
-  interpolatingFunction(formula, data, connect=TRUE)
 }
