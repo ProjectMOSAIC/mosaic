@@ -88,7 +88,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #'
 #' @rdname resample
 
-#' @param size
+#' @param size size of sample
 #' @param replace a logical indicating whether to sample with or without replacement
 #' @param x	Either a vector of one or more elements from which to choose, or a positive integer. See ‘Details.’
 #' @param n	a positive number, the number of items to choose from. See ‘Details.’
