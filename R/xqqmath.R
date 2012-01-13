@@ -1,10 +1,32 @@
+#' Augmented version of \code{qqmath}
+#'
+#' 
+#' @param x,data,panel,xqqmath,\dots  as in \code{\link[lattice]{qqmath}}
+#'
+#' @return a trellis object
+#'
+#' @export
+#' @examples
+#' xqqmath(rnorm(100))
+#' 
 xqqmath <-
 function (x, data = NULL, panel = "panel.xqqmath", ...) 
 {
     qqmath(x, data = data, panel = panel, ...)
 }
 
-
+#' @rdname xqqmath
+#' @param qqmathline a logical: should line be displayed passing through first and third quartiles?
+#' @param idline a logical; should the line y=x be added to the plot?
+#' @param fitline a logical; should a ftted line be added to plot?  Such a line will use \code{slope}
+#'        and \code{intercept} if provided, else the standard deviation and mean of the data.
+#' @param slope slope for added math line
+#' @param intercept intercept for added math line 
+#' @param overlines a logical: should lines be on top of qq plot?
+#' @param groups,pch,lwd,lty as in lattice plots
+#' @param col.line color to use for added lines
+#'
+#' @export
 panel.xqqmath <-
 function (x, qqmathline = !(fitline || idline), idline = FALSE, 
     fitline = FALSE, slope = NULL, intercept = NULL, overlines = FALSE, 
