@@ -85,10 +85,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #'
 #' @rdname resample
 
-#' @param size size of sample
-#' @param replace a logical indicating whether to sample with or without replacement
 #' @param x	Either a vector of one or more elements from which to choose, or a positive integer. See ‘Details.’
-#' @param n	a positive number, the number of items to choose from. See ‘Details.’
 #' @param size	a non-negative integer giving the number of items to choose.
 #' @param replace	Should sampling be with replacement?
 #' @param prob	A vector of probability weights for obtaining the elements of the vector being sampled.
@@ -186,6 +183,14 @@ sample.default <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.
 
 #' @method sample data.frame
 #' @rdname resample
+#' @param groups  groups to sample within (works much like \code{groups} in lattice plots)
+#' @param orig.ids  a logical; should origianal ids be included in returned data frame?
+#' @param \dots additional arguments passed to \code{\link[base]{sample}}
+#' @param fixed a vector of column names
+#' @param shuffled a vector of column names
+#' @param invisibly.return a logical, should return be invisible?
+#' @param drop.unused.levels a logical, should unused levels be dropped?
+
 
 sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, 
       orig.ids=TRUE, fixed=names(x), shuffled=c(),
