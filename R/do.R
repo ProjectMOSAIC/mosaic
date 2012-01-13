@@ -41,10 +41,13 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 	new( 'repeater', n=n, cull=cull, mode=mode )
 }
 
-# convert to data frame
-#' @param x object to be converted
-#' @rdname do
+#' @rdname mosaic-internal
 #' @keywords internal
+#' @details
+#' \code{.make.data.frame} converts things to a data frame
+#' @param x object to be converted
+#' @return a data frame
+
 .make.data.frame <- function( x ) {
 	if (is.data.frame(x)) return(x)
 	if (is.vector(x)) {
@@ -56,9 +59,13 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 	return(as.data.frame(x))
 	}
 
-# Remove unwanted characters from character vector
-#' @rdname do
+#' @rdname mosaic-internal
 #' @keywords internal
+#' @details
+#' \code{.clean_names} removes unwanted characters from character vector
+#' @param x a character vector
+#' @return a character vector
+ 
 .clean_names <- function(x) {
 	x <- gsub('\\(Intercept\\)','Intercept', x)
 	x <- gsub('resample\\(','', x)
@@ -75,7 +82,7 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 #' things multiple time using a different syntax and different output
 #' format from that used by, for example, \code{\link{replicate}}.
 #'
-#' The class is 
+#' Each object contains slots for 
 #' \itemize{
 #' \item{\code{n}} number of times to repeat something
 #' \item{\code{cull}} a function used to cull output
@@ -110,17 +117,15 @@ if(FALSE) {
 }
 
 
-# Combine two data frames 
-#'
-# A wrapper around merge
+#' @rdname mosaic-internal
+#' @keywords internal
+#' @details \code{.merge_data_frames} is a wrapper around merge
 #'
 #' @param a a data frame
 #' @param b a data frame
 #'
 #' @return a data frame 
-#' @rdname do
-#' 
-#' @keywords internal
+
 .merge_data_frames = function(a,b) {
   a <- .make.data.frame(a)
   b <- .make.data.frame(b)
@@ -134,12 +139,16 @@ if(FALSE) {
 }
 
 
-# Squash names of a data frame into a single string
+#' @rdname mosaic-internal
+#' @keywords internal
+#' @details 
+#' \code{.squash_names} squashes names of a data frame into a single string
 #'
 #' @param object an object
 #' @param sep a character
-#' @rdname do
-#' @keywords internal
+#'
+#' @return a character vector
+
 .squash_names <- function(object,sep=":") {
 	if ( ncol(object) < 1 ) {return(rep("",nrow(object)))}
 
@@ -153,12 +162,13 @@ if(FALSE) {
 		
 }
 
-# Handle objects like models to do the right thing for \code{do}
-# 
-# @return an object reflecting some of the information contained in \code{object}
-# @rdname do
+#' @rdname mosaic-internal
 #' @keywords internal
-#'
+#' @details
+#' \code{.cull_for_do} handles objects like models to do the right thing for \code{do}
+# 
+#' @return an object reflecting some of the information contained in \code{object}
+
 .cull_for_do = function(object) {
 
 	if (any(class(object)=='aggregated.stat')) {
