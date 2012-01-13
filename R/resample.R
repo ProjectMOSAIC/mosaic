@@ -84,24 +84,14 @@ nflip <- function(n=1, prob=.5, ...) {
 #' These functions simplify and unify sampling in various ways.
 #'
 #' @rdname resample
-
-#' @param x	Either a vector of one or more elements from which to choose, or a positive integer. See ‘Details.’
+#'
+#' @param x	Either a vector of one or more elements from which to choose, or a positive integer. 
 #' @param size	a non-negative integer giving the number of items to choose.
 #' @param replace	Should sampling be with replacement?
 #' @param prob	A vector of probability weights for obtaining the elements of the vector being sampled.
 #'
 #' @details These functions are wrappers around \code{\link{sample}} providing different defaults and 
 #' natural names.
-#'
-#' @export
-#' @examples
-#' deal(Cards,13)    # A Bridge hand
- 
-deal    <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) {
-	sample(x, size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids )
-}
-
-#' rdname resample
 #' @export
 #' @examples
 #' # 100 Bernoulli trials -- no need for replace=TRUE
@@ -109,6 +99,15 @@ deal    <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FAL
 
 resample <- function(x, size, replace=TRUE, prob=NULL, groups=NULL, orig.ids=FALSE, ...) {
 	sample(x, size=size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids, ...)
+}
+
+#' @rdname resample
+#' @export
+#' @examples
+#' deal(Cards,13)    # A Bridge hand
+ 
+deal    <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) {
+	sample(x, size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids )
 }
 
 #' @rdname resample
