@@ -78,9 +78,6 @@ nflip <- function(n=1, prob=.5, ...) {
 	as.numeric( rflip(n=n, prob=prob, ...) )
 }
 
-##############################################
-# aliases
-#
 
 #' More Random Samples
 #'
@@ -117,7 +114,7 @@ resample <- function(x, size, replace=TRUE, prob=NULL, groups=NULL, orig.ids=FAL
 	sample(x, size=size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids, ...)
 }
 
-#' rdname resample
+#' @rdname resample
 #' @export
 #' @examples
 #' shuffle(Cards)
