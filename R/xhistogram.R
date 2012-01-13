@@ -42,6 +42,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', ..
 #' @param dmath density function for density curve overlay
 #' @param verbose be verbose?
 #' @param dn number of points to sample from density curve
+#' @param dlwd,glwd like \code{lwd} but affecting the density line and guide lines, respectively
 #' @param args a list of additional arguments for \code{dmath}
 #' @param labels should counts/densities/precents be displayed or each bin?
 #' @param density overlay density?
