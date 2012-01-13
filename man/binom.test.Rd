@@ -6,7 +6,7 @@
 \alias{binom.test,formula-method}
 \alias{binom.test,logical-method}
 \alias{binom.test,numeric-method}
-\title{Exact and Approximate Tests for Proportions}
+\title{Exact Tests for Proportions}
 \arguments{
   \item{x}{count of successes, length 2 vector of success
   and failure counts, a formula, or a character, numeric,

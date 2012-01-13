@@ -1,5 +1,6 @@
 \name{xpnorm}
 \alias{xpnorm}
+\alias{xqnorm}
 \title{Augmented versions of pnorm and qnorm}
 \usage{
   xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
@@ -8,6 +9,11 @@
     ylim = c(0, 1.4 * dnorm(mean, mean, sd)), vlwd = 2,
     vcol = trellis.par.get("add.line")$col, rot = 45,
     manipulate = FALSE, ...)
+
+  xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
+    digits = 4, lower.tail = TRUE, log.p = FALSE, xlim,
+    ylim, invisible = FALSE, vlwd = 2,
+    vcol = trellis.par.get("add.line")$col, rot = 45, ...)
 }
 \arguments{
   \item{p}{probability}
@@ -46,9 +52,9 @@
   \item{\dots}{additional arguments.}
 }
 \description{
-  These functions all behave similarly to the functions
-  with the initial \code{x} removed from their names but
-  add more verbose output and graphics.
+  These functions behave similarly to the functions with
+  the initial \code{x} removed from their names but add
+  more verbose output and graphics.
 }
 \examples{
 xpnorm(650, 500, 100)

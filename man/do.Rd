@@ -1,8 +1,4 @@
 \name{do}
-\alias{.clean_names}
-\alias{.make.data.frame}
-\alias{.merge_data_frames}
-\alias{.squash_names}
 \alias{*}
 \alias{*,repeater,ANY-method}
 \alias{do}
@@ -11,14 +7,6 @@
 \title{Do Things Repeatedly}
 \usage{
   do(n = 1L, cull = NULL, mode = NULL)
-
-  .make.data.frame(x)
-
-  .clean_names(x)
-
-  .merge_data_frames(a, b)
-
-  .squash_names(object, sep = ":")
 }
 \arguments{
   \item{n}{number of times to repeat}
@@ -30,23 +18,11 @@
   \code{table}, \code{cointoss}, and \code{matrix}.}
 
   \item{mode}{target mode for value returned}
-
-  \item{x}{object to be converted}
-
-  \item{a}{a data frame}
-
-  \item{b}{a data frame}
-
-  \item{object}{an object}
-
-  \item{sep}{a character}
 }
 \value{
   \code{do} returns an object of class \code{repeater}
   which is only useful in the context of the operator
   \code{*}.  See the examples.
-
-  a data frame
 }
 \description{
   \code{do()} provides a natural syntax for repetition
@@ -68,6 +44,5 @@ do(3) * c(mean = mean(rnorm(25)))
 \seealso{
   \code{\link{replicate}}
 }
-\keyword{internal}
 \keyword{iteration}
 

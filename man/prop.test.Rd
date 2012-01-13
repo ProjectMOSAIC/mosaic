@@ -15,12 +15,26 @@
   \item{n}{sample size (successes + failures) or a data
   frame (for the formula interface)}
 
-  \item{p}{probability for null hypothesis}
+  \item{p}{a vector of probabilities of success. The length
+  of p must be the same as the number of groups specified
+  by x, and its elements must be greater than 0 and less
+  than 1.}
 
-  \item{alternative}{type of alternative hypothesis}
+  \item{alternative}{character string specifying the
+  alternative hypothesis, must be one of \code{"two.sided"}
+  (default), \code{"greater"} or \code{"less"}. You can
+  specify just the initial letter. Only used for testing
+  the null that a single proportion equals a given value,
+  or that two proportions are equal; ignored otherwise.}
 
-  \item{conf.level}{confidence level for confidence
-  interval}
+  \item{conf.level}{confidence level of the returned
+  confidence interval. Must be a single number between 0
+  and 1. Only used when testing the null that a single
+  proportion equals a given value, or that two proportions
+  are equal; ignored otherwise.}
+
+  \item{correct}{a logical indicating whether Yates'
+  continuity correction should be applied where possible.}
 
   \item{success}{level of variable to be considered
   success.  All other levels are considered failure.}
@@ -32,22 +46,6 @@
   data frame)}
 
   \item{\dots}{additional arguments (often ignored)}
-
-  \item{x}{formula or number of successes}
-
-  \item{n}{number of trials}
-
-  \item{p}{null hypothesis value of parameter}
-
-  \item{alternative}{type of alternative hypothesis}
-
-  \item{conf.level}{confidence level}
-
-  \item{\dots}{additional arguments passed to
-  \code{\link[stats]{prop.test}}}
-}
-\value{
-  an object of class \code{htest}
 }
 \description{
   The mosaic \code{prop.test} provides wrapper functions

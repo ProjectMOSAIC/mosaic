@@ -1,7 +1,7 @@
 \docType{data}
-\name{cards}
+\name{Cards}
 \alias{card}
-\alias{cards}
+\alias{Cards}
 \title{Standard Deck of Cards}
 \description{
   A character vector with two or three character
@@ -12,9 +12,9 @@
   diamonds is "10D".
 }
 \examples{
-deal(cards, 13)        # bridge hand
-deal(cards, 5)         # poker hand
-shuffle(cards)         # shuffled deck
+deal(Cards, 13)        # bridge hand
+deal(Cards, 5)         # poker hand
+shuffle(Cards)         # shuffled deck
 }
 \keyword{datasets}
 

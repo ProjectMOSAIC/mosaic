@@ -1,0 +1,42 @@
+\name{rgeo-internals}
+\alias{.googleMapURL2}
+\alias{rgeo-internals}
+\title{rgeo internal functions}
+\usage{
+  .googleMapURL(latitude, longitude, position = NULL,
+    zoom = 11,
+    maptype = c("roadmap", "satellite", "terrain", "hybrid"),
+    mark = FALSE, radius = 0)
+
+  .googleMapURL2(latitude, longitude, position = NULL,
+    zoom = 12, width = 600, height = 400,
+    maptype = c("roadmap", "satellite", "terrain", "hybrid"),
+    mark = FALSE)
+}
+\arguments{
+  \item{width,height}{width and height of window containing
+  google map}
+
+  \item{position}{a data frame containing latitude and
+  longitude positions}
+
+  \item{zoom}{zoom level for initial map (1-20)}
+
+  \item{maptype}{one of \code{'roadmap'},
+  \code{'satellite'}, \code{'terrain'}, and
+  \code{'hybrid'}}
+
+  \item{mark}{a logical indicating whether the location
+  should be marked with a pin}
+
+  \item{radius}{a vector of radii of circles centered at
+  position that are displayed on the map}
+}
+\value{
+  a URL as a string
+}
+\description{
+  These are not really intended for public consumption.
+}
+\keyword{internal}
+
