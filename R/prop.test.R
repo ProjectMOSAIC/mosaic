@@ -11,15 +11,30 @@
 #' 
 #' @param n  sample size (successes + failures) or a data frame 
 #'   (for the formula interface) 
-#' @param p  probability for null hypothesis 
-#' @param alternative  type of alternative hypothesis 
-#' @param conf.level  confidence level for confidence interval 
+#' 
+#' @param p  a vector of probabilities of success. 
+#' The length of p must be the same as the number of groups specified by x, 
+#' and its elements must be greater than 0 and less than 1.
+#' 
+#' @param alternative   character string specifying the alternative hypothesis, must be one of 
+#' \code{"two.sided"} (default), \code{"greater"} or \code{"less"}. You can specify just the initial letter. 
+#' Only used for testing the null that a single proportion equals a given value, or that two proportions 
+#' are equal; ignored otherwise.
+#' 
+#' @param conf.level confidence level of the returned confidence interval. Must be a single number 
+#' between 0 and 1. Only used when testing the null that a single proportion equals a given value, 
+#' or that two proportions are equal; ignored otherwise.
+#'
+#' @param correct	a logical indicating whether Yates' continuity correction should be applied where possible.
+#' 
 #' @param success  level of variable to be considered success.  All other levels are 
 #'   	considered failure.
+#'
 #' @param data.name name for data.  If missing, this is inferred from variable names.
-#' @param data a data frame (if missing, \code{n} may be a data frame)
-#' @param \dots  additional arguments (often ignored) 
 #' 
+#' @param data a data frame (if missing, \code{n} may be a data frame)
+#' 
+#' @param \dots  additional arguments (often ignored) 
 #' 
 #' @details
 #' This is a wrapper around \code{\link{prop.test}} to simplify its use
@@ -44,13 +59,6 @@
 
 #'
 #' @rdname prop.test
-#' @param x formula or number of successes
-#' @param n number of trials
-#' @param p null hypothesis value of parameter
-#' @param alternative type of alternative hypothesis
-#' @param conf.level confidence level
-#' @param \dots additional arguments passed to \code{\link[stats]{prop.test}}
-#' @return an object of class \code{htest}
 #' @export
 #'
 setGeneric(
@@ -87,7 +95,7 @@ setMethod(
 		  function(
 				   x, n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success, data.name, data, ...) 
+				   conf.level = 0.95, success=NULL, data.name, data, ...) 
 		  {
 			  formula <- x
 			  missing.n <- missing(n)
@@ -134,7 +142,7 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success, data.name, ...) 
+				   conf.level = 0.95, success=NULL, data.name, ...) 
 		  {
 			  if ( length(x) == 1 ) {
 				  result <-  stats::prop.test(x=x, n=n, p=p, alternative=alternative,
@@ -168,7 +176,7 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success, data.name, ...) 
+				   conf.level = 0.95, success=NULL, data.name, ...) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
@@ -188,7 +196,7 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success, data.name, ...) 
+				   conf.level = 0.95, success=NULL, data.name, ...) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
@@ -208,12 +216,12 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success, data.name, ...) 
+				   conf.level = 0.95, success=NULL, data.name, ...) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-			  if (missing(success)) {
+			  if (is.null(success)) {
 				  success <- levels(x)[1]
 			  }
 			  x <- x [!is.na(x)]
