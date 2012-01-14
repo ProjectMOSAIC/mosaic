@@ -6,6 +6,9 @@
 #' probability of success in a Bernoulli or multinomial experiment
 #' from summarized data or from raw data.
 #' 
+#' @usage prop.test( x, n, p = NULL, alternative = c("two.sided", "less", "greater"), 
+#' 					conf.level = 0.95, ...) 
+#' 
 #' @param x  count of successes, length 2 vector of success and failure counts, a formula,
 #'   			or a character, numeric, or factor vector containing raw data.
 #' 
@@ -35,6 +38,8 @@
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' 
 #' @param \dots  additional arguments (often ignored) 
+#'
+#' @return an \code{htest} object
 #' 
 #' @details
 #' This is a wrapper around \code{\link{prop.test}} to simplify its use
