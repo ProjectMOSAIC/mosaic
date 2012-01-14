@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+#
+# this is do2all
+#
+#
+
+require "getopts.pl";
+
+Getopts("hsr");
+#
+# s          simulate (don't actually do commands, only print)
+# r          use "root" of file name rather than file name
+#
+# commands may include the following which will be expanded as appropriate:
+#
+# %p 	path 	  (everything)
+# %d 	directory (everything preceding last slash)
+# %f 	filename (everything following last slash)
+# %r 	root filename 	(all of filename up to last dot)
+
+
+if ( defined($opt_h))  {
+
+print <<USAGE;
+
+do2all [options] <command> <filelist>
+
+	options:
+	   -s          simulate (don't actually do commands, only print)
+	   -r          use "root" of file name rather than file name
+
+	commands may include the following which will be expanded as appropriate:
+
+	   %p 	path 	  (everything)
+	   %d 	directory (everything preceding last slash)
+	   %f 	filename (everything following last slash)
+	   %r 	root filename 	(all of filename up to last dot)
+
+USAGE
+exit(0);
+}
+
+$command = shift(@ARGV);
+if (defined($opt_s)) {
+	print ("Simulating: The following commands would be executed.\n\n");
+}
+
+foreach $path (@ARGV) {
+	$plain=1;
+	if ($path =~ m|(.*)/(.*)|) {
+		$dirName = $1;
+		$fileName = $2;
+	} else {
+		$dirName = '.';
+		$fileName = $path;
+	}
+	$fileName =~ m|(.*)\.|;
+	$rootFileName = $1;
+	if ($opt_r) {
+		$fileName = $rootFileName;
+	}
+	$modCommand = $command;
+
+	if ($command =~ m/%p/) {
+		$modCommand =~ s/%p/$path/g;
+		$plain=0;
+	}
+	if ($command =~ m/%r/) {
+		$modCommand =~ s/%r/$rootFileName/g;
+		$plain=0;
+	}
+	if ($command =~ m/%f/) {
+		$modCommand =~ s/%f/$fileName/g;
+		$plain=0;
+	}
+	if ($command =~ m/%d/) {
+		$modCommand =~ s/%d/$dirName/g;
+		$plain=0;
+	}
+	if ($plain) {
+		print("$command $fileName\n");
+		if (! defined($opt_s)) {
+			system("$command $fileName");
+		}
+	} else {
+		print("$modCommand \n");
+		if (! defined($opt_s)) {
+			system("$modCommand");
+		}
+	}
+}
+
