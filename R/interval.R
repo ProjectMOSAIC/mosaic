@@ -4,7 +4,7 @@
 #' \code{htest} object.
 #' @param x An object of class \code{htest}.
 #' @param \dots Additional arguments.
-#' @value the extracted p-value, confidence interval, or test statistic
+#' @return the extracted p-value, confidence interval, or test statistic
 #' 
 #' 
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
