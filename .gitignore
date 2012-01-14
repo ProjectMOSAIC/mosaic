@@ -15,4 +15,8 @@ TeachingStatsWithR/figures
 TeachingStatsWithR/Chap-*.R
 builds
 *.Rcheck
+<<<<<<< HEAD
+=======
+man/*.Rd
+>>>>>>> 6ad6b2d59186d1d03ec2bd663a07810a0e803d7c
 NAMESPACE
