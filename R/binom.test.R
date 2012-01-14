@@ -5,6 +5,8 @@
 #' performs an exact test of a simple null hypothesis about the probability of success in a 
 #' Bernoulli experiment from summarized data or from raw data.
 #' 
+#' @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
+#'
 #' @param x  count of successes, length 2 vector of success and failure counts, a formula,
 #'   			or a character, numeric, or factor vector containing raw data.
 #' 
@@ -19,16 +21,17 @@
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' @param \dots  additional arguments (often ignored) 
 #' 
+#' @return an object of class \code{htest}
 #' 
 #' @details
-#' This is a wrapper around \code{\link{binom.test}} to simplify its use
-#' when the raw data are available, in which case 
+#' This is a wrapper around \code{\link{binom.test}} from the \code{base} package
+#' to simplify its use when the raw data are available, in which case 
 #' an extended syntax for \code{binom.test} is provided.
 #' 
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
+#'
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
 #' 
-#' @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
 #' 
 #' @export
 #' @examples
@@ -44,13 +47,6 @@
 #' @keywords stats
 
 #' @rdname binom.test
-#' @param x formula or number of successes
-#' @param n number of trials
-#' @param p null hypothesis value of parameter
-#' @param alternative type of alternative hypothesis
-#' @param conf.level confidence level
-#' @param \dots additional arguments passed to \code{\link[stats]{binom.test}}
-#' @return an object of class \code{htest}
 #' @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
 #' @export
 #'
