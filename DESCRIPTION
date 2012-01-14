@@ -55,7 +55,6 @@ Collate:
     'resample.R'
     'rfun.R'
     'rgeo.R'
-    'rpoly2.R'
     'settings.R'
     'smoothers.R'
     'statTally.R'
