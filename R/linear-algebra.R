@@ -8,9 +8,9 @@
 #' @name linear-algebra
 #' @aliases project mat singvals
 #'
-#' @param A a formula.  In \code{mat()} and \code{singvals()},
+#' @param A a formula.  In \code{mat} and \code{singvals},
 #' only the right-hand side is used.
-#' In \code{project()}, both sides are used, but the left-hand side should
+#' In \code{project}, both sides are used, but the left-hand side should
 #' be a single quantity
 #'
 #' @param x a numeric vector, formula, or matrix
@@ -23,12 +23,12 @@
 #' @param \dots additional arguments (currently ignored)
 #'
 #' @details
-#' \code{mat()} enerates a model matrix from a formula while \code{project()}
+#' \code{mat} returns a model matrix from a formula while \code{project}
 #'  carries out the operation of least-squares fitting using a 
 #' singular value method. This means that even when the matrix is singular, 
 #' a solution, either exact or least-squares, will be found.
-#' To demonstrate singularity, use \code{singvals()}.
-#' NOTE: unlike the standard formula expansion in \code{lm()}, 
+#' To demonstrate singularity, use \code{singvals}.
+#' NOTE: unlike the standard formula expansion in \code{lm}, 
 #' these linear algebra functions do NOT include an intercept by default.
 #' If you want
 #' an intercept, put \code{+1} as a term in your formula.  (See the examples.)
@@ -82,6 +82,11 @@ singvals <- function(A,data=NULL){
 }
 ##################
 
+#' @rdname linear-algebra
+#' @docType methods
+#' @export
+#' @usage project(x, u, ...) 
+
 setGeneric( 
 	"project", 
 	function(x, u, ... )  {
@@ -90,7 +95,7 @@ setGeneric(
 )
 ##################
 #' @rdname linear-algebra
-#' @aliases project,formula,ANY-method
+#' @aliases project,formula-method
 #' @export
 #' @return \code{project} returns the projection of \code{x} onto \code{u} 
 #' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
@@ -121,7 +126,7 @@ setMethod(
 # This is used in fastR and should not go away.
 
 #' @rdname linear-algebra
-#' @aliases project,formula,ANY-method
+#' @aliases project,numeric-method
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -132,7 +137,7 @@ setMethod(
 )
 
 #' @rdname linear-algebra
-#' @aliases project,formula,ANY-method
+#' @aliases project,matrix-method
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),
