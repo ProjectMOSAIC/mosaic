@@ -62,7 +62,9 @@ setGeneric(
 
 #' @rdname aggregating-methods
 #' @aliases mean,ANY-method
-# @param na.rm logical indicating whether NAs should be removed before calculating 
+#' @param x a vector
+#' @param na.rm logical indicating whether NAs should be removed before calculating 
+#' @param \dots additional arguments
 # @param trim a numeric indicating the proportion to be trimmed from each tail before calculating mean
 #' @export
 

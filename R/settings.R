@@ -37,6 +37,12 @@ mosaic.getOption <- function (name)
     get("lattice.options", envir = .LatticeEnv)[[name]]
 }
 #' @rdname mosaic.options
+#' @param theme a list appropriate for a mosaic theme
+#' @param warn a logical.  UNUSED at present.
+#' @param strict a logical or numeric.
+#' @param \dots additional arguments that are turned into a list if a list cannot be inferred from 
+#' \code{theme}, \code{name}, and \code{value}.
+
 mosaic.par.set <- function (name, value, ..., theme, warn = TRUE, strict = FALSE) 
 {
     mosaic.theme <- get("mosaic.theme", envir = .mosaicEnv)

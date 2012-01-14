@@ -39,7 +39,10 @@ makeFun = function( sexpr=NULL, ... ) {
 #' @param x the function to be printed
 #' @param default use the standard function printing methods
 #' @param useSource passed along to the standard function printing methods
+#' @param \dots additional arguments 
+#'
 #' @return nothing
+#'
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @details
