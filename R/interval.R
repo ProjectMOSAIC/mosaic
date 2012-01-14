@@ -4,6 +4,7 @@
 #' \code{htest} object.
 #' @param x An object of class \code{htest}.
 #' @param \dots Additional arguments.
+#' @value the extracted p-value, confidence interval, or test statistic
 #' 
 #' 
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
@@ -25,6 +26,9 @@
 
 interval <- function(x, ...){UseMethod("interval", x)}
 
+#' @rdname interval
+#' @method interval htest
+#' @param verbose a logical
 interval.htest <- function (x, verbose=FALSE, ...){
   int <- x$conf.int
   lev <- attr(int, "conf.level")
@@ -50,6 +54,10 @@ interval.htest <- function (x, verbose=FALSE, ...){
 
 #' @rdname interval
 pval <- function(x, ...){UseMethod("pval", x)}
+
+#' @rdname interval
+#' @method pval htest
+#' @param digits number of digits to display in verbose output
 
 pval.htest <- function (x, digits=4, verbose=FALSE, ...){
   pval <- x$p.value
@@ -104,6 +112,9 @@ pval.htest <- function (x, digits=4, verbose=FALSE, ...){
 
 #' @rdname interval
 stat <- function(x,...) { UseMethod("stat", x)}
+
+#' @rdname interval
+#' @method stat htest
 
 stat.htest <- function(x,...) {
 	x $ statistic
