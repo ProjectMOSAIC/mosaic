@@ -17,3 +17,4 @@ builds
 *.Rcheck
 man/*.Rd
 NAMESPACE
+.Rd2dvi*
