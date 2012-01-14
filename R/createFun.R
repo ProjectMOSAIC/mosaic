@@ -15,8 +15,11 @@
 #' and \code{D}.  It returns a structure that contains a function as well as information
 #' about the function needed for plotting, etc.
 #'
-#' @examples
-#' .createMathFun( a*sin(x)*y ~ x&y, a=2)
+# can't do this (and shouldn't anyway) with internal functions.
+#
+# @examples
+# .createMathFun( a*sin(x)*y ~ x&y, a=2)
+
 .createMathFun = function(sexpr=NULL, ...) { 
   # sexpr = substitute(expr)
   # reconstruct the function finput from expr
