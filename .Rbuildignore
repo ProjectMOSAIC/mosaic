@@ -2,6 +2,7 @@
 ^bin$
 ^builds$
 ^\.Rproj\.user$
+^\.Rd2dvi.*$
 ^.*\.swp$
 ^.*\.swo$
 ^\.git
