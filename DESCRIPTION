@@ -70,3 +70,4 @@ Collate:
     'mosaic-package.R'
     'datasets.R'
     'themes.R'
+    'createFun.R'
