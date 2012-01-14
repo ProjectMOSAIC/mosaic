@@ -31,22 +31,22 @@
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @examples
-#' cps = fetchData("CPS.csv")
-#' f = smoother(wage~age,span=.9, data=cps)
+#' cps <- fetchData("CPS.csv")
+#' f <- smoother(wage~age,span=.9, data=cps)
 #' f(40)
-#' df = D(f(age)~age)
+#' df <- D(f(age)~age)
 #' df(40)
-#' g = linearModel(log(wage)~age+educ+1,data=cps)
+#' g <- linearModel(log(wage)~age+educ+1,data=cps)
 #' g(age=40,educ=12)
-#' dgdeduc=D(g(age=age,educ=educ)~educ)
+#' dgdeduc <- D(g(age=age,educ=educ)~educ)
 #' dgdeduc(age=40,educ=12)
-#' x=1:5; y=c(1,2,4,8,8.2)
-#' f1 = spliner(y~x)
+#' x<-1:5; y=c(1,2,4,8,8.2)
+#' f1 <- spliner(y~x)
 #' f1(x=8:10)
-#' f2 = spliner(x~y, monotonic=TRUE)
-#' f2(x=8:10)
-#' f3 = connector(x~y)
-#' f2(x=8:10)
+#' # f2 <- spliner(x~y, monotonic=TRUE)
+#' # f2(x=8:10)
+#' f3 <- connector(x~y)
+#' # f2(x=8:10)
 
 # ==============
 spliner <- function(formula, data=NULL,method="fmm",monotonic=FALSE) {
@@ -60,6 +60,8 @@ connector <- function(formula, data=NULL, method="linear") {
 }
 #' @export
 #' @rdname FunctionsFromData
+#' @param \dots additional arguments to \code{\link[stats]{loess}} or \code{\link[stats]{lm}}
+
 smoother <- function(formula, data, span=0.5, degree=2, ... ) {
   input.names <- all.vars(formula)[-1]
   L <- loess(formula, data, span=span, degree=degree, ..., control=loess.control(surface="direct"))
