@@ -3,18 +3,24 @@
 #' These functions provide a formula based interface to the construction
 #' of matrices from data and for fitting.  You can use them both for numerical vectors
 #' and for functions of variables in data frames.
-#' @rdname linearalgebra
+#' @rdname linear-algebra
 #'
-#' @name linearAlgebra
+#' @name linear-algebra
 #' @aliases project mat singvals
 #'
 #' @param A a formula.  In \code{mat()} and \code{singvals()},
 #' only the right-hand side is used.
 #' In \code{project()}, both sides are used, but the left-hand side should
 #' be a single quantity
+#'
+#' @param x a numeric vector, formula, or matrix
+#' 
+#' @param u a numeric vector
 #' 
 #' @param data a data frame from which to pull out numerical values
 #' for the variables in the formula
+#'
+#' @param \dots additional arguments (currently ignored)
 #'
 #' @details
 #' \code{mat()} enerates a model matrix from a formula while \code{project()}
@@ -27,14 +33,19 @@
 #' If you want
 #' an intercept, put \code{+1} as a term in your formula.  (See the examples.)
 #'
-#' @return \code{mat()} return a matrix, \code{project()} returns a vector of coefficients, \code{singvals()} gives singular values for each column in the model matrix.
+#' @return \code{mat} returns a matrix 
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
-#' @usage project(A,data=NULL)           mat(A,data=NULL)
+#' @usage project(x, u, ...)           
+#' @usage mat(A,data=NULL)
 #' @seealso \code{\link{linearModel}}, which returns a function.
 #' @examples
-#' a <- c(1,0,0)
-#' b <- c(1,2,3)
+#' a <- c(1,0,0); b <- c(1,2,3); c <- c(4,5,6); x <- rnorm(3)
+#' dot(b,c)   # dot product
+#' # projection onto the 1 vector gives the mean vector
+#' mean(x)            
+#' project(x, 1)
+#' project(x, 1, type='length')
 #' mat(~a+b)
 #' mat(~a+b+1)
 #' kids = fetchData("KidsFeet.csv")
@@ -43,9 +54,10 @@
 #' project(width~length+sex,data=kids)
 #' project(log(width)~I(length^2)+sin(length)+sex,data=kids)
 #' singvals(~length*sex*width,data=kids)
+
 mat <- function(A, data=NULL) {
   if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")
-  A <- update(A, ~-1+.) #kill off automatic Intercept term
+  A <- update(A, ~-1+.) # kill off automatic Intercept term
   if( is.null(data) )
     M <- model.matrix( A )
   else
@@ -56,9 +68,11 @@ mat <- function(A, data=NULL) {
 
   return(M)
 }
+
 #
 ##################
-#' @rdname linearalgebra
+#' @rdname linear-algebra
+#' @return \code{singvals} gives singular values for each column in the model matrix
 #' @export
 singvals <- function(A,data=NULL){
         M = mat(A,data=data)
@@ -67,6 +81,7 @@ singvals <- function(A,data=NULL){
         c( svs, rep(0,ncol(M) - length(svs)));
 }
 ##################
+
 setGeneric( 
 	"project", 
 	function(x, u, ... )  {
@@ -74,9 +89,13 @@ setGeneric(
 	}
 )
 ##################
-#' @rdname linearalgebra
+#' @rdname linear-algebra
+#' @aliases project,formula,ANY-method
 #' @export
-# projection based on a formula object
+#' @return \code{project} returns the projection of \code{x} onto \code{u} 
+#' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
+#'
+
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -98,7 +117,11 @@ setMethod(
 		  }
 		  )
 ##################
-if (FALSE) { # Do we need this with the formula-based interface?
+
+# This is used in fastR and should not go away.
+
+#' @rdname linear-algebra
+#' @aliases project,formula,ANY-method
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -107,7 +130,9 @@ setMethod(
 		switch(type, vector = u * (dot(x, u)/dot(u, u)), length = dot(x, u)/sqrt(dot(u, u)), )
 	}
 )
-#=======
+
+#' @rdname linear-algebra
+#' @aliases project,formula,ANY-method
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),
@@ -140,11 +165,13 @@ setMethod(
 		  }
 		  )
 
+#' @rdname linear-algebra
+#' @param v a numeric vector
+#' @return \code{dot} returns the dot product of \code{u} and \code{v}
 
-dot <- function(u,v){
+dot <- function(u, v){
 	return( sum(u*v) )
 }
 
-} # end of if(FALSE)
 
 
