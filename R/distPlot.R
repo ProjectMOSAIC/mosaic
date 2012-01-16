@@ -16,7 +16,8 @@
 #' @param kind one of "density", "cdf", "qq", or "histogram" (or prefix 
 #' 	  of any of these)
 #' @param xlab,ylab as per other lattice functions
-#' @param breaks  as per \code{\link{histogram}} 
+#' @param breaks  a vector of break points for bins of histograms,
+#'    as in \code{\link{xhistogram}} 
 #' @param type  passed along to various lattice graphing functions 
 #' @param resolution  number of points to sample when generating the plots
 #' @param \dots  other arguments passed along to lattice graphing routines
@@ -26,6 +27,11 @@
 #' 	is continuous or discrete by seeing if all the sampled quantiles are 
 #' 	unique.  A discrete random variable with many possible values could 
 #' 	fool this algorithm and be considered continuous.
+#' 
+#' The plots are done referencing a data frame with variables
+#' \code{x} and \code{y} giving points on the graph of the 
+#' pdf or pmf for the distribution.  This can be useful in conjuction
+#' with the \code{groups} argument.  See the examples.
 #' 
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @export
@@ -40,6 +46,8 @@
 #' distPlot('binom', params=list( 25, .25), kind='cdf')
 #' distPlot('beta', params=list( 3, 10), kind='density')
 #' distPlot('beta', params=list( 3, 10), kind='cdf')
+#' distPlot( "binom", params=list(35,.25), groups= y < dbinom(qbinom(0.05, 35, .25), 35,.25) )
+#' distPlot( "binom", params=list(35,.25), groups= y < dbinom(qbinom(0.05, 35, .25), 35,.25), kind='hist')
 #' 
 #' @keywords graphics 
 #' @keywords stats 
@@ -48,7 +56,8 @@
 # utility for various graphical representations of distributions.
 
 distPlot <- function( dist, params=list(), kind=c('density','cdf','qq','histogram'), 
-					 xlab="", ylab="", breaks, type, resolution=5000,... ) {
+					 xlab="", ylab="", breaks=NULL, type, 
+					 resolution=5000,... ) {
 	kind = match.arg(kind)
 	ddist = paste('d', dist, sep='')
 	qdist = paste('q', dist, sep='')
@@ -57,7 +66,7 @@ distPlot <- function( dist, params=list(), kind=c('density','cdf','qq','histogra
 	values = do.call(qdist, c(p=list(ppoints(resolution)), params)) 
 	fewerValues = unique(values)
 	discrete = length(fewerValues) < length(values) 
-	if ( missing(breaks) && discrete ){
+	if ( is.null(breaks) && discrete ){
 		step = min(diff(fewerValues))
 		breaks = seq( min(fewerValues) -.5 * step , max(fewerValues) + .5*step, step)
 	}
@@ -89,11 +98,28 @@ distPlot <- function( dist, params=list(), kind=c('density','cdf','qq','histogra
 	}
 
 	switch(kind, 
-		   density = lattice::xyplot( do.call( ddist, c(list(x=fewerValues), params) ) ~ fewerValues, 
-							type=type, xlab=xlab, ylab=ylab, ...),
-		   cdf = lattice::xyplot( cdfy ~ cdfx, type=type, xlab=xlab, ylab=ylab, ...),
-		   qq = lattice::qqmath( ~ values, type=type, xlab=xlab, ylab=ylab, ...),
-		   histogram = lattice::histogram( ~ values, type=type, xlab=xlab, breaks=breaks, ...)
+		density = 
+			lattice::xyplot( y ~ x, 
+				data=data.frame( 
+					y = do.call( ddist, c(list(x=fewerValues), params) ), 
+					x = fewerValues), 
+				type=type, xlab=xlab, ylab=ylab, ...),
+	  	cdf = 
+		   lattice::xyplot( y ~ x, 
+				data=data.frame( y = cdfy, x = cdfx ), 
+				type=type, xlab=xlab, ylab=ylab, ...),
+		qq = 
+			lattice::qqmath( ~ x, 
+				data = data.frame( 
+					x = values, 
+					y = do.call( ddist, c(list(x=values), params) ) ), 
+				type=type, xlab=xlab, ylab=ylab, ...),
+		histogram = 
+			xhistogram( ~ x,
+				data = data.frame( 
+					x = values, 
+					y = do.call( ddist, c(list(x=values), params) ) ), 
+				type=type, xlab=xlab, breaks=breaks, ...)
 		   )
 }
 
