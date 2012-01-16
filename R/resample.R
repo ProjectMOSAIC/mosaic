@@ -128,6 +128,8 @@ shuffle <- function(x, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE)
 ##############################################
 # override base::sample with something fancier
 #
+
+#' @rdname resample
 sample <- function (x, size, replace=FALSE, ...) {
 	UseMethod('sample') 
 }
@@ -169,6 +171,7 @@ sample <- function (x, size, replace=FALSE, ...) {
 
 #' @method sample default
 #' @rdname resample
+
 sample.default <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE, ...) { 
 	if (! is.null(groups) ) {
 		if (! missing(size) ) warning("'size' is ignored when groups is non-null")
