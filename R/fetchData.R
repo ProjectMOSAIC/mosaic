@@ -57,12 +57,13 @@
   
   fun <- function(library=FALSE,searchpath=FALSE,val=NULL,name=NULL,action) {
     if( library ) {
-      if( action=="add"){ local.library[[name]] <- val; return(c())}
+      if( action=="add"){ local.library[[name]] <<- val; return(c())}
       if( action=="get"){ return( local.library[[name]] ) }
       if( action=="names"){ return( names(local.library) ) }
     }
     if( searchpath ){
-      if( action=="add") {search.path <- c(val, search.path); return(search.path)}
+      browser()
+      if( action=="add") {search.path <<- c(name, search.path); return(search.path)}
       if( action=="delete") {
         if( is.null(val) ) search.path <- c()
         else search.path <- search.path[ val != search.path ]

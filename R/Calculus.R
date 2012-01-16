@@ -301,8 +301,18 @@ antiD <- function(expr, from=0, to=NULL, ...){
 # ===============================
 .antiD.x <- function() { # really a function of the upper limit: "to"
 	..finput <- function(.x) { # Create the function in this environment
-		assign(..args$names[1], .x)    
-		return( eval(..args$sexpr) )
+    if( length(.x)==1) {
+		  assign(..args$names[1], .x)    
+		  return( eval(..args$sexpr) )
+    }
+    else {
+      res = rep(NA, length(.x))
+      for (.k in 1:length(.x)){
+        assign(..args$names[1], .x[.k])
+        res[.k] = eval(..args$sexpr)
+      }
+      return(res)
+    }
 	}  
 	# handle the case where to is fixed and from is assigned to multiple values
 	..multiplier <- 1
@@ -317,7 +327,7 @@ antiD <- function(expr, from=0, to=NULL, ...){
 		if( length(from)!=length(to) ) stop("Either fix 'from' or set it to the same length as 'to'")
 		..res <- rep(0,length(to))
 		for (..k.. in 1:length(to)) {
-			..res[..k..] <- integrate(..finput,from[k],to[k])$value
+			..res[..k..] <- integrate(..finput,from[..k..],to[..k..])$value
 		}
 		return(..res)
 	}
