@@ -132,6 +132,7 @@ setMethod(
 	signature=c('numeric','ANY'),
 	function (x, u = rep(1, length(x)), type = c("vector", "length"), ...) {
 		type <- match.arg(type)
+		u <- rep(u, length.out=length(x))
 		switch(type, vector = u * (dot(x, u)/dot(u, u)), length = dot(x, u)/sqrt(dot(u, u)), )
 	}
 )
