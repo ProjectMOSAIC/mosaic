@@ -40,14 +40,10 @@
 #' @examples
 #' g=plotFun(a*sin(x^2)~x, x=range(-5,5),a=2)
 #' g(x=1)
-#' f=rfun(~u&v);
+#' f=rfun(~u&v)
 #' plotFun( f(u=u,v=v)~u&v, u=range(-3,3),v=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~u&v,add=TRUE,npts=200)
 #' 
-#==========
-# Create an environment for storing axis limits, etc.
-.plotFun.envir = new.env(parent=baseenv())
-# ==========
 plotFun <- function(expr, ..., add=FALSE,
                    xlim=NULL,ylim=NULL,npts=NULL,
                    ylab=NULL, xlab=NULL, zlab=NULL, main=NULL, 
@@ -109,7 +105,7 @@ plotFun <- function(expr, ..., add=FALSE,
 
     if (add) { # add to existing plot using ladd()
       # graphics::lines(.xset, .yset, lwd=lwd, col=col) # base graphics
-      ladd(panel.lines(.xset, .yset, lwd=lwd, col=col, ...)) # lattice
+      ladd(panel.lines(.xset, .yset, lwd=lwd, col=col,...)) # lattice
 	  } else { # draw a new plot
       # Base Graphics
 # 	    assign("xlim", xlim2, .plotFun.envir)
@@ -209,6 +205,21 @@ plotFun <- function(expr, ..., add=FALSE,
       # No ADD method yet for surface plots
     }
     else {
+      # a convenience wrapper around levelplot when a contour plot
+      # is being drawn de novo
+      funPlot.draw.contour = function(x,y,z,ncontours=6,at=pretty(z,ncontours),
+                                      filled=TRUE,color.scheme=topo.colors,
+                                      labels=TRUE,contours=TRUE,
+                                      col="black",lwd=1,xlab="",ylab=""){
+        cal = levelplot(z~x*y,at=at, 
+                        xlab=xlab,ylab=ylab, 
+                        panel=panel.levelcontourplot,
+                        col.regions=color.scheme(60),
+                        contour=contours, labels=labels,
+                        colorkey = FALSE, region = TRUE,filled=filled,
+                        col=col,lwd=lwd)
+        return(cal)
+      }
       if( add & is.null(transparency) ) transparency<-.4
       if( is.null(transparency) ) transparency<-1
       fillcolors <- colorscheme(length(levels)+2,alpha=transparency)
@@ -218,12 +229,13 @@ plotFun <- function(expr, ..., add=FALSE,
         nlevels<-2
       }
       if( add ) { # add method for contour plots
-        ladd(funPlot.panel.levelplot(grid$Var1,grid$Var2,grid$height,
+        ladd(panel.levelcontourplot(grid$Var1,grid$Var2,grid$height,
                                      subscripts=1:length(grid$Var1),
                                      at=pretty(grid$height,nlevels),
                                      col.regions=fillcolors,
                                      col=col, lwd=lwd, lty=1,
-                                     filled=filled))
+                                     filled=filled
+                                     ))
       }
       else print(funPlot.draw.contour(grid$Var1,grid$Var2,grid$height, 
                            xlab=xlab,ylab=ylab,
@@ -248,21 +260,34 @@ plotFun <- function(expr, ..., add=FALSE,
   invisible(..f..$fun)
 }
 # =============================
-funPlot.draw.contour = function(x,y,z,ncontours=6,at=pretty(z,ncontours),
-                                filled=TRUE,color.scheme=topo.colors,
-                                labels=TRUE,contours=TRUE,
-                                col="black",lwd=1,xlab="",ylab=""){
-  cal = levelplot(z~x*y,at=at, 
-                  xlab=xlab,ylab=ylab, 
-                  panel=funPlot.panel.levelplot,
-                  col.regions=color.scheme(60),
-                  contour=contours, labels=labels,
-                  colorkey = FALSE, region = TRUE,filled=filled,
-                  col=col,lwd=lwd)
-  return(cal)
-}
+# Create an environment for storing axis limits, etc.
+.plotFun.envir = new.env(parent=baseenv())
 # =====
-funPlot.panel.levelplot = function(x, y, z, subscripts, 
+#' 
+#' Lattice plot that draws a filled contour plot
+#' 
+#' Used within plotFun
+#'
+#' @param x x on a grid
+#' @param y y on a grid
+#' @param z zvalues for the x and y
+#' @param subscripts which points to plot
+#' @param at cuts for the contours
+#' @param shrink what does this do?
+#' @param labels draw the contour labels
+#' @param label.style where to put the labels
+#' @param contour logical draw the contours
+#' @param region logical color the regions
+#' @param col color for contours
+#' @param lty type for contours
+#' @param lwd width for contour
+#' @param border type of border
+#' @param \ldots additional arguments
+#' @param col.regions color set for regions
+#' @param color.scheme color generation function, e.g. \code{rainbow}
+#' @param filled whether to fill the contours with color
+#' @param alpha.regions transparency of regions
+panel.levelcontourplot = function(x, y, z, subscripts, 
                                    at, shrink, labels = FALSE, 
                                    label.style = c("mixed","flat","align"), 
                                    contour = FALSE, 

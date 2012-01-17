@@ -48,7 +48,7 @@ ladd <- function (x, col, row, highlight=FALSE, verbose=FALSE)
 					message(paste('  + Modifying panel ' ,layout[r,c], 
 								  ' at position (',c,',',r,')...',sep=""))        
 				trellis.focus("panel", c, r, highlight=highlight)
-				eval.parent(xUnevaluated, n=2)
+				eval.parent(xUnevaluated, n=1)
 				trellis.unfocus()
 			} else {
 				if (verbose) 
