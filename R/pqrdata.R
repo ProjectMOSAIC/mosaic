@@ -1,22 +1,5 @@
-#' The Data Distribution
-#' 
-#' Density, distribution function, quantile function, and random generation
-#' from data.
-#'
-#' 
-#' @export
-#' 
-#' @keywords distribution 
-#' 
 
-#  First draft: Written June 14, 2009
 
-#' Check whether input is quantitative
-#'
-#' @rdname undocked
-#' @param x a vector
-#' @return TRUE if quantitative; else \code{stop}
-#'
 .check_for_quant_input <- function(x) {
 	if (is.data.frame(x) ) {
 		stop("Give a variable, not a data frame.")
@@ -28,9 +11,17 @@
 	return(TRUE)
 }
 
-#' Compute quantiles from data
+#' The Data Distribution
+#' 
+#' Density, distribution function, quantile function, and random generation
+#' from data.
 #'
-#' \code{qdata} is a wrapper around \code{\link{quantile}} that makes the syntax more like 
+#' 
+#' @export
+#' 
+#' @keywords distribution 
+#'
+#'\code{qdata} is a wrapper around \code{\link{quantile}} that makes the syntax more like 
 #' the syntax for quantiles from theoretical distributions
 #'
 #' @param p a vector of probabilities
