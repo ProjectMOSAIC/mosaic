@@ -3,6 +3,7 @@
 ^builds$
 ^\.Rproj\.user$
 ^\.Rd2dvi.*$
+^.*\.csv\.bz2.*$
 ^.*\.swp$
 ^.*\.swo$
 ^\.git

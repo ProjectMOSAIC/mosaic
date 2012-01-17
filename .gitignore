@@ -13,8 +13,9 @@
 TeachingStatsWithR/cache
 TeachingStatsWithR/figures
 TeachingStatsWithR/Chap-*.R
-builds
+builds/*gz
 *.Rcheck
 man/*.Rd
+data/*.csv.bz2
 NAMESPACE
 .Rd2dvi*
