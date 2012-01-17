@@ -1,3 +1,12 @@
+#' Utilities for solving and plotting differential equations
+#' 
+#' These functions are used in the phase-plane plotting system, mPP.
+#' They are currently written in base graphics, not lattice.
+#' 
+#' @rdname diffeq.Rd
+#' @name DiffEqFuns
+#' @alias showTraj showNullclines jacobianAtPoint trajPlot solnPlot flowPlot solveDE rkintegrate
+
 ### Written in Dec. 2010 by DTK ###
 
 # put this into demo(phaseplane)

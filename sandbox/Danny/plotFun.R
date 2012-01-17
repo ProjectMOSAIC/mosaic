@@ -5,7 +5,6 @@
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #' @rdname plotFun
 #' @name plotFun
-#' @aliases plotFun
 #'
 #' @param expr a mathematical expression (see examples)
 #' @param ... additional assignments to parameters and limits
@@ -23,9 +22,10 @@
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
 #' @param surface draw a surface plot rather than a contour plot
-#' @param colorscheme function (\code{topo.colors} by default) for choosing colors for fill
-#' @param type type of plot (\code{"l"} by default)
-#' @param transparency number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param colorscheme function (\code{topo.colors} by default) for choosing
+#' colors for fill
+#' @param transparency number from 0 (transparent) to 1 (opaque) for the fill
+#' colors 
 #'
 #' @return an R function for the expression being plotted (not a graphics object)
 #'
@@ -43,87 +43,83 @@
 #' f=rfun(~u&v);
 #' plotFun( f(u=u,v=v)~u&v, u=range(-3,3),v=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~u&v,add=TRUE,npts=200)
-#' 
-#==========
-# Create an environment for storing axis limits, etc.
-.plotFun.envir = new.env(parent=baseenv())
-# ==========
-plotFun <- function(expr, ..., add=FALSE,
-                   xlim=NULL,ylim=NULL,npts=NULL,
-                   ylab=NULL, xlab=NULL, zlab=NULL, main=NULL, 
-                   lwd=1,col="black",filled=TRUE,levels=NULL,nlevels=10,
-                   surface=FALSE,
-                   colorscheme=topo.colors,type="l",transparency=NULL ) { 
+#'
+plotFun=function(expr, ..., add=FALSE,
+                 xlim=NULL,ylim=NULL,npts=NULL,
+                 ylab=NULL, xlab=NULL, zlab=NULL, main=NULL, 
+                 lwd=1,col="black",filled=TRUE,levels=NULL,nlevels=10,
+                 surface=FALSE,
+                 colorscheme=topo.colors,type="l",transparency=NULL ) { 
   dots <- list(...)
   
   ..f.. <- .createMathFun( sexpr=substitute(expr), ...)
-
+  
   vars <- formals(..f..$fun)
-
+  
   ndims <- length(..f..$names)
   if( ndims == 1 ){
     npts <- ifelse( is.null(npts), 200, npts)
     # create a function of that one variable
     pfun <- function(.x){
-	    mydots <- dots
+      mydots <- dots
       mydots[[..f..$names]] <- .x
       eval( ..f..$sexpr, envir=mydots, enclos=parent.frame())
     }
-
+    
     # Set the axis labels
     # deparse needed for lattice (not originally for plot)
     if( is.null(ylab) ) ylab <- deparse(..f..$sexpr)
     if( is.null(xlab) ) xlab <- ..f..$names
-
+    
     # figure out the limits.  
     # Is a limit specified, either through xlim or the variable name
     xlim2 <- xlim
     if( ..f..$names %in% names(dots) ) {
       xlim2 <- dots[[..f..$names]]
     }
-
+    
     if( length(xlim2) < 2 ) { # no limits were specified
-       if (add) xlim2 = get("xlim",.plotFun.envir)
-       else {
+      if (add) xlim2 = get("xlim",.plotFun.envir)
+      else {
         warning("No dependent variable limit set.") 
         xlim2 <- c(0,1)   # meaningless default
-       }
+      }
     } 
-
+    
     if( (length( xlim2) < 2) & (length( xlim ) <2 ) ) {
       stop(paste("Must provide x-axis limit via ", 
                  ..f..$names, "= or xlim=", sep=""))
     }
     # Evaluate the function.
-		.xset <- mosaic::adapt_seq(min(xlim2), max(xlim2), 
-									 f=function(xxqq){ pfun(xxqq) }, length=npts)
-
-  	.yset <- pfun(.xset)
-	  if( length(.yset) != length(.xset) ){ # if pfun isn't vectorized, loop over .xset
-		  .yset == rep(0, length(.xset)) 
-		  for (k in 1:length(.xset) ) {
-			 .yset[k] <- pfun(.xset[k]) 
-			  dots[[..f..$names]] <- .xset[k]
-	   	}
-  	}
-
+    .xset <- mosaic::adapt_seq(min(xlim2), max(xlim2), 
+                               f=function(xxqq){ pfun(xxqq) }, length=npts)
+    
+    .yset <- pfun(.xset)
+    if( length(.yset) != length(.xset) ){ # if pfun isn't vectorized, loop over .xset
+      .yset == rep(0, length(.xset)) 
+      for (k in 1:length(.xset) ) {
+        .yset[k] <- pfun(.xset[k]) 
+        dots[[..f..$names]] <- .xset[k]
+      }
+    }
+    
     if (add) { # add to existing plot using ladd()
       # graphics::lines(.xset, .yset, lwd=lwd, col=col) # base graphics
       ladd(panel.lines(.xset, .yset, lwd=lwd, col=col, ...)) # lattice
-	  } else { # draw a new plot
+    } else { # draw a new plot
       # Base Graphics
-# 	    assign("xlim", xlim2, .plotFun.envir)
-# 	    graphics::plot( .xset, .yset, type=type, 
-# 	                    lwd=lwd, col=col, xlim=xlim2, ylim=ylim,
-# 	                    xlab=xlab,ylab=ylab,main=main)
-# 	    tmp = par("usr")[c(3,4)] # get the y limits of the plot
-# 	    assign("ylim", tmp, .plotFun.envir)
-	   
+      # 	    assign("xlim", xlim2, .plotFun.envir)
+      # 	    graphics::plot( .xset, .yset, type=type, 
+      # 	                    lwd=lwd, col=col, xlim=xlim2, ylim=ylim,
+      # 	                    xlab=xlab,ylab=ylab,main=main)
+      # 	    tmp = par("usr")[c(3,4)] # get the y limits of the plot
+      # 	    assign("ylim", tmp, .plotFun.envir)
+      
       if( is.null(ylim)) thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
-                      lwd=lwd, col=col, 
-					            xlim=xlim2, 
-                      xlab=xlab,ylab=ylab,
-					            main=main)
+                                                    lwd=lwd, col=col, 
+                                                    xlim=xlim2, 
+                                                    xlab=xlab,ylab=ylab,
+                                                    main=main)
       else thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
                                       lwd=lwd, col=col, 
                                       xlim=xlim2, ylim=ylim, 
@@ -226,69 +222,24 @@ plotFun <- function(expr, ..., add=FALSE,
                                      filled=filled))
       }
       else print(funPlot.draw.contour(grid$Var1,grid$Var2,grid$height, 
-                           xlab=xlab,ylab=ylab,
-                           filled=filled,
-                           col=col,lwd=lwd))
-#       if( filled) {
-#         graphics::image( .xset, .yset, zvals, col=fillcolors,add=add,
-#                          xlab=xlab,ylab=ylab,main=main )
-#         if( is.null(levels)) levels = pretty(range(zvals),nlevels)
-#         graphics::contour(.xset, .yset, zvals, col=col,lwd=lwd,
-#                           add=TRUE, levels=levels,labcex=1.05,vfont=NULL)
-#       }
-#       else {
-#         graphics::contour(.xset,.yset,zvals,levels=levels,add=add,lwd=lwd,col=col,
-#                           xlab=xlab,ylab=ylab,main=main)
-#       } 
+                                      xlab=xlab,ylab=ylab,
+                                      filled=filled,
+                                      col=col,lwd=lwd))
+      #       if( filled) {
+      #         graphics::image( .xset, .yset, zvals, col=fillcolors,add=add,
+      #                          xlab=xlab,ylab=ylab,main=main )
+      #         if( is.null(levels)) levels = pretty(range(zvals),nlevels)
+      #         graphics::contour(.xset, .yset, zvals, col=col,lwd=lwd,
+      #                           add=TRUE, levels=levels,labcex=1.05,vfont=NULL)
+      #       }
+      #       else {
+      #         graphics::contour(.xset,.yset,zvals,levels=levels,add=add,lwd=lwd,col=col,
+      #                           xlab=xlab,ylab=ylab,main=main)
+      #       } 
     }
   }
   else if( ndims > 2 ) 
     stop("More than 2 plotting variables.")
   
   invisible(..f..$fun)
-}
-# =============================
-funPlot.draw.contour = function(x,y,z,ncontours=6,at=pretty(z,ncontours),
-                                filled=TRUE,color.scheme=topo.colors,
-                                labels=TRUE,contours=TRUE,
-                                col="black",lwd=1,xlab="",ylab=""){
-  cal = levelplot(z~x*y,at=at, 
-                  xlab=xlab,ylab=ylab, 
-                  panel=funPlot.panel.levelplot,
-                  col.regions=color.scheme(60),
-                  contour=contours, labels=labels,
-                  colorkey = FALSE, region = TRUE,filled=filled,
-                  col=col,lwd=lwd)
-  return(cal)
-}
-# =====
-funPlot.panel.levelplot = function(x, y, z, subscripts, 
-                                   at, shrink, labels = FALSE, 
-                                   label.style = c("mixed","flat","align"), 
-                                   contour = FALSE, 
-                                   region = TRUE,
-                                   col = add.line$col, lty = add.line$lty,
-                                   lwd = add.line$lwd, 
-                                   border = "transparent", ...,
-                                   col.regions = regions$col,
-                                   color.scheme, filled=TRUE, 
-                                   alpha.regions = regions$alpha
-                                   ){
-  if(filled) panel.levelplot(x, y, z, subscripts, 
-                             at = pretty(z,5*length(at)), shrink, 
-                             labels = FALSE, 
-                             label.style = label.style, 
-                             contour = FALSE, 
-                             region = TRUE, 
-                             border = "transparent", ..., 
-                             col.regions = col.regions #, 
-                             #                  alpha.regions = regions$alpha
-                             )
-  panel.levelplot(x, y, z, subscripts, 
-                  at = at, shrink, labels = TRUE, 
-                  label.style = label.style, 
-                  contour = TRUE, 
-                  region = FALSE, 
-                  col = col, lwd=lwd,
-                  border = "transparent", ...)
 }

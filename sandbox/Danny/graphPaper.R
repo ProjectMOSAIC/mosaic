@@ -25,6 +25,7 @@
 #'
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #' @return nothing
+require(manipulate)
 graphPaper = function(xticks=0:5, yticks=-5:5,
 					  xlim=c(min(xticks), max(xticks)),
 					  ylim=c(min(yticks), max(yticks)),
