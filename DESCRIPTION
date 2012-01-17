@@ -18,7 +18,7 @@ Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
 Maintainer: Randall Pruim <rpruim@calvin.edu>
 Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     to teach mathematics, statistics, computation and modeling.  Funded by the
-    NSF, Project MOSAIC is a community of educators working to tie together 
+    NSF, Project MOSAIC is a community of educators working to tie together
     aspects of quantitative work that students in science, technology,
     engineering and mathematics will need in their professional lives, but
     which are usually taught in isolation, if at all.
@@ -28,7 +28,6 @@ LazyData: yes
 Collate:
     'favstats.R'
     'CIsim.R'
-    'DiffEQ.R'
     'adapt_seq.R'
     'aggregating.R'
     'binom.test.R'
@@ -41,7 +40,6 @@ Collate:
     'fetchData.R'
     'findZeros.R'
     'functions.R'
-    'graphPaper.R'
     'interval.R'
     'ladd.R'
     'linear-algebra.R'
