@@ -1,8 +1,12 @@
 #' Integrate ordinary differential equations 
 #'
-#' A formula interface to integration of an ODE
+#' A formula interface to integration of an ODE with respect to "t"
 #'
-#' @params \ldots arguments
+#' @param dyn a formula specifying the dynamics, e.g. \code{dx ~ -a*x} for $dx/dt = -ax$.
+#' @param \ldots arguments giving additional formulas for dynamics in other variables, 
+#' assignments of parameters, and assignments of initial conditions
+#' @param tdur the duration of integration.  Or, a list of the form
+#' \code{list(from=5,to=10,dt=.001)}
 #'
 #' @details
 #' The equations must be in first-order form.  Each dynamical equation uses
@@ -15,7 +19,7 @@
 #' 
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
-#' @returns a list with splined function of time for each dynamical variable
+#' @return a list with splined function of time for each dynamical variable
 #'
 #' @examples
 #' soln = integrateODE( dx~r*x*(1-x/k),k=10,r=.5,tdur=20,x=1)
@@ -24,13 +28,12 @@
 #' plotFun( soln$x(t)~t, t=range(0,20))
 #' soln2 = integrateODE(dx~y, dy~-x, x=1,y=0,tdur=10)
 #' plotFun( soln2$y(t)~t, t=range(0,10))
-#' SIR epidemic
+#' # SIR epidemic
 #' epi = integrateODE( dS~-a*S*I, dI~a*S*I - b*I, a=0.0026,b=.5,S=762,I=1,tdur=20)
-integrateODE = function(...) {
-  inputs <- list(...)
-  # handle the period of integration
-  tdur = inputs[["tdur"]] # will be null if not specified
-  if( is.null(tdur) ) tdur = list(from=0, to=1, dt=0.01)
+integrateODE = function(dyn,...,tdur) {
+  inputs <- list(dyn,...)
+  # set up the integration parameters
+  if( missing(tdur) ) tdur = list(from=0, to=1, dt=0.01)
   if( is.numeric(tdur) ) tdur = list(from=0,to=tdur,dt=0.01)
   if( is.null(tdur$from) ) tdur$from = 0
   if( is.null(tdur$dt) ) tdur$dt = diff(range(tdur$from,tdur$to))/1000
@@ -99,9 +102,9 @@ integrateODE = function(...) {
 #' @param x0 the initial condition, a vector with one element for each state variable
 #' @param tstart starting time
 #' @param tend ending time for integration
-#' @dt step size for integration
+#' @param dt step size for integration
 #'
-#' @returns a list containing \code{x}, a matrix of the state with one row for each
+#' @return a list containing \code{x}, a matrix of the state with one row for each
 #' time step and a vector \code{t} containing the times of those steps.
 #'
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
