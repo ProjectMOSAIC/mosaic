@@ -62,7 +62,6 @@
       if( action=="names"){ return( names(local.library) ) }
     }
     if( searchpath ){
-      browser()
       if( action=="add") {search.path <<- c(name, search.path); return(search.path)}
       if( action=="delete") {
         if( is.null(val) ) search.path <- c()
