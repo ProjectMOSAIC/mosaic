@@ -68,3 +68,5 @@ Collate:
     'datasets.R'
     'themes.R'
     'createFun.R'
+    'is.wholenumber.R'
+ 
