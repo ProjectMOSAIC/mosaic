@@ -51,7 +51,7 @@
 #' @keywords internal
 .fetchData.storage.helper <- function( ){
   local.library <- list()
-  search.path <- c("http://www.mosaic-web.org/datasets/",
+  search.path <- c("http://www.mosaic-web.org/go/datasets/",
                    "http://www.macalester.edu/~kaplan/ISM/datasets/",
                    "http://dl.dropbox.com/u/5098197/Math155/Data/")
   
