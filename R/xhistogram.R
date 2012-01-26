@@ -18,6 +18,7 @@
 #' @param data a data frame in which to evaluate \code{x}
 #' @param panel a panel function
 #' @param type one of \code{'density'}, \code{'count'}, or \code{'percent'}
+#' @param nint approximate number of bins
 #' @param \dots additional arguments passed to \code{\link[lattice]{histogram}} and on to
 #' 	\code{\link{panel.xhistogram}}
 #'
@@ -29,10 +30,41 @@
 #' xhistogram(~age, HELPrct, labels=TRUE, type='count')
 #' xhistogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
 #' xhistogram(~age, HELPrct, groups=sex, stripes='horizontal')
+#' xhistogram(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
 
 
-xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', ...) {
-  histogram(x, data=data, panel=panel, type=type, ...)
+xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
+						center=NULL, width=NULL, breaks=NULL, nint, ...) {
+	histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
+			  nint=substitute(nint), breaks=breaks, ...)
+}
+
+#' @rdname xhistogram
+#' @return \code{xhistogramBreaks} returns a vector of break points
+#' @examples
+#' xhistogramBreaks(1:10, center=5, width=1)
+#' xhistogramBreaks(1:10, center=5, width=2)
+#' xhistogramBreaks(0:10, center=15, width=3)
+#' xhistogramBreaks(1:100, center=50, width=3)
+#' xhistogramBreaks(0:10, center=5, nint=5)
+xhistogramBreaks <- function(x, center=NULL, width=NULL, nint) {
+  x <- x[!is.na(x)]
+  if (is.factor(x)) return(seq_len(1 + nlevels(x)) - 0.5)
+  if (length(x) < 2) return (x)
+  
+  if (is.null(center)) { center <- 0 }
+  if (missing(nint) || is.null(nint)) { 
+    nint <- round(1.5 *log2(length(x)) + 1) 
+  }
+  if (is.null(width)) { width <- diff(range(x)) / nint }
+
+  shift <- -.5 + ( (floor( (min(x) - center)/width) ):(1 + ceil( (max(x) - center)/width)) )
+  breaks <-  center + shift * width
+  if (min(breaks) > min(x) || max(breaks) < max(x)) 
+	  stop("Bug alert: break points don't cover data.")
+  print (c(center=center, width=width, nint=nint) )
+  print (breaks)
+  return(breaks)
 }
 
 #' @rdname xhistogram
@@ -51,6 +83,8 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', ..
 #'      \code{"t"}, \code{"weibull"}, \code{"cauchy"}, \code{"gamma"}, \code{"chisq"}, and \code{"chi-squared"}
 #'        
 #' @param start numeric value passed to \code{\link[MASS]{fitdistr}}
+#' @param center center of one of the bins
+#' @param width width of the bins
 #' @param groups,breaks as per \code{\link[lattice]{histogram}}
 #' @param stripes one of \code{"vertical"}, \code{"horizontal"}, or \code{"none"}, indicating
 #'        how bins should be striped when \code{groups} is not \code{NULL}
@@ -64,12 +98,18 @@ function (x,
 	dmath = dnorm, 
 	verbose = FALSE,
     dn = 100, args = NULL, labels = FALSE, density = FALSE, fit = NULL, 
-    start = NULL, type = "density", v, h, groups=NULL, breaks, 
+    start = NULL, type = "density", v, h, groups=NULL, center=NULL, width=NULL, breaks,
+    nint = round(1.5 * log2(length(x)) + 1),
 	stripes=c('vertical','horizontal','none'), alpha=1, ...) 
 {
-	stripes <- match.arg(stripes)
+	if (missing(breaks) || is.null(breaks)) {
+    breaks <- xhistogramBreaks(x, center=center, width=width, nint=nint)
+	} else {
+    print(breaks)
+	}
+  stripes <- match.arg(stripes)
 	if (!is.null(groups)) {
-    	hist.master <- hist(x, plot = FALSE, breaks=breaks, warn.unused=FALSE, ...)
+    	hist.master <- hist(as.numeric(x), plot = FALSE, breaks=breaks, warn.unused=FALSE, ...)
 		hist.master$height <- switch(type,
 			'density' = hist.master$density,
 			'count' = hist.master$count,
@@ -77,14 +117,14 @@ function (x,
 			)
 		nbreaks <- length(hist.master$breaks)
 		groups <- factor(groups)
-		ngroups <- length(levels(groups))
+		ngroups <- nlevels(groups)
 		props <- (table(groups))/length(groups)
 		fcol <- rep(fcol, length=length(props))
 		cumdensity= rep(0, length(hist.master$mids))
 		cumrdensity= rep(0, length(hist.master$mids))
 		for (level in 1:ngroups) {
 			hist.level <- hist(
-				x[groups==levels(groups)[level] ], 
+				as.numeric(x)[groups==levels(groups)[level] ], 
 				plot=FALSE,
 				breaks=hist.master$breaks,
 				warn.unused=FALSE,

@@ -69,3 +69,4 @@ Collate:
     'themes.R'
     'createFun.R'
     'integrateODE.R'
+    'is.wholenumber.R'
