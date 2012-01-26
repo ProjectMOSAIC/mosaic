@@ -62,8 +62,6 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint) {
   breaks <-  center + shift * width
   if (min(breaks) > min(x) || max(breaks) < max(x)) 
 	  stop("Bug alert: break points don't cover data.")
-  print (c(center=center, width=width, nint=nint) )
-  print (breaks)
   return(breaks)
 }
 
@@ -104,9 +102,7 @@ function (x,
 {
 	if (missing(breaks) || is.null(breaks)) {
     breaks <- xhistogramBreaks(x, center=center, width=width, nint=nint)
-	} else {
-    print(breaks)
-	}
+	} 
   stripes <- match.arg(stripes)
 	if (!is.null(groups)) {
     	hist.master <- hist(as.numeric(x), plot = FALSE, breaks=breaks, warn.unused=FALSE, ...)
