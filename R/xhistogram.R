@@ -30,13 +30,13 @@
 #' xhistogram(~age, HELPrct, labels=TRUE, type='count')
 #' xhistogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
 #' xhistogram(~age, HELPrct, groups=sex, stripes='horizontal')
+#' xhistogram(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
 
 
 xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
-						nint=NULL, center=NULL, width=NULL, breaks, ...) {
+						center=NULL, width=NULL, breaks=NULL, nint, ...) {
 	histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
-			  if (is.factor(x)) nlevels(x) else round(1.5 * log2(length(x)) + 1),
-			  ...)
+			  nint=substitute(nint), breaks=breaks, ...)
 }
 
 #' @rdname xhistogram
@@ -48,9 +48,14 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' xhistogramBreaks(1:100, center=50, width=3)
 #' xhistogramBreaks(0:10, center=5, nint=5)
 xhistogramBreaks <- function(x, center=NULL, width=NULL, nint) {
-
+  x <- x[!is.na(x)]
+  if (is.factor(x)) return(seq_len(1 + nlevels(x)) - 0.5)
+  if (length(x) < 2) return (x)
+  
   if (is.null(center)) { center <- 0 }
-  if (missing(nint) || is.null(nint)) { nint <- 15 }
+  if (missing(nint) || is.null(nint)) { 
+    nint <- round(1.5 *log2(length(x)) + 1) 
+  }
   if (is.null(width)) { width <- diff(range(x)) / nint }
 
   shift <- -.5 + ( (floor( (min(x) - center)/width) ):(1 + ceil( (max(x) - center)/width)) )
@@ -97,14 +102,14 @@ function (x,
     nint = round(1.5 * log2(length(x)) + 1),
 	stripes=c('vertical','horizontal','none'), alpha=1, ...) 
 {
-	if (missing(breaks)) {
+	if (missing(breaks) || is.null(breaks)) {
     breaks <- xhistogramBreaks(x, center=center, width=width, nint=nint)
 	} else {
     print(breaks)
 	}
   stripes <- match.arg(stripes)
 	if (!is.null(groups)) {
-    	hist.master <- hist(x, plot = FALSE, breaks=breaks, warn.unused=FALSE, ...)
+    	hist.master <- hist(as.numeric(x), plot = FALSE, breaks=breaks, warn.unused=FALSE, ...)
 		hist.master$height <- switch(type,
 			'density' = hist.master$density,
 			'count' = hist.master$count,
@@ -112,14 +117,14 @@ function (x,
 			)
 		nbreaks <- length(hist.master$breaks)
 		groups <- factor(groups)
-		ngroups <- length(levels(groups))
+		ngroups <- nlevels(groups)
 		props <- (table(groups))/length(groups)
 		fcol <- rep(fcol, length=length(props))
 		cumdensity= rep(0, length(hist.master$mids))
 		cumrdensity= rep(0, length(hist.master$mids))
 		for (level in 1:ngroups) {
 			hist.level <- hist(
-				x[groups==levels(groups)[level] ], 
+				as.numeric(x)[groups==levels(groups)[level] ], 
 				plot=FALSE,
 				breaks=hist.master$breaks,
 				warn.unused=FALSE,
