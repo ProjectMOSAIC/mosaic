@@ -70,3 +70,4 @@ Collate:
     'createFun.R'
     'integrateODE.R'
     'mosaicFunction.R'
+    'formula2function.R'
