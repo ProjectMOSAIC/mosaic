@@ -124,6 +124,31 @@
 }
 
 
+#' Internal function for handling formula-based expressions
+#'
+#' \code{createMosaicFunction} processes an expression and assignments to produce 
+#' an object containing  function and other information used by 
+#' D, antiD, and plotFun
+#'
+#' This is not actually being used and is slated for deprecation in 
+#' the near future.
+#'
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#' @rdname createMosaicFunction
+#'
+#' @param sexpr a formula containing a mathematical expression.  The left-hand side
+#' has the expression, the right side contains the variables
+#' @param ... additional assignments giving default values to symbolic parameters.
+#'
+#' @details
+#' \code{createModaicFunction} underlies was going to be used to to undrly
+#' user functions such as \code{makeFun}, \code{plotFun}, 
+#' and \code{D}, but it looks like we have another solution for this coming.  
+#'
+#' @return
+#' an object that contains a function as well as information
+#' about the function needed for plotting, etc.
+#'
 createMosaicFunction <- function(sexpr=NULL, ...) { 
   # sexpr = substitute(expr)
   # reconstruct the function finput from expr
