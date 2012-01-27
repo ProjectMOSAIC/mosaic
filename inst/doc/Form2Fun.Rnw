@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{Functions from Fromulas}
+%\VignetteIndexEntry{Functions from Formulas}
 \documentclass{article}
 \usepackage{pdfpages}
 \begin{document}
