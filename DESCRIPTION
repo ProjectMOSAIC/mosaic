@@ -45,7 +45,6 @@ Collate:
     'linear-algebra.R'
     'logit.R'
     'perctable.R'
-    'plt.R'
     'pqrdata.R'
     'prop.test.R'
     'rand.R'
@@ -71,3 +70,5 @@ Collate:
     'integrateODE.R'
     'is.wholenumber.R'
     'formula2function.R'
+    'parseFormula.R'
+    'plotFun.R'
