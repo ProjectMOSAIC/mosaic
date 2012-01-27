@@ -1,0 +1,4 @@
+%\VignetteIndexEntry{Functions from Fromulas}
+\documentclass{article}
+\begin{document}
+\end{document}
