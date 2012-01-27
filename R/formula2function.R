@@ -29,11 +29,11 @@ formula2function <- function( .formula, ... ) {
 
   vals <- list(...)
   expr <- eval(sexpr)  # not sure if eval() is needed here or not.
-  lhs <- expr[[2]]
-  rhs <- expr[[3]]
+  lhs <- lhs(expr) # expr[[2]]
+  rhs <- rhs(expr)  # expr[[3]]
   
   rhsVars <- all.vars(rhs)
-  lhsOnlyVars <- setdiff(all.vars(expr), rhsVars)
+  lhsOnlyVars <- setdiff(all.vars(lhs), rhsVars)
   vars <- c(rhsVars, lhsOnlyVars)
   
   valVec <- rep("", length(vars))

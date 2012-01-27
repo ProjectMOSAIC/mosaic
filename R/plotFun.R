@@ -7,7 +7,7 @@
 #' @name plotFun
 #' @aliases plotFun
 #'
-#' @param expr a mathematical expression (see examples)
+#' @param .formula a mathematical expression (see examples)
 #' @param ... additional assignments to parameters and limits
 #' @param add if TRUE, then overlay an existing plot
 #' @param xlim limits for x axis (or use variable names, see examples)
@@ -38,13 +38,12 @@
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
-#' g=plotFun(a*sin(x^2)~x, x=range(-5,5),a=2)
-#' g(x=1)
-#' f=rfun(~u&v)
-#' plotFun( f(u=u,v=v)~u&v, u=range(-3,3),v=range(-3,3) )
-#' plotFun( u^2 + v < 3 ~u&v,add=TRUE,npts=200)
+#' plotFun(a*sin(x^2)~x, x=range(-5,5), a=2)
+#' f <- rfun( ~ u & v)
+#' plotFun( f(u=u,v=v) ~ u & v, u=range(-3,3), v=range(-3,3) )
+#' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200)
 #' 
-plotFun <- function(expr, ..., add=FALSE,
+plotFun <- function(.formula, ..., add=FALSE,
                    xlim=NULL,ylim=NULL,npts=NULL,
                    ylab=NULL, xlab=NULL, zlab=NULL, main=NULL, 
                    lwd=1,col="black",filled=TRUE,levels=NULL,nlevels=10,
@@ -54,43 +53,45 @@ plotFun <- function(expr, ..., add=FALSE,
  
   # funny names (like ..f..) are to avoid names that might be used by the user
   # not sure whether this precaution is necessary in current implementation
-  ..f.. <- .createMathFun( sexpr=substitute(expr), ...)
+  
+  ..f.. <- formula2function( .formula )
 
-  vars <- formals(..f..$fun)
-
-  ndims <- length(..f..$names)
+  vars <- formals(..f..)
+  rhsVars <- all.vars(rhs(.formula))
+  ndims <- length(rhsVars)
+  
   if( ndims == 1 ){
     npts <- ifelse( is.null(npts), 200, npts)
     # create a function of that one variable
-    pfun <- function(.x){
+    pfun <- function(x){  # removed . from name, was .x
 	    mydots <- dots
-      mydots[[..f..$names]] <- .x
-      eval( ..f..$sexpr, envir=mydots, enclos=parent.frame())
+      mydots[[rhsVars]] <- x
+      eval( lhs(.formula), envir=mydots, enclos=parent.frame())
     }
 
     # Set the axis labels
     # deparse needed for lattice (not originally for plot)
-    if( is.null(ylab) ) ylab <- deparse(..f..$sexpr)
-    if( is.null(xlab) ) xlab <- ..f..$names
+    if( is.null(ylab) ) ylab <- deparse( lhs(.formula) ) # deparse(..f..$sexpr)
+    if( is.null(xlab) ) xlab <- rhsVars
 
     # figure out the limits.  
     # Is a limit specified, either through xlim or the variable name
     xlim2 <- xlim
-    if( ..f..$names %in% names(dots) ) {
-      xlim2 <- dots[[..f..$names]]
+    if( rhsVars %in% names(dots) ) {
+      xlim2 <- dots[[rhsVars]]
     }
 
     if( length(xlim2) < 2 ) { # no limits were specified
        if (add) xlim2 = get("xlim",.plotFun.envir)
        else {
         warning("No dependent variable limit set.") 
-        xlim2 <- c(0,1)   # meaningless default
+        xlim2 <- c(0,1)   # temporary default -- should use roots and critical values instead
        }
     } 
 
     if( (length( xlim2) < 2) & (length( xlim ) <2 ) ) {
       stop(paste("Must provide x-axis limit via ", 
-                 ..f..$names, "= or xlim=", sep=""))
+                 rhsVars, "= or xlim=", sep=""))
     }
     # Evaluate the function.
 		.xset <- mosaic::adapt_seq(min(xlim2), max(xlim2), 
@@ -101,13 +102,14 @@ plotFun <- function(expr, ..., add=FALSE,
 		  .yset == rep(0, length(.xset)) 
 		  for (k in 1:length(.xset) ) {
 			 .yset[k] <- pfun(.xset[k]) 
-			  dots[[..f..$names]] <- .xset[k]
+			  dots[[rhsVars]] <- .xset[k]
 	   	}
   	}
 
     if (add) { # add to existing plot using ladd()
       # graphics::lines(.xset, .yset, lwd=lwd, col=col) # base graphics
       ladd(panel.lines(.xset, .yset, lwd=lwd, col=col,...)) # lattice
+      invisible(NULL)
 	  } else { # draw a new plot
       # Base Graphics
 # 	    assign("xlim", xlim2, .plotFun.envir)
@@ -131,27 +133,27 @@ plotFun <- function(expr, ..., add=FALSE,
       # ..currentAxisLimitY <- goo[c(3,4)]
       # mosaic.par.set(currentAxisLimitX = ..currentAxisLimitX )
       # mosaic.par.set(currentAxisLimitY = ..currentAxisLimitY )
-      print(thePlot)
+      return(thePlot)
     }  
   }
   if (ndims == 2 ) {
     npts <- ifelse( is.null(npts), 40, npts)
     # create a function of those two variables
     pfun <- function(.x,.y){
-      dots[[..f..$names[1]]] <- .x
-      dots[[..f..$names[2]]] <- .y
-      eval( ..f..$sexpr, envir=dots, enclos=parent.frame())
+      dots[[rhsVars[1]]] <- .x
+      dots[[rhsVars[2]]] <- .y
+      eval( lhs(.formula), envir=dots, enclos=parent.frame())
     }
-    if( length(ylab) == 0 ) ylab <- ..f..$names[2]
-    if( length(xlab) == 0 ) xlab <- ..f..$names[1]
-    if( length(zlab) == 0 ) zlab <- deparse(..f..$sexpr)
+    if( length(ylab) == 0 ) ylab <- rhsVars[2]
+    if( length(xlab) == 0 ) xlab <- rhsVars[1]
+    if( length(zlab) == 0 ) zlab <- deparse(lhs(.formula))
     xlim2 <- xlim
     ylim2 <- ylim
-    if( ..f..$names[1] %in% names(dots) ) {
-      xlim2 <- dots[[..f..$names[1]]]
+    if( rhsVars[1] %in% names(dots) ) {
+      xlim2 <- dots[[rhsVars[1]]]
     }
-    if( ..f..$names[2] %in% names(dots) ) {
-      ylim2 <- dots[[..f..$names[2]]]
+    if( rhsVars[2] %in% names(dots) ) {
+      ylim2 <- dots[[rhsVars[2]]]
     }
     if (add  | length(xlim2)==0 | length(ylim2) == 0) {
       if (length(xlim2)==0) xlim2 <- get("xlim", .plotFun.envir)
@@ -165,7 +167,7 @@ plotFun <- function(expr, ..., add=FALSE,
     
     if( (length( xlim2) < 2) & (length( xlim ) <2 ) ) {
       stop(paste("Must provide x-axis limit via ", 
-                 ..f..$names, "= or xlim=", sep=""))
+                 rhsVars, "= or xlim=", sep=""))
     }
     
     .xset <- seq(min(xlim2),max(xlim2),length=npts)
@@ -175,11 +177,15 @@ plotFun <- function(expr, ..., add=FALSE,
     grid$height <- c(zvals)
     
     if( surface ) { 
+	  if (add) {
+			stop('no add option for surface plots yet.')
+			return(NULL)
+	  }
       zcuts = pretty(grid$height,50)
       zcolors = colorscheme(length(zcuts),alpha=.5)
       if( require(manipulate) ) {
         manipulate(
-          print(wireframe(height ~ Var1 + Var2, 
+          return(wireframe(height ~ Var1 + Var2, 
                           xlab=xlab,ylab=ylab,
                           zlab=list(zlab,rot=90),
                           data=grid,drape=filled,
@@ -195,7 +201,7 @@ plotFun <- function(expr, ..., add=FALSE,
           dist=slider(min=0,max=1,step=.01,initial=.2,label="Distance"))
       } 
       else {
-        print(wireframe(height ~ Var1 + Var2, 
+        return(wireframe(height ~ Var1 + Var2, 
                         xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
                         data=grid,drape=filled,shade=FALSE,colorkey=FALSE,
                         scales=list(arrows=FALSE),
@@ -204,32 +210,34 @@ plotFun <- function(expr, ..., add=FALSE,
                         col=rgb(1,1,1,0)) )
       }
       
-      # No ADD method yet for surface plots
     }
     else {
       # a convenience wrapper around levelplot when a contour plot
       # is being drawn de novo
-      funPlot.draw.contour = function(x,y,z,ncontours=6,at=pretty(z,ncontours),
+      funPlot.draw.contour <- function(x,y,z,ncontours=6,at=pretty(z,ncontours),
                                       filled=TRUE,color.scheme=topo.colors,
                                       labels=TRUE,contours=TRUE,
                                       col="black",lwd=1,xlab="",ylab=""){
-        cal = levelplot(z~x*y,at=at, 
+        return(levelplot(z~x*y,at=at, 
                         xlab=xlab,ylab=ylab, 
                         panel=panel.levelcontourplot,
                         col.regions=color.scheme(60),
                         contour=contours, labels=labels,
                         colorkey = FALSE, region = TRUE,filled=filled,
                         col=col,lwd=lwd)
-        return(cal)
+			)
       }
+
       if( add & is.null(transparency) ) transparency<-.4
       if( is.null(transparency) ) transparency<-1
       fillcolors <- colorscheme(length(levels)+2,alpha=transparency)
-      if( is.logical(zvals[1,1]) ){ # it's a constraint function
+
+      if( is.logical(zvals[1,1]) ){  # it's a constraint function
         if( add ) fillcolors<- c(rgb(0,0,0,transparency),rgb(0,0,0,0))
         else fillcolors <- colorscheme(4)
         nlevels<-2
       }
+
       if( add ) { # add method for contour plots
         ladd(panel.levelcontourplot(grid$Var1,grid$Var2,grid$height,
                                      subscripts=1:length(grid$Var1),
@@ -238,28 +246,18 @@ plotFun <- function(expr, ..., add=FALSE,
                                      col=col, lwd=lwd, lty=1,
                                      filled=filled
                                      ))
+        return(invisible(NULL))
       }
-      else print(funPlot.draw.contour(grid$Var1,grid$Var2,grid$height, 
+      else return(funPlot.draw.contour(grid$Var1,grid$Var2,grid$height, 
                            xlab=xlab,ylab=ylab,
                            filled=filled,
                            col=col,lwd=lwd))
-#       if( filled) {
-#         graphics::image( .xset, .yset, zvals, col=fillcolors,add=add,
-#                          xlab=xlab,ylab=ylab,main=main )
-#         if( is.null(levels)) levels = pretty(range(zvals),nlevels)
-#         graphics::contour(.xset, .yset, zvals, col=col,lwd=lwd,
-#                           add=TRUE, levels=levels,labcex=1.05,vfont=NULL)
-#       }
-#       else {
-#         graphics::contour(.xset,.yset,zvals,levels=levels,add=add,lwd=lwd,col=col,
-#                           xlab=xlab,ylab=ylab,main=main)
-#       } 
     }
   }
   else if( ndims > 2 ) 
     stop("More than 2 plotting variables.")
   
-  invisible(..f..$fun)
+  stop("Bug alert: You should not get here.  Please report.")
 }
 # =============================
 # Create an environment for storing axis limits, etc.
