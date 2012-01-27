@@ -1,6 +1,0 @@
-%\VignetteIndexEntry{Functions from Formulas}
-\documentclass{article}
-\usepackage{pdfpages}
-\begin{document}
-\includepdf{Form2Fun-static}
-\end{document}
