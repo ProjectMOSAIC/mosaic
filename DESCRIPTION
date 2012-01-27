@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) math and stats teaching utilities
-Version: 0.4-0
-Date: 2012-01-16
+Version: 0.3-7
+Date: 2012-01-27
 Depends:
     lattice,
     grid,
@@ -70,5 +70,4 @@ Collate:
     'createFun.R'
     'integrateODE.R'
     'is.wholenumber.R'
-    'mosaicFunction.R'
     'formula2function.R'
