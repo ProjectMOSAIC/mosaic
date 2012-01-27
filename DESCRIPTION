@@ -70,3 +70,5 @@ Collate:
     'createFun.R'
     'integrateODE.R'
     'is.wholenumber.R'
+    'mosaicFunction.R'
+    'formula2function.R'
