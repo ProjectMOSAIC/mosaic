@@ -1,4 +1,6 @@
 %\VignetteIndexEntry{Functions from Fromulas}
 \documentclass{article}
+\usepackage{pdfpages}
 \begin{document}
+\includepdf{Form2Fun-static}
 \end{document}
