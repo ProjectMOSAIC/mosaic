@@ -1,5 +1,7 @@
 =The mosaic Package and Project MOSAIC=
 
+===News===
+* 2012-02-11: Project MOSAIC migrates its mosaic R package from R-forge to github.  Simultaneously, we are converting to roxygen documentation.  (Wish us luck in the transition.)
 ==Project MOSAIC==
 Project MOSAIC is a community of educators working to develop a new way to introduce mathematics, statistics, computation and modeling to students in colleges and universities.
 
@@ -14,5 +16,3 @@ The name MOSAIC reflects the first letters --- M, S, C, C --- of these important
 
 Find out more about Project MOSAIC at [http://mosaic-web.org].
 
-==News==
-* 2012-02-11: Project MOSAIC migrates its mosaic R package from R-forge to github.  Simultaneously, we are converting to roxygen documentation.  (Wish us luck in the transition.)
