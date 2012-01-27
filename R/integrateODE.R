@@ -1,3 +1,70 @@
+#' @rdname mosaic-internal
+#' @keywords internal
+#' @param x a list
+#' @return a list with two slots: names and functions
+
+fetchDynamics <- function(x) {
+  inputs <- x 
+  formInds <- which( sapply( inputs, function(x) inherits(x, 'formula') ) )
+
+  dnames <- c()
+  dfuns <- c()
+  for (k in 1:length(formInds) ) {
+    form = inputs[[formInds[k]]]
+    nm = form[[2]] # should be name type so double [[ ]]
+    if ( ! inherits(nm, "name") ) stop(paste("Invalid name on LHS of formula",nm))
+    nm = as.character(nm)
+    if (grep("^d",nm)!=1) stop("Dynamical variables must start with 'd'")
+    dnames[k] <- sub("^d","",nm) # character string with the name
+    dfuns[k] <- parse(text=form[3]) # an expression so single [ ]
+  }
+  return ( list(names = dnames, functions=dfuns) )
+}
+
+
+#' construct a function representing the dynamics
+#' 
+#' parameters are stored as extra arguments
+#' the order of the dynamical variables (and "t") is important and will be used
+#' later
+#'
+#' @rdname mosaic-internal
+#' @keywords internal
+#' @param DE representation of DE, the result of fetchDynamics
+#' @param additionalAssignments, a list
+#' return a function
+#' 
+dynamicsFunction <- function( DE, additionalAssignments=list() ) {
+  dynfun = function(){}
+  body(dynfun) = parse(text=paste("c(",paste(DE$names,DE$functions,collapse=",",sep="="),")",sep=""))
+
+  # construct the dynamical variable argument list
+  tstring=ifelse(! "t"%in% DE$names,",t=","")
+  # create the dynamical variables as arguments to the function
+  dynArgs = eval(parse(
+           text=paste("alist(",  paste(DE$names,"=",collapse=",",sep=""), tstring,")")))
+  formals(dynfun) = c(dynArgs,additionalAssignments)
+  return(dynfun)
+}
+
+#' Create a functions with a vector argument of state, for use in rk()
+#'
+#' @rdname mosaic-internal
+#' @keywords internal
+#' @param DE representation of DE, the result of fetchDynamics
+#' @param additionalAssignments, a list
+#' return a function
+
+rkFunction <- function(DE, additionalArguments=list() ) {
+  result <- function(state,t) {}
+  tstring <- ifelse(! "t"%in% DE$names,",t","")
+  dynfun <- dynamicsFunction(DE, additionalArguments)
+  bodyString <- paste("dynfun(",
+    paste("state[",1:length(DE$names),"]",sep="",collapse=","),tstring,")")
+  body(result) <- parse(text=bodyString)
+  return(result)
+}
+
 #' Integrate ordinary differential equations 
 #'
 #' A formula interface to integration of an ODE with respect to "t"
@@ -31,69 +98,40 @@
 #' # SIR epidemic
 #' epi = integrateODE( dS~-a*S*I, dI~a*S*I - b*I, a=0.0026,b=.5,S=762,I=1,tdur=20)
 integrateODE = function(dyn,...,tdur) {
+  new <- TRUE
   inputs <- list(dyn,...)
   # set up the integration parameters
   if( missing(tdur) ) tdur = list(from=0, to=1, dt=0.01)
   if( is.numeric(tdur) ) tdur = list(from=0,to=tdur,dt=0.01)
   if( is.null(tdur$from) ) tdur$from = 0
   if( is.null(tdur$dt) ) tdur$dt = diff(range(tdur$from,tdur$to))/1000
-  # pull out the differential equations 
-  eqsInds <- c()
-  for (k in 1:length(inputs)) {
-    if (class(inputs[[k]])=="formula")
-      eqsInds <- c(eqsInds, k)
-  }
-  dnames <- c()
-  dfuns <- c()
-  for (k in 1:length(eqsInds) ) {
-    tmp = inputs[[eqsInds[k]]]
-    nm = tmp[[2]] # should be name type so double [[ ]]
-    if (class(nm) != "name") stop(paste("Invalid name on LHS of formula",nm))
-    nm = as.character(nm)
-    if (grep("^d",nm)!=1) stop("Dynamical variables must start with 'd'")
-    dnames[k] <- sub("^d","",nm) # character string with the name
-    dfuns[k] <- parse(text=tmp[3]) # an expression so single [ ]
-  }
+
+  DE <- fetchDynamics(inputs)
 
   # get the additional assignments in the argument list
-  additionalInds = (!names(inputs) %in% c(dnames,"tdur")) & nchar(names(inputs))!=0 &
+  additionalInds = (!names(inputs) %in% c(DE$names,"tdur")) & nchar(names(inputs))!=0 &
     names(inputs) != "t"  # t is a special input
   additionalAssignments = inputs[additionalInds]
 
-  # construct a function representing the dynamics
-  # parameters are stored as extra arguments
-  # the order of the dynamical variables (and "t") is important and will be used
-  # later
-  dynfun = function(){}
-  # construct the dynamical variable argument list
-  tstring=ifelse(! "t"%in% dnames,",t=","")
-  ex = parse(text=paste("c(",paste(dnames,dfuns,collapse=",",sep="="),")",sep=""))
-
-  # create the dynamical variables as arguments to the function
-  dynArgs = eval(parse(
-           text=paste("alist(",  paste(dnames,"=",collapse=",",sep=""), tstring,")")))
-  formals(dynfun) = c(dynArgs,additionalAssignments)
-  body(dynfun) = ex
-  # create a functions with a vector argument of state, for use in rk()
-  wrapper = function(state,t) {}
-  tstring=ifelse(! "t"%in% dnames,",t","")
-  bd = paste("dynfun(",
-    paste("state[",1:length(dnames),"]",sep="",collapse=","),tstring,")")
-  body(wrapper) = parse(text=bd)
   #create the initial condition vector
-  initstate = unlist( inputs[dnames] )
-  if (length(initstate) != length(dnames) )
+  initstate = unlist( inputs[DE$names] )
+  if (length(initstate) != length(DE$names) )
     stop(paste("Must specify an initial condition for every variable."))
-  soln = rkintegrate(wrapper,initstate,tstart=tdur$from,tend=tdur$to,dt=tdur$dt)
+  soln = rkintegrate(
+			rkFunction(DE, additionalAssignments),
+			initstate,tstart=tdur$from,tend=tdur$to,dt=tdur$dt
+			)
   
   # Return an object with functions for each of the dynamical variables,
   # defined as NA outside the range of tdur$from to tdur$to.
   # return interpolating functions
-  res <- list()
-  for (k in 1:length(dnames)) res[[k]] <- approxfun( soln$t, soln$x[,k])
-  names(res) <- dnames
-  return(res)
+  result <- list()
+  for (k in 1:length(DE$names)) result[[k]] <- approxfun( soln$t, soln$x[,k])
+  names(result) <- DE$names
+  return(result)
 }
+
+
 #' A simple Runge-Kutte integrator
 #'
 #' Integrates ordinary differential equations using a Runge-Kutta method
