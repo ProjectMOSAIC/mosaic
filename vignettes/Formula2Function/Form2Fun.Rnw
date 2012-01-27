@@ -190,9 +190,18 @@ plotFun( a * sin(b*x) ~ x, a=3, b=6, xlim=range(-5,5), col='blue',
 
 \section{Calculus with functions}
 
+A similar formula interface is used in the differentiation and
+anti-differentiation operators.
 <<deriv>>=
 plotFun( sin(x) ~ x, xlim= range(-5,5), col='red') 
 plotFun( D( sin(x) ~ x)(x) ~ x , xlim=range(-5,5), add=TRUE, col='blue', lwd=3, alpha=.5 ) 
+@
+The previous plotting code would look a bit friendlier with an intervening
+assignment, and the y-label should be changed or removed:
+<<deriv2>>=
+plotFun( sin(x) ~ x, xlim= range(-5,5), col='red', ylab="") 
+dSin <- D( sin(x) ~ x )
+plotFun( dSin(x) ~ x , xlim=range(-5,5), add=TRUE, col='blue', lwd=3, alpha=.5 ) 
 @
 
 \section{Future plans}
