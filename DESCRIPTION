@@ -69,6 +69,6 @@ Collate:
     'createFun.R'
     'integrateODE.R'
     'is.wholenumber.R'
-    'formula2function.R'
     'parseFormula.R'
     'plotFun.R'
+    'makeFunction.R'
