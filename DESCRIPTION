@@ -72,3 +72,4 @@ Collate:
     'formula2function.R'
     'parseFormula.R'
     'plotFun.R'
+    'nlsModel.R'
