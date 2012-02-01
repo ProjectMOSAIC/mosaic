@@ -20,8 +20,9 @@
 #' simply contains the formula together with pre-assigned 
 #' arguments setting the parameter value.  Variables used in the 
 #' fitting (as opposed to parameters) are unassigned arguments 
-#' to the returned function.  NOTE: This doesn't work 
-#' with categorical explanatory variables.
+#' to the returned function.  
+#' @note
+#' This doesn't work with categorical explanatory variables.
 #'
 #' @seealso \code{\link{linearModel}}, \code{\link{nls}}
 #'
