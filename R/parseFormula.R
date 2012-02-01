@@ -78,10 +78,5 @@ operator.parsedFormula <- function(x,...) x$operator
 #' @method condition  parsedFormula
 condition.parsedFormula <- function(x,...) x$condition
 
-#listOfTerms <- function(x,...) {
-#	if (is.null(x)) return (NULL)
-#	if (length(x) <= 1) return (list(x))
-#	return( c(listOfTerms(lhs(x)), listOfTerms(rhs(x))) )
-#}
 
 

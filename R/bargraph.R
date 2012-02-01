@@ -18,9 +18,10 @@
 
 bargraph <- function(x, data, groups, ...) {
   sgroups <- substitute(groups)
+  haveGroups <- !missing(groups)
   formula <- paste("~", deparse(rhs(x)))
   if (!is.null (condition(x)) ) formula <- paste(formula, "+" , deparse(condition(x)) )
-  if (!missing(groups) ) formula <- paste(formula, "+" , sgroups )
+  if (haveGroups ) formula <- paste(formula, "+" , sgroups )
   formula <- as.formula(formula)
   xtab <- as.data.frame(xtabs( formula, data=data))
   if (! is.null(condition(x))){
@@ -28,5 +29,8 @@ bargraph <- function(x, data, groups, ...) {
   } else {
     formula <- as.formula( paste("Freq ~", deparse(rhs(x))) )
   }
-  barchart( formula, data=xtab, groups=eval(sgroups), ... )
+  if (haveGroups)
+    barchart( formula, data=xtab, groups=eval(sgroups), ... ) 
+  else
+    barchart( formula, data=xtab, ... )   
 }
