@@ -8,15 +8,17 @@
 #' @param x a formula describing the plot
 #' @param data a data frame in which the formula \code{x} is evaluated
 #' @param groups a variable or expression used for grouping.  See \code{\link[lattice]{barchart}}.
+#' @horizontal a logical indicating whether bars should be horizontal
 #' @param \dots additional arguments passed through to \code{\link[lattice]{barchart}}
 #' @return a trellis object describing the plot
 #' @seealso \code{link[lattice]{barchart}}
 #'
 #' @examples
 #' bargraph( ~ substance, data=HELPrct)
+#' bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
 #' bargraph( ~ substance | sex, groups=homeless, data=HELPrct)
 
-bargraph <- function(x, data, groups, ...) {
+bargraph <- function(x, data, groups, horizontal=FALSE, ...) {
   sgroups <- substitute(groups)
   haveGroups <- !missing(groups)
   formula <- paste("~", deparse(rhs(x)))
@@ -24,10 +26,18 @@ bargraph <- function(x, data, groups, ...) {
   if (haveGroups ) formula <- paste(formula, "+" , sgroups )
   formula <- as.formula(formula)
   xtab <- as.data.frame(xtabs( formula, data=data))
-  if (! is.null(condition(x))){
-    formula <- as.formula( paste("Freq ~", deparse(rhs(x)), "|", deparse(condition(x)) ) )
+  if (horizontal) {
+	  if (! is.null(condition(x))){
+		formula <- as.formula( paste(deparse(rhs(x)), " ~ Freq | ", deparse(condition(x)) ) )
+	  } else {
+		formula <- as.formula( paste(deparse(rhs(x)), " ~ Freq") )
+	  }
   } else {
-    formula <- as.formula( paste("Freq ~", deparse(rhs(x))) )
+	  if (! is.null(condition(x))){
+		formula <- as.formula( paste("Freq ~", deparse(rhs(x)), "|", deparse(condition(x)) ) )
+	  } else {
+		formula <- as.formula( paste("Freq ~", deparse(rhs(x))) )
+	  }
   }
   if (haveGroups)
     barchart( formula, data=xtab, groups=eval(sgroups), ... ) 
