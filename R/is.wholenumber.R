@@ -1,6 +1,6 @@
 #' Check for whole number values
 #'
-#' Unlike \code{\link{is.integer}}, which chaeck the type of argument is \code{integer}, 
+#' Unlike \code{\link{is.integer}}, which checks the type of argument is \code{integer}, 
 #' this function checks whether the value of the argument is an integer
 #' (within a specified tolerance).
 #'
