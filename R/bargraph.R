@@ -13,6 +13,11 @@
 #' @return a trellis object describing the plot
 #' @seealso \code{link[lattice]{barchart}}
 #'
+#' @note
+#' The current implementation may not work if one of the variables used in the plot
+#' is called \code{Freq}, since that variable is created by an underlying call to 
+#' \code{\link{xtabs}}.
+#'
 #' @examples
 #' bargraph( ~ substance, data=HELPrct)
 #' bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
