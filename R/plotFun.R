@@ -323,7 +323,6 @@ panel.plotFun <- function( object, ...,
 	zcuts = pretty(grid$height,50)
 	zcolors = colorscheme(length(zcuts),alpha=.5)
 	if( is.null(transparency) ) transparency<-.4
-	message(paste('transparency =', transparency))
 	fillcolors <- colorscheme(length(levels) + 2, alpha=transparency)
 
 	if( all(is.logical(zvals)) ) {  # it's a constraint function
