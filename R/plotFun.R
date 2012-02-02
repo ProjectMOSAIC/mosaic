@@ -171,9 +171,9 @@ plotFun <- function(object, ..., add=FALSE,
 			}
 			zcuts = pretty(grid$height,50)
 			zcolors = colorscheme(length(zcuts),alpha=.5)
-			if( FALSE && require(manipulate) ) {
-				manipulate(
-						   return(wireframe(height ~ Var1 + Var2, 
+			if( require(manipulate) ) {
+				return(manipulate(
+						   wireframe(height ~ Var1 + Var2, 
 											xlab=xlab,ylab=ylab,
 											zlab=list(zlab,rot=90),
 											data=grid,drape=filled,
@@ -183,10 +183,11 @@ plotFun <- function(object, ..., add=FALSE,
 											distance=dist,
 											at = zcuts, col=rgb(1,1,1,0),
 											col.regions= zcolors
-											)),
+											),
 						   rot=slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
 						   elev=slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
-						   dist=slider(min=0,max=1,step=.01,initial=.2,label="Distance"))
+						   dist=slider(min=0,max=1,step=.01,initial=.2,label="Distance")
+						   ))
 			} else {  # without manipulate
 				return(wireframe(height ~ Var1 + Var2, 
 								 xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
