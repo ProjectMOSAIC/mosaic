@@ -49,7 +49,8 @@ plotFun <- function(object, ..., add=FALSE,
 					lwd=1,col="black", filled=TRUE, 
 					levels=NULL, nlevels=10,
 					surface=FALSE,
-					colorscheme=topo.colors, type="l", transparency=NULL ) { 
+					colorscheme=topo.colors, type="l", 
+					transparency=NULL ) { 
 
 	if (add) { 
 		ladd( panel.plotFun( object, npts=npts, lwd=lwd, col=col, 
@@ -76,11 +77,12 @@ plotFun <- function(object, ..., add=FALSE,
 		pfun <- function(x){  # removed . from name, was .x
 			mydots <- dots
 			mydots[[rhsVars]] <- x
-			eval( lhs(object), envir=mydots, enclos=parent.frame())
+			eval( lhs(object), envir=mydots, enclos=parent.frame() )
 		}
 
 		# Set the axis labels
 		# deparse needed for lattice (not originally for plot)
+
 		if( is.null(ylab) ) ylab <- deparse( lhs(object) ) # deparse(..f..$sexpr)
 		if( is.null(xlab) ) xlab <- rhsVars
 
@@ -88,41 +90,43 @@ plotFun <- function(object, ..., add=FALSE,
 		# Is a limit specified, either through xlim or the variable name
 		xlim2 <- xlim
 		if( rhsVars %in% names(dots) ) {
-			xlim2 <- dots[[rhsVars]]
+			xlim2 <- range(dots[[rhsVars]])
 		}
 
-		if( length(xlim2) < 2 ) { # no limits were specified
+		if( length(xlim2) != 2 ) { # no limits were specified
 			xlim2 <- c(0,1)   # temporary default -- should use roots and critical values instead
 		}
 
-		if( (length( xlim2) < 2) & (length( xlim ) < 2 ) ) {
+		if( (length( xlim2) != 2) ) {
 			stop(paste("Must provide x-axis limit via ", 
 					   rhsVars, "= or xlim=", sep=""))
 		}
 
 
 
+		# Evaluate the function on appropriate inputs.
+		.xset <- mosaic::adapt_seq(min(xlim2), max(xlim2), 
+								   f=function(xxqq){ pfun(xxqq) }, length=npts)
+		.yset <- sapply( .xset, pfun )  # pfun(.xset)
+
 		if( is.null(ylim)) {
-			# Evaluate the function on appropriate inputs.
-			.xset <- mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
-									   f=function(xxqq){ pfun(xxqq) }, length=npts)
-			.yset <- sapply( .xset, pfun )  # pfun(.xset)
 			thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
 									   lwd=lwd, col=col, 
 									   xlim=xlim2, 
 									   xlab=xlab, ylab=ylab,
 									   main=main,
-									   panel=panel.plotFun,
-									   object=object
+									   panel=panel.xyplot
+									   # object=object
 									   )
 		} else { 
-			thePlot <- lattice::xyplot(ylim2 ~ xlim2, type=type,
+			thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
 									   lwd=lwd, col=col, 
 									   xlim=xlim2, ylim=ylim, 
 									   xlab=xlab,ylab=ylab,
 									   main=main,
-									   panel=panel.plotFun,
-									   object=object)
+									   panel=panel.xyplot
+									   #object=object
+									   )
 		}
 		return(thePlot)
 	}  # end ndims == 1
@@ -141,30 +145,17 @@ plotFun <- function(object, ..., add=FALSE,
 		xlim2 <- xlim
 		ylim2 <- ylim
 		if( rhsVars[1] %in% names(dots) ) {
-			xlim2 <- dots[[rhsVars[1]]]
+			xlim2 <- range(dots[[rhsVars[1]]])
 		}
 		if( rhsVars[2] %in% names(dots) ) {
-			ylim2 <- dots[[rhsVars[2]]]
-		}
-		#if (add  | length(xlim2)==0 | length(ylim2) == 0) {
-		#	if (length(xlim2)==0) xlim2 <- get("xlim", .plotFun.envir)
-		#	if (length(ylim2)==0) ylim2 <- get("ylim", .plotFun.envir)
-		#	add <- TRUE
-		#}
-		#else { # Store the axis limits in memory to handle a later add=TRUE
-		#	assign("xlim",range(xlim2),.plotFun.envir)
-		#	assign("ylim",range(ylim2),.plotFun.envir)
-		#}
-		if( length(xlim2) < 2 ) { # no limits were specified
-			xlim2 <- c(0,1)   # temporary default -- should use roots and critical values instead
-		}
-		if( length(ylim2) < 2 ) { # no limits were specified
-			ylim2 <- c(0,1)   # temporary default -- should use roots and critical values instead
+			ylim2 <- range(dots[[rhsVars[2]]])
 		}
 
-		if( (length( xlim2) < 2) & (length( xlim ) <2 ) ) {
-			stop(paste("Must provide x-axis limit via ", 
-					   rhsVars, "= or xlim=", sep=""))
+		if( length(xlim2) != 2 ) { # no limits were specified
+			xlim2 <- c(0,1)   # temporary default 
+		}
+		if( length(ylim2) != 2 ) { # no limits were specified
+			ylim2 <- c(0,1)   # temporary default
 		}
 
 		.xset <- seq(min(xlim2),max(xlim2),length=npts)
@@ -180,7 +171,7 @@ plotFun <- function(object, ..., add=FALSE,
 			}
 			zcuts = pretty(grid$height,50)
 			zcolors = colorscheme(length(zcuts),alpha=.5)
-			if( require(manipulate) ) {
+			if( FALSE && require(manipulate) ) {
 				manipulate(
 						   return(wireframe(height ~ Var1 + Var2, 
 											xlab=xlab,ylab=ylab,
@@ -196,8 +187,7 @@ plotFun <- function(object, ..., add=FALSE,
 						   rot=slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
 						   elev=slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
 						   dist=slider(min=0,max=1,step=.01,initial=.2,label="Distance"))
-			} 
-			else {
+			} else {  # without manipulate
 				return(wireframe(height ~ Var1 + Var2, 
 								 xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
 								 data=grid,drape=filled,shade=FALSE,colorkey=FALSE,
@@ -213,41 +203,29 @@ plotFun <- function(object, ..., add=FALSE,
 			funPlot.draw.contour <- function(x,y,z,ncontours=6,at=pretty(z,ncontours),
 											 filled=TRUE,color.scheme=topo.colors,
 											 labels=TRUE,contours=TRUE,
-											 col="black",lwd=1,xlab="",ylab=""){
-				return(levelplot(z~x*y,at=at, 
-								 xlab=xlab,ylab=ylab, 
+											 col="black",lwd=1,xlab="",ylab="",...){
+				return(levelplot(z~x*y, at=at, 
+								 xlab=xlab, ylab=ylab, 
 								 panel=panel.levelcontourplot,
 								 col.regions=color.scheme(60),
 								 contour=contours, labels=labels,
-								 colorkey = FALSE, region = TRUE,filled=filled,
-								 col=col,lwd=lwd)
+								 colorkey = FALSE, region = TRUE, filled=filled,
+								 col=col, lwd=lwd, ...)
 				)
 			}
 
-			if( add & is.null(transparency) ) transparency<-.4
-			if( is.null(transparency) ) transparency<-1
-			fillcolors <- colorscheme(length(levels)+2,alpha=transparency)
+			if( is.null(transparency) ) transparency <- 1
+			fillcolors <- colorscheme(length(levels)+2, alpha=transparency)
 
-			if( is.logical(zvals[1,1]) ){  # it's a constraint function
-				if( add ) fillcolors<- c(rgb(0,0,0,transparency),rgb(0,0,0,0))
-				else fillcolors <- colorscheme(4)
-				nlevels<-2
+			if( all (is.logical(zvals) ) ){  # it's a constraint function
+					fillcolors <- colorscheme(4, alpha=transparency)
+				nlevels <- 2
 			}
 
-			if( add ) { # add method for contour plots
-				ladd(panel.levelcontourplot(grid$Var1,grid$Var2,grid$height,
-											subscripts=1:length(grid$Var1),
-											at=pretty(grid$height,nlevels),
-											col.regions=fillcolors,
-											col=col, lwd=lwd, lty=1,
-											filled=filled
-											))
-				return(invisible(NULL))
-			}
-			else return(funPlot.draw.contour(grid$Var1,grid$Var2,grid$height, 
-											 xlab=xlab,ylab=ylab,
+			return(funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
+											 xlab=xlab, ylab=ylab,
 											 filled=filled,
-											 col=col,lwd=lwd))
+											 col=col, lwd=lwd, ...))
 		}
 	}
 	stop("Bug alert: You should not get here.  Please report.")
@@ -294,15 +272,7 @@ panel.plotFun <- function( object, ..., add=FALSE,
 				f=function(xxqq){ pfun(xxqq) }, length=npts)
   	.yset <- sapply( .xset, pfun )  # pfun(.xset)
 
-	#  if( length(.yset) != length(.xset) ){ # if pfun isn't vectorized, loop over .xset
-	#	  .yset == rep(0, length(.xset)) 
-	#	  for (k in 1:length(.xset) ) {
-	#		 .yset[k] <- pfun(.xset[k]) 
-	#		  dots[[rhsVars]] <- .xset[k]
-	#   	}
-  	#}
-
-	return(panel.lines(.xset, .yset, lwd=lwd, col=col,...)) 
+	return(panel.xyplot(.xset, .yset, lwd=lwd, col=col, type=type, ...)) 
   }
 	   
   if (ndims == 2 ) {
@@ -310,6 +280,8 @@ panel.plotFun <- function( object, ..., add=FALSE,
 			stop('no add option for surface plots yet.')
 			return(NULL)
 	}
+
+    # if we get here, surface == FALSE & ndims=2
     npts <- ifelse( is.null(npts), 40, npts)
     # create a function of those two variables
     pfun <- function(.x,.y){
@@ -329,41 +301,26 @@ panel.plotFun <- function( object, ..., add=FALSE,
 	zcuts = pretty(grid$height,50)
 	zcolors = colorscheme(length(zcuts),alpha=.5)
 	if( is.null(transparency) ) transparency<-.4
-	fillcolors <- colorscheme(length(levels)+2,alpha=transparency)
+	message(paste('transparency =', transparency))
+	fillcolors <- colorscheme(length(levels) + 2, alpha=transparency)
 
 	if( all(is.logical(zvals)) ) {  # it's a constraint function
-		# fillcolors<- c(rgb(0,0,0,transparency),rgb(0,0,0,0))
-		fillcolors <- colorscheme(4)
+		# fillcolors <- c(rgb(0,0,0,transparency), rgb(0,0,0,0))
+		fillcolors <- colorscheme(4, transparency)
 		nlevels <- 2
 	}
 
-	print(head(grid))
-	panel.levelcontourplot(x = grid$Var1, y = grid$Var2, z = grid$height,
+	return( panel.levelcontourplot(x = grid$Var1, y = grid$Var2, z = grid$height,
 						   subscripts = 1:nrow(grid),
 						   at = pretty(grid$height,nlevels),
 						   col.regions = fillcolors,
 						   col=col, lwd = lwd, lty = 1,
-						   filled=filled
+						   filled=filled, ...
 						   )
-	panel.cloud( wireframe=TRUE, z = grid$height, x = grid$Var1, y = grid$Var2, 
-					      subscripts = nrow(grid),
-						  xlim = current.panel.limits()$xlim,
-						  ylim = current.panel.limits()$ylim,
-						  zlim = range(grid$height),
-                          # xlab=xlab,ylab=ylab,
-                          # zlab=list(zlab,rot=90),
-                          drape = filled,
-                          shade = FALSE, colorkey=FALSE,
-                          scales = list(arrows=FALSE),
-                          # screen = c(z=90,x=elev-90),
-                          # distance = dist,
-                          at = zcuts, col = rgb(1,1,1,0),
-                          col.regions = zcolors
-                          )
-	return(range(grid$height))
+	)
    
-  stop("Bug alert: You should not get here.  Please report.")
   }
+  stop("Bug alert: You should not get here.  Please report.")
 }
 
 # =============================
