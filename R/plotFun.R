@@ -231,8 +231,30 @@ plotFun <- function(object, ..., add=FALSE,
 	stop("Bug alert: You should not get here.  Please report.")
 }
 
+#' Panel function for plotting functions
+#'
+#' @seealso plotFun
+#' @param object an object (e.g., a formula) describing a function
+#' @param \dots additional arguments passed on to other panel functions
+#' @param npts an integer giving the number of points (in each dimension) to sample the function
+#' @param zlab label for z axis (when in surface-plot mode)
+#' @param lwd line width for line graphs and contours
+#' @param col color for line graphs and contours
+#' @param filled fill with color between the contours (\code{TRUE} by default)
+#' @param levels levels at which to draw contours
+#' @param nlevels number of contours to draw (if \code{levels} not specified)
+#' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
+#' @param colorscheme a function (\code{topo.colors} by default) for choosing colors for fill
+#' @param type type of plot (\code{"l"} by default)
+#' @param transparency number from 0 (transparent) to 1 (opaque) for the fill colors 
+#'
+#' @examples
+#' x <- runif(30,0,2*pi) 
+#' d <- data.frame( x = x,  y = sin(x) + rnorm(30,sd=.2) )
+#' xyplot( y ~ x, data=d )
+#' ladd(panel.plotFun( sin(x) ~ x ) )
 
-panel.plotFun <- function( object, ..., add=FALSE,
+panel.plotFun <- function( object, ..., 
                    npts=NULL,
                    zlab=NULL, 
                    lwd=1, col="black", filled=TRUE, 
