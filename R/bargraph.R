@@ -8,7 +8,7 @@
 #' @param x a formula describing the plot
 #' @param data a data frame in which the formula \code{x} is evaluated
 #' @param groups a variable or expression used for grouping.  See \code{\link[lattice]{barchart}}.
-#' @horizontal a logical indicating whether bars should be horizontal
+#' @param horizontal a logical indicating whether bars should be horizontal
 #' @param \dots additional arguments passed through to \code{\link[lattice]{barchart}}
 #' @return a trellis object describing the plot
 #' @seealso \code{link[lattice]{barchart}}
