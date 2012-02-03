@@ -11,7 +11,7 @@
 
 #' Augmented histograms
 #' 
-#' \code{xhistoram} adds some additional functionality to \code{\link[lattice]{histogram}} making 
+#' \code{xhistogram} adds some additional functionality to \code{\link[lattice]{histogram}} making 
 #' it simpler to obtain certain common histogram adornments.
 #'
 #' @param x a formula or a numeric vector
@@ -19,6 +19,10 @@
 #' @param panel a panel function
 #' @param type one of \code{'density'}, \code{'count'}, or \code{'percent'}
 #' @param nint approximate number of bins
+#' @param breaks break points for histogram bins, a function for computing such,
+#'        or a method \code{\link{hist}} knows about given as a character string.
+#'        If missing, \code{\link[mosaic]{xhistogramBreaks}} is used.
+#'        
 #' @param \dots additional arguments passed to \code{\link[lattice]{histogram}} and on to
 #' 	\code{\link{panel.xhistogram}}
 #'
@@ -34,7 +38,16 @@
 
 
 xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
-						center=NULL, width=NULL, breaks=NULL, nint, ...) {
+						center=NULL, width=NULL, breaks, nint, ...) {
+	if ( missing(breaks) ) {
+		if (inherits(x,"formula")) {
+			xvals <- eval(rhs(x), data)
+		} else {
+			xvals <- x
+		}
+		breaks <- xhistogramBreaks(xvals, center=center, width=width, nint=nint)
+	}
+
 	histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
 			  nint=substitute(nint), breaks=breaks, ...)
 }
@@ -84,7 +97,7 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint) {
 #' @param start numeric value passed to \code{\link[MASS]{fitdistr}}
 #' @param center center of one of the bins
 #' @param width width of the bins
-#' @param groups,breaks as per \code{\link[lattice]{histogram}}
+#' @param groups as per \code{\link[lattice]{histogram}}
 #' @param stripes one of \code{"vertical"}, \code{"horizontal"}, or \code{"none"}, indicating
 #'        how bins should be striped when \code{groups} is not \code{NULL}
 #' @param h,v a vector of values for additional horizontal and vertical lines
