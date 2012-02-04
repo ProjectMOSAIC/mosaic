@@ -41,7 +41,11 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 						center=NULL, width=NULL, breaks, nint, ...) {
 	if ( missing(breaks) ) {
 		if (inherits(x,"formula")) {
-			xvals <- eval(rhs(x), data)
+			if (is.null(data)) {
+				eval(rhs(x), parent.env())
+			} else {
+				xvals <- eval(rhs(x), data)
+			}
 		} else {
 			xvals <- x
 		}
