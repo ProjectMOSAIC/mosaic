@@ -1,8 +1,9 @@
 Package: mosaic
 Type: Package
-Title: Project MOSAIC (mosaic-web.org) math and stats teaching utilities
-Version: 0.3-5
-Date: 2012-01-16
+Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
+    utilities
+Version: 0.3-10
+Date: 2012-02-01
 Depends:
     lattice,
     grid,
@@ -45,7 +46,6 @@ Collate:
     'linear-algebra.R'
     'logit.R'
     'perctable.R'
-    'plt.R'
     'pqrdata.R'
     'prop.test.R'
     'rand.R'
@@ -68,5 +68,10 @@ Collate:
     'datasets.R'
     'themes.R'
     'createFun.R'
+    'integrateODE.R'
     'is.wholenumber.R'
- 
+    'parseFormula.R'
+    'plotFun.R'
+    'nlsModel.R'
+    'bargraph.R'
+    'makeFunction.R'

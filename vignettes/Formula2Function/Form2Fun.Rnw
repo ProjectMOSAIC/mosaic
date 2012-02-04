@@ -1,0 +1,224 @@
+
+
+\documentclass{article}
+\usepackage[margin=.9in]{geometry}
+\usepackage{amsmath}
+\usepackage{xstring}
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{multicol}
+\usepackage{longtable}
+\renewcommand{\arraystretch}{1.4}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+
+\newcommand{\variable}[1]{{\color{green!50!black}\texttt{#1}}}
+\newcommand{\dataframe}[1]{{\color{blue!80!black}\texttt{#1}}}
+\newcommand{\function}[1]{{\color{purple!75!blue}\texttt{\StrSubstitute{#1}{()}{}()}}}
+\newcommand{\option}[1]{{\color{brown!80!black}\texttt{#1}}}
+\newcommand{\argument}[1]{{\color{brown!80!black}\texttt{#1}}}
+\newcommand{\pkg}[1]{{\color{red!80!black}\texttt{#1}}}
+\newcommand{\code}[1]{{\color{blue!80!black}\texttt{#1}}}
+% and for models
+\newcommand{\model}[2]{{$\,$\hbox{#1}\ \ensuremath{\sim}\ \hbox{#2}}}
+
+
+
+\chead{}
+\lhead{\sf Functions from Formulas }
+\rhead{\sf \thepage}
+\cfoot{\sf Last Modified: \today}
+
+\pagestyle{fancy}
+\thispagestyle{empty}
+
+%\usepackage{sfsect}
+%\usepackage{relsize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% macros %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+\def\question{{\sf Q. }}
+\def\answer{{\sf A. }}
+
+\newenvironment{example}%
+{\textbf{Example. }}%
+{}
+
+
+%%%%%%%%%%%%%%%%%%%%%% title page info %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Functions from Formulas}
+
+\author{R Pruim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\parindent=0pt
+\parskip=3mm
+
+\SweaveOpts{
+tidy=TRUE,
+dev=pdf,
+fig.path=figures/fig-,  
+fig.width=5, fig.height=3,
+fig.align=center,
+fig.show=hold,
+keep.source=TRUE,
+comment=NA
+}
+
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(grDevices)
+require(datasets)
+require(stats)
+require(lattice)
+require(grid)
+require(mosaic)
+require(fastR)
+require(vcd)
+require(abd)
+trellis.par.set(theme=theme.mosaic())
+trellis.par.set(fontsize=list(text=9))
+options(keep.blank.line=FALSE)
+options(width=90)
+@ 
+
+%%%%%%%%%%%%%%%%%%%%%%% main content starts here %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Creating simple functions easily}
+
+The \function{formula2function} function in the \pkg{mosaic} package makes
+it easy to create simple ``algebraic'' functions in \R.  By algebraic, we mean
+functions whose body is the evaluation of a mathematical expression built from
+other functions and the basic arithmetic operators.
+
+Suppose, for example, that you wanted to define a ``wave'' function like
+\[
+f(x) = a  \sin(b * x) \;.
+\]
+While it is straightforward to do this in \R, the syntax is a bit heavy for 
+beginners:
+<<oldway>>=
+wave <- function(x,a,b) { a * sin(bx) }
+@
+This is especially the case for anonymous functions that are created on the 
+fly and passed to other functions for plotting, integrating, and the like.
+
+\function{formula2function} provides an alternative syntax for these simple
+functions:
+<<newway>>=
+wave <- formula2function( a * sin(b*x) ~ x & a & b )
+@
+The resulting function is identical to the one above
+<<inspect>>=
+wave
+@
+
+In the example above, we specified all of the inputs in the right side of the
+formula.  The order of the arguments in the function will match the order
+given in the formula.  
+While this is generally a good idea, it is only required that at least
+one input be declared in this manner.  Other inputs are inferred from the
+left hand side of the formula an occur after the arguments given explicitly, 
+but the order of these additional arguments is unspecified.
+<<someArgsMissing>>=
+g <- formula2function( K*sin(x) * a * cos(y) ~ x & y); g
+@
+
+\section{Plotting functions easily}
+
+The graphics capabilities in \R\ are tuned for displaying data.  Displaying 
+mathematical functions, although possible with a function like \function{plot}
+is not as simple or as flexible as one would like.  The \function{plotFun} function
+attempts to remedy this.  By borrowing the formula syntax of lattice plots
+and embedding \function{formula2function}, plots of functions can be described
+quickly and easily.
+<<plotFun>>=
+plotFun( a * sin(b*x) ~ x, a=6, b=3, xlim=range(-5,5), col='red')
+plotFun( a * sin(b*x) ~ x, a=3, b=6, xlim=range(-5,5), col='blue', 
+		alpha=.3, lwd=4, add=TRUE)
+@
+
+\section{Calculus with functions}
+
+A similar formula interface is used in the differentiation and
+anti-differentiation operators.
+<<deriv>>=
+plotFun( sin(x) ~ x, xlim= range(-5,5), col='red') 
+plotFun( D( sin(x) ~ x)(x) ~ x , xlim=range(-5,5), add=TRUE, col='blue', lwd=3, alpha=.5 ) 
+@
+The previous plotting code would look a bit friendlier with an intervening
+assignment, and the y-label should be changed or removed:
+<<deriv2>>=
+plotFun( sin(x) ~ x, xlim= range(-5,5), col='red', ylab="") 
+dSin <- D( sin(x) ~ x )
+plotFun( dSin(x) ~ x , xlim=range(-5,5), add=TRUE, col='blue', lwd=3, alpha=.5 ) 
+@
+
+\section{Future plans}
+
+We continue to work on the \pkg{mosaic} package and specifically on the functions
+mentioned in the document.  On the to-do list:
+\begin{enumerate}
+	\item
+		Use a numerical search for roots and critical points of a function
+		to determine a default plotting region that is likely to show the most 
+		interesting aspects of the function.
+	\item
+		Extend the formula interface to allow for multi-panel plots
+		via the \code{|} operator.
+	\item
+		Change the names of \code{xlim} and \code{ylim} so that they
+		mention the true names of the arguments.  Not all functions use
+		$x$ and $y$.
+\end{enumerate}
+\end{document}

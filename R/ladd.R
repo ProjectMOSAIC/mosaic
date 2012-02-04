@@ -31,6 +31,8 @@
 #' ladd( grid.text("(2,1)",gp=gpar(cex=3,alpha=.5)), 2, 1)
 #' print(q)
 #' ladd( grid.text(paste(current.column(), current.row(),sep=','), gp=gpar(cex=3,alpha=.5)) )
+#' xhistogram( ~eruptions, data=faithful)
+#' ladd(panel.densityplot(faithful$eruptions))
 #'
 #' @keywords graphics 
 

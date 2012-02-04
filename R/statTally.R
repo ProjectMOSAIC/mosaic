@@ -33,7 +33,7 @@
 #' @examples
 #' # is my spinner fair?
 #' x <- c(10,18,9,15)   # counts in four cells
-#' rdata <- rmultinom(1000, 4, prob=rep(.25,4))
+#' rdata <- rmultinom(1000, sum(x), prob=rep(.25,4))
 #' print(statTally( x, rdata, fun=max ))  # unusual test statistic
 #' print(statTally( x, rdata, fun=var ))  # equivalent to chi-squared test
 #' 
@@ -57,29 +57,30 @@ function (sample, rdata, FUN, direction = NULL,
 		}
 	}
     dstat <- FUN(sample)
-    cat("Test Stat function: ")
-	  cat(deparse(substitute(FUN)))
-    cat("\n\n")
+#    cat("Test Stat function: ")
+#	  cat(deparse(substitute(FUN)))
+#    cat("\n\n")
     stats <- apply(rdata, direction, FUN)
-    cat("\nTest Stat applied to sample data = ")
-    cat(signif(dstat, 4))
-    cat("\n\n")
-    cat("Test Stat applied to random data:\n\n")
+    message("\nTest Stat applied to sample data = ")
+    message(signif(dstat, 4))
+    message("\n\n")
+    message("Test Stat applied to random data:\n\n")
     print(quantile(stats, q))
     if (stemplot) {
         stem(stats)
     }
-    plot1 <- xhistogram(~stats, groups=stats >= dstat, ...) 
-    cat("\nOf the random samples")
-    cat("\n\t", paste(sum(stats < dstat), "(", round(100 * 
+	results <- data.frame(stat=stats)
+    plot1 <- xhistogram(~stat, data=results,  groups=stat >= dstat, ...) 
+    message("\nOf the random samples")
+    message("\n\t", paste(sum(stats < dstat), "(", round(100 * 
         sum(stats < dstat)/length(stats), 2), "% )", "had test stats <", 
         signif(dstat, 4)))
-    cat("\n\t", paste(sum(stats == dstat), "(", round(100 * 
+    message("\n\t", paste(sum(stats == dstat), "(", round(100 * 
         sum(stats == dstat)/length(stats), 2), "% )", "had test stats =", 
         signif(dstat, 4)))
-    cat("\n\t", paste(sum(stats > dstat), "(", round(100 * 
+    message("\n\t", paste(sum(stats > dstat), "(", round(100 * 
         sum(stats > dstat)/length(stats), 2), "% )", "had test stats >", 
         signif(dstat, 4)))
-    cat("\n")
-    invisible(plot1)
+    message("\n")
+    return(invisible(plot1))
 }
