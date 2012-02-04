@@ -19,8 +19,8 @@
 #' 
 #' @examples
 #' f <- makeFunction( sin(x^2 * b) ~ x & y & a); f
-#' g <- makeFunction( sin(x^2 * b) ~ x & y & a, a=2, y=3); g
-#' h <- makeFunction( sin(x^2 * b) ~ b & y, a=2, y=3); h
+#' g <- makeFunction( sin(x^2 * b) ~ x & y & a, a=2 ); g
+#' h <- makeFunction( a * sin(x^2 * b) ~ b & y, a=2, y=3); h
 
 setGeneric(
 		   "makeFunction",
@@ -49,6 +49,12 @@ setMethod(
 	  rhsVars <- all.vars(rhs)
 	  lhsOnlyVars <- setdiff(all.vars(lhs), rhsVars)
 	  vars <- c(rhsVars, lhsOnlyVars)
+	  unDeclaredVars <- setdiff(names(vals), vars) 
+	  if (length( unDeclaredVars ) != 0) {
+		  stop(paste( "Default values provided for undeclared variables:",
+					   paste(unDeclaredVars, collapse=",")
+					 ))
+	  }
 
 	  valVec <- rep("", length(vars))
 	  names(valVec) <- vars

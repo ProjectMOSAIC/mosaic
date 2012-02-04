@@ -29,4 +29,12 @@ test_that("default arguments work", {
 test_that('Errors are thrown', {
   expect_error( makeFunction( ~ x ) )
   expect_error( makeFunction( 3 ) )
+  expect_error( makeFunction( sin(x) ~ x & a, a=3, y=4 ) )
+})
+
+test_that('Argument list is correct',{
+  f <- makeFunction( a * sin(x) ~ x & a & y )
+  expect_equivalent( names(formals(f)), c('x','a','y') )
+  f <- makeFunction( a * sin(x) ~ x & a & y, y=2, a=3 )
+  expect_equivalent( names(formals(f)), c('x','a','y') )
 })
