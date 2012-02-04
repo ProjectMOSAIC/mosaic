@@ -44,7 +44,7 @@
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200)
 #' 
 plotFun <- function(object, ..., add=FALSE,
-					xlim, ylim, npts=NULL,
+					xlim=NULL, ylim=NULL, npts=NULL,
 					ylab=NULL, xlab=NULL, zlab=NULL, main=NULL, 
 					lwd=1,col="black", filled=TRUE, 
 					levels=NULL, nlevels=10,
@@ -70,7 +70,7 @@ plotFun <- function(object, ..., add=FALSE,
 	rhsVars <- all.vars(rhs(object))
 	ndims <- length(rhsVars)
 
-	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=alist(xlim=xlim, ylim=ylim) )
+	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
 
 	if( ndims == 1 ){
 
@@ -331,20 +331,18 @@ panel.plotFun <- function( object, ...,
   stop("Bug alert: You should not get here.  Please report.")
 }
 
-#' @rdname plotFun
-#' @aliases inferArgs
-#'
+#' Infer arguments 
+#' 
+#' The primary purpose is for inferring argument settings from names derived from variables
+#' occurring in a formula.  For example, the default use is to infer limits for variables
+#' without having to call them \code{xlim} and \code{ylim} when the variables in the formula
+#' have other names.  Other uses could easily be devised by specifying different \code{variants}.
+#' 
 #' @param vars a vector of variable names to look for
 #' @param dots a named list of argument values
 #' @param defaults named list or alist of default values for limits
 #' @param variants a vector of optional postfixes for limit-specifying variable names
 #' @return a named list or alist of limits.  The names are determined by the names in \code{defaults}.
-#'
-#' @details
-#' The primary purpose is for inferring argument settings from names derived from variables
-#' occurring in a formula.  For example, the default use is to infer limits for variables
-#' without having to call them \code{xlim} and \code{ylim} when the variables in the formula
-#' have other names.  Other uses could easily be devised by specifying different \code{variants}.
 #'
 #' If multiple \code{variants} are matched, the first is used.
 #' @examples
