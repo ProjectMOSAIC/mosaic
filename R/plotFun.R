@@ -38,13 +38,13 @@
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
-#' plotFun(a*sin(x^2)~x, x=range(-5,5), a=2)
+#' plotFun(a*sin(x^2)~x, xlim=range(-5,5), a=2)
 #' f <- rfun( ~ u & v)
-#' plotFun( f(u=u,v=v) ~ u & v, u=range(-3,3), v=range(-3,3) )
+#' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200)
 #' 
 plotFun <- function(object, ..., add=FALSE,
-					xlim=NULL, ylim=NULL, npts=NULL,
+					xlim, ylim, npts=NULL,
 					ylab=NULL, xlab=NULL, zlab=NULL, main=NULL, 
 					lwd=1,col="black", filled=TRUE, 
 					levels=NULL, nlevels=10,
@@ -70,6 +70,8 @@ plotFun <- function(object, ..., add=FALSE,
 	rhsVars <- all.vars(rhs(object))
 	ndims <- length(rhsVars)
 
+	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=alist(xlim=xlim, ylim=ylim) )
+
 	if( ndims == 1 ){
 
 		npts <- ifelse( is.null(npts), 200, npts)
@@ -86,46 +88,34 @@ plotFun <- function(object, ..., add=FALSE,
 		if( is.null(ylab) ) ylab <- deparse( lhs(object) ) # deparse(..f..$sexpr)
 		if( is.null(xlab) ) xlab <- rhsVars
 
-		# figure out the limits.  
-		# Is a limit specified, either through xlim or the variable name
-		xlim2 <- xlim
-		if( rhsVars %in% names(dots) ) {
-			xlim2 <- range(dots[[rhsVars]])
-		}
-
-		if( length(xlim2) != 2 ) { # no limits were specified
-			xlim2 <- c(0,1)   # temporary default -- should use roots and critical values instead
-		}
-
-		if( (length( xlim2) != 2) ) {
-			stop(paste("Must provide x-axis limit via ", 
-					   rhsVars, "= or xlim=", sep=""))
-		}
-
-
+		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) 
+			limits$xlim <- c(0,1)  # temporary default
+		else 
+			limits$xlim <- range(limits$xlim)
 
 		# Evaluate the function on appropriate inputs.
-		.xset <- mosaic::adapt_seq(min(xlim2), max(xlim2), 
+		.xset <- mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
 								   f=function(xxqq){ pfun(xxqq) }, length=npts)
 		.yset <- sapply( .xset, pfun )  # pfun(.xset)
 
-		if( is.null(ylim)) {
+		# note: passing ... through to the lattice functions currently conflicts with
+		# using ... to set values of "co-variates" of the function.
+		if( length(limits$ylim) != 2 ) {
 			thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
 									   lwd=lwd, col=col, 
-									   xlim=xlim2, 
+									   xlim=limits$xlim, 
 									   xlab=xlab, ylab=ylab,
 									   main=main,
 									   panel=panel.xyplot
-									   # object=object
 									   )
 		} else { 
 			thePlot <- lattice::xyplot(.yset ~ .xset, type=type,
 									   lwd=lwd, col=col, 
-									   xlim=xlim2, ylim=ylim, 
+									   xlim=limits$xlim, 
+									   ylim=limits$ylim, 
 									   xlab=xlab,ylab=ylab,
 									   main=main,
 									   panel=panel.xyplot
-									   #object=object
 									   )
 		}
 		return(thePlot)
@@ -142,24 +132,19 @@ plotFun <- function(object, ..., add=FALSE,
 		if( length(ylab) == 0 ) ylab <- rhsVars[2]
 		if( length(xlab) == 0 ) xlab <- rhsVars[1]
 		if( length(zlab) == 0 ) zlab <- deparse(lhs(object))
-		xlim2 <- xlim
-		ylim2 <- ylim
-		if( rhsVars[1] %in% names(dots) ) {
-			xlim2 <- range(dots[[rhsVars[1]]])
-		}
-		if( rhsVars[2] %in% names(dots) ) {
-			ylim2 <- range(dots[[rhsVars[2]]])
-		}
 
-		if( length(xlim2) != 2 ) { # no limits were specified
-			xlim2 <- c(0,1)   # temporary default 
-		}
-		if( length(ylim2) != 2 ) { # no limits were specified
-			ylim2 <- c(0,1)   # temporary default
-		}
+		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) 
+			limits$xlim <- c(0,1)  # temporary default
+		else 
+			limits$xlim <- range(limits$xlim)
 
-		.xset <- seq(min(xlim2),max(xlim2),length=npts)
-		.yset <- seq(min(ylim2),max(ylim2),length=npts)
+		if (is.null(limits$ylim) || length(limits$ylim) < 2 ) 
+			limits$ylim <- c(0,1)  # temporary default
+		else 
+			limits$ylim <- range(limits$ylim)
+
+		.xset <- seq(min(limits$xlim),max(limits$xlim),length=npts)
+		.yset <- seq(min(limits$ylim),max(limits$ylim),length=npts)
 		zvals <- outer(.xset, .yset, function(x,y){pfun(x,y)} )
 		grid <- expand.grid( .xset, .yset )
 		grid$height <- c(zvals)
@@ -183,6 +168,7 @@ plotFun <- function(object, ..., add=FALSE,
 											distance=dist,
 											at = zcuts, col=rgb(1,1,1,0),
 											col.regions= zcolors
+											#...
 											),
 						   rot=slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
 						   elev=slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
@@ -211,7 +197,7 @@ plotFun <- function(object, ..., add=FALSE,
 								 col.regions=color.scheme(60),
 								 contour=contours, labels=labels,
 								 colorkey = FALSE, region = TRUE, filled=filled,
-								 col=col, lwd=lwd, ...)
+								 col=col, lwd=lwd) # , ...)
 				)
 			}
 
@@ -226,7 +212,7 @@ plotFun <- function(object, ..., add=FALSE,
 			return(funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
 											 xlab=xlab, ylab=ylab,
 											 filled=filled,
-											 col=col, lwd=lwd, ...))
+											 col=col, lwd=lwd)) #, ...))
 		}
 	}
 	stop("Bug alert: You should not get here.  Please report.")
@@ -295,7 +281,7 @@ panel.plotFun <- function( object, ...,
 				f=function(xxqq){ pfun(xxqq) }, length=npts)
   	.yset <- sapply( .xset, pfun )  # pfun(.xset)
 
-	return(panel.xyplot(.xset, .yset, lwd=lwd, col=col, type=type, ...)) 
+	return(panel.xyplot(.xset, .yset, lwd=lwd, col=col, type=type)) # , ...)) 
   }
 	   
   if (ndims == 2 ) {
@@ -337,12 +323,55 @@ panel.plotFun <- function( object, ...,
 						   at = pretty(grid$height,nlevels),
 						   col.regions = fillcolors,
 						   col=col, lwd = lwd, lty = 1,
-						   filled=filled, ...
+						   filled=filled # , ...
 						   )
 	)
    
   }
   stop("Bug alert: You should not get here.  Please report.")
+}
+
+#' @rdname plotFun
+#' @aliases inferArgs
+#'
+#' @param vars a vector of variable names to look for
+#' @param dots a named list of argument values
+#' @param defaults named list or alist of default values for limits
+#' @param variants a vector of optional postfixes for limit-specifying variable names
+#' @return a named list or alist of limits.  The names are determined by the names in \code{defaults}.
+#'
+#' @details
+#' The primary purpose is for inferring argument settings from names derived from variables
+#' occurring in a formula.  For example, the default use is to infer limits for variables
+#' without having to call them \code{xlim} and \code{ylim} when the variables in the formula
+#' have other names.  Other uses could easily be devised by specifying different \code{variants}.
+#'
+#' If multiple \code{variants} are matched, the first is used.
+#' @examples
+#' inferArgs( c('x','u','t'), list(t=c(1,3), x.lim=c(1,10), u=c(1,3), u.lim=c(2,4) ) )
+#' inferArgs( c('x','u'), list(u=c(1,3)), defaults=list(xlim=c(0,1), ylim=NULL)  ) 
+
+
+inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants=c('.lim','lim') ) {
+	limNames <- names(defaults)
+	if (length(vars) > length(limNames)) 
+		stop( paste("Can only infer", 
+					paste(limNames, sep=""), 
+					"; but you provided", 
+					length(vars)),
+			 		" variables to search for.", 
+					sep="")
+	result <-defaults
+
+	for (slot in 1:length(vars)) {
+		for (variant in rev(variants)){
+			var.lim <- paste(vars[slot],variant,sep="")
+			if (! is.null(dots[[var.lim]]) ) {
+				result[[limNames[slot]]] <- dots[[var.lim]]
+			}
+		}
+	}
+	return(result)
 }
 
 # =============================
