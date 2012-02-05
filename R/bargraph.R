@@ -10,6 +10,10 @@
 #' @param groups a variable or expression used for grouping.  See \code{\link[lattice]{barchart}}.
 #' @param horizontal a logical indicating whether bars should be horizontal
 #' @param \dots additional arguments passed through to \code{\link[lattice]{barchart}}
+#' @param origin beginning point for bars.  For the default behavior used by 
+#'        \code{\link[lattice]{barchart}} set \code{origin} to \code{NULL}, but
+#'         0 is a better default, and if 0 is not good, perhaps you should use
+#'        a different kind of plot anyway.
 #' @return a trellis object describing the plot
 #' @seealso \code{link[lattice]{barchart}}
 #'
@@ -23,7 +27,7 @@
 #' bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
 #' bargraph( ~ substance | sex, groups=homeless, data=HELPrct)
 
-bargraph <- function(x, data, groups, horizontal=FALSE, ...) {
+bargraph <- function(x, data, groups, horizontal=FALSE, origin=0, ...) {
   sgroups <- substitute(groups)
   haveGroups <- !missing(groups)
   formula <- paste("~", deparse(rhs(x)))
@@ -45,7 +49,7 @@ bargraph <- function(x, data, groups, horizontal=FALSE, ...) {
 	  }
   }
   if (haveGroups)
-    barchart( formula, data=xtab, groups=eval(sgroups), ... ) 
+    barchart( formula, data=xtab, groups=eval(sgroups), origin=origin, ... ) 
   else
-    barchart( formula, data=xtab, ... )   
+    barchart( formula, data=xtab, origin=origin, ... )   
 }
