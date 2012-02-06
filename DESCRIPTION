@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.3-12
-Date: 2012-02-04
+Version: 0.3-13
+Date: 2012-02-06
 Depends:
     lattice,
     grid,
@@ -13,7 +13,8 @@ Depends:
 Suggests:
     MASS,
     reshape2,
-    manipulate
+    manipulate,
+    testthat
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@smith.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>
