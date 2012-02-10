@@ -5,15 +5,16 @@
 #' @param proportion a logical indicating whether the results should be returned as proportions
 #' rahter than counts
 #' @param margins a logical indication whether marginal distributions should be displayed.
+#' @export
 #' @examples
-#' tabulate( ~ substance, HELPrct)
-#' tabulate( ~ substance & sex , HELPrct)
-#' tabulate( sex ~ substance, HELPrct)
-#' tabulate( ~ substance | sex , HELPrct)
-#' tabulate( ~ substance | sex , HELPrct, proportion=TRUE)
-#' tabulate( ~ substance & sex , HELPrct, proportion=TRUE)
+#' mtable( ~ substance, HELPrct)
+#' mtable( ~ substance & sex , HELPrct)
+#' mtable( sex ~ substance, HELPrct)
+#' mtable( ~ substance | sex , HELPrct)
+#' mtable( ~ substance | sex , HELPrct, proportion=TRUE)
+#' mtable( ~ substance & sex , HELPrct, proportion=TRUE)
 
-tabulate <- function(formula, data=parent.frame(), proportion=FALSE, margins=TRUE) {
+mtable <- function(formula, data=parent.frame(), proportion=FALSE, margins=TRUE) {
 	evalF <- evalFormula(formula,data)
 	if (is.null(evalF$condition)) {
 		evalF$condition <- evalF$right
@@ -35,6 +36,7 @@ tabulate <- function(formula, data=parent.frame(), proportion=FALSE, margins=TRU
 #' @param data a data frame or environment in which evaluation occurs
 #' @return a list containing data frames corresponding to the left, right, and condition
 #' slots of \code{formula}
+#' @export
 #' @examples
 #' data(CPS)
 #' cps <- CPS[1:6,]
@@ -59,6 +61,7 @@ evalFormula <- function(formula, data=parent.frame()) {
 #' @param split a vector of operators that are not evaluated as operators but
 #'      instead used to further split \code{x}
 #' @return a data frame containing the terms of the evaluated subformula
+#' @export
 #' @examples
 #' data(CPS)
 #' cps <- CPS[1:6,]
@@ -79,6 +82,7 @@ evalSubFormula <- function(x, data=parent.frame(), split=c('&') ){
 #'
 #' @param left,right data frames
 #' @return a data frame containing columns from each of \code{left} and \code{right}
+#' @export
 
 joinFrames <- function(left, right){
     if( is.null(right)) return(left)
