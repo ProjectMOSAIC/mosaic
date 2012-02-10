@@ -2,33 +2,77 @@
 #'
 #' @param formula a formula describing the type of table desired
 #' @param data a data frame or environment in which evaluation occurs
-#' @param proportion a logical indicating whether the results should be returned as proportions
-#' rahter than counts
-#' @param margins a logical indication whether marginal distributions should be displayed.
+#' @param format a character string describing the desired format of the results.
+#'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
+#'        In case of \code{'default'}, counts are used unless there is a condition, in
+#'        which case proportions are used instead.
+#' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @export
 #' @examples
 #' mtable( ~ substance, HELPrct)
 #' mtable( ~ substance & sex , HELPrct)
-#' mtable( sex ~ substance, HELPrct)
+#' mtable( sex ~ substance, HELPrct)   # equivalent to mtable( ~ sex | substance, ... )
 #' mtable( ~ substance | sex , HELPrct)
-#' mtable( ~ substance | sex , HELPrct, proportion=TRUE)
-#' mtable( ~ substance & sex , HELPrct, proportion=TRUE)
+#' mtable( ~ substance | sex , HELPrct, format='count')
+#' mtable( ~ substance & sex , HELPrct, format='percent')
 
-mtable <- function(formula, data=parent.frame(), proportion=FALSE, margins=TRUE) {
+mtable <- function(formula, data=parent.frame(), 
+				   format=c('default','count','proportion','percent'), 
+				   margins=TRUE) {
+	format <- match.arg(format)
 	evalF <- evalFormula(formula,data)
-	if (is.null(evalF$condition)) {
+
+	# shift things around if lhs exists and condition is empty
+	if (!is.null (evalF$left) && is.null(evalF$condition)) {
 		evalF$condition <- evalF$right
 		evalF$right <- evalF$left
 		evalF$left <- NULL
 	}
+
+	if (format == 'default'){
+		if (is.null(evalF$condition) ) format <- 'count'
+		else format <- 'proportion'
+	}
+
 	res <- table(joinFrames(evalF$right,evalF$condition))
-	if (proportion)
-		res <- prop.table(res, margin = ncol(evalF$right) + (1:ncol(evalF$condition)) )
-	if (margins)
-		return(addmargins(res))
-	else 
-		return(res)
+	res <- switch(format,
+		   'count' = 
+				res,
+		   'proportion' = 
+		   		prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) ),
+		   'percent' = 
+		   		100 * prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) )
+		   )
+	if (margins) {  # add margins for the non-condition dimensions of the table
+		res <- addmargins(res, 1:ncol(evalF$right))
+	}
+	return(res)
 }
+
+#' return a vector of row or column indices
+#'
+#' @param x an object that may or may not have any rows or columns
+#' @param default what to return if there are no rows or columns
+#' @return if \code{x} has rows or columns, a vector of indices, else \code{default}
+#' @rdname columns
+#' @examples
+#' dim(HELPrct)
+#' columns(HELPrct)
+#' rows(HELPrct)
+#' columns(NULL)
+#' columns("this doesn't have columns")
+
+columns <- function(x, default=c()) {
+	hi <- ncol(x)
+	if (is.null(hi)) return(default) else  return( 1:hi )
+}
+
+#' @rdname columns
+rows <- function(x, default=c()) {
+	hi <- nrow(x)
+	if (is.null(hi)) return(default) else  return( 1:hi )
+}
+
 
 #' Evaluate a formula 
 #' 
