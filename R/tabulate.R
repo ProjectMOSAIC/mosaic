@@ -44,7 +44,7 @@ mtable <- function(formula, data=parent.frame(),
 		   		100 * prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) )
 		   )
 	if (margins) {  # add margins for the non-condition dimensions of the table
-		res <- addmargins(res, 1:ncol(evalF$right))
+		res <- addmargins(res, 1:ncol(evalF$right), FUN=list(Total=sum) )
 	}
 	return(res)
 }
