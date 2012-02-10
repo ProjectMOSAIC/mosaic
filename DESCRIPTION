@@ -76,3 +76,4 @@ Collate:
     'nlsModel.R'
     'bargraph.R'
     'makeFunction.R'
+    'tabulate.R'
