@@ -135,17 +135,10 @@ evalSubFormula <- function(x, data=parent.frame(), split=c('&') ){
 #' Join data frames
 #'
 #' @param left,right data frames
-#' @return a data frame containing columns from each of \code{left} and \code{right}
+#' @param \dots data frames to be joined
+#' @rdname joinFrames
+#' @return a data frame containing columns from each of data frames being joined.
 #' @export
-
-joinTwoFrames <- function(left, right){
-    if( is.null(right)) return(left)
-    if( is.null(left)) return(right)
-    # this is to keep names like "cross(sex,hair)" intact
-    result <-  data.frame(left, right)
-    names(result) <- c((names(left)),(names(right)))
-    return(result)
-} 
 
 joinFrames <- function(...) {
 	dots <- list(...)
@@ -155,3 +148,14 @@ joinFrames <- function(...) {
 	first <- dots[[1]]; dots[[1]] <- NULL
 	return( joinTwoFrames( first, do.call(joinFrames, dots)) )
 } 
+
+#' @rdname joinFrames
+joinTwoFrames <- function(left, right){
+    if( is.null(right)) return(left)
+    if( is.null(left)) return(right)
+    # this is to keep names like "cross(sex,hair)" intact
+    result <-  data.frame(left, right)
+    names(result) <- c((names(left)),(names(right)))
+    return(result)
+} 
+
