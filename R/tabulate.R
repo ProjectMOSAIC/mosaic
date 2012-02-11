@@ -6,6 +6,9 @@
 #'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
 #'        In case of \code{'default'}, counts are used unless there is a condition, in
 #'        which case proportions are used instead.
+#' @param subset an expression evaluating to a logical vector used to select a subset of \code{data}
+#' @param quiet a logical indicating whether messages about order in which marginal distributions
+#'        are calculated should be surpressed.  See \code{\link{addmargins}}.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @export
 #' @examples
@@ -18,9 +21,16 @@
 
 mtable <- function(formula, data=parent.frame(), 
 				   format=c('default','count','proportion','percent'), 
-				   margins=TRUE) {
+				   margins=TRUE,
+				   quiet=TRUE,
+				   subset) {
+	if (missing(subset)) {
+		subset <- TRUE
+	} else {
+		subset <- eval(substitute(subset), data, environment(formula))
+	}
 	format <- match.arg(format)
-	evalF <- evalFormula(formula,data)
+	evalF <- evalFormula(formula,subset(data, subset))
 
 	# shift things around if lhs exists and condition is empty
 	if (!is.null (evalF$left) && is.null(evalF$condition)) {
@@ -44,7 +54,7 @@ mtable <- function(formula, data=parent.frame(),
 		   		100 * prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) )
 		   )
 	if (margins) {  # add margins for the non-condition dimensions of the table
-		res <- addmargins(res, 1:ncol(evalF$right), FUN=list(Total=sum) )
+		res <- addmargins(res, 1:ncol(evalF$right), FUN=list(Total=sum), quiet=quiet )
 	}
 	return(res)
 }
@@ -128,11 +138,20 @@ evalSubFormula <- function(x, data=parent.frame(), split=c('&') ){
 #' @return a data frame containing columns from each of \code{left} and \code{right}
 #' @export
 
-joinFrames <- function(left, right){
+joinTwoFrames <- function(left, right){
     if( is.null(right)) return(left)
     if( is.null(left)) return(right)
     # this is to keep names like "cross(sex,hair)" intact
     result <-  data.frame(left, right)
     names(result) <- c((names(left)),(names(right)))
     return(result)
+} 
+
+joinFrames <- function(...) {
+	dots <- list(...)
+	if (length(dots) == 0) return(NULL)
+	if (length(dots) == 1) return(dots[[1]])
+	if (length(dots) == 2) return(joinTwoFrames(dots[[1]],dots[[2]]))
+	first <- dots[[1]]; dots[[1]] <- NULL
+	return( joinTwoFrames( first, do.call(joinFrames, dots)) )
 } 

@@ -15,3 +15,11 @@ test_that("Proportions/Counts/Percents selected correctly", {
   expect_equivalent( 100 * mtable( ~ sex & substance | homeless, format='proportion', HELPrct),
                           mtable( ~ sex & substance | homeless, format='percent', HELPrct))
 })
+
+test_that("Subsetting works", {
+  expect_equivalent( 
+	mtable( ~ substance & homeless, HELPrct, subset=sex=='male' ) + 
+	mtable( ~ substance & homeless, HELPrct, subset=sex=='female' ),
+	mtable( ~ substance & homeless, HELPrct) 
+  )
+})
