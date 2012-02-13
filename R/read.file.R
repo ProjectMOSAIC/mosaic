@@ -14,7 +14,7 @@
 #' @param header logical;  
 #'     For \code{.txt} and \code{.csv} files, this indicates whether the first line of the file includes variables names.
 #' 
-#' @param na.strings character: stings that indicate missing data.
+#' @param na.strings character: strings that indicate missing data.
 #' 
 #' @param comment.char 
 #' character: a character vector of length one containing a single character or an empty string. Use "" to turn 
