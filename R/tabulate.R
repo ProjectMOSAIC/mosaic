@@ -24,13 +24,15 @@ mtable <- function(formula, data=parent.frame(),
 				   margins=TRUE,
 				   quiet=TRUE,
 				   subset) {
-	if (missing(subset)) {
-		subset <- TRUE
-	} else {
-		subset <- eval(substitute(subset), data, environment(formula))
-	}
 	format <- match.arg(format)
-	evalF <- evalFormula(formula,subset(data, subset))
+	evalF <- evalFormula(formula,data)
+
+	if (!missing(subset)) {
+		subset <- eval(substitute(subset), data, environment(formula))
+		if (!is.null(evalF$left))           evalF$left <- evalF$left[subset,]
+		if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
+		if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
+	}
 
 	# shift things around if lhs exists and condition is empty
 	if (!is.null (evalF$left) && is.null(evalF$condition)) {
