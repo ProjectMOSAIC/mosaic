@@ -1,8 +1,9 @@
 Package: mosaic
 Type: Package
-Title: Project MOSAIC (mosaic-web.org) math and stats teaching utilities
-Version: 0.3-5
-Date: 2012-01-16
+Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
+    utilities
+Version: 0.3-14
+Date: 2012-02-09
 Depends:
     lattice,
     grid,
@@ -12,7 +13,8 @@ Depends:
 Suggests:
     MASS,
     reshape2,
-    manipulate
+    manipulate,
+    testthat
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@smith.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>
@@ -45,7 +47,6 @@ Collate:
     'linear-algebra.R'
     'logit.R'
     'perctable.R'
-    'plt.R'
     'pqrdata.R'
     'prop.test.R'
     'rand.R'
@@ -68,3 +69,10 @@ Collate:
     'datasets.R'
     'themes.R'
     'createFun.R'
+    'integrateODE.R'
+    'is.wholenumber.R'
+    'parseFormula.R'
+    'plotFun.R'
+    'nlsModel.R'
+    'bargraph.R'
+    'makeFunction.R'

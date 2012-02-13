@@ -832,7 +832,7 @@ SD <- function(x) {
 #' @keywords internal
 .mosaic_aggregate <- function(x, data, FUN, overall=mosaic.par.get("aggregate.overall"), ...) {
 	if (length(x) == 2 ) {
-		return( data.frame( FUN (eval( x[[2]], data, enclose=parent.frame()) ) ) )
+		return( data.frame( FUN (eval( x[[2]], data, enclos=parent.frame()) ) ) )
 	} else {
 		return( as.data.frame( 
 			Hmisc::summary.formula( x, data, fun=FUN, overall=overall, method='cross',...) ) )

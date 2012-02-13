@@ -19,3 +19,4 @@ man/*.Rd
 data/*.csv.bz2
 NAMESPACE
 .Rd2dvi*
+vignettes/*/*.tex

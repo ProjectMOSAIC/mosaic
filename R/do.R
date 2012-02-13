@@ -52,7 +52,7 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 	if (is.data.frame(x)) return(x)
 	if (is.vector(x)) {
 		nn <- names(x)
-		result <- as.data.frame( matrix(x, nr=1) )
+		result <- as.data.frame( matrix(x, nrow=1) )
 		if (! is.null(nn) ) names(result) <- nn
 		return(result)
 	}

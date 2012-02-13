@@ -224,7 +224,7 @@ googleMap <- function(latitude, longitude, position=NULL,
 		url <- file.path(paths, filename)
 		url <- paste("file://",url,sep="")
 	}
-	url <- paste('http://mosaic-web.org/',filename,sep="")
+	url <- paste('http://mosaic-web.org/go/',filename,sep="")
 	if (is.null(position)) {
 		position <- data.frame(lat=latitude,lon=longitude)
 	}

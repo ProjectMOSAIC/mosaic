@@ -1,6 +1,7 @@
 ^sandbox$
 ^bin$
 ^builds$
+^vignettes$
 ^\.Rproj\.user$
 ^\.Rd2dvi.*$
 ^.*\.csv\.bz2.*$

@@ -51,7 +51,9 @@ plotFun <- function(expr, ..., add=FALSE,
                    surface=FALSE,
                    colorscheme=topo.colors,type="l",transparency=NULL ) { 
   dots <- list(...)
-  
+ 
+  # funny names (like ..f..) are to avoid names that might be used by the user
+  # not sure whether this precaution is necessary in current implementation
   ..f.. <- .createMathFun( sexpr=substitute(expr), ...)
 
   vars <- formals(..f..$fun)

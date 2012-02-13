@@ -236,9 +236,9 @@
 % unless someone wants to recode all that.
 \newcommand{\VN}[1]{{\color{green!50!black}\texttt{#1}}}
 \newcommand{\vn}[1]{{\color{green!50!black}\texttt{#1}}}
-\newcommand{\variable}[1]{{\color{green!50!black}\texttt{#1}}}
 \newcommand{\DFN}[1]{{\color{blue!80!black}\texttt{#1}}}
 \newcommand{\dfn}[1]{{\color{blue!80!black}\texttt{#1}}}
+\newcommand{\variable}[1]{{\color{green!50!black}\texttt{#1}}}
 \newcommand{\dataframe}[1]{{\color{blue!80!black}\texttt{#1}}}
 \newcommand{\function}[1]{{\color{purple!75!blue}\texttt{\StrSubstitute{#1}{()}{}()}}}
 \newcommand{\option}[1]{{\color{brown!80!black}\texttt{#1}}}
