@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.3-16
-Date: 2012-02-10
+Version: 0.3-17
+Date: 2012-02-16
 Depends:
     lattice,
     grid,
@@ -77,3 +77,6 @@ Collate:
     'bargraph.R'
     'makeFunction.R'
     'tabulate.R'
+    'as.xtabs.R'
+    'plotCumfreq.R'
+    'oddsRatio.R'
