@@ -34,11 +34,14 @@
 #' draw both line plots and contour/surface plots (for functions of two variables)
 #' In RStudio, the surface plot comes with sliders to set orientation.
 #' If the colors in filled surface plots are two blocky, increase \code{npts} 
-#' beyond the default of 50. \code{npts=300} is as much as you're likely to every need
+#' beyond the default of 50. \code{npts=300} is as much as you're likely to ever need
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
 #' plotFun(a*sin(x^2)~x, xlim=range(-5,5), a=2)
+#' plotFun( x^2 -3 ~ x, xlim=c(-4,4), grid=TRUE)
+#' ladd(panel.abline(h=0,v=0,col='gray50'))
+#' plotFun( (x^2 -3) * (x^2 > 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE)
 #' f <- rfun( ~ u & v)
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200)
@@ -104,8 +107,11 @@ plotFun <- function(object, ..., add=FALSE,
 			limits$xlim <- range(limits$xlim)
 
 		# Evaluate the function on appropriate inputs.
-		.xvals <- mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
-								   f=function(xxqq){ pfun(xxqq) }, length=npts)
+		.xvals <- switch(type,
+						 'h' = seq(min(limits$xlim), max(limits$xlim), length.out=npts),
+						 mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
+										   f=function(xxqq){ pfun(xxqq) }, length=npts)
+						 )
 		.yvals <- sapply( .xvals, pfun )  # pfun(.xvals)
 		plotData <- data.frame(.xvals, .yvals, .xvals, .yvals)
 		names(plotData) <- c(".x", ".y", rhsVars, paste('f(',rhsVars,')',sep=''))
@@ -307,12 +313,15 @@ panel.plotFun <- function( object, ...,
 	  }
 
 	  # Evaluate the function on appropriate inputs.
-	  .xvals <- mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
+	  .xvals <- switch(type,
+						 'h' = seq(min(parent.xlim), max(parent.xlim), length.out=npts),
+		  				 mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
 								 f=function(xxqq){ pfun(xxqq) }, length=npts)
+						 )
 	  .yvals <- sapply( .xvals, pfun )  # pfun(.xvals)
 
-	  #return(panel.xyplot(.xvals, .yvals, lwd=lwd, col=col, type=type)) # , ...)) 
-	  return(panel.xyplot(.xvals, .yvals, ...))
+	  return(panel.xyplot(.xvals, .yvals, type=type, alpha=alpha, ...))
+	  #return(panel.xyplot(.xvals, .yvals, ...))
   }
 	   
   if (ndims == 2 ) {
