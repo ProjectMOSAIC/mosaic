@@ -72,7 +72,7 @@ setMethod(
 	'mean',
 	'ANY',
 	function(x, ..., na.rm=TRUE, trim=0) 
-		c( mean=base::mean( .flatten(c(x,list(...))), na.rm=na.rm, trim=trim ) )
+		base::mean( .flatten(c(x,list(...))), na.rm=na.rm, trim=trim ) 
 	
 )
 
@@ -84,7 +84,7 @@ setMethod(
 	'mean',
 	'numeric',
 	function(x, ..., na.rm=TRUE, trim=0) 
-		c( mean=base::mean( c(x,.flatten(list(...))), na.rm=na.rm, trim=trim ) )
+		base::mean( c(x,.flatten(list(...))), na.rm=na.rm, trim=trim ) 
 	
 )
 
@@ -96,7 +96,6 @@ setMethod(
 	signature=c("data.frame"),
 	function(x, ..., na.rm=TRUE, trim=0) 
 		base::mean(x=x, ..., na.rm=na.rm, trim=trim)
-	
 )
 
 #' @rdname aggregating-methods
@@ -152,7 +151,7 @@ setMethod(
 	'median',
 	'ANY',
 	function(x, ..., na.rm=TRUE) 
-		c( median=stats::median( .flatten(c(x,list(...))), na.rm=na.rm ) )
+		stats::median( .flatten(c(x,list(...))), na.rm=na.rm ) 
 	
 )
 
@@ -163,7 +162,7 @@ setMethod(
 	'median',
 	'numeric',
 	function(x, ..., na.rm=TRUE) 
-		c( median=stats::median( c(x,.flatten(list(...))), na.rm=na.rm) )
+		stats::median( c(x,.flatten(list(...))), na.rm=na.rm)
 	
 )
 
@@ -228,7 +227,7 @@ setMethod(
 	'sd',
 	'ANY',
 	function(x, ..., na.rm=TRUE) 
-		c( sd=stats::sd( .flatten(c(x,list(...))), na.rm=na.rm) )
+		stats::sd( .flatten(c(x,list(...))), na.rm=na.rm) 
 )
 
 #' @rdname aggregating-methods
@@ -238,7 +237,7 @@ setMethod(
 	'sd',
 	'numeric',
 	function(x, ..., na.rm=TRUE) 
-		c( sd=stats::sd( c(x,.flatten(list(...))), na.rm=na.rm) )
+		stats::sd( c(x,.flatten(list(...))), na.rm=na.rm)
 	
 )
 
@@ -339,7 +338,7 @@ setMethod(
 	'.Max',
 	'ANY',
 	function(x, ..., na.rm=TRUE) 
-		c( max=base::max( x,..., na.rm=na.rm) )
+		base::max( x,..., na.rm=na.rm) 
 )
 
 setMethod(
@@ -391,7 +390,7 @@ setMethod(
 	'.Min',
 	'ANY',
 	function(x, ..., na.rm=TRUE) 
-		c( max=base::min(x ,..., na.rm=na.rm) )
+		base::min(x ,..., na.rm=na.rm)
 )
 
 setMethod(
@@ -481,7 +480,7 @@ setMethod(
 	'var',
 	c('numeric','numeric'),
 	function(x, y, na.rm=TRUE, use=use, data=data) 
-		c( var=stats::var( x, y, na.rm=na.rm, use=use) )
+		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
 #' @rdname aggregating-methods
@@ -491,7 +490,7 @@ setMethod(
 	'var',
 	c('numeric'),
 	function(x, y, na.rm=TRUE, use=use, data=data) 
-		c( var=stats::var( x, y, na.rm=na.rm, use=use) )
+		stats::var( x, y, na.rm=na.rm, use=use)
 )
 
 #' @rdname aggregating-methods
@@ -592,7 +591,7 @@ setMethod(
 	'count',
 	'ANY',
 	function(x, ..., level=level, na.rm=TRUE) 
-		c( count=callGeneric( as.factor( .flatten(c(x,list(...))) ), level=level, na.rm=na.rm) )
+		callGeneric( as.factor( .flatten(c(x,list(...))) ), level=level, na.rm=na.rm) 
 )
 
 #' @rdname aggregating-methods
@@ -681,7 +680,7 @@ setMethod(
 	'prop',
 	'ANY',
 	function(x, ..., level=level, na.rm=TRUE) 
-		c( prop=callGeneric( as.factor( .flatten(c(x,list(...))) ), level=level, na.rm=na.rm) )
+		callGeneric( as.factor( .flatten(c(x,list(...))) ), level=level, na.rm=na.rm) 
 )
 
 #' @rdname aggregating-methods
