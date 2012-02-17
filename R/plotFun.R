@@ -8,7 +8,6 @@
 #' @aliases plotFun
 #'
 #' @param object a mathematical expression (see examples)
-#' @param ... additional assignments to parameters and limits
 #' @param add if TRUE, then overlay an existing plot
 #' @param xlim limits for x axis (or use variable names, see examples)
 #' @param ylim limits for y axis (or use variable names, see examples)
@@ -16,8 +15,6 @@
 #' @param xlab label for x axis
 #' @param ylab label for y axis
 #' @param zlab label for z axis (when in surface-plot mode)
-#' @param main main label for plot
-#' @param lwd line width for line graphs and contours
 #' @param col color for line graphs and contours
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
@@ -25,7 +22,18 @@
 #' @param surface draw a surface plot rather than a contour plot
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
-#' @param transparency number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param \dots additional parameters, typically processed by \code{lattice} functions such as 
+#' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
+#' Frequently used parameters include 
+#' \describe{ 
+#' \item{\code{main}}{main title for plot }
+#' \item{\code{sub}}{subtitle for plot }
+#' \item{\code{lwd}}{line width }
+#' \item{\code{lty}}{line type }
+#' \item{\code{col}}{a color } 
+#' }
+#' Additionally, these arguments can be used to specify parameters for the function being plotted and to specify the plotting window with natural names.  See the examples for such usage.
 #'
 #' @return an R function for the expression being plotted (not a graphics object)
 #'
@@ -38,17 +46,21 @@
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
-#' plotFun(a*sin(x^2)~x, xlim=range(-5,5), a=2)
-#' plotFun( x^2 -3 ~ x, xlim=c(-4,4), grid=TRUE)
-#' ladd(panel.abline(h=0,v=0,col='gray50'))
-#' plotFun( (x^2 -3) * (x^2 > 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE)
-#' f <- rfun( ~ u & v)
+#' plotFun( a*sin(x^2)~x, xlim=range(-5,5), a=2 )  # setting parameter value
+#' plotFun( u^2 ~ u, ulim=c(-4,4) )                # limits in terms of u
+#' # Note roles of ylim and y.lim in this example
+#' plotFun( y^2 ~ y, ylim=c(-2,20), y.lim=c(-4,4) )    
+#' # Combining plot elements to show the solution to an inequality
+#' plotFun( x^2 -3 ~ x, xlim=c(-4,4), grid=TRUE )
+#' ladd( panel.abline(h=0,v=0,col='gray50') )
+#' plotFun( (x^2 -3) * (x^2 > 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE )
+#' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
-#' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200)
-#' 
+#' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
+ 
 plotFun <- function(object, ..., add=FALSE,
 					xlim=NULL, ylim=NULL, npts=NULL,
-					ylab=NULL, xlab=NULL, zlab=NULL, main=NULL, 
+					ylab=NULL, xlab=NULL, zlab=NULL, 
 					filled=TRUE, 
 					levels=NULL, nlevels=10,
 					surface=FALSE,
@@ -107,20 +119,17 @@ plotFun <- function(object, ..., add=FALSE,
 			limits$xlim <- range(limits$xlim)
 
 		# Evaluate the function on appropriate inputs.
-		.xvals <- switch(type,
-						 'h' = seq(min(limits$xlim), max(limits$xlim), length.out=npts),
-						 mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
+		.xvals <- 
+			if ('h' %in% type)  
+				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
+			else 
+				mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
 										   f=function(xxqq){ pfun(xxqq) }, length=npts)
-						 )
+		
 		.yvals <- sapply( .xvals, pfun )  # pfun(.xvals)
 		plotData <- data.frame(.xvals, .yvals, .xvals, .yvals)
 		names(plotData) <- c(".x", ".y", rhsVars, paste('f(',rhsVars,')',sep=''))
 
-#		cleanDots[['xlim']] <- NULL
-#		cleanDots[['ylim']] <- NULL
-#		cleanDots[['xlab']] <- NULL
-#		cleanDots[['ylab']] <- NULL
-#		cleanDots[['panel']] <- NULL
 		# note: passing ... through to the lattice functions currently conflicts with
 		# using ... to set values of "co-variates" of the function.
 		# print(cleanDots)
@@ -252,24 +261,31 @@ plotFun <- function(object, ..., add=FALSE,
 #'
 #' @seealso plotFun
 #' @param object an object (e.g., a formula) describing a function
-#' @param \dots additional arguments passed on to other panel functions
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
-#' @param lwd line width for line graphs and contours
-#' @param col color for line graphs and contours
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
 #' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
-#' @param col.regions  a function (\code{topo.colors} by default) for choosing colors for fill
+#' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param \dots additional arguments, typically processed by \code{lattice} panel functions
+#'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
+#'        Frequently used arguments include
+#'        \describe{
+#'        	\item{\code{lwd}}{line width}
+#'        	\item{\code{lty}}{line type}
+#'        	\item{\code{col}}{a color}
+#'        }
 #'
 #' @examples
 #' x <- runif(30,0,2*pi) 
 #' d <- data.frame( x = x,  y = sin(x) + rnorm(30,sd=.2) )
 #' xyplot( y ~ x, data=d )
-#' ladd(panel.plotFun( sin(x) ~ x ) )
+#' ladd(panel.plotFun( sin(x) ~ x, col='red' ) )
+#' xyplot( y ~ x | rbinom(30,1,.5), data=d )
+#' ladd(panel.plotFun( sin(x) ~ x, col='red', lty=2 ) )    # plots sin(x) in each panel
 
 panel.plotFun <- function( object, ..., 
 						  type="l", 
@@ -313,11 +329,12 @@ panel.plotFun <- function( object, ...,
 	  }
 
 	  # Evaluate the function on appropriate inputs.
-	  .xvals <- switch(type,
-						 'h' = seq(min(parent.xlim), max(parent.xlim), length.out=npts),
-		  				 mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
-								 f=function(xxqq){ pfun(xxqq) }, length=npts)
-						 )
+	  .xvals <- 
+		  if ('h' %in% type)  
+			  seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+			  else 
+				  mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
+									f=function(xxqq){ pfun(xxqq) }, length=npts)
 	  .yvals <- sapply( .xvals, pfun )  # pfun(.xvals)
 
 	  return(panel.xyplot(.xvals, .yvals, type=type, alpha=alpha, ...))
@@ -369,16 +386,6 @@ panel.plotFun <- function( object, ...,
   stop("Bug alert: You should not get here.  Please report.")
 }
 
-
-#' Add formal arguments
-#' 
-#'
-
-addFormals <- function(f, formals=pairlist()) {
-	result <- f
-	result$formals <- c( formals(result), formals )
-	return(result)
-}
 
 
 #' Infer arguments 
@@ -446,8 +453,7 @@ inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants
 #' @param lwd width for contour
 #' @param border type of border
 #' @param \dots additional arguments
-#' @param col.regions color set for regions
-#' @param col.regions color generation function, e.g. \code{rainbow}
+#' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param filled whether to fill the contours with color
 #' @param alpha.regions transparency of regions
 
@@ -483,6 +489,17 @@ panel.levelcontourplot <- function(x, y, z, subscripts,
                   col = col, lwd=lwd,
                   border = "transparent", ...)
 }
+
+#' Create a color generating function from a vector of colors
+#'
+#' @param col a vector of colors
+#' @return a function that generates a vector of colors interpolated among the colors in \code{col}
+#'
+#' @export
+#' @examples
+#' cs <- makeColorscheme( c('red','white','blue') )
+#' cs(10)
+#' cs(10, alpha=.5)
 
 makeColorscheme <- function(col) {
 	result <- function(n, alpha=1, ...)  {
