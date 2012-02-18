@@ -23,6 +23,7 @@
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param groups grouping argument ala lattice graphics
 #' @param \dots additional parameters, typically processed by \code{lattice} functions such as 
 #' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
 #' Frequently used parameters include 
@@ -55,6 +56,9 @@
 #' plotFun( x^2 -3 ~ x, xlim=c(-4,4), grid=TRUE )
 #' ladd( panel.abline(h=0,v=0,col='gray50') )
 #' plotFun( (x^2 -3) * (x^2 > 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE )
+#' plotFun( sin(x) ~ x, 
+#'    groups=cut(x, findZeros(sin(x) ~ x, within=10)), 
+#'    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
@@ -115,10 +119,18 @@ plotFun <- function(object, ..., add=FALSE,
 		if( is.null(ylab) ) ylab <- deparse( lhs(object) ) # deparse(..f..$sexpr)
 		if( is.null(xlab) ) xlab <- rhsVars
 
-		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) 
-			limits$xlim <- c(0,1)  # temporary default
-		else 
-			limits$xlim <- range(limits$xlim)
+		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) {
+			zeros <- findZeros( object, nearest=6 )
+			limits$xlim <- switch(as.character(length(zeros)), 
+				"0" = c(0,1),
+				"1" = c(-1.5,1.5) * zeros,
+				( c(-.1,.1) * diff(range(zeros)) ) + range(zeros)
+			)
+		} 
+
+		limits$xlim <- range(limits$xlim)
+
+		if (length(limits$xlim) !=2) stop ("Invalid limits.")
 
 		# Evaluate the function on appropriate inputs.
 		.xvals <- 
