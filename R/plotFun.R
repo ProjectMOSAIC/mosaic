@@ -65,7 +65,8 @@ plotFun <- function(object, ..., add=FALSE,
 					filled=TRUE, 
 					levels=NULL, nlevels=10,
 					surface=FALSE,
-					col.regions =topo.colors, 
+					groups=NULL,
+					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL ) { 
 
@@ -74,7 +75,7 @@ plotFun <- function(object, ..., add=FALSE,
 	if (add) { 
 		ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
 							filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
-							col.regions =col.regions , type=type, alpha=alpha, ...))
+							col.regions=col.regions, type=type, alpha=alpha, ...))
 		return(invisible(NULL))
 	} 
 
@@ -128,15 +129,18 @@ plotFun <- function(object, ..., add=FALSE,
 										   f=function(xxqq){ pfun(xxqq) }, length=npts)
 		
 		.yvals <- sapply( .xvals, pfun )  # pfun(.xvals)
-		plotData <- data.frame(.xvals, .yvals, .xvals, .yvals)
-		names(plotData) <- c(".x", ".y", rhsVars, paste('f(',rhsVars,')',sep=''))
+		localData <- data.frame(.xvals, .yvals, .xvals, .yvals)
+		names(localData) <- c("x", "y", rhsVars, paste('f(',rhsVars,')',sep=''))
 
 		# note: passing ... through to the lattice functions currently conflicts with
 		# using ... to set values of "co-variates" of the function.
 		# print(cleanDots)
 		if( length(limits$ylim) != 2 ) {
 			thePlot <- do.call(lattice::xyplot,
-							 c(list(.yvals ~ .xvals, 
+							 c(list(y ~ x, 
+								data=localData,
+								# groups=eval(substitute(groups),localData),
+								groups=substitute(groups),
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
 								panel=panel.xyplot
@@ -146,7 +150,10 @@ plotFun <- function(object, ..., add=FALSE,
 			)
 		} else { 
 			thePlot <- do.call(lattice::xyplot, c(list(
-							   .yvals ~ .xvals, 
+							    y ~ x,
+								data=localData,
+								# groups=eval(substitute(groups),localData),
+								groups=substitute(groups),
 								xlim=limits$xlim, 
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
@@ -184,6 +191,8 @@ plotFun <- function(object, ..., add=FALSE,
 		zvals <- outer(.xvals, .yvals, function(x,y){pfun(x,y)} )
 		grid <- expand.grid( .xvals, .yvals )
 		grid$height <- c(zvals)
+		localData <- grid
+		names(localData) <- c(rhsVars, '.height')
 
 		if( surface ) { 
 			if (add) {
@@ -197,7 +206,10 @@ plotFun <- function(object, ..., add=FALSE,
 						   wireframe(height ~ Var1 + Var2, 
 											xlab=xlab,ylab=ylab,
 											zlab=list(zlab,rot=90),
-											data=grid,drape=filled,
+											#data=localData, 
+											data=grid,
+											groups = eval(substitute(groups), localData),
+											drape=filled,
 											shade=FALSE, colorkey=FALSE,
 											scales=list(arrows=FALSE),
 											screen=c(z=rot,x=elev-90),
@@ -213,7 +225,9 @@ plotFun <- function(object, ..., add=FALSE,
 			} else {  # without manipulate
 				return(wireframe(height ~ Var1 + Var2, 
 								 xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
-								 data=grid,drape=filled,shade=FALSE,colorkey=FALSE,
+								 data=grid,
+								 groups=eval(substitute(groups), localData),
+								 drape=filled,shade=FALSE,colorkey=FALSE,
 								 scales=list(arrows=FALSE),
 								 col.regions= zcolors,
 								 # col=rgb(1,1,1,0),
@@ -226,11 +240,12 @@ plotFun <- function(object, ..., add=FALSE,
 			# is being drawn de novo
 			funPlot.draw.contour <- function(x,y,z,ncontours=6,at=pretty(z,ncontours),
 											 filled=TRUE, col.regions=topo.colors,
-											 labels=TRUE, contours=TRUE,
+											 labels=TRUE, contours=TRUE, groups=NULL,
 											 xlab="",ylab="", ...){
 				return(levelplot(z~x*y, at=at, 
 								 xlab=xlab, ylab=ylab, 
 								 panel=panel.levelcontourplot,
+								 groups=substitute(groups),
 								 col.regions=col.regions(60),
 								 contour=contours, labels=labels,
 								 colorkey = FALSE, region = TRUE, filled=filled,
@@ -250,6 +265,7 @@ plotFun <- function(object, ..., add=FALSE,
 			return(funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
 											 xlab=xlab, ylab=ylab,
 											 filled=filled,
+											 groups=eval(substitute(groups),localData),
 											 col.regions = col.regions ,
 											 #col=col, 
 											 ...) )
