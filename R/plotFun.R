@@ -33,9 +33,10 @@
 #' \item{\code{lty}}{line type }
 #' \item{\code{col}}{a color } 
 #' }
-#' Additionally, these arguments can be used to specify parameters for the function being plotted and to specify the plotting window with natural names.  See the examples for such usage.
+#' Additionally, these arguments can be used to specify parameters for the function being 
+#' plotted and to specify the plotting window with natural names.  See the examples for such usage.
 #'
-#' @return an R function for the expression being plotted (not a graphics object)
+#' @return a \code{trellis} object
 #'
 #' @details
 #' makes plots of mathematical expressions using the formula syntax.  Will
