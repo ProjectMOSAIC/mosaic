@@ -37,7 +37,6 @@ Collate:
     'confint.R'
     'cross.R'
     'dfapply.R'
-    'distPlot.R'
     'do.R'
     'dotPlot.R'
     'fetchData.R'
@@ -81,3 +80,4 @@ Collate:
     'as.xtabs.R'
     'plotCumfreq.R'
     'oddsRatio.R'
+    'plotDist.R'
