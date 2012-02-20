@@ -79,22 +79,26 @@ setMethod(
   'makeFunction',
   'lm',
    function( object, ... ) {
-	  print("converting lm object into a prediction function")
-	  nd <- model.frame(object)[1, -1,drop=FALSE]
-	  vars <- names(nd)
+	  vars <- model.vars(object)
 
 	  result <- function(){
-		  nd <- as.data.frame(as.list(match.call())[-1])
-		  return( predict(model, newdata=nd) )
+		  argList <- as.list(match.call())[-1]
+		  nd <- as.data.frame(argList)
+		  return( as.vector(predict(model, newdata=nd) ) )
 	  }
 
 	  formals(result) <- 
 		  eval(parse( 
 					 text=paste( "alist(", 
-								paste(names(nd), "= ",  collapse=",", sep=""), ")"
+								paste(vars, "= ",  collapse=",", sep=""), ")"
 	  )
 	  ))
-	  environment(result) <- list2env( list(model=object, nd=nd, vars=vars) )
+	  environment(result) <- list2env( list(model=object) )
 	  return(result)
   }
   )
+
+model.vars <- function(model) {
+  formula <- as.formula(model$call$formula)
+  all.vars(rhs(formula))
+}
