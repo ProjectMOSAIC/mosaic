@@ -71,3 +71,30 @@ setMethod(
 	  return(result)  
   }
 )
+
+#' @rdname makeFunction
+#' @aliases makeFunction,lm-method
+
+setMethod(
+  'makeFunction',
+  'lm',
+   function( object, ... ) {
+	  print("converting lm object into a prediction function")
+	  nd <- model.frame(object)[1, -1,drop=FALSE]
+	  vars <- names(nd)
+
+	  result <- function(){
+		  nd <- as.data.frame(as.list(match.call())[-1])
+		  return( predict(model, newdata=nd) )
+	  }
+
+	  formals(result) <- 
+		  eval(parse( 
+					 text=paste( "alist(", 
+								paste(names(nd), "= ",  collapse=",", sep=""), ")"
+	  )
+	  ))
+	  environment(result) <- list2env( list(model=object, nd=nd, vars=vars) )
+	  return(result)
+  }
+  )
