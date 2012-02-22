@@ -73,7 +73,7 @@ plotFun <- function(object, ..., add=FALSE,
 					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL ) { 
-
+	
 	if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
 
 	if (add) { 

@@ -74,23 +74,29 @@ setMethod(
 
 #' @rdname makeFunction
 #' @aliases makeFunction,lm-method
+#' @examples
+#' model <- lm( wage ~ poly(exper,degree=2), data=CPS )
+#' fit <- makeFunction(model)
+#' xyplot( wage ~ exper, data=CPS)
+#' plotFun(fit(exper) ~ exper, add=TRUE)
 
 setMethod(
   'makeFunction',
   'lm',
    function( object, ... ) {
 	  vars <- model.vars(object)
-
-	  result <- function(){
-		  argList <- as.list(match.call())[-1]
-		  nd <- as.data.frame(argList)
-		  return( as.vector(predict(model, newdata=nd) ) )
-	  }
-
+	  result <- function(){}
+	  body(result) <- 
+		  parse( text=paste(
+						"return(predict(model, newdata=data.frame(",
+						paste(vars, "= ", vars, collapse=",", sep=""), 
+						"), ...))"
+						)
+	  	  )
 	  formals(result) <- 
 		  eval(parse( 
 					 text=paste( "alist(", 
-								paste(vars, "= ",  collapse=",", sep=""), ")"
+								paste(vars, "= ",  collapse=",", sep=""), ", ...=)"
 	  )
 	  ))
 	  environment(result) <- list2env( list(model=object) )
@@ -98,6 +104,13 @@ setMethod(
   }
   )
 
+#' extract predictor variables from a model
+#' 
+#' @param model a model, typically of class \code{lm} or \code{glm}
+#' @return a vector of variable names
+#' @examples
+#' model <- lm( wage ~ poly(exper,degree=2), data=CPS )
+#' model.vars(model)
 model.vars <- function(model) {
   formula <- as.formula(model$call$formula)
   all.vars(rhs(formula))

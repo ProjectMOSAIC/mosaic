@@ -62,21 +62,24 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 		mydots[[rhsVars]] <- x
 		eval( lhs(expr), envir=mydots, enclos=parent.frame() )
 	}
-	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim) )
 
-	limits$xlim <- range(limits$xlim)
-    mx <- max(limits$xlim)
-    mn <- min(limits$xlim)
-    if( length(diff(limits$xlim)) <= 0 )
-       stop(paste("Left limit (,", limits$xlim[1], "must be less than right limit (", limits$xlim[2], ")."))
+	xlim <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim) )[['xlim']]
+	tryCatch( xlim <- range(xlim), error = function(e) stop(paste('Improper limits value --', e)))
 
-    # Deal with very large numbers for the interval, e.g. Inf
-    verybig <- .Machine$double.xmax
-    plainbig <- 10000 # linear spacing below this.
-    mx <- max(min(verybig,mx),-verybig)
-    mn <- min(max(-verybig,mn),verybig)
-    rightseq <- NULL
-    leftseq <- NULL
+    if( xlim[1] >= xlim[2] )  
+       stop(paste("Left limit (", xlim[1], ") must be less than right limit (", xlim[2], ")."))
+    mx <- max(xlim - near)
+    mn <- min(xlim - near)
+	if (mx < 0) mx <- 0
+	if (mn > 0) mx <- 0 
+
+	# Deal with very large numbers for the interval, e.g. Inf
+	verybig <- .Machine$double.xmax
+    plainbig <- npts^(.75) # linear spacing below this.
+    mx <- max( min( verybig,mx), -verybig)
+    mn <- min( max(-verybig,mn),  verybig)
+    rightseq  <- NULL
+    leftseq   <- NULL
     middleseq <- NULL
     if( mx > plainbig ) { 
       rightseq <- exp( seq( log(max(plainbig,mn)),log(mx),length=npts) )
@@ -85,12 +88,14 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
     if( mn < -plainbig ){
       leftseq <- -exp( seq( log(-mn), log(-min(-plainbig,mx)), length=npts))
     }
-    searchx <- unique(c(leftseq,middleseq, rightseq))
-    # searchx <- seq(min(limits$xlim), max(limits$xlim), length=npts)
+
+    searchx <- sort(unique(near  + c(0, leftseq, middleseq, rightseq)))
+
     y <- sapply( searchx, pfun )
     testinds <- which(abs(diff( sign(y) )) != 0)
     if (length(testinds) < 1 ) {
-		return( c() )
+		warning("No zeros found.  You might try narrowing your search window or increasing npts.")
+		return( numeric(0) )
 	} else {
 		testinds <- testinds[ order(abs(searchx[testinds] - near)) ]
 		N <- min( length(testinds), 2*nearest )
@@ -102,7 +107,7 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
     }
 
 	o <- order( abs(zeros - near) )
-	result <- sort(zeros[o[1:min(nearest,length(zeros))]])
+	result <- sort(unique(zeros[o[1:min(nearest,length(zeros))]]))
 	if ( iterate > 0 && length(result) > 1 )  {
 		return ( findZeros( expr, ..., xlim=range(result), near=near, within=within, 
 						   nearest=nearest, npts=npts, iterate=iterate-1 ) )
