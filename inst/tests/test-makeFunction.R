@@ -38,3 +38,17 @@ test_that('Argument list is correct',{
   f <- makeFunction( a * sin(x) ~ x & a & y, y=2, a=3 )
   expect_equivalent( names(formals(f)), c('x','a','y') )
 })
+
+test_that('Can make functions from models', {
+  x <- 1:10
+  ex <- exp(x)
+  y <- c(1:5, 5:1) 
+  model1 <- lm( y ~ x )
+  model2 <- lm( y ~ log(ex) )
+  f <- makeFunction(model1)
+  g <- makeFunction(model2)
+  expect_equivalent( f(7), 3 )
+  expect_equivalent( g(7), 3 )
+  expect_equivalent( names(formals(f)), c('x','...') )
+  expect_equivalent( names(formals(g)), c('ex','...') )
+})

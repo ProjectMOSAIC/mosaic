@@ -64,11 +64,12 @@ setMethod(
 	  body(result) <- parse( text=deparse(lhs) ) 
 	  formals(result) <- 
 		 eval(parse( 
-			text=paste( "alist(", 
-					paste(vars, "=", valVec, collapse=",", sep=""), ")"
+			text=paste( "as.pairlist(alist(", 
+					paste(vars, "=", valVec, collapse=",", sep=""), "))"
 	  			)
 	  ))
 	  environment(result) <- parent.frame()
+
 	  return(result)  
   }
 )
@@ -96,10 +97,13 @@ setMethod(
 	  	  )
 	  formals(result) <- 
 		  eval(parse( 
-					 text=paste( "alist(", 
-								paste(vars, "= ",  collapse=",", sep=""), ", ...=)"
+					 text=paste( "as.pairlist(alist(", 
+								paste(vars, "= ",  collapse=",", sep=""), ", ...=))"
 	  )
 	  ))
+	  # myenv <- parent.frame()
+	  # myenv$model <- object
+	  # environment(result) <- myenv
 	  environment(result) <- list2env( list(model=object) )
 	  return(result)
   }
