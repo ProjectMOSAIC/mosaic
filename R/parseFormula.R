@@ -8,7 +8,7 @@
 #' @param x, an object (currently a \code{formula} or \code{parsedFormula})
 #' @return an object of class \code{parsedFormula} from which information is easy to extract
 #' @details
-#' currently this is primarily concerned with extractly the operator, left hand side, right hand 
+#' currently this is primarily concerned with extracting the operator, left hand side, right hand 
 #' side (minus any condition) and the condition. Improvements/extensions may come in the future.
 #' 
 parse.formula <- function(formula, ...) {

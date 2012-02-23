@@ -22,7 +22,7 @@
 NA 
 
 
-#' Data from the Current Population Survey (CPS)
+#' Data from the 1985 Current Population Survey (CPS)
 #' 
 #' The Current Population Survey (CPS) is used to supplement census
 #' information between census years. These data consist of a random
@@ -248,11 +248,8 @@ NA
 #' predictors and outcomes were collected at each of these five
 #' occasions.
 #' 
-#' This dataset is a subset of the HELPmiss data which includes an
-#' additional 17 subjects with 
-#' partially observed data on some of the baseline variables.  This is
-#' also a subset of the HELPfull data which includes 5 timepoints and many
-#' additional variables for all subjects.
+#' This dataset is equivalent to the less confusingly named \code{\link{HELPrct}}
+#' dataset.
 #' 
 #' @source 
 #' \url{http://www.math.smith.edu/help}
@@ -264,7 +261,7 @@ NA
 #' a multi-disciplinary health intervention in a detoxification unit.  
 #' \emph{Addiction}, 2003; 98(4):509-516.
 #' 
-#' @seealso \code{\link{HELP}} , and \code{\link{HELPfull}}.
+#' @seealso \code{\link{HELPrct}}.
 #' 
 #' 
 #' @examples 
@@ -925,7 +922,7 @@ NA
 #'     \item{\code{U35D}} {MDs communic w/your specialists/oth MDs (1=Very poor, 2= Poor, 3=Fair, 4=Good, 5= Very good, 6= Excellent)}
 #'     \item{\code{U35E}} {MD help in explain what specialists said (1=Very poor, 2= Poor, 3=Fair, 4=Good, 5= Very good, 6= Excellent)}
 #'     \item{\code{U35F}} {Quality of specialists MD sent you to (1=Very poor, 2= Poor, 3=Fair, 4=Good, 5= Very good, 6= Excellent)}
-#'     \item{\code{U36}} {How mant minutes to get to MDs office (1=<15, 2=16-30. 3=31-60, 4=More than 60)}
+#'     \item{\code{U36}} {How many minutes to get to MDs office (1=<15, 2=16-30. 3=31-60, 4=More than 60)}
 #'     \item{\code{U37}} {When sick+call how long take to see you (1=Same day, 2=Next day, 3=In 2-3 days, 4=In 4-5 days, 5=in >5 days)}
 #'     \item{\code{U38}} {How mant minutes late appt usually begin (1=None, 2=<5 minutes, 3=6-10 minutes, 4=11-20 minutes, 5=21-30 minutes, 6=31-45 minutes, 7=>45 minutes)}
 #'     \item{\code{U39}} {How satisfied are you w/your reg MD (1=Completely satisfied, 2=Very satisfied, 3=Somewhat satisfied, 4=Neither, 5=Somewhat dissatisfied, 6=Very dissatisfied, 7=Completely dissatisfied)}
@@ -1093,7 +1090,7 @@ NA
 #' predictors and outcomes were collected at each of these five
 #' occasions.
 #' 
-#' This dataset is a superset of the HELPmiss and HELP datasets which include
+#' This dataset is a superset of the HELPmiss and HELPrct datasets which include
 #' far fewer variables.
 #' 
 #' @source 
@@ -1110,7 +1107,7 @@ NA
 #' @examples 
 #' data(HELPfull)
 #' 
-#' @seealso \code{\link{HELP}} , and \code{\link{HELPmiss}}. 
+#' @seealso \code{\link{HELPrct}}, and \code{\link{HELPmiss}}. 
 #' 
 #' @keywords datasets
 
@@ -1176,7 +1173,7 @@ NA
 #' predictors and outcomes were collected at each of these five
 #' occasions.
 #' 
-#' This dataset is a superset of the HELP data with 17 subjects with 
+#' This dataset is a superset of the HELPrct data with 17 subjects with 
 #' partially observed data on some of the baseline variables.  This is
 #' a subset of the HELPfull data which includes 5 timepoints and many
 #' additional variables.
@@ -1191,7 +1188,7 @@ NA
 #' a multi-disciplinary health intervention in a detoxification unit.  
 #' \emph{Addiction}, 2003; 98(4):509-516.
 #' 
-#' @seealso \code{\link{HELP}} , and \code{\link{HELPfull}}.
+#' @seealso \code{\link{HELPrct}} , and \code{\link{HELPfull}}.
 #' 
 #' 
 #' @examples 
@@ -1282,7 +1279,7 @@ NA
 #' a multi-disciplinary health intervention in a detoxification unit.  
 #' \emph{Addiction}, 2003; 98(4):509-516.
 #' 
-#' @seealso \code{\link{HELPmiss}} , and \code{\link{HELPfull}}.
+#' @seealso \code{\link{HELPmiss}}, and \code{\link{HELPfull}}.
 #' 
 #' 
 #' @examples 
@@ -1482,14 +1479,15 @@ NA
 #' data(Utilities)
 #' xyplot(gasbill ~ temp, Utilities)
 #' 
+#' @seealso \code{\link{Utilities2}}.
 #' @keywords datasets
 
 NA
 
 #' Utility bills 
 #' 
-#' Data from utility bills at a residence.  This is a wider version 
-#' of \code{\link{Utilities}} .
+#' Data from utility bills at a private residence.  This is an augmented version 
+#' of \code{\link{Utilities}}.
 #' 
 #' @name Utilities2
 #' @usage Utilities2
@@ -1525,6 +1523,7 @@ NA
 #' data(Utilities2)
 #' xyplot(gasbillpday ~ temp, Utilities2)
 #' 
+#' @seealso \code{\link{Utilities}}.
 #' @keywords datasets
 
 NA

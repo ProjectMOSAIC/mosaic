@@ -41,10 +41,10 @@
 #'
 #' @details
 #' makes plots of mathematical expressions using the formula syntax.  Will
-#' draw both line plots and contour/surface plots (for functions of two variables)
+#' draw both line plots and contour/surface plots (for functions of two variables).
 #' In RStudio, the surface plot comes with sliders to set orientation.
-#' If the colors in filled surface plots are two blocky, increase \code{npts} 
-#' beyond the default of 50. \code{npts=300} is as much as you're likely to ever need
+#' If the colors in filled surface plots are too blocky, increase \code{npts} 
+#' beyond the default of 50, though \code{npts=300} is as much as you're likely to ever need.
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
