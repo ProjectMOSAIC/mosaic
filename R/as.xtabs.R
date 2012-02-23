@@ -3,7 +3,7 @@
 #' Currently able to convert a data frame or a matrix into an \code{xtabs}
 #' object.
 #' 
-#' The intended use it to convert a two-way contingency table stored in a data
+#' The intended use is to convert a two-way contingency table stored in a data
 #' frame or a matrix into an \code{xtabs} object.
 #' 
 #' @aliases as.xtabs as.xtabs.data.frame as.xtabs.matrix

@@ -29,8 +29,8 @@
 #' of differentiation, as well as any other symbols used in the expression.  Thus,
 #' \code{D(A*x^2 + B*y ~ x + y)} will compute the mixed partial with respect to x
 #' then y (that is, \eqn{\frac{d^2 f}{dy\;dx}}{d2f/dydx}).  The returned value will be a function of x and y,
-#' as well as A and B.  In evaluating the returned function, it's best to used the
-#' named form of arguments, to make sure that you have the order right. 
+#' as well as A and B.  In evaluating the returned function, it's best to use the
+#' named form of arguments, to ensure the order is correct.
 #' 
 #' @details
 #' \code{D} attempts to find a symbolic derivative for simple expressions, but
@@ -57,7 +57,7 @@
 #' f(x=2,A=10) # override default value of parameter A
 #' g <- D(f(x=t, A=1)^2 ~ t)  # note: it's a function of t
 #' g(t=1) 
-#' gg <- D(f(x=t,A=B)^2 ~ t, B=10)  # note: it's a function of t and B
+#' gg <- D(f(x=t, A=B)^2 ~ t, B=10)  # note: it's a function of t and B
 #' gg(t=1)
 #' gg(t=1, B=100)
 #' 
@@ -247,9 +247,9 @@ D <- function(expr, ..., ..h..=NULL, symbolic = TRUE, numerical=!symbolic, metho
 #' F(from=-Inf, to=0)
 #' F(from=-Inf, to=Inf)
 #' one = makeFun(1~x&y)
-#' by.x = antiD( one(x=x,y=y)~x)
-#' by.xy = antiD(by.x(from=-sqrt(1-y^2),to=sqrt(1-y^2),y=y)~y)
-#' by.xy(from=-1,to=1)
+#' by.x = antiD( one(x=x, y=y) ~x )
+#' by.xy = antiD(by.x(from=-sqrt(1-y^2), to=sqrt(1-y^2), y=y)~y)
+#' by.xy(from=-1, to=1)
 
 antiD <- function(expr, from=0, to=NULL, ...){
 	vals <- list(...)

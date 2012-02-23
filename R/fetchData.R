@@ -1,14 +1,14 @@
 #' A Web and Library Data-Loading Facility
 #' 
 #' \code{fetchData} provides a means for students and others to locate and load data sets provided by instructors.  
-#' Data can be pre-loaded for off-line sessions, can be positioned on identified web sites, and can be loaded from packages.  
+#' Data can be pre-loaded for off-line sessions, can be positioned on identified web sites, or loaded from packages.  
 #' \code{fetchData} also will load local \code{.csv} files using \code{file.choose()}.
 #'
 #' @name fetchData
 #'
 #' @param name a character string naming a data set.  
 #'    This will often end in \code{.csv} for reading in a data set. When used in conjunction with \code{TRUE} values for the following arguments, it can also name a web directory (always ending in \code{/}). 
-#' It can also give a name to a data set to be stored in the cached library.  See
+#' It can also give a name to a data set to be stored in the cached library.  
 #' 
 #' @param add.to.path If \code{TRUE}, indicates that the web search path is to printed out, or, 
 #' if \code{name} is specified, the name should be a web directory (ending in \code{/}), which should be pre-pended 

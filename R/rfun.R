@@ -1,6 +1,6 @@
 #' Generate a natural-looking function
 #'
-#' Produce a random function that is sum of gaussians 
+#' Produce a random function that is the sum of Gaussian random variables
 #'
 #' @param vars a formula; the LHS is empty and the RHS indicates the variables used 
 #' for input to the function (separated by &)

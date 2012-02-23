@@ -1,7 +1,7 @@
 #' Adaptively generate sequences in an interval
 #'
 #' \code{adapt_seq} is similar to \code{seq} except that instead of 
-#' selecting point equally spaced along an interval, it selects points
+#' selecting points equally spaced along an interval, it selects points
 #' such that the values of a function applied at those points are 
 #' (very) roughly equally spaced.  This can be useful for sampling 
 #' a function in such a way that it can be plotted more smoothly, 

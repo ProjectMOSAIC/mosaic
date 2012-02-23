@@ -1,6 +1,6 @@
 #' Some favorite statistical summaries
 #' 
-#' Computes mean, standard deviation, and quartiles of a data vector.
+#' Computes mean, standard deviation, quartiles, sample size and number of missing values for a data vector.
 #' @param x  numeric vector 
 #' @param na.rm  boolean indicating whether missing data should be ignored 
 #' 
