@@ -36,7 +36,7 @@ setGeneric(
 setMethod(
   'makeFunction',
   'formula',
-  function( object, ... ) {
+  function( object, ..., strict=TRUE ) {
 	  sexpr <- object 
 	  if (! inherits( sexpr, "formula") || length(sexpr) != 3) 
 		  stop('First argument must be a formula with both left and right sides.')
@@ -50,15 +50,18 @@ setMethod(
 	  lhsOnlyVars <- setdiff(all.vars(lhs), rhsVars)
 	  vars <- c(rhsVars, lhsOnlyVars)
 	  unDeclaredVars <- setdiff(names(vals), vars) 
+	  declaredVars <- setdiff(vars, unDeclaredVars)
 	  if (length( unDeclaredVars ) != 0) {
-		  stop(paste( "Default values provided for undeclared variables:",
+		  if (strict) 
+		  	stop(paste( "Default values provided for undeclared variables:",
 					   paste(unDeclaredVars, collapse=",")
 					 ))
+		  vars <- declaredVars
 	  }
 
 	  valVec <- rep("", length(vars))
 	  names(valVec) <- vars
-	  for( n in names(vals) ) valVec[n] <- as.character(vals[n]) 
+	  for( n in intersect(vars, names(vals)) ) valVec[n] <- as.character(vals[n]) 
 
 	  result <- function(){}
 	  body(result) <- parse( text=deparse(lhs) ) 

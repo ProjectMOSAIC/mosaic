@@ -91,6 +91,7 @@ plotFun <- function(object, ..., add=FALSE,
 	# not sure whether this precaution is necessary in current implementation
 
 	..f.. <- eval(makeFunction( object ), parent.frame())  # perhaps use environment(object)?
+	..f.. <- do.call( "makeFunction", c(object, dots, strict=FALSE), envir= parent.frame())  # perhaps use environment(object)?
 
 	vars <- formals(..f..)
 	rhsVars <- all.vars(rhs(object))
@@ -112,6 +113,7 @@ plotFun <- function(object, ..., add=FALSE,
 			mydots[[rhsVars]] <- x
 			eval( lhs(object), envir=mydots, enclos=environment(..f..)) # enclos=parent.frame() )
 		}
+		pfun <- ..f..
 
 		# Set the axis labels
 		# deparse needed for lattice (not originally for plot)
@@ -184,6 +186,7 @@ plotFun <- function(object, ..., add=FALSE,
 			dots[[rhsVars[2]]] <- .y
 			eval( lhs(object), envir=dots, enclos=environment(..f..)) # was enclos=parent.frame())
 		}
+		pfun <- ..f..
 		if( length(ylab) == 0 ) ylab <- rhsVars[2]
 		if( length(xlab) == 0 ) xlab <- rhsVars[1]
 		if( length(zlab) == 0 ) zlab <- deparse(lhs(object))
@@ -336,6 +339,7 @@ panel.plotFun <- function( object, ...,
   # not sure whether this precaution is necessary in current implementation
  
   ..f.. <- makeFunction(object)
+  ..f.. <- do.call( "makeFunction", c(object, dots, strict=FALSE), envir= parent.frame())  # perhaps use environment(object)?
 
   vars <- formals(..f..)
   rhsVars <- all.vars(rhs(object))
@@ -356,6 +360,7 @@ panel.plotFun <- function( object, ...,
 		  mydots[[rhsVars]] <- x
 		  eval( lhs(object), envir=mydots, enclos=environment(..f..) )  # parent.frame())
 	  }
+	  pfun <- ..f..
 
 	  # Evaluate the function on appropriate inputs.
 	  .xvals <- 
@@ -383,6 +388,7 @@ panel.plotFun <- function( object, ...,
       dots[[rhsVars[2]]] <- .y
       eval( lhs(object), envir=dots, enclos=environment(..f..) )  # was enclos=parent.frame() )
     }
+	pfun <- ..f..
 
     if( length(zlab) == 0 ) zlab <- deparse(lhs(object) )
     
