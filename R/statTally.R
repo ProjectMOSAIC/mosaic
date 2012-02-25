@@ -1,7 +1,7 @@
 #' Tally test statistics
 #' 
 #' Tally test statistics from data and from multiple draws
-#' from a simluated null distribution
+#' from a simulated null distribution
 #' @param sample sample data
 #' 
 #' @param rdata a matrix of randomly generated data under 
