@@ -24,16 +24,16 @@
 #' 
 #' @return A lattice plot is returned invisibly but can be \code{print}ed. 
 #' 
-#' As side effects, some information
-#' about the empirical sampling distribution and optionally a stem plot are
+#' As side effects, information
+#' about the empirical sampling distribution and (optionally) a stem plot are
 #' printed to the screen.
 #'
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @export
 #' @examples
 #' # is my spinner fair?
-#' x <- c(10,18,9,15)   # counts in four cells
-#' rdata <- rmultinom(1000, sum(x), prob=rep(.25,4))
+#' x <- c(10, 18, 9, 15)   # counts in four cells
+#' rdata <- rmultinom(1000, sum(x), prob=rep(.25, 4))
 #' print(statTally( x, rdata, fun=max ))  # unusual test statistic
 #' print(statTally( x, rdata, fun=var ))  # equivalent to chi-squared test
 #' 
