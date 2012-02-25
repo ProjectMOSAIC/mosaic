@@ -32,11 +32,13 @@ setGeneric(
 
 #' @rdname makeFunction
 #' @aliases makeFunction,formula-method
+#' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
+#' default values are given for variables not appearing in the \code{object} formula.
 
 setMethod(
   'makeFunction',
   'formula',
-  function( object, ..., strict=TRUE ) {
+  function( object, ..., strict.declaration =TRUE ) {
 	  sexpr <- object 
 	  if (! inherits( sexpr, "formula") || length(sexpr) != 3) 
 		  stop('First argument must be a formula with both left and right sides.')
@@ -52,7 +54,7 @@ setMethod(
 	  unDeclaredVars <- setdiff(names(vals), vars) 
 	  declaredVars <- setdiff(vars, unDeclaredVars)
 	  if (length( unDeclaredVars ) != 0) {
-		  if (strict) 
+		  if (strict.declaration) 
 		  	stop(paste( "Default values provided for undeclared variables:",
 					   paste(unDeclaredVars, collapse=",")
 					 ))

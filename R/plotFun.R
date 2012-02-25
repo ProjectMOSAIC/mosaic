@@ -90,8 +90,8 @@ plotFun <- function(object, ..., add=FALSE,
 	# funny names (like ..f..) are to avoid names that might be used by the user
 	# not sure whether this precaution is necessary in current implementation
 
-	..f.. <- eval(makeFunction( object ), parent.frame())  # perhaps use environment(object)?
-	..f.. <- do.call( "makeFunction", c(object, dots, strict=FALSE), envir= parent.frame())  # perhaps use environment(object)?
+	# perhaps use environment(object)?
+	..f.. <- do.call( "makeFunction", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
 
 	vars <- formals(..f..)
 	rhsVars <- all.vars(rhs(object))
@@ -107,13 +107,6 @@ plotFun <- function(object, ..., add=FALSE,
 	if( ndims == 1 ){
 
 		npts <- ifelse( is.null(npts), 200, npts)
-		# create a function of that one variable
-		pfun <- function(x){  # removed . from name, was .x
-			mydots <- dots
-			mydots[[rhsVars]] <- x
-			eval( lhs(object), envir=mydots, enclos=environment(..f..)) # enclos=parent.frame() )
-		}
-		pfun <- ..f..
 
 		# Set the axis labels
 		# deparse needed for lattice (not originally for plot)
@@ -140,9 +133,9 @@ plotFun <- function(object, ..., add=FALSE,
 				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
 			else 
 				mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
-										   f=function(xxqq){ pfun(xxqq) }, length=npts)
+										   f=function(xxqq){ ..f..(xxqq) }, length=npts)
 		
-		.yvals <- sapply( .xvals, pfun )  # pfun(.xvals)
+		.yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
 		localData <- data.frame(.xvals, .yvals, .xvals, .yvals)
 		names(localData) <- c("x", "y", rhsVars, paste('f(',rhsVars,')',sep=''))
 
@@ -180,13 +173,6 @@ plotFun <- function(object, ..., add=FALSE,
 
 	if (ndims == 2 ) {
 		npts <- ifelse( is.null(npts), 40, npts)
-		# create a function of those two variables
-		pfun <- function(.x,.y){
-			dots[[rhsVars[1]]] <- .x
-			dots[[rhsVars[2]]] <- .y
-			eval( lhs(object), envir=dots, enclos=environment(..f..)) # was enclos=parent.frame())
-		}
-		pfun <- ..f..
 		if( length(ylab) == 0 ) ylab <- rhsVars[2]
 		if( length(xlab) == 0 ) xlab <- rhsVars[1]
 		if( length(zlab) == 0 ) zlab <- deparse(lhs(object))
@@ -203,7 +189,7 @@ plotFun <- function(object, ..., add=FALSE,
 
 		.xvals <- seq(min(limits$xlim),max(limits$xlim),length=npts)
 		.yvals <- seq(min(limits$ylim),max(limits$ylim),length=npts)
-		zvals <- outer(.xvals, .yvals, function(x,y){pfun(x,y)} )
+		zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
 		grid <- expand.grid( .xvals, .yvals )
 		grid$height <- c(zvals)
 		localData <- grid
@@ -338,8 +324,8 @@ panel.plotFun <- function( object, ...,
   # funny names (like ..f..) are to avoid names that might be used by the user
   # not sure whether this precaution is necessary in current implementation
  
-  ..f.. <- makeFunction(object)
-  ..f.. <- do.call( "makeFunction", c(object, dots, strict=FALSE), envir= parent.frame())  # perhaps use environment(object)?
+  # perhaps use environment(object)?
+  ..f.. <- do.call( "makeFunction", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
 
   vars <- formals(..f..)
   rhsVars <- all.vars(rhs(object))
@@ -353,14 +339,6 @@ panel.plotFun <- function( object, ...,
 
   if( ndims == 1 ){
 	  npts <- ifelse( is.null(npts), 200, npts)
-	  # create a function of that one variable
-	  # this should probably by refactorred into a new function
-	  pfun <- function(x){  # removed . from name, was .x
-		  mydots <- dots
-		  mydots[[rhsVars]] <- x
-		  eval( lhs(object), envir=mydots, enclos=environment(..f..) )  # parent.frame())
-	  }
-	  pfun <- ..f..
 
 	  # Evaluate the function on appropriate inputs.
 	  .xvals <- 
@@ -368,8 +346,8 @@ panel.plotFun <- function( object, ...,
 			  seq(min(parent.xlim), max(parent.xlim), length.out=npts)
 			  else 
 				  mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
-									f=function(xxqq){ pfun(xxqq) }, length=npts)
-	  .yvals <- sapply( .xvals, pfun )  # pfun(.xvals)
+									f=function(xxqq){ ..f..(xxqq) }, length=npts)
+	  .yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
 
 	  return(panel.xyplot(.xvals, .yvals, type=type, alpha=alpha, ...))
 	  #return(panel.xyplot(.xvals, .yvals, ...))
@@ -383,18 +361,12 @@ panel.plotFun <- function( object, ...,
     # if we get here, surface == FALSE & ndims=2
     npts <- ifelse( is.null(npts), 40, npts)
     # create a function of those two variables
-    pfun <- function(.x,.y){
-      dots[[rhsVars[1]]] <- .x
-      dots[[rhsVars[2]]] <- .y
-      eval( lhs(object), envir=dots, enclos=environment(..f..) )  # was enclos=parent.frame() )
-    }
-	pfun <- ..f..
 
     if( length(zlab) == 0 ) zlab <- deparse(lhs(object) )
     
     .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
     .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
-    zvals <- outer(.xvals, .yvals, function(x,y){pfun(x,y)} )
+    zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
     grid <- expand.grid( .xvals, .yvals )
     grid$height <- c(zvals)
     
