@@ -90,7 +90,7 @@ plotFun <- function(object, ..., add=FALSE,
 	# funny names (like ..f..) are to avoid names that might be used by the user
 	# not sure whether this precaution is necessary in current implementation
 
-	..f.. <- makeFunction( object )
+	..f.. <- eval(makeFunction( object ), parent.frame())  # perhaps use environment(object)?
 
 	vars <- formals(..f..)
 	rhsVars <- all.vars(rhs(object))
@@ -110,7 +110,7 @@ plotFun <- function(object, ..., add=FALSE,
 		pfun <- function(x){  # removed . from name, was .x
 			mydots <- dots
 			mydots[[rhsVars]] <- x
-			eval( lhs(object), envir=mydots, enclos=parent.frame() )
+			eval( lhs(object), envir=mydots, enclos=environment(..f..)) # enclos=parent.frame() )
 		}
 
 		# Set the axis labels
@@ -182,7 +182,7 @@ plotFun <- function(object, ..., add=FALSE,
 		pfun <- function(.x,.y){
 			dots[[rhsVars[1]]] <- .x
 			dots[[rhsVars[2]]] <- .y
-			eval( lhs(object), envir=dots, enclos=parent.frame())
+			eval( lhs(object), envir=dots, enclos=environment(..f..)) # was enclos=parent.frame())
 		}
 		if( length(ylab) == 0 ) ylab <- rhsVars[2]
 		if( length(xlab) == 0 ) xlab <- rhsVars[1]
@@ -334,8 +334,8 @@ panel.plotFun <- function( object, ...,
  
   # funny names (like ..f..) are to avoid names that might be used by the user
   # not sure whether this precaution is necessary in current implementation
-  
-  ..f.. <- makeFunction( object )
+ 
+  ..f.. <- makeFunction(object)
 
   vars <- formals(..f..)
   rhsVars <- all.vars(rhs(object))
@@ -354,7 +354,7 @@ panel.plotFun <- function( object, ...,
 	  pfun <- function(x){  # removed . from name, was .x
 		  mydots <- dots
 		  mydots[[rhsVars]] <- x
-		  eval( lhs(object), envir=mydots, enclos=parent.frame())
+		  eval( lhs(object), envir=mydots, enclos=environment(..f..) )  # parent.frame())
 	  }
 
 	  # Evaluate the function on appropriate inputs.
@@ -381,7 +381,7 @@ panel.plotFun <- function( object, ...,
     pfun <- function(.x,.y){
       dots[[rhsVars[1]]] <- .x
       dots[[rhsVars[2]]] <- .y
-      eval( lhs(object), envir=dots, enclos=parent.frame() )
+      eval( lhs(object), envir=dots, enclos=environment(..f..) )  # was enclos=parent.frame() )
     }
 
     if( length(zlab) == 0 ) zlab <- deparse(lhs(object) )

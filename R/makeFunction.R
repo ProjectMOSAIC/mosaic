@@ -68,7 +68,7 @@ setMethod(
 					paste(vars, "=", valVec, collapse=",", sep=""), "))"
 	  			)
 	  ))
-	  environment(result) <- parent.frame()
+	  environment(result) <- environment(object) # parent.frame()
 
 	  return(result)  
   }
