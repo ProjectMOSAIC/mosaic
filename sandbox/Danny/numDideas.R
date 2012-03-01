@@ -1,3 +1,9 @@
+# Strategy: 
+# The various dfdx, d2fdx2, d2fdxdy functions create a new function.
+# The new function grabs the function f constructed from the formula
+# and grabs the arguments, adding and subtracting the finite-difference step h
+# as appropriate, then evaluating f at the new points to find the finite difference.
+
 numD <- function(formula, ..., .hstep=NULL) {
   # translate the formula into a function
   f <- makeFunction(formula, ...)
@@ -24,7 +30,7 @@ numD <- function(formula, ..., .hstep=NULL) {
     stop("Order greater than 2 not yet implemented.")
   }
 }
-
+# ===============
 set.left.right <- function(C,var,h) {
   # C, L, R are center, left, and right of the interval respectively
   C <- C[-1] # drop the function name
@@ -37,6 +43,7 @@ set.left.right <- function(C,var,h) {
   }
   return(list(L=L,R=R,C=C))
 }
+# ================
 set.4corners <- function(C,var1,var2,h) {
   # C is the center
   # RU, RB, LU, LB are the right-upper, right-bottom, left-upper and left-bottom corners
@@ -104,9 +111,11 @@ do.tests = function(){
     numD( b*a*x^2*y^2 ~ x & y, a=.25,b=n) 
   }
   g = f(10)
-  if(too.different(g(1,1), 10)) stop("Test 4")
-  if(too.different(g(1,1,b=20), 20)) stop("Test 5")
-  if(too.different(g(1,1,a=2,b=20), 160)) stop("Test 6")
+  if(too.different(g(1,1), 10)) stop("Test 4a")
+  if(too.different(g(1,1,b=20), 20)) stop("Test 4b")
+  if(too.different(g(1,1,a=2,b=20), 160)) stop("Test 4c")
+  
+  
 }
 
 
