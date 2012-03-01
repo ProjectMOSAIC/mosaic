@@ -1,0 +1,299 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx, amsmath, amsfonts, amssymb, epstopdf, color, url, hyperref} 
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\definecolor{green}{RGB}{0,127,0}
+\hypersetup{pdftitle={Assessing robustness of t-test}, colorlinks=true, linkcolor=black, citecolor=black}
+\usepackage[bottom]{footmisc}
+\usepackage[round]{natbib}
+\bibliographystyle{abbrvnat}
+
+\frenchspacing{}
+
+\title{Resampling-based inference using the {\tt mosaic} package}
+\author{Daniel Kaplan, Nicholas J. Horton\thanks{Corresponding author: nhorton@smith.edu}, Randall Pruim}
+\date{\today}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\pagestyle{empty}
+<<echo=false>>=
+#options(prompt = "  ")
+options(continue = "    ")
+histogram = function(...){print(lattice::histogram(...))}
+xhistogram = function(...){print(mosaic::xhistogram(...))}
+@ 
+
+\SweaveOpts{keep.source=TRUE}
+
+\section{Introduction}
+
+This document is intended to describe relatively straightforward ways to undertake a variety of resampling-based inferences through use of the {\tt mosaic} package within R.
+
+\section{R and RStudio}
+\bigskip
+
+R is an open-source statistical environment that has been used at a number of institutions to teach introductory statistics.
+Among other advantages, R makes it
+easy to demonstrate the concepts of statistical inference through
+randomization while providing a sensible path for beginners to
+progress to advanced and
+professional statistics. RStudio (\url{http://www.rstudio.org}) is an open-source integrated
+development environment for R which facilitates use of the system.
+
+
+\section{Setup}
+The mosaic package is available over the Internet and can be installed
+into R using the standard features of the system (this needs only be done once).  
+<<eval=FALSE, echo=TRUE>>=
+install.packages("mosaic")
+@ 
+
+Once installed, the
+package must be loaded so that it is available (this must be done within each R session).
+
+<<>>=
+require(mosaic)
+@ 
+
+This command would typically be provided in a set-up file for students so that it's executed automatically each time an R session is started.
+
+XX need to find a better home for these datasets.  Can we add them to the package?  XX
+
+The instructions for the breakout session did not give any details
+about how to access the data.  So that you may follow these examples
+from any session of R, here are the commands to read the files from a
+public web site.
+<<eval=FALSE>>=
+mustangs = read.csv("http://www.mosaic-web.org/MustangPrice.csv")
+sleep = read.csv("http://www.mosaic-web.org/SleepCaffeine.csv")
+@ 
+<<eval=TRUE>>=
+mustangs = read.csv("MustangPrice.csv")
+sleep = read.csv("SleepCaffeine.csv")
+@ 
+
+
+\section{Problem 1: Used Mustangs (bootstrapping a mean)}
+
+ {\em A student collected data on the selling prices for a sample of used
+  Mustang cars being offered for sale at an internet website. The
+  price (in \$1,000's), age (in years) and miles driven (in 1,000's)
+  for the 25 cars in the sample are given in the [file \texttt{MustangPrice.csv}].  
+  Use these data to construct a 90\% confidence interval for the mean
+  price (in \$1,000's) for used Mustangs.}
+
+\bigskip
+
+The mean price can be calculated as
+<<meanmust>>=
+with(mustangs, mean(Price))
+@ 
+
+Even though a single trial is of little use, it's a nice idea to have
+students do the calculation to show that they are getting a different
+(usually!) result than without resampling.
+One resampling trial can be carried out with
+<<>>=
+with(resample(mustangs), mean(Price))
+@
+Another trial can be carried out with the command:
+<<>>=
+with(resample(mustangs), mean(Price))
+@ 
+Let's generate five more:
+<<>>=
+trials = do(5) * with(resample(mustangs), mean(Price))
+trials
+@
+
+Now conduct 1000 resampling trials, replacing the results in an object
+called \texttt{trials}:
+<<>>=
+trials = do(1000) * with(resample(mustangs), mean(Price))
+@ 
+This creates a new set of data with the result from each of the 1000 trials.
+
+Plots of distributions are straightforward, e.g.:
+<<hist,fig=true,include=TRUE,pdf=true,height=4,width=4>>=
+xhistogram(~ result, data=trials)
+@ 
+
+Calculation of the 90\% confidence interval can be done directly.
+<<qdata>>=
+qdata(c(.05, .95), trials$result)
+@ 
+
+Alternatively, the standard error from this distribution can be used to estimate the 90\% margin of
+error.  First calculate the t (or z) multiplier
+for the appropriate degrees of freedom:
+<<tstar>>=
+tstar = qt(.95, df=24)
+zstar = qnorm(.95)
+@ 
+The resulting
+margin of error will be
+<<margin>>=
+tstar * sd(trials$result)
+zstar * sd(trials$result)
+@ 
+
+
+\section{Problem 2: NFL Overtimes (single test of proportion)}
+
+{\em The National Football League (NFL) uses an overtime
+period to determine a winner for games that are tied at the end of
+regulation time.  The first team to score in the overtime wins the
+game and a coin flip is used to determine which team gets the ball
+first.  Is there an advantage to winning the coin flip?  Data from the
+1974 through 2009 seasons show that the coin flip winner won 240 of
+the 428 games where a winner was determined in overtime.  Treat these
+as a sample of NFL games to test whether there is sufficient evidence
+to show that the proportion of overtime games won by the coin flip
+winner is more than one half.}
+
+\bigskip
+
+If the coin-flip result were unrelated to the outcome of the game, the
+observed 240 game wins out of 428 events would itself be a plausible
+outcome of a coin flip.
+
+\paragraph{Style 1} Using the built-in binomial distribution operators.
+
+Generate a simulation where each trial is a random sample  of 428
+games from a world in which the null hypothesis holds true.
+
+<<proptable>>=
+proptable(rbinom(100000, prob=0.5, size=428) >= 240)
+@ 
+
+It's very unlikely, if the null were true, that the coin-flip winner
+would win 240 or more times.
+
+Of course, such a calculation can be done directly, but that raises
+issues such as which tail \texttt{pbinom} is calculating (R always
+does the left tail) and adjusting the cut-off appropriately
+<<pbinom>>=
+pbinom(239, prob=0.5, size=428)
+@ 
+
+\paragraph{Style 2} Explicitly simulating a coin flip.
+
+Recognizing that coin flips are a staple of statistics courses, the
+\texttt{mosaic} package offers a random flip operator that does the
+tabulation for you.  Here is one trial involving flipping 428 coins:
+<<coinflip>>=
+do(1) * rflip(428)
+@ 
+
+We'll do 1000 trials, and count in what fraction of the trials the
+winner (say, ``heads'') wins 240 or more
+<<flips,fig=true,pdf=true,width=4,height=4>>=
+trials = do(1000) * rflip(428)
+xhistogram( ~ heads, groups = heads >= 240, data=trials)
+proptable(trials$heads >= 240) 
+@ 
+
+
+The observed pattern of 240 wins is not a likely outcome under the null hypothesis.
+
+\section{Problem 3: Sleep vs. Caffeine (2 sample permutation test of means)} 
+
+ {\em In an experiment on memory, students were given lists of 24 words
+  to memorize.  After hearing the words they were assigned at random
+  to different groups. One group of 12 students took a nap for 1.5
+  hours while a second group of 12 students stayed awake and was given
+  a caffeine pill.  The table below shows the number of words each
+  participant was able to recall after the break.  Test whether the
+  data indicate a difference in mean number of words recalled between
+  the two treatments.}
+
+\bigskip
+
+The Sleep group seems to have remember somewhat more words:
+<<>>=
+mean(Words ~ Group, data=sleep)
+obs = compareMean(Words ~ Group, data=sleep); obs
+@ 
+
+To implement the null hypothesis, scramble the Group with respect to
+the outcome, Words:
+<<>>=
+compareMean(Words ~ shuffle(Group), data=sleep)
+@ 
+
+That's just one trial.  Let's try again:
+<<>>=
+compareMean(Words ~ shuffle(Group), data=sleep)
+@
+To get the distribution under the null
+hypothesis, do many trials.
+
+<<sleep,pdf=true,fig=true,width=4,height=4>>=
+trials = do(1000) * compareMean(Words ~ shuffle(Group), data=sleep)
+xhistogram(~ result, groups = result > obs, data=trials)
+@ 
+
+\section{Bonus Problem: test of equality of proportions}
+
+XX to be added XX
+
+\section{Bonus Problem (bootstrapping a correlation)}
+
+\begin{quotation}
+{\em The data on Mustang prices in Problem \#1 also contains the number
+ of miles each car had been driven (in thousands).  Find a
+ 95\% confidence interval for the correlation between price and mileage.}
+\end{quotation}
+
+\paragraph{Style 1:} Using the correlation, as requested:
+<<cor,fig=true,pdf=true,width=4,height=4>>=
+trials = do(1000) * 
+  with( resample(mustangs), cor(Price, Miles) )
+histogram( trials$result )
+qdata(c(.025, .095), trials$result)
+@ 
+
+But there's no reason to restrict oneself to the correlation: best to
+fit the linear model and consider the coefficients themselves:
+<<miles,fig=true,pdf=true,width=4,height=4>>=
+do(1) * lm(Price ~ Miles, data=mustangs)
+trials = do(1000) * 
+ lm(Price ~ Miles, data=resample(mustangs))
+xhistogram( ~ Miles, data=trials)
+sd(trials) #standard errors
+@ 
+
+
+
+The average price goes down by $22 \pm 6$ cents per mile driven.
+
+
+\paragraph{Using Simulations in Other Ways}
+
+The basic technology of resampling and shuffling can be used to
+demonstrate many other concepts in statistics than the generation of
+confidence intervals and p-values.  For example, it is very useful for
+showing the origins of distributions such as t and F.  Similarly, it
+can be helpful to show students the distribution of p-values under the
+null hypothesis --- students are surprised to see that it's uniform.
+Seeing this helps them to understand the sense in which the
+``significance level'' refers to a false rejection of the null in a
+world in which the null is true.
+
+For additional examples of the use of simulations in introductory
+statistics using R, see
+\begin{itemize}
+  \item R. Pruim, N. Horton, \& D. Kaplan, {\em Teaching Statistics
+      with R}, \url{http://mosaic-web.org/uscots2011/WorkshopNotes-001.pdf}
+  \item D. Kaplan, {\em Statistical Modeling: A Fresh Approach}, \url{http://www.macalester.edu/~kaplan/ISM}
+\end{itemize}
+
+
+\noindent Project MOSAIC, \url{www.mosaic-web.org}
+
+
+\end{document}
