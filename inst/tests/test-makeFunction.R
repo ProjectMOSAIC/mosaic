@@ -18,6 +18,18 @@ test_that("default arguments work", {
   expect_equivalent( sin(7*3 + 5*4), f(3, 4, b=5, a=7) )
 })
 
+
+test_that("pi is handled with care", {
+  f <- makeFunction( sin(a*pi*x + b*y) ~ x & y, a=1, b=2)
+  expect_equivalent( sin(1*pi*3 + 2*4), f(3, 4) )
+  expect_equivalent( sin(1*pi*3 + 2*4), f(y=4, x=3) )
+  expect_equivalent( sin(7*pi*3 + 5*4), f(3, 4, b=5, a=7) )
+  g <- makeFunction( pi * (1-pi) ~ pi )
+  expect_equivalent( g(.5), .5 * .5)
+  expect_equivalent( g(0), 0 * 1)
+  expect_equivalent( g(pi), pi * (1-pi))
+})
+
 # these tests work when run in console but not from scripts.
 test_that("iteration works", {
   f <- makeFunction( sin(a*x) ~ x, a=1)
