@@ -81,3 +81,5 @@ Collate:
     'plotCumfreq.R'
     'oddsRatio.R'
     'plotDist.R'
+    'compareMean.R'
+    'compareProportion.R'
