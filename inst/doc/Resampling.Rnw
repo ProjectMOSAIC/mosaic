@@ -1,9 +1,12 @@
+%\VignetteIndexEntry{Resampling-based inference}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, resampling, bootstrapping, permutation}
 \documentclass[11pt]{article}
 \usepackage{graphicx, amsmath, amsfonts, amssymb, epstopdf, color, url, hyperref} 
 \usepackage[margin=1in]{geometry}
 \usepackage[parfill]{parskip}
 \definecolor{green}{RGB}{0,127,0}
-\hypersetup{pdftitle={Assessing robustness of t-test}, colorlinks=true, linkcolor=black, citecolor=black}
+\hypersetup{pdftitle={Resampling-based inference}, colorlinks=true, linkcolor=black, citecolor=black}
 \usepackage[bottom]{footmisc}
 \usepackage[round]{natbib}
 \bibliographystyle{abbrvnat}
