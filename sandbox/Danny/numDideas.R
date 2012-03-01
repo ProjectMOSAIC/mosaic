@@ -107,6 +107,8 @@ setCorners <- function(C, var1, var2, h) {
   return(list(RU=RU, RB=RB, LU=LU, LB=LB, Center=sides$C))
 }
 # =================
+# Formal arguments are named to avoid conflicts with the contents of the mathematical function
+# whose derivative is sought.  Similarly for the others: d2fdx2, d2fdxdy
 dfdx <- function(.function, .wrt, .hstep) { # first order partial
   res <- function() numerical.first.partial(.function, .wrt, .hstep, match.call())
   #  H <- setInterval(as.list(match.call()), .wrt, .h)
