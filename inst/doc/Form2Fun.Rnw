@@ -1,0 +1,9 @@
+%\VignetteIndexEntry{Functions from Formulas}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, functions, formulas}
+
+\documentclass{article}
+\usepackage{pdfpages}
+\begin{document}
+\includepdf[pages=-, fitpaper=true]{Form2Fun-src.pdf}
+\end{document}
