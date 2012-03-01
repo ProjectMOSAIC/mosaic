@@ -10,7 +10,8 @@
 #' @param formula a mathematical expression (see examples and \code{\link{plotFun}})
 #' @param \dots additional parameters, typically default values for mathematical parameters
 #' @param .hstep numerical finite-difference step (default is 1e-6 or 1e-4 for first and second-order derivatives, respectively)
-#' 
+#' @param add.h.control arranges the returned function to have a \code{.hstep} argument that cann be used to demonstrate convergence and error
+#'
 #' @return a function implementing the derivative as a finite-difference approximation
 #'
 #' @details
@@ -38,6 +39,9 @@
 #' ggg(x=2,y=10)
 #' h = numD( g(x=x,y=y,a=a) ~ y, a=1)
 #' h(x=2,y=10)
+#' f = numD( sin(x)~x, add.h.control=TRUE)
+#' plotFun( foo(3,.hstep=h)~h, hlim=range(.00000001,.000001))
+#' ladd( panel.abline(cos(3),0))
 
 # Strategy: 
 # The various dfdx, d2fdx2, d2fdxdy functions create a new function.
@@ -45,7 +49,7 @@
 # and grabs the arguments, adding and subtracting the finite-difference step h
 # as appropriate, then evaluating f at the new points to find the finite difference.
 
-numD <- function(formula, ..., .hstep=NULL) {
+numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
   # translate the formula into a function
   f <- makeFunction(formula, ...)
   # to be able to find functions defined outside this one
@@ -56,20 +60,25 @@ numD <- function(formula, ..., .hstep=NULL) {
   dvars <- all.vars(rhs(formula), unique=FALSE) 
   # What sort of derivative?
   if (length(dvars)==1)  #Simple first derivative 
-    return(dfdx( f, dvars[1], .h=ifelse(is.null(.hstep), 0.000001, .hstep)))
-  if (length(dvars==2) & dvars[1]==dvars[2]) # Second unmixed partial 
-    return(d2fdx2( f, dvars[1], .h=ifelse(is.null(.hstep), 0.0001, .hstep)))
-  if (length(dvars)==2) # mixed partial
-    return(d2fdxdy(f, dvars[1], dvars[2], .h=ifelse(is.null(.hstep), 0.0001, .hstep)))
+    res = dfdx( f, dvars[1], .h=ifelse(is.null(.hstep), 0.000001, .hstep))
+  else if (length(dvars==2) & dvars[1]==dvars[2]) # Second unmixed partial 
+    res = d2fdx2( f, dvars[1], .h=ifelse(is.null(.hstep), 0.0001, .hstep))
+  else if (length(dvars)==2) # mixed partial
+    res = d2fdxdy(f, dvars[1], dvars[2], .h=ifelse(is.null(.hstep), 0.0001, .hstep))
 
   if (length(dvars)>2){
     stop("Order greater than 2 not yet implemented.")
   }
+  
+  if( add.h.control )
+    formals(res) = c(formals(res),list(.hstep=0.00001))
+  return(res)
 }
 # ===============
 setInterval <- function(C, wrt, h) {
   # C, L, R are center, left, and right of the interval respectively
   C <- C[-1] # drop the function name
+  if( ".hstep" %in% names(C)) C$.hstep=NULL #.hstep doesn't go to the function
   C[[wrt]] <- eval.parent( C[[wrt]], n=3)
   L <- C; 
   R <- C; 
@@ -95,30 +104,30 @@ setCorners <- function(C, var1, var2, h) {
     LU[[var2]] <- LU[[var2]]+h
     LB[[var2]] <- LB[[var2]]-h
   }
-  return(list(RU=RU, RB=RB, LU=LU, LB=LB, C=C))
+  return(list(RU=RU, RB=RB, LU=LU, LB=LB, Center=sides$C))
 }
 # =================
-dfdx <- function(.f, .wrt, .h) { # first order partial
-  res <- function() numerical.first.partial(.f, .wrt, .h, match.call())
+dfdx <- function(.function, .wrt, .hstep) { # first order partial
+  res <- function() numerical.first.partial(.function, .wrt, .hstep, match.call())
   #  H <- setInterval(as.list(match.call()), .wrt, .h)
   #  (do.call( .f, H$R ) - do.call(.f, H$L))/(2*.h)
-  formals(res) <- formals(.f) 
+  formals(res) <- formals(.function) 
   return(res)
 }
 # ==============
-d2fdxdy <- function(.f, .var1, .var2, .h) { # second order mixed partial
-  res <- function() numerical.mixed.partial(.f, .var1, .var2, .h, match.call())
+d2fdxdy <- function(.function, .var1, .var2, .hstep) { # second order mixed partial
+  res <- function() numerical.mixed.partial(.function, .var1, .var2, .hstep, match.call())
     #H <- setCorners(as.list(match.call()), var1, var2, h)
     #(do.call(f, H$RU) + do.call(f, H$LB) - (do.call(f, H$RB) + do.call(f, H$LU)))/(4*h^2)
-  formals(res) <- formals(.f) 
+  formals(res) <- formals(.function) 
   return(res)
 }
 # =============
-d2fdx2 <- function(.f, .wrt, .h) { # second order unmixed partial
-  res <- function() numerical.second.partial(.f,.wrt,.h,match.call())
+d2fdx2 <- function(.function, .wrt, .hstep) { # second order unmixed partial
+  res <- function() numerical.second.partial(.function,.wrt,.hstep,match.call())
   #H <- setInterval(as.list(match.call()), wrt, h)
   #(do.call( f, H$R ) + do.call(f, H$L) - 2*do.call(f, H$C))/(h^2)
-  formals(res) <- formals(.f) 
+  formals(res) <- formals(.function) 
   return(res)
 }
 # =============
@@ -183,6 +192,10 @@ do.tests = function(){
   # Check a function defined outside this one
   testgg = numD( testg(y)~y)
   if(too.different(testgg(2),2)) stop("Test 8a")
+  
+  #Control of .hstep
+  f = numD( sin(x)~x, add.h.control=TRUE)
+  if(too.different(foo(3, .hstep=1), -.83305)) stop("Test 9a")
 }
 
 
