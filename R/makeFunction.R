@@ -50,6 +50,7 @@ setMethod(
 
 	  rhsVars <- all.vars(rhs)
 	  lhsOnlyVars <- setdiff(all.vars(lhs), rhsVars)
+	  lhsOnlyVars <- setdiff(lhsOnlyVars,'pi')    # don't treat pi like a variable
 	  vars <- c(rhsVars, lhsOnlyVars)
 	  unDeclaredVars <- setdiff(names(vals), vars) 
 	  declaredVars <- setdiff(vars, unDeclaredVars)
