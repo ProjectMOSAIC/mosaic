@@ -14,7 +14,14 @@
 \frenchspacing{}
 
 \title{Resampling-based inference using the {\tt mosaic} package}
-\author{Daniel Kaplan, Nicholas J. Horton\thanks{Corresponding author: nhorton@smith.edu}, Randall Pruim}
+\author{Daniel Kaplan\thanks{dtkaplan@gmail.com} \\ \footnotesize Macalester College \\
+\footnotesize St. Paul, MN
+\and Nicholas J. Horton\thanks{nhorton@smith.edu} \\ \footnotesize Smith College \\
+\footnotesize Northampton, MA \and 
+Randall Pruim\thanks{rpruim@calvin.edu}
+\\ \footnotesize Calvin College \\
+\footnotesize Grand Rapids, MI
+}
 \date{\today}
 \begin{document}
 
@@ -34,7 +41,45 @@ xhistogram = function(...){print(mosaic::xhistogram(...))}
 
 \section{Introduction}
 
-This document is intended to describe relatively straightforward ways to undertake a variety of resampling-based inferences through use of the {\tt mosaic} package within R.
+This document is intended to describe relatively straightforward ways to undertake a variety of resampling-based inferences through use of the {\tt mosaic} package within R.  It is derived from a series of problems that were posed at USCOTS (United
+States Conference on Teaching Statistics) in 2011 by Robin Lock.
+
+One of the goals of the {\tt mosaic} package is to provide
+elementary commands that can be easily strung together by novices
+without having to master the esoteric aspects of programming.
+
+The {\tt mosaic} operations allow students to implement each of the
+operations in what George Cobb calls the ``3 Rs'' of statistical
+inference: Randomization, Replication, and Rejection XX \cite{USCOTS-cobb-2005}.
+By putting the 3 Rs together in various ways, students learn to
+generalize and internalize the logic of inference, rather than just
+following formulaic methods.
+
+There's an interesting discussion of the role of simulation in \cite{speed:2011}, where
+he notes the changing role of simulation.  It used to be:
+\begin{quote}
+something that people did when they can't do the math. $\ldots$ It now seems that we
+are heading into an era when all statistical analysis can be done by simulation.
+\end{quote}
+
+Arguably, the most important operation in statistics is sampling:
+ideally, selecting a random subset from a population.  Regrettably,
+sampling takes work and time, so instructors tend to de-emphasize the
+actual practice of sampling in favor of theoretical descriptions.
+What's more, the algebraic notation in which much of conventional
+textbook statistics is written does not offer an obvious notation for sampling.
+
+With the computer, however, these efficiency and notation obstacles
+can be overcome.  Sampling can be placed in its rightfully central
+place among the statistical concepts in our courses.
+
+Resampling-based inference using permutation testing and bootstrapping are an
+increasingly important set of techniques for introductory statistics and beyond.
+
+Bootstrapping and permutation testing are powerful and elegant approaches to estimation of sample statistics and testing, respectively that can be implemented even in many situations
+where asymptotic results are
+difficult to find or otherwise unsatisfactory \cite{efro:tibs:1993,hest:moor:2005}.  Bootstrapping involves sampling \emph{with} replacement from a population, repeatedly calculating a sample statistic of interest to empirically construct the sampling distribution. Permutation testing for a 2 sample comparison is doing by \emph{permuting} the labels for the grouping variable, then calculating the sample statistic (e.g. difference between two groups using these new labels) to empirically construct the null distribution.
+
 
 \section{R and RStudio}
 \bigskip
@@ -60,6 +105,8 @@ package must be loaded so that it is available (this must be done within each R 
 
 <<>>=
 require(mosaic)
+options(digits=3)
+numsim = 100  # should be 1000 or 2000
 @ 
 
 This command would typically be provided in a set-up file for students so that it's executed automatically each time an R session is started.
@@ -113,12 +160,13 @@ trials = do(5) * with(resample(mustangs), mean(Price))
 trials
 @
 
-Now conduct 1000 resampling trials, replacing the results in an object
+Now conduct \Sexpr{numsim} resampling trials, replacing the results in an object
 called \texttt{trials}:
 <<>>=
-trials = do(1000) * with(resample(mustangs), mean(Price))
+numsim
+trials = do(numsim) * with(resample(mustangs), mean(Price))
 @ 
-This creates a new set of data with the result from each of the 1000 trials.
+This creates a new set of data with the result from each of the $numsim=\Sexpr{numsim}$ trials.
 
 Plots of distributions are straightforward, e.g.:
 <<hist,fig=true,include=TRUE,pdf=true,height=4,width=4>>=
@@ -192,11 +240,11 @@ tabulation for you.  Here is one trial involving flipping 428 coins:
 do(1) * rflip(428)
 @ 
 
-We'll do 1000 trials, and count in what fraction of the trials the
+We'll do \Sexpr{numsim} trials, and count in what fraction of the trials the
 winner (say, ``heads'') wins 240 or more
 <<flips,fig=true,pdf=true,width=4,height=4>>=
-trials = do(1000) * rflip(428)
-xhistogram( ~ heads, groups = heads >= 240, data=trials)
+trials = do(numsim) * rflip(428)
+xhistogram(~ heads, groups = heads >= 240, data=trials)
 proptable(trials$heads >= 240) 
 @ 
 
@@ -236,13 +284,30 @@ To get the distribution under the null
 hypothesis, do many trials.
 
 <<sleep,pdf=true,fig=true,width=4,height=4>>=
-trials = do(1000) * compareMean(Words ~ shuffle(Group), data=sleep)
+trials = do(numsim) * compareMean(Words ~ shuffle(Group), data=sleep)
 xhistogram(~ result, groups = result > obs, data=trials)
 @ 
 
 \section{Bonus Problem: test of equality of proportions}
 
-XX to be added XX
+We can undertake a test of difference in two proportions, in this case, the proportion homeless by gender in the HELP randomized clinical trial.
+
+<<>>=
+with(HELPrct, table(homeless, sex))
+mean(homeless=="housed" ~ sex, data=HELPrct)
+obs = compareProportion(homeless=="housed"~ sex, data=HELPrct); obs  # observed value
+@
+
+We will use the same general approach to empirically calculate the null distribution by permuting the labels for the grouping variable.
+<<>>=
+# compute permutation distribution
+permute = do(numsim)*compareProportion(homeless=="housed" ~ shuffle(sex), data=HELPrct)
+@
+
+<<diffprop,fig=true,pdf=true,width=4,height=4>>=
+xhistogram(~ result, groups=result>=obs, permute, xlab="difference in proportions")
+ladd(panel.abline(v=obs, lwd=2))
+@
 
 \section{Bonus Problem (bootstrapping a correlation)}
 
@@ -252,27 +317,31 @@ XX to be added XX
  95\% confidence interval for the correlation between price and mileage.}
 \end{quotation}
 
-\paragraph{Style 1:} Using the correlation, as requested:
+<<>>=
+with(mustangs, cor(Price, Miles))
+@
+
+<<>>=
+trials = do(numsim) * with(resample(mustangs), cor(Price, Miles))
+quantiles = qdata(c(.025, .975), trials$result); quantiles
+@
+
 <<cor,fig=true,pdf=true,width=4,height=4>>=
-trials = do(1000) * 
-  with( resample(mustangs), cor(Price, Miles) )
-histogram( trials$result )
-qdata(c(.025, .095), trials$result)
+xhistogram(~ result, 
+  groups = ((result <= quantiles[1]) | (result >= quantiles[2])),
+  nbin=30, data=trials)
 @ 
 
-But there's no reason to restrict oneself to the correlation: best to
+But there's no reason to restrict oneself to the correlation: we can also
 fit the linear model and consider the coefficients themselves:
 <<miles,fig=true,pdf=true,width=4,height=4>>=
 do(1) * lm(Price ~ Miles, data=mustangs)
-trials = do(1000) * 
- lm(Price ~ Miles, data=resample(mustangs))
-xhistogram( ~ Miles, data=trials)
+trials = do(numsim) * lm(Price ~ Miles, data=resample(mustangs))
+xhistogram(~ Miles, data=trials)
 sd(trials) #standard errors
 @ 
 
-
-
-The average price goes down by $22 \pm 6$ cents per mile driven.
+The predicted average price goes down by $22 \pm 6$ cents per mile driven.
 
 
 \paragraph{Using Simulations in Other Ways}
