@@ -29,9 +29,7 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 
 \tableofcontents
 
-\pagestyle{empty}
 <<echo=false>>=
-#options(prompt = "  ")
 options(continue = "    ")
 histogram = function(...){print(lattice::histogram(...))}
 xhistogram = function(...){print(mosaic::xhistogram(...))}
