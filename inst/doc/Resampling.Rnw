@@ -106,7 +106,7 @@ package must be loaded so that it is available (this must be done within each R 
 <<setup>>=
 require(mosaic)
 options(digits=3)
-numsim = 100  # should be 1000 or 2000
+numsim = 2000  
 @ 
 
 This command would typically be provided in a set-up file for students so that it's executed automatically each time an R session is started.  Next we load two of the datasets that will be used in the examples.
