@@ -41,21 +41,22 @@ xhistogram = function(...){print(mosaic::xhistogram(...))}
 
 \section{Introduction}
 
-This document is intended to describe relatively straightforward ways to undertake a variety of resampling-based inferences through use of the {\tt mosaic} package within R.  It is derived from a series of problems that were posed at USCOTS (United
-States Conference on Teaching Statistics) in 2011 by Robin Lock.
-
+This document is intended to describe relatively straightforward ways to undertake a variety of resampling-based inferences through use of the {\tt mosaic} package within R.  
+It is derived from a series of problems posed at USCOTS (United
+States Conference on Teaching Statistics) 2011 by Robin Lock and colleagues (\url{http://www.causeweb.org/uscots/breakout/breakout3_6.php}).
 One of the goals of the {\tt mosaic} package is to provide
 elementary commands that can be easily strung together by novices
-without having to master the esoteric aspects of programming.
+without having to master the esoteric aspects of programming.  More information about the package and this initiative can be 
+found at the Project MOSAIC website: \url{www.mosaic-web.org}.
 
 The {\tt mosaic} operations allow students to implement each of the
 operations in what George Cobb calls the ``3 Rs'' of statistical
-inference: Randomization, Replication, and Rejection XX \cite{USCOTS-cobb-2005}.
+inference: Randomization, Replication, and Rejection (Cobb, 2007). 
 By putting the 3 Rs together in various ways, students learn to
 generalize and internalize the logic of inference, rather than just
 following formulaic methods.
 
-There's an interesting discussion of the role of simulation in \cite{speed:2011}, where
+There's an interesting discussion of the role of simulation in Speed (2011), where
 he notes the changing role of simulation.  It used to be:
 \begin{quote}
 something that people did when they can't do the math. $\ldots$ It now seems that we
@@ -78,10 +79,10 @@ increasingly important set of techniques for introductory statistics and beyond.
 
 Bootstrapping and permutation testing are powerful and elegant approaches to estimation of sample statistics and testing, respectively that can be implemented even in many situations
 where asymptotic results are
-difficult to find or otherwise unsatisfactory \cite{efro:tibs:1993,hest:moor:2005}.  Bootstrapping involves sampling \emph{with} replacement from a population, repeatedly calculating a sample statistic of interest to empirically construct the sampling distribution. Permutation testing for a 2 sample comparison is doing by \emph{permuting} the labels for the grouping variable, then calculating the sample statistic (e.g. difference between two groups using these new labels) to empirically construct the null distribution.
+difficult to find or otherwise unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al 2005).  Bootstrapping involves sampling \emph{with} replacement from a population, repeatedly calculating a sample statistic of interest to empirically construct the sampling distribution. Permutation testing for a two group comparison is doing by \emph{permuting} the labels for the grouping variable, then calculating the sample statistic (e.g. difference between two groups using these new labels) to empirically construct the null distribution.
 
-
-\section{R and RStudio}
+\section{Background and setup}
+\subsection{R and RStudio}
 \bigskip
 
 R is an open-source statistical environment that has been used at a number of institutions to teach introductory statistics.
@@ -93,7 +94,7 @@ professional statistics. RStudio (\url{http://www.rstudio.org}) is an open-sourc
 development environment for R which facilitates use of the system.
 
 
-\section{Setup}
+\subsection{Setup}
 The mosaic package is available over the Internet and can be installed
 into R using the standard features of the system (this needs only be done once).  
 <<eval=FALSE, echo=TRUE>>=
@@ -101,33 +102,23 @@ install.packages("mosaic")
 @ 
 
 Once installed, the
-package must be loaded so that it is available (this must be done within each R session).
-
-<<>>=
+package must be loaded so that it is available (this must be done within each R session).  In addition to loading the package, we set the number of digits to display by default as well as the number of simulations to undertake.
+<<setup>>=
 require(mosaic)
 options(digits=3)
 numsim = 100  # should be 1000 or 2000
 @ 
 
-This command would typically be provided in a set-up file for students so that it's executed automatically each time an R session is started.
+This command would typically be provided in a set-up file for students so that it's executed automatically each time an R session is started.  Next we load two of the datasets that will be used in the examples.
 
-XX need to find a better home for these datasets.  Can we add them to the package?  XX
-
-The instructions for the breakout session did not give any details
-about how to access the data.  So that you may follow these examples
-from any session of R, here are the commands to read the files from a
-public web site.
-<<eval=FALSE>>=
-mustangs = read.csv("http://www.mosaic-web.org/MustangPrice.csv")
-sleep = read.csv("http://www.mosaic-web.org/SleepCaffeine.csv")
-@ 
 <<eval=TRUE>>=
 mustangs = read.csv("MustangPrice.csv")
 sleep = read.csv("SleepCaffeine.csv")
 @ 
 
 
-\section{Problem 1: Used Mustangs (bootstrapping a mean)}
+\section{Resampling in different settings}
+\subsection{Bootstrapping a mean (used Mustangs))}
 
  {\em A student collected data on the selling prices for a sample of used
   Mustang cars being offered for sale at an internet website. The
@@ -137,6 +128,11 @@ sleep = read.csv("SleepCaffeine.csv")
   price (in \$1,000's) for used Mustangs.}
 
 \bigskip
+
+First we start by displaying the distribution of values.
+<<dot>>=
+stem(mustangs$Price)
+@
 
 The mean price can be calculated as
 <<meanmust>>=
@@ -160,7 +156,7 @@ trials = do(5) * with(resample(mustangs), mean(Price))
 trials
 @
 
-Now conduct \Sexpr{numsim} resampling trials, replacing the results in an object
+Now conduct \Sexpr{numsim} resampling trials, saving the results in an object
 called \texttt{trials}:
 <<>>=
 numsim
@@ -170,7 +166,7 @@ This creates a new set of data with the result from each of the $numsim=\Sexpr{n
 
 Plots of distributions are straightforward, e.g.:
 <<hist,fig=true,include=TRUE,pdf=true,height=4,width=4>>=
-xhistogram(~ result, data=trials)
+xhistogram(~ result, data=trials, xlab="Mustang prices (in thousand dollars)")
 @ 
 
 Calculation of the 90\% confidence interval can be done directly.
@@ -193,7 +189,7 @@ zstar * sd(trials$result)
 @ 
 
 
-\section{Problem 2: NFL Overtimes (single test of proportion)}
+\subsection{Testing a proportion (NFL Overtimes)}
 
 {\em The National Football League (NFL) uses an overtime
 period to determine a winner for games that are tied at the end of
@@ -242,16 +238,18 @@ do(1) * rflip(428)
 
 We'll do \Sexpr{numsim} trials, and count in what fraction of the trials the
 winner (say, ``heads'') wins 240 or more
-<<flips,fig=true,pdf=true,width=4,height=4>>=
+<<flips1>>=
 trials = do(numsim) * rflip(428)
-xhistogram(~ heads, groups = heads >= 240, data=trials)
-proptable(trials$heads >= 240) 
+proptable(trials$heads >= 240)
+@
+<<flips,fig=true,pdf=true,width=4,height=4>>=
+xhistogram(~ heads, groups = (heads >= 240), data=trials)
 @ 
 
 
 The observed pattern of 240 wins is not a likely outcome under the null hypothesis.
 
-\section{Problem 3: Sleep vs. Caffeine (2 sample permutation test of means)} 
+\subsection{Permutation test of means from two groups (sleep and memory)} 
 
  {\em In an experiment on memory, students were given lists of 24 words
   to memorize.  After hearing the words they were assigned at random
@@ -270,6 +268,10 @@ mean(Words ~ Group, data=sleep)
 obs = compareMean(Words ~ Group, data=sleep); obs
 @ 
 
+<<fig=TRUE,pdf=true,width=4,height=4>>=
+bwplot(Words ~ Group, data=sleep)
+@
+
 To implement the null hypothesis, scramble the Group with respect to
 the outcome, Words:
 <<>>=
@@ -285,10 +287,18 @@ hypothesis, do many trials.
 
 <<sleep,pdf=true,fig=true,width=4,height=4>>=
 trials = do(numsim) * compareMean(Words ~ shuffle(Group), data=sleep)
-xhistogram(~ result, groups = result > obs, data=trials)
+xhistogram(~ result, groups = result >= obs, data=trials,
+  xlab="Distribution of difference in means\nunder the null hypothesis")
 @ 
 
-\section{Bonus Problem: test of equality of proportions}
+We can calculate the (one-sided) p-value for this test by summing up the number of 
+trials which yielded a result as extreme or more extreme as the observed difference.
+Here only \Sexpr{sum(trials$result >= obs)} of the permutations were that large, so 
+the p-value is equal to \Sexpr{sum(trials$result >= obs)/numsim}.  We conclude that
+it's unlikely that the two groups have the same mean word recall back in their respective 
+populations.
+
+\subsection{Permutation test of proportions from two groups (HELP RCT)}
 
 We can undertake a test of difference in two proportions, in this case, the proportion homeless by gender in the HELP randomized clinical trial.
 
@@ -309,7 +319,7 @@ xhistogram(~ result, groups=result>=obs, permute, xlab="difference in proportion
 ladd(panel.abline(v=obs, lwd=2))
 @
 
-\section{Bonus Problem (bootstrapping a correlation)}
+\subsection{Bootstrapping a correlation}
 
 \begin{quotation}
 {\em The data on Mustang prices in Problem \#1 also contains the number
@@ -332,6 +342,7 @@ xhistogram(~ result,
   nbin=30, data=trials)
 @ 
 
+\subsection{Bootstrapping a regression model}
 But there's no reason to restrict oneself to the correlation: we can also
 fit the linear model and consider the coefficients themselves:
 <<miles,fig=true,pdf=true,width=4,height=4>>=
@@ -356,16 +367,18 @@ Seeing this helps them to understand the sense in which the
 ``significance level'' refers to a false rejection of the null in a
 world in which the null is true.
 
-For additional examples of the use of simulations in introductory
-statistics using R, see
+\section{References}
 \begin{itemize}
-  \item R. Pruim, N. Horton, \& D. Kaplan, {\em Teaching Statistics
-      with R}, \url{http://mosaic-web.org/uscots2011/WorkshopNotes-001.pdf}
-  \item D. Kaplan, {\em Statistical Modeling: A Fresh Approach}, \url{http://www.macalester.edu/~kaplan/ISM}
+\item G. W. Cobb, The introductory statistics course: a Ptolemaic curriculum?, 
+   \emph{Technology Innovations in Statistics Education}, 2007, 1(1).
+\item B. Efron \& R. J. Tibshirani, {\em An introduction to the bootstrap}, 1993, Chapman \& Hall, New York.
+\item T Hesterberg, D. S. Moore, S. Monaghan, A. Clipson \& R. Epstein.  {\em Bootstrap methods and permutation tests (2nd edition)}, (2005), W.H. Freeman, New York.
+\item D. Kaplan, {\em Statistical modeling: A fresh approach}, \url{http://www.macalester.edu/~kaplan/ISM}.
+\item T. Speed, Simulation, \emph{IMS Bulletin}, 2011, 40(3):18.
+ 
+
 \end{itemize}
 
-
-\noindent Project MOSAIC, \url{www.mosaic-web.org}
 
 
 \end{document}
