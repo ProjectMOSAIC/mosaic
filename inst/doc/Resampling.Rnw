@@ -116,7 +116,7 @@ sleep = read.csv("SleepCaffeine.csv")
 
 
 \section{Resampling in different settings}
-\subsection{Bootstrapping a mean (used Mustangs))}
+\subsection{Bootstrapping a mean (used Mustangs)}
 
  {\em A student collected data on the selling prices for a sample of used
   Mustang cars being offered for sale at an internet website. The
