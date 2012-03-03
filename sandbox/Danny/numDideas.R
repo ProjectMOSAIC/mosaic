@@ -50,11 +50,10 @@
 # as appropriate, then evaluating f at the new points to find the finite difference.
 
 numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
+  formulaEnv = environment(formula) # where did the formula come from?
   # translate the formula into a function
   f <- makeFunction(formula, ...)
-  # to be able to find functions defined outside this one
-  # SHOULD makeFunction() be changed to do this?  
-  environment(f) <- parent.frame() 
+  environment(f) <- formulaEnv  # was parent.frame()
   # find the variables with respect to which the derivative is to be taken
   # keeping repeated names so that 2nd derivs can be spotted.
   dvars <- all.vars(rhs(formula), unique=FALSE) 
@@ -197,7 +196,7 @@ do.tests = function(){
   
   #Control of .hstep
   f = numD( sin(x)~x, add.h.control=TRUE)
-  if(too.different(foo(3, .hstep=1), -.83305)) stop("Test 9a")
+  if(too.different(f(3, .hstep=1), -.83305)) stop("Test 9a")
 }
 
 
