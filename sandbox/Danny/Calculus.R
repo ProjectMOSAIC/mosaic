@@ -66,5 +66,7 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
   #Failed?  Do it numerically  
   if( inherits(res, "try-error") ) # symbolic attempt unsuccessful
     res = numD( formula, ..., .hstep=.hstep, add.h.control=add.h.control)
+  
+  environment(res) = formulaEnv # function should refer to environment of the formula
   return(res)
 }
