@@ -49,14 +49,16 @@ symbolicD <- function(formula, ..., .order=NULL ) {
   }
   # plug in df as the new function
   
-  # This didn't seem to work: strict.declaration doesn't have the desired effect
-#  formula[[2]] <- df
-#   res = makeFunction( formula, ..., strict.declaration=FALSE)
+  # This doesn't work: It loses parameters which disappear in the differentiation
+  # formula[[2]] <- df
+  # res = makeFunction( formula, ..., strict.declaration=FALSE)
+  # Here, keep all such parameters
+  # Example: symbolicD( x+y~y) should give back function(x,y)1
+  # but makeFunction gives back function(y) 1
+
   # Instead
   res = makeFunction( formula, ... )
   body(res) <- df
-  
-  
   # the function should come from the same place as the formula
   environment(res) = formulaEnv
   return(res)
