@@ -29,6 +29,16 @@ test_that("basic integration works", {
   expect_that( f(x.to=3,a=100), equals(450, tol=.001))
 })
 
+test_that("derivatives work in derivatives",{
+  g <- numD( a*x^2 + x*y ~ x, a=1)  
+  h <- numD( g(x=x,y=y,a=a) ~ y, a=1)
+  expect_that( h(x=2,y=10),equals(1,tol=.001))
+  g <- symbolicD( a*x^2 + x*y ~ x, a=1)  
+  h <- numD( g(x=x,y=y,a=a) ~ y, a=1)
+  expect_that( h(x=2,y=10),equals(1,tol=.001))
+})
+
+
 test_that("integrals work in other functions", {
   f <- antiD( a~x, a=10 )
   h <- makeFunction(f(x)~x)
@@ -51,6 +61,16 @@ test_that("integrals work on integrals", {
   by.xy <- antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
   expect_that( by.xy(y.from=-1, y.to=1), equals(pi,tol=0.00001))
 })
+
+test_that("Basic numerical differentiation works", {
+  g <- numD( a*x^2 + x*y ~ x, a=1)  
+  expect_that( g(x=2,y=10), equals(14, tol=0.0001))
+  gg <- numD( a*x^2 + x*y ~ x&x, a=1)
+  expect_that( gg(x=2,y=10), equals(2, tol=0.0001))
+  ggg <- numD( a*x^2 + x*y ~ x&y, a=1)
+  expect_that( ggg(x=2,y=10,a=10), equals(1, tol=0.0001))
+})
+
 
 do.tests = function(){
   too.different = function(x, y, tol=.001){abs(x-y) > tol}

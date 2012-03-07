@@ -40,7 +40,7 @@
 #' h = numD( g(x=x,y=y,a=a) ~ y, a=1)
 #' h(x=2,y=10)
 #' f = numD( sin(x)~x, add.h.control=TRUE)
-#' plotFun( foo(3,.hstep=h)~h, hlim=range(.00000001,.000001))
+#' plotFun( f(3,.hstep=h)~h, hlim=range(.00000001,.000001))
 #' ladd( panel.abline(cos(3),0))
 
 # Strategy: 
@@ -84,6 +84,8 @@ numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
 setInterval <- function(C, wrt, h) {
   # C, L, R are center, left, and right of the interval respectively
   C <- C[-1] # drop the function name
+  # make sure any calls get evaluated to numbers
+  for( nm in names(C) ) C[[nm]] <- eval.parent( C[[nm]], n=3)
   if( ".hstep" %in% names(C)) C$.hstep=NULL #.hstep doesn't go to the function
   C[[wrt]] <- eval.parent( C[[wrt]], n=3)
   L <- C; 
