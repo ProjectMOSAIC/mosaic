@@ -9,12 +9,15 @@
 #'
 #' @param formula a mathematical expression (see examples and \code{\link{plotFun}})
 #' @param \dots additional parameters, typically default values for mathematical parameters
+#' @param .order a number specifying the order of a derivative with respect to a single variable
 #'
 #' @return a function implementing the derivative 
 #'
 #' @details
 #' Uses the built-in symbolic differentiation function to construct 
 #' a formula for the derivative and packages this up as a function.
+#' The \code{.order} argument is just for convenience when programming
+#' high-order derivatives, e.g. the 5th derivative w.r.t. one variable.
 #'
 #' @seealso \code{\link{D}}, \code{\link{symbolicD}}, \code{\link{makeFunction}}, \code{\link{antiD}}, \code{\link{plotFun}}
 #'

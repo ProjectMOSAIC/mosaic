@@ -26,7 +26,7 @@
 #' will give reasonably accurate results.  But, 
 #' if taking a second derivative, much better to do it in one step to preserve numerical accuracy.
 #' 
-#' @Note WARNING: In the expressions, do not use variable names beginning with a dot, particularly \code{.f} or \code{.h}
+#' @note WARNING: In the expressions, do not use variable names beginning with a dot, particularly \code{.f} or \code{.h}
 #'
 #' @seealso \code{\link{D}}, \code{\link{symbolicD}}, \code{\link{makeFunction}}, \code{\link{antiD}}, \code{\link{plotFun}}
 #'
@@ -74,6 +74,13 @@ numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
   return(res)
 }
 # ===============
+#' @rdname Calculus
+#'
+#' @param list of arguments for evaluating the function at the "center" point
+#' @param character string naming the variable with respect to which
+#' differentiation is to be done
+#' @param the finite-difference step size
+#' @note Helper function for \code{numD} for unmixed partials
 setInterval <- function(C, wrt, h) {
   # C, L, R are center, left, and right of the interval respectively
   C <- C[-1] # drop the function name
@@ -88,6 +95,15 @@ setInterval <- function(C, wrt, h) {
   return(list(L=L, R=R, C=C))
 }
 # ================
+#' @rdname Calculus
+#'
+#' @param list of arguments for evaluating the function at the "center" point
+#' @param character string naming the first variable with respect to which
+#' differentiation is to be done
+#' @param character string naming the second variable with respect to which
+#' differentiation is to be done
+#' @param the finite-difference step size
+#' @note Helper function for \code{numD} for mixed partials
 setCorners <- function(C, var1, var2, h) {
   # C is the center
   # RU, RB, LU, LB are the right-upper, right-bottom, left-upper and left-bottom corners
@@ -108,6 +124,13 @@ setCorners <- function(C, var1, var2, h) {
 # =================
 # Formal arguments are named to avoid conflicts with the contents of the mathematical function
 # whose derivative is sought.  Similarly for the others: d2fdx2, d2fdxdy
+#' @rdname Calculus
+#'
+#' @param function to be differentiated
+#' @param character string naming the variable with respect to which
+#' differentiation is to be done
+#' @param the finite-difference step size
+#' @note Helper function for \code{numD} for first-order derivs
 dfdx <- function(.function, .wrt, .hstep) { # first order partial
   res <- function() numerical.first.partial(.function, .wrt, .hstep, match.call())
   #  H <- setInterval(as.list(match.call()), .wrt, .h)
@@ -116,6 +139,20 @@ dfdx <- function(.function, .wrt, .hstep) { # first order partial
   return(res)
 }
 # ==============
+#' @rdname Calculus
+#'
+#' @param function to be differentiated
+#' @param character string naming the first variable with respect to which
+#' differentiation is to be done
+#' @rdname Calculus
+#'
+#' @param function to be differentiated
+#' @param character string naming the first variable with respect to which
+#' differentiation is to be done
+#' @param character string naming the second variable with respect to which
+#' differentiation is to be done
+#' @param the finite-difference step size
+#' @note Helper function for \code{numD} for second-order mixed partials
 d2fdxdy <- function(.function, .var1, .var2, .hstep) { # second order mixed partial
   res <- function() numerical.mixed.partial(.function, .var1, .var2, .hstep, match.call())
     #H <- setCorners(as.list(match.call()), var1, var2, h)
@@ -124,6 +161,13 @@ d2fdxdy <- function(.function, .var1, .var2, .hstep) { # second order mixed part
   return(res)
 }
 # =============
+#' @rdname Calculus
+#'
+#' @param function to be differentiated
+#' @param character string naming the variable with respect to which
+#' differentiation is to be done
+#' @param the finite-difference step size
+#' @note Helper function for \code{numD} for second-order derivs
 d2fdx2 <- function(.function, .wrt, .hstep) { # second order unmixed partial
   res <- function() numerical.second.partial(.function,.wrt,.hstep,match.call())
   #H <- setInterval(as.list(match.call()), wrt, h)
@@ -132,14 +176,42 @@ d2fdx2 <- function(.function, .wrt, .hstep) { # second order unmixed partial
   return(res)
 }
 # =============
+#' @rdname Calculus
+#'
+#' @param function to differentiate
+#' @param character string naming the variable of differentiation
+#' @param size of the finite-difference step
+#' @param arguments to the function calling this
+#' @note Not for direct use. This just packages up the numerical
+#' differentiation process to make functions returned by \code{numD} and
+#' \code{D} easier to read.
 numerical.first.partial = function(f,wrt,h,av) {
   H <- setInterval(as.list(av), wrt, h)
   (do.call( f, H$R,quote=TRUE ) - do.call(f, H$L,quote=TRUE))/(2*h)
 }
+#' @rdname Calculus
+#'
+#' @param function to differentiate
+#' @param character string naming the variable of differentiation
+#' @param size of the finite-difference step
+#' @param arguments to the function calling this
+#' @note Not for direct use. This just packages up the numerical
+#' differentiation process to make functions returned by \code{numD} and
+#' \code{D} easier to read.
 numerical.second.partial = function(f,wrt,h,av) {
   H <- setInterval(as.list(av), wrt, h)
   (do.call( f, H$R ) + do.call(f, H$L) - 2*do.call(f, H$C))/(h^2)
 }
+#' @rdname Calculus
+#'
+#' @param function to differentiate
+#' @param character string naming the first variable of differentiation
+#' @param character string naming the second variable of differentiation
+#' @param size of the finite-difference step
+#' @param arguments to the function calling this
+#' @note Not for direct use. This just packages up the numerical
+#' differentiation process to make functions returned by \code{numD} and
+#' \code{D} easier to read.
 numerical.mixed.partial = function(f,var1,var2,h,av){
   H <- setCorners(as.list(av), var1, var2, h)
   (do.call(f, H$RU) + do.call(f, H$LB) - (do.call(f, H$RB) + do.call(f, H$LU)))/(4*h^2)

@@ -11,7 +11,7 @@
 #'   of the same length as its argument.  The expression can contain unbound variables.
 #'
 #' @param \dots Default values to be given to unbound variables in the expression \code{expr}.  
-#' See examples.  
+#' See examples.
 #'
 #' @param .hstep  horizontal distance between points used for secant slope
 #'   calculation in numerical derivatives. 
@@ -20,7 +20,6 @@
 #'   should have an additional parameter for setting .hstep.  Meaningful only for numerical
 #'   derivatives.
 #'   
-
 #' @return For derivatives, the return value is a function of the variable(s)
 #' of differentiation, as well as any other symbols used in the expression.  Thus,
 #' \code{D(A*x^2 + B*y ~ x + y)} will compute the mixed partial with respect to x
@@ -35,6 +34,7 @@
 #' any order (although the expression may become unmanageably complex).  The
 #' numerical derivative is limited to first or second-order partial derivatives
 #' (including mixed partials).
+#' \code{antiD} always does numerical integration.
 #' 
 #' \code{antiD} returns a function with arguments \code{to} 
 #' and \code{from=0}, the upper and lower
@@ -58,7 +58,6 @@
 #' gg(t=1, B=100)
 #' 
 #' @keywords calculus 
-#'
 D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
   formulaEnv = environment(formula) # where was the formula made?
   #Try to construct a symbolic derivative
@@ -71,6 +70,27 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
   return(res)
 }
 # ============================
+#' @rdname Calculus
+#'
+#' @param A formula (see \code{makeFunction}).  The right-hand side of the 
+#' formula specifies the variable with respect to which the anti-derivative 
+#' is taken
+#' @param \dots Default values to be given to unbound variables in the expression \code{expr}.  
+#' See examples. Note that default values of "from" and "to" written with
+#' the name of the variable as a prefix, e.g. \code{y.from}, can be assigned.
+#'
+#' @return a function of the same arguments as the original expression, but
+#' with the integration variable split into "from" and "to" prefaced by the 
+#' name of the variable, e.g. \code{y.from} and \code{y.to}.
+#' @export
+#' @examples
+#' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
+#' F(from=-Inf, to=0)
+#' F(from=-Inf, to=Inf)
+#' one = makeFun(1~x&y)
+#' by.x = antiD( one(x=x, y=y) ~x )
+#' by.xy = antiD(by.x(from=-sqrt(1-y^2), to=sqrt(1-y^2), y=y)~y)
+#' by.xy(from=-1, to=1)
 antiD <- function(formula, ...){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
@@ -89,7 +109,14 @@ antiD <- function(formula, ...){
 # The "from" will have a default value of 0 or otherwise inherited from 
 # the call to antiD
 # The variable of integration will be called "viName"
-
+#' @rdname Calculus
+#'
+#' @param function to be integrated
+#' @param character string naming the variable of integration
+#' @param default value for the lower bound of the integral region
+#' @param default value for the upper bound of the integral region
+#' @param tolerance of the numerical integrator (not yet implemented)
+# I don't want this function to be exported.
 makeAntiDfun <- function(.function, .wrt, from, to, .tol) { 
   # Combine default args with those given in the function call
   res <- function() {
@@ -105,6 +132,18 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol) {
   return(res)
 }
 # =============
+#' @rdname Calculus
+#'
+#' @param a function
+#' @param character string naming a variable: the var. of integration
+#' @param a list of the arguments passed to the function calling this
+#' @param default values (if any) for parameterss
+#' 
+#' @note This function is not intended for direct use.  It packages
+#' up the numerical anti-differentiation process so that the contents
+#' of functions produced by \code{antiD} look nicer to human readers.
+#' @export
+#'
 numerical.integration <- function(f,wrt,av,args) {
   # Extract the limits from the argument list
   av2 = c(av, args) # combine the actual arguments with the formals
