@@ -3,7 +3,7 @@ context('Testing calculus functions: D(), antiD(), etc.')
 
 test_that("a function is created", {
   expect_true(is.function(D(sin(x) ~ x))) #symbolic Deriv
-  expect_true(is.function(symD(sin(x) ~ x))) #symbolic Deriv
+  expect_true(is.function(symbolicD(sin(x) ~ x))) #symbolic Deriv
   expect_true(is.function(numD(pt(x,3)*sin(x) ~ x))) #numerical deriv
   expect_true(is.function(antiD(pt(x,3)*sin(x) ~ x))) #antiD
 })
@@ -19,6 +19,37 @@ test_that("mixed partials work", {
   expect_that( g(x=1:10,y=5), equals(10*2*2*(1:10)*5,tol=.0001) )
   g <- D( a*x^2*y^2 ~ x&y, a=10) # symbolic
   expect_that( g(x=1:10,y=5), equals(10*2*2*(1:10)*5,tol=.0000001) )
+})
+
+test_that("basic integration works", {
+  f <- antiD( a*x ~ x, a=10)
+  expect_that( f(3), equals(45,tol=.001))
+  expect_that( f(x.to=3), equals(45, tol=.001))
+  expect_that( f(3,a=100), equals(450, tol=.001))
+  expect_that( f(x.to=3,a=100), equals(450, tol=.001))
+})
+
+test_that("integrals work in other functions", {
+  f <- antiD( a~x, a=10 )
+  h <- makeFunction(f(x)~x)
+  expect_that( h(4), equals(f(4)))
+  h <- makeFunction(f(x.to=x,a=100)~x)
+  expect_that( h(4), equals(f(4,a=100)))
+  h <- makeFunction(f(x.to=x,a=a)~x,a=20)
+  expect_that( h(4),equals(f(4,a=20)))
+})
+
+test_that("integrals and derivatives interoperate", {
+  F <- antiD(x~x)
+  f <- D( F(x.to=x,x.from=0)~x )
+  expect_that( f(3),equals(3,tol=0.00001))
+})
+
+test_that("integrals work on integrals", {
+  one <- makeFun(1~x&y)
+  by.x <- antiD( one(x=x, y=y) ~x )
+  by.xy <- antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
+  expect_that( by.xy(y.from=-1, y.to=1), equals(pi,tol=0.00001))
 })
 
 do.tests = function(){

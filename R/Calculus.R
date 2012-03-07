@@ -119,10 +119,14 @@ antiD <- function(formula, ...){
 #' @param tolerance of the numerical integrator (not yet implemented)
 # I don't want this function to be exported.
 makeAntiDfun <- function(.function, .wrt, from, to, .tol) { 
-  # Combine default args with those given in the function call
-  browser()
+  # Create a new function of argument .vi that will take additional
+  # arguments
+  .newf <- function(.vi,.av){
+    .av[[.wrt]] = .vi
+    do.call(.function,.av,quote=TRUE) + 0*.vi #make the same size as vi
+  }
   res <- function() {
-    numerical.integration(.function,.wrt, 
+    numerical.integration(.newf, .wrt, #.function,.wrt, 
                           as.list(match.call())[-1],formals())
   }
   resargs <- formals(.function) 
@@ -147,26 +151,59 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol) {
 #' @export
 #'
 numerical.integration <- function(f,wrt,av,args) {
-  # Extract the limits from the argument list
+  # We are about to do the numerics.  At this point, every
+  # variable should have a numerical binding.  Just in case some
+  # are still expressions, go through the list and evaluate them
+  for(k in 1:length(av)) av[[k]] = eval.parent(av[[k]],n=2)
   av2 = c(av, args) # combine the actual arguments with the formals
   # to make sure that default values are included
+  # Extract the limits from the argument list
   vi.from <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
                        variants = c("from",".from"))$val
   vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
                      variants = c("to",".to"))$val
-  # If they are calls, turn them into values
-  vi.from <- eval(vi.from)
-  vi.to <- eval(vi.to)
-  if( is.nan(vi.to) | is.nan(vi.from)) stop("Integration bounds not given.")
+  # If they are calls, turn them into values.  Redundant with loop above
+  # vi.from <- eval.parent(vi.from, n=2)
+  # vi.to <- eval.parent(vi.to, n=2)
+  if( any(is.nan(vi.to)) | any(is.nan(vi.from))) stop("Integration bounds not given.")
   # and delete them from the call
   av[[paste(wrt,".from",sep="")]] <- NULL
   av[[paste(wrt,".to",sep="")]] <- NULL
   newf <- function(vi){
     av[[wrt]] = vi
-    do.call(f,av,quote=TRUE) + 0*vi #make the same size as vi
+    #do.call(f,av,quote=TRUE) + 0*vi #make the same size as vi
+    f(vi,av) + 0*vi
   }
   # NEED TO ADD TOLERANCE
   # Copy code from old antiD
   # But first test it out for scalar inputs.
-  integrate(newf, vi.from, vi.to )$value
+  # OLD VERSION integrate(newf, vi.from, vi.to )$value
+  #integrate(newf, vi.from, vi.to)$value
+  
+  multiplier <- 1
+  if( length(vi.from) > 1 & length(vi.to) == 1 ){
+    temp <- to
+    to <- from
+    from <- temp
+    multiplier <- -1
+  }
+  # handle situation where both from and to are a set of values.
+  if( length(vi.from)>1 & length(vi.to)>1 ){
+    if( length(vi.from)!=length(vi.to) ) stop("Either fix 'from' or set it to the same length as 'to'")
+    res <- rep(0,length(vi.to))
+    for (k in 1:length(vi.to)) {
+      res[k] <- integrate(newf,vi.from[k],vi.to[k])$value
+    }
+    return(res)
+  }
+  val0 <- integrate(newf, vi.from, vi.to[1])$value
+  if (length(vi.to) == 1) {
+    return(multiplier*val0)
+  }
+  res <- rep(val0, length(vi.to))
+  for (k in 2:length(res)) {
+    res[k] <- integrate(newf, vi.to[k-1], vi.to[k])$value
+  }
+  res <- cumsum(res)
+  return(multiplier*res)
 }
