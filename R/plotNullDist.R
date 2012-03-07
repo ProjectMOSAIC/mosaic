@@ -2,7 +2,7 @@
 #' 
 #' A function to display results from permutation tests 
 #' 
-#' @rdname displayNullDist
+#' @rdname plotNullDist
 #' @param data dataframe containing estimates of null distribution from a permutation test
 #' @param observed value that was observed from the data
 #' @param alternative alternative hypothesis to use to compute p-value (one of "greater", "less" or "two-sided", default is "greater")
@@ -19,8 +19,8 @@
 #' # calculate the null distribution through permutation of the group labels
 #' nulldist <- do(100) * compareMean(age ~ shuffle(sex), 
 #'   data=HELPrct) 
-#' displayNullDist(nulldist, obs)
-displayNullDist = function(data, observed, alternative="greater", offset=.15) {
+#' plotNullDist(nulldist, obs)
+plotNullDist = function(data, observed, alternative="greater", offset=.15) {
   if (alternative %in% c("greater", "less", "two-sided") == FALSE) {
     stop("alternative must be one of \"greater\", \"less\", or \"two-sided\"")
   }
