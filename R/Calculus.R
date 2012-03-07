@@ -65,8 +65,8 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
   #Failed?  Do it numerically  
   if( inherits(res, "try-error") ) # symbolic attempt unsuccessful
     res = numD( formula, ..., .hstep=.hstep, add.h.control=add.h.control)
-  
-  environment(res) = formulaEnv # function should refer to environment of the formula
+  else # it's generated from symbolicD
+    environment(res) = formulaEnv # function should refer to environment of the formula
   return(res)
 }
 # ============================
@@ -85,23 +85,24 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' @export
 #' @examples
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
-#' F(from=-Inf, to=0)
-#' F(from=-Inf, to=Inf)
+#' F(t.from=-Inf, t.to=0)
+#' F(t.from=-Inf, t.to=Inf)
 #' one = makeFun(1~x&y)
 #' by.x = antiD( one(x=x, y=y) ~x )
-#' by.xy = antiD(by.x(from=-sqrt(1-y^2), to=sqrt(1-y^2), y=y)~y)
-#' by.xy(from=-1, to=1)
+#' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
+#' by.xy(y.from=-1, y.to=1)
 antiD <- function(formula, ...){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
   f <- makeFunction(formula, ..., strict.declaration=FALSE)
   # NOTE: Don't use NULL as the default value.  Non-NULL is needed
-  # so that the argument list gets created appropriately
+  # so that the argument list gets created appropriately. So use NaN
   vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 
                         variants = c("from",".from"))$val
   vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
                       variants = c("to",".to"))$val
-  return(makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6))
+  res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6)
+  return(res)
 }
 # ===================
 # The function returned by antiD will take the same arguments as
@@ -119,6 +120,7 @@ antiD <- function(formula, ...){
 # I don't want this function to be exported.
 makeAntiDfun <- function(.function, .wrt, from, to, .tol) { 
   # Combine default args with those given in the function call
+  browser()
   res <- function() {
     numerical.integration(.function,.wrt, 
                           as.list(match.call())[-1],formals())
@@ -152,7 +154,9 @@ numerical.integration <- function(f,wrt,av,args) {
                        variants = c("from",".from"))$val
   vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
                      variants = c("to",".to"))$val
-  browser()
+  # If they are calls, turn them into values
+  vi.from <- eval(vi.from)
+  vi.to <- eval(vi.to)
   if( is.nan(vi.to) | is.nan(vi.from)) stop("Integration bounds not given.")
   # and delete them from the call
   av[[paste(wrt,".from",sep="")]] <- NULL

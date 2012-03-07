@@ -133,8 +133,6 @@ setCorners <- function(C, var1, var2, h) {
 #' @note Helper function for \code{numD} for first-order derivs
 dfdx <- function(.function, .wrt, .hstep) { # first order partial
   res <- function() numerical.first.partial(.function, .wrt, .hstep, match.call())
-  #  H <- setInterval(as.list(match.call()), .wrt, .h)
-  #  (do.call( .f, H$R ) - do.call(.f, H$L))/(2*.h)
   formals(res) <- formals(.function) 
   return(res)
 }
