@@ -9,17 +9,17 @@
 #' @param \dots other arguments
 #' @return the difference in means between the second and first group
 #' @author Nicholas Horton (\email{nhorton@@smith.edu})
-#' @seealso \code{\link{do}}, \code{\link{compareProportion}}, \code{\link{displayPermute}} and \code{\link{shuffle}}
+#' @seealso \code{\link{do}}, \code{\link{compareProportion}}, \code{\link{displayNullDist}} and \code{\link{shuffle}}
 #' @keywords resampling
 #' @export
 #' @examples
 #' # calculate the observed difference
-#' obs = compareMean(age ~ sex, data=HELPrct); obs
 #' mean(age ~ sex, data=HELPrct)
+#' obs <- compareMean(age ~ sex, data=HELPrct); obs
 #' # calculate the permutation distribution
-#' permute = do(100) * compareMean(age ~ shuffle(sex), 
+#' nulldist <- do(100) * compareMean(age ~ shuffle(sex), 
 #'   data=HELPrct) 
-#' xhistogram(~ result, groups=(result >= obs), permute, 
+#' xhistogram(~ result, groups=(result >= obs), nulldist, 
 #'   xlab="difference in means")
 compareMean = function(formula, data=NULL, ...) {
   means = mean( formula, data=data, ... )
