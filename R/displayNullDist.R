@@ -2,8 +2,8 @@
 #' 
 #' A function to display results from permutation tests 
 #' 
-#' @rdname displayPermute
-#' @param data dataframe containing results from a permutation test
+#' @rdname displayNullDist
+#' @param data dataframe containing estimates of null distribution from a permutation test
 #' @param observed value that was observed from the data
 #' @param alternative alternative hypothesis to use to compute p-value (one of "greater", "less" or "two-sided", default is "greater")
 #' @param offset proportion of space to leave on both sides of the x axis
@@ -14,27 +14,27 @@
 #' @export
 #' @examples
 #' # calculate the observed difference
-#' obs = compareMean(age ~ sex, data=HELPrct); obs
 #' mean(age ~ sex, data=HELPrct)
-#' # calculate the permutation distribution
-#' permute = do(100) * compareMean(age ~ shuffle(sex), 
+#' obs <- compareMean(age ~ sex, data=HELPrct); obs
+#' # calculate the null distribution through permutation of the group labels
+#' nulldist <- do(100) * compareMean(age ~ shuffle(sex), 
 #'   data=HELPrct) 
-#' displayPermute(permute, obs)
-displayPermute = function(data, observed, alternative="greater", offset=.15) {
+#' displayNullDist(nulldist, obs)
+displayNullDist = function(data, observed, alternative="greater", offset=.15) {
   if (alternative %in% c("greater", "less", "two-sided") == FALSE) {
     stop("alternative must be one of \"greater\", \"less\", or \"two-sided\"")
   }
-  values = c(permute$result, observed)
+  values = c(data$result, observed)
   xlimvals = c(min(values)-range(values)*offset,
                max(values)+range(values)*offset)
   if (alternative=="greater") {
-    extreme = permute$result >= obs
+    extreme = data$result >= observed
   } else if (alternative=="less") {
-    extreme = permute$result <= obs
+    extreme = data$result <= observed
   } else if (alternative=="two-sided") {
-    extreme = abs(permute$result) >= abs(obs)
+    extreme = abs(data$result) >= abs(observed)
   }
-  pvalue = sum(extreme)/length(permute$result)
+  pvalue = sum(extreme)/length(data$result)
   mytitle = paste("observed difference=", round(observed, 3),
                   ", p-value=", round(pvalue, 3), sep="")
   print(xhistogram(~ result, xlim=xlimvals, groups=extreme,

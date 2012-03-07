@@ -9,17 +9,17 @@
 #' @param \dots other arguments
 #' @return the difference in proportions between the second and first group
 #' @author Nicholas Horton (\email{nhorton@@smith.edu})
-#' @seealso \code{\link{do}}, \code{\link{compareMean}}, \code{\link{displayPermute}} and \code{\link{shuffle}}
+#' @seealso \code{\link{do}}, \code{\link{compareMean}}, \code{\link{displayNullDist}} and \code{\link{shuffle}}
 #' @keywords resampling
 #' @export
 #' @examples
 #' # calculate the observed difference
-#' obs = compareProportion(homeless=="housed" ~ sex, data=HELPrct); obs
 #' mean(homeless=="housed" ~ sex, data=HELPrct)
+#' obs <- compareProportion(homeless=="housed" ~ sex, data=HELPrct); obs
 #' # calculate the permutation distribution
-#' permute = do(100) * compareProportion(homeless=="housed" ~ shuffle(sex), 
+#' nulldist <- do(100) * compareProportion(homeless=="housed" ~ shuffle(sex), 
 #'   data=HELPrct)
-#' xhistogram(~ result, groups=(result >= obs), permute, 
+#' xhistogram(~ result, groups=(result >= obs), nulldist, 
 #'   xlab="difference in proportions")
 compareProportion = function(formula, data=NULL, ...) {
   means = mean( formula, data=data, ... )
