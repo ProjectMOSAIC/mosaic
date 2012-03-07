@@ -25,3 +25,4 @@ test_that("errors generated for bad formula types", {
   expect_error( count(sex~homeless, data=HELPrct))
   expect_error( prop(sex~homeless, data=HELPrct))
 })
+
