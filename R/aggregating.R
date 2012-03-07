@@ -644,7 +644,7 @@ setMethod(
 			names(result) <- paste('count', level, sep=".")
 			return(result)
 		} else {
-			stop('Invalid formula type.  Perhaps you should try xtabs().')
+			stop('Invalid formula type.  Perhaps you should try mtable().')
 			return( .mosaic_aggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
 		} 
 	}
@@ -669,6 +669,16 @@ setGeneric('prop',
 			data <- dots[[1]]
 			return(prop(eval( substitute(x), data), level=level, na.rm=na.rm))
 		}
+		standardGeneric('prop')
+	}
+)
+setGeneric('prop',
+	function(x, ..., level=TRUE, na.rm=TRUE) {
+		dots <- list(...)
+			if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
+				data <- dots[[1]]
+				return( callGeneric(eval( substitute(x), data), level=level, na.rm=na.rm) ) 
+			}
 		standardGeneric('prop')
 	}
 )
@@ -725,11 +735,16 @@ setMethod(
 	signature=c("formula"),
 	function(x, data=parent.frame(), ..., level=level, na.rm=TRUE) {
 		if( .is.simple.formula(x) ) {
-			return( prop( eval( .simple.part(x), data, enclos=parent.frame()), 
-							   ..., level=level, na.rm=na.rm ) )
+			x <-  eval(.simple.part(x), data) 
+			if (! level %in% levels(x) ) {
+				level = levels(x) [as.numeric(level)]
+			}
+			result <- prop( x == level, na.rm=na.rm )  
+			names(result) <- paste('prop', level, sep=".")
+			return(result)
 		} else {
-			stop('Invalid formula type.  Perhaps you should try xtabs().')
-			return( .mosaic_aggregate( x, data, FUN=prop, ..., level=level, na.rm=na.rm ) )
+			stop('Invalid formula type.  Perhaps you should try mtable().')
+			return( .mosaic_aggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
 		} 
 	}
 )
