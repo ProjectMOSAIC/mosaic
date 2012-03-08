@@ -80,7 +80,7 @@ test_that("integrals and derivatives interoperate", {
 })
 
 test_that("integrals work on integrals", {
-  one <- makeFun(1~x&y)
+  one <- makeFunction(1~x&y)
   by.x <- antiD( one(x=x, y=y) ~x )
   by.xy <- antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
   expect_that( by.xy(y.from=-1, y.to=1), equals(pi,tol=0.00001))
