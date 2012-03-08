@@ -83,4 +83,4 @@ Collate:
     'plotDist.R'
     'compareMean.R'
     'compareProportion.R'
-    'displayPermute.R'
+    'plotNullDist.R'

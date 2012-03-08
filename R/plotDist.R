@@ -74,8 +74,9 @@ plotDist <- function( dist, params=list(), kind=c('density','cdf','qq','histogra
 		if (discrete) {
 			step = min(diff(fewerValues))
 			cdfx <- seq( min(fewerValues) -1.5 * step , max(fewerValues) + 1.5*step, length.out=resolution)
+			cdfx <- sort(unique( c(fewerValues, cdfx) ) )
 			cdfy <- approxfun( fewerValues, do.call(pdist, c(list(q=fewerValues),params)), method='constant', 
-							  f=1, yleft=0, yright=1 ) (cdfx)
+							  f=0, yleft=0, yright=1 ) (cdfx)
 		} else {
 			cdfx <- values
 			cdfy <- do.call( pdist, c(list(q=values), params) ) 

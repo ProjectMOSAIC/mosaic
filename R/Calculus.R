@@ -5,26 +5,24 @@
 #'
 #' @rdname Calculus
 #'
-#' @param expr a formula. The right side specifies the variable(s) with which to 
+#' @param formula A formula. The right side specifies the variable(s) with which to 
 #'   carry out the integration or differentiation.  On the left side should be 
 #'   an expression or a function that returns a numerical vector 
 #'   of the same length as its argument.  The expression can contain unbound variables.
 #'
-#' @param ..h..  horizontal distance between points used for secant slope
-#'   calculation in \code{D()}.  This is used only if a symbolic derivative is not possible or 
-#'   if \code{numerical=TRUE}.  The odd name, \code{..h..}, is there to avoid
-#'   conflicts with unbound variables in the formula f.
-#'   
-#' @param symbolic a logical indicating whether symbolic differentiation should be attempted
-#'   
-#' @param numerical opposite of symbolic available for convenience
-#'   
-#' @param method For first-order numerical derivatives, whether to use a
-#' centered difference or a right-facing difference.
-#'   
 #' @param \dots Default values to be given to unbound variables in the expression \code{expr}.  
-#' See examples.  
-#' 
+#' See examples.#'  Note that in creating anti-derivative functions, 
+#' default values of "from" and "to" can be assigned.  They are to be written with
+#' the name of the variable as a prefix, e.g. \code{y.from}.
+#'
+#'
+#' @param .hstep  horizontal distance between points used for secant slope
+#'   calculation in numerical derivatives. 
+#'   
+#' @param add.h.control logical indicating whether the returned derivative function
+#'   should have an additional parameter for setting .hstep.  Meaningful only for numerical
+#'   derivatives.
+#'   
 #' @return For derivatives, the return value is a function of the variable(s)
 #' of differentiation, as well as any other symbols used in the expression.  Thus,
 #' \code{D(A*x^2 + B*y ~ x + y)} will compute the mixed partial with respect to x
@@ -39,6 +37,7 @@
 #' any order (although the expression may become unmanageably complex).  The
 #' numerical derivative is limited to first or second-order partial derivatives
 #' (including mixed partials).
+#' \code{antiD} always does numerical integration.
 #' 
 #' \code{antiD} returns a function with arguments \code{to} 
 #' and \code{from=0}, the upper and lower
@@ -62,288 +61,155 @@
 #' gg(t=1, B=100)
 #' 
 #' @keywords calculus 
-#' 
-
-D <- function(expr, ..., ..h..=NULL, symbolic = TRUE, numerical=!symbolic, method=c("center","right")){
-	#vals = list(...)
-	sexpr <- substitute(expr)
-	fm <- mosaic:::.createMathFun(sexpr=sexpr, ...)
-
-	.doD(fm, numerical=numerical, method=method, ..h..=..h..,...)
+D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
+  formulaEnv = environment(formula) # where was the formula made?
+  #Try to construct a symbolic derivative
+  res = try(symbolicD(formula, ...), silent=TRUE)
+  #Failed?  Do it numerically  
+  if( inherits(res, "try-error") ) # symbolic attempt unsuccessful
+    res = numD( formula, ..., .hstep=.hstep, add.h.control=add.h.control)
+  else # it's generated from symbolicD
+    environment(res) = formulaEnv # function should refer to environment of the formula
+  return(res)
 }
-
-.doD <- function( fm, ..h..=NULL, numerical=FALSE, method="center",...){
-	vals <- list(...)
-	# see if the expression is simple enough to use the symbolic method
-	.ops <- setdiff( unique(all.names(fm$sexpr)), unique(all.vars(fm$sexpr)))
-	.allowed.ops <- c("+","-","*","/","^","(", "exp", "log", "sin", "cos",
-					  "tan", "sinh", "cosh", "sqrt", "pnorm", "dnorm", "asin", "acos", "atan",
-					  "gamma", "lgamma", "digamma", "trigamma")
-	.can.do.symbolic <- all(.ops %in% .allowed.ops)
-	if (!numerical & .can.do.symbolic) {
-		.df <- tryCatch(.d.symbolic(fm), error = function(e){NULL})
-		if( !is.null(.df) ) return(.df)
-		warning("Could not do derivative symbolically.  Returning numerical derivative.")
-	}
-
-	# do the derivative numerically
-	# Check whether there are repeated variables in the RHS of the formula
-	fm$names <- fm$RHS[fm$RHS %in% fm$names]
-	# information to pass along to the differentiating functions
-	needed <- list(sexpr=fm$sexpr, names=fm$names, h=..h..)
-
-	if(length(fm$names)==1){ # a first-order derivative
-		..h.. <- ifelse( is.null(..h..), 1e-4, ..h.. )
-		needed$h <- ..h..
-		if(method[1]=="right") .df <- .d1.right
-		if(method[1]=="center") .df <- .d1.center
-	}
-	else{
-		if(length(fm$names)==2) {
-			..h.. <- ifelse( is.null(..h..), 1e-4, ..h.. )
-			needed$h <- ..h..
-			if( length(unique(fm$names))==1 ) .df <- .d2.xx #repeated w.r.t. same variable.
-			else .df <- .d2.xy #mixed derivative
-		}
-		else if(length(fm$names)>2) stop("Handles only 1st- and 2nd-order derivatives.")
-	}
-
-	# Assign the arguments to the function
-	fargs <- c(list())
-	# put the arguments in an "alist" so that they are unbound 
-	one <- list()
-	two <- list()
-	tmp1 <- unique(fm$names)
-	if( length(tmp1) > 0) {
-		tmp <- paste( "alist( ", 
-					 paste(tmp1, "=",collapse=",",sep=""),")")
-		one <- eval(parse(text=tmp))    
-	}
-	tmp2 <- all.vars(fm$sexpr,functions=FALSE)
-	tmp2 <- setdiff(tmp2,tmp1)
-	if( length(tmp2) > 0) {
-		tmp <- paste( "alist( ", 
-					 paste(tmp2, "=",collapse=",",sep=""),")")
-		two <- eval(parse(text=tmp))    
-	}
-	fargs <- c(one,two,fargs)
-	fargs[names(vals)] <- vals
-
-	# EXCEPTIONS for 
-	# global variables which are not accessible
-	# if they are contained in the formals list
-	fargs["pi"] <- NULL # let pi stand for pi
-	# Pass the sexpr expression and name information to the function as a default
-	fargs[["..args"]] <- needed
-
-
-	formals(.df) <- fargs #formals(fm$fun)
-	environment(.df) <- parent.frame()  # set the environment where the function will look for the expression
-	attr(.df,"mosaicType") <- "Numerical finite-difference process"
-	return(.df) 
-}
-# =====================
-# various functions for performing derivatives
-.d1.right <- function() {
-	..h.. <- ..args$h
-	..baseline <- eval(..args$sexpr)
-	..vvv <- get(..args$names[1])
-	# to avoid round-off error in h 
-	..temp <- ..vvv + ..h..
-	..h.. <- ..temp-..vvv
-	assign(..args$names[1], ..vvv+..h..)
-	return( (eval(..args$sexpr) - ..baseline)/..h..)
-}
-# =====
-.d1.center <- function() {
-	..h.. <- ..args$h
-	..vvv <- get(..args$names[1])
-	# to avoid round-off error in h 
-	..temp <- ..vvv + ..h..
-	..h.. <- ..temp-..vvv
-	assign(..args$names[1], ..vvv + ..h..)
-	..right <- eval(..args$sexpr)
-	assign(..args$names[1], ..vvv - ..h..)
-	..left <- eval(..args$sexpr)
-	return( (..right - ..left)/(2*..h..))
-}
-#=============
-.d2.xx <- function() {
-	..h.. <- ..args$h
-	..vvv <- get(..args$names[1])
-	assign(..args$names[1], ..vvv)
-	..center <- eval(..args$sexpr)
-	# to avoid round-off error in h 
-	..temp <- ..vvv + ..h..
-	..h.. <- ..temp-..vvv
-	assign(..args$names[1], ..vvv + ..h..)
-	..right <- eval(..args$sexpr)
-	assign(..args$names[1], ..vvv - ..h..)
-	..left <- eval(..args$sexpr)
-	return( ((..right+..left)-2*..center)/(..h..^2))
-}
-# ===============
-.d2.xy <- function() {
-	..h.. <- ..args$h
-	..one <- get(..args$names[1])
-	..two <- get(..args$names[2])
-	# to avoid round-off error in h 
-	..temp <- ..one + ..h..
-	..h.one.. <- ..temp-..one
-	..temp <- ..two + ..h..
-	..h.two.. <- ..temp - ..two
-	# Evaluate at 4 points on grid Lu, Ru, Ld, Rd
-	assign(..args$names[1], ..one + ..h.one..) #move right
-	assign(..args$names[2], ..two + ..h.two..) #move up
-	..ru <- eval(..args$sexpr)
-	assign(..args$names[2], ..two - ..h.two..) #move down
-	..rd <- eval(..args$sexpr)
-	assign(..args$names[1], ..one - ..h.one..) #move left
-	assign(..args$names[2], ..two + ..h.two..) #move up
-	..lu <- eval(..args$sexpr)
-	assign(..args$names[2], ..two - ..h.two..) #move down
-	..ld <- eval(..args$sexpr)
-
-	return( ((..ru-..rd)/..h.two.. -(..lu-..ld)/..h.two..)/(4*..h.one..))
-}
-# ===================
-# Symbolic derivative
-.d.symbolic <- function(.f ) { #argument is list from .createMathFun
-	fform <- function(){}
-	formals(fform) <- formals(.f$fun)
-	sexpr <- .f$sexpr
-	wrtNames <- .f$RHS[ .f$RHS %in% .f$names ] # differentiate with respect to these
-	for (j in 1:length(wrtNames)) {
-		df <- deriv(sexpr, namevec=wrtNames[j], function.arg=fform)
-		bd <- as.character(body(df))
-		final.expr <- gsub(".grad.+<-", "",bd[length(bd)-2])
-		# substitute in the values of .value, .expr1, and so on
-		for (k in (length(bd)-4):2 ) {
-			nm <- gsub(" <-.+$","", bd[k])
-			val <- gsub("^.+<- ","",bd[k])
-			final.expr <- gsub(nm,paste("(",val,")",sep=""), final.expr)
-		}
-		sexpr <- parse(text=final.expr)
-	}
-	body(df) <- parse(text=final.expr)
-	return(df)
-}
-
-
+# ============================
 #' @rdname Calculus
 #'
-#' @param from Default value for the lower bound of the interval of
-#' integration.  This can be set at the time the integral function is invoked.
-#' @param to Default value for the upper bound of the interval of integration.
-#' This can be set at the time the integral function is invoked (and usually is). 
-#' 
-#' @return For anti-derivatives, a decorated function (eventually this will be an object of a new class).
-#' @note
-#' A major redesign of these functions is planned that will (1) refactor code so that the objects involved
-#' are S4 objects, and (2) allow \code{antiD} to return a single value if both \code{to} and \code{from} are specified.
+#'
+#' @return a function of the same arguments as the original expression, but
+#' with the integration variable split into "from" and "to" prefaced by the 
+#' name of the variable, e.g. \code{y.from} and \code{y.to}.
 #' @export
 #' @examples
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
-#' F(from=-Inf, to=0)
-#' F(from=-Inf, to=Inf)
+#' F(t.from=-Inf, t.to=0)
+#' F(t.from=-Inf, t.to=Inf)
 #' one = makeFun(1~x&y)
 #' by.x = antiD( one(x=x, y=y) ~x )
-#' by.xy = antiD(by.x(from=-sqrt(1-y^2), to=sqrt(1-y^2), y=y)~y)
-#' by.xy(from=-1, to=1)
-
-antiD <- function(expr, from=0, to=NULL, ...){
-	vals <- list(...)
-	sexpr <- substitute(expr)
-	# If it's an expression
-	foo <- .createMathFun(sexpr=sexpr, ...) 
-	if( length(foo$names) != 1 ) {
-		stop("This function works only with a single variable of integration.")
-	}
-	finput <- function(.x) {
-    res = rep(NA, length(.x))
-    for (k in 1:length(.x)){
-		  assign(foo$names[1], .x[k])
-      res[k] = eval(foo$sexpr)
-	  }
-		return(res)
-	}
-	needed <- list(sexpr=foo$sexpr, names=foo$names) # data passed to the function by arguments
-	..foutput <- .antiD.x
-
-	if( any( c("to","from") %in% c(foo$names,names(formals(foo$fun)))) )
-		stop("Can't use a variable called 'to' or 'from' in a function being integrated.")
-	starting.args <- alist(to=)
-	original.args <- formals(foo$fun)
-	fargs <- c(starting.args, original.args)
-
-	# Construct the argument list so that unbound variables have no default values.  
-	tmp2 <- all.vars(foo$sexpr)
-	tmp2 <- setdiff(tmp2,names(fargs))
-	one <- list()
-	if( length(tmp2) > 0) {
-		tmp <- paste( "alist( ", 
-					 paste(tmp2, "=",collapse=",",sep=""),")")
-		one <- eval(parse(text=tmp))    
-	}
-	fargs <- c(fargs, one, list(from=from))
-
-	fargs[names(vals)] <- vals
-	fargs[foo$names] <- NULL 
-	# EXCEPTIONS for 
-	# global variables which are not accessible
-	# if they are contained in the formals list
-	fargs["pi"] <- NULL # let pi stand for pi
-
-	# Pass the sexpr expression and name information to the function as a default
-	fargs[["..args"]] <- needed
-
-	environment(..foutput) <- parent.frame()
-	formals(..foutput) <- fargs
-	attr(..foutput,"mosaicType") <- "Numerical integration process"
-	return(..foutput) 
+#' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
+#' by.xy(y.from=-1, y.to=1)
+antiD <- function(formula, ...){
+  wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
+  if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
+  f <- makeFunction(formula, ..., strict.declaration=FALSE)
+  # NOTE: Don't use NULL as the default value.  Non-NULL is needed
+  # so that the argument list gets created appropriately. So use NaN
+  vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 
+                        variants = c("from",".from"))$val
+  vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
+                      variants = c("to",".to"))$val
+  res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6)
+  return(res)
 }
-
-# ===============================
-.antiD.x <- function() { # really a function of the upper limit: "to"
-	..finput <- function(.x) { # Create the function in this environment
-    if( length(.x)==1) {
-		  assign(..args$names[1], .x)    
-		  return( eval(..args$sexpr) )
+# ===================
+# The function returned by antiD will take the same arguments as
+# f, but will split one of the variables into a "to" and "from" component. 
+# The "from" will have a default value of 0 or otherwise inherited from 
+# the call to antiD
+# The variable of integration will be called "viName"
+#' @rdname Calculus
+#'
+#' @param .function function to be integrated
+#' @param .wrt character string naming the variable of integration
+#' @param from default value for the lower bound of the integral region
+#' @param to default value for the upper bound of the integral region
+#' @param .tol tolerance of the numerical integrator (not yet implemented)
+# I don't want this function to be exported.
+makeAntiDfun <- function(.function, .wrt, from, to, .tol) { 
+  # Create a new function of argument .vi that will take additional
+  # arguments
+  .newf <- function(.vi,.av){
+    .av[[.wrt]] = .vi
+    do.call(.function,.av,quote=TRUE) + 0*.vi #make the same size as vi
+  }
+  res <- function() {
+    numerical.integration(.newf, .wrt, #.function,.wrt, 
+                          as.list(match.call())[-1],formals())
+  }
+  resargs <- formals(.function) 
+  resargs[[.wrt]] <- NULL
+  limitsArgs = list()
+  limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
+  limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
+  formals(res) <- c(limitsArgs,resargs)
+  return(res)
+}
+# =============
+#' @rdname Calculus
+#'
+#' @param f a function
+#' @param wrt character string naming a variable: the var. of integration
+#' @param av a list of the arguments passed to the function calling this
+#' @param args default values (if any) for parameterss
+#' 
+#' @note This function is not intended for direct use.  It packages
+#' up the numerical anti-differentiation process so that the contents
+#' of functions produced by \code{antiD} look nicer to human readers.
+#' @export
+#'
+numerical.integration <- function(f,wrt,av,args) {
+  # We are about to do the numerics.  At this point, every
+  # variable should have a numerical binding.  Just in case some
+  # are still expressions, go through the list and evaluate them
+  for(k in 1:length(av)) av[[k]] = eval.parent(av[[k]],n=2)
+  av2 = c(av, args) # combine the actual arguments with the formals
+  # to make sure that default values are included
+  # Extract the limits from the argument list
+  vi.from <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
+                       variants = c("from",".from"))$val
+  vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
+                     variants = c("to",".to"))$val
+  # If they are calls, turn them into values.  Redundant with loop above
+  # vi.from <- eval.parent(vi.from, n=2)
+  # vi.to <- eval.parent(vi.to, n=2)
+  if( any(is.nan(vi.to)) | any(is.nan(vi.from))) stop("Integration bounds not given.")
+  # and delete them from the call
+  av[[paste(wrt,".from",sep="")]] <- NULL
+  av[[paste(wrt,".to",sep="")]] <- NULL
+  newf <- function(vi){
+    av[[wrt]] = vi
+    #do.call(f,av,quote=TRUE) + 0*vi #make the same size as vi
+    f(vi,av) + 0*vi
+  }
+  # NEED TO ADD TOLERANCE
+  # Copy code from old antiD
+  # But first test it out for scalar inputs.
+  # OLD VERSION integrate(newf, vi.from, vi.to )$value
+  #integrate(newf, vi.from, vi.to)$value
+  
+  multiplier <- 1
+  if( length(vi.from) > 1 & length(vi.to) == 1 ){
+    temp <- to
+    to <- from
+    from <- temp
+    multiplier <- -1
+  }
+  # handle situation where both from and to are a set of values.
+  if( length(vi.from)>1 & length(vi.to)>1 ){
+    if( length(vi.from)!=length(vi.to) ) stop("Either fix 'from' or set it to the same length as 'to'")
+    res <- rep(0,length(vi.to))
+    for (k in 1:length(vi.to)) {
+      res[k] <- stats::integrate(newf,vi.from[k],vi.to[k])$value
     }
-    else {
-      res = rep(NA, length(.x))
-      for (.k in 1:length(.x)){
-        assign(..args$names[1], .x[.k])
-        res[.k] = eval(..args$sexpr)
-      }
-      return(res)
+    return(res)
+  }
+  val0 <- stats::integrate(newf, vi.from, vi.to[1])$value
+  # work around a bug in integrate()
+  if( vi.from==Inf ) {
+    # When "lower" limit is +Inf, the sign is wrong!  This might
+    # change, so check that the bug still exists
+    if( stats::integrate(function(x){dnorm(x)},lower=Inf,upper=0)$val > 0) {
+      # bug exists!
+      val0 <- -val0
     }
-	}  
-	# handle the case where to is fixed and from is assigned to multiple values
-	..multiplier <- 1
-	if( length(from) > 1 & length(to) == 1 ){
-		..temp <- to
-		to <- from
-		from <- ..temp
-		..multiplier <- -1
-	}
-	# handle situation where both from and to are a set of values.
-	if( length(from)>1 & length(to)>1 ){
-		if( length(from)!=length(to) ) stop("Either fix 'from' or set it to the same length as 'to'")
-		..res <- rep(0,length(to))
-		for (..k.. in 1:length(to)) {
-			..res[..k..] <- integrate(..finput,from[..k..],to[..k..])$value
-		}
-		return(..res)
-	}
-	..val0 <- integrate(..finput, from, to[1])$value
-	if (length(to) == 1) {
-		return(..multiplier*..val0)
-	}
-	..res <- rep(..val0, length(to))
-	for (..k.. in 2:length(..res)) {
-		..res[..k..] <- integrate(..finput, to[..k.. - 1], to[..k..])$value
-	}
-	..res <- cumsum(..res)
-	return(..multiplier*..res)
+  } 
+  if (length(vi.to) == 1) {
+    return(multiplier*val0)
+  }
+  res <- rep(val0, length(vi.to))
+  for (k in 2:length(res)) {
+    res[k] <- stats::integrate(newf, vi.to[k-1], vi.to[k])$value
+  }
+  res <- cumsum(res)
+  return(multiplier*res)
 }
