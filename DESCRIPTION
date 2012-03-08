@@ -2,7 +2,7 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.3-22
+Version: 0.3-23
 Date: 2012-03-08
 Depends:
     lattice,
@@ -84,3 +84,5 @@ Collate:
     'compareMean.R'
     'compareProportion.R'
     'plotNullDist.R'
+    'numD.R'
+    'symbolicD.R'
