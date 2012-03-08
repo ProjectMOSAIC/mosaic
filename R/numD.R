@@ -74,12 +74,12 @@ numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
   return(res)
 }
 # ===============
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param list of arguments for evaluating the function at the "center" point
-#' @param character string naming the variable with respect to which
+#' @param C list of arguments for evaluating the function at the "center" point
+#' @param wrt character string naming the variable with respect to which
 #' differentiation is to be done
-#' @param the finite-difference step size
+#' @param h the finite-difference step size
 #' @note Helper function for \code{numD} for unmixed partials
 setInterval <- function(C, wrt, h) {
   # C, L, R are center, left, and right of the interval respectively
@@ -97,14 +97,14 @@ setInterval <- function(C, wrt, h) {
   return(list(L=L, R=R, C=C))
 }
 # ================
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param list of arguments for evaluating the function at the "center" point
-#' @param character string naming the first variable with respect to which
+# @param C list of arguments for evaluating the function at the "center" point
+#' @param var1 character string naming the first variable with respect to which
 #' differentiation is to be done
-#' @param character string naming the second variable with respect to which
+#' @param var2 character string naming the second variable with respect to which
 #' differentiation is to be done
-#' @param the finite-difference step size
+# @param h the finite-difference step size
 #' @note Helper function for \code{numD} for mixed partials
 setCorners <- function(C, var1, var2, h) {
   # C is the center
@@ -126,32 +126,28 @@ setCorners <- function(C, var1, var2, h) {
 # =================
 # Formal arguments are named to avoid conflicts with the contents of the mathematical function
 # whose derivative is sought.  Similarly for the others: d2fdx2, d2fdxdy
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param function to be differentiated
-#' @param character string naming the variable with respect to which
+#' @param .function function to be differentiated
+#' @param .wrt character string naming the variable with respect to which
 #' differentiation is to be done
-#' @param the finite-difference step size
-#' @note Helper function for \code{numD} for first-order derivs
+#' @param .step the finite-difference step size
+#' @note Helper function for \code{numD} for first-order derivs. 
 dfdx <- function(.function, .wrt, .hstep) { # first order partial
   res <- function() numerical.first.partial(.function, .wrt, .hstep, match.call())
   formals(res) <- formals(.function) 
   return(res)
 }
 # ==============
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param function to be differentiated
-#' @param character string naming the first variable with respect to which
-#' differentiation is to be done
-#' @rdname Calculus
 #'
-#' @param function to be differentiated
-#' @param character string naming the first variable with respect to which
+# @param .function function to be differentiated
+#' @param .var1 character string naming the first variable with respect to which
 #' differentiation is to be done
-#' @param character string naming the second variable with respect to which
+#' @param .var2 character string naming the second variable with respect to which
 #' differentiation is to be done
-#' @param the finite-difference step size
+# @param .hstep the finite-difference step size
 #' @note Helper function for \code{numD} for second-order mixed partials
 d2fdxdy <- function(.function, .var1, .var2, .hstep) { # second order mixed partial
   res <- function() numerical.mixed.partial(.function, .var1, .var2, .hstep, match.call())
@@ -161,12 +157,9 @@ d2fdxdy <- function(.function, .var1, .var2, .hstep) { # second order mixed part
   return(res)
 }
 # =============
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param function to be differentiated
-#' @param character string naming the variable with respect to which
-#' differentiation is to be done
-#' @param the finite-difference step size
+#' @inheritParams dfdx
 #' @note Helper function for \code{numD} for second-order derivs
 d2fdx2 <- function(.function, .wrt, .hstep) { # second order unmixed partial
   res <- function() numerical.second.partial(.function,.wrt,.hstep,match.call())
@@ -176,25 +169,24 @@ d2fdx2 <- function(.function, .wrt, .hstep) { # second order unmixed partial
   return(res)
 }
 # =============
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param function to differentiate
-#' @param character string naming the variable of differentiation
-#' @param size of the finite-difference step
-#' @param arguments to the function calling this
-#' @note Not for direct use. This just packages up the numerical
-#' differentiation process to make functions returned by \code{numD} and
+#' @param f function to differentiate
+# @param wrt character string naming the variable of differentiation
+# @param h size of the finite-difference step
+#' @param av arguments to the function calling this
+#' @section Numerical partials: These functions are not indended 
+#' for direct use. They just package up the numerical
+#' differentiation process to make functions 
+#' returned by \code{numD} and
 #' \code{D} easier to read.
 numerical.first.partial = function(f,wrt,h,av) {
   H <- setInterval(as.list(av), wrt, h)
   (do.call( f, H$R,quote=TRUE ) - do.call(f, H$L,quote=TRUE))/(2*h)
 }
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param function to differentiate
-#' @param character string naming the variable of differentiation
-#' @param size of the finite-difference step
-#' @param arguments to the function calling this
+#' @inheritParams numerical.first.partial
 #' @note Not for direct use. This just packages up the numerical
 #' differentiation process to make functions returned by \code{numD} and
 #' \code{D} easier to read.
@@ -202,13 +194,13 @@ numerical.second.partial = function(f,wrt,h,av) {
   H <- setInterval(as.list(av), wrt, h)
   (do.call( f, H$R ) + do.call(f, H$L) - 2*do.call(f, H$C))/(h^2)
 }
-#' @rdname Calculus
+#' @rdname numD
 #'
-#' @param function to differentiate
-#' @param character string naming the first variable of differentiation
-#' @param character string naming the second variable of differentiation
-#' @param size of the finite-difference step
-#' @param arguments to the function calling this
+# @param f function to differentiate
+# @param var1 character string naming the first variable of differentiation
+# @param var2 character string naming the second variable of differentiation
+# @param h size of the finite-difference step
+# @param av arguments to the function calling this
 #' @note Not for direct use. This just packages up the numerical
 #' differentiation process to make functions returned by \code{numD} and
 #' \code{D} easier to read.

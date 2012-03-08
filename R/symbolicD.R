@@ -19,7 +19,7 @@
 #' The \code{.order} argument is just for convenience when programming
 #' high-order derivatives, e.g. the 5th derivative w.r.t. one variable.
 #'
-#' @seealso \code{\link{D}}, \code{\link{symbolicD}}, \code{\link{makeFunction}}, \code{\link{antiD}}, \code{\link{plotFun}}
+#' @seealso \code{\link{D}}, \code{\link{numD}}, \code{\link{makeFunction}}, \code{\link{antiD}}, \code{\link{plotFun}}
 #'
 #' @examples
 #' symbolicD( a*x^2 ~ x)

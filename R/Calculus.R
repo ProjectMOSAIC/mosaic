@@ -11,7 +11,10 @@
 #'   of the same length as its argument.  The expression can contain unbound variables.
 #'
 #' @param \dots Default values to be given to unbound variables in the expression \code{expr}.  
-#' See examples.
+#' See examples.#'  Note that in creating anti-derivative functions, 
+#' default values of "from" and "to" can be assigned.  They are to be written with
+#' the name of the variable as a prefix, e.g. \code{y.from}.
+#'
 #'
 #' @param .hstep  horizontal distance between points used for secant slope
 #'   calculation in numerical derivatives. 
@@ -72,12 +75,6 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 # ============================
 #' @rdname Calculus
 #'
-#' @param A formula (see \code{makeFunction}).  The right-hand side of the 
-#' formula specifies the variable with respect to which the anti-derivative 
-#' is taken
-#' @param \dots Default values to be given to unbound variables in the expression \code{expr}.  
-#' See examples. Note that default values of "from" and "to" written with
-#' the name of the variable as a prefix, e.g. \code{y.from}, can be assigned.
 #'
 #' @return a function of the same arguments as the original expression, but
 #' with the integration variable split into "from" and "to" prefaced by the 
@@ -112,11 +109,11 @@ antiD <- function(formula, ...){
 # The variable of integration will be called "viName"
 #' @rdname Calculus
 #'
-#' @param function to be integrated
-#' @param character string naming the variable of integration
-#' @param default value for the lower bound of the integral region
-#' @param default value for the upper bound of the integral region
-#' @param tolerance of the numerical integrator (not yet implemented)
+#' @param .function function to be integrated
+#' @param .wrt character string naming the variable of integration
+#' @param from default value for the lower bound of the integral region
+#' @param to default value for the upper bound of the integral region
+#' @param .tol tolerance of the numerical integrator (not yet implemented)
 # I don't want this function to be exported.
 makeAntiDfun <- function(.function, .wrt, from, to, .tol) { 
   # Create a new function of argument .vi that will take additional
@@ -140,10 +137,10 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol) {
 # =============
 #' @rdname Calculus
 #'
-#' @param a function
-#' @param character string naming a variable: the var. of integration
-#' @param a list of the arguments passed to the function calling this
-#' @param default values (if any) for parameterss
+#' @param f a function
+#' @param wrt character string naming a variable: the var. of integration
+#' @param av a list of the arguments passed to the function calling this
+#' @param args default values (if any) for parameterss
 #' 
 #' @note This function is not intended for direct use.  It packages
 #' up the numerical anti-differentiation process so that the contents
@@ -192,17 +189,26 @@ numerical.integration <- function(f,wrt,av,args) {
     if( length(vi.from)!=length(vi.to) ) stop("Either fix 'from' or set it to the same length as 'to'")
     res <- rep(0,length(vi.to))
     for (k in 1:length(vi.to)) {
-      res[k] <- integrate(newf,vi.from[k],vi.to[k])$value
+      res[k] <- stats::integrate(newf,vi.from[k],vi.to[k])$value
     }
     return(res)
   }
-  val0 <- integrate(newf, vi.from, vi.to[1])$value
+  val0 <- stats::integrate(newf, vi.from, vi.to[1])$value
+  # work around a bug in integrate()
+  if( vi.from==Inf ) {
+    # When "lower" limit is +Inf, the sign is wrong!  This might
+    # change, so check that the bug still exists
+    if( stats::integrate(function(x){dnorm(x)},lower=Inf,upper=0)$val > 0) {
+      # bug exists!
+      val0 <- -val0
+    }
+  } 
   if (length(vi.to) == 1) {
     return(multiplier*val0)
   }
   res <- rep(val0, length(vi.to))
   for (k in 2:length(res)) {
-    res[k] <- integrate(newf, vi.to[k-1], vi.to[k])$value
+    res[k] <- stats::integrate(newf, vi.to[k-1], vi.to[k])$value
   }
   res <- cumsum(res)
   return(multiplier*res)
