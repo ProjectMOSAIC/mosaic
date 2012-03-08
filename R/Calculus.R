@@ -84,7 +84,7 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
 #' F(t.from=-Inf, t.to=0)
 #' F(t.from=-Inf, t.to=Inf)
-#' one = makeFun(1~x&y)
+#' one = makeFunction(1~x&y)
 #' by.x = antiD( one(x=x, y=y) ~x )
 #' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
 #' by.xy(y.from=-1, y.to=1)
