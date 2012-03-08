@@ -109,7 +109,7 @@ setMethod(
 			return( mean( eval( .simple.part(x), data, enclos=parent.frame()), 
 							   ..., na.rm=na.rm, trim=trim ) )
 		} else {
-			return( .mosaic_aggregate( x, data, FUN=base::mean, ..., na.rm=na.rm, trim=trim ) )
+			return( maggregate( x, data, FUN=base::mean, ..., na.rm=na.rm, trim=trim ) )
 		} 
 	}
 )
@@ -186,7 +186,7 @@ setMethod(
 			return( median( eval( .simple.part(x), data, enclos=parent.frame()), 
 							   ..., na.rm=na.rm ) )
 		} else {
-			return( .mosaic_aggregate( x, data, FUN=stats::median, na.rm=na.rm) )
+			return( maggregate( x, data, FUN=stats::median, na.rm=na.rm) )
 		} 
 	}
 )
@@ -260,7 +260,7 @@ setMethod(
 		if( .is.simple.formula(x) ) {
 			return( sd( eval( .simple.part(x), data, enclos=parent.frame()), ..., na.rm=na.rm ) )
 		} else {
-			return( .mosaic_aggregate( x, data, FUN=SD, na.rm=na.rm) )
+			return( maggregate( x, data, FUN=SD, na.rm=na.rm) )
 		} 
 	}
 )
@@ -309,7 +309,7 @@ setMethod(
 			if( .is.simple.formula(x) ) {
 				return( FUN( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
 			} else {
-				return( .mosaic_aggregate( x, data, FUN=FUN, na.rm=na.rm) )
+				return( maggregate( x, data, FUN=FUN, na.rm=na.rm) )
 			} 
 		}
 	)
@@ -369,7 +369,7 @@ setMethod(
 		if( .is.simple.formula(x) ) {
 			return( base::max( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
 		} else {
-			return( .mosaic_aggregate( x, data, FUN=base::max, na.rm=na.rm) )
+			return( maggregate( x, data, FUN=base::max, na.rm=na.rm) )
 		} 
 	}
 )
@@ -421,7 +421,7 @@ setMethod(
 		if( .is.simple.formula(x) ) {
 			return( base::min( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
 		} else {
-			return( .mosaic_aggregate( x, data, FUN=base::min, na.rm=na.rm) )
+			return( maggregate( x, data, FUN=base::min, na.rm=na.rm) )
 		} 
 	}
 )
@@ -522,7 +522,7 @@ setMethod(
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data ),  na.rm=na.rm, use=use ) )
 		} else {
-			return( .mosaic_aggregate( x, data, FUN=stats::var, na.rm=na.rm, use=use) )
+			return( maggregate( x, data, FUN=stats::var, na.rm=na.rm, use=use) )
 		} 
 	}
 )
@@ -538,7 +538,7 @@ setMethod(
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data),  na.rm=na.rm, use=use ) )
 		} else {
-			return( .mosaic_aggregate( x, data, FUN=stats::var, na.rm=na.rm, use=use) )
+			return( maggregate( x, data, FUN=stats::var, na.rm=na.rm, use=use) )
 		} 
 	}
 )
@@ -645,7 +645,7 @@ setMethod(
 			return(result)
 		} else {
 			stop('Invalid formula type.  Perhaps you should try mtable().')
-			return( .mosaic_aggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
+			return( maggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
 		} 
 	}
 )
@@ -744,7 +744,7 @@ setMethod(
 			return(result)
 		} else {
 			stop('Invalid formula type.  Perhaps you should try mtable().')
-			return( .mosaic_aggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
+			return( maggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
 		} 
 	}
 )
@@ -838,20 +838,58 @@ SD <- function(x) {
 
 #' Aggregate for mosaic
 #'
-#' Wrapper to modify aggregating behavior of \code{\link[Hmisc]{summary.formula}}
+#' Compute function on subsets of a variable in a data frame.
 #'
-#' @return  a data frame
+#' @return  a vector
+#' @param formula a formula.  Left side provides variable to be summarized.  Right side and condition
+#'                            describe subsets.  If the left side is empty, right side and condition are
+#'                            shifted over as a convenience.
+#' @param data a data frame
+#' @param FUN a function to apply to each subset 
+#' @param subset a logical indicating a subset of \code{data} to be processed.
+#' @param drop a logical indicating whether unused levels should be dropped.
+#' @param format, overall currently unused
 #'
-#' @rdname mosaic-internal
-#' @keywords internal
-.mosaic_aggregate <- function(x, data, FUN, overall=mosaic.par.get("aggregate.overall"), ...) {
-	if (length(x) == 2 ) {
-		return( data.frame( FUN (eval( x[[2]], data, enclos=parent.frame()) ) ) )
-	} else {
-		return( as.data.frame( 
-			Hmisc::summary.formula( x, data, fun=FUN, overall=overall, method='cross',...) ) )
+#' @export
+#' @examples
+#' maggregate( cesd ~ sex, HELPrct, FUN=mean )
+#' maggregate( cesd ~ sex & homeless, HELPrct, FUN=mean )
+#' maggregate( cesd ~ sex | homeless, HELPrct, FUN=sd )
+#'
+maggregate <- function(formula, data=parent.frame(), FUN, subset, overall=mosaic.par.get("aggregate.overall"), 
+							  format=c('default'), drop=FALSE, ...) {
+	dots <- list(...)
+	format <- match.arg(format)
+	evalF <- evalFormula(formula, data)
+
+	if (!missing(subset)) {
+		subset <- eval(substitute(subset), data, environment(formula))
+		if (!is.null(evalF$left))           evalF$left <- evalF$left[subset,]
+		if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
+		if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
 	}
-	result <- Hmisc::summary.formula(x, data, fun=FUN, overall=overall, method=method, ...)
-	result <- as.data.frame(oldUnclass(result))
-	return(result)
+
+	if ( is.null( evalF$left ) ) {
+		evalF$left <- evalF$right
+		evalF$right <- evalF$condition
+		evalF$condition <- NULL
+	}
+	#if ( ! is.null(evalF$condition) ) stop('Conditioning not allowed in this type of formula.')
+
+	if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  evalF$right <- rep(1, nrow(evalF$left))
+
+	res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
+				  function(x) { do.call(FUN, c(list(x), dots) ) }
+	)
+	res <- unlist(res)
+
+	if (! is.null(evalF$condition) ) {
+		res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
+				  function(x) { do.call(FUN, c(list(x), dots) ) }
+		)
+		res <- c( res , unlist(res2) )
+	}
+	return( res )
 }
+
+
