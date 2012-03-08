@@ -448,7 +448,7 @@ setMethod(
 
 setGeneric( 
 	"var", 
-	function(x, y=NULL, na.rm=TRUE, use, data=NULL)  {
+	function(x, y=NULL, na.rm=TRUE, use='everything', data=NULL)  {
 		if ( is.name(substitute(x)) && ! is.null(y) && is.name(substitute(y)) && is.data.frame( data ) ) {
 			return( stats::var(eval( substitute(x), data), eval(substitute(y, data), na.rm=na.rm, use=use)) )
 		}
@@ -469,7 +469,7 @@ setGeneric(
 setMethod(
 	'var',
 	c('ANY','ANY'),
-	function(x, y, na.rm=TRUE, use=use, data=data) 
+	function(x, y, na.rm=TRUE, use='everything', data=data) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -479,7 +479,7 @@ setMethod(
 setMethod(
 	'var',
 	c('numeric','numeric'),
-	function(x, y, na.rm=TRUE, use=use, data=data) 
+	function(x, y, na.rm=TRUE, use='everything', data=data) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -489,7 +489,7 @@ setMethod(
 setMethod(
 	'var',
 	c('numeric'),
-	function(x, y, na.rm=TRUE, use=use, data=data) 
+	function(x, y, na.rm=TRUE, use='everything', data=data) 
 		stats::var( x, y, na.rm=na.rm, use=use)
 )
 
@@ -499,7 +499,7 @@ setMethod(
 setMethod(
 	'var',
 	c('matrix'),
-	function(x, y, na.rm=TRUE, use=use, data=data) 
+	function(x, y, na.rm=TRUE, use='everything', data=data) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -518,7 +518,7 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x, na.rm=TRUE, use, data=parent.frame()) {
+	function(x, na.rm=TRUE, use='everything', data=parent.frame()) {
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data ),  na.rm=na.rm, use=use ) )
 		} else {
@@ -533,7 +533,7 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="data.frame", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y=parent.frame(),  na.rm=TRUE, use) {
+	function(x, y=parent.frame(),  na.rm=TRUE, use='everything') {
 		data <- y
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data),  na.rm=na.rm, use=use ) )
@@ -770,8 +770,8 @@ setMethod(
 #' summary(age ~ substance, data=HELPrct, fun=SD)
 #' @export
 
-SD <- function(x) {
-	sqrt(stats::var(x))
+SD <- function(x, ...) {
+	sqrt(stats::var(x, ...))
 }
 
 
@@ -848,7 +848,8 @@ SD <- function(x) {
 #' @param FUN a function to apply to each subset 
 #' @param subset a logical indicating a subset of \code{data} to be processed.
 #' @param drop a logical indicating whether unused levels should be dropped.
-#' @param format, overall currently unused
+#' @param format,overall currently unused
+#' @parama \dots additional arguments passed to \code{FUN}
 #'
 #' @export
 #' @examples
@@ -879,13 +880,13 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset, overall=mosaic
 	if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  evalF$right <- rep(1, nrow(evalF$left))
 
 	res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
-				  function(x) { do.call(FUN, c(list(x), dots) ) }
+				  function(x) { do.call(FUN, c(list(x), ...) ) }
 	)
 	res <- unlist(res)
 
 	if (! is.null(evalF$condition) ) {
 		res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
-				  function(x) { do.call(FUN, c(list(x), dots) ) }
+				  function(x) { do.call(FUN, c(list(x), ...) ) }
 		)
 		res <- c( res , unlist(res2) )
 	}
