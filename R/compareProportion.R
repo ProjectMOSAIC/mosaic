@@ -17,14 +17,14 @@
 #' mean(homeless=="housed" ~ sex, data=HELPrct)
 #' obs <- compareProportion(homeless=="housed" ~ sex, data=HELPrct); obs
 #' # calculate the permutation distribution
-#' nulldist <- do(100) * compareProportion(homeless=="housed" ~ shuffle(sex), 
-#'   data=HELPrct)
+#' nulldist <- do(100) * compareProportion(homeless=="housed" ~ shuffle(sex), data=HELPrct)
 #' xhistogram(~ result, groups=(result >= obs), nulldist, 
 #'   xlab="difference in proportions")
 compareProportion = function(formula, data=NULL, ...) {
   means = mean( formula, data=data, ... )
-  if (length(means$S) != 2) {
+  if (length(means) != 2) {
   	stop("number of levels for grouping variable must be 2\n")
   }
-  return(diff(means$S))
+  names(means) <- NULL
+  return(diff(means))
 }

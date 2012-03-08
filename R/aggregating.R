@@ -757,6 +757,8 @@ setMethod(
 #' @seealso \code{\link[mosaic]{sd}}
 #'
 #' @param x a vector or formula
+#' 
+#' @param \dots additional arguments passed to \code{var}.
 #'
 #' @return a numeric containing the standard deviaiton
 #'
@@ -849,7 +851,7 @@ SD <- function(x, ...) {
 #' @param subset a logical indicating a subset of \code{data} to be processed.
 #' @param drop a logical indicating whether unused levels should be dropped.
 #' @param format,overall currently unused
-#' @parama \dots additional arguments passed to \code{FUN}
+#' @param \dots additional arguments passed to \code{FUN}
 #'
 #' @export
 #' @examples

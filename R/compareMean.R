@@ -23,8 +23,9 @@
 #'   xlab="difference in means")
 compareMean = function(formula, data=NULL, ...) {
   means = mean( formula, data=data, ... )
-  if (length(means$S) != 2) {
+  if (length(means) != 2) {
   	stop("number of levels for grouping variable must be 2\n")
   }
-  return(diff(means$S))
+  names(means) <- NULL
+  return(diff(means))
 }
