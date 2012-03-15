@@ -21,3 +21,4 @@ NAMESPACE
 .Rd2dvi*
 vignettes/*/*.tex
 vignettes/Plotting/plt-explain*.pdf
+mosaic.Rproj
