@@ -20,3 +20,4 @@ data/*.csv.bz2
 NAMESPACE
 .Rd2dvi*
 vignettes/*/*.tex
+vignettes/Plotting/plt-explain*.pdf
