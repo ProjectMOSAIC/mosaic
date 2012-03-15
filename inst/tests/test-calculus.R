@@ -14,6 +14,32 @@ test_that("default parameters are used", {
   expect_that(g(1:10,a=5), equals(5*2*(1:10),tol=.0001) )
 })
 
+test_that("parameters are retained even if killed in the derivative",{
+  g <- D( A*x^2 + b~x)
+  expect_true( "b" %in% names(formals(g)))
+})
+
+test_that("default values of parameters are retained in the derivative",{
+  g <- D(A*x^2 + b~x, A=10, b=15)
+  expect_that( formals(g)[["b"]], equals(15))
+  expect_that( formals(g)[["A"]], equals(10))
+  g <- numD(A*x^2 + b~x, A=20, b=25)
+  expect_that( formals(g)[["b"]], equals(25))
+  expect_that( formals(g)[["A"]], equals(20))
+})
+
+test_that("derivs with respect to irrelevant variables are zero",{
+  g <- D(a*x^2 + b~x&y, a=10, b=15)
+  expect_that( body(g), equals(0))
+  expect_true( "y" %in% names(formals(g)))
+})
+
+test_that("default values of parameters retained in the anti-derivative",{
+  g <- antiD(A*x^2 + b~x, A=10, b=15)
+  expect_that( formals(g)[["b"]], equals(15))
+  expect_that( formals(g)[["A"]], equals(10))
+})
+
 test_that("mixed partials work", {
   g <- D( a*x^2*y^2 ~ x&y, a=10) # numerical
   expect_that( g(x=1:10,y=5), equals(10*2*2*(1:10)*5,tol=.0001) )
