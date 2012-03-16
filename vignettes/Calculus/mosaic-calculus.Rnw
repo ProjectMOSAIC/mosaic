@@ -1,9 +1,21 @@
 %\VignetteIndexEntry{Plotting, Derivatives and Integrals for Teaching Calculus in R}
 \documentclass{article}
 \usepackage{graphicx}
-\usepackage{Sweave}
 
-\SweaveOpts{prefix.string=Figures/plt-explain,pdf=TRUE,include=FALSE,width=5,height=5,keep.source=TRUE}
+
+\SweaveOpts{
+	fig.path=figures/fig-,
+	fig.align=center,
+	fig.height=3, 
+	fig.width=5,
+	out.width=.47\textwidth,
+	tidy=TRUE,
+	dev=pdf,
+	show=hold,
+	comment=NA
+	}
+
+
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
 \author{Daniel Kaplan}
@@ -12,8 +24,9 @@
 \begin{document}
 \maketitle
 
-<<echo=FALSE>>=
+<<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
+trellis.par.set(theme=theme.mosaic())
 @
 
 
@@ -118,34 +131,31 @@ The \texttt{mosaic} package provides a basic operator for graphing functions: \t
 
 The variables to the right of \verb+~+ set the independent axes plotting variables.  The plotting domain can be specified by a \texttt{lim} argument whose name is constructed to be prefaced by the variable being set.  For example, here's a conventional line plot of a function of $t$:
 
-<<line1,fig=TRUE>>=
-p=plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t, 
+<<line1>>=
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t, 
           t.lim=range(0,10), k=-0.3, A=10, P=4)
-print(p)
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-line1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-line1}}
 
 For functions of two variables, the default format is a contour plot: 
 
-<<contour1,fig=TRUE>>=
-p=plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
+<<contour1>>=
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4)
-print(p)
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-contour1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-contour1}}
 
 You can override the default with \texttt{surface=TRUE},
 
-<<surface1,fig=TRUE>>=
-p=plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
+<<surface1,fig.height=5,out.width=.7\textwidth,message=FALSE,warning=FALSE>>=
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4,
           surface=TRUE)
-print(p)
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-surface1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-surface1}}
 
 In general, surface plots are hard to interpret, but they are useful in teaching students how to interpret contour plots.
 
@@ -155,14 +165,13 @@ The resolution of the two-variable plots can be changed with the \texttt{npts} a
 The \texttt{lattice} graphics package is used to implement \texttt{plotFun}.  We hope eventually to use the \texttt{lattice} panel capabilities to provide support for displaying functions of three variables.
 
 Common graphical tasks are comparing two functions or plotting a function along with data.  The standard \texttt{lattice} approach to this can be daunting for students.  To make the task of overlaying plots easier, \texttt{plotFun()} has an \texttt{add} argument to control whether to make a new plot or overlay an old one.  Here's an example of laying a constraint $t + 1/k \leq 0$ over another function:
-<<constraint1,fig=TRUE>>=
+<<constraint1>>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4)
-p= plotFun( t + 1/k <= 0 ~ t&k, add=TRUE, npts=300, alpha=.2)
-print(p)
+plotFun( t + 1/k <= 0 ~ t&k, add=TRUE, npts=300, alpha=.2)
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-constraint1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-constraint1}}
 
 The lighter region shows where the constraint is satisfied.
 Note also that a high resolution (\texttt{npts=300}) was used for plotting the constraint.  At the default resolution, such contraints are often distractingly chunky.
@@ -207,14 +216,13 @@ D( A*x^2*sin(y) ~ x&y ) #mixed partial
 The ability to carry out symbolic differentiation is inherited from the \texttt{stats::deriv()} operator.  This is valuable for two reasons. First, seeing R return something that matches the traditional form can be re-assuring for students and instructors.  Second, derivatives --- especially higher-order derivatives --- can have noticeable pathologies when evaluated through non-symbolic methods such as simple finite-differences.  Fortunately, \texttt{stats::deriv()} is capable of handling the large majority of sorts of expressions encountered in calculus courses.
 
 Not every function has an algebraic form that can be differentiated using the algebraic rules of differentiation.  In such cases, numerical differentiation can be used.  \texttt{D()} is designed to carry out numerical differentiation and to package up the results as a function that can be used like any other function.  To illustrate, consider the derivative of the density of the t-distribution.  The density is implemented in R with the \texttt{dt(t, df)} function, taking two parameters, t and the "degrees of freedom" df.  Here's the derivative of density with respect to df constructed using \texttt{D()}:
-<<dfgraph,fig=TRUE>>=
+<<dfgraph>>=
 f1 = D( dt(t,df) ~ df)
 f1(t=2,df=1)
-p = plotFun(f1(t=2,df=df)~df, df.lim=range(1,10))
-print(p)
+plotFun(f1(t=2,df=df)~df, df.lim=range(1,10))
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-dfgraph}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-dfgraph}}
 
 Numerical differentiation, especially high-order differentiation, has problematic numerical properties.  For this reason, only second-order numerical differentiation is directly supported.  You can, of course, construct a higher-order numerical derivative by iterative application of \texttt{D()} to a derivative function, but don't expect very accurate results. 
 
@@ -233,13 +241,12 @@ F(x.to=1) #should be 1/3
 @
 
 Being a function, the output of \texttt{antiD()} can be plotted:
-<<antiD1,fig=TRUE>>=
+<<antiD1>>=
 plotFun(F(x.to=x)~x, x.lim=range(-2,2))
-p = plotFun(F(x.from=-1.5,x.to=x)~x, add=TRUE, col="red")
-print(p)
+plotFun(F(x.from=-1.5,x.to=x)~x, add=TRUE, col="red")
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-antiD1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-antiD1}}
 
 At this time, integration is purely numerical. The mechanics are hidden behind the function \texttt{numerical.integration()}, which is not intended to be used directly.   
 
@@ -284,23 +291,21 @@ We hope to extend \texttt{findZeros()} to work with multiple functions of multip
 
 In teaching, it's helpful to have a set of functions that can be employed to illustrate various concepts.  Sometimes, all you need is a smooth function that displays some ups and downs and has one or two local maxima or minima.  The \texttt{rfun()} function will generate such functions ``at random."  That is, a random seed can be used to control which function is generated.
 
-<<random1,fig=TRUE>>=
+<<random1>>=
 f = rfun(~x, seed=345)
-p = plotFun(f(x)~x, x.lim=range(-5,5))
-print(p)
+plotFun(f(x)~x, x.lim=range(-5,5))
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-random1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-random1}}
 
 These random functions are particularly helpful to develop intuition about functions of two variables, since they are readily interpreted as a landscape:
 
-<<random2,fig=TRUE>>=
+<<random2>>=
 f = rfun(~x&y, seed=345)
-p = plotFun(f(x,y)~x&y, x.lim=range(-5,5), y.lim=range(-5,5))
-print(p)
+plotFun(f(x,y)~x&y, x.lim=range(-5,5), y.lim=range(-5,5))
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-random2}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-random2}}
 
 \section{Functions from Data}
 \label{sec:functions-from-data}
@@ -346,12 +351,12 @@ At intermediate values of \texttt{time}, the function takes on interpolating val
 f(time=c(0,.5,1,1.5,2,2.5,3))
 @
 
-<<waterspline,fig=TRUE>>=
+<<waterspline>>=
 xyplot( mass ~ time, data=water)
-p <- plotFun(f(t)~t,add=TRUE,t.lim=range(0,27))
-print(p)
+plotFun(f(t)~t,add=TRUE,t.lim=range(0,27))
 @
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-waterspline}}
+
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-waterspline}}
 
 Like any other smooth function, \texttt{f()} can be differentiated:
 <<>>=
@@ -372,17 +377,16 @@ fline <- connector(mass~time, data=water)
 The mathematical issues of smoothness and monotonicity are illustrated by these various interpolating functions in a natural way.  Sometimes these are better ways to think about the choice of functions for modeling --- you're not going to find a global polynomial or exponential or any other classical function to represent these data.
 
 Consider, for instance, the question of determining the rate of flow from the bottle.  This is the derivative of the mass measurement.  Here are plots of the derivatives of the three interpolating functions:
-<<waterflow,fig=TRUE>>=
+<<waterflow>>=
 Df <- D( f(t)~t )
 Dfmono <- D( fmono(t)~t )
 Dfline <- D( fline(t)~t )
 plotFun( Df(t)~t, t.lim=range(0,30),lwd=2,col="black")
 plotFun( Dfmono(t)~t, t.lim=range(0,30), add=TRUE, col="blue")
-p <- plotFun( Dfline(t)~t, t.lim=range(0,30), add=TRUE, col="red")
-print(p)
+plotFun( Dfline(t)~t, t.lim=range(0,30), add=TRUE, col="red")
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-waterflow}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-waterflow}}
  
 It's a worthwhile classroom discussion: Which of the three estimates of flow is best?  The smoothest one has the unhappy property of negative flow near time 25 and positive flow even after the pouring stopped.
 
@@ -398,21 +402,16 @@ data(CPS)
 
 There is no definite relationship between wage and age, but there are general trends:
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage1}}
-<<>>=
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage1}}
+<<wage1>>=
 xyplot( wage ~ age, data=CPS )
 f <- smoother(wage~age, span=.9, data=CPS)
-@
-
-<<wage1,fig=TRUE>>=
-xyplot( wage ~ age, data=CPS )
-p = plotFun(f(age)~age, add=TRUE, lwd=4)
-print(p)
+plotFun(f(age)~age, add=TRUE, lwd=4)
 @
 
 There appears to be a slight decline in wage --- a negative derivative --- for people older than 40.    Statistically, one might wonder whether the data provide good evidence for this small effect and the extent to which the outlier affects matters.  Let's look at the resampling distribution of the second derivative, stripping away the outlier:
 
-<<echo=false>>=
+<<echo=FALSE>>=
 set.seed(7832)
 @
 
@@ -427,42 +426,38 @@ do(10) * {
   plotFun(fr2(age)~age, add=TRUE)
   }
 # just to display the plot
-p <- plotFun( 1~age, add=TRUE)
-print(p)
+plotFun( 1~age, add=TRUE)
 @
 
 Pretty good evidence for wage going up with age, particularly for the young.  The rate of increase per year of age gets smaller and smaller.  After about 35 years of age, there's weak evidence for any systematic effect.
 
 Smoothers can construct functions of more than one variable.  Here, for instance, is a representation of the relationship between wage, age, and education.
-<<wage2,fig=TRUE>>=
+<<wage2>>=
 g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPS2)
-p <- plotFun( g(age=age,educ=educ)~age&educ, 
+plotFun( g(age=age,educ=educ)~age&educ, 
          age.lim=range(20,50),educ.lim=range(5,14))
-print(p)
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage2}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage2}}
 
 The graph suggests that people with a longer education see a steeper and more prolonged increase in wage with age.  To see this in a different way, here's the partial derivative of log wage with respect to age, holding education constant:
-<<wage3,fig=TRUE>>=
+<<wage3>>=
 DgAge <- D( g(age=age,educ=educ)~age)
-p <- plotFun( DgAge(age=age,educ=educ)~age&educ,
+plotFun( DgAge(age=age,educ=educ)~age&educ,
               age.lim=range(20,50), educ.lim=range(5,14))
-print(p)
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage3}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage3}}
 
 
 For economists, perhaps worthwhile to think about the elasticity of wages with respect to age for different levels of education.
 
-<<wage4,fig=TRUE>>=
+<<wage4>>=
 CPS2$logage <- log(CPS2$age)
 g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPS2)
 elasticity <- D( g2(logage=logage,educ=educ)~logage)
-p <- plotFun( elasticity(logage=log(a),educ=educ)~a&educ,
+plotFun( elasticity(logage=log(a),educ=educ)~a&educ,
               a.lim=range(20,50), educ.lim=range(5,14))
-print(p)
 @
 
 Elasticity seems to fall off with age at pretty much the same rate for different levels of education.  It just starts out more positive for the more highly educated.
@@ -511,12 +506,11 @@ soln$x(0:5)
 @
 
 Often, you will plot out the solution against time:
-<<logistic1,fig=TRUE>>=
-p = plotFun(soln$x(t)~t, t.lim=range(0,20))
-print(p)
+<<logistic1>>=
+plotFun(soln$x(t)~t, t.lim=range(0,20))
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-logistic1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-logistic1}}
 
 Differential equation systems with more than one state variable
 can be handled as well.  To illustrate, here is the SIR model of the spread of epidemics, in which the state is the number of susceptibles $S$ and the number of infectives $I$ in the population.  Susceptibles become infective by meeting an infective, infectives recover and leave the system.  There is one equation for the change in $S$ and a corresponding equation for the change in $I$.  The initial $I = 1$, corresponding to the start of the epidemic.
@@ -527,13 +521,12 @@ epi = integrateODE( dS~-a*S*I, dI~a*S*I - b*I,
 @
 
 This system of differential equations is solved to produce two functions, $S(t)$ and $I(t)$.
-<<epi1,fig=TRUE>>=
+<<epi1>>=
 plotFun( epi$S(t)~t, t.lim=range(0,20))
-p = plotFun( epi$I(t)~t, add=TRUE, col="red")
-print(p)
+plotFun( epi$I(t)~t, add=TRUE, col="red")
 @
 
-\centerline{\includegraphics[width=3in]{Figures/plt-explain-epi1}}
+%\centerline{\includegraphics[width=3in]{Figures/plt-explain-epi1}}
 
 In the solution, you can see the epidemic grow to a peak near $t=5$.  At this point, the number of susceptibles has fallen so sharply that the number of infectives starts to fall as well.  In the end, almost every susceptible has been infected.
 
