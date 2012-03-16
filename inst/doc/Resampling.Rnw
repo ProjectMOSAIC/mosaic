@@ -52,7 +52,7 @@ operations in what George Cobb calls the ``3 Rs'' of statistical
 inference: Randomization, Replication, and Rejection (Cobb, 2007). 
 By putting the 3 Rs together in various ways, students learn to
 generalize and internalize the logic of inference, rather than just
-following formulaic methods.
+to blindly follow formulaic methods.
 
 There's an interesting discussion of the role of simulation in Speed (2011), where
 he notes the changing role of simulation.  It used to be:
@@ -75,9 +75,9 @@ place among the statistical concepts in our courses.
 Resampling-based inference using permutation testing and bootstrapping are an
 increasingly important set of techniques for introductory statistics and beyond.
 
-Bootstrapping and permutation testing are powerful and elegant approaches to estimation of sample statistics and testing, respectively that can be implemented even in many situations
+Bootstrapping and permutation testing are powerful and elegant approaches to estimation and testing, respectively that can be implemented even in many situations
 where asymptotic results are
-difficult to find or otherwise unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al 2005).  Bootstrapping involves sampling \emph{with} replacement from a population, repeatedly calculating a sample statistic of interest to empirically construct the sampling distribution. Permutation testing for a two group comparison is doing by \emph{permuting} the labels for the grouping variable, then calculating the sample statistic (e.g. difference between two groups using these new labels) to empirically construct the null distribution.
+difficult to find or otherwise unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al 2005).  Bootstrapping involves sampling \emph{with} replacement from a population, repeatedly calculating a sample statistic of interest to empirically construct the sampling distribution. Permutation testing for a two group comparison is done by \emph{permuting} the labels for the grouping variable, then calculating the sample statistic (e.g. difference between two groups using these new labels) to empirically construct the null distribution.
 
 \section{Background and setup}
 \subsection{R and RStudio}
@@ -123,7 +123,7 @@ sleep = read.csv("SleepCaffeine.csv")
   price (in \$1,000's), age (in years) and miles driven (in 1,000's)
   for the 25 cars in the sample are given in the [file \texttt{MustangPrice.csv}].  
   Use these data to construct a 90\% confidence interval for the mean
-  price (in \$1,000's) for used Mustangs.}
+  price (in \$1,000's) of used Mustangs.}
 
 \bigskip
 
@@ -144,6 +144,8 @@ One resampling trial can be carried out with
 <<>>=
 with(resample(mustangs), mean(Price))
 @
+This generates a new sample (with replacement) of the same size as the original one.
+
 Another trial can be carried out with the command:
 <<>>=
 with(resample(mustangs), mean(Price))
@@ -160,7 +162,7 @@ called \texttt{trials}:
 numsim
 trials = do(numsim) * with(resample(mustangs), mean(Price))
 @ 
-This creates a new set of data with the result from each of the $numsim=\Sexpr{numsim}$ trials.
+This creates a new set of data with the result from each of the {\tt numsim} $=\Sexpr{numsim}$ trials.
 
 Plots of distributions are straightforward, e.g.:
 <<hist,fig=true,include=TRUE,pdf=true,height=4,width=4>>=
@@ -202,7 +204,7 @@ winner is more than one half.}
 
 \bigskip
 
-If the coin-flip result were unrelated to the outcome of the game, the
+If the coin flip result were unrelated to the outcome of the game, the
 observed 240 game wins out of 428 events would itself be a plausible
 outcome of a coin flip.
 
@@ -215,7 +217,7 @@ games from a world in which the null hypothesis holds true.
 proptable(rbinom(100000, prob=0.5, size=428) >= 240)
 @ 
 
-It's very unlikely, if the null were true, that the coin-flip winner
+It's very unlikely, if the null were true, that the coin flip winner
 would win 240 or more times.
 
 Of course, such a calculation can be done directly, but that raises
@@ -234,8 +236,8 @@ tabulation for you.  Here is one trial involving flipping 428 coins:
 do(1) * rflip(428)
 @ 
 
-We'll do \Sexpr{numsim} trials, and count in what fraction of the trials the
-winner (say, ``heads'') wins 240 or more
+We'll do \Sexpr{numsim} trials, and count what fraction of the trials the
+winner (say, ``heads'') wins 240 or more:
 <<flips1>>=
 trials = do(numsim) * rflip(428)
 proptable(trials$heads >= 240)
@@ -244,8 +246,10 @@ proptable(trials$heads >= 240)
 xhistogram(~ heads, groups = (heads >= 240), data=trials)
 @ 
 
-
 The observed pattern of 240 wins is not a likely outcome under the null hypothesis.
+The shading added through the {\tt groups =} option helps to visually reinforce the result.
+
+
 
 \subsection{Permutation test of means from two groups (sleep and memory)} 
 
@@ -253,14 +257,18 @@ The observed pattern of 240 wins is not a likely outcome under the null hypothes
   to memorize.  After hearing the words they were assigned at random
   to different groups. One group of 12 students took a nap for 1.5
   hours while a second group of 12 students stayed awake and was given
-  a caffeine pill.  The table below shows the number of words each
+  a caffeine pill.  The results below display the number of words each
   participant was able to recall after the break.  Test whether the
   data indicate a difference in mean number of words recalled between
   the two treatments.}
 
 \bigskip
 
-The Sleep group seems to have remember somewhat more words:
+<<>>=
+sleep
+@ 
+
+The Sleep group seems to have remembered somewhat more words on average:
 <<>>=
 mean(Words ~ Group, data=sleep)
 obs = compareMean(Words ~ Group, data=sleep); obs
@@ -289,7 +297,7 @@ xhistogram(~ result, groups = result >= obs, data=trials,
   xlab="Distribution of difference in means\nunder the null hypothesis")
 @ 
 
-We can calculate the (one-sided) p-value for this test by summing up the number of 
+We can calculate the one-sided p-value for this test by summing up the number of 
 trials which yielded a result as extreme or more extreme as the observed difference.
 Here only \Sexpr{sum(trials$result >= obs)} of the permutations were that large, so 
 the p-value is equal to \Sexpr{sum(trials$result >= obs)/numsim}.  We conclude that
@@ -319,6 +327,7 @@ ladd(panel.abline(v=obs, lwd=2))
 
 \subsection{Bootstrapping a correlation}
 
+\noindent
 \begin{quotation}
 {\em The data on Mustang prices in Problem \#1 also contains the number
  of miles each car had been driven (in thousands).  Find a
@@ -347,7 +356,7 @@ fit the linear model and consider the coefficients themselves:
 do(1) * lm(Price ~ Miles, data=mustangs)
 trials = do(numsim) * lm(Price ~ Miles, data=resample(mustangs))
 xhistogram(~ Miles, data=trials)
-sd(trials) #standard errors
+sd(trials) # standard errors
 @ 
 
 The predicted average price goes down by $22 \pm 6$ cents per mile driven.
@@ -364,6 +373,15 @@ null hypothesis --- students are surprised to see that it's uniform.
 Seeing this helps them to understand the sense in which the
 ``significance level'' refers to a false rejection of the null in a
 world in which the null is true.
+
+\section{Acknowledgments}
+
+Thanks to Sarah Anoke for comments on an earlier draft, as well as to Robin
+Lock of St. Lawrence University for organizing the session at USCOTS.
+Project MOSAIC is supported by the US National Science Foundation (DUE-0920350).
+More information about the package and this initiative can be 
+found at the Project MOSAIC website: \url{www.mosaic-web.org}.
+
 
 \section{References}
 \begin{itemize}
