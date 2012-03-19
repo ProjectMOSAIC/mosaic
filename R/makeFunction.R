@@ -94,19 +94,33 @@ setMethod(
    function( object, ... ) {
 	  vars <- model.vars(object)
 	  result <- function(){}
-	  body(result) <- 
-		  parse( text=paste(
-						"return(predict(model, newdata=data.frame(",
-						paste(vars, "= ", vars, collapse=",", sep=""), 
-						"), ...))"
-						)
-	  	  )
-	  formals(result) <- 
-		  eval(parse( 
-					 text=paste( "as.pairlist(alist(", 
-								paste(vars, "= ",  collapse=",", sep=""), ", ...=))"
-	  )
-	  ))
+	  if ( length( vars ) <  1 ) {
+		  result <- function( ... ) {
+			  dots <- list(...)
+			  if (length(dots) > 0) {
+				  x <- dots[[1]] 
+				  dots[[1]] <- NULL
+			  } else {
+				  x <- 1
+			  }
+			  do.call(predict, c(list(model, newdata=data.frame(x=x)), dots))
+		  }
+	  } else {
+		  body(result) <- 
+			  parse( text=paste(
+								"return(predict(model, newdata=data.frame(",
+								paste(vars, "= ", vars, collapse=",", sep=""), 
+								"), ...))"
+								)
+		  )
+		  formals(result) <- 
+			  eval(parse( 
+						 text=paste( "as.pairlist(alist(", 
+									paste(vars, "= ",  collapse=",", sep=""), ", ...=))"
+		  )
+		  ))
+	  }
+
 	  # myenv <- parent.frame()
 	  # myenv$model <- object
 	  # environment(result) <- myenv

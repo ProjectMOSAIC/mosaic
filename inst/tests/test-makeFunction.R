@@ -64,3 +64,15 @@ test_that('Can make functions from models', {
   expect_equivalent( names(formals(f)), c('x','...') )
   expect_equivalent( names(formals(g)), c('ex','...') )
 })
+
+test_that('Can make functions from models with no predictors', {
+  model <- lm( age ~ 1, data=HELPrct )
+  f <- makeFunction(model)
+  expect_equivalent( f(), mean(HELPrct$age) )
+  expect_equivalent( f(7), mean(HELPrct$age) )
+  expect_equivalent( f(x=7), mean(HELPrct$age) )
+  expect_equivalent( f(sex='female'), mean(HELPrct$age) )
+  expect_equivalent( f(1:3), rep(mean(HELPrct$age),3) )
+  expect_equivalent( names(formals(f)), c('...') )
+})
+
