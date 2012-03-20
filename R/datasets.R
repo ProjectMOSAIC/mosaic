@@ -1613,3 +1613,26 @@ NA
 #' @keywords datasets
 
 NA
+
+#' 100 m Swimming World Records
+#' 
+#' World records for men and women over time from 1905 through 2004.
+#' 
+#' @name SwimRecords
+#' @usage SwimRecords
+#' @docType data
+#' @format 
+#'   A data frame with 62 observations of the following variables.
+#'   \itemize{
+#'       \item \code{time} time (in seconds) of the world record
+#'       \item \code{year} Year in which the record was set
+#'       \item \code{sex} a factor with levels \code{M} and \code{F}
+#'   }
+#' 
+#' @examples 
+#' data(SwimRecords)
+#' xyplot(time~year, data=SwimRecords, groups=sex)
+#' 
+#' @keywords datasets
+
+NA
