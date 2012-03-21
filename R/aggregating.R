@@ -42,7 +42,7 @@
 #' mean(age ~ NULL, data=HELPrct)
 #' mean(HELPrct$age)
 #' mean(age ~ sex, data=HELPrct)
-#' mean(age ~ sex + treat, data=HELPrct)
+#' mean(age ~ sex & treat, data=HELPrct)
 
 #' @rdname aggregating-methods
 #' @export
@@ -130,7 +130,7 @@ setMethod(
 #' median(age ~ NULL, data=HELPrct)
 #' median(HELPrct$age)
 #' median(age ~ sex, data=HELPrct)
-#' median(age ~ sex + treat, data=HELPrct)
+#' median(age ~ sex & treat, data=HELPrct)
 
 setGeneric( 
 	"median", 
@@ -206,7 +206,7 @@ setMethod(
 #' sd(age ~ NULL, data=HELPrct)
 #' sd(HELPrct$age)
 #' sd(age ~ sex, data=HELPrct)
-#' sd(age ~ sex + treat, data=HELPrct)
+#' sd(age ~ sex & treat, data=HELPrct)
 
 setGeneric( 
 	"sd", 
@@ -444,7 +444,7 @@ setMethod(
 #' var(age ~ NULL, data=HELPrct)
 #' var(HELPrct$age)
 #' var(age ~ sex, data=HELPrct)
-#' var(age ~ sex + treat, data=HELPrct)
+#' var(age ~ sex & treat, data=HELPrct)
 
 setGeneric( 
 	"var", 
@@ -558,7 +558,7 @@ min <- .Min
 #' max(age ~ NULL, data=HELPrct)
 #' max(HELPrct$age)
 #' max(age ~ sex, data=HELPrct)
-#' max(age ~ sex + treat, data=HELPrct)
+#' max(age ~ sex & treat, data=HELPrct)
 
 max <- .Max
 
