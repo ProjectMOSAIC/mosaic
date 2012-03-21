@@ -12,14 +12,14 @@
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @export
 #' @examples
-#' mtable( ~ substance, HELPrct)
-#' mtable( ~ substance & sex , HELPrct)
-#' mtable( sex ~ substance, HELPrct)   # equivalent to mtable( ~ sex | substance, ... )
-#' mtable( ~ substance | sex , HELPrct)
-#' mtable( ~ substance | sex , HELPrct, format='count')
-#' mtable( ~ substance & sex , HELPrct, format='percent')
+#' tally( ~ substance, HELPrct)
+#' tally( ~ substance & sex , HELPrct)
+#' tally( sex ~ substance, HELPrct)   # equivalent to tally( ~ sex | substance, ... )
+#' tally( ~ substance | sex , HELPrct)
+#' tally( ~ substance | sex , HELPrct, format='count')
+#' tally( ~ substance & sex , HELPrct, format='percent')
 
-mtable <- function(formula, data=parent.frame(), 
+tally <- function(formula, data=parent.frame(), 
 				   format=c('default','count','proportion','percent'), 
 				   margins=TRUE,
 				   quiet=TRUE,
