@@ -23,6 +23,12 @@
 #'   should be capitalized
 #'
 #' @param xlim limits for the horizontal axis of the plot.
+#'
+#' @param center center of null distribution
+#'
+#' @param alternative one of \code{default}, \code{two.sided}, \code{less}, or \code{greater}
+#' 
+#' @param sig.level  significance threshold for \code{wilcox.test} used to detect lack of symmetry
 #' 
 #' @param \dots additional arguments passed to \code{\link{xhistogram}}
 #' 
@@ -49,47 +55,83 @@
 #' @keywords teaching 
 #' 
 statTally <-
-function (sample, rdata, FUN, direction = NULL, 
+function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sided','less','greater'),
+		  sig.level=0.1, center=NULL,
 	stemplot = dim(rdata)[direction] < 201, q = c(0.5, 0.9, 0.95, 0.99), fun=function(x) x, xlim, ...) 
 {
+
+	alternative = match.arg(alternative) 
+	#rdata <- matrix(rdata)
+
 	if (missing(FUN)) {
 		FUN = fun
 	}
 	if ( is.null(direction) ) {
-		if ( dim(rdata) [1] == length(sample) ) {
+		size <- max(NROW(sample), NCOL(sample))
+		if ( NROW (rdata) == size ) {
 			direction <- 2
-		} else if ( dim(rdata) [2] == length(sample) ) {
+		} else if ( NCOL(rdata) == size ) {
 			direction <- 1
 		} else {
-			stop("sample and rdata have incompatible dimensions")
+			stop( paste( "sample and rdata have incompatible dimensions:", c(size, NROW(rdata), NCOL(rdata))) )
 		}
 	}
+
     dstat <- FUN(sample)
-#    cat("Test Stat function: ")
-#	  cat(deparse(substitute(FUN)))
-#    cat("\n\n")
     stats <- apply(rdata, direction, FUN)
-    message("\nTest Stat applied to sample data = ")
-    message(signif(dstat, 4))
-    message("\n\n")
-    message("Test Stat applied to random data:\n\n")
+	if (alternative == 'default') {
+		if (is.null(center)) center <- median(stats, na.rm=TRUE)
+		pv <- pval(wilcox.test(stats, mu=center, exact=FALSE)) 
+		if (is.na(pv) || pv > sig.level) {
+           alternative <- "two.sided"
+		   message(paste('Null distribution appears to be symmetric. (p = ', signif(pv,3),')'))
+		} else {
+           alternative <- if (dstat < center) 'less' else 'greater'
+		   message(paste('Null distribution appears to be asymmetric. (p = ', signif(pv,3),')', sep=""))
+		}
+	}
+	if (is.null(center)) center <- 0
+
+    message(paste("\nTest statistic applied to sample data = ", signif(dstat, 4)))
+    message("\nQuantiles of test statistic applied to random data:")
     print(quantile(stats, q))
     if (stemplot) {
         stem(stats)
     }
 	results <- data.frame(stat=stats)
 	if (missing(xlim)) xlim <- range(pretty(c(stats,dstat)))
-    plot1 <- xhistogram(~stat, data=results,  groups=stat >= dstat, xlim = xlim, ...) 
+
+	hi <- center + abs(dstat - center)
+	lo <- center - abs(dstat - center)
+	if (alternative == 'greater') lo <- -Inf
+	if (alternative == 'less')    hi <-  Inf
+
+    plot1 <- tryCatch( xhistogram(~stat, data=results,  #groups=stat >= dstat, 
+						xlim = xlim, ...,
+						panel = function(x,...){
+							panel.xhistogram(x,...)
+							grid.rect( x=unit(lo,'native'), y=0.5, hjust=1,
+									  gp=gpar(fill='navy',col='navy', alpha=.05))
+							grid.rect( x=unit(hi,'native'), y=0.5, hjust=0,
+									  gp=gpar(fill='navy',col='navy', alpha=.05))
+						}
+						) , error = function(e) NULL
+	)
+
     message("\nOf the random samples")
-    message("\n\t", paste(sum(stats < dstat), "(", round(100 * 
-        sum(stats < dstat)/length(stats), 2), "% )", "had test stats <", 
-        signif(dstat, 4)))
     message("\n\t", paste(sum(stats == dstat), "(", round(100 * 
         sum(stats == dstat)/length(stats), 2), "% )", "had test stats =", 
         signif(dstat, 4)))
-    message("\n\t", paste(sum(stats > dstat), "(", round(100 * 
-        sum(stats > dstat)/length(stats), 2), "% )", "had test stats >", 
-        signif(dstat, 4)))
+	if (alternative != 'greater') {
+    	message("\n\t", paste(sum(stats < lo), "(", round(100 * sum(stats < lo)/length(stats), 2), 
+							  "% )", "had test stats <", 
+   	     signif(lo, 4)))
+	}
+	if (alternative != 'less') {
+    message("\n\t", paste(sum(stats > hi), "(", round(100 * sum(stats > hi)/length(stats), 2), 
+						  "% )", "had test stats >", signif(hi, 4)))
+	}
     message("\n")
+	
     return(plot1)
 }
