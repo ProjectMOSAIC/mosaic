@@ -20,7 +20,6 @@
 #' @name rfun
 #' @keywords random
 #' @aliases rfun rpoly2
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @examples
 #' f <- rfun( ~ u & v)

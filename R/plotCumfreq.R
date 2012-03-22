@@ -9,7 +9,6 @@
 #' @param data a data frame in which \code{x} is evaluated if \code{x} is a
 #' formula.
 #' @param \dots other lattice arguments
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @seealso \code{\link{histogram}}, \code{\link{densityplot}}
 #' @keywords graphics
 #' @export

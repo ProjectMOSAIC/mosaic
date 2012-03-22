@@ -84,7 +84,6 @@ rkFunction <- function(DE, additionalArguments=list() ) {
 #' argument list.  The returned value will be a list with one component named after each
 #' dynamical variable.  The component will be a spline-generated function of \code{t}.
 #' 
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @return a list with splined function of time for each dynamical variable
 #'

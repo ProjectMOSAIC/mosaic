@@ -10,7 +10,6 @@
 #' @details See \code{\link{table}}.
 #' @return a contingency table, an object of class "table", an array of percentage or proportion
 #' values. Note that unlike S the result is always an array, a 1D array if one factor is given.
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @export
 #' @examples
 #' perctable(rbinom(1000,10,.5))

@@ -44,7 +44,6 @@
 #' bounds of the interval of integration w.r.t. the variable of integration.
 #' The numerical value of the integral or
 #' derivative can be found by evaluating that function against its inputs.
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu}) 
 #' 
 #' @export
 #' @examples

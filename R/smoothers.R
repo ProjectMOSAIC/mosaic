@@ -28,7 +28,6 @@
 #' currently work for only one input variable.
 #'
 #' @seealso \code{\link{project}} method for formulas
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @examples
 #' cps <- fetchData("CPS.csv")

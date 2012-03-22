@@ -16,7 +16,6 @@
 #' 
 #' @return a trellis object
 #'
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
 #' @seealso \code{\link{histogram}}
 #' 

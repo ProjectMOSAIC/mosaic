@@ -46,7 +46,6 @@
 #' when the raw data are available, in which case 
 #' an extended syntax for \code{prop.test} is provided.
 #' 
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @seealso \code{\link[mosaic]{binom.test}}, \code{\link[stats]{prop.test}}
 #' 
 #' @examples

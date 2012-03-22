@@ -7,7 +7,6 @@
 #' @param drop.unused.levels should levels that do not appear in cross product be dropped?
 #' 
 #' @return a factor
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
 #' @export
 #' @examples

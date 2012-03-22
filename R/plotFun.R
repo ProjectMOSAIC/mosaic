@@ -2,7 +2,6 @@
 #'
 #' Plots mathematical expressions in one and two variables.  
 #'
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #' @rdname plotFun
 #' @name plotFun
 #' @aliases plotFun
