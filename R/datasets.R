@@ -191,8 +191,8 @@ NA
 #' The data were presented by Nolan and Speed to address the question of whether there is a link between maternal smoking and the baby's health.
 #' 
 #' @source 
-#' The admirable book by Deborah Nolan and Terry Speed
-#' describes the data in some detail 
+#' The book by Nolan and Speed
+#' describes the data in more detail 
 #' and provides an Internet site for accessing them: 
 #' \url{http://www.stat.berkeley.edu/users/statlabs/}
 #' 

@@ -9,11 +9,12 @@
 #' @param \dots other arguments
 #' @return the difference in proportions between the second and first group
 #' @author Nicholas Horton (\email{nhorton@@smith.edu})
-#' @seealso \code{\link{do}}, \code{\link{compareMean}}, \code{\link{plotNullDist}} and \code{\link{shuffle}}
+#' @seealso \code{\link{do}}, \code{\link{compareMean}} and \code{\link{shuffle}}
 #' @keywords resampling
 #' @export
 #' @examples
 #' # calculate the observed difference
+#' data(HELPrct)
 #' mean(homeless=="housed" ~ sex, data=HELPrct)
 #' obs <- compareProportion(homeless=="housed" ~ sex, data=HELPrct); obs
 #' # calculate the permutation distribution
