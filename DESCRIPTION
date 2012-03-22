@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.3-21
-Date: 2012-02-25
+Version: 0.3-24
+Date: 2012-03-22
 Depends:
     lattice,
     grid,
@@ -83,4 +83,3 @@ Collate:
     'plotDist.R'
     'compareMean.R'
     'compareProportion.R'
-    'plotNullDist.R'
