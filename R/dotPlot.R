@@ -12,6 +12,8 @@
 #' @param breaks,equal.widths,groups,pch,col,lty,lwd,col.line,type,alpha  
 #'     as in \code{\link{histogram}} 
 #'
+#' @param cex  a ratio by which to increase or decrease the dot size
+#'
 #' @param \dots  additional arguments 
 #' 
 #' @return a trellis object
@@ -39,7 +41,6 @@ function (x,
     histogram(x, type = "count", panel = panel, nint = nint, breaks = breaks, ...)
 }
 
-#' @param cex  a ratio by which to increase or decrease the dot size
 #' @rdname dotPlot
 
 panel.dotPlot <-
