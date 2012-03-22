@@ -129,9 +129,6 @@ rgeo <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 }
 
 #' @rdname rgeo
-#' @return a data frame with variables \code{long} and \code{lat}.  If \code{verbose} is
-#' TRUE, then x, y, and z coordinates are also included in the data frame.  
-#'
 #' @export
 #' @examples
 #' rgeo2(4)

@@ -81,6 +81,5 @@ Collate:
     'plotDist.R'
     'compareMean.R'
     'compareProportion.R'
-    'plotNullDist.R'
     'numD.R'
     'symbolicD.R'
