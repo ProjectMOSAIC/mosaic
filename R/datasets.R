@@ -1,3 +1,25 @@
+#' US Births in 1978
+#'
+#' A day by day record of the number of births in the United States in 1978.
+#' 
+#' @docType data
+#' @name Births78
+#' @usage data(Births78)
+#' @format 
+#'   A data frame with 365 observations on the following variables.
+#'   \itemize{
+#'     \item{\code{date}}{date in 1978}
+#'     \item{\code{births}} {number of US births}
+#'     \item{\code{dayofyear}} {sequential number of days from 1 to 365}
+#'   }
+#' 
+#' @examples
+#' data(Births78)
+#' xyplot(births ~ dayofyear, Births78)
+#' xyplot(births ~ dayofyear, Births78, groups=dayofyear%%7)
+
+NA 
+
 #' Standard Deck of Cards
 #' 
 #' A character vector with two or three character representations of 
@@ -33,7 +55,7 @@ NA
 #' 
 #' @docType data
 #' @name CPS
-#' @usage CPS
+#' @usage data(CPS)
 #' @format 
 #'   A data frame with 534 observations on the following variables.
 #'   \itemize{
@@ -78,7 +100,7 @@ NA
 #' @docType data
 #' @keywords datasets
 #' @name Galton
-#' @usage Galton
+#' @usage data(Galton)
 #' @format 
 #'   A data frame with 898 observations on the following variables.
 #'   \itemize{
@@ -122,7 +144,7 @@ NA
 #' also recorded.  
 #' 
 #' @name Gestation
-#' @usage Gestation
+#' @usage data(Gestation)
 #' @docType data
 #' 
 #' @format 
@@ -195,7 +217,7 @@ NA
 #' 
 #' @keywords datasets
 #' @name HELP
-#' @usage HELP
+#' @usage data(HELP)
 #' @docType data
 #' 
 #' @format 
@@ -280,7 +302,7 @@ NA
 #' 
 #' @keywords datasets
 #' @name HELPfull
-#' @usage HELPfull
+#' @usage data(HELPfull)
 #' @docType data
 #' @format 
 #'   A data frame with 1472 observations on the following variables.
@@ -1121,7 +1143,7 @@ NA
 #' or usual care, with the goal of linking them to primary medical care.
 #' 
 #' @name HELPmiss
-#' @usage HELPmiss
+#' @usage data(HELPmiss)
 #' @docType data
 #' @format 
 #'   Data frame with 470 observations on the following variables.  
@@ -1206,7 +1228,7 @@ NA
 #' or usual care, with the goal of linking them to primary medical care.
 #' 
 #' @name HELPrct
-#' @usage HELPrct
+#' @usage data(HELPrct)
 #' @docType data
 #' @format 
 #'   Data frame with 453 observations on the following variables.  
@@ -1296,7 +1318,7 @@ NA
 #' convenience sample --- the kids who were in the fourth grade.
 #' 
 #' @name KidsFeet
-#' @usage KidsFeet
+#' @usage data(KidsFeet)
 #' @docType data
 #' @format 
 #'   A data frame with 39 observations on the following variables.
@@ -1333,7 +1355,7 @@ NA
 #' Marriage records from the Mobile County, Alabama, probate court.  
 #' 
 #' @name Marriage
-#' @usage Marriage
+#' @usage data(Marriage)
 #' @docType data
 #' @format 
 #'   A data frame with 98 observations on the following variables.
@@ -1379,7 +1401,7 @@ NA
 #' 
 #' 
 #' @name SAT
-#' @usage SAT
+#' @usage data(SAT)
 #' @docType data
 #' @format 
 #'   A data frame with 50 observations on the following variables.
@@ -1422,7 +1444,7 @@ NA
 #' are published.  This data frame  contains the results from the 2005 race. 
 #' 
 #' @name TenMileRace
-#' @usage TenMileRace
+#' @usage data(TenMileRace)
 #' @docType data
 #' @format 
 #'   A data frame with 8636 observations on the following variables.
@@ -1453,7 +1475,7 @@ NA
 #' \code{\link{Utilities2}}  is a similar data set with some additional variables.
 #' 
 #' @name Utilities
-#' @usage Utilities
+#' @usage data(Utilities)
 #' @docType data
 #' @format 
 #'   A data frame containing 117 observations for the following variables.
@@ -1490,7 +1512,7 @@ NA
 #' of \code{\link{Utilities}}.
 #' 
 #' @name Utilities2
-#' @usage Utilities2
+#' @usage data(Utilities2)
 #' @docType data
 #' @format 
 #'   A data frame containing 117 observations for the following variables.
@@ -1538,7 +1560,7 @@ NA
 #' survey was conducted twenty years later.
 #' 
 #' @name Whickham
-#' @usage Whickham
+#' @usage data(Whickham)
 #' @docType data
 #' @format 
 #'   A data frame with 1314 observations on women for the following  variables.
@@ -1573,7 +1595,7 @@ NA
 #' Official snowfall data by month and season for Grand Rapids, MI, going back to 1893.
 #' 
 #' @name SnowGR
-#' @usage SnowGR
+#' @usage data(SnowGR)
 #' @docType data
 #' @format 
 #'   A data frame with 119 observations of the following variables.
@@ -1619,7 +1641,7 @@ NA
 #' World records for men and women over time from 1905 through 2004.
 #' 
 #' @name SwimRecords
-#' @usage SwimRecords
+#' @usage data(SwimRecords)
 #' @docType data
 #' @format 
 #'   A data frame with 62 observations of the following variables.
