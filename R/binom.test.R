@@ -1,9 +1,10 @@
 #' Exact Tests for Proportions
 #' 
-#' The mosaic \code{binom.test} provides wrapper functions around the function of the same name in \pkg{stats}.
-#' These wrappers provide an extended interface (including formulas).  \code{binom.test} 
+#' The \code{binom.test} function
 #' performs an exact test of a simple null hypothesis about the probability of success in a 
 #' Bernoulli experiment from summarized data or from raw data.
+#' The mosaic \code{binom.test} provides wrapper functions around the function of the same name in \pkg{stats}.
+#' These wrappers provide an extended interface (including formulas).  
 #' 
 #' @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
 #'
@@ -12,7 +13,7 @@
 #' 
 #' @param n  sample size (successes + failures) or a data frame 
 #'   (for the formula interface) 
-#' @param p  probability for null hypothesis 
+#' @param p probability for null hypothesis 
 #' @param alternative  type of alternative hypothesis 
 #' @param conf.level  confidence level for confidence interval 
 #' @param success  level of variable to be considered success.  All other levels are 
@@ -37,12 +38,13 @@
 #' @examples
 #' # Several ways to get a confidence interval for the proportion of Old Faithful
 #' # eruptions lasting more than 3 minutes.
-#' binom.test( faithful$eruptions > 3 )
-#' binom.test(97,272)
-#' binom.test(c(97,272-97))
+#' data(faithful)
+#' binom.test(faithful$eruptions > 3)
+#' binom.test(97, 272)
+#' binom.test(c(97, 272-97))
 #' faithful$long <- faithful$eruptions > 3
-#' binom.test( faithful$long )
-#' binom.test( ~long , faithful )
+#' binom.test(faithful$long)
+#' binom.test(~ long, faithful)
 #' 
 #' @keywords stats
 
