@@ -19,12 +19,53 @@
 #' tally( ~ substance | sex , HELPrct, format='count')
 #' tally( ~ substance & sex , HELPrct, format='percent')
 
-tally <- function(formula, data=parent.frame(), 
+setGeneric( 
+	"tally", 
+	function(x, ... )  {
+		standardGeneric('tally')
+	}
+)
+
+#' @rdname tally
+#' @aliases tally,ANY-method
+#' @usage tally(x, ...)
+
+setMethod(
+	'tally',
+	'ANY',
+    function(x, ...) {
+		dd <- data.frame(x=x)
+		tally(~ x, dd)
+	}
+)
+
+#' @rdname tally
+#' @aliases tally,formula-method
+#' @param formula a formula
+#'
+#' @param data a data frame
+#'
+#' @param format one of \code{default}, \code{count}, \code{proportion}, or \code{percent} describing
+#'        the format the tallies should be returned in.
+#'
+#' @param margins a logical indicating whether margins tallies should be added.
+#'
+#' @param quiet a logical indicating whether tallying should be done quietly (vs. verbosely)
+#'
+#' @param subset an expression defining a subset of the data frame to be tallied.
+#'
+#' @export
+
+setMethod(
+	'tally',
+	'formula',
+    function(x, data=parent.frame(), 
 				   format=c('default','count','proportion','percent'), 
 				   margins=TRUE,
 				   quiet=TRUE,
-				   subset) {
+				   subset, ...) {
 	format <- match.arg(format)
+	formula <- x
 	evalF <- evalFormula(formula,data)
 
 	if (!missing(subset)) {
@@ -60,6 +101,7 @@ tally <- function(formula, data=parent.frame(),
 	}
 	return(res)
 }
+)
 
 #' return a vector of row or column indices
 #'
