@@ -1,7 +1,6 @@
 #' Convert objects to xtabs format
 #' 
-#' Currently able to convert a data frame or a matrix into an \code{xtabs}
-#' object.
+#' Convert a data frame or a matrix into an \code{xtabs} object.
 #' 
 #' The intended use is to convert a two-way contingency table stored in a data
 #' frame or a matrix into an \code{xtabs} object.
@@ -27,7 +26,7 @@ as.xtabs <- function(x, ...) { UseMethod('as.xtabs') }
 #' @method as.xtabs data.frame
 #' @param rowvar name of the row variable as character string
 #' @param colvar name of the column variable as character string
-#' @param labels Column of data frame that contains the lables of the row
+#' @param labels column of data frame that contains the labels of the row
 #' variable.
 #' @export
 as.xtabs.data.frame <- function(x, rowvar=NULL, colvar=NULL, labels=1, ...) {
