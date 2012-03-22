@@ -30,7 +30,7 @@
 #'
 #' @return a numeric vector 
 #'
-#' @rdname rgeo
+#' @rdname deg2rad
 #' @export
 #' @examples
 #' deg2rad(180)
@@ -42,7 +42,7 @@ deg2rad <- function(x) {
 
 #' @return a numeric vector
 #' 
-#' @rdname rgeo
+#' @rdname deg2rad
 #' @examples
 #' rad2deg(2*pi)
 
@@ -53,7 +53,7 @@ rad2deg <- function(x) {
 #' @param y,z numeric vectors
 #' @return a matrix each row of which contains a latitude and a longitude value
 #'
-#' @rdname rgeo
+#' @rdname latlon2xyz
 #' @examples
 #' xyz2latlon(1,1,1)     # point may be on sphere of any radius
 #' xyz2latlon(0,0,0)     # this produces a NaN for latitude
@@ -76,7 +76,7 @@ xyz2latlon <- function(x,y,z) {
 #' @param latitude,longitude vectors of latitude and longitude values
 #' @return a matrix each row of which contains the x, y, and z coordinates of a point on a unit sphere
 #' 
-#' @rdname rgeo
+#' @rdname latlon2xyz
 #' @examples
 #' latlon2xyz(45,45)
 
@@ -163,7 +163,7 @@ rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 	return(data.frame(lat=latlon[,1], lon=latlon[,2]))
 }
 
-#' @rdname rgeo
+#' @rdname googleMap
 #' @param position a data frame containing latitude and longitude positions
 #' @param zoom zoom level for initial map (1-20)
 #' @param maptype one of \code{'roadmap'}, \code{'satellite'}, \code{'terrain'}, and \code{'hybrid'}
