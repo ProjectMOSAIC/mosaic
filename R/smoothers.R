@@ -1,4 +1,4 @@
-#' Function from data.
+#' Create function from data
 #'
 #' These functions create mathematical functions from data, by smoothing, splining, or linear
 #' combination (fitting).  Each of them takes a formula and a data frame as an argument
