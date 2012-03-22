@@ -35,6 +35,7 @@
 ##########################################################################################
 
 #' @examples
+#' data(HELPrct)
 #' mean(age, data=HELPrct)
 #' mean(~age, data=HELPrct)
 #' mean(age ~ ., data=HELPrct)
