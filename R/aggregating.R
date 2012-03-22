@@ -17,7 +17,6 @@
 #' @rdname aggregating-methods
 #' @name aggregating-methods
 #'
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #'
 #' @seealso 
 #' \code{\link[stats]{aggregate}},

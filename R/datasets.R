@@ -1579,7 +1579,7 @@ NA
 #'   A data frame with 119 observations of the following variables.
 #'   \itemize{
 #'       \item \code{SeasonStart} Year in which season started (July is start of season)
-#'       \item \code{SeasonEnd} Year in which season ended (June is start of season)
+#'       \item \code{SeasonEnd} Year in which season ended (June is end of season)
 #'       \item \code{Jul} Inches of snow in July
 #'       \item \code{Aug} Inches of snow in August
 #'       \item \code{Sep} Inches of snow in September

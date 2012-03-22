@@ -28,7 +28,6 @@
 #' 	is returned invisibly.  See the examples for a way to use this to display the intervals
 #' 	graphically.
 #'
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
 #' @export
 #' @examples

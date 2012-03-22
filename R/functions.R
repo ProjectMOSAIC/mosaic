@@ -12,7 +12,6 @@
 #' for arguments or parameters
 #'
 #' @return a function
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #' @export
 #'
 #' @examples

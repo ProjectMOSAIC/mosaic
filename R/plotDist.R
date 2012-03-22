@@ -33,7 +33,6 @@
 #' pdf or pmf for the distribution.  This can be useful in conjuction
 #' with the \code{groups} argument.  See the examples.
 #' 
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @export
 #' @examples
 #' plotDist('norm')

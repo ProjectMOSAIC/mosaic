@@ -34,7 +34,6 @@
 #' an intercept, put \code{+1} as a term in your formula.  (See the examples.)
 #'
 #' @return \code{mat} returns a matrix 
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @usage project(x, u, ...)           
 #' @usage mat(A,data=NULL)

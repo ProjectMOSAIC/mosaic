@@ -10,7 +10,6 @@
 #' format
 #' @param ... additional arguments to be passed to or from methods.
 #' @return An \code{xtabs} object.
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @keywords manip
 #' @rdname as-xtabs
 #' @export

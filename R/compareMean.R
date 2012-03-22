@@ -8,13 +8,12 @@
 #' formula.
 #' @param \dots other arguments
 #' @return the difference in means between the second and first group
-#' @author Nicholas Horton (\email{nhorton@@smith.edu})
 #' @seealso \code{\link{do}}, \code{\link{compareProportion}} and \code{\link{shuffle}}
 #' @keywords resampling
 #' @export
 #' @examples
-#' # calculate the observed difference
 #' data(HELPrct)
+#' # calculate the observed difference
 #' mean(age ~ sex, data=HELPrct)
 #' obs <- compareMean(age ~ sex, data=HELPrct); obs
 #' # calculate the permutation distribution

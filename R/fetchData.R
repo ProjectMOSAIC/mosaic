@@ -42,7 +42,6 @@
 #' the text of the command to \code{source} it. 
 #' 
 #' @return a data frame.
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu}) and Randall Pruim (\email{rpruim@@calvin.edu})
 #'
 # ############## Local Data Storage #########
 # internal fetch data function

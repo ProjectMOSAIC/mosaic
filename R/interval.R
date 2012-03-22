@@ -7,7 +7,6 @@
 #' @return the extracted p-value, confidence interval, or test statistic
 #' 
 #' 
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @export
 #' @examples
 #' interval(t.test(rnorm(100)))
