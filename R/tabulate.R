@@ -35,7 +35,7 @@ setMethod(
 	'ANY',
     function(x, ...) {
 		dd <- data.frame(x=x)
-		tally(~ x, dd)
+		tally(~ x, dd, ...)
 	}
 )
 
