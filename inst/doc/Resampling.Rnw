@@ -24,6 +24,7 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 }
 \date{\today}
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
 
 \maketitle
 
@@ -104,7 +105,7 @@ package must be loaded so that it is available (this must be done within each R 
 <<setup>>=
 require(mosaic)
 options(digits=3)
-numsim = 2000  
+numsim <- 250  
 @ 
 
 This command would typically be provided in a set-up file for students so that it's executed automatically each time an R session is started.  Next we load two of the datasets that will be used in the examples.
@@ -114,6 +115,11 @@ mustangs = read.csv("MustangPrice.csv")
 sleep = read.csv("SleepCaffeine.csv")
 @ 
 
+These datasets can also be accessed over the internet using the following {\tt mosaic} commands:
+<<eval=FALSE>>=
+mustangs = fetchData("MustangPrice.csv")
+sleep = fetchData("SleepCaffeine.csv")
+@
 
 \section{Resampling in different settings}
 \subsection{Bootstrapping a mean (used Mustangs)}
@@ -269,9 +275,10 @@ sleep
 @ 
 
 The Sleep group seems to have remembered somewhat more words on average:
-<<>>=
+<<obsmean>>=
 mean(Words ~ Group, data=sleep)
-obs = compareMean(Words ~ Group, data=sleep); obs
+obs = diff(mean(Words ~ Group, data=sleep))
+obs
 @ 
 
 <<fig=TRUE,pdf=true,width=4,height=4>>=
@@ -281,19 +288,19 @@ bwplot(Words ~ Group, data=sleep)
 To implement the null hypothesis, scramble the Group with respect to
 the outcome, Words:
 <<>>=
-compareMean(Words ~ shuffle(Group), data=sleep)
+diff(mean(Words ~ shuffle(Group), data=sleep))
 @ 
 
 That's just one trial.  Let's try again:
 <<>>=
-compareMean(Words ~ shuffle(Group), data=sleep)
+diff(mean(Words ~ shuffle(Group), data=sleep))
 @
 To get the distribution under the null
-hypothesis, do many trials.
+hypothesis, we carry out many trials:
 
 <<sleep,pdf=true,fig=true,width=4,height=4>>=
-trials = do(numsim) * compareMean(Words ~ shuffle(Group), data=sleep)
-xhistogram(~ result, groups = result >= obs, data=trials,
+trials = do(numsim) * diff(mean(Words ~ shuffle(Group), data=sleep))
+xhistogram(~ Sleep, groups = Sleep >= obs, data=trials,
   xlab="Distribution of difference in means\nunder the null hypothesis")
 @ 
 
@@ -311,18 +318,18 @@ We can undertake a test of difference in two proportions, in this case, the prop
 <<>>=
 with(HELPrct, table(homeless, sex))
 mean(homeless=="housed" ~ sex, data=HELPrct)
-obs = compareProportion(homeless=="housed"~ sex, data=HELPrct); obs  # observed value
+obs = diff(mean(homeless=="housed"~ sex, data=HELPrct))
+obs  # observed value
 @
 
 We will use the same general approach to empirically calculate the null distribution by permuting the labels for the grouping variable.
 <<>>=
 # compute permutation distribution
-permute = do(numsim)*compareProportion(homeless=="housed" ~ shuffle(sex), data=HELPrct)
+nulldist = do(numsim) * diff(mean(homeless=="housed" ~ shuffle(sex), data=HELPrct))
 @
 
 <<diffprop,fig=true,pdf=true,width=4,height=4>>=
-xhistogram(~ result, groups=result>=obs, permute, xlab="difference in proportions")
-ladd(panel.abline(v=obs, lwd=2))
+xhistogram(~ male, groups=(male>=obs), nulldist, xlab="difference in proportions")
 @
 
 \subsection{Bootstrapping a correlation}
