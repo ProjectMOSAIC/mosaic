@@ -38,7 +38,6 @@
 #' about the empirical sampling distribution and (optionally) a stem plot are
 #' printed to the screen.
 #'
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @export
 #' @examples
 #' # is my spinner fair?

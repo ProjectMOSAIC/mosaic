@@ -1,4 +1,4 @@
-#' Function from data.
+#' Create function from data
 #'
 #' These functions create mathematical functions from data, by smoothing, splining, or linear
 #' combination (fitting).  Each of them takes a formula and a data frame as an argument
@@ -28,7 +28,6 @@
 #' currently work for only one input variable.
 #'
 #' @seealso \code{\link{project}} method for formulas
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @examples
 #' cps <- fetchData("CPS.csv")

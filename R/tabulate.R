@@ -139,7 +139,7 @@ rows <- function(x, default=c()) {
 #' data(CPS)
 #' cps <- CPS[1:6,]
 #' cps
-#' evalFormula( wage ~ sex & married & age | sector & race , data=cps)
+#' evalFormula(wage ~ sex & married & age | sector & race, data=cps)
 
 evalFormula <- function(formula, data=parent.frame()) {
 	# could make this an S4 object instead

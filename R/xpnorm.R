@@ -20,7 +20,6 @@
 #' @param \dots additional arguments.
 #' 
 #' 
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' @seealso \code{\link{histogram}}, 
 #' \code{\link{chisq.test}}, 
 #' \code{\link{pnorm}}, 

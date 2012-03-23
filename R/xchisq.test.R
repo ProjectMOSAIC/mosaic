@@ -5,7 +5,6 @@
 #'
 #' @param \dots Arguments passed directly to \code{\link{chisq.test}}.
 #' 
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
 #' @seealso \code{\link{chisq.test}} 
 #' 

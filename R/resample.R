@@ -49,8 +49,6 @@ rflip <- function(n=1, prob=.5, quiet=FALSE, verbose = !quiet) {
 #' @rdname rflip
 #' @param x an object 
 #' @param \dots additional arguments
-#' @export 
-
 
 print.cointoss <- function(x, ...) {
 	heads <- as.numeric(x)

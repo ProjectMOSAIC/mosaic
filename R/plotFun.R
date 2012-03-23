@@ -2,7 +2,6 @@
 #'
 #' Plots mathematical expressions in one and two variables.  
 #'
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #' @rdname plotFun
 #' @name plotFun
 #' @aliases plotFun
@@ -410,8 +409,8 @@ panel.plotFun <- function( object, ...,
 #'
 #' If multiple \code{variants} are matched, the first is used.
 #' @examples
-#' inferArgs( c('x','u','t'), list(t=c(1,3), x.lim=c(1,10), u=c(1,3), u.lim=c(2,4) ) )
-#' inferArgs( c('x','u'), list(u=c(1,3)), defaults=list(xlim=c(0,1), ylim=NULL)  ) 
+#' inferArgs(c('x','u','t'), list(t=c(1,3), x.lim=c(1,10), u=c(1,3), u.lim=c(2,4)))
+#' inferArgs(c('x','u'), list(u=c(1,3)), defaults=list(xlim=c(0,1), ylim=NULL)) 
 
 
 inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants=c('.lim','lim') ) {

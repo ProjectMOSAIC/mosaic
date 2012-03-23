@@ -10,7 +10,6 @@
 #' For \code{ilogit} the value is 
 #' \deqn{exp(x)/(1 + exp(x))}
 #' 
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
 #' @export
 #' @examples

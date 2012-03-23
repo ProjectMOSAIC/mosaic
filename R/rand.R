@@ -14,8 +14,6 @@
 #' @return A matrix of random variates with \code{df} columns.  
 #' In its intended use, the number of rows will be selected to match the 
 #' size of the data frame supplied to \code{lm}
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
-#' and Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
 #' @export
 #' @examples

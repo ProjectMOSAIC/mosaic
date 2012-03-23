@@ -6,7 +6,6 @@
 #' least-squares fit.
 #'
 #' @return a function
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #' 
 #' @param formula formula specifying the model
 #' @param data dataframe containing the data to be used

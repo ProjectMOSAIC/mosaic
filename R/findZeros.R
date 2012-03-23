@@ -29,7 +29,6 @@
 #' @return A set of zero or more numerical values.  Plugging these into the
 #' expression on the left side of the formula should result in values near zero.
 #'
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu}) 
 #' 
 #' @export
 #' @examples

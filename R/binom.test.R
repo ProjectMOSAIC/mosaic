@@ -29,7 +29,6 @@
 #' to simplify its use when the raw data are available, in which case 
 #' an extended syntax for \code{binom.test} is provided.
 #' 
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #'
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
 #' 

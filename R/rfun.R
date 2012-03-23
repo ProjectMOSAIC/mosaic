@@ -20,7 +20,6 @@
 #' @name rfun
 #' @keywords random
 #' @aliases rfun rpoly2
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #'
 #' @examples
 #' f <- rfun( ~ u & v)
@@ -95,21 +94,56 @@ rfun <- function(vars=~x&y, seed=NULL, n=0) {
  
 #' random 2nd degree polynomials
 #'
-#' \code{rpoly2} generates a random 2nd degree poly of 2 vars (as a function)
+#' \code{rpoly2} generates a random 2nd degree poly  (as a function)
 #'
 #' @rdname rfun
 #' @inheritParams rfun
 #'
-#' @return a function defined by a 2nd degree polynomial of 2 variables
+#' @return a function defined by a 2nd degree polynomial
 #' with coefficients selected randomly according to a Unif(-1,1) distribution.
 #'
 #' @keywords random
 
-rpoly2 <- function(seed=NULL){
+rpoly2 <- function(vars=~x&y,seed=NULL){
   if( !is.null(seed) ) set.seed(round(seed))
-  coefs <- runif(5,min=-1,max=1)
-  f <- function(x,y){
-    x*coefs[1] + y*coefs[2] + x*y*coefs[3] + x^2*coefs[4] + y^2*coefs[5]
+  if( class(vars) != "formula" )
+    stop("Must provide a formula, e.g. ~x&y, to identify the variables")
+  varnames <- all.vars(vars)
+  if( length(vars)==2) {
+    # no left-hand side of the formula (as is sensible)
+    # So put a placeholder on the left-hand side
+    vars[[3]] = vars[[2]]
+    vars[[2]] = as.name(varnames[1])
   }
-  return(f)
+  fres = makeFunction(vars) # function to return
+  
+  # construct the body of a function
+  nvars <- length(varnames)
+  # How many coefficients in a 2nd-order polynomial (without intercept)?
+  constantval = runif(1,min=-1,max=1)
+  coefslin <- runif(nvars,min=-1,max=1)
+  coefsquad <- runif(nvars,min=-1,max=1)
+  coefscross <- matrix(runif(nvars*nvars, min=-1,max=1),nrow=nvars)
+  f <- function() {
+    givenvars <- as.list(match.call())[-1] # arguments as a list
+    if( nvars != length(givenvars)) 
+      stop("Not all inputs specified.")
+    for( k in 1:nvars )
+      givenvars[[k]] <- eval.parent(givenvars[[k]],n=1)
+    res <- constantval    
+    for (k in 1:nvars) {
+      x <- givenvars[[k]]
+      res <-  res + coefslin[k]*x + coefsquad[k]*x^2
+      if( k<(nvars-1)){
+        for (j in (k+1):nvars) {
+          res <- res + coefscross[k,j]*x*givenvars[[j]]
+        }
+      }
+    }
+    return(res)
+    }
+  
+  body(fres) <- body(f)
+  environment(fres) <- environment()
+  return(fres)
 }

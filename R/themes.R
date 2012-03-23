@@ -12,7 +12,6 @@
 #' similarly to \code{\link[lattice]{col.whitebg}}, but since more 
 #' than just colors are set, \code{theme.mosaic} is a preferable name.
 #'
-#' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #'
 #' @seealso \code{\link{trellis.par.set}}, \code{\link{show.settings}} 
 #' 
