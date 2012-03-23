@@ -25,6 +25,9 @@
 #' f <- rfun( ~ u & v)
 #' plotFun(f(u,v)~u&v,u=range(-5,5),v=range(-5,5))
 #' myfun <- rfun(~ u & v, seed=1959)
+#' g <- rpoly2( ~ x&y&z, seed=1964)
+#' plotFun(g(x,y,z=2)~x&y,xlim=range(-5,5),ylim=range(-5,5))
+#' 
 rfun <- function(vars=~x&y, seed=NULL, n=0) {
   if( !is.null(seed) ) set.seed(seed)
   if( class(vars) != "formula" )
@@ -112,15 +115,15 @@ rpoly2 <- function(vars=~x&y,seed=NULL){
   if( length(vars)==2) {
     # no left-hand side of the formula (as is sensible)
     # So put a placeholder on the left-hand side
-    vars[[3]] = vars[[2]]
-    vars[[2]] = as.name(varnames[1])
+    vars[[3]] <- vars[[2]]
+    vars[[2]] <- as.name(varnames[1])
   }
-  fres = makeFunction(vars) # function to return
+  fres <- makeFunction(vars) # function to return
   
   # construct the body of a function
   nvars <- length(varnames)
   # How many coefficients in a 2nd-order polynomial (without intercept)?
-  constantval = runif(1,min=-1,max=1)
+  constantval <- runif(1,min=-1,max=1)
   coefslin <- runif(nvars,min=-1,max=1)
   coefsquad <- runif(nvars,min=-1,max=1)
   coefscross <- matrix(runif(nvars*nvars, min=-1,max=1),nrow=nvars)
