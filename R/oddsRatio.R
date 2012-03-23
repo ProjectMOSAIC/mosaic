@@ -12,7 +12,7 @@
 #' 
 #' This function calculates the odds ratio for a 2 X 2 contingency table and a
 #' confidence interval (default \code{conf.level} is 95 percent) for the
-#' estimated odds ratio. \code{x} should be a matrix or data.frame. "Successes"
+#' estimated odds ratio. \code{x} should be a matrix, data frame or table. "Successes"
 #' should be located in column 1 of \code{x}, and the treatment of interest
 #' should be located in row 2. The odds ratio is calculated as (Odds row 2) /
 #' (Odds row 1). The confidence interval is calculated from the log(OR) and
@@ -20,7 +20,7 @@
 #' 
 #' 
 #' @rdname oddsRatio
-#' @param x a 2 X 2 matrix or data.frame of counts
+#' @param x a 2 X 2 matrix, data frame or table of counts
 #' @param conf.level the confidence interval level
 #' @return \item{p1, p2}{Proportions for rows 1 and 2} \item{o1, o2}{Odds for
 #' rows 1 and 2} \item{OR}{Odds ratio} \item{lower}{the lower bound of the

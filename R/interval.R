@@ -20,8 +20,8 @@
 #' # Compare to test statistic computed with permuted values of sex.
 #' do(10) * stat(t.test (age ~ shuffle(sex), HELPrct))
 #' 
-#' @keywords univar 
 #' @keywords stats 
+#' @keywords inference 
 #' 
 
 interval <- function(x, ...){UseMethod("interval", x)}
@@ -53,6 +53,8 @@ interval.htest <- function (x, verbose=FALSE, ...){
 }
 
 #' @rdname interval
+#' @keywords stats 
+#' @keywords inference 
 pval <- function(x, ...){UseMethod("pval", x)}
 
 #' @rdname interval
@@ -111,6 +113,8 @@ pval.htest <- function (x, digits=4, verbose=FALSE, ...){
 }
 
 #' @rdname interval
+#' @keywords stats 
+#' @keywords inference 
 stat <- function(x,...) { UseMethod("stat", x)}
 
 #' @rdname interval

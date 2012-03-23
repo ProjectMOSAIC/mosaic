@@ -17,18 +17,20 @@
 #' from data.
 #'
 #' 
-#' @export
-#' 
-#' @keywords distribution 
 #'
-#'\code{qdata} is a wrapper around \code{\link{quantile}} that makes the syntax more like 
+#' \code{qdata} is a wrapper around \code{\link{quantile}} that makes the syntax more like 
 #' the syntax for quantiles from theoretical distributions
+
 #'
 #' @param p a vector of probabilities
 #' @param vals a vector containing the data
 #' @param data a data frame in which to evaluate vals
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
 #' @return For \code{qdata}, a vector of quantiles
+#' @export
+#' 
+#' @keywords distribution 
+
 #' @rdname pqrdata
 #'
 #' @examples
