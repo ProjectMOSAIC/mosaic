@@ -19,9 +19,10 @@
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
 \author{Daniel Kaplan}
-\date{March 15, 2012}
+\date{March 23, 2012}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 
 <<setup,echo=FALSE,message=FALSE>>=
@@ -81,15 +82,15 @@ The native syntax also has problems. In the example above, the parameters \textt
 
 For many years I taught introductory using the native function-creation syntax, trying to finesse the matter of scoping by avoiding the use of symbolic parameters.  This sent the wrong message to students: they concluded that computer notation was not as flexible as traditional notation. 
 
-In the \texttt{mosaic} calculus operators we provide a simple means to step around scoping issues while retaining the use of symbolic parameters. Here's an example using the \texttt{makeFunction()} operator from \texttt{mosaic}.  
+In the \texttt{mosaic} calculus operators we provide a simple means to step around scoping issues while retaining the use of symbolic parameters. Here's an example using the \texttt{makeFun()} operator from \texttt{mosaic}.  
 <<>>=
-f <- makeFunction(m*x + b ~ x)
+f <- makeFun(m*x + b ~ x)
 @
 One difference is that the input variable is identified using the R \verb+~+ syntax: the "body" of the function is on the left of \verb+~+ and the input variable to the right.
 
-This is perhaps a slightly cleaner notation than \texttt{function}, and indeed my experience with introductory calculus students is that they make many fewer errors with the \texttt{makeFunction()} notation.
+This is perhaps a slightly cleaner notation than \texttt{function}, and indeed my experience with introductory calculus students is that they make many fewer errors with the \texttt{makeFun()} notation.
 
-More important, though, \texttt{makeFunction()} provides a simple framework for scoping of symbolic parameters: they are all explicit arguments to the function being created.  You can see this by examining the function itself:
+More important, though, \texttt{makeFun()} provides a simple framework for scoping of symbolic parameters: they are all explicit arguments to the function being created.  You can see this by examining the function itself:
 <<>>=
 f
 @
@@ -100,7 +101,7 @@ f(x=2, m=3.5, b=10)
 @
 Typically, you will assign values to the symbolic parameters at the time the function is created:
 <<>>=
-f <- makeFunction(m*x + b~x, m=3.5, b=10)
+f <- makeFun(m*x + b~x, m=3.5, b=10)
 @
 This allows the function to be used as if the only input were \texttt{x}, while allowing the roles of the parameters to be explicit and self-documenting and enabling the parameters to be changed later on.
 <<>>=
@@ -110,7 +111,7 @@ The variable \texttt{pi} is handled differently; it's always treated as the numb
 
 In general, functions can have more than one input.  The \texttt{mosaic} package handles this using an obvous extension to the notation:
 <<>>=
-g <- makeFunction(A*x*sin(x*y)~x&y, A=10)
+g <- makeFun(A*x*sin(x*y)~x&y, A=10)
 g
 @
 
@@ -119,7 +120,7 @@ In evaluating functions with multiple inputs, it's helpful to use the variable n
 g(x=0.2,y=3)
 @
 
-Mathematically, the \texttt{makeFunction()} notation highlights the distinction between parameters and inputs to functions.  It allows the inputs to be identified explicitly, but it also does not enforce an artificial distinction between parameters and "inputs."  Sometimes, you want to study what happens as you vary a parameter.
+Mathematically, the \texttt{makeFun()} notation highlights the distinction between parameters and inputs to functions.  It allows the inputs to be identified explicitly, but it also does not enforce an artificial distinction between parameters and "inputs."  Sometimes, you want to study what happens as you vary a parameter.
 
 It also introduces the \verb+~+ notation early and in a fundamental way.  The \texttt{mosaic} package builds on this to enhance functionality while maintaining a common theme.  In addition, the notation sets students up for a natural transition to functions of multiple variables.
 
@@ -177,7 +178,7 @@ The lighter region shows where the constraint is satisfied.
 Note also that a high resolution (\texttt{npts=300}) was used for plotting the constraint.  At the default resolution, such contraints are often distractingly chunky.
 
 
-The \texttt{mosaic} graphics operators are built on \texttt{lattice} but provide an interface similar to that of \texttt{makeFunction()}.
+The \texttt{mosaic} graphics operators are built on \texttt{lattice} but provide an interface similar to that of \texttt{makeFun()}.
 
 <<>>=
 plotFun( dt(t,df)~t&df, t.lim=range(-3,3), df.lim=range(1,10))
@@ -559,6 +560,8 @@ With time, it's likely that more symbolic capabilities will be picked up in the 
 The \texttt{mosaic} package is one of the initiatives of Project MOSAIC, an NSF-sponsored\footnote{NSF DUE 0920350} project that aims to make stronger connections among modeling, statistics, computation, and calculus in the undergraduate curriculum.
 
 
+\end{document}
+
 A quantitative curriculum with data and statistics at the center.  Modeling, linear algebra, interpretation.
 
 Teaching computation.  What does it mean to teach computation?  Sensitivity to syntax and the structure of computer commands.  The idea of assignment and sequences of steps.  For statistics: summarization, iteration, randomization, accumulation.  Identification of the ``types'' of objects: numbers, functions, vectors.
@@ -595,11 +598,3 @@ The name of the first general-purpose electronic computer, ENIAC, announced in 1
 
 Imagine a negotiation where the science/mathematics curriculum were being devised {\em de novo}.  What arguments would proponents of calculus be able to bring to the table to support allocating student time and energy to calculus?  Point to the value of l'Hopital's rule in science?  Hardly.  Argue that trigonometric substitution is the foundation of physics?  No.  Instead, they might reasonably claim that calculus provides an important way to describe the world, that calculus concepts (differentiation, partial derivatives, accumulation, ...) are important in analyzing systems and in understanding approximation, that calculus helps in modeling.  There are important ways in which calculus supports statistics.  These have to do with modeling, approximation, and optimization and not so much with ``area under a curve.''
 
- 
-
-
-
-
-
-
-\end{document}

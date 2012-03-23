@@ -119,7 +119,7 @@ rpoly2 <- function(vars=~x&y,seed=NULL){
     vars[[3]] <- vars[[2]]
     vars[[2]] <- as.name(varnames[1])
   }
-  fres <- makeFunction(vars) # function to return
+  fres <- makeFun(vars) # function to return
   
   # construct the body of a function
   nvars <- length(varnames)

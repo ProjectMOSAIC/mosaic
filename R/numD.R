@@ -28,7 +28,7 @@
 #' 
 #' @note WARNING: In the expressions, do not use variable names beginning with a dot, particularly \code{.f} or \code{.h}
 #'
-#' @seealso \code{\link{D}}, \code{\link{symbolicD}}, \code{\link{makeFunction}}, \code{\link{antiD}}, \code{\link{plotFun}}
+#' @seealso \code{\link{D}}, \code{\link{symbolicD}}, \code{\link{makeFun}}, \code{\link{antiD}}, \code{\link{plotFun}}
 #'
 #' @examples
 #' g = numD( a*x^2 + x*y ~ x, a=1)
@@ -52,7 +52,7 @@
 numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
   formulaEnv = environment(formula) # where did the formula come from?
   # translate the formula into a function
-  f <- makeFunction(formula, ...)
+  f <- makeFun(formula, ...)
   environment(f) <- formulaEnv  # was parent.frame()
   # find the variables with respect to which the derivative is to be taken
   # keeping repeated names so that 2nd derivs can be spotted.

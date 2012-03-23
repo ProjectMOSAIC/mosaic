@@ -19,7 +19,7 @@
 #' The \code{.order} argument is just for convenience when programming
 #' high-order derivatives, e.g. the 5th derivative w.r.t. one variable.
 #'
-#' @seealso \code{\link{D}}, \code{\link{numD}}, \code{\link{makeFunction}}, \code{\link{antiD}}, \code{\link{plotFun}}
+#' @seealso \code{\link{D}}, \code{\link{numD}}, \code{\link{makeFun}}, \code{\link{antiD}}, \code{\link{plotFun}}
 #'
 #' @examples
 #' symbolicD( a*x^2 ~ x)
@@ -38,12 +38,12 @@ symbolicD <- function(formula, ..., .order=NULL ) {
   if( !is.null(.order)) {
     if( .order < 0 | .order != round(.order)) 
       stop("Derivative of negative or fractional order not available.")
-    else if(.order==0) return(makeFunction(formula, ...))
+    else if(.order==0) return(makeFun(formula, ...))
     # Set up list appropriately for order of the derivative.
     wrtNames <- rep(wrtNames[1], round(.order))
   }
   # Create a holder for the output function.
-  #res = makeFunction( formula, ... )
+  #res = makeFun( formula, ... )
   # Basing the holder on the original "formula" 
   # will allow formal parameters which disappear 
   # in the derivative creation process
@@ -54,13 +54,13 @@ symbolicD <- function(formula, ..., .order=NULL ) {
   
   # This doesn't work: It loses parameters which disappear in the differentiation
   # formula[[2]] <- df
-  # res = makeFunction( formula, ..., strict.declaration=FALSE)
+  # res = makeFun( formula, ..., strict.declaration=FALSE)
   # Here, keep all such parameters
   # Example: symbolicD( x+y~y) should give back function(x,y)1
-  # but makeFunction gives back function(y) 1
+  # but makeFun gives back function(y) 1
 
   # Instead
-  res = makeFunction( formula, ... )
+  res = makeFun( formula, ... )
   body(res) <- df
   # the function should come from the same place as the formula
   environment(res) = formulaEnv

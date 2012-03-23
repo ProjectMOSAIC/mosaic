@@ -82,14 +82,14 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
 #' F(t.from=-Inf, t.to=0)
 #' F(t.from=-Inf, t.to=Inf)
-#' one = makeFunction(1~x&y)
+#' one = makeFun(1~x&y)
 #' by.x = antiD( one(x=x, y=y) ~x )
 #' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
 #' by.xy(y.from=-1, y.to=1)
 antiD <- function(formula, ...){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
-  f <- makeFunction(formula, ..., strict.declaration=FALSE)
+  f <- makeFun(formula, ..., strict.declaration=FALSE)
   # NOTE: Don't use NULL as the default value.  Non-NULL is needed
   # so that the argument list gets created appropriately. So use NaN
   vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 

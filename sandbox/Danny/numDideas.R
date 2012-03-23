@@ -28,7 +28,7 @@
 #' 
 #' @Note WARNING: In the expressions, do not use variable names beginning with a dot, particularly \code{.f} or \code{.h}
 #'
-#' @seealso \code{\link{D}}, \code{\link{symbolicD}}, \code{\link{makeFunction}}, \code{\link{antiD}}, \code{\link{plotFun}}
+#' @seealso \code{\link{D}}, \code{\link{symbolicD}}, \code{\link{makeFun}}, \code{\link{antiD}}, \code{\link{plotFun}}
 #'
 #' @examples
 #' g = numD( a*x^2 + x*y ~ x, a=1)
@@ -52,7 +52,7 @@
 numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
   formulaEnv = environment(formula) # where did the formula come from?
   # translate the formula into a function
-  f <- makeFunction(formula, ...)
+  f <- makeFun(formula, ...)
   environment(f) <- formulaEnv  # was parent.frame()
   # find the variables with respect to which the derivative is to be taken
   # keeping repeated names so that 2nd derivs can be spotted.
@@ -148,7 +148,7 @@ numerical.mixed.partial = function(f,var1,var2,h,av){
 
 
 ### TESTS ####
-testf = makeFunction(a*x^2 ~x, a=1)
+testf = makeFun(a*x^2 ~x, a=1)
 testg = numD(testf(f)~f)
 
 do.tests = function(){
@@ -179,7 +179,7 @@ do.tests = function(){
   if(too.different(gg(3), 180, tol=.01)) stop("Test 5a")
   if(too.different(ggg(3), 60, tol=.01)) stop("Test 5b")
   # Function composition
-  ff = makeFunction( sin(x)~x )
+  ff = makeFun( sin(x)~x )
   h = numD( ff(x)~x )
   hh = numD( sin(y)*ff(y)~y )
   if(too.different( hh(y=3), 2*sin(3)*cos(3))) stop("Test 6a")

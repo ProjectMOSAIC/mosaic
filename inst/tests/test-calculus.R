@@ -91,11 +91,11 @@ test_that("derivatives work in derivatives",{
 
 test_that("integrals work in other functions", {
   f <- antiD( a~x, a=10 )
-  h <- makeFunction(f(x)~x)
+  h <- makeFun(f(x)~x)
   expect_that( h(4), equals(f(4)))
-  h <- makeFunction(f(x.to=x,a=100)~x)
+  h <- makeFun(f(x.to=x,a=100)~x)
   expect_that( h(4), equals(f(4,a=100)))
-  h <- makeFunction(f(x.to=x,a=a)~x,a=20)
+  h <- makeFun(f(x.to=x,a=a)~x,a=20)
   expect_that( h(4),equals(f(4,a=20)))
 })
 
@@ -106,7 +106,7 @@ test_that("integrals and derivatives interoperate", {
 })
 
 test_that("integrals work on integrals", {
-  one <- makeFunction(1~x&y)
+  one <- makeFun(1~x&y)
   by.x <- antiD( one(x=x, y=y) ~x )
   by.xy <- antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
   expect_that( by.xy(y.from=-1, y.to=1), equals(pi,tol=0.00001))
@@ -143,7 +143,7 @@ test_that("Derivatives can be iterated.",{
 })
 
 test_that("Derivatives can be composed.",{
-  ff <- makeFunction( sin(x)~x )
+  ff <- makeFun( sin(x)~x )
   h <- numD( ff(x)~x )
   hh <- numD( sin(y)*ff(y)~y )
   expect_that(hh(y=3), equals(2*sin(3)*cos(3),tol=0.0001))

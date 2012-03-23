@@ -74,7 +74,7 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 antiD <- function(formula, ...){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
-  f <- makeFunction(formula, ..., strict.declaration=FALSE)
+  f <- makeFun(formula, ..., strict.declaration=FALSE)
   # NOTE: Don't use NULL as the default value.  Non-NULL is needed
   # so that the argument list gets created appropriately
   vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 

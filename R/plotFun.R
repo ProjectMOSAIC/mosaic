@@ -90,7 +90,7 @@ plotFun <- function(object, ..., add=FALSE,
 	# not sure whether this precaution is necessary in current implementation
 
 	# perhaps use environment(object)?
-	..f.. <- do.call( "makeFunction", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+	..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
 
 	vars <- formals(..f..)
 	rhsVars <- all.vars(rhs(object))
@@ -324,7 +324,7 @@ panel.plotFun <- function( object, ...,
   # not sure whether this precaution is necessary in current implementation
  
   # perhaps use environment(object)?
-  ..f.. <- do.call( "makeFunction", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+  ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
 
   vars <- formals(..f..)
   rhsVars <- all.vars(rhs(object))

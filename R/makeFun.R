@@ -18,25 +18,25 @@
 #' appear in an unspecified order.
 #' 
 #' @examples
-#' f <- makeFunction( sin(x^2 * b) ~ x & y & a); f
-#' g <- makeFunction( sin(x^2 * b) ~ x & y & a, a=2 ); g
-#' h <- makeFunction( a * sin(x^2 * b) ~ b & y, a=2, y=3); h
+#' f <- makeFun( sin(x^2 * b) ~ x & y & a); f
+#' g <- makeFun( sin(x^2 * b) ~ x & y & a, a=2 ); g
+#' h <- makeFun( a * sin(x^2 * b) ~ b & y, a=2, y=3); h
 
 setGeneric(
-		   "makeFunction",
+		   "makeFun",
 		   function( object, ... )
 		   {
-			   standardGeneric('makeFunction')
+			   standardGeneric('makeFun')
 		   }
 		   )
 
-#' @rdname makeFunction
-#' @aliases makeFunction,formula-method
+#' @rdname makeFun
+#' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
 
 setMethod(
-  'makeFunction',
+  'makeFun',
   'formula',
   function( object, ..., strict.declaration =TRUE ) {
 	  sexpr <- object 
@@ -80,16 +80,16 @@ setMethod(
   }
 )
 
-#' @rdname makeFunction
-#' @aliases makeFunction,lm-method
+#' @rdname makeFun
+#' @aliases makeFun,lm-method
 #' @examples
 #' model <- lm( wage ~ poly(exper,degree=2), data=CPS )
-#' fit <- makeFunction(model)
+#' fit <- makeFun(model)
 #' xyplot( wage ~ exper, data=CPS)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 setMethod(
-  'makeFunction',
+  'makeFun',
   'lm',
    function( object, ... ) {
 	  vars <- model.vars(object)
