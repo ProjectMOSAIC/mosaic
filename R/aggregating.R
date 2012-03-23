@@ -672,7 +672,7 @@ setMethod(
 			names(result) <- paste('count', level, sep=".")
 			return(result)
 		} else {
-			stop('Invalid formula type.  Perhaps you should try mtable().')
+			stop('Invalid formula type.  Perhaps you should try tally().')
 			return( maggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
 		} 
 	}
@@ -771,7 +771,7 @@ setMethod(
 			names(result) <- paste('prop', level, sep=".")
 			return(result)
 		} else {
-			stop('Invalid formula type.  Perhaps you should try mtable().')
+			stop('Invalid formula type.  Perhaps you should try tally().')
 			return( maggregate( x, data, FUN=count, ..., level=level, na.rm=na.rm ) )
 		} 
 	}

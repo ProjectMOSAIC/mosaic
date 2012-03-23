@@ -10,6 +10,7 @@
 #' @return the difference in means between the second and first group
 #' @seealso \code{\link{do}}, \code{\link{compareProportion}} and \code{\link{shuffle}}
 #' @keywords iteration
+#' @keywords stats
 #' @export
 #' @examples
 #' data(HELPrct)
