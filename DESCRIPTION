@@ -83,3 +83,4 @@ Collate:
     'compareProportion.R'
     'numD.R'
     'symbolicD.R'
+    'fetchGoogle.R'
