@@ -47,12 +47,12 @@
 #' project(x, 1, type='length')
 #' mat(~a+b)
 #' mat(~a+b+1)
-#' kids = fetchData("KidsFeet.csv")
-#' mat(~length+sex,data=kids)
+#' data(KidsFeet)
+#' mat(~length+sex, data=KidsFeet)
 #' project(a~b)
-#' project(width~length+sex,data=kids)
-#' project(log(width)~I(length^2)+sin(length)+sex,data=kids)
-#' singvals(~length*sex*width,data=kids)
+#' project(width~length+sex, data=KidsFeet)
+#' project(log(width) ~ I(length^2)+sin(length)+sex, data=KidsFeet)
+#' singvals(~length*sex*width, data=KidsFeet)
 
 mat <- function(A, data=NULL) {
   if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")

@@ -10,7 +10,7 @@
 #' format
 #' @param ... additional arguments to be passed to or from methods.
 #' @return An \code{xtabs} object.
-#' @keywords manip
+#' @keywords manipulate
 #' @rdname as-xtabs
 #' @export
 #' @examples

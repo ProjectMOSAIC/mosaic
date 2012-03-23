@@ -28,7 +28,7 @@
 #' interval} \item{conf.level}{the confidence interval level}
 #' @author Kevin Middleton (\email{kmm@@csusb.edu})
 #' @seealso \code{\link{chisq.test}}
-#' @keywords univar
+#' @keywords stats
 #' @export
 #' @examples
 #' M1 <- matrix(c(14, 38, 51, 11), nrow = 2)
