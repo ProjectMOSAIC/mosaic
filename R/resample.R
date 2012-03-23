@@ -102,7 +102,7 @@ resample <- function(x, size, replace=TRUE, prob=NULL, groups=NULL, orig.ids=FAL
 #' @rdname resample
 #' @export
 #' @examples
-#' deal(Cards,13)    # A Bridge hand
+#' deal(Cards, 13)    # A Bridge hand
  
 deal    <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) {
 	sample(x, size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids )
