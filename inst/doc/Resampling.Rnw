@@ -105,20 +105,20 @@ package must be loaded so that it is available (this must be done within each R 
 <<setup>>=
 require(mosaic)
 options(digits=3)
-numsim <- 250  
+numsim <- 1000
 @ 
 
 This command would typically be provided in a set-up file for students so that it's executed automatically each time an R session is started.  Next we load two of the datasets that will be used in the examples.
 
 <<eval=TRUE>>=
-mustangs = read.csv("MustangPrice.csv")
-sleep = read.csv("SleepCaffeine.csv")
+mustangs <- read.csv("MustangPrice.csv")
+sleep <- read.csv("SleepCaffeine.csv")
 @ 
 
 These datasets can also be accessed over the internet using the following {\tt mosaic} commands:
 <<eval=FALSE>>=
-mustangs = fetchData("MustangPrice.csv")
-sleep = fetchData("SleepCaffeine.csv")
+mustangs <- fetchData("MustangPrice.csv")
+sleep <- fetchData("SleepCaffeine.csv")
 @
 
 \section{Resampling in different settings}
@@ -158,7 +158,7 @@ with(resample(mustangs), mean(Price))
 @ 
 Let's generate five more:
 <<>>=
-trials = do(5) * with(resample(mustangs), mean(Price))
+trials <- do(5) * with(resample(mustangs), mean(Price))
 trials
 @
 
@@ -166,7 +166,7 @@ Now conduct \Sexpr{numsim} resampling trials, saving the results in an object
 called \texttt{trials}:
 <<>>=
 numsim
-trials = do(numsim) * with(resample(mustangs), mean(Price))
+trials <- do(numsim) * with(resample(mustangs), mean(Price))
 @ 
 This creates a new set of data with the result from each of the {\tt numsim} $=\Sexpr{numsim}$ trials.
 
@@ -184,8 +184,8 @@ Alternatively, the standard error from this distribution can be used to estimate
 error.  First calculate the t (or z) multiplier
 for the appropriate degrees of freedom:
 <<tstar>>=
-tstar = qt(.95, df=24)
-zstar = qnorm(.95)
+tstar <- qt(.95, df=24)
+zstar <- qnorm(.95)
 @ 
 The resulting
 margin of error will be
@@ -245,7 +245,7 @@ do(1) * rflip(428)
 We'll do \Sexpr{numsim} trials, and count what fraction of the trials the
 winner (say, ``heads'') wins 240 or more:
 <<flips1>>=
-trials = do(numsim) * rflip(428)
+trials <- do(numsim) * rflip(428)
 proptable(trials$heads >= 240)
 @
 <<flips,fig=true,pdf=true,width=4,height=4>>=
@@ -277,7 +277,7 @@ sleep
 The Sleep group seems to have remembered somewhat more words on average:
 <<obsmean>>=
 mean(Words ~ Group, data=sleep)
-obs = diff(mean(Words ~ Group, data=sleep))
+obs <- diff(mean(Words ~ Group, data=sleep))
 obs
 @ 
 
@@ -299,7 +299,7 @@ To get the distribution under the null
 hypothesis, we carry out many trials:
 
 <<sleep,pdf=true,fig=true,width=4,height=4>>=
-trials = do(numsim) * diff(mean(Words ~ shuffle(Group), data=sleep))
+trials <- do(numsim) * diff(mean(Words ~ shuffle(Group), data=sleep))
 xhistogram(~ Sleep, groups = Sleep >= obs, data=trials,
   xlab="Distribution of difference in means\nunder the null hypothesis")
 @ 
@@ -318,14 +318,14 @@ We can undertake a test of difference in two proportions, in this case, the prop
 <<>>=
 with(HELPrct, table(homeless, sex))
 mean(homeless=="housed" ~ sex, data=HELPrct)
-obs = diff(mean(homeless=="housed"~ sex, data=HELPrct))
+obs <- diff(mean(homeless=="housed"~ sex, data=HELPrct))
 obs  # observed value
 @
 
 We will use the same general approach to empirically calculate the null distribution by permuting the labels for the grouping variable.
 <<>>=
 # compute permutation distribution
-nulldist = do(numsim) * diff(mean(homeless=="housed" ~ shuffle(sex), data=HELPrct))
+nulldist <- do(numsim) * diff(mean(homeless=="housed" ~ shuffle(sex), data=HELPrct))
 @
 
 <<diffprop,fig=true,pdf=true,width=4,height=4>>=
@@ -346,8 +346,8 @@ with(mustangs, cor(Price, Miles))
 @
 
 <<>>=
-trials = do(numsim) * with(resample(mustangs), cor(Price, Miles))
-quantiles = qdata(c(.025, .975), trials$result); quantiles
+trials <- do(numsim) * with(resample(mustangs), cor(Price, Miles))
+quantiles <- qdata(c(.025, .975), trials$result); quantiles
 @
 
 <<cor,fig=true,pdf=true,width=4,height=4>>=
@@ -361,7 +361,7 @@ But there's no reason to restrict oneself to the correlation: we can also
 fit the linear model and consider the coefficients themselves:
 <<miles,fig=true,pdf=true,width=4,height=4>>=
 do(1) * lm(Price ~ Miles, data=mustangs)
-trials = do(numsim) * lm(Price ~ Miles, data=resample(mustangs))
+trials <- do(numsim) * lm(Price ~ Miles, data=resample(mustangs))
 xhistogram(~ Miles, data=trials)
 sd(trials) # standard errors
 @ 
