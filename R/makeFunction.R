@@ -12,7 +12,7 @@
 #' @details
 #' The definition of the function is given by the left side of a formula.  The right
 #' side lists at least one of the inputs to the function.
-#' The inptus to the function are all variables appearing on either the left 
+#' The inputs to the function are all variables appearing on either the left 
 #' or right sides of the formula.  Those appearing in the right side will 
 #' occur in the order specified.  Those not appearing in the right side will
 #' appear in an unspecified order.
