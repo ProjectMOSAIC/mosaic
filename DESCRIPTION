@@ -9,7 +9,8 @@ Depends:
     grid,
     methods,
     Hmisc,
-    utils
+    utils,
+	RCurl
 Suggests:
     MASS,
     reshape2,
