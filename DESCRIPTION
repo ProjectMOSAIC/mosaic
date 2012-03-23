@@ -10,7 +10,7 @@ Depends:
     methods,
     Hmisc,
     utils,
-	RCurl
+    RCurl
 Suggests:
     MASS,
     reshape2,
