@@ -43,11 +43,16 @@
 #' 
 #' @rdname fetchGoogle
 #' @name fetchGoogle
-#' @author Daniel Kaplan (\email{kaplan@macalester.edu})
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#' 
+#' @export
 #' 
 #' @examples
 #' \dontrun{s = fetchGoogle("https://spreadsheets.google.com/spreadsheet/pub?hl=en&hl=en&key=0Am13enSalO74dEVzMGJSMU5TbTc2eWlWakppQlpjcGc&single=TRUE&gid=0&output=csv")}
 #' \dontrun{s = fetchGoogle(key="0Am13enSalO74dEVzMGJSMU5TbTc2eWlWakppQlpjcGc")}
+#' 
+
+
 fetchGoogle = function(URL,key=NULL){
   if( !require("RCurl")) {
     stop("Requires installation of RCurl package")
