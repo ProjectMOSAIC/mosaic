@@ -33,6 +33,7 @@
 #' do(3) * 1:4
 #' do(3) * mean(rnorm(25))
 #' do(3) * c(mean = mean(rnorm(25)))
+#' do(3) * tally( ~sex|treat, data=resample(HELPrct))
 #' 
 #' @keywords iteration 
 #' 
@@ -170,7 +171,18 @@ if(FALSE) {
 #' @return an object reflecting some of the information contained in \code{object}
 
 .cull_for_do = function(object) {
-
+  if (any(class(object)=='table')){
+    result <- data.frame(object)
+    res <- result[[ncol(result)]]
+    nms <- as.character(result[[1]])
+    if (ncol(result) > 2) {
+      for (k in 2:(ncol(result)-1)) {
+        nms <- paste(nms, result[[k]],sep=".")
+      }
+    }
+    names(res) <- nms
+    return(res)
+  }
 	if (any(class(object)=='aggregated.stat')) {
 		result <- object
 		res <- as.vector(result[, "S"])  # ncol(result)]
