@@ -1,3 +1,16 @@
+
+
+.fetchFromDots <- function( dots, name, class='data.frame', n=1, default=NULL ) {
+	result <- dots[[name]]
+	if (is.null(result)) {
+		if (length(result) < n) return(default)
+		result <- dots[[n]]
+		if (! inherits(result, 'class') ) result <- default
+	}
+	return(result)
+}
+
+
 #' Aggregating summary statistics
 #' 
 #' These drop-in replacements and new summary statistics functions are 
@@ -46,11 +59,11 @@
 
 #' @rdname aggregating-methods
 #' @export
-#' @usage mean(x, ..., na.rm=TRUE, trim=0)
+#' @usage mean(x, ..., na.rm=FALSE, trim=0)
 
 setGeneric( 
 	"mean", 
-	function(x, ..., na.rm=TRUE, trim=0)  {
+	function(x, ..., na.rm=FALSE, trim=0)  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -71,7 +84,7 @@ setGeneric(
 setMethod(
 	'mean',
 	'ANY',
-	function(x, ..., na.rm=TRUE, trim=0) 
+	function(x, ..., na.rm=FALSE, trim=0) 
 		base::mean( .flatten(c(x,list(...))), na.rm=na.rm, trim=trim ) 
 	
 )
@@ -83,7 +96,7 @@ setMethod(
 setMethod(
 	'mean',
 	'numeric',
-	function(x, ..., na.rm=TRUE, trim=0) 
+	function(x, ..., na.rm=FALSE, trim=0) 
 		base::mean( c(x,.flatten(list(...))), na.rm=na.rm, trim=trim ) 
 	
 )
@@ -134,7 +147,7 @@ setMethod(
 
 setGeneric( 
 	"median", 
-	function(x, ..., na.rm=TRUE)  {
+	function(x, ..., na.rm=FALSE)  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -150,7 +163,7 @@ setGeneric(
 setMethod(
 	'median',
 	'ANY',
-	function(x, ..., na.rm=TRUE) 
+	function(x, ..., na.rm=FALSE) 
 		stats::median( .flatten(c(x,list(...))), na.rm=na.rm ) 
 	
 )
@@ -161,7 +174,7 @@ setMethod(
 setMethod(
 	'median',
 	'numeric',
-	function(x, ..., na.rm=TRUE) 
+	function(x, ..., na.rm=FALSE) 
 		stats::median( c(x,.flatten(list(...))), na.rm=na.rm)
 	
 )
@@ -210,7 +223,7 @@ setMethod(
 
 setGeneric( 
 	"sd", 
-	function(x, ..., na.rm=TRUE)  {
+	function(x, ..., na.rm=FALSE)  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -226,7 +239,7 @@ setGeneric(
 setMethod(
 	'sd',
 	'ANY',
-	function(x, ..., na.rm=TRUE) 
+	function(x, ..., na.rm=FALSE) 
 		stats::sd( .flatten(c(x,list(...))), na.rm=na.rm) 
 )
 
@@ -236,7 +249,7 @@ setMethod(
 setMethod(
 	'sd',
 	'numeric',
-	function(x, ..., na.rm=TRUE) 
+	function(x, ..., na.rm=FALSE) 
 		stats::sd( c(x,.flatten(list(...))), na.rm=na.rm)
 	
 )
@@ -271,7 +284,7 @@ setMethod(
 
 	setGeneric( 
 		NAME, 
-		function(x, ..., na.rm=TRUE)  {
+		function(x, ..., na.rm=FALSE)  {
 			dots <- list(...)
 			if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 				data <- dots[[1]]
@@ -284,7 +297,7 @@ setMethod(
 	setMethod(
 		NAME,
 		'numeric',
-		function(x, ..., na.rm=TRUE) {
+		function(x, ..., na.rm=FALSE) {
 			FUN(x, ..., na.rm=na.rm) 
 		}
 	)
@@ -324,7 +337,7 @@ setMethod(
 # 
 setGeneric( 
 	'.Max', 
-	function(x, ..., na.rm=TRUE)  {
+	function(x, ..., na.rm=FALSE)  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -337,14 +350,14 @@ setGeneric(
 setMethod(
 	'.Max',
 	'ANY',
-	function(x, ..., na.rm=TRUE) 
+	function(x, ..., na.rm=FALSE) 
 		base::max( x,..., na.rm=na.rm) 
 )
 
 setMethod(
 	'.Max',
 	'numeric',
-	function(x, ..., na.rm=TRUE) {
+	function(x, ..., na.rm=FALSE) {
 		base::max(x, ..., na.rm=na.rm) 
 	}
 )
@@ -364,7 +377,7 @@ setMethod(
 	signature=c("formula"),
 	function(x, ..., na.rm=TRUE) {
 		dots <- list(...)
-		data  <- dots[[1]]
+		data  <- .fetchFromDots( dots, 'data', 1, 'data.frame', parent.frame())
 
 		if( .is.simple.formula(x) ) {
 			return( base::max( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
@@ -376,10 +389,10 @@ setMethod(
 ###############################################################
 setGeneric( 
 	'.Min', 
-	function(x, ..., na.rm=TRUE)  {
+	function(x, ..., na.rm=FALSE)  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
-			data <- dots[[1]]
+			data <- .fetchFromDots(dots, 'data', 'data.frame', 1, NULL)
 			return(base::min(eval( substitute(x), data),  na.rm=na.rm))
 		}
 		standardGeneric('.Min')
@@ -389,14 +402,14 @@ setGeneric(
 setMethod(
 	'.Min',
 	'ANY',
-	function(x, ..., na.rm=TRUE) 
+	function(x, ..., na.rm=FALSE) 
 		base::min(x ,..., na.rm=na.rm)
 )
 
 setMethod(
 	'.Min',
 	'numeric',
-	function(x, ..., na.rm=TRUE) {
+	function(x, ..., na.rm=FALSE) {
 		base::min(x, ..., na.rm=na.rm) 
 	}
 )
@@ -416,7 +429,7 @@ setMethod(
 	signature=c("formula"),
 	function(x, ..., na.rm=TRUE) {
 		dots <- list(...)
-		data  <- dots[[1]]
+		data <- .fetchFromDots(dots, 'data', 'data.frame', 1, NULL)
 
 		if( .is.simple.formula(x) ) {
 			return( base::min( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
@@ -448,7 +461,7 @@ setMethod(
 
 setGeneric( 
 	"var", 
-	function(x, y=NULL, na.rm=TRUE, use='everything', data=NULL)  {
+	function(x, y=NULL, na.rm=FALSE, use='everything', data=NULL)  {
 		if ( is.name(substitute(x)) && ! is.null(y) && is.name(substitute(y)) && is.data.frame( data ) ) {
 			return( stats::var(eval( substitute(x), data), eval(substitute(y, data), na.rm=na.rm, use=use)) )
 		}
@@ -469,7 +482,7 @@ setGeneric(
 setMethod(
 	'var',
 	c('ANY','ANY'),
-	function(x, y, na.rm=TRUE, use='everything', data=data) 
+	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -479,7 +492,7 @@ setMethod(
 setMethod(
 	'var',
 	c('numeric','numeric'),
-	function(x, y, na.rm=TRUE, use='everything', data=data) 
+	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -489,7 +502,7 @@ setMethod(
 setMethod(
 	'var',
 	c('numeric'),
-	function(x, y, na.rm=TRUE, use='everything', data=data) 
+	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
 		stats::var( x, y, na.rm=na.rm, use=use)
 )
 
@@ -499,7 +512,7 @@ setMethod(
 setMethod(
 	'var',
 	c('matrix'),
-	function(x, y, na.rm=TRUE, use='everything', data=data) 
+	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -513,16 +526,31 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
+#' @aliases var,formula,missing,ANY,ANY,missing-method
+#' @export
+setMethod( 
+	"var", 
+	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="missing"),
+	function(x, y, na.rm=TRUE, use='everything', data=parent.frame()) {
+		if( .is.simple.formula(x) ) {
+			return( stats::var( eval( .simple.part(x), data ),  na.rm=na.rm, use=use ) )
+		} else {
+			return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
+		} 
+	}
+)
+
+#' @rdname aggregating-methods
 #' @aliases var,formula,missing,ANY,ANY,data.frame-method
 #' @export
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x, na.rm=TRUE, use='everything', data=parent.frame()) {
+	function(x, y, na.rm=TRUE, use='everything', data=parent.frame()) {
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data ),  na.rm=na.rm, use=use ) )
 		} else {
-			return( maggregate( x, data, FUN=stats::var, na.rm=na.rm, use=use) )
+			return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
 		} 
 	}
 )
@@ -538,7 +566,7 @@ setMethod(
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data),  na.rm=na.rm, use=use ) )
 		} else {
-			return( maggregate( x, data, FUN=stats::var, na.rm=na.rm, use=use) )
+			return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
 		} 
 	}
 )
