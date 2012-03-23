@@ -43,15 +43,14 @@
 #' # is my spinner fair?
 #' x <- c(10, 18, 9, 15)   # counts in four cells
 #' rdata <- rmultinom(1000, sum(x), prob=rep(.25, 4))
-#' statTally( x, rdata, fun=max )  # unusual test statistic
-#' statTally( x, rdata, fun=var )  # equivalent to chi-squared test
+#' statTally(x, rdata, fun=max)  # unusual test statistic
+#' statTally(x, rdata, fun=var)  # equivalent to chi-squared test
 #' # Can also be used with test stats that are precomputed.
 #' D <- diff(mean( age ~ sex, HELPrct)); D
 #' nullDist <- do(1000) * diff( mean( age ~ shuffle(sex), HELPrct))
 #' statTally( D, nullDist)
 #' 
 #' @keywords inference 
-#' @keywords teaching 
 #' 
 statTally <-
 function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sided','less','greater'),

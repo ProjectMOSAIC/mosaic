@@ -9,7 +9,7 @@
 #' @param \dots other arguments
 #' @return the difference in proportions between the second and first group
 #' @seealso \code{\link{do}}, \code{\link{compareMean}} and \code{\link{shuffle}}
-#' @keywords resampling
+#' @keywords iteration
 #' @export
 #' @examples
 #' data(HELPrct)

@@ -48,7 +48,6 @@
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=0 )
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=3 )
 #' 
-#' @keywords calculus 
 
 findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf, nearest=10, npts=1000, iterate=1) {
 	dots <- list(...)

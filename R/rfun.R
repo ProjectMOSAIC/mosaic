@@ -6,12 +6,12 @@
 #' for input to the function (separated by &)
 #'
 #' @param seed seed for random number generator, passed to \code{\link{set.seed}}.
-#' @param n the number of gaussians.  By default, this will be selected randomly.
+#' @param n the number of Gaussians.  By default, this will be selected randomly.
 #' @return a function with the appropriate number of inputs
 #'
 #' @details
 #' \code{rfun} is an easy way to generate a natural-looking but random function with ups and downs
-#' much as you might draw on paper.  In two variables, a good way to produce
+#' much as you might draw on paper.  In two variables, it provides a good way to produce
 #' a random landscape that is smooth.
 #' Things happen in the domain -5 to 5. The function is pretty flat outside of that.
 #' Use \code{seed} to create a fixed function that will be the same for everybody
@@ -97,7 +97,7 @@ rfun <- function(vars=~x&y, seed=NULL, n=0) {
  
 #' random 2nd degree polynomials
 #'
-#' \code{rpoly2} generates a random 2nd degree poly  (as a function)
+#' \code{rpoly2} generates a random 2nd degree polynomial  (as a function)
 #'
 #' @rdname rfun
 #' @inheritParams rfun
@@ -106,6 +106,7 @@ rfun <- function(vars=~x&y, seed=NULL, n=0) {
 #' with coefficients selected randomly according to a Unif(-1,1) distribution.
 #'
 #' @keywords random
+#' @details These functions are particularly useful for teaching calculus.
 
 rpoly2 <- function(vars=~x&y,seed=NULL){
   if( !is.null(seed) ) set.seed(round(seed))

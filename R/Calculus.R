@@ -59,7 +59,6 @@
 #' gg(t=1)
 #' gg(t=1, B=100)
 #' 
-#' @keywords calculus 
 D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
   formulaEnv = environment(formula) # where was the formula made?
   #Try to construct a symbolic derivative
