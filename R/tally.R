@@ -1,3 +1,38 @@
+
+#' Turn logicals into factors; leave other things alone
+#'
+#' @param x a vector or data frame
+#' @param \dots additional arguments (currently ignored)
+#' @return If \code{x} is a vector either \code{x} or the result
+#' of converting \code{x} into a factor with levels \code{TRUE}
+#' and \code{FALSE} (in that order);  if \code{x} is a data frame,
+#' a data frame with all logicals converted to factors in this manner.
+#'
+#' @rdname logical2factor
+
+logical2factor  <- function(x, ...) { UseMethod('logical2factor') }
+
+#' @rdname logical2factor
+#' @method logical2factor default
+logical2factor.default  <- function( x, ... ) {
+	if (is.logical(x)) {
+		x <- factor(x, levels=c(TRUE,FALSE), labels=c("TRUE","FALSE"))
+	}
+	return(x)
+}
+
+#' @rdname logical2factor
+#' @method logical2factor data.frame
+logical2factor.data.frame  <- function( x, ... ) {
+	for (var in names(x)) {
+		if (is.logical(x[,var])) {
+			x[,var] <- logical2factor(x[,var])
+		}
+	}
+	return(x)
+}
+
+
 #' Tabulate categorical data
 #'
 #' @param formula a formula describing the type of table desired
@@ -87,7 +122,8 @@ setMethod(
 		else format <- 'proportion'
 	}
 
-	res <- table(joinFrames(evalF$right,evalF$condition))
+	res <- table( logical2factor( joinFrames(evalF$right,evalF$condition) ) )
+
 	res <- switch(format,
 		   'count' = 
 				res,
