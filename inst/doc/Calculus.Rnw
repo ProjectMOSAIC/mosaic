@@ -5,5 +5,5 @@
 \documentclass{article}
 \usepackage{pdfpages}
 \begin{document}
-\includepdf[pages=-, fitpaper=true]{mosaic-calculus-src.pdf}
+\includepdf[pages=-, fitpaper=true]{Calculus-src.pdf}
 \end{document}
