@@ -7,7 +7,8 @@
     \item improvements to statTally()
     \item new confint() functionality
     \item makeFun() and plotFun() interface to plotting using formulas
-    \item Added new vignette on Teaching Calculus using R
-    \item Added new vignette on Resampling-Based Inference using R 
+    \item added new vignette on Teaching Calculus using R
+    \item added new vignette on Resampling-Based Inference using R 
+    \item changed default behavior for aggregating functions na.rm option so that it defaults to usual behavior unless given a formula as argument
 }}
 
