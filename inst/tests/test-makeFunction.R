@@ -1,4 +1,4 @@
-context('Testing makeFormula()')
+context('Testing makeFun()')
 
 
 test_that("a function is created", {

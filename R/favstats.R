@@ -45,14 +45,27 @@ setMethod(
 
 
 #' @rdname favstats
-#' @aliases favstats,formula-method
+#' @aliases favstats,formula,data.frame-method
 #' @export
 setMethod(
 		  'favstats',
-		  c(x='formula'),
-		  function (x, data, ..., na.rm = TRUE) 
+		  c(x='formula', data='data.frame'),
+		  function (x, data=parent.frame(), ..., na.rm = TRUE) 
 		  {
 			  formula <- x 
 			  return(maggregate(formula, data=data, FUN=favstats, multiple=TRUE))
+		  }
+)
+
+#' @rdname favstats
+#' @aliases favstats,ANY,data.frame-method
+#' @export
+setMethod(
+		  'favstats',
+		  c(x='ANY', data='data.frame'),
+		  function (x, data=parent.frame(), ..., na.rm = TRUE) 
+		  {
+			  x <- eval(x, data) 
+			  return(favstats(x))
 		  }
 )
