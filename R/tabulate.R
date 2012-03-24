@@ -203,3 +203,48 @@ joinTwoFrames <- function(left, right){
     return(result)
 } 
 
+#' Compute proportions, percents, or counts for a single level
+#'
+#' @rdname prop
+#' @param \dots arguments passed through to \code{\link{tally}}
+#' @param level the level for which counts, proportions or percents are 
+#'         calculated
+#' @param long.names a logical indicating whether long names should be 
+#'         when there is a conditioning variable
+#' @param sep a character used to separate portions of long names
+#' @param format one of \code{proportion}, \code{percent}, or \code{count},
+#'        possibly abbrevaited
+#' @export
+#' @examples
+#' prop( ~sex, data=HELPrct)
+#' prop( ~sex, data=HELPrct, level='male')
+#' count( ~sex | substance, data=HELPrct)
+#' prop( ~sex | substance, data=HELPrct)
+#' perc( ~sex | substance, data=HELPrct)
+
+prop <- function(...,level=NULL, long.names=TRUE, sep=":", format="proportion") {
+  T <- tally(..., format=format)
+  if (length(dim(T)) < 1) stop("Insufficient dimensions.")
+  if (is.null(level)) level <- dimnames(T)[[1]][1]
+  if ( length(dim(T)) == 2) {
+    result <- T[level,]
+    if (long.names)
+      names(result) <- paste(level, names(result), sep=sep)
+    return(result)
+  }
+  if ( length(dim(T)) == 1) {
+    result <- T[level]
+    return(result)
+  }
+  stop(paste('Too many dimensions (', length(dim(T)), ")",sep=""))
+}
+
+#' @rdname prop
+count <- function(..., format="count") {
+	prop(..., format=format)
+}
+
+#' @rdname prop
+perc <- function(..., format="percent") {
+	prop(..., format=format)
+}

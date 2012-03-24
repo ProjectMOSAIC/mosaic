@@ -23,3 +23,15 @@ test_that("Subsetting works", {
 	tally( ~ substance & homeless, HELPrct) 
   )
 })
+
+test_that("errors generated for bad formula types", {
+  expect_error( prop(sex~homeless&substance, data=HELPrct))
+  expect_error( count(sex~homeless&substance, data=HELPrct))
+  expect_error( perc(sex~homeless&substance, data=HELPrct))
+})
+
+test_that("count/perc/prop wrappers work", {
+  expect_equivalent( count(~sex, data=HELPrct), sum(HELPrct$sex == 'female') )
+  expect_equivalent( prop(~sex, data=HELPrct), sum(HELPrct$sex == 'female') / nrow(HELPrct))
+  expect_equivalent( perc(~sex, data=HELPrct), 100 * sum(HELPrct$sex == 'female') / nrow(HELPrct))
+})

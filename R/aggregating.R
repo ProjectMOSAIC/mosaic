@@ -590,6 +590,7 @@ min <- .Min
 
 max <- .Max
 
+if(FALSE) {
 ##########################################################################################
 #' @export
 #' @docType methods
@@ -776,6 +777,7 @@ setMethod(
 		} 
 	}
 )
+}  # end if (FALSE)
 
 #' Compute standard deviation
 #'
