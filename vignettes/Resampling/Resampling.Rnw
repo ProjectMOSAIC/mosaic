@@ -353,17 +353,18 @@ obs  # observed value
 @
 
 We will use the same general approach to empirically calculate the null
-distribution by permuting the labels for the grouping variable.
+distribution by permuting the labels for the grouping variable. 
 <<tidy=FALSE>>=
 # compute permutation distribution
 nulldist <- do(numsim) * diff(prop(homeless ~ shuffle(sex), data=HELPrct))
 @
 
+Here we undertake a two-sided test.
 <<diffprop>>=
 statTally(obs, nulldist, center=0, xlab="difference in proportions\nunder the null")
 @
 
-We can also calculate a two-sided p-value:
+We can also directly calculate a two-sided p-value:
 <<twosided>>=
 sum(abs(nulldist) >= abs(obs))/numsim
 @
