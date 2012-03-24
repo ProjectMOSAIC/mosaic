@@ -119,7 +119,7 @@ setMethod(
 	signature=c("formula"),
 	function(x, data=parent.frame(), ..., na.rm=TRUE, trim=0) {
 		if( .is.simple.formula(x) ) {
-			return( mean( eval( .simple.part(x), data, enclos=parent.frame()), 
+			return( base::mean( eval( .simple.part(x), envir=data, enclos=parent.frame()), 
 							   ..., na.rm=na.rm, trim=trim ) )
 		} else {
 			return( maggregate( x, data, FUN=base::mean, ..., na.rm=na.rm, trim=trim ) )
@@ -271,7 +271,7 @@ setMethod(
 	signature=c("formula"),
 	function(x, data=parent.frame(), ..., na.rm=TRUE) {
 		if( .is.simple.formula(x) ) {
-			return( sd( eval( .simple.part(x), data, enclos=parent.frame()), ..., na.rm=na.rm ) )
+			return( sd( eval( .simple.part(x), envir=data, enclos=parent.frame()), ..., na.rm=na.rm ) )
 		} else {
 			return( maggregate( x, data, FUN=SD, na.rm=na.rm) )
 		} 
