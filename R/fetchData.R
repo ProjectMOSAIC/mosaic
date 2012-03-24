@@ -111,7 +111,7 @@ fetchData <- function(name=NULL,
 	  suppressWarnings( data(list=c(cleanName)) )
 	  if (exists(cleanName)) {
 			  if (verbose) {
-				  message(paste("Retrieving data from installed package.")) 
+				  message(paste( "Retrieving data from", paste(find(cleanName),collapse="::") )) 
 			  }
 		  return(get(cleanName)) 
 	  }
