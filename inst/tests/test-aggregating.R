@@ -27,18 +27,19 @@ test_that("errors generated for bad formula types", {
 })
 
 test_that("formulas work without data", {
-  age <- HELPrct$age
-  sex <- HELPrct$sex
+  age <<- HELPrct$age
+  sex <<- HELPrct$sex
   expect_equivalent( min( age ), min( ~age ))
   expect_equivalent( min( ~ age ), min( ~age, HELPrct ))
   expect_equivalent( max( age ), max( ~age ))
   expect_equivalent( max( ~ age ), max( ~age, HELPrct ))
-  expect_equivalent( mean( age ), mean( ~age ))
-  expect_equivalent( mean( ~ age ), mean( ~age, HELPrct ))
   expect_equivalent( sd( age ), sd( ~age ))
   expect_equivalent( sd( ~ age ), sd( ~age, HELPrct ))
   expect_equivalent( var( age ), var( ~age ))
   expect_equivalent( var( ~ age ), var( ~age, HELPrct ))
+  expect_equivalent( median( ~ age ), median( ~age, HELPrct ))
   expect_equivalent( median( age ~ sex ), median( age ~ sex, data=HELPrct ))
+  expect_equivalent( mean( age ), mean( ~age ))
+  expect_equivalent( mean( ~ age ), mean( ~age, HELPrct ))
 })
 
