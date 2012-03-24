@@ -74,7 +74,6 @@ Collate:
     'plotFun.R'
     'nlsModel.R'
     'bargraph.R'
-    'tabulate.R'
     'as.xtabs.R'
     'plotCumfreq.R'
     'oddsRatio.R'
@@ -85,3 +84,4 @@ Collate:
     'symbolicD.R'
     'fetchGoogle.R'
     'makeFun.R'
+    'tally.R'
