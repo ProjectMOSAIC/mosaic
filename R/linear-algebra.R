@@ -3,10 +3,10 @@
 #' These functions provide a formula based interface to the construction
 #' of matrices from data and for fitting.  You can use them both for numerical vectors
 #' and for functions of variables in data frames.
-#' @rdname linear-algebra
+#' @rdname linear.algebra
 #'
-#' @name linear-algebra
-#' @aliases project mat singvals
+#' @name linear.algebra
+#' @aliases project mat singvals dot
 #'
 #' @param A a formula.  In \code{mat} and \code{singvals},
 #' only the right-hand side is used.
@@ -23,16 +23,25 @@
 #' @param \dots additional arguments (currently ignored)
 #'
 #' @details
-#' \code{mat} returns a model matrix from a formula while \code{project}
-#'  carries out the operation of least-squares fitting using a 
-#' singular value method. This means that even when the matrix is singular, 
-#' a solution, either exact or least-squares, will be found.
+#' These functions are intended to support teaching basic linear algebra
+#' with a particular connection to statistics.
+#' \code{project} (preferably pronounced "PRO-ject" as in "projection") 
+#' does either of two related things:
+#' (1) Given two vectors as arguments, it will project the first onto the 
+#' second, returning the point in the subspace of the second that is as
+#' close as possible to the first vector.  (2) Given a formula as an argument,
+#' will work very much like \code{lm()}, constructing a model matrix from
+#' the right-hand side of the formula and projecting the vector on the 
+#' left-hand side onto the subspace of that model matrix.  In (2), rather than 
+#' returning the projected vector, \code{project()} returns the coefficients
+#' on each of the vectors in the model matrix.
+#' UNLIKE \code{lm()}, the intercept vector is NOT included by default.  If 
+#' you want an intercept vector, include \code{+1} in your formula.
+#' 
+#' \code{mat} returns a model matrix
+#' 
 #' To demonstrate singularity, use \code{singvals}.
-#' NOTE: unlike the standard formula expansion in \code{lm}, 
-#' these linear algebra functions do NOT include an intercept by default.
-#' If you want
-#' an intercept, put \code{+1} as a term in your formula.  (See the examples.)
-#'
+#' 
 #' @return \code{mat} returns a matrix 
 #'
 #' @usage project(x, u, ...)           
@@ -44,17 +53,18 @@
 #' # projection onto the 1 vector gives the mean vector
 #' mean(x)            
 #' project(x, 1)
+#' # return the length of the vector, rather than the vector itself
 #' project(x, 1, type='length')
+#' # Formula interface
 #' mat(~a+b)
 #' mat(~a+b+1)
-#' data(KidsFeet)
 #' mat(~length+sex, data=KidsFeet)
 #' project(a~b)
 #' project(width~length+sex, data=KidsFeet)
 #' project(log(width) ~ I(length^2)+sin(length)+sex, data=KidsFeet)
 #' singvals(~length*sex*width, data=KidsFeet)
 
-mat <- function(A, data=NULL) {
+mat <- function(A, data=parent.frame()) {
   if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")
   A <- update(A, ~-1+.) # kill off automatic Intercept term
   if( is.null(data) )
@@ -62,7 +72,7 @@ mat <- function(A, data=NULL) {
   else
     M <- model.matrix( A, data=data ) 
 
-  attr(M,"assign") <- NULL
+  attr(M, "assign") <- NULL
   rownames(M) <- NULL
 
   return(M)
@@ -70,18 +80,18 @@ mat <- function(A, data=NULL) {
 
 #
 ##################
-#' @rdname linear-algebra
+#' @rdname linear.algebra
 #' @return \code{singvals} gives singular values for each column in the model matrix
 #' @export
-singvals <- function(A,data=NULL){
-        M = mat(A,data=data)
-        # formulated to give one singular value for each column in A
+singvals <- function(A, data=parent.frame()){
+  M <- mat(A, data=data)
+  # formulated to give one singular value for each column in A
 	svs <- La.svd(M, nv=ncol(M), nu=ncol(M))$d;
-        c( svs, rep(0,ncol(M) - length(svs)));
+  c( svs, rep(0, ncol(M) - length(svs)));
 }
 ##################
 
-#' @rdname linear-algebra
+#' @rdname linear.algebra
 #' @docType methods
 #' @export
 #' @usage project(x, u, ...) 
@@ -93,7 +103,7 @@ setGeneric(
 	}
 )
 ##################
-#' @rdname linear-algebra
+#' @rdname linear.algebra
 #' @aliases project,formula-method
 #' @export
 #' @return \code{project} returns the projection of \code{x} onto \code{u} 
@@ -103,7 +113,7 @@ setGeneric(
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
-		  function( x, u=NULL, data=NULL) {
+		  function( x, u=NULL, data=parent.frame()) {
 			  # x is the formula
 			  # u is just a placeholder
 			  foo <- model.frame( x, data=data )
@@ -124,7 +134,7 @@ setMethod(
 
 # This is used in fastR and should not go away.
 
-#' @rdname linear-algebra
+#' @rdname linear.algebra
 #' @aliases project,numeric-method
 setMethod(
 	'project',
@@ -136,12 +146,12 @@ setMethod(
 	}
 )
 
-#' @rdname linear-algebra
+#' @rdname linear.algebra
 #' @aliases project,matrix-method
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),
-		  function(x, u, data=NULL) {
+		  function(x, u, data=parent.frame()) {
 			  A <- x; b <- u
 			  b <- cbind(b)
 			  # See if A is just a single 1 --- if so, turn it into a vector of ones
@@ -170,7 +180,8 @@ setMethod(
 		  }
 		  )
 
-#' @rdname linear-algebra
+#' @rdname linear.algebra
+#  @param u a numeric vector
 #' @param v a numeric vector
 #' @return \code{dot} returns the dot product of \code{u} and \code{v}
 
