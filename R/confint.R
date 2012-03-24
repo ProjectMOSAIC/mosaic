@@ -8,6 +8,7 @@
 #' @param object The data frame or numerical vector.
 #' @param parm not used -- for compatibility with other confint methods
 #' @param level confidence level (default 0.95)
+#' @param \dots additional arguments (currently ignored)
 #' @param method either "stderr" (default) or "quantile"
 #' @param margin if true, report intervals as a center and margin of error.
 #'
@@ -18,18 +19,20 @@
 #' @examples
 #' s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
 #' confint(s)
+#' confint(s, method="quantile")
+#' confint(s, margin=TRUE)
+#' confint(s, margin=TRUE, level=0.99 )
 #' s2 <- do(500)*mean( resample(1:10) ) 
 #' confint(s2)
 # ==================
-#' export
-confint.numeric = function(object, parm, level=0.95, method=c("stderr", "quantile"),margin=FALSE) {
+confint.numeric = function(object, parm, level=0.95, ..., method=c("stderr", "quantile"),margin=FALSE) {
   vals = .mosaic.get.ci( object, level, method[1] )
   if( margin ) return( c(center=mean(vals), margin.of.error=diff(vals)/2) )
   else return(vals)
 }
 # =================
-#' export
-confint.data.frame = function(object, parm, level=0.95, method=c("stderr", "quantile"), margin=FALSE) {
+#' @rdname confint
+confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", "quantile"), margin=FALSE) {
   method <- method[1]
   nms <- names(object)
   n <- length(nms)
