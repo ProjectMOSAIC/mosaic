@@ -49,13 +49,17 @@ source('../setup.R')
 
 \section{Introduction}
 
-This document is intended to describe relatively straightforward ways to undertake a variety of resampling-based inferences through use of the \pkg{mosaic} package within \R{}.  
-It is derived from a series of problems posed at USCOTS (United
-States Conference on Teaching Statistics) 2011 by Robin Lock and colleagues (\url{http://www.causeweb.org/uscots/breakout/breakout3_6.php}).
-One of the goals of the \pkg{mosaic} package is to provide
-elementary commands that can be easily strung together by novices
-without having to master the esoteric aspects of programming.  More information about the package and this initiative can be 
-found at the Project MOSAIC website: \url{www.mosaic-web.org}.
+This document is intended to describe relatively straightforward ways to
+undertake a variety of resampling-based inferences through use of the
+\pkg{mosaic} package within \R{}.  It is derived from a series of problems
+posed at USCOTS (United States Conference on Teaching Statistics) 2011 by Robin
+Lock and colleagues
+(\url{http://www.causeweb.org/uscots/breakout/breakout3_6.php}).
+One of the goals of the \pkg{mosaic} package is to provide elementary commands
+that can be easily strung together by novices without having to master the
+esoteric aspects of programming.  More information about the package and this
+initiative can be found at the Project MOSAIC website:
+\url{www.mosaic-web.org}.
 
 The \pkg{mosaic} operations allow students to implement each of the
 operations in what George Cobb calls the ``3 Rs'' of statistical
@@ -67,8 +71,9 @@ to blindly follow formulaic methods.
 There's an interesting discussion of the role of simulation in Speed (2011), where
 he notes the changing role of simulation.  It used to be:
 \begin{quote}
-something that people did when they can't do the math. $\ldots$ It now seems that we
-are heading into an era when all statistical analysis can be done by simulation.
+something that people did when they can't do the math. $\ldots$ It now seems
+that we are heading into an era when all statistical analysis can be done by
+simulation.
 \end{quote}
 
 Arguably, the most important operation in statistics is sampling:
@@ -85,21 +90,28 @@ place among the statistical concepts in our courses.
 Resampling-based inference using permutation testing and bootstrapping are an
 increasingly important set of techniques for introductory statistics and beyond.
 
-Bootstrapping and permutation testing are powerful and elegant approaches to estimation and testing, respectively that can be implemented even in many situations
-where asymptotic results are
-difficult to find or otherwise unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al 2005).  Bootstrapping involves sampling \emph{with} replacement from a population, repeatedly calculating a sample statistic of interest to empirically construct the sampling distribution. Permutation testing for a two group comparison is done by \emph{permuting} the labels for the grouping variable, then calculating the sample statistic (e.g. difference between two groups using these new labels) to empirically construct the null distribution.
+Bootstrapping and permutation testing are powerful and elegant approaches to
+estimation and testing, respectively that can be implemented even in many
+situations where asymptotic results are difficult to find or otherwise
+unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al 2005).
+Bootstrapping involves sampling \emph{with} replacement from a population,
+repeatedly calculating a sample statistic of interest to empirically construct
+the sampling distribution. Permutation testing for a two group comparison is
+done by \emph{permuting} the labels for the grouping variable, then calculating
+the sample statistic (e.g. difference between two groups using these new
+labels) to empirically construct the null distribution.
 
 \section{Background and setup}
 \subsection{R and RStudio}
 \bigskip
 
-\R{} is an open-source statistical environment that has been used at a number of institutions to teach introductory statistics.
-Among other advantages, \R{} makes it
-easy to demonstrate the concepts of statistical inference through
-randomization while providing a sensible path for beginners to
-progress to advanced and
-professional statistics. \RStudio{} (\url{http://www.rstudio.org}) is an open-source integrated
-development environment for \R{} which facilitates use of the system.
+\R{} is an open-source statistical environment that has been used at a number
+of institutions to teach introductory statistics.  Among other advantages, \R{}
+makes it easy to demonstrate the concepts of statistical inference through
+randomization while providing a sensible path for beginners to progress to
+advanced and professional statistics. \RStudio{} (\url{http://www.rstudio.org})
+is an open-source integrated development environment for \R{} which facilitates
+use of the system.
 
 
 \subsection{Setup}
@@ -109,11 +121,13 @@ into \R{} using the standard features of the system (this needs only be done onc
 install.packages("mosaic")
 @ 
 
-Once installed, the
-package must be loaded so that it is available (this must be done within each 
-\R{} session).  In addition to loading the package, we set the number of digits to display by default as well as the number of simulations to undertake.
+Once installed, the package must be loaded so that it is available (this must
+be done within each \R{} session).  In addition to loading the package, we set
+the number of digits to display by default as well as the number of simulations
+to undertake.
 
 <<moreSetup>>=
+require(mosaic)
 options(digits=3)
 numsim <- 1000
 @ 
@@ -152,25 +166,25 @@ stem(mustangs$Price)
 
 The mean price can be calculated as
 <<meanmust>>=
-with(mustangs, mean(Price))
+mean(~Price, data=mustangs)
 @ 
 
 Even though a single trial is of little use, it's a nice idea to have
-students do the calculation to show that they are getting a different
-(usually!) result than without resampling.
+students do the calculation to show that they are 
+(usually) getting a different result than without resampling.
 One resampling trial can be carried out with
 <<>>=
-with(resample(mustangs), mean(Price))
+mean(~Price, data=resample(mustangs))
 @
 This generates a new sample (with replacement) of the same size as the original one.
 
 Another trial can be carried out with the command:
 <<>>=
-with(resample(mustangs), mean(Price))
+mean(~Price, data=resample(mustangs))
 @ 
 Let's generate five more:
 <<>>=
-trials <- do(5) * with(resample(mustangs), mean(Price))
+trials <- do(5) * mean(~Price, data=resample(mustangs))
 trials
 @
 
@@ -178,7 +192,7 @@ Now conduct \Sexpr{numsim} resampling trials, saving the results in an object
 called \dataframe{trials}:
 <<>>=
 numsim
-trials <- do(numsim) * with(resample(mustangs), mean(Price))
+trials <- do(numsim) * mean(~Price, resample(mustangs))
 @ 
 This creates a new set of data with the result from each of the 
 \variable{numsim} $=\Sexpr{numsim}$ trials.
@@ -193,9 +207,9 @@ Calculation of the 90\% confidence interval can be done directly.
 qdata(c(.05, .95), trials$result)
 @ 
 
-Alternatively, the standard error from this distribution can be used to estimate the 90\% margin of
-error.  First calculate the t (or z) multiplier
-for the appropriate degrees of freedom:
+Alternatively, the standard error from this distribution can be used to
+estimate the 90\% margin of error.  First calculate the critical value $t_*$ (or $z_*$) for
+the appropriate degrees of freedom:
 <<tstar>>=
 tstar <- qt(.95, df=24)
 zstar <- qnorm(.95)
@@ -233,7 +247,7 @@ Generate a simulation where each trial is a random sample  of 428
 games from a world in which the null hypothesis holds true.
 
 <<proptable>>=
-proptable(rbinom(100000, prob=0.5, size=428) >= 240)
+prop(rbinom(100000, prob=0.5, size=428) >= 240)
 @ 
 
 It's very unlikely, if the null were true, that the coin flip winner
@@ -256,10 +270,10 @@ do(1) * rflip(428)
 @ 
 
 We'll do \Sexpr{numsim} trials, and count what fraction of the trials the
-winner (say, ``heads'') wins 240 or more:
+coin toss winner (say, ``heads'') wins 240 or more of the 428 attempts:
 <<flips1>>=
 trials <- do(numsim) * rflip(428)
-proptable(trials$heads >= 240)
+prop(trials$heads >= 240)
 @
 <<flips>>=
 xhistogram(~ heads, groups = (heads >= 240), data=trials)
@@ -298,8 +312,8 @@ obs
 bwplot(Words ~ Group, data=sleep)
 @
 
-To implement the null hypothesis, scramble the Group with respect to
-the outcome, Words:
+To implement the null hypothesis, scramble the Group with respect to the
+outcome, Words:
 <<>>=
 diff(mean(Words ~ shuffle(Group), data=sleep))
 @ 
@@ -330,8 +344,8 @@ We can undertake a test of difference in two proportions, in this case, the prop
 
 <<tidy=FALSE>>=
 tally(~ homeless | sex, data=HELPrct)
-tally(~ homeless | sex, data=HELPrct)['homeless',]
-obs <- diff(tally(~ homeless | sex, data=HELPrct)['homeless',])
+prop(~ homeless | sex, data=HELPrct)
+obs <- diff(prop(~ homeless | sex, data=HELPrct))
 obs  # observed value
 @
 

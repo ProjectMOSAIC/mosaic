@@ -225,7 +225,10 @@ joinTwoFrames <- function(left, right){
 prop <- function(...,level=NULL, long.names=TRUE, sep=":", format="proportion") {
   T <- tally(..., format=format)
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
-  if (is.null(level)) level <- dimnames(T)[[1]][1]
+  if (is.null(level)) {
+	  level <- dimnames(T)[[1]][1]
+  	  if (level == 'FALSE') level <- 'TRUE'
+  }
   if ( length(dim(T)) == 2) {
     result <- T[level,]
     if (long.names)
