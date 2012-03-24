@@ -61,6 +61,11 @@
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
+#' # display a linear model using a formula interface
+#' model <- lm(wage ~ poly(exper,degree=2), data=CPS)
+#' fit <- makeFun(model)
+#' xyplot(wage ~ exper, data=CPS)
+#' plotFun(fit(exper) ~ exper, add=TRUE)
  
 plotFun <- function(object, ..., add=FALSE,
 					xlim=NULL, ylim=NULL, npts=NULL,

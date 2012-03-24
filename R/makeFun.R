@@ -83,9 +83,9 @@ setMethod(
 #' @rdname makeFun
 #' @aliases makeFun,lm-method
 #' @examples
-#' model <- lm( wage ~ poly(exper,degree=2), data=CPS )
+#' model <- lm(wage ~ poly(exper,degree=2), data=CPS)
 #' fit <- makeFun(model)
-#' xyplot( wage ~ exper, data=CPS)
+#' xyplot(wage ~ exper, data=CPS)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 setMethod(
