@@ -132,7 +132,7 @@ The \texttt{mosaic} package provides a basic operator for graphing functions: \t
 
 The variables to the right of \verb+~+ set the independent axes plotting variables.  The plotting domain can be specified by a \texttt{lim} argument whose name is constructed to be prefaced by the variable being set.  For example, here's a conventional line plot of a function of $t$ alongside a contour plot of two variables:
 
-<<line1>>=
+<<line1,fig.height=4,out.width=.7\textwidth>>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t, 
           t.lim=range(0,10), k=-0.3, A=10, P=4)
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
