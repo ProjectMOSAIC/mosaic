@@ -46,7 +46,7 @@ confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", 
       res$upper[k] <- vals[2]
     }
   }
-  res <- subset(res, !is.na(lower) )
+  res <- subset(res, !is.na(res$lower) )
   if( margin ) {
     res <- data.frame(name=res$name, 
                      point=(res$upper+res$lower)/2, 
