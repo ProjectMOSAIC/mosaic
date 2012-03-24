@@ -32,6 +32,7 @@ confint.numeric = function(object, parm, level=0.95, ..., method=c("stderr", "qu
 }
 # =================
 #' @rdname confint
+#' @method confint data.frame
 confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", "quantile"), margin=FALSE) {
   method <- method[1]
   nms <- names(object)
