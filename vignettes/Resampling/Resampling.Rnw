@@ -36,6 +36,7 @@ tidy=TRUE,
 dev=pdf,
 fig.path=figures/fig-,  
 fig.width=3, fig.height=2,
+out.width=0.48\textwidth,
 fig.align=center,
 fig.show=hold,
 comment=NA
@@ -129,11 +130,13 @@ to undertake.
 <<moreSetup>>=
 require(mosaic)
 options(digits=3)
-numsim <- 1000
+numsim <- 2000
 @ 
 
 This command would typically be provided in a set-up file for students so that
-it's executed automatically each time an \R{} session is started.  Next we load
+it is executed automatically each time an \R{} session is started.  
+
+Next we load
 two of the datasets that will be used in the examples.
 
 <<>>=
@@ -350,24 +353,27 @@ obs  # observed value
 @
 
 We will use the same general approach to empirically calculate the null
-distribution by permuting the labels for the grouping variable.
+distribution by permuting the labels for the grouping variable. 
 <<tidy=FALSE>>=
 # compute permutation distribution
-nulldist <- do(numsim) * diff(tally(homeless ~ shuffle(sex), data=HELPrct)["homeless",])
+nulldist <- do(numsim) * diff(prop(homeless ~ shuffle(sex), data=HELPrct))
 @
 
+Here we undertake a two-sided test.
 <<diffprop>>=
-xhistogram(~ male, groups=(male>=obs), nulldist, xlab="difference in proportions")
+statTally(obs, nulldist, center=0, xlab="difference in proportions\nunder the null")
+@
+
+We can also directly calculate a two-sided p-value:
+<<twosided>>=
+sum(abs(nulldist) >= abs(obs))/numsim
 @
 
 \subsection{Bootstrapping a correlation}
 
-\noindent
-\begin{quotation}
 {\em The data on Mustang prices in Problem \#1 also contains the number
  of miles each car had been driven (in thousands).  Find a
  95\% confidence interval for the correlation between price and mileage.}
-\end{quotation}
 
 <<>>=
 with(mustangs, cor(Price, Miles))
@@ -397,7 +403,7 @@ sd(trials) # standard errors
 The predicted average price goes down by $22 \pm 6$ cents per mile driven.
 
 
-\paragraph{Using Simulations in Other Ways}
+\paragraph{Using simulations in other ways}
 
 The basic technology of resampling and shuffling can be used to
 demonstrate many other concepts in statistics than the generation of
