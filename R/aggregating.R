@@ -881,6 +881,7 @@ SD <- function(x, ...) {
 #' @param subset a logical indicating a subset of \code{data} to be processed.
 #' @param drop a logical indicating whether unused levels should be dropped.
 #' @param format,overall currently unused
+#' @param multiple logical indicating whether FUN returns multiple values
 #' @param \dots additional arguments passed to \code{FUN}
 #'
 #' @export
@@ -889,8 +890,9 @@ SD <- function(x, ...) {
 #' maggregate( cesd ~ sex & homeless, HELPrct, FUN=mean )
 #' maggregate( cesd ~ sex | homeless, HELPrct, FUN=sd )
 #'
-maggregate <- function(formula, data=parent.frame(), FUN, subset, overall=mosaic.par.get("aggregate.overall"), 
-							  format=c('default'), drop=FALSE, ...) {
+maggregate <- function(formula, data=parent.frame(), FUN, subset, 
+					   overall=mosaic.par.get("aggregate.overall"), 
+					   format=c('default'), drop=FALSE, multiple=FALSE, ...) {
 	dots <- list(...)
 	format <- match.arg(format)
 	evalF <- evalFormula(formula, data)
@@ -907,6 +909,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset, overall=mosaic
 		evalF$right <- evalF$condition
 		evalF$condition <- NULL
 	}
+
 	#if ( ! is.null(evalF$condition) ) stop('Conditioning not allowed in this type of formula.')
 
 	if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  evalF$right <- rep(1, nrow(evalF$left))
@@ -914,13 +917,25 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset, overall=mosaic
 	res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
 				  function(x) { do.call(FUN, c(list(x), ...) ) }
 	)
-	res <- unlist(res)
+	if (! multiple ) res <- unlist(res)
 
 	if (! is.null(evalF$condition) ) {
 		res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
 				  function(x) { do.call(FUN, c(list(x), ...) ) }
 		)
-		res <- c( res , unlist(res2) )
+		if (!multiple) {
+			res <- c( res , unlist(res2) )
+		} else {
+			res <- c(res, res2)
+		}
+	}
+	if (multiple) {
+		result <- res
+		res <- result[[1]]
+		for (item in result[-1]) {
+			res <- rbind(res,item)
+		}
+		rownames(res) <- names(result)
 	}
 	return( res )
 }
