@@ -119,7 +119,6 @@ antiD <- function(formula, ..., Const=0){
 #' @param from default value for the lower bound of the integral region
 #' @param to default value for the upper bound of the integral region
 #' @param .tol tolerance of the numerical integrator (not yet implemented)
-#' @param Const --- the constant of integration
 # I don't want this function to be exported.
 makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) { 
   # Create a new function of argument .vi that will take additional

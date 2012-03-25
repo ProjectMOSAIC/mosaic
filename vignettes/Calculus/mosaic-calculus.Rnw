@@ -19,7 +19,7 @@
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
 \author{Daniel Kaplan}
-\date{March 23, 2012}
+\date{March 25, 2012}
 
 \begin{document}
 %\SweaveOpts{concordance=TRUE}
@@ -256,6 +256,27 @@ by.x = antiD( one(x=x, y=y) ~x )
 by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
 by.xy(y.from=-1, y.to=1)
 @
+
+\subsection{Example: Jumping Off a Diving Board}
+
+The \texttt{antiD()} function allows you to specify the ``constant of integration.''  This is another style of providing information redundant with the \texttt{x.from} argument, but the constant of integration provides perhaps a clearer way to think about integrals where there is an initial condition.
+
+As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.9 m/s$.  The velocity function is the 
+integral of acceleration due to gravity over time, plus the initial velocity:
+<<>>=
+vel <- antiD( -9.8~t, Const=1 )
+@ 
+
+The position is, of course, the integral of velocity plus the initial position of 5 m --- the height of the board.
+<<>>=
+pos <- antiD( vel(t.to=t)~t, Const=5 )
+@ 
+
+<<dive,fig.height=4,out.width=.7\textwidth>>=
+plotFun(pos(t.to=t)~t, t.lim=range(0,1.2), xlab="Height (m)", ylab="Time (s)")
+@
+
+The differential equation solver provides another way to approach this problem.
 
 \section{Solving}
 
@@ -519,6 +540,26 @@ plotFun( epi$I(t)~t, add=TRUE, col="red")
 %\centerline{\includegraphics[width=3in]{Figures/plt-explain-epi1}}
 
 In the solution, you can see the epidemic grow to a peak near $t=5$.  At this point, the number of susceptibles has fallen so sharply that the number of infectives starts to fall as well.  In the end, almost every susceptible has been infected.
+
+\subsection{Example: Another Dive from the Board}
+
+Let's return to the diving-board example, solving it as a differential equation with state variables $v$ and $x$.
+<<dive2,fig.height=4,out.width=.7\textwidth>>=
+dive = integrateODE( dv~-9.8, dx~v, 
+  v=1,x=5,tdur=1.2)
+plotFun( dive$x(t)~t, t.lim=range(0,1.2), ylab="Height (m)" )
+@
+
+What's nice about the differential equation format is that it's easy to add features like the buoyancy of water and drag of the water.  We'll do that here by changing the acceleration (the $dv$ term) so that when
+$x<0$ the acceleration is slightly positive with a drag term proportional to $v^2$ in the direction opposed to the motion.
+
+<<dive3,fig.height=4,out.width=.7\textwidth>>=
+diveFloat = integrateODE( dv~ifelse( x>0, -9.8, 1-sign(v)*v^2), dx~v, 
+  v=1,x=5,tdur=10)
+plotFun( diveFloat$x(t)~t, t.lim=range(0,10), ylab="Height (m)" )
+@
+
+According to the model, the diver resurfaces after slightly more than 5 seconds, and then bobs in the water.  One might adjust the parameters for buoyancy and drag to try to match the observed trajectory.
 
 \section{Algebra and Calculus}
 \label{sec:algebra-and-calculus}
