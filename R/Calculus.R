@@ -15,6 +15,7 @@
 #' default values of "from" and "to" can be assigned.  They are to be written with
 #' the name of the variable as a prefix, e.g. \code{y.from}.
 #'
+#' @param Const Numerical value for the constant of integration.
 #'
 #' @param .hstep  horizontal distance between points used for secant slope
 #'   calculation in numerical derivatives. 
@@ -88,7 +89,11 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' by.x = antiD( one(x=x, y=y) ~x )
 #' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
 #' by.xy(y.from=-1, y.to=1)
-antiD <- function(formula, ...){
+#' vel <- antiD( -9.8 ~ t  )
+#' pos <- antiD( vel( t.to=t, initVal=v0)~t, Const=50)
+#' pos(0:5, v0=10)
+#' pos(0:5, v0=10, initVal=100)
+antiD <- function(formula, ..., Const=0){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
   f <- makeFun(formula, ..., strict.declaration=FALSE)
@@ -98,7 +103,7 @@ antiD <- function(formula, ...){
                         variants = c("from",".from"))$val
   vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
                       variants = c("to",".to"))$val
-  res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6)
+  res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6, Const)
   return(res)
 }
 # ===================
@@ -114,8 +119,9 @@ antiD <- function(formula, ...){
 #' @param from default value for the lower bound of the integral region
 #' @param to default value for the upper bound of the integral region
 #' @param .tol tolerance of the numerical integrator (not yet implemented)
+#' @param Const --- the constant of integration
 # I don't want this function to be exported.
-makeAntiDfun <- function(.function, .wrt, from, to, .tol) { 
+makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) { 
   # Create a new function of argument .vi that will take additional
   # arguments
   .newf <- function(.vi,.av){
@@ -131,7 +137,7 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol) {
   limitsArgs = list()
   limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
   limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
-  limitsArgs[["initVal"]] <- 0
+  limitsArgs[["initVal"]] <- Const
   formals(res) <- c(limitsArgs,resargs)
   return(res)
 }

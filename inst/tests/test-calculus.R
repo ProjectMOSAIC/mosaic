@@ -87,6 +87,12 @@ test_that("Initial condition (constant of integration) works", {
   expect_that( f(t.to=5, initVal=2), equals(7, tol=0.00001))
 })
 
+test_that("Symbols for constant of integration work", {
+  vel <- antiD( -9.8 ~ t  )
+  pos <- antiD( vel( t.to=t, initVal=v0)~t, Const=50)
+  expect_that(pos(5, v0=10, initVal=100), equals(27.5,tol=0.00001) )
+})
+
 test_that("derivatives work in derivatives",{
   g <- numD( a*x^2 + x*y ~ x, a=1)  
   h <- numD( g(x=x,y=y,a=a) ~ y, a=1)
