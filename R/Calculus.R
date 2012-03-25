@@ -42,8 +42,10 @@
 #' \code{antiD} returns a function with arguments \code{to} 
 #' and \code{from=0}, the upper and lower
 #' bounds of the interval of integration w.r.t. the variable of integration.
+#' There is also an argument, \code{initVal}, that plays the role of the
+#' constant of integration.
 #' The numerical value of the integral or
-#' derivative can be found by evaluating that function against its inputs.
+#' derivative can be found by evaluating that function.
 #' 
 #' @export
 #' @examples
@@ -129,6 +131,7 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol) {
   limitsArgs = list()
   limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
   limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
+  limitsArgs[["initVal"]] <- 0
   formals(res) <- c(limitsArgs,resargs)
   return(res)
 }
@@ -158,22 +161,18 @@ numerical.integration <- function(f,wrt,av,args) {
   vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
                      variants = c("to",".to"))$val
   # If they are calls, turn them into values.  Redundant with loop above
-  # vi.from <- eval.parent(vi.from, n=2)
-  # vi.to <- eval.parent(vi.to, n=2)
   if( any(is.nan(vi.to)) | any(is.nan(vi.from))) stop("Integration bounds not given.")
   # and delete them from the call
   av[[paste(wrt,".from",sep="")]] <- NULL
   av[[paste(wrt,".to",sep="")]] <- NULL
+  initVal <- av2[["initVal"]]
+  av[["initVal"]] <- NULL
   newf <- function(vi){
     av[[wrt]] = vi
-    #do.call(f,av,quote=TRUE) + 0*vi #make the same size as vi
+    # make the same size as input vi
     f(vi,av) + 0*vi
   }
   # NEED TO ADD TOLERANCE
-  # Copy code from old antiD
-  # But first test it out for scalar inputs.
-  # OLD VERSION integrate(newf, vi.from, vi.to )$value
-  #integrate(newf, vi.from, vi.to)$value
   
   multiplier <- 1
   if( length(vi.from) > 1 & length(vi.to) == 1 ){
@@ -189,7 +188,7 @@ numerical.integration <- function(f,wrt,av,args) {
     for (k in 1:length(vi.to)) {
       res[k] <- stats::integrate(newf,vi.from[k],vi.to[k])$value
     }
-    return(res)
+    return(res+initVal)
   }
   val0 <- stats::integrate(newf, vi.from, vi.to[1])$value
   # work around a bug in integrate()
@@ -201,6 +200,8 @@ numerical.integration <- function(f,wrt,av,args) {
       val0 <- -val0
     }
   } 
+  # add initial condition
+  val0 <- val0 + initVal
   if (length(vi.to) == 1) {
     return(multiplier*val0)
   }

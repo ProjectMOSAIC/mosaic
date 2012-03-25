@@ -79,6 +79,14 @@ test_that("Integrals work with Inf args",{
   expect_that( f(x.to=-Inf, x.from=Inf), equals(-1, tol=0.0001))
 })
 
+test_that("Initial condition (constant of integration) works", {
+  f <- antiD( 1~t)
+  expect_that( f(t.to=0), equals(0, tol=0.00001))
+  expect_that( f(t.to=5), equals(5, tol=0.00001))
+  expect_that( f(t.to=0, initVal=2), equals(2, tol=0.00001))
+  expect_that( f(t.to=5, initVal=2), equals(7, tol=0.00001))
+})
+
 test_that("derivatives work in derivatives",{
   g <- numD( a*x^2 + x*y ~ x, a=1)  
   h <- numD( g(x=x,y=y,a=a) ~ y, a=1)
