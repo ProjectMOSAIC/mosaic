@@ -1,8 +1,9 @@
 #' Find the zeros of a function
 #' 
 #' Compute numerically the zeros of a function.
-#' @param expr A formula.  The right side names the variable with respect to which the zeros should be found.  
-#' The left side is an expression, e.g. \code{sin(x) ~ x}.  
+#' @param expr A formula, e.g. \code{sin(x) ~ x}.  
+#' The right side names the variable with respect to which the zeros should be found.  
+#' The left side is an expression.  
 #' All free variables (all but the variable on the right side) named in the expression must be assigned 
 #' a value via \code{\ldots}
 #' @param \dots Specific numerical values for the free variables in the expression.
