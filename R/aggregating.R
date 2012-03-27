@@ -462,14 +462,30 @@ setMethod(
 setGeneric( 
 	"var", 
 	function(x, y=NULL, na.rm=FALSE, use='everything', data=NULL)  {
-		if ( is.name(substitute(x)) && ! is.null(y) && is.name(substitute(y)) && is.data.frame( data ) ) {
-			return( stats::var(eval( substitute(x), data), eval(substitute(y, data), na.rm=na.rm, use=use)) )
+		if ( is.data.frame(data) && is.name(substitute(x)) && is.name(substitute(y)) ) {
+			return( stats::var(eval( substitute(x), data), eval(substitute(y), data), na.rm=na.rm, use=use) )
 		}
-		if ( is.name(substitute(x)) && is.data.frame( y ) ) {
-			return(stats::var(eval( substitute(x), y),  na.rm=na.rm))
-		}
-		if ( is.name(substitute(x)) && is.null(y) && is.data.frame( data ) ) {
+		if ( is.data.frame(data) && is.name(substitute(x)) && is.null(y) ) {
 			return( stats::var( eval( substitute(x), data), na.rm=na.rm, use=use) )
+		}
+		if ( is.data.frame(y) && is.name(substitute(x)) ) {
+			return(stats::var(eval( substitute(x), y),  na.rm=na.rm, use=use))
+		}
+		if ( is.data.frame(na.rm) && is.name(substitute(x)) && is.name(substitute(y)) ) {
+			data <- na.rm
+			return( stats::var(eval( substitute(x), data), eval(substitute(y), data), use=use) )
+		}
+		if ( is.data.frame(na.rm) && is.name(substitute(x)) && is.null(y) ) {
+			data <- na.rm
+			return( stats::var(eval( substitute(x), data), use=use) )
+		}
+		if ( is.data.frame(use) && is.name(substitute(x)) && is.name(substitute(y)) ) {
+			data <- use
+			return( stats::var(eval( substitute(x), data), eval(substitute(y), data), na.rm=na.rm) )
+		}
+		if ( is.data.frame(use) && is.name(substitute(x)) && is.null(y) ) {
+			data <- use
+			return( stats::var(eval( substitute(x), data), na.rm=na.rm) )
 		}
 		standardGeneric('var')
 	}
@@ -502,8 +518,12 @@ setMethod(
 setMethod(
 	'var',
 	c('numeric'),
-	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
-		stats::var( x, y, na.rm=na.rm, use=use)
+	function(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame()) {
+		if (is.null(y) )
+			stats::var( x, y, na.rm=na.rm)
+		else
+			stats::var( x, y, na.rm=na.rm, use=use)
+	}
 )
 
 #' @rdname aggregating-methods
@@ -561,13 +581,35 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="data.frame", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y=parent.frame(),  na.rm=TRUE, use='everything') {
+	function(x, y=parent.frame(),  na.rm=FLASE, use='everything') {
 		data <- y
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data),  na.rm=na.rm, use=use ) )
 		} else {
 			return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
 		} 
+	}
+)
+
+#' @rdname aggregating-methods
+#' @aliases var,ANY,missing,ANY,ANY,data.frame-method
+#' @export
+setMethod( 
+	"var", 
+	signature=c(x="ANY", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
+	function(x,y, na.rm=FALSE, use, data=parent.frame()) {
+		return( stats::var( eval( substitute(x), data ), na.rm=na.rm, use=use) )
+	}
+)
+
+#' @rdname aggregating-methods
+#' @aliases var,ANY,ANY,ANY,ANY,data.frame-method
+#' @export
+setMethod( 
+	"var", 
+	signature=c(x="ANY", y="ANY", na.rm='ANY', use='ANY', data="data.frame"),
+	function(x,y, na.rm=FALSE, use, data=parent.frame()) {
+		return( stats::var( eval( substitute(x), data ), eval( substitute(y), data ), na.rm=na.rm, use=use) )
 	}
 )
 ##########################################################################################

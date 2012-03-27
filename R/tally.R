@@ -205,7 +205,7 @@ evalFormula <- function(formula, data=parent.frame()) {
 evalSubFormula <- function(x, data=parent.frame(), split=c('&') ){
   if (is.null(x)) return(NULL)
   if( is.name(x) || !(as.character(x[[1]]) %in% split) ) {
-    res <- data.frame(eval(x, env=data))
+    res <- data.frame(eval(x, envir=data))
     names(res) <- deparse(x)
     return( res )
   }

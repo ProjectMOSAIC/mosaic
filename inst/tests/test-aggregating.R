@@ -35,3 +35,20 @@ test_that("formulas work without data", {
   expect_equivalent( mean( ~ age ), mean( ~age, HELPrct ))
 })
 
+test_that("var grabs two vectors from data frame", {
+  expect_equivalent( var( age, cesd, data=HELPrct ), var( HELPrct$age, HELPrct$cesd) )
+})
+
+test_that("na.rm works", {
+  x <- 1:6; y <- c(1,2,5,6)
+  x[3] <- NA
+  x[4] <- NA
+  expect_equivalent( mean( x, na.rm=TRUE ), mean(y))
+  expect_equivalent( sd( x, na.rm=TRUE ), sd(y))
+  expect_equivalent( var( x, na.rm=TRUE ), var(y))
+  expect_equivalent( var( x, x, na.rm=TRUE ), var(x,x,na.rm=TRUE))
+  expect_equivalent( var( x, 1:6, na.rm=TRUE ), var(x,1:6))
+  expect_equivalent( median( x, na.rm=TRUE ), median(y))
+  expect_equivalent( max( x, na.rm=TRUE ), max(y))
+})
+

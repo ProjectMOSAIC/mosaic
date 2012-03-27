@@ -59,11 +59,11 @@ numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
   dvars <- all.vars(rhs(formula), unique=FALSE) 
   # What sort of derivative?
   if (length(dvars)==1)  #Simple first derivative 
-    res = dfdx( f, dvars[1], .h=ifelse(is.null(.hstep), 0.000001, .hstep))
+    res = dfdx( f, dvars[1], .hstep=ifelse(is.null(.hstep), 0.000001, .hstep))
   else if (length(dvars==2) & dvars[1]==dvars[2]) # Second unmixed partial 
-    res = d2fdx2( f, dvars[1], .h=ifelse(is.null(.hstep), 0.0001, .hstep))
+    res = d2fdx2( f, dvars[1], .hstep=ifelse(is.null(.hstep), 0.0001, .hstep))
   else if (length(dvars)==2) # mixed partial
-    res = d2fdxdy(f, dvars[1], dvars[2], .h=ifelse(is.null(.hstep), 0.0001, .hstep))
+    res = d2fdxdy(f, dvars[1], dvars[2], .hstep=ifelse(is.null(.hstep), 0.0001, .hstep))
 
   if (length(dvars)>2){
     stop("Order greater than 2 not yet implemented.")
