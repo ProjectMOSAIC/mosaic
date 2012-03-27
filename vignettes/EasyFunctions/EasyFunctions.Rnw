@@ -1,0 +1,213 @@
+%\VignetteIndexEntry{Resampling-based inference}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, resampling, bootstrapping, permutation}
+\documentclass[11pt]{article}
+\usepackage{../mosaic}
+\usepackage{graphicx, amsmath, amsfonts, amssymb, epstopdf, color, url, hyperref} 
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\definecolor{green}{RGB}{0,127,0}
+\hypersetup{pdftitle={Resampling-based inference}, colorlinks=true, linkcolor=black, citecolor=black}
+\usepackage[bottom]{footmisc}
+\usepackage[round]{natbib}
+\bibliographystyle{abbrvnat}
+
+\frenchspacing{}
+
+\title{Resampling-based inference using the {\tt mosaic} package}
+\author{Daniel Kaplan\thanks{dtkaplan@gmail.com} \\ \footnotesize Macalester College \\
+\footnotesize St. Paul, MN
+\and Nicholas J. Horton\thanks{nhorton@smith.edu} \\ \footnotesize Smith College \\
+\footnotesize Northampton, MA \and 
+Randall Pruim\thanks{rpruim@calvin.edu}
+\\ \footnotesize Calvin College \\
+\footnotesize Grand Rapids, MI
+}
+\date{\today}
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+\tableofcontents
+
+\SweaveOpts{
+tidy=TRUE,
+dev=pdf,
+fig.path=figures/fig-,  
+fig.width=5, fig.height=2,
+out.width=0.78\textwidth,
+fig.align=center,
+fig.show=hold,
+comment=NA
+}
+
+
+<<setupRnw,echo=FALSE,results=hide,message=FALSE>>=
+source('../setup.R')
+@
+
+
+\section{Introduction}
+
+This document is intended to describe ways of dealing with functions
+that take advantage of the features of the \pkg{mosaic} package.
+One of the goals of the \pkg{mosaic} package is to provide elementary commands
+that can be easily strung together by novices without having to master the
+esoteric aspects of programming.  
+
+Among other things, the \pkg{mosaic} package simplifies the following:
+\begin{enumerate}
+	\item
+		Creating functions from simple mathematical formulas like $f(x) = A \log(Bx)$
+	\item
+		Creating functions describing the fit of a model
+	\item
+		Plotting functions in \pkg{lattice} graphics plots
+\end{enumerate}
+
+More information about the package and this
+initiative can be found at the Project MOSAIC website:
+\url{www.mosaic-web.org}.
+
+
+\section{Background and setup}
+\subsection{R and RStudio}
+\bigskip
+
+\R{} is an open-source statistical environment that has been used at a number
+of institutions to teach introductory statistics.  Among other advantages, \R{}
+makes it easy to demonstrate the concepts of statistical inference through
+randomization while providing a sensible path for beginners to progress to
+advanced and professional statistics. \RStudio{} (\url{http://www.rstudio.org})
+is an open-source integrated development environment for \R{} which facilitates
+use of the system.
+
+
+\subsection{Setup}
+The \pkg{mosaic} package is available over the Internet and can be installed
+into \R{} using the standard features of the system (this needs only be done once).  
+<<eval=FALSE,echo=TRUE>>=
+install.packages("mosaic")
+@ 
+
+Once installed, the package must be loaded so that it is available (this must
+be done within each \R{} session).  In addition to loading the package, we set
+the number of digits to display by default as well as the number of simulations
+to undertake.
+
+<<moreSetup>>=
+require(mosaic)
+options(digits=3)
+@ 
+
+\section{Creating Functions from Formulas}
+
+\R\ provides a mechanism for creating functions of arbitrary complexity.  The \pkg{mosaic}
+package provides an alternative for creating relatively simple functions that can be 
+described with formulas.
+
+As an example, suppose we want to define the function (family) 
+\[
+f(x) = A \log(Bx)
+\] 
+where $x$ is our
+primary input to $f$ and $A$ and $B$ are parameters that we way wish to adjust.
+That standard way of doing this in \R\ using \function{function()}:
+<<function>>=
+f <- function(x, A=1, B=1) A * log(B * x)
+@
+Alternatively, we can use the \pkg{mosaic} function \function{makeFun} to achieve an equivalent
+function by a different means.
+<<makeFunction>>=
+g <- makeFun( A * log (B * x) ~ x, A=1, B=1 )
+@
+<<compareFunctions, tidy=FALSE>>=
+x <- 1:3; A <- 1:3; B=1:3
+grid <- expand.grid(x,A,B)
+functionComparison <- data.frame(x=grid[,1], A=grid[,2], B=grid[,3])
+functionComparison$f <- with(functionComparison, f(x,A,B))
+functionComparison$g <- with(functionComparison, g(x,A,B))
+head(functionComparison)
+tally( with(functionComparison, f==g) )
+@
+
+The \pkg{mosaic} package includes a number of utilities for working with functions created
+this way, including differentiation and integration operators.  These are described in a
+separate vignette on Calculus with \pkg{mosaic}.
+
+\section{Creating Functions from Models}
+
+For statistics, functions often come from data rather than from formulas.  While \function{lm()}
+and \function{predict()} can be used to fit values using a linear model fit, both the input 
+and output formats are awkward.  To fit new values, \function{predict()} requires that the inputs
+be encapsulated in a data frame.  And the output of \function{predict()} is not a function, it is 
+merely returns the values for a particular set of predictors.  \function{makeFun()} can create
+from a linear model a function that describes the model fit.  This function can then be evaluated
+on inputs or plotted (see the next section) like any other function.  This interface is much
+more natural to students and others unfamiliar with all of \R's data structures.
+
+<<functionFromModel>>=
+data(ChickWeight)
+head(ChickWeight)
+model <- lm( weight ~ Time + I(Time^2) + Diet, ChickWeight )
+Wt <- makeFun(model)
+Wt( Time=5, Diet="2" )
+Wt( Time=1:10, Diet="2" )
+Wt( Time=5, Diet="2", interval='confidence' )
+@
+
+\section{Plotting Functions}
+
+The function \function{plotFun()} simplifies adding functions to graphical displays.
+
+<<ChickPlot>>=
+xyplot(
+  weight ~ Time, data=ChickWeight, groups=Diet, auto.key=list(space='right'),
+  alpha=.4, cex=.2, 
+  par.settings=list(superpose.symbol=list(col=c('blue','red','green','gray50'),pch=16))
+)
+plotFun(Wt(Time, Diet="1") ~ Time, col='blue', lwd=2, add=TRUE, alpha=.4)
+plotFun(Wt(Time, Diet="2") ~ Time, col='red', lwd=2, add=TRUE, alpha=.4)
+plotFun(Wt(Time, Diet="3") ~ Time, col='green', lwd=2, add=TRUE, alpha=.4)
+plotFun(Wt(Time, Diet="4") ~ Time, col='gray50', lwd=2, add=TRUE, alpha=.4)
+@
+
+Adding a simple interaction term gives a different fit that predicts larger differences
+between the diets later in the observation period.
+<<ChickPlot2>>=
+model2 <- lm( weight ~ Time + I(Time^2) * Diet, ChickWeight )
+Wt2 <- makeFun(model2)
+xyplot(
+  weight ~ Time, data=ChickWeight, groups=Diet, auto.key=list(space='right'),
+  alpha=.4, cex=.2, 
+  par.settings=list(superpose.symbol=list(col=c('blue','red','green','gray50'),pch=16))
+)
+plotFun(Wt2(Time, Diet="1") ~ Time, col='blue', lwd=2, add=TRUE, alpha=.4)
+plotFun(Wt2(Time, Diet="2") ~ Time, col='red', lwd=2, add=TRUE, alpha=.4)
+plotFun(Wt2(Time, Diet="3") ~ Time, col='green', lwd=2, add=TRUE, alpha=.4)
+plotFun(Wt2(Time, Diet="4") ~ Time, col='gray50', lwd=2, add=TRUE, alpha=.4)
+@
+
+
+\section{Acknowledgments}
+
+Project MOSAIC is supported by the US National Science Foundation (DUE-0920350).
+More information about the package and this initiative can be 
+found at the Project MOSAIC website: \url{www.mosaic-web.org}.
+
+
+\section{References}
+\begin{itemize}
+\item G. W. Cobb, The introductory statistics course: a Ptolemaic curriculum?, 
+   \emph{Technology Innovations in Statistics Education}, 2007, 1(1).
+\item B. Efron \& R. J. Tibshirani, {\em An introduction to the bootstrap}, 1993, Chapman \& Hall, New York.
+\item T Hesterberg, D. S. Moore, S. Monaghan, A. Clipson \& R. Epstein.  {\em Bootstrap methods and permutation tests (2nd edition)}, (2005), W.H. Freeman, New York.
+\item D. Kaplan, {\em Statistical modeling: A fresh approach}, \url{http://www.macalester.edu/~kaplan/ISM}.
+\item T. Speed, Simulation, \emph{IMS Bulletin}, 2011, 40(3):18.
+ 
+
+\end{itemize}
+
+
+\end{document}

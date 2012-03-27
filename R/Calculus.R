@@ -15,6 +15,7 @@
 #' default values of "from" and "to" can be assigned.  They are to be written with
 #' the name of the variable as a prefix, e.g. \code{y.from}.
 #'
+#' @param Const Numerical value for the constant of integration.
 #'
 #' @param .hstep  horizontal distance between points used for secant slope
 #'   calculation in numerical derivatives. 
@@ -42,8 +43,10 @@
 #' \code{antiD} returns a function with arguments \code{to} 
 #' and \code{from=0}, the upper and lower
 #' bounds of the interval of integration w.r.t. the variable of integration.
+#' There is also an argument, \code{initVal}, that plays the role of the
+#' constant of integration.
 #' The numerical value of the integral or
-#' derivative can be found by evaluating that function against its inputs.
+#' derivative can be found by evaluating that function.
 #' 
 #' @export
 #' @examples
@@ -86,7 +89,11 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' by.x = antiD( one(x=x, y=y) ~x )
 #' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
 #' by.xy(y.from=-1, y.to=1)
-antiD <- function(formula, ...){
+#' vel <- antiD( -9.8 ~ t  )
+#' pos <- antiD( vel( t.to=t, initVal=v0)~t, Const=50)
+#' pos(0:5, v0=10)
+#' pos(0:5, v0=10, initVal=100)
+antiD <- function(formula, ..., Const=0){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
   f <- makeFun(formula, ..., strict.declaration=FALSE)
@@ -96,7 +103,7 @@ antiD <- function(formula, ...){
                         variants = c("from",".from"))$val
   vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
                       variants = c("to",".to"))$val
-  res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6)
+  res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6, Const)
   return(res)
 }
 # ===================
@@ -113,7 +120,7 @@ antiD <- function(formula, ...){
 #' @param to default value for the upper bound of the integral region
 #' @param .tol tolerance of the numerical integrator (not yet implemented)
 # I don't want this function to be exported.
-makeAntiDfun <- function(.function, .wrt, from, to, .tol) { 
+makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) { 
   # Create a new function of argument .vi that will take additional
   # arguments
   .newf <- function(.vi,.av){
@@ -129,6 +136,7 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol) {
   limitsArgs = list()
   limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
   limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
+  limitsArgs[["initVal"]] <- Const
   formals(res) <- c(limitsArgs,resargs)
   return(res)
 }
@@ -158,22 +166,18 @@ numerical.integration <- function(f,wrt,av,args) {
   vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
                      variants = c("to",".to"))$val
   # If they are calls, turn them into values.  Redundant with loop above
-  # vi.from <- eval.parent(vi.from, n=2)
-  # vi.to <- eval.parent(vi.to, n=2)
   if( any(is.nan(vi.to)) | any(is.nan(vi.from))) stop("Integration bounds not given.")
   # and delete them from the call
   av[[paste(wrt,".from",sep="")]] <- NULL
   av[[paste(wrt,".to",sep="")]] <- NULL
+  initVal <- av2[["initVal"]]
+  av[["initVal"]] <- NULL
   newf <- function(vi){
     av[[wrt]] = vi
-    #do.call(f,av,quote=TRUE) + 0*vi #make the same size as vi
+    # make the same size as input vi
     f(vi,av) + 0*vi
   }
   # NEED TO ADD TOLERANCE
-  # Copy code from old antiD
-  # But first test it out for scalar inputs.
-  # OLD VERSION integrate(newf, vi.from, vi.to )$value
-  #integrate(newf, vi.from, vi.to)$value
   
   multiplier <- 1
   if( length(vi.from) > 1 & length(vi.to) == 1 ){
@@ -189,7 +193,7 @@ numerical.integration <- function(f,wrt,av,args) {
     for (k in 1:length(vi.to)) {
       res[k] <- stats::integrate(newf,vi.from[k],vi.to[k])$value
     }
-    return(res)
+    return(res+initVal)
   }
   val0 <- stats::integrate(newf, vi.from, vi.to[1])$value
   # work around a bug in integrate()
@@ -201,6 +205,8 @@ numerical.integration <- function(f,wrt,av,args) {
       val0 <- -val0
     }
   } 
+  # add initial condition
+  val0 <- val0 + initVal
   if (length(vi.to) == 1) {
     return(multiplier*val0)
   }
