@@ -1,9 +1,8 @@
 #' Find the zeros of a function
 #' 
 #' Compute numerically the zeros of a function.
-#' @param expr A formula, e.g. \code{sin(x) ~ x}.  
-#' The right side names the variable with respect to which the zeros should be found.  
-#' The left side is an expression.  
+#' @param expr A formula.  The right side names the variable with respect to which the zeros should be found.  
+#' The left side is an expression, e.g. \code{sin(x) ~ x}.  
 #' All free variables (all but the variable on the right side) named in the expression must be assigned 
 #' a value via \code{\ldots}
 #' @param \dots Specific numerical values for the free variables in the expression.
@@ -30,6 +29,7 @@
 #' @return A set of zero or more numerical values.  Plugging these into the
 #' expression on the left side of the formula should result in values near zero.
 #'
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu}) 
 #' 
 #' @export
 #' @examples
@@ -49,10 +49,18 @@
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=0 )
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=3 )
 #' 
+#' @keywords calculus 
 
-findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf, nearest=10, npts=1000, iterate=1) {
+findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf, nearest=10, npts=1000, iterate=1 ) {
 	dots <- list(...)
 	rhsVars <- all.vars(rhs(expr))
+
+	if (is.list(iterate)) { # this is a recursive call
+		ignore.limits <- iterate[['ignore.limits']]
+		iterate <- iterate[['iterate']]
+	} else { # this is the original call
+		ignore.limits <- FALSE
+	}
 
 	if( length(rhsVars) != 1 ) stop("Only works for one unknown.")
 
@@ -62,15 +70,21 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 		eval( lhs(expr), envir=mydots, enclos=parent.frame() )
 	}
 
-	xlim <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim) )[['xlim']]
+	if (! ignore.limits ) {
+		xlim <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim) )[['xlim']]
+	}
 	tryCatch( xlim <- range(xlim), error = function(e) stop(paste('Improper limits value --', e)))
 
     if( xlim[1] >= xlim[2] )  
        stop(paste("Left limit (", xlim[1], ") must be less than right limit (", xlim[2], ")."))
-    mx <- max(xlim - near)
-    mn <- min(xlim - near)
-	if (mx < 0) mx <- 0
-	if (mn > 0) mx <- 0 
+	internal.near <- near
+	if ( internal.near  < xlim[1] || internal.near  > xlim[2]) { 
+		internal.near  <- mean(xlim[1],xlim[2]) 
+	}
+    mx <- max(xlim - internal.near )  # max amount to add to internal.near  when searching
+    mn <- min(xlim - internal.near )  # min amount to add to internal.near  when searching (will be negative)
+	if (mx < 0) stop('Bug alert: near outside search interval.')
+	if (mn > 0) stop('Bug alert: near outside search interval.')
 
 	# Deal with very large numbers for the interval, e.g. Inf
 	verybig <- .Machine$double.xmax
@@ -88,28 +102,37 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
       leftseq <- -exp( seq( log(-mn), log(-min(-plainbig,mx)), length=npts))
     }
 
-    searchx <- sort(unique(near  + c(0, leftseq, middleseq, rightseq)))
+    searchx <- sort(unique(internal.near   + c(0, leftseq, middleseq, rightseq)))
 
     y <- sapply( searchx, pfun )
-    testinds <- which(abs(diff( sign(y) )) != 0)
+    testinds <- which( diff(sign(y)) != 0 )
     if (length(testinds) < 1 ) {
-		warning("No zeros found.  You might try narrowing your search window or increasing npts.")
+		warning("No zeros found.  You might try modifying your search window or increasing npts.")
 		return( numeric(0) )
 	} else {
 		testinds <- testinds[ order(abs(searchx[testinds] - near)) ]
 		N <- min( length(testinds), 2*nearest )
 		zeros <- rep(NA, N )
-		for (k in 1:N) {
-		  where <- testinds[k]
-		  zeros[k] <- uniroot(function(qqzz){ sapply( qqzz, pfun) }, lower=searchx[where], upper=searchx[where+1])$root
+		for (k in 1:N) {  # look in subinterval k, i.e., between testinds[k] and  testinds[k+1]
+			if ( searchx[testinds[k]] < searchx[testinds[k]+1] ) {
+				ur <- uniroot(function(qqzz){ sapply( qqzz, pfun) }, lower=searchx[testinds[k]], upper=searchx[testinds[k]+1])
+		  		zeros[k] <- round( ur$root, digits=trunc(-log10(ur$estim.prec)) )
+			} else {
+				warning("Potential bug alert: Attempting to search in region where signs of function at endpoints are equal.  Skipping this interval.")
+			}
 	  }
     }
 
 	o <- order( abs(zeros - near) )
 	result <- sort(unique(zeros[o[1:min(nearest,length(zeros))]]))
 	if ( iterate > 0 && length(result) > 1 )  {
-		return ( findZeros( expr, ..., xlim=range(result), near=near, within=within, 
-						   nearest=nearest, npts=npts, iterate=iterate-1 ) )
+		adjust <- min(diff(result))
+		# Note: negative value of iterate to indicate that we will be in a secondary iteration
+		return ( findZeros( expr, ..., xlim=range(c(result-adjust, result+adjust)), 
+						   near=near, within=within, 
+						   nearest=nearest, 
+						   npts=npts, 
+						   iterate= list(iterate=iterate - 1, ignore.limits = TRUE) ) )
 	} else {
 		return(result)
 	}
