@@ -138,7 +138,8 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
   limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
   limitsArgs[["initVal"]] <- Const
   formals(res) <- c(limitsArgs,resargs)
-  return(res)
+  
+  return(Vectorize(res))
 }
 # =============
 #' @rdname Calculus

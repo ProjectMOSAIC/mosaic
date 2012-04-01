@@ -175,5 +175,7 @@ test_that("add.h.control works",{
   equals(f(3, .hstep=1), equals(-.83305,tol=0.0001)) 
 })
 
-
-
+test_that("antiD function is vectorized", {
+  f <- antiD( M*exp(.01*t)~t )
+  expect_that( length(f(t.to=1:2, M=100:101)), equals(2))
+})
