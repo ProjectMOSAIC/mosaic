@@ -422,7 +422,7 @@ it's unlikely that the two groups have the same mean word recall back in their r
 
 
 
-\section{Randomization with Models}
+\section{Moving Beyond Means and Proportions}
 
 The Lock Problems refer to the descriptive statistics encountered in many 
 introductory applied statistics courses: 
@@ -432,7 +432,7 @@ linear models.
 
 Usually, people think about linear models in the context of regression.  For instance, using the Lock Mustang price dataset, 
 there is presumably a relationship between the price of a car and its mileage.  Here's a graph:
-<<price-mileage-graph>>
+<<price-mileage-graph>>=
 xyplot( Price ~ Miles, data=mustangs )
 @
 There's a pretty clear relationship here, which in the Lock problems was quantified with the correlation coefficient.
