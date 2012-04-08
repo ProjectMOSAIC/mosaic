@@ -25,6 +25,7 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 }
 \date{\today}
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 %\SweaveOpts{concordance=TRUE}
 
 \maketitle
@@ -53,7 +54,7 @@ source('../setup.R')
 The \pkg{mosaic} package is intended to support teaching statistics and modeling (as well as calculus) in a way that embraces the possibilities offered by modern computational techniques.
 Our goal is to make effective computation accessible to university-level students at an introductory level.  With the broad availability of inexpensive, fast computing and powerful, free software such as \R, the rate-limiting factor in accessibility is intellectual: providing a notation in which ideas can be expressed and understood clearly.  
 
-This document describes how to use the \pkg{mosaic} package to carry out randomization-based statistical inference.  The \pkg{mosaic} package supports an approach that is intended to be easy for students to learn and to generalize.  To this end, we try to adopt the following tenets:
+This document describes how to use the \pkg{mosaic} package to carry out randomization-based statistical inference.  The \pkg{mosaic} package supports an approach that is intended to be easy for students to learn and to generalize.  To this end, we adopt the following tenets:
 \begin{itemize}
 \item Students should be able to carry out useful statistics with only a very few lines of commands.
 \item Basic commands should relate to statistical operations rather than programming operations.  We seek to avoid programming overhead such as loops, counters, and accumulators.
@@ -147,7 +148,7 @@ The \pkg{mosaic} package works within \R{},
 so any of the data facilities within \R{} can be used to
 provide data sets to students.  In particular, \R{} functions 
 such as \function{read.csv} support 
-accessing data files via a website URL, avoiding the need to download data files to individual student machines.  Unfortunately, URL names are often long and ungainly, \pkg{mosaic} provides the \function{fetchData} function which allows data files to be referred to by a simple name.  We've put the data files relating to the Lock problems on a web site that is checked automatically by \function{fetchData}.  (Instructors can specify their own sites via start-up file commands.  This enables an instructor to drop a file onto their own web site and have it instantly available to students.)
+accessing data files via a website URL, avoiding the need to download data files to individual student machines.  Since URL names are often long and ungainly, \pkg{mosaic} provides the \function{fetchData} function which allows data files to be referred to by a simple name.  We've put the data files relating to the Lock problems on a web site that is checked automatically by \function{fetchData}.  (Instructors can specify their own sites via start-up file commands.  This enables an instructor to drop a file onto their own web site and have it instantly available to students.)
 
 Here, one of the Lock data sets are read into \R{} via the Internet:
 <<>>=
@@ -184,10 +185,10 @@ The basic \pkg{lattice} syntax here --- operator, ``formula" involving \verb+~+,
 mean(~Price, data=mustangs)
 @ 
 
-Those familiar with \R{} may wonder why the statement has not been written as \texttt{mean( mustangs\$Price )}.  You can, of course, carry out exactly the same calculation this way.  In using \verb+mean(~Price, data=mustangs)+, we are anticipating the next steps: the introduction of 
+Those familiar with \R{} may wonder why the statement has not been written as \texttt{mean(mustangs\$Price)}.  You can, of course, carry out exactly the same calculation this way.  By using \verb+mean(~Price, data=mustangs)+, we are anticipating the next steps: the introduction of 
 additional operations such as randomization and modeling.
 
-Resampling, random selection with replacement, is an important operation in randomization.  The \function{resample} function performs this.  It can be illustrated in a very basic way on a small set of numbers:
+Resampling, also known as random selection with replacement, is an important operation in randomization.  The \function{resample} function performs this.  It can be illustrated in a very basic way on a small set of numbers:
 <<>>=
 simple=c(1,2,3,4,5)
 resample(simple)
@@ -195,9 +196,10 @@ resample(simple)
 resample(simple)
 @
 
-When applied to a dataframe, \function{resample} selects random rows.  It's easy to demonstrate this with a statement such as 
+When applied to a dataframe, \function{resample} selects random rows.  It's easy to demonstrate this with a statement such as:
+
 <<results=hide>>=
-resample(mustang)
+resample(mustangs)
 @
 <<echo=FALSE>>=
 set.seed(104)
@@ -237,7 +239,7 @@ xhistogram(~ result, data=trials, xlab="Mean Mustang Price (in thousand dollars)
 @ 
 
 The simplest way to translate this distribution into a confidence interval is to apply the operator for that purpose:
-<<confint>>
+<<confint>>=
 confint(trials, level=0.90, method="quantile")
 confint(trials, level=0.90, method="stderr")
 @
@@ -252,6 +254,7 @@ qdata(c(.05, .95), result, data=trials)
 \item Using normal theory and the standard error.
 First calculate the critical value $t_\star$ for
 the appropriate degrees of freedom.  Or use $z_\star$, either for simplicity or to demonstrate how $t_\star$ differs.  In either case, the confidence level needs to be converted to the appropriate tail probability, e.g. a level of 90\% corresponds to a tail probability of 0.95.
+
 <<tstar>>=
 tstar <- qt(.95, df=24)
 zstar <- qnorm(.95)
@@ -307,7 +310,7 @@ prop(rbinom(100000, prob=0.5, size=428) >= 240)
 
 It's tempting entirely to avoid the variation due to simulation by doing a deterministic
 probability calculation rather than the simulation.  This exact reproducibility comes at
-a cost, though, the need to customize the cut-off point to reflect which tail of the distribution corresponds to "as or more extreme than 240."  On the right side, this means subtracting 1 from the observed number.
+a cost, though, the need to customize the cut-off point to reflect which tail of the distribution corresponds to ``as or more extreme than 240."  On the right side, this means subtracting 1 from the observed number.
 <<pbinom>>=
 pbinom(239, prob=0.5, size=428)
 @ 
@@ -341,7 +344,7 @@ The shading added through the \option{groups =} option helps to visually reinfor
 \subsection*{Lock Problem 3: Permutation test of means from two groups (sleep and memory)} 
 
 \begin{quotation}
- {\em In an experiment on memory, students were given lists of 24 words
+ {\em In an experiment on memory (Mednicj et al, 2008), students were given lists of 24 words
   to memorize.  After hearing the words they were assigned at random
   to different groups. One group of 12 students took a nap for 1.5
   hours while a second group of 12 students stayed awake and was given
@@ -422,7 +425,7 @@ it's unlikely that the two groups have the same mean word recall back in their r
 
 
 
-\section{Moving Beyond Means and Proportions}
+\section{Moving beyond means and proportions}
 
 The Lock Problems refer to the descriptive statistics encountered in many 
 introductory applied statistics courses: 
@@ -432,6 +435,7 @@ linear models.
 
 Usually, people think about linear models in the context of regression.  For instance, using the Lock Mustang price dataset, 
 there is presumably a relationship between the price of a car and its mileage.  Here's a graph:
+
 <<price-mileage-graph>>=
 xyplot( Price ~ Miles, data=mustangs )
 @
@@ -504,7 +508,7 @@ The difference between these two proportions is:
 diff(prop( homeless ~ sex, data=HELPrct ))
 @
 
-The \texttt{lm} function gives the same results. (You have to specify which level you want the proportion of, "homeless" or "housed".)
+The \texttt{lm} function gives the same results. (You have to specify which level you want the proportion of, ``homeless" or ``housed".)
 <<>>=
 lm( homeless=="homeless" ~ 1, data=HELPrct )
 @
@@ -515,26 +519,27 @@ Even when using \function{mean} and \function{prop}, there's a reason to prefer 
 
 
 <<>>=
-lm( homeless=="homeless" ~ sex, data=HELPrct )
+lm(homeless=="homeless" ~ sex, data=HELPrct)
 @
 
-\subsection{Randomization with Linear Models}
+\subsection{Randomization with linear models}
 
 Randomization can be performed with \function{lm} in the same style as with \function{mean} and \function{prop}.  Here, for instance, is a resampling confidence interval on the 
 price change with mileage in the Mustang data:
 <<>>=
-trials <- do(1000) * lm( Price ~ Miles, data=resample(mustangs) )
+trials <- do(1000) * lm(Price ~ Miles, data=resample(mustangs))
 confint(trials)
 @
 
 
-Or, a permutation test on the difference between homeless rates among men and women using the \texttt{HELPrct} data:
+Or, we can calculate a permutation test on the difference between homeless rates among men and women using the \texttt{HELPrct} data:
+
 <<>>=
 nulldist <- do(1000) * lm(homeless=="homeless" ~ shuffle(sex), data=HELPrct)
-prop( ~ abs(sexmale) > 0.1146, data=nulldist )
+prop(~ abs(sexmale) > 0.1146, data=nulldist)
 @
 
-\subsection{Multiple Explanatory Variables}
+\subsection{Multiple explanatory variables}
 
 The regression framework allows more than one explanatory to be used.  For instance, one can examine how each of \texttt{Age} and \texttt{Miles} is related to the \texttt{Price} of the Mustangs.
 
@@ -544,6 +549,7 @@ trialsmod2 <- do(1000) * lm( Price ~ Miles, data=resample(mustangs))
 trialsmod3 <- do(1000) * lm( Price ~ Miles + Age, data=resample(mustangs))
 @
 The first model suggests that \texttt{Price} goes down by about one to two thousand dollars per year of \texttt{Age}. 
+
 <<>>=
 confint(trialsmod1)
 @
@@ -674,7 +680,8 @@ found at the Project MOSAIC website: \url{www.mosaic-web.org}.
 \item B. Efron \& R. J. Tibshirani, {\em An Introduction to the Bootstrap}, 1993, Chapman \& Hall, New York.
 \item T. Hesterberg, D. S. Moore, S. Monaghan, A. Clipson \& R. Epstein.  {\em Bootstrap Methods and Permutation Tests (2nd edition)}, (2005), W.H. Freeman, New York.
 \item D.T. Kaplan, {\em Statistical Modeling: A Fresh Approach}, 2nd edition, \url{http://www.mosaic-web.org/StatisticalModeling}.
-\item T. Speed, "Simulation", \emph{IMS Bulletin}, 2011, 40(3):18.
+\item S.C. Mednicj, D. J. Cai, J. Kanady, S. P. Drummond.  ``Comparing the benefits of caffeine, naps and placebo on verbal, motor and perceptual memory", {\em Behavioural Brain Research}, 2008, 193(1):79-86.
+\item T. Speed, ``Simulation", \emph{IMS Bulletin}, 2011, 40(3):18.
 \end{itemize}
 
 \end{document}
