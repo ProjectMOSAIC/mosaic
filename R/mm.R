@@ -85,6 +85,7 @@ coefficients.groupwiseModel <- function(x) {
 # Methods
 #' @rdname mm
 #' @method print groupwiseModel
+#' @param x Object to be printed
 print.groupwiseModel <- function(x, ... ) {
   digits = max(3, getOption("digits")-3)
   cat("Groupwise Model.")
@@ -92,6 +93,7 @@ print.groupwiseModel <- function(x, ... ) {
 }
 #' @rdname mm
 #' @method residuals groupwiseModel
+#' @param object groupwiseMean object from which to extract the residuals
 residuals.groupwiseModel <- function(object, ...) {object$resids}
 #' @rdname mm
 #' @method fitted groupwiseModel
