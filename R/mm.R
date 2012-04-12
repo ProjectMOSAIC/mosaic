@@ -70,9 +70,9 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
   return(res)
 }
 #' @rdname mm
-#' @method coefficients groupwiseModel
-coefficients.groupwiseModel <- function(x) {
-  x <- x$coefs
+#' @method coef groupwiseModel
+coef.groupwiseModel <- function(object, ...) {
+  x <- object$coefs
   if( is.numeric(x)) return(x)
   v <- x$value
   nms <- paste( names(x)[1], x[[1]], sep="")
