@@ -32,14 +32,16 @@
 #' @examples
 #' mm( wage ~ sex, data=CPS )
 #' mm( wage ~ sex & married, data=CPS )
+#' lm( wage ~ sex*married-1, data=CPS)
 #' do(5) * mm( wage ~ sex & married, data=resample(CPS))
 #' mod <- mm( width ~ domhand, data=KidsFeet)
 #' summary(mod)
 #' resid(mod)
 #' fitted(mod)
-#' resids(mm)
 #' 
-#' @seealso \code{lm}, \code{do}
+#' @seealso 
+#' \code{\link{lm}}, 
+#' \code{\link{do}}
 #' 
 mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
   evalF <- evalFormula(formula, data)
@@ -51,6 +53,7 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
     coefs <- c(all=fun( vals, ...))
     fitted[] <- coefs
     resids <- vals - fitted
+    df <- 1
   } else {  #multiple groups
     dups <- duplicated( evalF$right) # find redundant values
     inds <- split( 1:length(vals), evalF$right )
@@ -60,12 +63,14 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
     resids <- vals - fitted
     coefs <- subset(evalF$right,!dups)
     coefs$value <- fitted[!dups]
+    df <- sum(!dups)
   }
-  res <- list( coefs=coefs, resids=resids, fitted=fitted, call=formula, df=sum(!dups))
+  res <- list( coefs=coefs, resids=resids, fitted=fitted, call=formula, df=df)
   class(res) <- c("groupwiseModel", "lm")
   return(res)
 }
-
+#' @rdname mm
+#' @method coefficients groupwiseModel
 coefficients.groupwiseModel <- function(x) {
   x <- x$coefs
   if( is.numeric(x)) return(x)
@@ -78,19 +83,22 @@ coefficients.groupwiseModel <- function(x) {
   return(v)
 }
 # Methods
+#' @rdname mm
 #' @method print groupwiseModel
-print.groupwiseModel <- function(object, type, ...,
-                                 digits = max(3, getOption("digits")-3) ) {
+print.groupwiseModel <- function(x, ... ) {
+  digits = max(3, getOption("digits")-3)
   cat("Groupwise Model.")
-  print.lm(object, ..., digits=digits )
+  print.lm(x, ..., digits=digits )
 }
+#' @rdname mm
 #' @method residuals groupwiseModel
-residuals.groupwiseModel <- function(object, type, ...) {object$resids}
+residuals.groupwiseModel <- function(object, ...) {object$resids}
+#' @rdname mm
 #' @method fitted groupwiseModel
-fitted.groupwiseModel <- function(object, type, ...) {object$fitted}
+fitted.groupwiseModel <- function(object, ...) {object$fitted}
+#' @rdname mm
 #' @method summary groupwiseModel
-summary.groupwiseModel <- function(object, ..., 
-                                   digits = max(3, getOption("digits")-3)){
+summary.groupwiseModel <- function(object, ... ){
   resids <- resid(object)
   sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
   r2 <- var(resids)/var(resids+fitted(object))
@@ -100,12 +108,13 @@ summary.groupwiseModel <- function(object, ...,
   class(res) <- "summary.groupwiseModel"
   return(res)
 }
+#' @rdname mm
 #' @method print summary.groupwiseModel
-print.summary.groupwiseModel <- function(object, ..., 
-                                         digits = max(3, getOption("digits")-3)) {
+print.summary.groupwiseModel <- function(x, ...) {
+  digits = max(3, getOption("digits")-3)
   cat("Groupwise Model\n")
-  cat(paste("Call: ", deparse(object$call), "\n"))
-  cat(paste("sigma: ", signif(object$sigma, digits=digits),"\n"))
-  cat(paste("r-squared:", signif(object$r.squared, digits=digits),"\n"))
-  cat(paste("Adj. r-squared:", signif(object$adj.r.squared, digits=digits),"\n"))
+  cat(paste("Call: ", deparse(x$call), "\n"))
+  cat(paste("sigma: ", signif(x$sigma, digits=digits),"\n"))
+  cat(paste("r-squared:", signif(x$r.squared, digits=digits),"\n"))
+  cat(paste("Adj. r-squared:", signif(x$adj.r.squared, digits=digits),"\n"))
 }
