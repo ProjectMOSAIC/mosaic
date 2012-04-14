@@ -2,20 +2,20 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.4-2
-Date: 2012-03-29
+Version: 0.4-4
+Date: 2012-04-14
 Depends:
     lattice,
     grid,
     methods,
     Hmisc,
-    utils,
-    RCurl
+    utils
 Suggests:
     MASS,
     reshape2,
     manipulate,
     vcd,
+    RCurl,
     testthat
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@smith.edu>
