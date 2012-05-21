@@ -113,7 +113,7 @@ setGeneric(
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
-		  function( x, u=NULL, data=parent.frame()) {
+		  function( x, u=NULL, data=parent.frame(),...) {
 			  # x is the formula
 			  # u is just a placeholder
         foo <- model.frame( x, data=data )

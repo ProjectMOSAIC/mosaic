@@ -53,20 +53,22 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
     coefs <- c(all=fun( vals, ...))
     fitted[] <- coefs # replace all of them, that's why the []
     resids <- vals - fitted
+    groupsd <- sd(resids)
     ncases <- length(resids)
     sdresids <- sd(resids)
     df <- 1
   } else {  #multiple groups
     dups <- duplicated( evalF$right) # find redundant values
     by.group <- split( 1:length(vals), evalF$right )
-    ncases <- groupsd <- coefvals <- rep(0, length(by.group))
+    ncases <- groupsd <- coefvals <- rep(0, length(by.group)) # placeholder variables
     for (k in 1:length(by.group)) {
       fitted[ by.group[[k]] ] <- coefvals[k] <- fun( vals[by.group[[k]]], ...)
       ncases[k] <- length(by.group[[k]]) # how many cases in each group
     }
     resids <- vals - fitted
     for (k in 1:length(by.group)) groupsd[k] <- sd(resids[by.group[[k]]])
-    coefs <- data.frame(group=names(by.group)) #subset(evalF$right,!dups)
+    # Should we have the names match the output of mean(formula) or the output of lm()?
+    coefs <- data.frame(group=names(mean(formula,data=data,...)))
     coefs$value <- coefvals
     df <- sum(!dups)
   }
@@ -76,6 +78,11 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
   return(res)
 }
 #' @rdname mm
+#' @param parm Not used
+#' @param level The confidence level (e.g., 0.95)
+#' @param pooled Whether to use a pooled variance of residuals to compute the standard error. 
+#' (This is what \code{lm} does.)
+#' @param margin Whether to present the margin of error rather than the lower and upper bounds
 #' @method confint groupwiseModel
 confint.groupwiseModel <- function(object, parm, level=0.95, ..., pooled=TRUE, margin=FALSE) {
   n <- length(object$fitted)
@@ -107,11 +114,12 @@ coef.groupwiseModel <- function(object, ...) {
   x <- object$coefs
   if( is.numeric(x)) return(x)
   v <- x$value
-  nms <- paste( names(x)[1], x[[1]], sep="")
-  if (length(x) > 2) for (k in 2:(length(x)-1)) {
-    nms <- paste(nms, paste(names(x)[k],x[[k]],sep=""), sep=":")
-  }
-  names(v) <- nms
+  #nms <- paste( names(x)[1], x[[1]], sep="")
+  #if (length(x) > 2) for (k in 2:(length(x)-1)) {
+  #  nms <- paste(nms, paste(names(x)[k],x[[k]],sep=""), sep=":")
+  #}
+  #names(v) <- nms
+  names(v) <- x$group
   return(v)
 }
 # Methods

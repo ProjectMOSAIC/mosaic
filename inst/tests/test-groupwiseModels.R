@@ -8,13 +8,13 @@ test_that("basic calculations occur properly", {
   expect_that( coef(mod2)[1], is_equivalent_to(coef(mod3)[1]))
 })
 
-test_that("coefficient names are correct",{
+test_that("coefficient names are correct, matching output of mean()",{
   mod <- mm( width ~ 1, data=KidsFeet)
   expect_that( names(coef(mod)), equals("all"))
   mod <- mm( width ~ sex, data=KidsFeet)
-  expect_true( all( names(coef(mod)) %in% c("sexB","sexG")))
+  expect_true( all( names(coef(mod)) %in% names(mean(width~sex, data=KidsFeet))))
   mod <- mm( width ~ sex&domhand, data=KidsFeet)
-  expect_true( all( names(coef(mod)) %in% c("sexB:domhandR","sexB:domhandL","sexG:domhandR","sexG:domhandL")))
+  expect_true( all( names(coef(mod)) %in% names(mean(width~sex&domhand,data=KidsFeet))))
 })
 
 test_that("fitted and resids have the right relationship",{
