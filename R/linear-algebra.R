@@ -94,11 +94,11 @@ singvals <- function(A, data=parent.frame()){
 #' @rdname linear.algebra
 #' @docType methods
 #' @export
-#' @usage project(x, u, ...) 
+#' @usage project(x, u, data, ...) 
 
 setGeneric( 
 	"project", 
-	function(x, u, ... )  {
+	function(x, u, data=parent.env(),... )  {
 		standardGeneric('project')
 	}
 )
@@ -116,7 +116,7 @@ setMethod(
 		  function( x, u=NULL, data=parent.frame()) {
 			  # x is the formula
 			  # u is just a placeholder
-			  foo <- model.frame( x, data=data )
+        foo <- model.frame( x, data=data )
 			  u <- model.response(foo)
 			  M <- mat( x, data=data )
 			  n <- svd(M);
