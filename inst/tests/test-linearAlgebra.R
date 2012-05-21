@@ -27,3 +27,15 @@ test_that("1 vector works", {
   expect_equivalent( project(x,1), c(2,2,2) )
   expect_equivalent( project(y,1),  rep(mean(y),length(y)) ) 
 })
+
+test_that("formula interface to project works in present environment",{
+  x <- c(1,2,3)
+  b <- c(5,4,3)
+  expect_that( project(b~x)[1], equals(1.571429, tol=0.00001))
+  expect_that( project(b~x+1)[1], equals(6))
+})
+
+test_that("formula interface works with data frame",{
+  expect_that( project( wage ~ educ, data=CPS)[1], equals( 0.6954, tol=0.0001))
+  expect_that( project( wage ~ educ+1, data=CPS)[1], equals( -0.7460, tol=0.0001))
+})
