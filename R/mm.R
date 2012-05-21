@@ -51,24 +51,56 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
   # Find the case indices for the members of each group
   if (nrow(evalF$right)==1) { # just one group, so a grand mean
     coefs <- c(all=fun( vals, ...))
-    fitted[] <- coefs
+    fitted[] <- coefs # replace all of them, that's why the []
     resids <- vals - fitted
+    ncases <- length(resids)
+    sdresids <- sd(resids)
     df <- 1
   } else {  #multiple groups
     dups <- duplicated( evalF$right) # find redundant values
-    inds <- split( 1:length(vals), evalF$right )
-    for (k in 1:length(inds)) {
-      fitted[ inds[[k]] ] <- fun( vals[inds[[k]]], ...)
+    by.group <- split( 1:length(vals), evalF$right )
+    ncases <- groupsd <- coefvals <- rep(0, length(by.group))
+    for (k in 1:length(by.group)) {
+      fitted[ by.group[[k]] ] <- coefvals[k] <- fun( vals[by.group[[k]]], ...)
+      ncases[k] <- length(by.group[[k]]) # how many cases in each group
     }
     resids <- vals - fitted
-    coefs <- subset(evalF$right,!dups)
-    coefs$value <- fitted[!dups]
+    for (k in 1:length(by.group)) groupsd[k] <- sd(resids[by.group[[k]]])
+    coefs <- data.frame(group=names(by.group)) #subset(evalF$right,!dups)
+    coefs$value <- coefvals
     df <- sum(!dups)
   }
-  res <- list( coefs=coefs, resids=resids, fitted=fitted, call=formula, df=df)
+  res <- list( coefs=coefs, resids=resids, fitted=fitted, 
+               ncases=ncases, groupsd=groupsd,call=formula, df=df)
   class(res) <- c("groupwiseModel", "lm")
   return(res)
 }
+#' @rdname mm
+#' @method confint groupwiseModel
+confint.groupwiseModel <- function(object, parm, level=0.95, ..., pooled=TRUE, margin=FALSE) {
+  n <- length(object$fitted)
+  # Find the standard error of each group
+  mns <- object$coefs[[2]] # the groupwise means
+  margin.of.error <- if (pooled) {
+    sqrt( (n-1)/(n-object$df))* sd( object$resids) / sqrt(object$ncases) *
+    abs(qt((1-level)/2, df=n-object$df))
+  }
+  else {
+    (object$groupsd / sqrt(object$ncases))*abs(qt((1-level)/2, df=object$ncases-1))
+  }
+  
+  if( margin ) {
+    res <- data.frame(center=object$coefs, margin.of.error=margin.of.error)
+    colnames(res) <- c("group", "center","margin.of.error")
+  }
+  else {
+    res <- data.frame(name=object$coefs[[1]], L=mns-margin.of.error,R=mns+margin.of.error)
+    # Change the names to those given by confint.default
+    colnames(res) <- c("group", paste(c((1-level)/2, 1-(1-level)/2)*100, "%" ))
+  }
+  return(res)
+}
+
 #' @rdname mm
 #' @method coef groupwiseModel
 coef.groupwiseModel <- function(object, ...) {
@@ -106,7 +138,7 @@ summary.groupwiseModel <- function(object, ... ){
   r2 <- var(resids)/var(resids+fitted(object))
   ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
   res <- list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
-              df=object$df)
+              df=object$df,coefs=confint(object))
   class(res) <- "summary.groupwiseModel"
   return(res)
 }
@@ -116,6 +148,7 @@ print.summary.groupwiseModel <- function(x, ...) {
   digits = max(3, getOption("digits")-3)
   cat("Groupwise Model\n")
   cat(paste("Call: ", deparse(x$call), "\n"))
+  cat("\n"); print(x$coefs); cat("\n")
   cat(paste("sigma: ", signif(x$sigma, digits=digits),"\n"))
   cat(paste("r-squared:", signif(x$r.squared, digits=digits),"\n"))
   cat(paste("Adj. r-squared:", signif(x$adj.r.squared, digits=digits),"\n"))
