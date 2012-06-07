@@ -31,7 +31,7 @@
 #' as well as A and B.  In evaluating the returned function, it's best to use the
 #' named form of arguments, to ensure the order is correct.
 #' 
-#' @details
+#' @details 
 #' \code{D} attempts to find a symbolic derivative for simple expressions, but
 #' will provide a function that is a numerical derivative if the attempt at
 #' symbolic differentiation is unsuccessful.  The symbolic derivative can be of
@@ -61,14 +61,20 @@
 #' gg <- D(f(x=t, A=B)^2 ~ t, B=10)  # note: it's a function of t and B
 #' gg(t=1)
 #' gg(t=1, B=100)
+#' f <- makeFun(x^2~x)
+#' D(f(cos(z))~z) #will look in user functions also
 #' 
 D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
   formulaEnv = environment(formula) # where was the formula made?
   #Try to construct a symbolic derivative
   res = try(symbolicD(formula, ...), silent=TRUE)
   #Failed?  Do it numerically  
-  if( inherits(res, "try-error") ) # symbolic attempt unsuccessful
-    res = numD( formula, ..., .hstep=.hstep, add.h.control=add.h.control)
+  if( inherits(res, "try-error") ){ # first symbolic attempt unsuccessful
+    newformula <- try(expandFun(formula), silent=TRUE)
+    res = try(symbolicD(newformula, ...), silent=TRUE)
+    if( inherits(res, "try-error") ) # second symbolic attempt unsuccessful
+      res = numD( formula, ..., .hstep=.hstep, add.h.control=add.h.control)
+  }
   else # it's generated from symbolicD
     environment(res) = formulaEnv # function should refer to environment of the formula
   return(res)
