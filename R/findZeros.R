@@ -54,7 +54,6 @@
 findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf, nearest=10, npts=1000, iterate=1 ) {
 	dots <- list(...)
 	rhsVars <- all.vars(rhs(expr))
-
 	if (is.list(iterate)) { # this is a recursive call
 		ignore.limits <- iterate[['ignore.limits']]
 		iterate <- iterate[['iterate']]
@@ -62,7 +61,8 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 		ignore.limits <- FALSE
 	}
 
-	if( length(rhsVars) != 1 ) stop("Only works for one unknown.")
+	if( length(rhsVars) != 1 ) #stop("Only works for one unknown.")
+    return(findZerosMult(expr,...))
 
 	pfun <- function(x){  # removed . from name, was .x
 		mydots <- dots
