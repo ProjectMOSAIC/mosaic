@@ -10,3 +10,7 @@ test_that("zeros are found", {
 test_that("zeros are within search interval", {
   expect_true( all( abs(findZeros(sin(1/x) ~ x, near=0, within=4)) < 4) )
 })
+
+test_that("Can find zeros in two variables",{
+  
+})
