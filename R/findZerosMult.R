@@ -53,11 +53,12 @@ findZerosMult <- function(..., x=c(0,0), rad = 5, center=c(0,0)){
     }
     system[[i]] = newForm
   }
-
-  for(i in (1:numEq)) system[[i]] = try(makeFun(system[[i]]),silent=TRUE) #Fix - sloppy
   
+  for(i in (1:numEq)) system[[i]] = try(makeFun(system[[i]]),silent=TRUE) #Fix - sloppy
+  #.findPoints(system,rhsVars,rad,center)
   if(numEq != length(rhsVars)){#Need to add equations
-    newEq = addEq(system,vars=rhsVars,num=length(rhsVars - numEq),rad, center)
+    if(length(system)==1) return(.oneEq(system, vars=rhsVars, rad, center))
+    newEq = .addEq(system,vars=rhsVars,num=length(rhsVars)-numEq,rad, center)
     if(is.numeric(newEq)) return(numeric(0))
     system = append(system,newEq)
   }
@@ -83,9 +84,9 @@ findZerosMult <- function(..., x=c(0,0), rad = 5, center=c(0,0)){
 #'
 #'@param tol The tolerance for the function specifying how precise it will be
 #'
-Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.25, maxiters=1e5){
+Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1e5){
   n = length(system)
-  suppressWarnings(if(x==0) x = rep(0,length(system)))#Do I need to change this?
+  if(is.null(x)) x = rep(0,length(system))#Add in something that makes sure this is valid.
   if(toString(names(x))=="") names(x) = vars
   
   A = diag(n) #Default derivative is the identity matrix
@@ -121,45 +122,42 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.25, maxiters=
   }
   return(FF)
 }
-#
+
+.findPoints<- function(system, vars, rad, center){
+  browser()
+  numBins = 2^(length(system))
+  points = list()
+  for(i in (1:numBins)) points[[i]] = list()
+  set.seed(1) #set seed for random number generation
+  done=FALSE
+  for(i in (1:100)){
+    point1 =runif(length(vars), min=center[1]-rad, max=center[1]+rad)
+    if(sign(do.call(system[[1]],as.list(point1)) )==1){
+      points[[1]] = append(points[[1]], point1)
+    }
+    else{
+      points[[2]] = append(points[[2]], point1)
+    }
+  }
+  browser()
+  points[[1]] = sort(as.numeric(points[[1]]))
+  points[[2]] = sort(as.numeric(points[[2]]))
+  
+  if(length(points[[1]])==0||length(points[[2]])==0){
+    warning("No zeros found. Try choosing a different start value or widening your search.")
+    return(numeric(0))
+  }
+  return(points)
+}
+
 #param system, existing system of equations the new ones will be added to
 #param vars the rhs variables of the equations
 #param num the numer of equations to be added
 #param rad the radius of search for new equations
 #param center the center of the search region
-addEq <- function(system,vars,num, rad,center){#should fix this for more vars. And clean it up...
-  
-  if(length(vars)==2){##Add a line through two points with opposite signs.
-    set.seed(1) #set seed for random number generation
-    done=FALSE
-    for(i in (1:1000)){
-      point1 =runif(length(vars), min=center[1]-rad, max=center[1]+rad)
-      point2 =runif(length(vars), min=center[2]-rad, max=center[2]+rad)
-      if(sign(do.call(system[[1]],as.list(point1)) ) != sign(do.call(system[[1]],as.list(point2)) )) done=TRUE
-      for(i in (1:length(system))){
-        if(sign(do.call(system[[i]],as.list(point1)) ) == sign(do.call(system[[i]],as.list(point2)) )) done=FALSE
-      }
-      if(done==TRUE) break
-    }
-    if(done==FALSE){
-      warning("No zeros found. Try choosing a different start value or widening your search.")
-      return(numeric(0))
-    }
-    f = function(){}
-    formals(f) <- 
-      eval(parse( 
-        text=paste( "as.pairlist(alist(", 
-                    paste(vars, "=", collapse=",", sep=""), "))"
-        )
-      ))
-    m = (point2[2]-point1[2])/(point2[1]-point1[1])
-    body(f)<-parse(text=paste(vars[2],"-", toString(point1[2])," - ",deparse(m),"*(",vars[1],"-",toString(point1[1]),")"))
-    environment(f) <- environment(system[[1]])
-    return(f)
-  }
-  
-  else
-    if(length(vars)>=3){##add one or two planes through points with opposite signs.
+#
+#add functionality for num
+.addEq <- function(system,vars,num, rad,center){#should fix this for more vars. And clean it up...
       set.seed(1) #set seed for random number generation
       done=FALSE
       for(i in (1:1000)){
@@ -192,10 +190,9 @@ addEq <- function(system,vars,num, rad,center){#should fix this for more vars. A
       
       environment(f) <- environment(system[[1]])
       return(f)
-    }
 }
 
-.oneEq <- function(){
+.oneEq <- function(system, vars, rad, center){
   set.seed(1) #set seed for random number generation
   done=FALSE
   for(i in (1:1000)){
@@ -211,10 +208,17 @@ addEq <- function(system,vars,num, rad,center){#should fix this for more vars. A
     warning("No zeros found. Try choosing a different start value or widening your search.")
     return(numeric(0))
   }
-  
   newf<-function(t){}
-  body(newf) = parse(text = paste(vars[1], "=t*",toString(p1[1]), "+(1-t)*",toString(p2[1]),";\n",
-                                  vars[2], "=t*",toString(p1[2]), "+(1-t)*",toString(p2[2]),";\n",
-                                  vars[3], "=t*",toString(p1[3]), "+(1-t)*",toString(p2[3]),";\n",
-                                  "do.call(system[[1]],as.list(vars)"))
+  newbody = "{"
+  for(i in (1:length(vars))){
+  newbody = paste(newbody,vars[i], "=t*",toString(p1[i]), "+(1-t)*",toString(p2[i]),"\n")
+  }
+  newbody = parse(text = paste(newbody, "do.call(system[[1]],as.list(parse(text=vars)))}"))
+  body(newf)<- newbody
+  
+  troot = uniroot(newf, c(-rad, rad))$root
+  root=p1
+  for(i in (1:length(vars)))
+    root[i] = troot*p1[i]+(1-troot)*p2[i]
+  return(data.frame(zeros=root,row.names=vars))
 }
