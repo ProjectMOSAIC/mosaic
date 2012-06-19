@@ -85,3 +85,4 @@ Collate:
     'fetchGoogle.R'
     'makeFun.R'
     'tally.R'
+    'mm.R'
