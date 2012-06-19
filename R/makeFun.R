@@ -125,6 +125,7 @@ setMethod(
 	  # myenv$model <- object
 	  # environment(result) <- myenv
 	  environment(result) <- list2env( list(model=object) )
+	  attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
   )
@@ -174,6 +175,7 @@ setMethod(
 	  # myenv$model <- object
 	  # environment(result) <- myenv
 	  environment(result) <- list2env( list(model=object) )
+	  attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
   )
@@ -223,6 +225,7 @@ setMethod(
 	  # myenv$model <- object
 	  # environment(result) <- myenv
 	  environment(result) <- list2env( list(model=object) )
+	  attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
   )
@@ -238,3 +241,24 @@ model.vars <- function(model) {
   formula <- as.formula(model$call$formula)
   all.vars(rhs(formula))
 }
+
+#' Extract coefficients from a function
+#'
+#' \code{coef}  will extract the coefficients attribute from a function.
+#' Functions created by applying \code{link{makeFun}} to a model produced
+#' by \code{\link{lm}}, \code{\link{glm}}, or \code{\link{nls}} store
+#' the model coefficients there to enable this extraction.
+#' 
+#' @name coef
+#' @rdname coef
+#' @aliases coef.function  coef
+#'
+#' @param f a function
+#'
+#' @export
+#' @examples
+#' model <- lm( width ~ length, data=KidsFeet)
+#' f <- makeFun( model )
+#' coef(f)
+
+coef.function <- function(f) { attr(f,"coefficients") }

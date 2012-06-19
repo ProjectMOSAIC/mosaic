@@ -116,3 +116,24 @@ test_that('Can make functions from nls models', {
   expect_equivalent( f(1), k + A * exp(B) )
 })
 
+test_that('coef works for makeFun functions', {
+  x <- 1:10
+  y <- c(1:5, 5:1) 
+  lmmod <- lm( y ~ x )
+  f <- makeFun(lmmod)
+  expect_equivalent( coef(lmmod), coef(f) )
+  #
+  clotting <- data.frame(
+  u = c(5,10,15,20,30,40,60,80,100),
+  lot1 = c(118,58,42,35,27,25,21,19,18),
+  lot2 = c(69,35,26,21,18,16,13,12,12))
+  glmod <- glm(lot1 ~ log(u), data=clotting, family=Gamma)
+  f <- makeFun(glmod)
+  expect_equivalent( coef(glmod), coef(f) )
+  #
+  x <- -(1:100)/10
+  y <- 100 + 10 * exp(x / 2) + rnorm(x)/10
+  nlmod <- nls(y ~  Const + A * exp(B * x), start=list(Const=1,A=1,B=1))
+  f <- makeFun(nlmod)
+  expect_equivalent( coef(nlmod), coef(f) )
+})
