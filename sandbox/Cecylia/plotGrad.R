@@ -8,6 +8,7 @@ plotGrad <- function(object, ..., add=FALSE,
                     col = FALSE,
                     alpha=NULL ){
   
+  browser()
   if (add) { 
     ladd( panel.plotGrad( object, npts=npts, alpha=alpha, ...))
     return(invisible(NULL))
@@ -22,6 +23,7 @@ plotGrad <- function(object, ..., add=FALSE,
   rhsVars <- all.vars(rhs(object))
   otherVars <- setdiff(names(vars), rhsVars)
   ndims <- length(rhsVars)
+  if(ndims<2|| ndims>2) stop("Incorrect number of dimensions.")
   cleanDots <- dots
   for (v in otherVars) {
     cleanDots[[v]] <- NULL
@@ -53,7 +55,7 @@ plotGrad <- function(object, ..., add=FALSE,
   partial1 = D(obj)#with respect to first var
   obj[[3]]<- parse(text=rhsVars[2])[[1]] #replace rhs with other var
   partial2 = D(obj)#with respect to second var
-  
+  browser()
   deltax = outer(.xvals, .yvals, function(x,y){partial1(x,y)})
   deltay = outer(.xvals, .yvals, function(x,y){partial2(x,y)})
   grid <- expand.grid(.xvals,.yvals)
@@ -86,6 +88,7 @@ plotGrad <- function(object, ..., add=FALSE,
   y=rep(0,0)
   x=rep(0,0)
   #myplot = lattice::xyplot(y~x, xlab=xlab, ylab=ylab,xlim=c(limits$xlim),ylim=c(limits$ylim)) #creates a black lattice plot
+  #suppressWarnings(panel.arrows(grid$Var1, grid$Var2,grid$Var1+grid$dx,grid$Var2+grid$dy, length = arrowlength,lwd=1.5))
   myplot=plot(0, cex=0, xlab=xlab, ylab=ylab,xlim=c(limits$xlim),ylim=c(limits$ylim))#need to change this to something else
   suppressWarnings(arrows(grid$Var1, grid$Var2,grid$Var1+grid$dx,grid$Var2+grid$dy, col=colvec, length = arrowlength,lwd=1.5))
   return(myplot)
@@ -98,6 +101,7 @@ panel.plotGrad <- function(object, ..., add=FALSE,
                            xlim=NULL, ylim=NULL, npts=NULL,
                            ylab=NULL, xlab=NULL, groups=NULL,
                            alpha=NULL ){
+  browser()
   
   dots <- list(...)
   dots[['alpha']] <- alpha #Not quite sure what alpha does yet.
