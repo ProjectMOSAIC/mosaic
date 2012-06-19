@@ -251,14 +251,24 @@ model.vars <- function(model) {
 #' 
 #' @name coef
 #' @rdname coef
-#' @aliases coef.function  coef
+#' @aliases coef coef.function 
 #'
-#' @param f a function
+#' @param object a function
+#' @param ... ignored
 #'
 #' @export
+#' @method coef function
 #' @examples
 #' model <- lm( width ~ length, data=KidsFeet)
 #' f <- makeFun( model )
 #' coef(f)
+#' coefficients(f)
 
-coef.function <- function(f) { attr(f,"coefficients") }
+coef.function <- function(object,...) { attr(object,"coefficients") }
+
+# @name coef
+# @rdname coef
+# @aliases coefficients coefficients.function
+# @method coefficients function
+# @export
+# coefficients.function <- function(object,...) { attr(object,"coefficients") }
