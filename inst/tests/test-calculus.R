@@ -177,6 +177,10 @@ test_that("add.h.control works",{
 
 test_that("symbolic derivative on function works",{
   f = makeFun(x^2~x)
-  D(f(z)~z)
+  g = makeFun(sin(x)+x~x)
+  df = D(f(z)~z)
+  dg = D(g(y)~y)
+  expect_that(df(5), equals(2*5, tol=0.0000001))
+  expect_that(dg(2), equals(cos(2)+1, tol=0.0000001))
 }) #hmmm, change this.
 

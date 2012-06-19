@@ -7,7 +7,7 @@
 #'@aliases expandFun
 #'
 #'@param formula A mathematical expression (see examples and \code{\link{plotFun}})
-#'@param \ldots additional parameters, typically default values for mathematical parameters
+#'@param \ldots additional parameters
 #'
 #'@return A new formula with expanded left-hand side.
 #'
@@ -51,7 +51,7 @@ expandFun <- function(formula,...){
   for (pattern in vars) { # loop over the names of the formals
     replacement = deparse(argmap[[pattern]])
     replacement = paste("(",replacement,")") #To preserve order of operations
-    newbody = sub(pattern,replacement, sbody)
+    newbody = gsub(pattern,replacement, sbody)
     sbody = newbody
   }
   
