@@ -1,21 +1,14 @@
-#Numerically finds zeros in a couple dimensions.
-
-#Want: to return a couple roots in a radius around a specified starting point.
-
-#problems: Sometimes Broyden doesn't like starting with the zero vector.
-#change the x input to avoid warnings.
-
 #'Find the zeros of a function of two or more variables
 #'
 #'Compute numerically the zeros of a function.
 #'All free variables (all but the variable on the right side) named in the expression must be assigned 
 #' a value via \code{\ldots}
 #'
-#'@param \ldots 
-#'@param x
-#'@param npts
-#'@param rad
-#'@param center
+#'@param ... arguments for values 
+#'@param x starting vector (guess for Broyden)
+#'@param npts number of desired zeros to return
+#'@param rad radius around center in which to look for zeros
+#'@param center center of search for zeros
 #'
 findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
   dots = list(...)
@@ -33,9 +26,8 @@ findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
       else stop(paste("Improper value: ", deparse(dots[[i]])))
     }
   }
-  
   numEq = length(system)
-  
+  browser()
   #Extract the rhs variables.
   rhsVars = all.vars(rhs(system[[1]]))
   for(i in (1:length(system))){
@@ -49,28 +41,14 @@ findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
   
   lhsOnlyVars = setdiff(allvars, rhsVars)
   
-  #Substitute in values for free variables.
-  for( i in (1:length(system))){
-    newForm = system[[i]]
-    for(j in (1:length(freeVars))){
-      pattern = names(freeVars)[j]
-      if(length(freeVars) != 0){
-        replacement = paste("(",toString(freeVars[j]),")")
-        newForm[[2]] = parse(text = gsub(pattern, replacement, deparse(lhs(newForm))))[[1]]
-      }
-    }
-    system[[i]] = newForm
-  }
-  
   #make sure all equations in the system are function.
   for(i in (1:numEq)) system[[i]] = try(makeFun(system[[i]]),silent=TRUE) #Fix - sloppy
   
   if(numEq != length(rhsVars)){#Need to add equations
     #if there is only one equation, call .oneEq
     if(length(system)==1){ 
-      points = .findPoints(system, rhsVars, rad, center, npts)
+      points = .findPoints(system, freeVars, rhsVars, rad, center, npts)
       newEqs = list()
-      browser()
       for(i in (1:length(system))){
         for(j in (1:length(rows(points[[i]])))){
           pt1= points[[i]][j,]
@@ -79,16 +57,18 @@ findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
             #Find the root
             newf<-function(t){}
             newbody = "{"
-            for(i in (1:length(rhsVars))){
-              newbody = paste(newbody,rhsVars[i], "=t*",toString(pt1[i]),
-                              "+(1-t)*",toString(pt2[i]),"\n")
+            for(l in (1:length(rhsVars))){
+              newbody = paste(newbody,rhsVars[l], "=t*",toString(pt1[l]),
+                              "+(1-t)*",toString(pt2[l]),"\n")
             }
-            newbody = parse(text = paste(newbody, "do.call(system[[1]],as.list(parse(text=rhsVars)))}"))
+            newbody = parse(text = paste(newbody, 
+                            "do.call(system[[1]],as.list(c(parse(text=rhsVars), freeVars)))}"))
             body(newf)<- newbody
-            troot = uniroot(newf, c(-rad,rad))$root
+            troot = uniroot(newf, c(0,1))$root
             root=pt1
-            for(i in (1:length(rhsVars)))
-              root[i] = troot*pt1[i]+(1-troot)*pt2[i]
+            root = troot*pt1+(1-troot)*pt2
+            #for(l in (1:length(rhsVars)))
+            #  root[l] = troot*pt1[l]+(1-troot)*pt2[l]
             roots <- rbind(roots, root)
             if(length(rows(roots)) >= npts){
               colnames(roots) = rhsVars
@@ -96,13 +76,12 @@ findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
               return(roots[order(roots[1]),]) #return ordered by the first variable.
             }
           }
-          
         }
       }
       colnames(roots) = rhsVars
       return(roots[order(roots[1]),])
     }
-    #some sort of error message
+    #some sort of error message?
     
       #return(.oneEq(system, vars=rhsVars, rad, center))
     #otherwise, keep adding equations until we can call Broyden?
@@ -176,7 +155,7 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
 #returns npts number of points sorted into bins.  the ith bin can be paired with the
 #ith to last bin and used to find the equation of a line with a zero on it.
 #
-.findPoints<- function(system, vars, rad, center, npts = 100){
+.findPoints<- function(system, freeVars, vars, rad, center, npts = 100){
   numBins = 2^(length(system))
   points = list()
   for(i in (1:numBins)) points[[i]] = data.frame()
@@ -184,7 +163,7 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
   done=FALSE
   for(i in (1:100)){
     point1 =runif(length(vars), min=center[1]-rad, max=center[1]+rad)
-    if(sign(do.call(system[[1]],as.list(point1)) )==1){#change for more than 2 binds
+    if(sign(do.call(system[[1]], as.list(c(point1, freeVars))) )==1){#change for more than 2 binds
       points[[1]] = rbind(points[[1]], point1)
     }
     else{
@@ -236,7 +215,6 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
       for(i in (1:length(p1))){
         newbody=paste(newbody, "(",toString(p2[i]),"-",toString(p1[i]),")*(",vars[i],"-",toString(p1[i]),")+")
       }
-      browser()
       newbody = paste(newbody,"0")
       body(f)<-parse(text=newbody)
       
@@ -244,7 +222,7 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
       return(f)
 }
 
-.oneEq <- function(system, vars, rad, center){
+.oneEq <- function(system, vars, rad, center){#depreciated
   set.seed(1) #set seed for random number generation
   done=FALSE
   for(i in (1:1000)){
