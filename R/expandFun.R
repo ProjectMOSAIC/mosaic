@@ -11,7 +11,6 @@
 #'
 #'@return A new formula with expanded left-hand side.
 #'
-#'@details
 #'
 #'
 #'@examples
