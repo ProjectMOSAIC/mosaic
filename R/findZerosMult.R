@@ -1,16 +1,28 @@
-#'Find the zeros of a function of two or more variables
+#'Find the zeros of a function of two variables
 #'
-#'Compute numerically the zeros of a function.
+#'Compute numerically the zeros of a function of two variables.
 #'All free variables (all but the variable on the right side) named in the expression must be assigned 
 #' a value via \code{\ldots}
 #'
 #'@param ... arguments for values 
-#'@param x starting vector (guess for Broyden)
 #'@param npts number of desired zeros to return
 #'@param rad radius around center in which to look for zeros
 #'@param center center of search for zeros
+#'@param sortBy options for sorting zeros for plotting.  Options are 'byx', 'byy' and 'radial'.  The
+#'default value is 'byx'.
 #'
-findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
+#'@details sorts points in the domain according to the sign of the function value at respective points.
+#' Use continuity and uniroot to find zeros between points of opposite signs.  Returns any number of
+#' points which may be sorted and plotted according to x, y, or radial values.
+#' 
+#'@return A data frame of numerical values which should all result in a value of zero when input into
+#' original function
+#' 
+#'@examples
+#' findZerosMult(a*x^2-8~a&x, npts = 50)
+#' findZerosMult(a^2+x^2-8~a&x, npts = 1000, sortBy='radial')
+#'
+findZerosMult <- function(..., npts=10, rad = 5, center=c(0,0), sortBy='byx'){
   dots = list(...)
   system = list()
   freeVars = list()
@@ -68,8 +80,7 @@ findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
           roots <- rbind(roots, root)
           if(length(rows(roots)) >= npts){
             colnames(roots) = rhsVars
-            
-            return(roots[order(roots[1]),]) #return ordered by the first variable.
+            return(.sort(roots, center = center, type=sortBy)) #return ordered by the first variable.
           }
         }
       }
@@ -78,47 +89,32 @@ findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
     return(roots[order(roots[1]),])
   }
   
-  if(length(system)>1){ stop("Currently only works for 2 dims.")
-    #otherwise, keep adding equations until we can call Broyden?
-    #if(is.numeric(newEq)) return(numeric(0))
-    #system = append(system,newEq)
-    if(numEq != length(rhsVars)){
-      points <- .findPoints(system, freeVars, rhsVars, rad, center, npts)
-      for(i in (1:length(system))){
-        for(j in (1:length(rows(points[[i]])))){
-          pt1= points[[i]][j,]
-          for(k in (1:length(rows(points[[length(points)-i+1]])))){
-            pt2 = points[[length(points)-i+1]][k,]
-            
-            #Add an equation to the system
-            f = function(){}
-            formals(f) <- 
-              eval(parse( 
-                text=paste( "as.pairlist(alist(", 
-                            paste(vars, "=", collapse=",", sep=""), "))"
-                )
-              ))
-            newbody=""
-            for(i in (1:length(p1))){
-              newbody=paste(newbody, "(",toString(p2[i]),"-",toString(p1[i]),")*(",vars[i],"-",toString(p1[i]),")+")
-            }
-            newbody = paste(newbody,"0")
-            body(f)<-parse(text=newbody)
-            
-            #Call Broyden
-            root <- try(Broyden(system, rhsVars,x=x), silent=TRUE)
-            if (inherits(root, "try-error")) break
-            roots <- rbind(roots, root)
-            if(length(rows(roots)) >= npts){
-              colnames(roots) = rhsVars
-              return(roots[order(roots[1]),]) #return ordered by the first variable.
-            }
-          }
-        }
-      }
-    }
-    return(roots[order(roots[1]),])
+  if(length(system)>1) stop("Currently only works for 2 dims.")
+}
+
+#sort the list of zeros by x, y, or radially.
+.sort <- function(data, center=c(0,0), type = 'byx'){
+  #introduce some sort of infer args business...
+  
+  if(type == 'byx'){
+    return(data[order(data[1]),])
   }
+  
+  if(type == 'byy'){
+    return(data[order(data[2]),])
+  }
+  
+  if(type == 'radial'){
+    reference = center
+    data$angle <- apply(data, 1, function(row){angle <- atan((reference[2]-row[2])/(reference[1]-row[1]))
+                                               if(sign(reference[1]-row[1])==-1) angle = angle+pi
+                                               if(sign(angle)==-1) angle = 2*pi+angle
+                                               return(angle)})
+    data <- data[order(data$angle),]
+    data$angle = NULL
+    return(data)
+  }
+  stop("Incorrect entry for type")
 }
 
 #returns npts number of points sorted into bins.  the ith bin can be paired with the
@@ -140,107 +136,10 @@ findZerosMult <- function(..., x=c(0,0), npts=10, rad = 5, center=c(0,0)){
     }
   }
   
-  
   if(length(points[[1]])==0||length(points[[2]])==0){
     warning("No zeros found. Try choosing a different start value or widening your search.")
     return(numeric(0))
   }
   for(i in (1:length(points))) colnames(points[[i]]) = vars
   return(points)
-}
-
-
-#'Multi-Dimensional Root Finding
-#'
-#'Implementation of Broyden's root finding function to numerically compute the root of
-#'a system of nonlinear equations
-#'
-#'@param system A list of functions
-#'
-#'@param vars A character string list of variables that appear in the functions
-#'
-#'@param x A starting vector
-#'
-#'@param tol The tolerance for the function specifying how precise it will be
-#'
-#'@param maxiters maximum number of iterations.
-#'
-Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1e5){
-  n = length(system)
-  if(is.null(x)) x = rep(0,length(system))#Add in something that makes sure this is valid.
-  if(toString(names(x))=="") names(x) = vars
-  
-  A = diag(n) #Default derivative is the identity matrix
-  
-  #Evaluates a system of equations at a given point.
-  .evalSys <- function(x,System){
-    n=length(System)
-    FF = rep(0,n)
-    for( i in (1:n)){
-      body = body(System[[i]])
-      for (j in (1:n)){
-        body =parse(text=gsub(names(x)[j], paste("(",toString(x[[j]]),")"), deparse(body)))[[1]]
-      }
-      FF[i]=eval(body)
-    }
-    return(FF)
-  }
-  
-  
-  FF=.evalSys(x,system)
-  
-  for(iter in (1:maxiters)){
-    if(max(abs(FF))<tol) break
-    xnew=x-A%*%FF
-    names(xnew)=names(x)
-    del = xnew-x
-    FFnew = .evalSys(xnew,system)
-    Del = FFnew-FF
-    Anew = A+((del-A%*%Del)%*%t(del)%*%A)/(t(del)%*%A%*%Del)[[1]]
-    x=xnew
-    A=Anew
-    FF=FFnew
-  }
-  return(data.frame(zeros=x,row.names=names(x)))
-}
-
-#param system, existing system of equations the new ones will be added to
-#param vars the rhs variables of the equations
-#param num the numer of equations to be added
-#param rad the radius of search for new equations
-#param center the center of the search region
-#
-#add functionality for num
-.addEq <- function(system,vars,num, rad,center){#should fix this for more vars. And clean it up...
-  set.seed(1) #set seed for random number generation
-  done=FALSE
-  for(i in (1:1000)){
-    p1 =runif(length(vars), min=center[1]-rad, max=center[1]+rad)
-    p2 =runif(length(vars), min=center[2]-rad, max=center[2]+rad)
-    if(sign(do.call(system[[1]],as.list(p1)) ) != sign(do.call(system[[1]],as.list(p2)) )) done=TRUE
-    for(i in (1:length(system))){
-      if(sign(do.call(system[[i]],as.list(p1)) ) == sign(do.call(system[[i]],as.list(p2)) )) done=FALSE
-    }
-    if(done==TRUE) break
-  }
-  if(done==FALSE){
-    warning("No zeros found. Try choosing a different start value or widening your search.")
-    return(numeric(0))
-  }
-  f = function(){}
-  formals(f) <- 
-    eval(parse( 
-      text=paste( "as.pairlist(alist(", 
-                  paste(vars, "=", collapse=",", sep=""), "))"
-      )
-    ))
-  newbody=""
-  for(i in (1:length(p1))){
-    newbody=paste(newbody, "(",toString(p2[i]),"-",toString(p1[i]),")*(",vars[i],"-",toString(p1[i]),")+")
-  }
-  newbody = paste(newbody,"0")
-  body(f)<-parse(text=newbody)
-  
-  environment(f) <- environment(system[[1]])
-  return(f)
 }
