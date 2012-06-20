@@ -63,7 +63,7 @@ setGeneric(
 
 #' @rdname tally
 #' @aliases tally,ANY-method
-#' @usage tally(x, ...)
+###' @usage tally(x, ...)
 
 setMethod(
 	'tally',
