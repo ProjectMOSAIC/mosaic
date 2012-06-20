@@ -26,9 +26,10 @@
 #'
 #' @seealso \code{\link{linearModel}}, \code{\link{nls}}
 #'
+#' @export
 #' @examples
 #' \dontrun{stan <- fetchData("stan-data.csv")}
-#' \dontrun{f <- fitModel(temp ~ A+B*exp(-k*time), data=stan,A=50,B=50,k=1/20)}
+#' \dontrun{f <- fitModel(temp ~ A+B*exp(-k*time), data=stan, start=list(A=50,B=50,k=1/20))}
 #' \dontrun{f(time=50)}
 #'
 fitModel <- function(formula, data=parent.frame(), start=list(), ...) {

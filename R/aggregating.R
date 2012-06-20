@@ -28,7 +28,6 @@
 #'
 #' @docType methods
 #' @rdname aggregating-methods
-#' @name aggregating-methods
 #'
 #'
 #' @seealso 
@@ -46,6 +45,7 @@
 
 ##########################################################################################
 
+#' @export
 #' @examples
 #' data(HELPrct)
 #' mean(age, data=HELPrct)
@@ -58,8 +58,8 @@
 #' mean(age ~ sex & treat, data=HELPrct)
 
 #' @rdname aggregating-methods
-#' @export
-#' @usage mean(x, ..., na.rm=FALSE, trim=0)
+
+###' @usage mean(x, ..., na.rm=FALSE, trim=0)
 
 setGeneric( 
 	"mean", 
@@ -130,7 +130,6 @@ setMethod(
 ##########################################################################################
 
 
-#' @export
 #' @docType methods
 #' @rdname aggregating-methods
 #'
@@ -144,6 +143,7 @@ setMethod(
 #' median(HELPrct$age)
 #' median(age ~ sex, data=HELPrct)
 #' median(age ~ sex & treat, data=HELPrct)
+#' @export
 
 setGeneric( 
 	"median", 
@@ -206,7 +206,6 @@ setMethod(
 
 ##########################################################################################
 
-#' @export
 #' @docType methods
 #' @rdname aggregating-methods
 #'
@@ -220,6 +219,7 @@ setMethod(
 #' sd(HELPrct$age)
 #' sd(age ~ sex, data=HELPrct)
 #' sd(age ~ sex & treat, data=HELPrct)
+#' @export
 
 setGeneric( 
 	"sd", 
