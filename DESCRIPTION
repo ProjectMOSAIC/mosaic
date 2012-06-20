@@ -72,7 +72,6 @@ Collate:
     'is.wholenumber.R'
     'parseFormula.R'
     'plotFun.R'
-    'nlsModel.R'
     'bargraph.R'
     'as.xtabs.R'
     'plotCumfreq.R'
@@ -87,3 +86,4 @@ Collate:
     'tally.R'
     'mm.R'
     'project.R'
+    'fitModel.R'

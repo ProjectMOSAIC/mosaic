@@ -192,7 +192,7 @@ setMethod(
   'makeFun',
   'nls',
    function( object, ... ) {
-	  vars <- setdiff(model.vars(object), names(coef(object)))
+	  vars <- setdiff(all.vars(rhs(object$m$formula())), names(coef(object)))
 	  result <- function(){}
 	  if ( length( vars ) <  1 ) {
 		  result <- function( ... ) {
