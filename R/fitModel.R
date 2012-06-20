@@ -9,8 +9,9 @@
 #' 
 #' @param formula formula specifying the model
 #' @param data dataframe containing the data to be used
-#' @param ... named initial values for parameters
-#' @param options not yet used
+#' @param start passed as \code{start} to \code{\link{nls}}.  If and empty list,
+#' a simple starting point is used (thus avoiding the usual warning message).
+#' @param ... additional arguments passed to \code{\link{nls}}
 #' 
 #' @details
 #' Fits a nonlinear least squares model to data.  In contrast
@@ -30,7 +31,7 @@
 #' \dontrun{f <- fitModel(temp ~ A+B*exp(-k*time), data=stan,A=50,B=50,k=1/20)}
 #' \dontrun{f(time=50)}
 #'
-fitModel <- function(formula, data=parent.frame(), start=list(), ..., options) {
+fitModel <- function(formula, data=parent.frame(), start=list(), ...) {
   argsAndParams <- all.vars(rhs(formula))    # [-1]
   response <- eval(lhs(formula), data)
   n <- length(response)
