@@ -11,7 +11,7 @@
 #' @param data dataframe containing the data to be used
 #' @param start passed as \code{start} to \code{\link{nls}}.  If and empty list,
 #' a simple starting point is used (thus avoiding the usual warning message).
-#' @param ... additional arguments passed to \code{\link{nls}}
+#' @param \dots additional arguments passed to \code{\link{nls}}
 #' 
 #' @details
 #' Fits a nonlinear least squares model to data.  In contrast

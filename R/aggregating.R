@@ -74,12 +74,15 @@ setGeneric(
 )
 
 #' @rdname aggregating-methods
-#' @aliases mean,ANY-method
+### @aliases mean,ANY-method
 #' @param x a vector
 #' @param na.rm logical indicating whether NAs should be removed before calculating 
 #' @param \dots additional arguments
-# @param trim a numeric indicating the proportion to be trimmed from each tail before calculating mean
+#' @param trim a numeric indicating the proportion to be trimmed from each tail before calculating mean
+#' @param data a data frame
 #' @export
+#' @usage
+#' \S4method{mean}{ANY}(x, ..., na.rm=FALSE, trim=0) 
 
 setMethod(
 	'mean',
@@ -90,8 +93,10 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases mean,numeric-method
+### @aliases mean,numeric-method
 #' @export
+#' @usage
+#' \S4method{mean}{numeric}(x, ..., na.rm=FALSE, trim=0) 
 
 setMethod(
 	'mean',
@@ -102,8 +107,10 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases mean,data.frame-method
+### @aliases mean,data.frame-method
 #' @export
+#' @usage
+#' \S4method{mean}{data.frame}(x, ..., na.rm=TRUE, trim=0) 
 setMethod( 
 	"mean", 
 	signature=c("data.frame"),
@@ -114,6 +121,8 @@ setMethod(
 #' @rdname aggregating-methods
 #' @aliases mean,formula-method
 #' @export
+#' @usage
+#' \S4method{mean}{formula}(x, data=parent.frame(), ..., na.rm=TRUE, trim=0) 
 setMethod( 
 	"mean", 
 	signature=c("formula"),
@@ -160,6 +169,8 @@ setGeneric(
 #' @rdname aggregating-methods
 #' @aliases median,ANY-method
 #' @export
+#' @usage
+#' \S4method{median}{ANY}(x, ..., na.rm=FALSE) 
 setMethod(
 	'median',
 	'ANY',
@@ -171,6 +182,8 @@ setMethod(
 #' @rdname aggregating-methods
 #' @aliases median,numeric-method
 #' @export
+#' @usage
+#' \S4method{median}{numeric}(x, ..., na.rm=FALSE) 
 setMethod(
 	'median',
 	'numeric',
@@ -182,6 +195,8 @@ setMethod(
 #' @rdname aggregating-methods
 #' @aliases median,data.frame-method
 #' @export
+#' @usage
+#' \S4method{median}{numeric}(x, ..., na.rm=FALSE) 
 setMethod( 
 	"median", 
 	signature=c("data.frame"),
@@ -191,6 +206,8 @@ setMethod(
 #' @rdname aggregating-methods
 #' @aliases median,formula-method
 #' @export
+#' @usage
+#' \S4method{median}{formula}(x, data=parent.frame(), ..., na.rm=TRUE) 
 setMethod( 
 	"median", 
 	signature=c("formula"),
@@ -236,6 +253,8 @@ setGeneric(
 #' @rdname aggregating-methods
 #' @aliases sd,ANY-method
 #' @export
+#' @usage
+#' \S4method{sd}{ANY}(x, ..., na.rm=FALSE) 
 setMethod(
 	'sd',
 	'ANY',
@@ -246,6 +265,8 @@ setMethod(
 #' @rdname aggregating-methods
 #' @aliases sd,numeric-method
 #' @export
+#' @usage
+#' \S4method{sd}{numeric}(x, ..., na.rm=FALSE) 
 setMethod(
 	'sd',
 	'numeric',
@@ -257,6 +278,8 @@ setMethod(
 #' @rdname aggregating-methods
 #' @aliases sd,data.frame-method
 #' @export
+#' @usage
+#' \S4method{sd}{data.frame}(x, ..., na.rm=TRUE) 
 setMethod( 
 	"sd", 
 	signature=c("data.frame"),
@@ -266,6 +289,8 @@ setMethod(
 #' @rdname aggregating-methods
 #' @aliases sd,formula-method
 #' @export
+#' @usage
+#' \S4method{sd}{formula}(x, data=parent.frame(), ..., na.rm=TRUE) 
 setMethod( 
 	"sd", 
 	signature=c("formula"),
@@ -446,7 +471,8 @@ setMethod(
 #' @export
 #' @docType methods
 #' @rdname aggregating-methods
-# @param y second vector allows for computation of covariances
+#' @param y second vector allows for computation of covariances
+#' @param use passed along to \code{base::var} 
 #'
 #'
 #' @examples
@@ -493,8 +519,10 @@ setGeneric(
 
 
 #' @rdname aggregating-methods
-#' @aliases var,ANY,ANY,ANY,ANY,ANY-method
+### @aliases var,ANY,ANY,ANY,ANY,ANY-method
 #' @export
+#' @usage
+#' \S4method{var}{ANY,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
 setMethod(
 	'var',
 	c('ANY','ANY'),
@@ -503,8 +531,10 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases var,numeric,numeric,ANY,ANY,ANY-method
+### @aliases var,numeric,numeric,ANY,ANY,ANY-method
 #' @export
+#' @usage
+#' \S4method{var}{numeric,numeric,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
 setMethod(
 	'var',
 	c('numeric','numeric'),
@@ -513,8 +543,10 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases var,numeric,ANY,ANY,ANY,ANY-method
+### @aliases var,numeric,ANY,ANY,ANY,ANY-method
 #' @export
+#' @usage
+#' \S4method{var}{numeric,ANY,ANY,ANY,ANY}(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame()) 
 setMethod(
 	'var',
 	c('numeric'),
@@ -527,8 +559,10 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases var,matrix,ANY,ANY,ANY,ANY-method
+### @aliases var,matrix,ANY,ANY,ANY,ANY-method
 #' @export
+#' @usage
+#' \S4method{var}{matrix,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
 setMethod(
 	'var',
 	c('matrix'),
@@ -537,17 +571,21 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases var,data.frame,ANY,ANY,ANY,ANY-method
+### @aliases var,data.frame,ANY,ANY,ANY,ANY-method
 #' @export
+#' @usage
+#' \S4method{var}{data.frame,ANY,ANY,ANY,ANY}(x, y, na.rm=TRUE, use='everything')
 setMethod( 
 	"var", 
 	signature=c("data.frame"),
-	function(x, y, na.rm=TRUE, use=use) stats::var(x, y, na.rm=na.rm, use=use)
+	function(x, y, na.rm=TRUE, use='everything') stats::var(x, y, na.rm=na.rm, use=use)
 )
 
 #' @rdname aggregating-methods
-#' @aliases var,formula,missing,ANY,ANY,missing-method
+### @aliases var,formula,missing,ANY,ANY,missing-method
 #' @export
+#' @usage
+#' \S4method{var}{formula,missing,ANY,ANY,missing}(x, y, na.rm=TRUE, use='everything', data=parent.frame())
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="missing"),
@@ -561,8 +599,10 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases var,formula,missing,ANY,ANY,data.frame-method
+### @aliases var,formula,missing,ANY,ANY,data.frame-method
 #' @export
+#' @usage
+#' \S4method{var}{formula,missing,ANY,ANY,data.frame}(x, y, na.rm=TRUE, use='everything', data=parent.frame())
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
@@ -576,12 +616,14 @@ setMethod(
 )
 
 #' @rdname aggregating-methods
-#' @aliases var,formula,data.frame,ANY,ANY,missing-method
+### @aliases var,formula,data.frame,ANY,ANY,missing-method
 #' @export
+#' @usage
+#' \S4method{var}{formula,data.frame,ANY,ANY,missing}(x, y=parent.frame(), na.rm=FALSE, use='everything')
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="data.frame", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y=parent.frame(),  na.rm=FLASE, use='everything') {
+	function(x, y=parent.frame(),  na.rm=FALSE, use='everything') {
 		data <- y
 		if( .is.simple.formula(x) ) {
 			return( stats::var( eval( .simple.part(x), data),  na.rm=na.rm, use=use ) )

@@ -11,6 +11,7 @@
 #' @param u a vector 
 #' @param data a data frame.
 #' @param type  one of \code{length} or \code{vector} determining the type of the returned value
+#' @param \dots  additional arguments
 
 #' @details
 #' \code{project} (preferably pronounced "pro-JECT" as in "projection") 
@@ -28,13 +29,13 @@
 
 setGeneric( 
 	"project", 
-	function(x, u, data=parent.env(),... )  {
+	function(x, u, data=parent.env(), ... )  {
 		standardGeneric('project')
 	}
 )
 ##################
 #' @rdname project-methods
-#' @aliases project,formula-method
+#' @aliases project,formula,ANY-method
 #' @export
 #' @return \code{project} returns the projection of \code{x} onto \code{u} 
 #' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
@@ -49,7 +50,8 @@ setGeneric(
 #' project(a~b)
 #' project(width~length+sex, data=KidsFeet)
 #' project(log(width) ~ I(length^2)+sin(length)+sex, data=KidsFeet)
-
+#' @usage
+#' \S4method{project}{formula,ANY}( x, u=NULL, data=parent.frame(), ...) 
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -75,7 +77,9 @@ setMethod(
 # This is used in fastR and should not go away.
 
 #' @rdname project-methods
-#' @aliases project,numeric-method
+#' @aliases project,numeric,ANY-method
+#' @usage
+#' \S4method{project}{numeric,ANY}(x, u = rep(1, length(x)), type = c("vector", "length"), ...) 
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -87,7 +91,9 @@ setMethod(
 )
 
 #' @rdname project-methods
-#' @aliases project,matrix-method
+#' @aliases project,matrix,ANY-method
+#' @usage
+#' \S4method{project}{matrix,ANY}(x, u, data=parent.frame())
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),

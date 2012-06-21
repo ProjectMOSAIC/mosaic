@@ -34,7 +34,8 @@ setGeneric(
 #' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
-
+#' @usage
+#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE ) 
 setMethod(
   'makeFun',
   'formula',
@@ -88,6 +89,8 @@ setMethod(
 #' xyplot(wage ~ exper, data=CPS)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
+#' @usage
+#' \S4method{makeFun}{lm} ( object, ...)
 setMethod(
   'makeFun',
   'lm',
@@ -132,16 +135,21 @@ setMethod(
 
 #' @rdname makeFun
 #' @aliases makeFun,glm-method
+#' @param type one of \code{'response'} (default) or \code{'link'} specifying scale to be used
+#' for value of function returned.
 #' @examples
 #' model <- glm(wage ~ poly(exper,degree=2), data=CPS, family=gaussian)
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
+#' @usage
+#' \S4method{makeFun}{glm} ( object, ..., type=c('response','link') )
 setMethod(
   'makeFun',
   'glm',
-   function( object, ..., type='response' ) {
+   function( object, ..., type=c('response','link') ) {
+	  type <- match.arg(type)
 	  vars <- model.vars(object)
 	  result <- function(){}
 	  if ( length( vars ) <  1 ) {
@@ -188,6 +196,8 @@ setMethod(
 #' xyplot(wage ~ exper, data=CPS)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
+#' @usage
+#' \S4method{makeFun}{nls} ( object, ...)
 setMethod(
   'makeFun',
   'nls',
@@ -249,26 +259,19 @@ model.vars <- function(model) {
 #' by \code{\link{lm}}, \code{\link{glm}}, or \code{\link{nls}} store
 #' the model coefficients there to enable this extraction.
 #' 
-#' @name coef
+#' @name coef.function
 #' @rdname coef
 #' @aliases coef coef.function 
 #'
 #' @param object a function
-#' @param ... ignored
+#' @param \dots ignored
 #'
-#' @export
 #' @method coef function
+#' @export
 #' @examples
 #' model <- lm( width ~ length, data=KidsFeet)
 #' f <- makeFun( model )
 #' coef(f)
-#' coefficients(f)
 
 coef.function <- function(object,...) { attr(object,"coefficients") }
 
-# @name coef
-# @rdname coef
-# @aliases coefficients coefficients.function
-# @method coefficients function
-# @export
-# coefficients.function <- function(object,...) { attr(object,"coefficients") }

@@ -35,6 +35,12 @@ logical2factor.data.frame  <- function( x, ... ) {
 
 #' Tabulate categorical data
 #'
+#' Tabulate categorical data
+#'
+#' @rdname tally-methods
+#' @aliases tally,ANY-method
+#'
+#' @param x an object
 #' @param formula a formula describing the type of table desired
 #' @param data a data frame or environment in which evaluation occurs
 #' @param format a character string describing the desired format of the results.
@@ -45,6 +51,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param quiet a logical indicating whether messages about order in which marginal distributions
 #'        are calculated should be surpressed.  See \code{\link{addmargins}}.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
+#' @param ... additional arguments
 #' @export
 #' @examples
 #' tally( ~ substance, HELPrct)
@@ -61,9 +68,8 @@ setGeneric(
 	}
 )
 
-#' @rdname tally
+#' @rdname tally-methods
 #' @aliases tally,ANY-method
-###' @usage tally(x, ...)
 
 setMethod(
 	'tally',
@@ -74,22 +80,16 @@ setMethod(
 	}
 )
 
-#' @rdname tally
-#' @aliases tally,formula-method
-#' @param formula a formula
-#'
-#' @param data a data frame
-#'
-#' @param format one of \code{default}, \code{count}, \code{proportion}, or \code{percent} describing
-#'        the format the tallies should be returned in.
-#'
-#' @param margins a logical indicating whether margins tallies should be added.
-#'
-#' @param quiet a logical indicating whether tallying should be done quietly (vs. verbosely)
-#'
-#' @param subset an expression defining a subset of the data frame to be tallied.
-#'
+#' @rdname tally-methods
+### @aliases tally,formula-method
+#' 
 #' @export
+#' @usage
+#' \S4method{tally}{formula}( x, data=parent.frame(), 
+#'				   format=c('default','count','proportion','percent'), 
+#'				   margins=TRUE,
+#'				   quiet=TRUE,
+#'				   subset, ...) 
 
 setMethod(
 	'tally',
