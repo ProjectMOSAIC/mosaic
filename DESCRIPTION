@@ -8,6 +8,7 @@ Depends:
     lattice,
     grid,
     methods,
+    survival,
     Hmisc,
     utils
 Suggests:

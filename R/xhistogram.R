@@ -76,7 +76,7 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint) {
   }
   if (is.null(width)) { width <- diff(range(x)) / nint }
 
-  shift <- -.5 + ( (floor( (min(x) - center)/width) ):(1 + ceil( (max(x) - center)/width)) )
+  shift <- -.5 + ( (floor( (min(x) - center)/width) ):(1 + ceiling( (max(x) - center)/width)) )
   breaks <-  center + shift * width
   if (min(breaks) > min(x) || max(breaks) < max(x)) 
 	  stop("Bug alert: break points don't cover data.")
