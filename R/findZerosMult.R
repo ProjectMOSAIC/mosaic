@@ -105,12 +105,32 @@ findZerosMult <- function(..., npts=10, rad = 5, center=c(0,0), sortBy='byx'){
   }
   
   if(type == 'radial'){
-    reference = center
-    data$angle <- apply(data, 1, function(row){angle <- atan((reference[2]-row[2])/(reference[1]-row[1]))
-                                               if(sign(reference[1]-row[1])==-1) angle = angle+pi
+    npts = length(rows(data))
+    ref = center
+    data$angle <- apply(data, 1, function(row){angle <- atan((ref[2]-row[2])/(ref[1]-row[1]))
+                                               if(sign(ref[1]-row[1])==-1) angle = angle+pi
                                                if(sign(angle)==-1) angle = 2*pi+angle
                                                return(angle)})
     data <- data[order(data$angle),]
+    
+#     for(i in (1:(npts-2))){
+#      if(sqrt((data[i,1]-data[i+1,1])^2+(data[i,2]-data[i+1,2])^2) >= 
+#        sqrt((data[i,1]-data[i+2,1])^2+(data[i,2]-data[i+2,2])^2)){
+#        browser()
+#        ref.x = mean(data[i,1],data[i+1,1],data[i+2,1])
+#        ref.y = mean(data[i,2],data[i+1,2],data[i+2,2])
+#        ref = c(ref.x,ref.y)
+#         
+#         #find new angles with new reference point
+#        data$angle <- apply(data, 1, function(row){angle <- atan((ref[2]-row[2])/(ref[1]-row[1]))
+#                                                   if(sign(ref[1]-row[1])==-1) angle = angle+pi
+#                                                   if(sign(angle)==-1) angle = 2*pi+angle
+#                                                   return(angle)})
+#         
+#        data[i:npts,]=data[i-1+order(data$angle[i:npts]),]
+#      }
+#     }
+
     data$angle = NULL
     return(data)
   }
