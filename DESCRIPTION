@@ -86,3 +86,5 @@ Collate:
     'makeFun.R'
     'tally.R'
     'mm.R'
+    'expandFun.R'
+    'findZerosMult.R'
