@@ -34,7 +34,8 @@ setGeneric(
 #' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
-
+#' @usage
+#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE ) 
 setMethod(
   'makeFun',
   'formula',
@@ -88,6 +89,8 @@ setMethod(
 #' xyplot(wage ~ exper, data=CPS)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
+#' @usage
+#' \S4method{makeFun}{lm} ( object, ...)
 setMethod(
   'makeFun',
   'lm',
@@ -125,6 +128,92 @@ setMethod(
 	  # myenv$model <- object
 	  # environment(result) <- myenv
 	  environment(result) <- list2env( list(model=object) )
+	  attr(result,"coefficients") <- coef(object)
+	  return(result)
+  }
+  )
+
+#' @rdname makeFun
+#' @aliases makeFun,glm-method
+#' @param type one of \code{'response'} (default) or \code{'link'} specifying scale to be used
+#' for value of function returned.
+#' @examples
+#' model <- glm(wage ~ poly(exper,degree=2), data=CPS, family=gaussian)
+#' fit <- makeFun(model)
+#' xyplot(wage ~ exper, data=CPS)
+#' plotFun(fit(exper) ~ exper, add=TRUE)
+
+#' @usage
+#' \S4method{makeFun}{glm} ( object, ..., type=c('response','link') )
+setMethod(
+  'makeFun',
+  'glm',
+   function( object, ..., type=c('response','link') ) {
+	  type <- match.arg(type)
+	  vars <- model.vars(object)
+	  result <- function(){}
+	  if ( length( vars ) <  1 ) {
+		  result <- function( ... ) {
+			  dots <- list(...)
+			  if (length(dots) > 0) {
+				  x <- dots[[1]] 
+				  dots[[1]] <- NULL
+			  } else {
+				  x <- 1
+			  }
+			  do.call(predict, c(list(model, newdata=data.frame(x=x)), dots))
+		  }
+	  } else {
+		  body(result) <- 
+			  parse( text=paste(
+								"return(predict(model, newdata=data.frame(",
+								paste(vars, "= ", vars, collapse=",", sep=""), 
+								"), ..., type=type))"
+								)
+		  )
+		  formals(result) <- 
+			  eval(parse( 
+						 text=paste( "as.pairlist(alist(", 
+									paste(vars, "= ",  collapse=",", sep=""), ", ...=))"
+		  )
+		  ))
+	  }
+
+	  # myenv <- parent.frame()
+	  # myenv$model <- object
+	  # environment(result) <- myenv
+	  environment(result) <- list2env( list(model=object) )
+	  attr(result,"coefficients") <- coef(object)
+	  return(result)
+  }
+  )
+
+#' @rdname makeFun
+#' @aliases makeFun,nls-method
+#' @examples
+#' model <- nls( wage ~ A + B * exper + C * exper^2, data=CPS, start=list(A=1,B=1,C=1) )
+#' fit <- makeFun(model)
+#' xyplot(wage ~ exper, data=CPS)
+#' plotFun(fit(exper) ~ exper, add=TRUE)
+
+#' @usage
+#' \S4method{makeFun}{nls} ( object, ...)
+setMethod(
+  'makeFun',
+  'nls',
+   function( object, ... ) {
+    formula <- object$m$formula()
+	  justTheArguments <- setdiff(all.vars(rhs(formula)), names(coef(object)))
+	  result <- function(){}
+	    params = as.list(coef(object))   
+	    args <- paste("alist( ", paste(justTheArguments, "=", collapse = ",", sep = ""),")")
+	    args <- eval(parse(text = args))
+	    args <- c(args,params)
+	    args['pi'] <- NULL
+	    formals(result) <- args
+	    body(result) <- rhs(formula)  
+	    environment(result) <- list2env( list(model=object) )
+	    attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
   )
@@ -140,3 +229,27 @@ model.vars <- function(model) {
   formula <- as.formula(model$call$formula)
   all.vars(rhs(formula))
 }
+
+#' Extract coefficients from a function
+#'
+#' \code{coef}  will extract the coefficients attribute from a function.
+#' Functions created by applying \code{link{makeFun}} to a model produced
+#' by \code{\link{lm}}, \code{\link{glm}}, or \code{\link{nls}} store
+#' the model coefficients there to enable this extraction.
+#' 
+#' @name coef.function
+#' @rdname coef
+#' @aliases coef coef.function 
+#'
+#' @param object a function
+#' @param \dots ignored
+#'
+#' @method coef function
+#' @export
+#' @examples
+#' model <- lm( width ~ length, data=KidsFeet)
+#' f <- makeFun( model )
+#' coef(f)
+
+coef.function <- function(object,...) { attr(object,"coefficients") }
+

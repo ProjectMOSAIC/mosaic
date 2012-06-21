@@ -28,8 +28,6 @@
 #' between 0 and 1. Only used when testing the null that a single proportion equals a given value, 
 #' or that two proportions are equal; ignored otherwise.
 #'
-#' @param correct	a logical indicating whether Yates' continuity correction should be applied where possible.
-#' 
 #' @param success  level of variable to be considered success.  All other levels are 
 #'   	considered failure.
 #'
@@ -77,6 +75,9 @@ setGeneric(
 
 #' @rdname prop.test
 #' @aliases prop.test,ANY-method
+#' @usage
+#' \S4method{prop.test}{ANY}(x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
+#'  conf.level = 0.95,...) 
 setMethod(
 		  'prop.test',
 		  'ANY',
@@ -93,6 +94,9 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,formula-method
+#' @usage
+#' \S4method{prop.test}{formula}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, data, ...) 
 setMethod(
 		  'prop.test',
 		  'formula',
@@ -140,6 +144,9 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,numeric-method
+#' @usage
+#' \S4method{prop.test}{numeric}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'prop.test',
 		  'numeric',
@@ -174,6 +181,9 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,character-method
+#' @usage
+#' \S4method{prop.test}{character}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'prop.test',
 		  'character',
@@ -194,6 +204,9 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,logical-method
+#' @usage
+#' \S4method{prop.test}{logical}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'prop.test',
 		  'logical',
@@ -214,6 +227,9 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,factor-method
+#' @usage
+#' \S4method{prop.test}{factor}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'prop.test',
 		  'factor',

@@ -253,6 +253,9 @@ setMethod("print",
 
 #' @rdname do
 #' @aliases *,repeater,ANY-method
+#' @param e1 an object
+#' @param e2 an object
+#' @param ... additional arguemnts
 setMethod("*",
     signature(e1 = "repeater", e2="ANY"),
     function (e1, e2) 
