@@ -63,13 +63,16 @@ setGeneric(
 
 #' @rdname binom.test
 #' @aliases binom.test,ANY-method
+#' @usage
+#' \S4method{binom.test}{ANY}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, ...) 
 setMethod(
 		  'binom.test',
 		  'ANY',
 		  function(
 				   x, n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95,...) 
+				   conf.level = 0.95, ...) 
 		  {
 			  stats::binom.test( x=x, n=n , p = p,
 								alternative = alternative,
@@ -79,6 +82,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,formula-method
+#' @usage
+#' \S4method{binom.test}{formula}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, data, ...) 
 
 setMethod(
 		  'binom.test',
@@ -125,6 +131,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,numeric-method
+#' @usage
+#' \S4method{binom.test}{numeric}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'numeric',
@@ -159,6 +168,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,character-method
+#' @usage
+#' \S4method{binom.test}{character}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'character',
@@ -179,6 +191,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,logical-method
+#' @usage
+#' \S4method{binom.test}{logical}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'logical',
@@ -199,6 +214,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,factor-method
+#' @usage
+#' \S4method{binom.test}{factor}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'factor',

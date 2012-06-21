@@ -304,7 +304,7 @@ The result indicates that it's very unlikely, if the null were true, that the co
 
 The exact result differs slightly from one simulation to the next, but that variation can be made small by making the number of trials large.
 
-<<proptable>>=
+<<proptable2>>=
 prop(rbinom(100000, prob=0.5, size=428) >= 240)
 @
 

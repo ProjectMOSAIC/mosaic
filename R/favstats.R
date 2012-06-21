@@ -2,7 +2,9 @@
 #' 
 #' Computes mean, standard deviation, quartiles, sample size and number of missing values for a data vector.
 #' @param x  numeric vector 
+#' @param data a data frame
 #' @param na.rm  boolean indicating whether missing data should be ignored 
+#' @param ... additional arguments (currently ignored)
 #' 
 #' 
 #' @return A vector of statistical summaries
@@ -25,6 +27,8 @@ setGeneric(
 #' @rdname favstats
 #' @aliases favstats,matrix,ANY-method
 #' @export
+#' @usage
+#' \S4method{favstats}{matrix,ANY}(x, ..., na.rm = TRUE) 
 setMethod(
 		  'favstats',
 		  'matrix',
@@ -49,6 +53,8 @@ setMethod(
 #' @rdname favstats
 #' @aliases favstats,numeric,ANY-method
 #' @export
+#' @usage
+#' \S4method{favstats}{numeric,ANY}(x, ..., na.rm = TRUE) 
 setMethod(
 		  'favstats',
 		  'numeric',
@@ -71,6 +77,8 @@ setMethod(
 #' @rdname favstats
 #' @aliases favstats,formula,ANY-method
 #' @export
+#' @usage
+#' \S4method{favstats}{formula,ANY}(x, data=parent.frame(), ..., na.rm = TRUE) 
 setMethod(
 		  'favstats',
 		  c('formula'),
@@ -84,6 +92,8 @@ setMethod(
 #' @rdname favstats
 #' @aliases favstats,ANY,data.frame-method
 #' @export
+#' @usage
+#' \S4method{favstats}{ANY,data.frame}(x, data=parent.frame(), ..., na.rm = TRUE) 
 setMethod(
 		  'favstats',
 		  c('ANY', 'data.frame'),
