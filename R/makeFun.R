@@ -202,40 +202,18 @@ setMethod(
   'makeFun',
   'nls',
    function( object, ... ) {
-	  vars <- setdiff(all.vars(rhs(object$m$formula())), names(coef(object)))
+    formula <- object$m$formula()
+	  justTheArguments <- setdiff(all.vars(rhs(formula)), names(coef(object)))
 	  result <- function(){}
-	  if ( length( vars ) <  1 ) {
-		  result <- function( ... ) {
-			  dots <- list(...)
-			  if (length(dots) > 0) {
-				  x <- dots[[1]] 
-				  dots[[1]] <- NULL
-			  } else {
-				  x <- 1
-			  }
-			  do.call(predict, c(list(model, newdata=data.frame(x=x)), dots))
-		  }
-	  } else {
-		  body(result) <- 
-			  parse( text=paste(
-								"return(predict(model, newdata=data.frame(",
-								paste(vars, "= ", vars, collapse=",", sep=""), 
-								"), ...))"
-								)
-		  )
-		  formals(result) <- 
-			  eval(parse( 
-						 text=paste( "as.pairlist(alist(", 
-									paste(vars, "= ",  collapse=",", sep=""), ", ...=))"
-		  )
-		  ))
-	  }
-
-	  # myenv <- parent.frame()
-	  # myenv$model <- object
-	  # environment(result) <- myenv
-	  environment(result) <- list2env( list(model=object) )
-	  attr(result,"coefficients") <- coef(object)
+	    params = as.list(coef(object))   
+	    args <- paste("alist( ", paste(justTheArguments, "=", collapse = ",", sep = ""),")")
+	    args <- eval(parse(text = args))
+	    args <- c(args,params)
+	    args['pi'] <- NULL
+	    formals(result) <- args
+	    body(result) <- rhs(formula)  
+	    environment(result) <- list2env( list(model=object) )
+	    attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
   )

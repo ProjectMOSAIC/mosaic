@@ -38,17 +38,10 @@ fitModel <- function(formula, data=parent.frame(), start=list(), ...) {
   n <- length(response)
   for ( nm in setdiff(argsAndParams, names(start)) ) {
   	  x <- tryCatch(get( nm, data), error=function(e) {list()} )  
-	  if (length (x)  != n) start[[nm]] <- 1
+	  if (length (x)  != n && nm != "pi") start[[nm]] <- 1
   }
 
   model <- nls(formula, data=data, start=start, ... )
-  params = as.list(coef(model))   # model$m$getPars())
-  justTheArguments = setdiff( argsAndParams, names(params) )
-  args <- paste("alist( ", paste(justTheArguments, "=", collapse = ",", sep = ""),")")
-  args <- eval(parse(text = args))
-  args <- c(args,params)
-  result <- function() {}
-  formals(result) <- args
-  body(result) <- rhs(formula)  
-  return( result )
+  return(makeFun(model))
+
 }
