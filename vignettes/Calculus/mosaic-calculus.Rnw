@@ -223,7 +223,7 @@ The \texttt{antiD()} operator carries out anti-differentiation.  The syntax and 
 \item Only first-order integration is directly supported.
 \item The returned function retains the same arguments as the function being integrated, but splits the variable of integration into a "from" and a "to" part.
 \end{itemize}
-To illustrate, here is $\int a x^2 dx$ (which should give $\frac{a}{3} x^2$):
+To illustrate, here is $\int a x^2 dx$ (which should give $\frac{a}{3} x^3$):
 <<>>=
 F = antiD( a*x^2~x, a=1 )
 F
