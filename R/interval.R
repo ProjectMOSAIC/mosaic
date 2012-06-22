@@ -38,22 +38,20 @@ interval <- confint
 #' @method confint htest
 #' @param verbose a logical
 
-confint.htest <- function (object, verbose=FALSE, ...){
+confint.htest <- function (object, parm, level, ...){
+  if (! missing( parm ) || !missing( level ) ) { warning("parm and level are ignored.") }
   int <- object$conf.int
   lev <- attr(int, "conf.level")
-  if (verbose ) {
-	  message( "\n" )
-	  message('Method: ')
+  verbose <- list(...)[['verbose']]
+  if (is.null(verbose)) verbose <- FALSE
+  if ( verbose ) {
+	  message('\nMethod: ')
 	  message(object$method)
-	  message( "\n" )
-	  message( "\n" )
-	  print(object$estimate) 
-	  message( "\n" )
-	  message( paste(lev * 100, "% confidence interval: \n", sep = "") )
-	  message( as.vector(int) )
-	  message( "\n" )
-	  message( "\n" )
-  	  invisible(int)
+	  message('\nEstimate: ')
+	  message( format(object$estimate, getOption('digits',3)) )
+	  message( paste("\n", lev * 100, "% confidence interval: ", sep = "") )
+	  message( paste(format(as.vector(int), getOption('digits',3)), collapse=" ") )
+  	  return(invisible(int))
   }
   interv <- as.vector(int) 
   names(interv) <- c('lower','upper')
