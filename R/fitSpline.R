@@ -13,6 +13,8 @@
 #' 1 is locally linear, 2 is locally quadratic, etc.
 #' @param df degrees of freedom (used to determine how many knots should be used)
 #' @param knots a vector of knots
+#' @param \dots additional arguments passed to spline basis functions
+#' (\code{\link{ns}} and \code{\link{bs}}).
 #'
 #' @return a function of the explanatory variable
 #'
@@ -20,14 +22,16 @@
 #'
 #' @export
 #' @examples
-#' 
+#' f <- fitSpline( weight ~ height, data=women, df=5 )
+#' xyplot( weight ~ height, data=women )
+#' plotFun(f(height) ~ height, add=TRUE)
 
-fitSpline <- function( formula, data=parent.frame(), deriv=0, 
+fitSpline <- function( formula, data=parent.frame(), 
 			df = NULL,
 			knots = NULL,
 			degree = 3,
  			type=c('natural','linear','cubic','polynomial'),
-			ties=mean ) {
+			...) {
 
 	type <- match.arg(type)
     xnames <- all.vars(rhs(formula))
@@ -48,10 +52,10 @@ fitSpline <- function( formula, data=parent.frame(), deriv=0,
 					)
 
 	model <- switch(method,
-					natural = lm( y ~ 1 + ns(x, knots=knots, df=df), data=data ),
-					polynomial = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=degree), data=data ),
-					linear = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=1), data=data ),
-					cubic = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=3), data=data ),
+					natural = lm( y ~ 1 + ns(x, knots=knots, df=df, ...), data=data ),
+					polynomial = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=degree, ...), data=data ),
+					linear = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=1, ...), data=data ),
+					cubic = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=3, ...), data=data ),
 					NULL
 					)
 
