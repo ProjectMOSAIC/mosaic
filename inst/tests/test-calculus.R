@@ -1,5 +1,15 @@
 context('Testing calculus functions: D(), antiD(), etc.')
 
+test_that("stats::D still accessible", {
+  expect_equivalent( 
+		mosaic::D( expression(sin(cos(x + y^2))), "x" ), 
+		 stats::D( expression(sin(cos(x + y^2))), "x" )
+	) 
+  expect_equivalent( 
+		mosaic::D( expression(sin(cos(x + y^2))), "x" ), 
+		        D( expression(sin(cos(x + y^2))), "x" )
+	) 
+})
 
 test_that("a function is created", {
   expect_true(is.function(D(sin(x) ~ x))) #symbolic Deriv
