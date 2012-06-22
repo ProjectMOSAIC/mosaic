@@ -151,6 +151,9 @@ plotGrad <- function(object, ..., add=FALSE,
 #' @param object an object (e.g., a formula) describing a function
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' 
+#' @param xlab label for x axis
+#' @param ylab label for y axis
+#' 
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param vecLen scalar for length of output vectors.  Default is 1.
 #' 
