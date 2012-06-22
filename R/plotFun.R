@@ -6,7 +6,8 @@
 #' @name plotFun
 #' @aliases plotFun
 #'
-#' @param object a mathematical expression (see examples)
+#' @param object a mathematical expression or a function "of one variable" which will
+#' converted to something intuitively equivalent to \code{object(x) ~ x}. (See examples)
 #' @param add if TRUE, then overlay an existing plot
 #' @param xlim limits for x axis (or use variable names, see examples)
 #' @param ylim limits for y axis (or use variable names, see examples)
@@ -65,9 +66,12 @@
 #' model <- lm(wage ~ poly(exper,degree=2), data=CPS)
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS)
-#' plotFun(fit(exper) ~ exper, add=TRUE)
+#' plotFun(fit(exper) ~ exper, add=TRUE, lwd=8)
+#' # Can also just give fit since it is a "function of one variable"
+#' plotFun(fit, add=TRUE, lwd=2, col='white')
  
-plotFun <- function(object, ..., add=FALSE,
+plotFun <- function(object, ..., 
+					add=FALSE,
 					xlim=NULL, ylim=NULL, npts=NULL,
 					ylab=NULL, xlab=NULL, zlab=NULL, 
 					filled=TRUE, 
@@ -77,7 +81,13 @@ plotFun <- function(object, ..., add=FALSE,
 					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL ) { 
-	
+
+	if ( is.function(object) ) { 
+		formula <- f(x) ~ x 
+		formula[[2]] <- as.call( list(substitute(object), quote(x)))
+		object <- formula
+	}
+
 	if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
 
 	if (add) { 
@@ -320,6 +330,12 @@ panel.plotFun <- function( object, ...,
                    		  col.regions =topo.colors, 
 				   		  alpha=NULL ) { 
   dots <- list(...)
+  if ( is.function(object) ) { 
+		formula <- f(x) ~ x 
+		formula[[2]] <- as.call( list(substitute(object), quote(x)))
+		object <- formula
+	}
+
   if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
 
   plot.line <- trellis.par.get('plot.line')
