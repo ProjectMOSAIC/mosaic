@@ -95,7 +95,9 @@ setMethod(
   'makeFun',
   'lm',
    function( object, ... ) {
+    dnames <- names(eval(object$call$data, parent.frame(1)))
 	  vars <- model.vars(object)
+    if (! is.null(dnames) ) vars <- intersect(vars, dnames)
 	  result <- function(){}
 	  if ( length( vars ) <  1 ) {
 		  result <- function( ... ) {
