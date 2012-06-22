@@ -9,10 +9,10 @@
 #' 
 #' @export
 #' @examples
-#' interval(t.test(rnorm(100)))
+#' confint(t.test(rnorm(100)))
 #' pval(t.test(rnorm(100)))
 #' stat(t.test(rnorm(100)))
-#' interval(var.test(rnorm(10,sd=1), rnorm(20, sd=2)))
+#' confint(var.test(rnorm(10,sd=1), rnorm(20, sd=2)))
 #' pval(var.test(rnorm(10,sd=1), rnorm(20, sd=2)))
 #' 
 #' data(HELPrct)
@@ -24,31 +24,41 @@
 #' @keywords inference 
 #' 
 
-interval <- function(x, ...){UseMethod("interval", x)}
-
 #' @rdname interval
-#' @method interval htest
+#' @param object a fitted model object or an htest object.
+#' @param parm a specification of which parameters are to be given confidence intervals, 
+#' either a vector of numbers or a vector of names. If missing, all parameters are considered.
+#' @param level the confidence level required.
+
+interval <- confint
+
+# interval <- (x, ...){UseMethod("interval", x)}
+#
+#' @rdname interval
+#' @method confint htest
 #' @param verbose a logical
-interval.htest <- function (x, verbose=FALSE, ...){
-  int <- x$conf.int
+
+confint.htest <- function (object, verbose=FALSE, ...){
+  int <- object$conf.int
   lev <- attr(int, "conf.level")
   if (verbose ) {
-	  cat( "\n" )
-	  cat('Method: ')
-	  cat(x$method)
-	  cat( "\n" )
-	  cat( "\n" )
-	  print(x$estimate) 
-	  cat( "\n" )
-	  cat( paste(lev * 100, "% confidence interval: \n", sep = "") )
-	  cat( as.vector(int) )
-	  cat( "\n" )
-	  cat( "\n" )
+	  message( "\n" )
+	  message('Method: ')
+	  message(object$method)
+	  message( "\n" )
+	  message( "\n" )
+	  print(object$estimate) 
+	  message( "\n" )
+	  message( paste(lev * 100, "% confidence interval: \n", sep = "") )
+	  message( as.vector(int) )
+	  message( "\n" )
+	  message( "\n" )
   	  invisible(int)
   }
   interv <- as.vector(int) 
   names(interv) <- c('lower','upper')
-  int <- c(x$estimate, interv )
+  level <- c(level=lev)
+  int <- c(object$estimate, interv, level )
   return(int)
 }
 
