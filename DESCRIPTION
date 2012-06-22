@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.4-10
-Date: 2012-06-20
+Version: 0.4-11
+Date: 2012-06-21
 Depends:
     lattice,
     grid,
@@ -87,3 +87,4 @@ Collate:
     'mm.R'
     'project.R'
     'fitModel.R'
+    'fitSpline.R'
