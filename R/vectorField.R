@@ -112,6 +112,8 @@ vectorField <- function(object1, object2, ..., add=FALSE, grad=FALSE,
   .yvals <- seq(min(limits$ylim),max(limits$ylim),length=npts)
   stepSize <- diff(limits$xlim)/npts
   
+  #fun1 = Vectorize(function(x,y){3}) for 1 valued functions
+  
   deltax = outer(.xvals, .yvals, fun1)
   deltay = outer(.xvals, .yvals, fun2)
   grid <- expand.grid(.xvals,.yvals)
@@ -205,6 +207,7 @@ panel.vectorField <- function(object1, object2, ..., npts=NULL,
   
   npts <- ifelse( is.null(npts), 10, npts)
   
+  browser()
   .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
   .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
   stepSize <- diff(parent.xlim)/npts
