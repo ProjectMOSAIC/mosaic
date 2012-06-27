@@ -177,12 +177,12 @@ rows <- function(x, default=c()) {
 #' cps
 #' evalFormula(wage ~ sex & married & age | sector & race, data=cps)
 
-evalFormula <- function(formula, data=parent.frame()) {
+evalFormula <- function(formula, data=parent.frame(),split=c('+','&')) {
 	# could make this an S4 object instead
 	return( list(
-				 left      = evalSubFormula(      lhs(formula), data), 
-				 right     = evalSubFormula(      rhs(formula), data), 
-				 condition = evalSubFormula(condition(formula), data) 
+				 left      = evalSubFormula(      lhs(formula), split=split, data), 
+				 right     = evalSubFormula(      rhs(formula), split=split, data), 
+				 condition = evalSubFormula(condition(formula), split=split, data) 
 				 ) )
 }
 
@@ -202,7 +202,7 @@ evalFormula <- function(formula, data=parent.frame()) {
 #' cps
 #' evalSubFormula( rhs( ~ married & sector), data=cps )
 
-evalSubFormula <- function(x, data=parent.frame(), split=c('&') ){
+evalSubFormula <- function(x, data=parent.frame(), split=c('+','&') ){
   if (is.null(x)) return(NULL)
   if( is.name(x) || !(as.character(x[[1]]) %in% split) ) {
     res <- data.frame(eval(x, envir=data))
