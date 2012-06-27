@@ -1,3 +1,4 @@
+
 #' Derivative and Anti-derivative operators
 #' 
 #' Operators for computing derivatives and anti-derivatives as 
@@ -64,7 +65,11 @@
 #' f <- makeFun(x^2~x)
 #' D(f(cos(z))~z) #will look in user functions also
 #' 
+
 D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
+
+  tryCatch( return( stats::D(formula, ...) ), error=function(e) {}  )
+
   formulaEnv = environment(formula) # where was the formula made?
   #Try to construct a symbolic derivative
   res = try(symbolicD(formula, ...), silent=TRUE)
