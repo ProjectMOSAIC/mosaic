@@ -1,3 +1,7 @@
+##change everything to return formulae instead of functions.
+## add division stuff
+#catch when n=-1 and return log instead.
+
 #'Find the symbolic integral of a formula
 #'
 #'@param form formula to be integrated.  Rhs of formula indicates which variable to
@@ -8,7 +12,6 @@
 #'
 symbolicInt<- function(form, ...){
   dots = list(...)
-  
   rhsVar = all.vars(rhs(form))
   if(length(rhsVar)!=1) stop("Can only integrate with respect to one variable.")
   constants = setdiff(all.vars(form), rhsVar)
@@ -60,7 +63,6 @@ symbolicInt<- function(form, ...){
 
 #--------------------------
 intArith <- function(form, ...){
-  
   dots = list(...)
   
   rhsVar = all.vars(rhs(form))
@@ -86,6 +88,7 @@ intArith <- function(form, ...){
   }
   
   if(op == '*'){
+    browser()
     lform = form
     rform = form
     lform[[2]] = lhs(form)[[2]]
@@ -94,14 +97,14 @@ intArith <- function(form, ...){
       length(grep(rhsVar, deparse(lform[[2]])))>0)#too complex
       stop("Error: symbolic algorithm gave up")
     if(regexpr(rhsVar, deparse(lform[[2]]))==1){
-      lfun = Recall(lform, ...)
+      lfun = symbolicInt(lform, ...)
       body = parse(text=paste(deparse(body(lfun)),
                               deparse(lhs(form)[[1]]), deparse(lhs(rform)))) #parens???
       body(lfun) <- body
       return(lfun)
     }
     else{
-      rfun = Recall(rform, ...)
+      rfun = symbolicInt(rform, ...)
       body = parse(text=paste(deparse(lhs(lform)),
                               deparse(lhs(form)[[1]]),deparse(body(rfun)) )) #parens???
       body(rfun) <- body
