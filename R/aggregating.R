@@ -127,7 +127,7 @@ setMethod(
 	"mean", 
 	signature=c("formula"),
 	function(x, data=parent.frame(), ..., na.rm=TRUE, trim=0) {
-		if( .is.simple.formula(x) ) {
+		if(FALSE &&  .is.simple.formula(x) ) {
 			return( base::mean( eval( .simple.part(x), envir=data, enclos=parent.frame()), 
 							   ..., na.rm=na.rm, trim=trim ) )
 		} else {
@@ -980,7 +980,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
 	dots <- list(...)
 	format <- match.arg(format)
 	evalF <- evalFormula(formula, data)
-
+  
 	if (!missing(subset)) {
 		subset <- eval(substitute(subset), data, environment(formula))
 		if (!is.null(evalF$left))           evalF$left <- evalF$left[subset,]
@@ -997,7 +997,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
 	#if ( ! is.null(evalF$condition) ) stop('Conditioning not allowed in this type of formula.')
 
 	if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  evalF$right <- rep(1, nrow(evalF$left))
-
+  
 	res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
 				  function(x) { do.call(FUN, c(list(x), ...) ) }
 	)
