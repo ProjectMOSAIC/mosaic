@@ -4,14 +4,15 @@
 
 
 \SweaveOpts{
-	fig.path=figures/fig-,
-	fig.align=center,
+	fig.path="figures/fig-",
+	fig.align="center",
 	fig.height=3, 
 	fig.width=5,
-	out.width=.47\textwidth,
-	tidy=TRUE,
-	dev=pdf,
-	fig.show=hold,
+	out.width=".47\\textwidth",
+	tidy=FALSE,
+  highlight=FALSE,
+	dev="pdf",
+	fig.show="hold",
 	comment=NA
 	}
 
@@ -111,7 +112,7 @@ The variable \texttt{pi} is handled differently; it's always treated as the numb
 
 In general, functions can have more than one input.  The \texttt{mosaic} package handles this using an obvous extension to the notation:
 <<>>=
-g <- makeFun(A*x*sin(x*y)~x&y, A=10)
+g <- makeFun(A*x*sin(x*y)~x+y, A=10)
 g
 @
 
@@ -132,17 +133,17 @@ The \texttt{mosaic} package provides a basic operator for graphing functions: \t
 
 The variables to the right of \verb+~+ set the independent axes plotting variables.  The plotting domain can be specified by a \texttt{lim} argument whose name is constructed to be prefaced by the variable being set.  For example, here's a conventional line plot of a function of $t$ alongside a contour plot of two variables:
 
-<<line1,fig.height=4,out.width=.5\textwidth>>=
+<<line1,fig.height=4,out.width=".5\\textwidth">>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t, 
           t.lim=range(0,10), k=-0.3, A=10, P=4)
-plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4)
 @
 
 For functions of two variables, you can override the default with \texttt{surface=TRUE},
 
-<<surface1,fig.height=4,out.width=.7\textwidth,message=FALSE,warning=FALSE>>=
-plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
+<<surface1,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE>>=
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4,
           surface=TRUE)
 @
@@ -155,10 +156,10 @@ The resolution of the two-variable plots can be changed with the \texttt{npts} a
 The \texttt{lattice} graphics package is used to implement \texttt{plotFun}.  We hope eventually to use the \texttt{lattice} panel capabilities to provide support for displaying functions of three variables.
 
 Common graphical tasks are comparing two functions or plotting a function along with data.  The standard \texttt{lattice} approach to this can be daunting for students.  To make the task of overlaying plots easier, \texttt{plotFun()} has an \texttt{add} argument to control whether to make a new plot or overlay an old one.  Here's an example of laying a constraint $t + 1/k \leq 0$ over another function:
-<<constraint1,fig.height=4,out.width=.7\textwidth>>=
-plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
+<<constraint1,fig.height=4,out.width=".7\\textwidth">>=
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4)
-plotFun( t + 1/k <= 0 ~ t&k, add=TRUE, npts=300, alpha=.2)
+plotFun( t + 1/k <= 0 ~ t+k, add=TRUE, npts=300, alpha=.2)
 @
 
 %\centerline{\includegraphics[width=3in]{Figures/plt-explain-constraint1}}
@@ -169,8 +170,9 @@ Note also that a high resolution (\texttt{npts=300}) was used for plotting the c
 
 The \texttt{mosaic} graphics operators are built on \texttt{lattice} but provide an interface similar to that of \texttt{makeFun()}.
 
-<<fig.height=4,out.width=.7\textwidth>>=
-plotFun( dt(t,df)~t&df, t.lim=range(-3,3), df.lim=range(1,10))
+<<fig.height=4,out.width=".7\\textwidth">>=
+plotFun( dt(t,df)~t+df, 
+         t.lim=range(-3,3), df.lim=range(1,10))
 @
 
 
@@ -198,15 +200,15 @@ The controlling rule here is that the derivative of a function should have the s
 
 Second- and higher-order derivatives can be handled using an obvious extention to the notation:
 <<>>=
-D( A*x^2*sin(y) ~ x&x )
-D( A*x^2*sin(y) ~ y&y )
-D( A*x^2*sin(y) ~ x&y ) #mixed partial
+D( A*x^2*sin(y) ~ x+x )
+D( A*x^2*sin(y) ~ y+y )
+D( A*x^2*sin(y) ~ x+y ) #mixed partial
 @
 
 The ability to carry out symbolic differentiation is inherited from the \texttt{stats::deriv()} operator.  This is valuable for two reasons. First, seeing R return something that matches the traditional form can be re-assuring for students and instructors.  Second, derivatives --- especially higher-order derivatives --- can have noticeable pathologies when evaluated through non-symbolic methods such as simple finite-differences.  Fortunately, \texttt{stats::deriv()} is capable of handling the large majority of sorts of expressions encountered in calculus courses.
 
 Not every function has an algebraic form that can be differentiated using the algebraic rules of differentiation.  In such cases, numerical differentiation can be used.  \texttt{D()} is designed to carry out numerical differentiation and to package up the results as a function that can be used like any other function.  To illustrate, consider the derivative of the density of the t-distribution.  The density is implemented in R with the \texttt{dt(t, df)} function, taking two parameters, t and the "degrees of freedom" df.  Here's the derivative of density with respect to df constructed using \texttt{D()}:
-<<dfgraph,fig.height=4,out.width=.7\textwidth>>=
+<<dfgraph,fig.height=4,out.width=".7\\textwidth">>=
 f1 = D( dt(t,df) ~ df)
 f1(t=2,df=1)
 plotFun(f1(t=2,df=df)~df, df.lim=range(1,10))
@@ -231,7 +233,7 @@ F(x.to=1) #should be 1/3
 @
 
 Being a function, the output of \texttt{antiD()} can be plotted:
-<<antiD1,fig.height=4,out.width=.7\textwidth>>=
+<<antiD1,fig.height=4,out.width=".7\\textwidth">>=
 plotFun(F(x.to=x)~x, x.lim=range(-2,2))
 plotFun(F(x.from=-1.5,x.to=x)~x, add=TRUE, col="red")
 @
@@ -251,7 +253,7 @@ F(x.from=0,x.to=Inf,rate=100)
 
 Because anti-differentiation is done numerically, you can compute the anti-derivative of any function that's numerically well behaved, even when there is no simple algebraic form.  In particular, you can take the anti-derivative of a function that is itself an anti-derivative.  Here, for example, is a double integral for the area of a circle of radius 1:
 <<>>=
-one = makeFun(1~x&y)
+one = makeFun(1~x+y)
 by.x = antiD( one(x=x, y=y) ~x )
 by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
 by.xy(y.from=-1, y.to=1)
@@ -261,7 +263,7 @@ by.xy(y.from=-1, y.to=1)
 
 The \texttt{antiD()} function allows you to specify the ``constant of integration.''  This is another style of providing information redundant with the \texttt{x.from} argument, but the constant of integration provides perhaps a clearer way to think about integrals where there is an initial condition.
 
-As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.9 m/s$.  The velocity function is the 
+As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.9$ m/s.  The velocity function is the 
 integral of acceleration due to gravity over time, plus the initial velocity:
 <<>>=
 vel <- antiD( -9.8~t, Const=1 )
@@ -272,8 +274,9 @@ The position is, of course, the integral of velocity plus the initial position o
 pos <- antiD( vel(t.to=t)~t, Const=5 )
 @ 
 
-<<dive,fig.height=4,out.width=.7\textwidth>>=
-plotFun(pos(t.to=t)~t, t.lim=range(0,1.2), xlab="Height (m)", ylab="Time (s)")
+<<dive,fig.height=4,out.width=".7\\textwidth">>=
+plotFun(pos(t.to=t)~t, t.lim=range(0,1.2), 
+        xlab="Height (m)", ylab="Time (s)")
 @
 
 The differential equation solver provides another way to approach this problem.
@@ -302,7 +305,7 @@ We hope to extend \texttt{findZeros()} to work with multiple functions of multip
 
 In teaching, it's helpful to have a set of functions that can be employed to illustrate various concepts.  Sometimes, all you need is a smooth function that displays some ups and downs and has one or two local maxima or minima.  The \texttt{rfun()} function will generate such functions ``at random."  That is, a random seed can be used to control which function is generated.
 
-<<random1,fig.height=4,out.width=.7\textwidth>>=
+<<random1,fig.height=4,out.width=".7\\textwidth">>=
 f = rfun(~x, seed=345)
 plotFun(f(x)~x, x.lim=range(-5,5))
 @
@@ -311,9 +314,9 @@ plotFun(f(x)~x, x.lim=range(-5,5))
 
 These random functions are particularly helpful to develop intuition about functions of two variables, since they are readily interpreted as a landscape:
 
-<<random2,fig.height=4,out.width=.7\textwidth>>=
-f = rfun(~x&y, seed=345)
-plotFun(f(x,y)~x&y, x.lim=range(-5,5), y.lim=range(-5,5))
+<<random2,fig.height=4,out.width=".7\\textwidth">>=
+f = rfun(~x+y, seed=345)
+plotFun(f(x,y)~x+y, x.lim=range(-5,5), y.lim=range(-5,5))
 @
 
 %\centerline{\includegraphics[width=3in]{Figures/plt-explain-random2}}
@@ -344,7 +347,7 @@ water <- data.frame(
 @
 
 Plotting out the data can be done in the usual way (using \texttt{lattice} graphics)
-<<fig.height=4,out.width=.7\textwidth>>=
+<<fig.height=4,out.width=".7\\textwidth">>=
 xyplot( mass ~ time, data=water)
 @
 
@@ -362,7 +365,7 @@ At intermediate values of \texttt{time}, the function takes on interpolating val
 f(time=c(0,.5,1,1.5,2,2.5,3))
 @
 
-<<waterspline,fig.height=4,out.width=.7\textwidth>>=
+<<waterspline,fig.height=4,out.width=".7\\textwidth">>=
 xyplot( mass ~ time, data=water)
 plotFun(f(t)~t,add=TRUE,t.lim=range(0,27))
 @
@@ -388,7 +391,7 @@ fline <- connector(mass~time, data=water)
 The mathematical issues of smoothness and monotonicity are illustrated by these various interpolating functions in a natural way.  Sometimes these are better ways to think about the choice of functions for modeling --- you're not going to find a global polynomial or exponential or any other classical function to represent these data.
 
 Consider, for instance, the question of determining the rate of flow from the bottle.  This is the derivative of the mass measurement.  Here are plots of the derivatives of the three interpolating functions:
-<<waterflow,fig.height=4,out.width=.7\textwidth>>=
+<<waterflow,fig.height=4,out.width=".7\\textwidth">>=
 Df <- D( f(t)~t )
 Dfmono <- D( fmono(t)~t )
 Dfline <- D( fline(t)~t )
@@ -414,7 +417,7 @@ data(CPS)
 There is no definite relationship between wage and age, but there are general trends:
 
 %\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage1}}
-<<wage1,fig.height=4,out.width=.7\textwidth>>=
+<<wage1,fig.height=4,out.width=".7\\textwidth">>=
 xyplot( wage ~ age, data=CPS )
 f <- smoother(wage~age, span=.9, data=CPS)
 plotFun(f(age)~age, add=TRUE, lwd=4)
@@ -426,7 +429,7 @@ There appears to be a slight decline in wage --- a negative derivative --- for p
 set.seed(7832)
 @
 
-<<fig.height=4,out.width=.7\textwidth>>=
+<<fig.height=4,out.width=".7\\textwidth">>=
 CPS2 <- subset(CPS, wage < 30)
 f <- smoother( wage~age, span=0.9, data=CPS2)
 f2 <- D( f(age)~age)
@@ -443,18 +446,18 @@ plotFun( 1~age, add=TRUE)
 Pretty good evidence for wage going up with age, particularly for the young.  The rate of increase per year of age gets smaller and smaller.  After about 35 years of age, there's weak evidence for any systematic effect.
 
 Smoothers can construct functions of more than one variable.  Here, for instance, is a representation of the relationship between wage, age, and education.
-<<wage2,fig.height=4,out.width=.7\textwidth>>=
+<<wage2,fig.height=4,out.width=".7\\textwidth">>=
 g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPS2)
-plotFun( g(age=age,educ=educ)~age&educ, 
+plotFun( g(age=age,educ=educ)~age+educ, 
          age.lim=range(20,50),educ.lim=range(5,14))
 @
 
 %\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage2}}
 
 The graph suggests that people with a longer education see a steeper and more prolonged increase in wage with age.  To see this in a different way, here's the partial derivative of log wage with respect to age, holding education constant:
-<<wage3,fig.height=4,out.width=.7\textwidth>>=
+<<wage3,fig.height=4,out.width=".7\\textwidth">>=
 DgAge <- D( g(age=age,educ=educ)~age)
-plotFun( DgAge(age=age,educ=educ)~age&educ,
+plotFun( DgAge(age=age,educ=educ)~age+educ,
               age.lim=range(20,50), educ.lim=range(5,14))
 @
 
@@ -463,11 +466,11 @@ plotFun( DgAge(age=age,educ=educ)~age&educ,
 
 For economists, perhaps worthwhile to think about the elasticity of wages with respect to age for different levels of education.
 
-<<wage4,fig.height=4,out.width=.7\textwidth>>=
+<<wage4,fig.height=4,out.width=".7\\textwidth">>=
 CPS2$logage <- log(CPS2$age)
 g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPS2)
 elasticity <- D( g2(logage=logage,educ=educ)~logage)
-plotFun( elasticity(logage=log(a),educ=educ)~a&educ,
+plotFun( elasticity(logage=log(a),educ=educ)~a+educ,
               a.lim=range(20,50), educ.lim=range(5,14))
 @
 
@@ -517,7 +520,7 @@ soln$x(0:5)
 @
 
 Often, you will plot out the solution against time:
-<<logistic1,fig.height=4,out.width=.7\textwidth>>=
+<<logistic1,fig.height=4,out.width=".7\\textwidth">>=
 plotFun(soln$x(t)~t, t.lim=range(0,20))
 @
 
@@ -532,7 +535,7 @@ epi = integrateODE( dS~-a*S*I, dI~a*S*I - b*I,
 @
 
 This system of differential equations is solved to produce two functions, $S(t)$ and $I(t)$.
-<<epi1,fig.height=4,out.width=.7\textwidth>>=
+<<epi1,fig.height=4,out.width=".7\\textwidth">>=
 plotFun( epi$S(t)~t, t.lim=range(0,20))
 plotFun( epi$I(t)~t, add=TRUE, col="red")
 @
@@ -544,7 +547,7 @@ In the solution, you can see the epidemic grow to a peak near $t=5$.  At this po
 \subsection{Example: Another Dive from the Board}
 
 Let's return to the diving-board example, solving it as a differential equation with state variables $v$ and $x$.
-<<dive2,fig.height=4,out.width=.7\textwidth>>=
+<<dive2,fig.height=4,out.width=".7\\textwidth">>=
 dive = integrateODE( dv~-9.8, dx~v, 
   v=1,x=5,tdur=1.2)
 plotFun( dive$x(t)~t, t.lim=range(0,1.2), ylab="Height (m)" )
@@ -553,7 +556,7 @@ plotFun( dive$x(t)~t, t.lim=range(0,1.2), ylab="Height (m)" )
 What's nice about the differential equation format is that it's easy to add features like the buoyancy of water and drag of the water.  We'll do that here by changing the acceleration (the $dv$ term) so that when
 $x<0$ the acceleration is slightly positive with a drag term proportional to $v^2$ in the direction opposed to the motion.
 
-<<dive3,fig.height=4,out.width=.7\textwidth>>=
+<<dive3,fig.height=4,out.width=".7\\textwidth">>=
 diveFloat = integrateODE( dv~ifelse( x>0, -9.8, 1-sign(v)*v^2), dx~v, 
   v=1,x=5,tdur=10)
 plotFun( diveFloat$x(t)~t, t.lim=range(0,10), ylab="Height (m)" )
@@ -592,39 +595,4 @@ The \texttt{mosaic} package is one of the initiatives of Project MOSAIC, an NSF-
 
 \end{document}
 
-A quantitative curriculum with data and statistics at the center.  Modeling, linear algebra, interpretation.
-
-Teaching computation.  What does it mean to teach computation?  Sensitivity to syntax and the structure of computer commands.  The idea of assignment and sequences of steps.  For statistics: summarization, iteration, randomization, accumulation.  Identification of the ``types'' of objects: numbers, functions, vectors.
-
-Community of users: basic knowledge.  Everyone is expected to learn algebra and it is used in many fields in science.  Sometimes this just amounts to $\sqrt{n}$.  Similarly, we need a common language in computation, even if it's very simple operations.  There's a question of what that language should be, and whether there should be any language at all.  Let's not compromise on using many different languages, none of them well.
-
-Some people will argue that the ``language'' should be user-friendly interfaces that can be learned intuitively. I think there are good reasons to think that this will never happen.  QUOTE OF LESLEY GROVES: and I speak as an expert on explosives. If this is right, it will become self-evident as soon as such an interface is constructed.  In the meantime, we need to work with what we can get.
-
-Calculus taught using Mathematica doesn't seem to do it.  Few students learn how to define a function, let alone to iterate, randomize, accumulate, summarize.  Also, Mathematica has failed to make inroads into other fields.  
-
-The great deficiency of \texttt{mosaic} calculus operators is that they don't replicate the traditional symbolic integration capabilities and symbolic solutions.  (The symbolic differentiation properties are already pretty close.)  But is this really a deficiency?
-
-A lot of the difficulty of integral calculus comes from identifying the situations where an analytic integral does not exist and distinguishing them from the cases where one just hasn't figured out how to arrive at the analytic form.  For many important functional forms, there is no analytic form.  But there is always an integral.  Doing integration numerically may be slow in certain cases, but it is numerically stable and no less liable to error (due to singularities, etc.) than the traditional symbolic algorithms as implemented by students.
-
-
-
-
-
-
-
-
-The calculus features of the \texttt{mosaic} package were written to support teaching calculus to beginners, not for the professional who is using calculus in his or her technical work.  Much more powerful calculus capabilities are provided by widely accessible software such as Mathematica and Wolfram Alpha. What the \texttt{mosaic} functions provide is an {\em interface} to calculus functionality that is intended to be straightforward, to relate well to statistical operations that are not a part of the traditional calculus curriculum, and to help students learn basics of technical computing while they are learning calculus.
-
-For many calculus instructors, the reasons not to use R/\texttt{mosaic} will be obvious: the symbolic capabilities of \texttt{mosaic} are very limited, there are more powerful general-mathematics programs that can be used, and calculus instruction is not necessarily improved by electronic computation.  This last reason perhaps explains why so many calculus courses are being taught without modern computing.  If the point of teaching calculus is to support advanced calculations, then use software designed for this purpose.  If the point is to exercise logical reasoning abilities, then don't use electronic computation.\footnote{Somehow, from this dilemma, graphing calculators, ubiquitous in high schools, have become the compromise of choice.}
-
-The crux of the issue is the purpose of teaching calculus.  This is not such a simple matter.  The plain answer --- not necessarily a good answer --- is that the topics of calculus are useful, either directly in their technical application or as a means to train the mind.  But utility depends on context.  Many of the topics of the traditional calculus curriculum are there to support the technology of traditional calculus.  Doing integrals? Partial fractions might be useful. Trying to find a tricky limit?  L'Hopital's rule can simplify things, and for that you need symbolic differentiation.  Need to find an extremum?  Differentiate and solve.
-
-In science education, the curriculum gradually shifts to support new discoveries.  My mother's high-school education, in the 1940s, did not include any mention of DNA.  That would be absurd now.  Yet my daughter's calculus course was very similar to my father's.  There's little internal need for change in mathematics education.  Mathematics is always right.  In contrast, science is always wrong.  But science, even if wrong, can be useful.  Mathematics, even if right, is not always so.
-
-The big outside changes that need to influence mathematics are the emergence, both largely in the second half of the 20th century, of electronic computation and of statistics. Both computation and statistics are so widely used, in so many aspects of civic, commercial, and technical work, that the re-alignment of mathematics education to serve those needs ought to be both compelling and obvious.  Yet it has not happened very broadly.
-
-Calculus played a major role in the emergence of electronic computation.
-The name of the first general-purpose electronic computer, ENIAC, announced in 1946, stood for ``Electronic Numerical Integrator and Computer.''  Why feature integration in the name?  Because integration is both important and difficult.
-
-Imagine a negotiation where the science/mathematics curriculum were being devised {\em de novo}.  What arguments would proponents of calculus be able to bring to the table to support allocating student time and energy to calculus?  Point to the value of l'Hopital's rule in science?  Hardly.  Argue that trigonometric substitution is the foundation of physics?  No.  Instead, they might reasonably claim that calculus provides an important way to describe the world, that calculus concepts (differentiation, partial derivatives, accumulation, ...) are important in analyzing systems and in understanding approximation, that calculus helps in modeling.  There are important ways in which calculus supports statistics.  These have to do with modeling, approximation, and optimization and not so much with ``area under a curve.''
 

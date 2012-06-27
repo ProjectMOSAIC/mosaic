@@ -92,3 +92,4 @@ Collate:
     'project.R'
     'fitModel.R'
     'fitSpline.R'
+    'plotPoints.R'
