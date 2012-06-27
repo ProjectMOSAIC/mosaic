@@ -71,7 +71,10 @@ intArith <- function(form, ...){
   op = lhs(form)[[1]]
   
   if(length(lhs(form))==2){#binary operation
-    
+    if(op=='-'){
+      form[[2]] = parse(text=paste("(-1)*",deparse(lhs(form)[[2]]),sep=""))[[1]]
+      return(symbolicInt(form,...))
+    }
   }
   
   if(op =='+'||op =="-"){ 
@@ -82,13 +85,12 @@ intArith <- function(form, ...){
     lfun = symbolicInt(lform, ...)
     rfun = symbolicInt(rform, ...)
     body = parse(text=paste(deparse(body(lfun)),
-                            deparse(lhs(form)[[1]]), deparse(body(rfun))))
-    body(lfun) <- body
-    return(lfun)
+                            deparse(lhs(form)[[1]]), deparse(body(rfun)), sep=""))[[1]]
+    form[[2]] <- body
+    return(makeFun(form))
   }
   
   if(op == '*'){
-    browser()
     lform = form
     rform = form
     lform[[2]] = lhs(form)[[2]]
@@ -99,30 +101,48 @@ intArith <- function(form, ...){
     if(regexpr(rhsVar, deparse(lform[[2]]))==1){
       lfun = symbolicInt(lform, ...)
       body = parse(text=paste(deparse(body(lfun)),
-                              deparse(lhs(form)[[1]]), deparse(lhs(rform)))) #parens???
-      body(lfun) <- body
-      return(lfun)
+                              deparse(lhs(form)[[1]]), deparse(lhs(rform))))[[1]] #parens???
+      form[[2]] <- body
+      return(makeFun(form))
     }
     else{
       rfun = symbolicInt(rform, ...)
       body = parse(text=paste(deparse(lhs(lform)),
-                              deparse(lhs(form)[[1]]),deparse(body(rfun)) )) #parens???
-      body(rfun) <- body
-      return(rfun)
+                              deparse(lhs(form)[[1]]),deparse(body(rfun)) ))[[1]] #parens???
+      form[[2]] <- body
+      return(makeFun(form))
+    }
+  }
+  
+  if(op=='/'){#let denominator have negative exponent if there is an x.
+    num = lhs(form)[[2]]
+    den = lhs(form)[[3]]
+    if(length(grep(rhsVar, den))>0){
+      form[[2]] = parse(text = paste(deparse(num), "*", deparse(den), "^-1",sep="" ))[[1]]
+      return(symbolicInt(form, ...))
+    }
+    else{
+      form[[2]] = parse(text = paste("1/",deparse(den),"*", deparse(num) , sep=""))[[1]]
+      return(symbolicInt(form,...))
     }
   }
   
   if(op == '^'){
     if(lhs(form)[[2]] == rhsVar &&length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
-      exp = try(evalq(form[[2]][[3]]+1, envir=list(pi=3.1415932653589793, form=form),enclos=NULL), silent=TRUE)
+      exp = try(evalq(form[[2]][[3]], envir=list(pi=3.1415932653589793, form=form),
+                      enclos=NULL), silent=TRUE)
       if(inherits(exp, "try-error"))
         exp = parse(text = paste(deparse(lhs(form)[[3]]), "+1"))[[1]]
+      else(exp = eval(exp)+1) #change from call to numeric...
       ###FIX
-      if(exp == -1) form[[2]] <- parse(text = paste("log(", lhs(form)[[2]], ")", sep=""))
+      if(exp == 0){
+        form[[2]] <- parse(text = paste("log(", deparse(lhs(form)[[2]]), ")", sep=""))[[1]]
+        return(makeFun(form))
+      }
       form[[2]][[3]] <- exp
       form[[2]] <- parse(text = paste("1/(", deparse(exp), ")*",
                                            deparse(form[[2]]), sep=""))[[1]]
-      return(makeFun(form, ...))
+      return(makeFun(form))
     }
   }
   
