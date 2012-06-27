@@ -96,8 +96,8 @@ NA
 #' In the study conducted by the National Institutes of Health, 109 clinically depressed patients were separated into three groups, and each group was given one of two active drugs (imipramine or lithium) or no drug at all. For each patient, the dataset contains the treatment used, the outcome of the treatment, and several other interesting characteristics.
 #'  
 #'  @docType data
-#'  @name depression
-#'  @usage data(depression)
+#'  @name Depression
+#'  @usage data(Depression)
 #'  @format
 #'      A data frame with 109 observations on the following variables.
 #'    
@@ -115,8 +115,8 @@ NA
 #' Part of the Carnegie Mellon University Online Learning Initiative datasets.
 #' 
 #' @examples
-#' favstats(Age ~ Gender, depression)
-#' tally(~ Outcome | Treat, depression)
+#' favstats(Age ~ Gender, Depression)
+#' tally(~ Outcome | Treat, Depression)
 #' 
 #' @keywords datasets
 
