@@ -74,7 +74,7 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
   }
   res <- list( coefs=coefs, resids=resids, fitted=fitted, 
                ncases=ncases, groupsd=groupsd,call=formula, df=df)
-  class(res) <- c("groupwiseModel", "lm")
+  class(res) <- c("groupwiseModel")
   return(res)
 }
 #' @rdname mm
