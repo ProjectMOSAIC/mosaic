@@ -26,4 +26,5 @@
 #' tally(~ Outcome | Treat, Depression)
 #' 
 #' @keywords datasets
+NA
 
