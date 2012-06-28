@@ -1,10 +1,11 @@
 #'Plot the gradient field of a function
 #'
-#' @rdname plotGrad
-#' @name plotGrad
-#' @aliases plotGrad
+#' @rdname vectorField
+#' @name vectorField
+#' @aliases vectorField
 #'
-#' @param object a mathematical expression (see examples)
+#' @param object1 A formula specifying the behavior of the first variable.
+#' @param object2 A formula specifying the behavior of the second variable.
 #' @param add if TRUE, then overlay an existing plot
 #' @param xlim limits for x axis (or use variable names, see examples)
 #' @param ylim limits for y axis (or use variable names, see examples)
@@ -41,41 +42,57 @@
 #' 
 #'@examples
 #'
-#'plotGrad(x*y^2~x&y)
-#'plotGrad(x*y^2~x&y, xlim=c(-2,2), ylim = c(-2,2))
-#'plotGrad(x*y^2~x&y, xlim=c(-2,2), ylim = c(-2,2), npts = 20)
+#'#For a gradient field of the function x*y^2:
+#'vectorField(D(x*y^2~x)(x,y)~x, D(x*y^2~y)(x,y)~y)
 #'
 #'#plot with long vectors
-#'plotGrad(x*y^2~x&y, vecLen=2)
+#'vectorField(x*y^2~x, x+y~y, vecLen=2)
 #'
-plotGrad <- function(object, ..., add=FALSE,
-                    xlim=NULL, ylim=NULL, npts=NULL,
-                    ylab=NULL, xlab=NULL, groups=NULL,
-                    col = FALSE, vecLen=1,
-                    alpha=NULL){
+vectorField <- function(object1, object2, ..., add=FALSE, grad=FALSE,
+                        xlim=NULL, ylim=NULL, npts=NULL,
+                        ylab=NULL, xlab=NULL, groups=NULL,
+                        col = FALSE, vecLen=1,
+                        alpha=NULL){
   
   if (add) { 
-    ladd( panel.plotGrad( object, npts=npts, alpha=alpha, ...))
+    ladd( panel.vectorField( object1, object2,  npts=npts, alpha=alpha, ...))
     return(invisible(NULL))
   }
   
   dots <- list(...)
   dots[['alpha']] <- alpha
   
-  ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+  fun1 = makeFun(object1, dots, strict.declaration=FALSE)
+  fun2 = makeFun(object2, dots, strict.declaration=FALSE)
   
-  vars <- formals(..f..)
-  rhsVars <- all.vars(rhs(object))
-  otherVars <- setdiff(names(vars), rhsVars)
+  vars <- union(formals(fun1), formals(fun2))###?
+  rhsVars <- union(all.vars(rhs(object1)), all.vars(rhs(object2)))
+  otherVars <- setdiff(names(vars), rhsVars)###?
   ndims <- length(rhsVars)
-  if(ndims<2|| ndims>2) stop("Incorrect number of dimensions.")
-  cleanDots <- dots
-  for (v in otherVars) {
-    cleanDots[[v]] <- NULL
+  if(length(all.vars(rhs(object1))) != 1||length(all.vars(rhs(object2))) != 1 )
+    stop("Must have only one variable in the rhs of each formula.")
+  cleanDots <- dots###?
+  for (v in otherVars) {###?
+    cleanDots[[v]] <- NULL###?
   }
   
+  #ensure the formals of each function are the same.
+  newVars = union(names(formals(fun1)), names(formals(fun2)))
+  formals(fun1) <- 
+    eval(parse( 
+      text=paste( "as.pairlist(alist(", 
+                  paste(newVars, "=", collapse=",", sep=""), "))"
+      )
+    ))
+  formals(fun2) <- 
+    eval(parse( 
+      text=paste( "as.pairlist(alist(", 
+                  paste(newVars, "=", collapse=",", sep=""), "))"
+      )
+    ))
+  
   limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
-
+  
   npts <- ifelse( is.null(npts), 10, npts)
   if( length(ylab) == 0 ) ylab <- rhsVars[2]
   if( length(xlab) == 0 ) xlab <- rhsVars[1]
@@ -94,14 +111,11 @@ plotGrad <- function(object, ..., add=FALSE,
   .xvals <- seq(min(limits$xlim),max(limits$xlim),length=npts)
   .yvals <- seq(min(limits$ylim),max(limits$ylim),length=npts)
   stepSize <- diff(limits$xlim)/npts
-    
-  obj = object
-  obj[[3]]<- parse(text=rhsVars[1])[[1]] #replace rhs with on var
-  partial1 = D(obj)#with respect to first var
-  obj[[3]]<- parse(text=rhsVars[2])[[1]] #replace rhs with other var
-  partial2 = D(obj)#with respect to second var
-  deltax = outer(.xvals, .yvals, function(x,y){partial1(x,y)})
-  deltay = outer(.xvals, .yvals, function(x,y){partial2(x,y)})
+  
+  #fun1 = Vectorize(function(x,y){3}) for 1 valued functions
+  
+  deltax = outer(.xvals, .yvals, fun1)
+  deltay = outer(.xvals, .yvals, fun2)
   grid <- expand.grid(.xvals,.yvals)
   grid$dx = c(deltax)
   grid$dy = c(deltay)
@@ -118,41 +132,27 @@ plotGrad <- function(object, ..., add=FALSE,
   limits$ylim[2] = limits$ylim[2]+max(grid$dy)
   
   #ensure size of arrowhead does not overpower arrow.
-  arrowlength = max(diff(limits$xlim)/(50), mean(grid$dx,grid$dy)/2)
-  
-  #Add optional color to gradient vectors specifying length
-  if(col==TRUE){
-    colors = topo.colors(4)
-    colvec = sqrt(grid$dx^2+grid$dy^2)#find and normalize length
-    colvec = colvec/max(colvec)*4   #of vectors
-    colvec = ceiling(colvec)
-  }
-  else colvec=par("fg")#default
+  arrowlength = 1/20
   
   y=rep(0,0)
   x=rep(0,0)
-  #creates a black lattice plot and adds arrows
+  #creates a blank lattice plot and adds arrows
   myplot <- lattice::xyplot(
-              y~x, xlab=xlab, ylab=ylab, 
-              xlim=c(limits$xlim), ylim=c(limits$ylim),
-              panel = function(x,y,...) {
-                          panel.arrows(grid$Var1, grid$Var2, grid$Var1+grid$dx, grid$Var2+grid$dy, 
-                          length = arrowlength, lwd=1.5)}
+    y~x, xlab=xlab, ylab=ylab, 
+    xlim=c(limits$xlim), ylim=c(limits$ylim),
+    panel = function(x,y,...) {
+      panel.arrows(grid$Var1, grid$Var2, grid$Var1+grid$dx, grid$Var2+grid$dy, 
+                   length = arrowlength, lwd=1.5)}
   )
-#  suppressWarnings(panel.arrows(grid$Var1, grid$Var2,grid$Var1+grid$dx,grid$Var2+grid$dy, length = arrowlength,lwd=1.5))
-  #myplot=plot(0, cex=0, xlab=xlab, ylab=ylab,xlim=c(limits$xlim),ylim=c(limits$ylim))#need to change this to something else
-  #suppressWarnings(arrows(grid$Var1, grid$Var2,grid$Var1+grid$dx,grid$Var2+grid$dy, col=colvec, length = arrowlength,lwd=1.5))
   return(myplot)
 }
 
-#' Panel function for plotting gradient
+#' Panel function for plotting vector fields.
 #'
-#' @seealso plotGrad
-#' @param object an object (e.g., a formula) describing a function
+#' @seealso vectorField
+#' @param object1 an object (e.g., a formula) describing a function
+#' @param object2 A formula specifying the behavior of the second variable.
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
-#' 
-#' @param xlab label for x axis
-#' @param ylab label for y axis
 #' 
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param vecLen scalar for length of output vectors.  Default is 1.
@@ -162,20 +162,21 @@ plotGrad <- function(object, ..., add=FALSE,
 #'        Frequently used arguments include
 #'        \describe{
 #'          \item{\code{lwd}}{line width}
-#'        	\item{\code{lty}}{line type}
-#'        	\item{\code{col}}{a color}
+#'          \item{\code{lty}}{line type}
+#'          \item{\code{col}}{a color}
 #'        }
 #'
-panel.plotGrad <- function(object, ..., npts=NULL,
-                           ylab=NULL, xlab=NULL,
-                           vecLen=1, alpha=NULL ){  
+panel.vectorField <- function(object1, object2, ..., npts=NULL,
+                              ylab=NULL, xlab=NULL,
+                              vecLen=1, alpha=NULL ){  
   dots <- list(...)
   dots[['alpha']] <- alpha #Not quite sure what alpha does yet.
   
-  ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+  fun1 = makeFun(object1, dots, strict.declaration=FALSE)
+  fun2 = makeFun(object2, dots, strict.declaration=FALSE)
   
-  vars <- formals(..f..)
-  rhsVars <- all.vars(rhs(object))
+  vars <- c(formals(fun1), formals(fun2))
+  rhsVars <- union(all.vars(rhs(object1)), all.vars(rhs(object2)))
   otherVars <- setdiff(names(vars), rhsVars)
   ndims <- length(rhsVars)
   cleanDots <- dots
@@ -183,23 +184,36 @@ panel.plotGrad <- function(object, ..., npts=NULL,
     cleanDots[[v]] <- NULL
   }
   
+  if(length(all.vars(rhs(object1))) != 1||length(all.vars(rhs(object2))) != 1 )
+    stop("Must have only one variable in the rhs of each formula.")
+  
+  #ensure the formals of each function are the same.
+  newVars = union(names(formals(fun1)), names(formals(fun2)))
+  formals(fun1) <- 
+    eval(parse( 
+      text=paste( "as.pairlist(alist(", 
+                  paste(newVars, "=", collapse=",", sep=""), "))"
+      )
+    ))
+  formals(fun2) <- 
+    eval(parse( 
+      text=paste( "as.pairlist(alist(", 
+                  paste(newVars, "=", collapse=",", sep=""), "))"
+      )
+    ))
+  
   parent.xlim <- current.panel.limits()$xlim
   parent.ylim <- current.panel.limits()$ylim
   
   npts <- ifelse( is.null(npts), 10, npts)
   
+  browser()
   .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
   .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
   stepSize <- diff(parent.xlim)/npts
   
-  obj = object
-  obj[[3]]<- parse(text=rhsVars[1])[[1]] #replace rhs with on var
-  partial1 = D(obj)#with respect to first var
-  obj[[3]]<- parse(text=rhsVars[2])[[1]] #replace rhs with other var
-  partial2 = D(obj)#with respect to second var
-  
-  deltax = outer(.xvals, .yvals, function(x,y){partial1(x,y)})
-  deltay = outer(.xvals, .yvals, function(x,y){partial2(x,y)})
+  deltax = outer(.xvals, .yvals, fun1)
+  deltay = outer(.xvals, .yvals, fun2)
   grid <- expand.grid(.xvals,.yvals)
   grid$dx = c(deltax)
   grid$dy = c(deltay)
@@ -208,10 +222,9 @@ panel.plotGrad <- function(object, ..., npts=NULL,
   maxd = max(abs(grid$dx), abs(grid$dy))
   grid$dx = vecLen*(grid$dx/maxd)*(diff(parent.xlim)/npts)
   grid$dy = vecLen*(grid$dy/maxd)*(diff(parent.ylim)/npts)
-
-  #ensure size of arrowhead does not overpower arrow.
-  arrowlength = max(diff(parent.xlim)/(50), mean(grid$dx,grid$dy)/2)
-
-  suppressWarnings(panel.arrows(grid$Var1, grid$Var2,grid$Var1+grid$dx,grid$Var2+grid$dy, length = arrowlength,lwd=1.5))
   
+  #ensure size of arrowhead does not overpower arrow.
+  arrowlength = 1/20
+  
+  suppressWarnings(panel.arrows(grid$Var1, grid$Var2,grid$Var1+grid$dx,grid$Var2+grid$dy, length = arrowlength,lwd=1.5))
 }
