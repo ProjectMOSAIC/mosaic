@@ -170,6 +170,7 @@ rows <- function(x, default=c()) {
 #' @param data a data frame or environment in which evaluation occurs
 #' @return a list containing data frames corresponding to the left, right, and condition
 #' slots of \code{formula}
+#' @param ops a vector of operator symbols allowable to separate variables in rhs
 #' @export
 #' @examples
 #' data(CPS)
@@ -177,12 +178,12 @@ rows <- function(x, default=c()) {
 #' cps
 #' evalFormula(wage ~ sex & married & age | sector & race, data=cps)
 
-evalFormula <- function(formula, data=parent.frame(),split=c('+','&')) {
+evalFormula <- function(formula, data=parent.frame(), ops=c('+','&')) {
 	# could make this an S4 object instead
 	return( list(
-				 left      = evalSubFormula(      lhs(formula), split=split, data), 
-				 right     = evalSubFormula(      rhs(formula), split=split, data), 
-				 condition = evalSubFormula(condition(formula), split=split, data) 
+				 left      = evalSubFormula(      lhs(formula), ops=ops, data), 
+				 right     = evalSubFormula(      rhs(formula), ops=ops, data), 
+				 condition = evalSubFormula(condition(formula), ops=ops, data) 
 				 ) )
 }
 
@@ -192,7 +193,7 @@ evalFormula <- function(formula, data=parent.frame(),split=c('+','&')) {
 #'
 #' @param x an object appearing as a subformula (typically a call)
 #' @param data a data fram or environment in which things are evaluated
-#' @param split a vector of operators that are not evaluated as operators but
+#' @param ops a vector of operators that are not evaluated as operators but
 #'      instead used to further split \code{x}
 #' @return a data frame containing the terms of the evaluated subformula
 #' @export
@@ -202,9 +203,9 @@ evalFormula <- function(formula, data=parent.frame(),split=c('+','&')) {
 #' cps
 #' evalSubFormula( rhs( ~ married & sector), data=cps )
 
-evalSubFormula <- function(x, data=parent.frame(), split=c('+','&') ){
+evalSubFormula <- function(x, data=parent.frame(), ops=c('+','&') ){
   if (is.null(x)) return(NULL)
-  if( is.name(x) || !(as.character(x[[1]]) %in% split) ) {
+  if( is.name(x) || !(as.character(x[[1]]) %in% ops) ) {
     res <- data.frame(eval(x, envir=data))
     names(res) <- deparse(x)
     return( res )
