@@ -7,6 +7,8 @@ test_that("formula interface works", {
   expect_equivalent( sd(~cesd, data=HELPrct), sd(HELPrct$cesd))
   expect_equivalent( max(~cesd, data=HELPrct), max(HELPrct$cesd))
   expect_equivalent( min(~cesd, data=HELPrct), min(HELPrct$cesd))
+  expect_equivalent( min(~cesd | sex, data=HELPrct), c(36.88785, 31.59827))
+  expect_equivalent( min(~cesd | sex, data=HELPrct), min(cesd ~ sex, data=HELPrct))
 })
 
 test_that("data frame interface works", {
