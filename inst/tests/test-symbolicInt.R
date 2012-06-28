@@ -44,4 +44,5 @@ test_that('These are tests that do not run correctly yet',{
   #symbolicInt((x+1)^-1~x)
   
   #symbolicInt(3*sin(3*x+1)~x)
+  #symbolicInt(sin(2*(x))~x)
 })

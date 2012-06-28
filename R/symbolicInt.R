@@ -8,13 +8,15 @@
 #'integrate with respect to.  Must only have one variable.
 #'@param \ldots extra parameters
 #'
-#'@details works for simple polynomial expressions
+#'@details works for simple polynomial and trigonometric expressions
 #'
 symbolicInt<- function(form, ...){
   dots = list(...)
   rhsVar = all.vars(rhs(form))
   if(length(rhsVar)!=1) stop("Can only integrate with respect to one variable.")
   constants = setdiff(all.vars(form), rhsVar)
+  
+  #Check to see if it is nested
   if(class(lhs(form))=="call"&&is.primitive(eval(lhs(form)[[1]])))
     group = getGroup(toString(lhs(form)[[1]]))[[1]] #determine typ of highest-level expr.
   else group = -1
@@ -23,42 +25,24 @@ symbolicInt<- function(form, ...){
   if(group =="Math")
     return(intMath(form, ...))
   
+  #check to see if surrounded by parentheses
+  if(length(grep("^\\(.*\\)$", deparse(lhs(form))))>0)
+    form[[2]] = lhs(form)[[2]] #extract expression
+  
+  #check if it's just constants
   if(is.numeric(lhs(form))||is.element(deparse(lhs(form)), constants)){
     form[[2]]<- parse(text = paste(deparse(lhs(form)), "*", rhsVar))[[1]]
     return(makeFun(form,...))
   }
+  
+  #check if it's just x
   if((lhs(form))==rhsVar){
     form[[2]]<- parse(text="1/(2)*x^2")[[1]]
     return(makeFun(form, ...))
   }
   
-#     if(regexpr(rhsVar, deparse(lhs(form)))[1]==-1){ #this is a constant
-#     strexpr = paste(gsub(" ", "", deparse(lhs(form))), "*", rhsVar, sep="")
-#     form[[2]] = parse(text=strexpr)[[1]]
-#     return(makeFun(form, ...))
-#   
-#   }
-#   
-#   strexpr = gsub(" ", "", deparse(lhs(form))) #change formula to string and remove white space
-#   #regular expression to identify expr of form c1*x^n
-#   regex = paste("^(([[:digit:]]+\\*)*([", paste(constants, collapse=""),"]+\\*)*)*["
-#                 ,paste(rhsVar, collapse=""),"](\\^[[:digit:]]+)?$")
-#   if(regexpr(regex, strexpr)[1]==1){ #then the expression is of the desired form
-#     split = strsplit(strexpr, "\\^")[[1]]
-#     n = as.numeric(split[2])#find the exponent value
-#     if(is.na(n)) n=1
-#     if(n==-1) stop("Error: symbolic algorithm gave up")
-#     split[2] = toString(n+1)
-#     strexpr = paste(split, collapse="^")
-#     split = strsplit(strexpr, paste("\\*[",rhsVar,"]"))[[1]] #divide constants by n+1
-#     split[1] = paste(split[1],"/", toString(n+1), sep="")
-#     strexpr = paste(split, collapse=paste("*", rhsVar, sep=""))
-#     
-#     #replace lhs of formula with integrated expression
-#     form[[2]] = parse(text = strexpr)[[1]]
-#   }
-#   else stop("Error: symbolic algorithm gave up")
-#   return(makeFun(form))
+  stop("Error: symbolic algorithm gave up")
+
 }
 
 #--------------------------
@@ -128,6 +112,10 @@ intArith <- function(form, ...){
   }
   
   if(op == '^'){
+    #check to see if surrounded by parentheses
+    if(length(grep("^\\(.*\\)$", deparse(lhs(form)[[2]])))>0)
+      form[[2]][[2]] = lhs(form)[[2]][[2]] #extract expression
+    
     if(lhs(form)[[2]] == rhsVar &&length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
       exp = try(evalq(form[[2]][[3]], envir=list(pi=3.1415932653589793, form=form),
                       enclos=NULL), silent=TRUE)
@@ -146,6 +134,7 @@ intArith <- function(form, ...){
     }
   }
   
+  stop("Error: symbolic algorithm gave up")
 }
 
 #--------------------------
@@ -177,12 +166,45 @@ intMath <- function(form, ...){
   }
   
   if(op == "cos"){
-    
+    #check to see if we can integrate it
+    strexpr = gsub(" ", "", deparse(lhs(form)[[2]]))
+    regex = paste("^(([[:digit:]]+\\*)*([", paste(constants, collapse=""),"]+\\*)*)*["
+                  ,paste(rhsVar, collapse=""),"]$")
+    if(length(grep(regex, strexpr))!=0){
+      split = strsplit(strexpr, rhsVar, fixed=TRUE)[[1]]
+      if(split=="") split = paste("sin")
+      else{
+        split = strsplit(split, "\\*$") #take trailing '*' off end 
+        split= paste("1/(",split,")*sin" ,sep="")
+      }
+      form[[2]][[1]]= parse(text=split)[[1]]
+      return(makeFun(form))
+    }
+    else stop("Error: symbolic algorithm gave up")
   }
   
-  if(op == "log"){
-    
+  if(op == "exp"){
+    #Check to see if we can integrate it
+    strexpr = gsub(" ", "", deparse(lhs(form)[[2]]))
+    regex = paste("^(([[:digit:]]+\\*)*([", paste(constants, collapse=""),"]+\\*)*)*["
+                  ,paste(rhsVar, collapse=""),"]$")
+    if(length(grep(regex, strexpr))!=0){
+      split = strsplit(strexpr, rhsVar, fixed=TRUE)[[1]]
+      if(split=="") return(makeFun(form))
+      else{
+        split = strsplit(split, "\\*$") #take trailing '*' off end 
+        split= paste("1/(",split,")*", deparse(lhs(form)) ,sep="")
+      }
+      form[[2]]= parse(text=split)[[1]]
+      return(makeFun(form))
+    }
+    else stop("Error: symbolic algorithm gave up")
   }
   
+  if(op =='sqrt'){
+    #TODO
+  }
+  
+  stop("Error: symbolic algorithm gave up")
 }
 
