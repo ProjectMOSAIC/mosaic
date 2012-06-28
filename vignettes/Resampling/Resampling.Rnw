@@ -33,18 +33,18 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 \tableofcontents
 
 \SweaveOpts{
-tidy=TRUE,
-dev=pdf,
-fig.path=figures/fig-,  
+tidy=FALSE,
+dev="pdf",
+fig.path="figures/fig-",  
 fig.width=3, fig.height=2,
-out.width=0.48\textwidth,
-fig.align=center,
-fig.show=hold,
+out.width="0.48\\textwidth",
+fig.align="center",
+fig.show="hold",
 comment=NA
 }
 
 
-<<setupRnw,echo=FALSE,results=hide,message=FALSE>>=
+<<setupRnw,echo=FALSE,results="hide",message=FALSE>>=
 source('../setup.R')
 @
 
@@ -198,7 +198,7 @@ resample(simple)
 
 When applied to a dataframe, \function{resample} selects random rows.  It's easy to demonstrate this with a statement such as:
 
-<<results=hide>>=
+<<results="hide">>=
 resample(mustangs)
 @
 <<echo=FALSE>>=
@@ -268,7 +268,7 @@ zstar * sd(~result,data=trials)
 
 \end{itemize}
 
-There's little reason to repeat this set of commands every time one needs a confidence interval.  That's where \function{confint} comes in, which abstracts the operation, allowing the user to specify a \texttt{level} and a \texttt{method} 
+There's little reason to repeat this set of commands every time one needs a confidence interval.  That's where \function{confint} comes in, abstracting the operation, allowing the user to specify a \texttt{level} and a \texttt{method} 
 (\texttt{"quantile"} or \texttt{"stderr"}) and avoiding the need to convert the level into a tail probability.  The extent to which one should repeat the detailed steps of the margin-of-error calculation is a decision the instructor can make depending on local circumstances and the instructor's goals.  \R{} and \pkg{mosaic} supports both approaches.
 
 
