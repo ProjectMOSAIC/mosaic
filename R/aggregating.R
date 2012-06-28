@@ -50,7 +50,7 @@
 #' data(HELPrct)
 #' mean(age, data=HELPrct)
 #' mean(~age, data=HELPrct)
-#' mean(age ~ ., data=HELPrct)
+## mean(age ~ ., data=HELPrct)
 #' mean(age ~ 1, data=HELPrct)
 #' mean(age ~ NULL, data=HELPrct)
 #' mean(HELPrct$age)
