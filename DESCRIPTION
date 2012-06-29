@@ -93,3 +93,5 @@ Collate:
     'fitSpline.R'
     'plotPoints.R'
     'datasetsOLI.R'
+    'ttest.R'
+    'evalFormula.R'
