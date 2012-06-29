@@ -91,6 +91,7 @@ plotFun <- function(object, ...,
 
 	if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
 
+  if (length(unique(levels))==1) levels = c(levels,Inf) #make sure there's a range
 	if (add) { 
 		ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
 							filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
@@ -397,15 +398,17 @@ panel.plotFun <- function( object, ...,
 	if( is.null(alpha) ) alpha<-.4
 
 	if( all(is.logical(zvals)) ) {  # it's a constraint function
-		nlevels <- 2
+		#nlevels <- 2
+    levels <- c(0.0,Inf) 
 	}
 	fillcolors <- col.regions (length(levels) + 2, alpha=alpha)
+  if(is.null(levels)) levels=pretty(grid$height, nlevels)
 
 	return( panel.levelcontourplot(x = grid$Var1, y = grid$Var2, z = grid$height,
 						   subscripts = 1:nrow(grid),
-						   at = pretty(grid$height,nlevels),
+						   at = levels,
 						   col.regions = fillcolors,
-						   filled=filled,
+						   filled=filled, 
 						   ...
 						   #col=col, lwd = lwd, lty = 1,
 						   )
@@ -499,23 +502,28 @@ panel.levelcontourplot <- function(x, y, z, subscripts,
                                    alpha.regions = regions$alpha
                                    ){
 	add.line <- trellis.par.get('add.line')
+
   if(filled) panel.levelplot(x, y, z, subscripts, 
                              at = pretty(z,5*length(at)), shrink, 
                              labels = FALSE, 
                              label.style = label.style, 
                              contour = FALSE, 
-                             region = TRUE, 
-                             border = "transparent", ..., 
+                             region = TRUE,  
+                             border = border, ..., 
                              col.regions = col.regions #, 
                              #                  alpha.regions = regions$alpha
                              )
+	if( all(is.logical(z)) ) {  # it's a constraint function
+	  at <- c(0,1) 
+    labels <- FALSE
+	}
   panel.levelplot(x, y, z, subscripts, 
                   at = at, shrink, labels = labels, 
                   label.style = label.style, 
                   contour = TRUE, 
-                  region = FALSE, 
+                  region = FALSE, lty=lty, 
                   col = col, lwd=lwd,
-                  border = "transparent", ...)
+                  border = border, ...)
 }
 
 #' Create a color generating function from a vector of colors
