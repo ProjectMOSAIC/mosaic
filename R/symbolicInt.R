@@ -16,6 +16,12 @@ symbolicInt<- function(form, ...){
   if(length(rhsVar)!=1) stop("Can only integrate with respect to one variable.")
   constants = setdiff(all.vars(form), rhsVar)
   
+  #check to see if surrounded by parentheses
+  if(class(lhs(form))=="("){
+    form[[2]]=lhs(form)[[2]]
+    return(symbolicInt(form, ...))
+  }
+  
   #Check to see if it is nested
   if(class(lhs(form))=="call"&&is.primitive(eval(lhs(form)[[1]])))
     group = getGroup(toString(lhs(form)[[1]]))[[1]] #determine typ of highest-level expr.
@@ -24,10 +30,6 @@ symbolicInt<- function(form, ...){
     return(intArith(form, ...))
   if(group =="Math")
     return(intMath(form, ...))
-  
-  #check to see if surrounded by parentheses
-  if(length(grep("^\\(.*\\)$", deparse(lhs(form))))>0)
-    form[[2]] = lhs(form)[[2]] #extract expression
   
   #check if it's just constants
   if(is.numeric(lhs(form))||is.element(deparse(lhs(form)), constants)){
@@ -80,7 +82,7 @@ intArith <- function(form, ...){
     lform[[2]] = lhs(form)[[2]]
     rform[[2]] = lhs(form)[[3]]
     if(length(grep(rhsVar, deparse(lform[[2]])))>0 &&
-      length(grep(rhsVar, deparse(lform[[2]])))>0)#too complex
+      length(grep(rhsVar, deparse(rform[[2]])))>0)#too complex
       stop("Error: symbolic algorithm gave up")
     if(regexpr(rhsVar, deparse(lform[[2]]))==1){
       lfun = symbolicInt(lform, ...)
@@ -116,13 +118,17 @@ intArith <- function(form, ...){
     if(length(grep("^\\(.*\\)$", deparse(lhs(form)[[2]])))>0)
       form[[2]][[2]] = lhs(form)[[2]][[2]] #extract expression
     
-    if(lhs(form)[[2]] == rhsVar &&length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
-      exp = try(evalq(form[[2]][[3]], envir=list(pi=3.1415932653589793, form=form),
+    regex = paste("\\(?([[:alnum:]]+\\*)*",toString(rhsVar),"([\\+-][[:alnum:]]+)*\\)?",sep="")
+    if(length(grep(regex, deparse(lhs(form)[[2]]))>0)
+       &&length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
+      exp = try(eval(form[[2]][[3]], envir=list(pi=3.1415932653589793, form=form),
                       enclos=NULL), silent=TRUE)
       if(inherits(exp, "try-error"))
         exp = parse(text = paste(deparse(lhs(form)[[3]]), "+1"))[[1]]
       else(exp = eval(exp)+1) #change from call to numeric...
-      ###FIX
+      #handle the lhs side of ^
+      affexp = affine.exp(lhs(form)[[2]])
+      
       if(exp == 0){
         form[[2]] <- parse(text = paste("log(", deparse(lhs(form)[[2]]), ")", sep=""))[[1]]
         return(makeFun(form))
@@ -208,3 +214,94 @@ intMath <- function(form, ...){
   stop("Error: symbolic algorithm gave up")
 }
 
+#'Takes a call and returns its affine coefficients.
+#'
+#'@param tree A call that will be parse
+#'@param .x. the variable name
+#'
+#'@return A list with values of a and b.  If the expression is not affine,
+#'returns an empty list.
+#'
+affine.exp <- function(tree, .x.){
+  #if it is a simple expression
+  if(tree==.x.){
+    a=1
+    b=0
+    return(list(a=a,b=b))
+  }
+  
+  #if there is no variable in the expression
+  if(length(grep(toString(.x.), deparse(tree), fixed=TRUE))==0){
+    a=0
+    b=tree
+    return(list(a=a,b=b))
+  }
+  
+  #if the expression is more complex
+  if(tree[[1]]=='('){
+    return(Recall(tree[[2]], .x.))
+  }
+  
+  if(tree[[1]]=='+'){
+    lexp=Recall(tree[[2]], .x.)
+    rexp=Recall(tree[[3]], .x.)
+    
+    if(lexp$a==0 && length(rexp)!=0){
+      a = rexp$a
+      b = parse(text=paste(deparse(lexp$b), "+", deparse(rexp$b),sep=""))[[1]]
+      return(list(a=a,b=b))
+    }
+    
+    if(rexp$a==0 && length(lexp)!=0){
+      a = lexp$a
+      b = parse(text=paste(deparse(lexp$b), "+", deparse(rexp$b),sep=""))[[1]]
+      return(list(a=a,b=b))
+    }
+  }
+  
+  if(tree[[1]]=='-'){
+    lexp=Recall(tree[[2]], .x.)
+    rexp=Recall(tree[[3]], .x.)
+    
+    if(lexp$a==0 && length(rexp)!=0){
+      a = parse(text=paste("-1*(",deparse(lexp$a), ")",sep=""))[[1]]
+      b = parse(text=paste(deparse(lexp$b), "-(", deparse(rexp$b),")",sep=""))[[1]]
+      return(list(a=a,b=b))
+    }
+    
+    if(rexp$a==0 && length(lexp)!=0){
+      a = lexp$a
+      b = parse(text=paste(deparse(lexp$b), "-(", deparse(rexp$b),")",sep=""))[[1]]
+      return(list(a=a,b=b))
+    }
+  }
+  
+  if(tree[[1]]=='*'){
+    lexp=Recall(tree[[2]], .x.)
+    rexp=Recall(tree[[3]], .x.)
+    
+    if(lexp$a==0 && length(rexp)!=0){
+      a = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$a),")",sep=""))[[1]]
+      b = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$b),")",sep=""))[[1]]
+      return(list(a=a,b=b))
+    }
+    
+    if(rexp$a==0 && length(lexp)!=0){
+      a = parse(text=paste("(",deparse(lexp$a), ")*(", deparse(rexp$b),")",sep=""))[[1]]
+      b = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$b),")",sep=""))[[1]]
+      return(list(a=a,b=b))
+    }
+  }
+  
+  if(tree[[1]]=='/'){
+    lexp=Recall(tree[[2]], .x.)
+    rexp=Recall(tree[[3]], .x.)
+    
+    if(rexp$a==0 && length(lexp)!=0){
+      a = parse(text=paste(deparse(lexp$a), "/(", deparse(rexp$b),")",sep=""))[[1]]
+      b = parse(text=paste(deparse(lexp$b), "/(", deparse(rexp$b),")",sep=""))[[1]]
+      return(list(a = a, b = b))
+    }
+  }
+  return(list())
+}
