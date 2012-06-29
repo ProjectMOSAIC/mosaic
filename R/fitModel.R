@@ -28,7 +28,7 @@
 #'
 #' @export
 #' @examples
-#' f <- fitModel(temp ~ A+B*exp(-k*time), data=StanData, start=list(A=50,B=50,k=1/20))
+#' f <- fitModel(temp ~ A+B*exp(-k*time), data=CoolingWater, start=list(A=50,B=50,k=1/20))
 #' f(time=50)
 #'
 fitModel <- function(formula, data=parent.frame(), start=list(), ...) {

@@ -19,6 +19,7 @@
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
+#' @param labels if \code{FALSE}, don't label contours
 #' @param surface draw a surface plot rather than a contour plot
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
@@ -75,7 +76,7 @@ plotFun <- function(object, ...,
 					xlim=NULL, ylim=NULL, npts=NULL,
 					ylab=NULL, xlab=NULL, zlab=NULL, 
 					filled=TRUE, 
-					levels=NULL, nlevels=10,
+					levels=NULL, nlevels=10,labels=TRUE,
 					surface=FALSE,
 					groups=NULL,
 					col.regions=topo.colors, 
@@ -253,10 +254,11 @@ plotFun <- function(object, ...,
 		} else {  # i.e., surface==FALSE
 			# a convenience wrapper around levelplot when a contour plot
 			# is being drawn de novo
-			funPlot.draw.contour <- function(x,y,z,ncontours=6,at=pretty(z,ncontours),
-											 filled=TRUE, col.regions=topo.colors,
-											 labels=TRUE, contours=TRUE, groups=NULL,
+			funPlot.draw.contour <- function(x,y,z,ncontours=6,at=NULL,
+											 filled=TRUE, col.regions=topo.colors,labels=TRUE,
+											 showlabels=TRUE, contours=TRUE, groups=NULL, label=TRUE,
 											 xlab="",ylab="", ...){
+        if (is.null(at)) at = pretty(z,ncontours)
 				return(levelplot(z~x*y, at=at, 
 								 xlab=xlab, ylab=ylab, 
 								 panel=panel.levelcontourplot,
@@ -276,10 +278,9 @@ plotFun <- function(object, ...,
 					fillcolors <- col.regions (4, alpha=alpha)
 				nlevels <- 2
 			}
-
 			return(funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
-											 xlab=xlab, ylab=ylab,
-											 filled=filled,
+											 xlab=xlab, ylab=ylab, at=levels,
+											 filled=filled, labels=labels,
 											 groups=eval(substitute(groups),localData),
 											 col.regions = col.regions ,
 											 #col=col, 
@@ -485,7 +486,7 @@ inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants
 #' @param alpha.regions transparency of regions
 
 panel.levelcontourplot <- function(x, y, z, subscripts, 
-                                   at, shrink, labels = FALSE, 
+                                   at, shrink, labels = TRUE, 
                                    label.style = c("mixed","flat","align"), 
                                    contour = FALSE, 
                                    region = TRUE,
@@ -509,7 +510,7 @@ panel.levelcontourplot <- function(x, y, z, subscripts,
                              #                  alpha.regions = regions$alpha
                              )
   panel.levelplot(x, y, z, subscripts, 
-                  at = at, shrink, labels = TRUE, 
+                  at = at, shrink, labels = labels, 
                   label.style = label.style, 
                   contour = TRUE, 
                   region = FALSE, 
