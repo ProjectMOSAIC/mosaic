@@ -241,15 +241,11 @@ NA
 #'  @name Graduation
 #'  @usage data(Graduation)
 #'  @format
-#'      A data frame with 8 observations on the following variables.
+#'      A data frame with 48 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{College.A}}{graduation rate of College A}
-#'     \item{\code{College.B}}{graduation rate of College B}
-#'     \item{\code{College.C}}{graduation rate of College C}
-#'     \item{\code{College.D}}{graduation rate of College D}
-#'     \item{\code{College.E}}{graduation rate of College E}
-#'     \item{\code{College.F}}{graduation rate of College F}
+#'     \item{ontime}{percentage of students that graduated on time}
+#'     \item{\code{college}}{a factor with levels \code{A} through \code{F}}
 #'   }
 #' 
 #' @references
