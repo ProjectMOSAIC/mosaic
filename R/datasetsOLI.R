@@ -3,13 +3,13 @@
 #' The ages of Best Actor Oscar winners from 1970 to 2001 when they received the award.
 #'  
 #'  @docType data
-#'  @name Actor
-#'  @usage data(Actor)
+#'  @name Actors
+#'  @usage data(Actors)
 #'  @format
-#'      A data frame with 32 observations on the following variables.
+#'      A data frame with 32 observations on the following variable.
 #'    
 #'    \itemize{
-#'     \item{\code{Age}}{Ages of Best Actor Oscar winners from 1970 to 2001}
+#'     \item{\code{age} }{Ages of Best Actor Oscar winners from 1970 to 2001}
 #'   }
 #' 
 #' @references
@@ -222,7 +222,7 @@ NA
 #'      A data frame with 1200 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{Friends}}{Answers to the question: "With whom do you find it easiest to make friends?" \code{No difference} \code{Opposite sex} \code{Same sex}}
+#'     \item{\code{easiest} }{answer to the question: "With whom do you find it easiest to make friends?" \code{No difference} \code{Opposite sex} or \code{Same sex}}
 #'   }
 #' 
 #' @references
@@ -241,15 +241,11 @@ NA
 #'  @name Graduation
 #'  @usage data(Graduation)
 #'  @format
-#'      A data frame with 8 observations on the following variables.
+#'      A data frame with 48 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{College.A}}{graduation rate of College A}
-#'     \item{\code{College.B}}{graduation rate of College B}
-#'     \item{\code{College.C}}{graduation rate of College C}
-#'     \item{\code{College.D}}{graduation rate of College D}
-#'     \item{\code{College.E}}{graduation rate of College E}
-#'     \item{\code{College.F}}{graduation rate of College F}
+#'     \item{ontime}{percentage of students that graduated on time}
+#'     \item{\code{college}}{a factor with levels \code{A} through \code{F}}
 #'   }
 #' 
 #' @references
@@ -285,21 +281,20 @@ NA
 #' The height and weight data collected from 57 males and 24 females for the purpose of exploring how the weight of a person is related to (or affected by) his or her height.
 #'  
 #'  @docType data
-#'  @name Height
-#'  @usage data(Height)
+#'  @name Heightweight
+#'  @usage data(Heightweight)
 #'  @format
 #'      A data frame with 81 observations on the following variables.
 #'    
 #'    \itemize{
 #'     \item{\code{female}}{0 = male, 1 = female}
-#'     \item{\code{gender}}{a factor with levels \code{male} or \code{female}}
-#'     \item{\code{height}}{subject height (in inches)}
-#'     \item{\code{weight}}{subject weight (in pounds)}
+#'     \item{\code{gender} }{a factor with levels \code{male} or \code{female}}
+#'     \item{\code{height} }{subject height (in inches)}
+#'     \item{\code{weight} }{subject weight (in pounds)}
 #'   }
 #' 
 #' @references
 #' Part of the Carnegie Mellon University Online Learning Initiative datasets.
-#' 
 #' 
 #' @keywords datasets
 
@@ -386,7 +381,7 @@ NA
 #'      A data frame with 25 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{length}}{the length of pregnancy (in days) of women who were smoking and/or drinking alcohol during their pregnancy}
+#'     \item{\code{length} }{the length of pregnancy (in days) of women who were smoking and/or drinking alcohol during their pregnancy}
 #'   }
 #' 
 #' @references
@@ -398,18 +393,17 @@ NA
 
 #' Instructor Ratings
 #' 
-#' At the end of a statistics course, the 27 students in the class were asked to rate the instructor on a number scale of 1 to 9 (1 being "very poor", and 9 being "best instructor I've ever had"). This dataset contains three hypothetical rating data.
+#' At the end of a statistics course, the 27 students in the class were asked to rate the instructor on a number scale of 1 to 9 (1 being "very poor", and 9 being "best instructor I've ever had"). This dataset contains three sets of hypothetical rating data.
 #'  
 #'  @docType data
 #'  @name Ratings
 #'  @usage data(Ratings)
 #'  @format
-#'      A data frame with 27 observations on the following variables.
+#'      A data frame with 81 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{Class.I}}{hypothetical situation 1}
-#'     \item{\code{Class.II}}{hypothetical situation 2}
-#'     \item{\code{Class.III}}{hypothetical situation 3}
+#'     \item{\code{score}}{score on the evaluation scale}
+#'     \item{\code{situation}}{a factor with levels \code{Class I}, \code{Class II} or \code{Class III}}
 #'   }
 #' 
 #' @references
@@ -497,11 +491,11 @@ NA
 #'  @name TV1
 #'  @usage data(TV1)
 #'  @format
-#'      A data frame with 22 rows on the following variables.
+#'      A data frame with 40 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{time.women}}{amount of time (in minutes) that an individual woman watched TV during a week}
-#'     \item{\code{time.men}}{amount of time (in minutes) that an individual man watched TV during a week}
+#'     \item{\code{time}}{amount of time (in minutes) that an individual watched TV during a week}
+#'     \item{\code{gender} }{\code{Female} or \code{Male}}
 #'   }
 #' 
 #' @references
@@ -519,11 +513,11 @@ NA
 #'  @name TV2
 #'  @usage data(TV2)
 #'  @format
-#'      A data frame with 209 rows on the following variables.
+#'      A data frame with 400 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{time.women}}{amount of time (in minutes) that an individual woman watched TV during a week}
-#'     \item{\code{time.men}}{amount of time (in minutes) that an individual man watched TV during a week}
+#'     \item{\code{time}}{amount of time (in minutes) that an individual watched TV during a week}
+#'     \item{\code{gender} }{\code{Female} or \code{Male}}
 #'   }
 #' 
 #' @references
