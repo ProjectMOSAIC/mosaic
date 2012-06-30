@@ -386,7 +386,7 @@ NA
 #'      A data frame with 25 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{length}}{the length of pregnancy (in days) of women who were smoking and/or drinking alcohol during their pregnancy}
+#'     \item{\code{length} }{the length of pregnancy (in days) of women who were smoking and/or drinking alcohol during their pregnancy}
 #'   }
 #' 
 #' @references
@@ -398,18 +398,17 @@ NA
 
 #' Instructor Ratings
 #' 
-#' At the end of a statistics course, the 27 students in the class were asked to rate the instructor on a number scale of 1 to 9 (1 being "very poor", and 9 being "best instructor I've ever had"). This dataset contains three hypothetical rating data.
+#' At the end of a statistics course, the 27 students in the class were asked to rate the instructor on a number scale of 1 to 9 (1 being "very poor", and 9 being "best instructor I've ever had"). This dataset contains three sets of hypothetical rating data.
 #'  
 #'  @docType data
 #'  @name Ratings
 #'  @usage data(Ratings)
 #'  @format
-#'      A data frame with 27 observations on the following variables.
+#'      A data frame with 81 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{Class.I}}{hypothetical situation 1}
-#'     \item{\code{Class.II}}{hypothetical situation 2}
-#'     \item{\code{Class.III}}{hypothetical situation 3}
+#'     \item{\code{score}}{score on the evaluation scale}
+#'     \item{\code{situation}}{a factor with levels \code{Class I}, \code{Class II} or \code{Class III}}
 #'   }
 #' 
 #' @references
@@ -497,11 +496,11 @@ NA
 #'  @name TV1
 #'  @usage data(TV1)
 #'  @format
-#'      A data frame with 22 rows on the following variables.
+#'      A data frame with 40 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{time.women}}{amount of time (in minutes) that an individual woman watched TV during a week}
-#'     \item{\code{time.men}}{amount of time (in minutes) that an individual man watched TV during a week}
+#'     \item{\code{time}}{amount of time (in minutes) that an individual watched TV during a week}
+#'     \item{\code{gender} }{\code{Female} or \code{Male}}
 #'   }
 #' 
 #' @references
@@ -519,11 +518,11 @@ NA
 #'  @name TV2
 #'  @usage data(TV2)
 #'  @format
-#'      A data frame with 209 rows on the following variables.
+#'      A data frame with 400 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{time.women}}{amount of time (in minutes) that an individual woman watched TV during a week}
-#'     \item{\code{time.men}}{amount of time (in minutes) that an individual man watched TV during a week}
+#'     \item{\code{time}}{amount of time (in minutes) that an individual watched TV during a week}
+#'     \item{\code{gender} }{\code{Female} or \code{Male}}
 #'   }
 #' 
 #' @references
