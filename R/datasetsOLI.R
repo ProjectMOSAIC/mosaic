@@ -222,7 +222,7 @@ NA
 #'      A data frame with 1200 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{Friends}}{Answers to the question: "With whom do you find it easiest to make friends?" \code{No difference} \code{Opposite sex} \code{Same sex}}
+#'     \item{\code{easiest} }{answer to the question: "With whom do you find it easiest to make friends?" \code{No difference} \code{Opposite sex} or \code{Same sex}}
 #'   }
 #' 
 #' @references
