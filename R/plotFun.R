@@ -132,10 +132,11 @@ plotFun <- function(object, ...,
 
 		if( is.null(ylab) ) ylab <- deparse( lhs(object) ) # deparse(..f..$sexpr)
 		if( is.null(xlab) ) xlab <- rhsVars
-
+    
 		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) {
-      zeros <- 0
-      tryCatch( zeros <- findZeros( object, nearest=6, ... ), warning=function(e){} )
+      zeros <- c() #empty
+      tryCatch( zeros <- findZeros( object, nearest=6, ... ), 
+                error=function(e){e},warning=function(e){} )
 			limits$xlim <- switch(as.character(length(zeros)), 
 				"0" = c(0,1),
 				"1" = c(-1.5,1.5) * (zeros+ifelse(zeros==0,1,0)),
