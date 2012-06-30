@@ -3,13 +3,13 @@
 #' The ages of Best Actor Oscar winners from 1970 to 2001 when they received the award.
 #'  
 #'  @docType data
-#'  @name Actor
-#'  @usage data(Actor)
+#'  @name Actors
+#'  @usage data(Actors)
 #'  @format
-#'      A data frame with 32 observations on the following variables.
+#'      A data frame with 32 observations on the following variable.
 #'    
 #'    \itemize{
-#'     \item{\code{Age}}{Ages of Best Actor Oscar winners from 1970 to 2001}
+#'     \item{\code{age} }{Ages of Best Actor Oscar winners from 1970 to 2001}
 #'   }
 #' 
 #' @references
@@ -281,21 +281,20 @@ NA
 #' The height and weight data collected from 57 males and 24 females for the purpose of exploring how the weight of a person is related to (or affected by) his or her height.
 #'  
 #'  @docType data
-#'  @name Height
-#'  @usage data(Height)
+#'  @name Heightweight
+#'  @usage data(Heightweight)
 #'  @format
 #'      A data frame with 81 observations on the following variables.
 #'    
 #'    \itemize{
 #'     \item{\code{female}}{0 = male, 1 = female}
-#'     \item{\code{gender}}{a factor with levels \code{male} or \code{female}}
-#'     \item{\code{height}}{subject height (in inches)}
-#'     \item{\code{weight}}{subject weight (in pounds)}
+#'     \item{\code{gender} }{a factor with levels \code{male} or \code{female}}
+#'     \item{\code{height} }{subject height (in inches)}
+#'     \item{\code{weight} }{subject weight (in pounds)}
 #'   }
 #' 
 #' @references
 #' Part of the Carnegie Mellon University Online Learning Initiative datasets.
-#' 
 #' 
 #' @keywords datasets
 
