@@ -1659,12 +1659,12 @@ NA
 
 NA
 
-#' StanData
+#' CoolingWater
 #' 
-#' Temperature of a cup of water as it cools
+#' Temperature of a mug of water as it cools
 #'  
-#' @name StanData
-#' @usage data(StanData)
+#' @name CoolingWater
+#' @usage data(CoolingWater)
 #' @docType data
 #' @format 
 #'   A data frame with 222 observations of the following variables.
@@ -1681,8 +1681,8 @@ NA
 #' The water was poured into a mug and a temperature probe inserted into
 #' the water with a few seconds of the pour.
 #' @examples 
-#' data(StanData)
-#' xyplot(temp~time, data=StanData)
+#' data(CoolingWater)
+#' xyplot(temp~time, data=CoolingWater)
 #' 
 #' @keywords datasets
 NA

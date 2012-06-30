@@ -19,6 +19,7 @@
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
+#' @param labels if \code{FALSE}, don't label contours
 #' @param surface draw a surface plot rather than a contour plot
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
@@ -75,7 +76,7 @@ plotFun <- function(object, ...,
 					xlim=NULL, ylim=NULL, npts=NULL,
 					ylab=NULL, xlab=NULL, zlab=NULL, 
 					filled=TRUE, 
-					levels=NULL, nlevels=10,
+					levels=NULL, nlevels=10,labels=TRUE,
 					surface=FALSE,
 					groups=NULL,
 					col.regions=topo.colors, 
@@ -90,6 +91,7 @@ plotFun <- function(object, ...,
 
 	if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
 
+  if (length(unique(levels))==1) levels = c(levels,Inf) #make sure there's a range
 	if (add) { 
 		ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
 							filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
@@ -253,10 +255,11 @@ plotFun <- function(object, ...,
 		} else {  # i.e., surface==FALSE
 			# a convenience wrapper around levelplot when a contour plot
 			# is being drawn de novo
-			funPlot.draw.contour <- function(x,y,z,ncontours=6,at=pretty(z,ncontours),
-											 filled=TRUE, col.regions=topo.colors,
-											 labels=TRUE, contours=TRUE, groups=NULL,
+			funPlot.draw.contour <- function(x,y,z,ncontours=6,at=NULL,
+											 filled=TRUE, col.regions=topo.colors,labels=TRUE,
+											 showlabels=TRUE, contours=TRUE, groups=NULL, label=TRUE,
 											 xlab="",ylab="", ...){
+        if (is.null(at)) at = pretty(z,ncontours)
 				return(levelplot(z~x*y, at=at, 
 								 xlab=xlab, ylab=ylab, 
 								 panel=panel.levelcontourplot,
@@ -276,10 +279,9 @@ plotFun <- function(object, ...,
 					fillcolors <- col.regions (4, alpha=alpha)
 				nlevels <- 2
 			}
-
 			return(funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
-											 xlab=xlab, ylab=ylab,
-											 filled=filled,
+											 xlab=xlab, ylab=ylab, at=levels,
+											 filled=filled, labels=labels,
 											 groups=eval(substitute(groups),localData),
 											 col.regions = col.regions ,
 											 #col=col, 
@@ -396,15 +398,17 @@ panel.plotFun <- function( object, ...,
 	if( is.null(alpha) ) alpha<-.4
 
 	if( all(is.logical(zvals)) ) {  # it's a constraint function
-		nlevels <- 2
+		#nlevels <- 2
+    levels <- c(0.0,Inf) 
 	}
 	fillcolors <- col.regions (length(levels) + 2, alpha=alpha)
+  if(is.null(levels)) levels=pretty(grid$height, nlevels)
 
 	return( panel.levelcontourplot(x = grid$Var1, y = grid$Var2, z = grid$height,
 						   subscripts = 1:nrow(grid),
-						   at = pretty(grid$height,nlevels),
+						   at = levels,
 						   col.regions = fillcolors,
-						   filled=filled,
+						   filled=filled, 
 						   ...
 						   #col=col, lwd = lwd, lty = 1,
 						   )
@@ -485,7 +489,7 @@ inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants
 #' @param alpha.regions transparency of regions
 
 panel.levelcontourplot <- function(x, y, z, subscripts, 
-                                   at, shrink, labels = FALSE, 
+                                   at, shrink, labels = TRUE, 
                                    label.style = c("mixed","flat","align"), 
                                    contour = FALSE, 
                                    region = TRUE,
@@ -498,23 +502,28 @@ panel.levelcontourplot <- function(x, y, z, subscripts,
                                    alpha.regions = regions$alpha
                                    ){
 	add.line <- trellis.par.get('add.line')
+
   if(filled) panel.levelplot(x, y, z, subscripts, 
                              at = pretty(z,5*length(at)), shrink, 
                              labels = FALSE, 
                              label.style = label.style, 
                              contour = FALSE, 
-                             region = TRUE, 
-                             border = "transparent", ..., 
+                             region = TRUE,  
+                             border = border, ..., 
                              col.regions = col.regions #, 
                              #                  alpha.regions = regions$alpha
                              )
+	if( all(is.logical(z)) ) {  # it's a constraint function
+	  at <- c(0,1) 
+    labels <- FALSE
+	}
   panel.levelplot(x, y, z, subscripts, 
-                  at = at, shrink, labels = TRUE, 
+                  at = at, shrink, labels = labels, 
                   label.style = label.style, 
                   contour = TRUE, 
-                  region = FALSE, 
+                  region = FALSE, lty=lty, 
                   col = col, lwd=lwd,
-                  border = "transparent", ...)
+                  border = border, ...)
 }
 
 #' Create a color generating function from a vector of colors
