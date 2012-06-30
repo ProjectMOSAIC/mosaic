@@ -408,18 +408,18 @@ Currently, only interpolating functions of one variable are available through th
 
 \subsection{Smoothers}
 
-A smoother is a function that follows general trends of data. Unlike an interpolating function, a smoother need not replicate the data exactly.  To illustrate, consider a moderate-sized data set \texttt{CPS} that gives wage and demographic data for 534 people.
+A smoother is a function that follows general trends of data. Unlike an interpolating function, a smoother need not replicate the data exactly.  To illustrate, consider a moderate-sized data set \texttt{85} that gives wage and demographic data for 534 people in 1985.
 
 <<>>=
-data(CPS)
+data(CPS85)
 @
 
 There is no definite relationship between wage and age, but there are general trends:
 
 %\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage1}}
 <<wage1,fig.height=4,out.width=".7\\textwidth">>=
-xyplot( wage ~ age, data=CPS )
-f <- smoother(wage~age, span=.9, data=CPS)
+xyplot( wage ~ age, data=CPS85 )
+f <- smoother(wage~age, span=.9, data=CPS85)
 plotFun(f(age)~age, add=TRUE, lwd=4)
 @
 
@@ -430,12 +430,12 @@ set.seed(7832)
 @
 
 <<fig.height=4,out.width=".7\\textwidth">>=
-CPS2 <- subset(CPS, wage < 30)
-f <- smoother( wage~age, span=0.9, data=CPS2)
+CPSclean <- subset(CPS85, wage < 30)
+f <- smoother( wage~age, span=0.9, data=CPSclean)
 f2 <- D( f(age)~age)
 plotFun( f2(age)~age, age.lim=range(20,60), lwd=4)
 do(10) * {
-  fr<-smoother(wage~age,span=0.9,data=resample(CPS2))
+  fr<-smoother(wage~age,span=0.9,data=resample(CPSclean))
   fr2 <- D(fr(age)~age)
   plotFun(fr2(age)~age, add=TRUE)
   }
@@ -447,7 +447,7 @@ Pretty good evidence for wage going up with age, particularly for the young.  Th
 
 Smoothers can construct functions of more than one variable.  Here, for instance, is a representation of the relationship between wage, age, and education.
 <<wage2,fig.height=4,out.width=".7\\textwidth">>=
-g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPS2)
+g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPSclean)
 plotFun( g(age=age,educ=educ)~age+educ, 
          age.lim=range(20,50),educ.lim=range(5,14))
 @
@@ -467,8 +467,8 @@ plotFun( DgAge(age=age,educ=educ)~age+educ,
 For economists, perhaps worthwhile to think about the elasticity of wages with respect to age for different levels of education.
 
 <<wage4,fig.height=4,out.width=".7\\textwidth">>=
-CPS2$logage <- log(CPS2$age)
-g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPS2)
+CPSclean$logage <- log(CPSclean$age)
+g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPSclean)
 elasticity <- D( g2(logage=logage,educ=educ)~logage)
 plotFun( elasticity(logage=log(a),educ=educ)~a+educ,
               a.lim=range(20,50), educ.lim=range(5,14))
@@ -477,9 +477,10 @@ plotFun( elasticity(logage=log(a),educ=educ)~a+educ,
 Elasticity seems to fall off with age at pretty much the same rate for different levels of education.  It just starts out more positive for the more highly educated.
 
 \subsection{Fitted Functions}
-Statisticians will be familiar with parametric functions fitted to data.  The \texttt{lm()} operator returns information about the fitted model.  \texttt{mosaic} provides \texttt{linearModel()}, which takes the output of \texttt{lm()} and packages it up into a model function.
+Statisticians will be familiar with parametric functions fitted to data.  The \texttt{lm()} operator returns information about the fitted model. The \texttt{mosaic} functon \texttt{makeFun()} takes the output of \texttt{lm()} and packages it up into a model function.
 <<>>=
-g <- linearModel(log(wage)~age*educ+1,data=CPS)
+mod <- lm(log(wage)~age*educ+1,data=CPS85)
+g <- makeFun(mod)
 g(age=40,educ=12)
 dgdeduc <- D(g(age=age,educ=educ)~educ)
 dgdeduc(age=40,educ=12)

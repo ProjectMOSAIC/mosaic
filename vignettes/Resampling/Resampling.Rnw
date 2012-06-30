@@ -553,7 +553,7 @@ The first model suggests that \texttt{Price} goes down by about one to two thous
 <<>>=
 confint(trialsmod1)
 @
-The second model indicates that \texttt{Price} goes down by about 16 to 27 cents per mile driven.
+The second model indicates that \texttt{Price} goes down by about 16 to 28 cents per mile driven.
 <<>>=
 confint(trialsmod2)
 @
@@ -621,25 +621,25 @@ To illustrate, here is a simulation to construct the distribution of p-values fr
 \begin{enumerate}
 \item Carry out the test, e.g.
 <<>>=
-chisq.test( tally( ~ homeless & sex, 
+chisq.test( tally( ~ homeless + sex, 
                    data=HELPrct, margins=FALSE))
 @
 
 \item Modify the statement to extract the statistic of interest.  In this case, the p-value:
 <<>>=
-chisq.test( tally( ~ homeless & sex, 
+chisq.test( tally( ~ homeless + sex, 
                    data=HELPrct, margins=FALSE))$p.value
 @
 
 \item Insert randomization to implement the null hypothesis:
 <<>>=
-chisq.test( tally( ~ shuffle(homeless) & sex, 
+chisq.test( tally( ~ shuffle(homeless) + sex, 
                    data=HELPrct, margins=FALSE))$p.value
 @
 
 \item Iterate to get the distribution under the null:
 <<>>=
-trials = do(1000)* chisq.test( tally( ~ shuffle(homeless) & sex, 
+trials = do(1000)* chisq.test( tally( ~ shuffle(homeless) + sex, 
                      data=HELPrct, margins=FALSE))$p.value
 @
 \end{enumerate}
