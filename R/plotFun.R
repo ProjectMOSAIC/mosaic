@@ -60,6 +60,7 @@
 #' plotFun( sin(x) ~ x, 
 #'    groups=cut(x, findZeros(sin(x) ~ x, within=10)), 
 #'    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
+#' plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t,k=2,P=.3)
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
@@ -70,7 +71,9 @@
 #' plotFun(fit(exper) ~ exper, add=TRUE, lwd=8)
 #' # Can also just give fit since it is a "function of one variable"
 #' plotFun(fit, add=TRUE, lwd=2, col='white')
- 
+#' # Attempts to find sensible axis limits by default
+#' plotFun( sin(k*x)~x, k=0.01 )
+
 plotFun <- function(object, ..., 
 					add=FALSE,
 					xlim=NULL, ylim=NULL, npts=NULL,
@@ -131,10 +134,11 @@ plotFun <- function(object, ...,
 		if( is.null(xlab) ) xlab <- rhsVars
 
 		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) {
-			zeros <- findZeros( object, nearest=6 )
+      zeros <- 0
+      tryCatch( zeros <- findZeros( object, nearest=6, ... ), warning=function(e){} )
 			limits$xlim <- switch(as.character(length(zeros)), 
 				"0" = c(0,1),
-				"1" = c(-1.5,1.5) * zeros,
+				"1" = c(-1.5,1.5) * (zeros+ifelse(zeros==0,1,0)),
 				( c(-.1,.1) * diff(range(zeros)) ) + range(zeros)
 			)
 		} 
@@ -260,16 +264,24 @@ plotFun <- function(object, ...,
 											 showlabels=TRUE, contours=TRUE, groups=NULL, label=TRUE,
 											 xlab="",ylab="", ...){
         if (is.null(at)) at = pretty(z,ncontours)
-				return(levelplot(z~x*y, at=at, 
-								 xlab=xlab, ylab=ylab, 
-								 panel=panel.levelcontourplot,
-								 groups=substitute(groups),
-								 col.regions=col.regions(60),
-								 contour=contours, labels=labels,
-								 colorkey = FALSE, region = TRUE, filled=filled,
-								 #col=col, 
-								 ...) 
-				)
+        argsToPass <- list(z~x*y,at=at, xlab=xlab,ylab=ylab,
+                          panel=panel.levelcontourplot,
+                          groups=substitute(groups),col.regions=col.regions(60),
+                          contour=contours, labels=labels, colorkey=FALSE,
+                          retion=TRUE, filled=filled, ...)
+        # kill off arguments we don't want going to levelplot:
+        argsToPass[["k"]] <- NULL
+        return( do.call( levelplot, argsToPass))                                                            
+# 				return(levelplot(z~x*y, at=at, 
+# 								 xlab=xlab, ylab=ylab, 
+# 								 panel=panel.levelcontourplot,
+# 								 groups=substitute(groups),
+# 								 col.regions=col.regions(60),
+# 								 contour=contours, labels=labels,
+# 								 colorkey = FALSE, region = TRUE, filled=filled,
+# 								 #col=col, 
+# 								 ... ) 
+# 				)
 			}
 
 			if( is.null(alpha) ) alpha <- 1
@@ -277,7 +289,7 @@ plotFun <- function(object, ...,
 
 			if( all (is.logical(zvals) ) ){  # it's a constraint function
 					fillcolors <- col.regions (4, alpha=alpha)
-				nlevels <- 2
+				  nlevels <- 2
 			}
 			return(funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
 											 xlab=xlab, ylab=ylab, at=levels,
