@@ -44,18 +44,18 @@ NA
 NA 
 
 
-#' Data from the 1985 Current Population Survey (CPS)
+#' Data from the 1985 Current Population Survey (CPS85)
 #' 
-#' The Current Population Survey (CPS) is used to supplement census
+#' The Current Population Survey (CPS85) is used to supplement census
 #' information between census years. These data consist of a random
-#' sample of persons from the CPS, with information on wages and
+#' sample of persons from the CPS85, with information on wages and
 #' other characteristics of the workers, including sex, number of years
 #' of education, years of work experience, occupational status, region of
 #' residence and union membership.  
 #' 
 #' @docType data
-#' @name CPS
-#' @usage data(CPS)
+#' @name CPS85
+#' @usage data(CPS85)
 #' @format 
 #'   A data frame with 534 observations on the following variables.
 #'   \itemize{
@@ -80,13 +80,13 @@ NA
 #' entirely numerical codes.  
 #' 
 #' @source
-#' Data are from \url{http://lib.stat.cmu.edu/datasets/CPS_85_Wages}.
+#' Data are from \url{http://lib.stat.cmu.edu/datasets/CPS85_85_Wages}.
 #' 
 #' @references
 #' Berndt, ER. \emph{The Practice of Econometrics} 1991. Addison-Wesley. 
 #' 
 #' @examples
-#' data(CPS)
+#' data(CPS85)
 #' 
 
 NA

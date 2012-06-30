@@ -173,8 +173,8 @@ rows <- function(x, default=c()) {
 #' @param ops a vector of operator symbols allowable to separate variables in rhs
 #' @export
 #' @examples
-#' data(CPS)
-#' cps <- CPS[1:6,]
+#' data(CPS85)
+#' cps <- CPS85[1:6,]
 #' cps
 #' evalFormula(wage ~ sex & married & age | sector & race, data=cps)
 
@@ -198,8 +198,8 @@ evalFormula <- function(formula, data=parent.frame(), ops=c('+','&')) {
 #' @return a data frame containing the terms of the evaluated subformula
 #' @export
 #' @examples
-#' data(CPS)
-#' cps <- CPS[1:6,]
+#' data(CPS85)
+#' cps <- CPS85[1:6,]
 #' cps
 #' evalSubFormula( rhs( ~ married & sector), data=cps )
 

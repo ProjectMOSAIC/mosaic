@@ -84,9 +84,9 @@ setMethod(
 #' @rdname makeFun
 #' @aliases makeFun,lm-method
 #' @examples
-#' model <- lm(wage ~ poly(exper,degree=2), data=CPS)
+#' model <- lm(wage ~ poly(exper,degree=2), data=CPS85)
 #' fit <- makeFun(model)
-#' xyplot(wage ~ exper, data=CPS)
+#' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 #' @usage
@@ -140,9 +140,9 @@ setMethod(
 #' @param type one of \code{'response'} (default) or \code{'link'} specifying scale to be used
 #' for value of function returned.
 #' @examples
-#' model <- glm(wage ~ poly(exper,degree=2), data=CPS, family=gaussian)
+#' model <- glm(wage ~ poly(exper,degree=2), data=CPS85, family=gaussian)
 #' fit <- makeFun(model)
-#' xyplot(wage ~ exper, data=CPS)
+#' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 #' @usage
@@ -193,9 +193,9 @@ setMethod(
 #' @rdname makeFun
 #' @aliases makeFun,nls-method
 #' @examples
-#' model <- nls( wage ~ A + B * exper + C * exper^2, data=CPS, start=list(A=1,B=1,C=1) )
+#' model <- nls( wage ~ A + B * exper + C * exper^2, data=CPS85, start=list(A=1,B=1,C=1) )
 #' fit <- makeFun(model)
-#' xyplot(wage ~ exper, data=CPS)
+#' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 #' @usage
@@ -225,7 +225,7 @@ setMethod(
 #' @param model a model, typically of class \code{lm} or \code{glm}
 #' @return a vector of variable names
 #' @examples
-#' model <- lm( wage ~ poly(exper,degree=2), data=CPS )
+#' model <- lm( wage ~ poly(exper,degree=2), data=CPS85 )
 #' model.vars(model)
 model.vars <- function(model) {
   formula <- as.formula(model$call$formula)

@@ -30,10 +30,10 @@
 #' that is, use \code{*} instead of \code{&}.  See the examples.
 #' 
 #' @examples
-#' mm( wage ~ sex, data=CPS )
-#' mm( wage ~ sex & married, data=CPS )
-#' lm( wage ~ sex*married-1, data=CPS)
-#' do(5) * mm( wage ~ sex & married, data=resample(CPS))
+#' mm( wage ~ sex, data=CPS85 )
+#' mm( wage ~ sex & married, data=CPS85 )
+#' lm( wage ~ sex*married-1, data=CPS85)
+#' do(5) * mm( wage ~ sex & married, data=resample(CPS85))
 #' mod <- mm( width ~ domhand, data=KidsFeet)
 #' summary(mod)
 #' resid(mod)
