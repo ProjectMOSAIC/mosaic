@@ -86,7 +86,7 @@
 Proposed Changes}
 
 \author{
-Nicholas J. Horton \and Ruobing Zhang
+Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu} \and Ruobing Zhang
 }
 
 \date{\today}
@@ -127,22 +127,27 @@ gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 
 \chapter{Introduction}
 
+This document describes proposed changes to the Carnegie Mellon University Online Learning Initiative Statistics modules intended to simplify the use of R by students.
+
 \section{Motivation}
-This document describes proposed changes to the Carnegie Mellon University Online Learning Initiative Statistics modules intended to simplify the use of R for this resource.  This work leverages on initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum.
+ This work leverages on initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum.
 
-As an overview, we propose to integrate the {\tt mosaic} package in R into the code fragments provided to students, which will include the CMU OLI datasets as well as helper routines which provide more intuitive access to statistical and graphical operations.  
+As an overview, we propose that the {\tt mosaic} package (available from the Comprehensive R Archive Network, aka CRAN) be included as part of the R code fragments provided to students.  The {\tt mosaic} package (\url{http://cran.r-project.org/web/packages/mosaic}) provides utilities and datasets for teaching statistics.  We believe that leveraging the {\tt mosaic} package will facilitate access to the CMU OLI datasets as well as incorporate helper routines to simplify the code required by students as well as provide more intuitive and less complicated access to statistical and graphical operations.  
 
-In this document, we have excerpted the code from the June, 2012 version of the course (listed as \emph{Original}) then replicated this functionality in a section which immediately follows (listed as {\emph{Revised}}).
+In this document, we have excerpted the code from the June, 2012 version of the course (listed as \emph{Original}) then replicated this functionality in a section which immediately follows (listed as {\emph{Revised}}).  At times, we have provided additional functionality.  Overall we have attempted to keep the coding as simple as possible while maintaining a consistent interface.  At times (see for example section \ref{majorfix}, page \pageref{majorfix}), this can dramatically shorten the code needed to undertake a particular task.
 
-We have tried to minimize the changes to the datasets to keep backward compatibility, but for pedagogical reasons have revised several dataset names and recoded some variables (see appendix for details).
+We have tried to minimize the changes to the datasets to keep backward compatibility, but for pedagogical reasons have revised several dataset names and recoded some variables (see Appendix for details of these manipulations).
+
+This is a preliminary draft of the comparison code, and we look forward to discussing whether these changes could be integrated into the base course.
+
 
 \section{Installation}
 
-Throughout our examples, we use the {\tt mosaic} package. To use a package, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+Throughout our examples, we access datasets and helper functions included in the {\tt mosaic} package. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
-Once these are installed, you can load them by running the command
+Once this is installed, it can be loaded by running the command:
 <<eval=FALSE>>=
 library(mosaic)
 @
@@ -151,12 +156,11 @@ needs to be done once per session, and will make all of the CMU OLI datasets as 
 the helper functions available.
 
 
- 
-
-
 \chapter{Unit 1}
 
 \section{Module 1 (page 7)}
+
+For each of the pages within the CMU OLI Statistics modules which included R code, we have taken those commands along with the introductory material regarding the datasets and included them below as the \emph{Original} code.  We have then replicated this functionality in the section entitled \emph{Revised}.
 
 \subsection{Original}
 
@@ -383,6 +387,7 @@ legend(55,225, pch=1, col=c("red","blue"),legend=c("females","males"));
 @
 
 \subsection{Revised}
+\label{majorfix}
 
 <<eval=TRUE>>=
 library(mosaic)
@@ -1281,10 +1286,146 @@ xyplot(IQ ~ cry.count, type=c("p", "r"),
 
 \chapter{Appendix}
 
-The following R code was used to process the CMU OLI datasets.
+The following R code was used to process the CMU OLI datasets into the form used in the {\tt mosaic} package on CRAN. This may be helpful in determining what changes are needed for compatibility purposes.
 
 
 \begin{verbatim}
+load("OLD/actor.RData")
+Actors = actor_age
+Actors$age = Actors$Age
+Actors$Age = NULL
+save(Actors, file="Actors.RData")
+
+load("OLD/animals.RData")
+Animals = a
+save(Animals, file="Animals.RData")
+
+load("OLD/baby-crying-IQ.RData")
+Baby = baby
+save(Baby, file="Baby.RData")
+
+load("OLD/birthweight.RData")
+Birthweight = birthweight
+save(Birthweight, file="Birthweight.RData")
+
+load("OLD/computers.RData")
+Computers = computers
+save(Computers, file="Computers.RData")
+
+load("OLD/depression.RData")
+Depression = depression
+Depression$Gender = ifelse(Depression$Gender==1, "Female", "Male")
+save(Depression, file="Depression.RData")
+
+load("OLD/drinks.RData")
+Drinks = drinks
+save(Drinks, file="Drinks.RData")
+
+load("OLD/epa_fuel_econ.RData")
+EPA = epa
+EPA$class = EPA$CLASS; EPA$CLASS = NULL
+EPA$mfr = EPA$MFR; EPA$MFR = NULL
+EPA$line = EPA$CAR.LINE; EPA$CAR.LINE = NULL
+EPA$displace = EPA$DISPLACEMENT; EPA$DISPLACEMENT = NULL
+EPA$cylinders = EPA$NUMB.CYL; EPA$NUMB.CYL = NULL
+EPA$trans = EPA$TRANS; EPA$TRANS = NULL
+EPA$drive = EPA$DRIVE.SYS; EPA$DRIVE.SYS = NULL
+EPA$city = EPA$CITY.MPG; EPA$CITY.MPG = NULL
+EPA$hwy = EPA$HWY.MPG; EPA$HWY.MPG = NULL
+EPA$mpg = EPA$COMB.MPG; EPA$COMB.MPG = NULL
+save(EPA, file="EPA.RData")
+
+load("OLD/flicker.RData")
+Flicker = flicker
+save(Flicker, file="Flicker.RData")
+
+load("OLD/friends.RData")
+Friends = friends
+Friends$easiest = Friends$Friends
+Friends$Friends = NULL
+save(Friends, file="Friends.RData")
+
+load("OLD/graduation.RData")
+college = c(rep("A", 8), rep("B", 8), rep("C", 8),
+  rep("D", 8), rep("E", 8), rep("F", 8))
+ontime = with(grad_data, c(College.A, College.B,
+  College.C, College.D, College.E, College.F))
+Graduation = data.frame(ontime, college)
+save(Graduation, file="Graduation.RData")
+
+load("OLD/guns.RData")
+Guns = support
+save(Guns, file="Guns.RData")
+
+load("OLD/height.RData")
+Height = h
+Height$female = Height$gender
+Height$gender = ifelse(Height$female == 1, "female", "male")
+Heightweight = Height
+save(Heightweight, file="Heightweight.RData")
+
+load("OLD/lbd1-1.RData")
+# TV1 = tv1
+obswomen = !is.na(tv1$time.women)
+obsmen = !is.na(tv1$time.men)
+time = with(tv1, c(time.women[obswomen], time.men[obsmen]))
+gender = with(tv1, c(rep("Female", length(time.women[obswomen])), 
+           rep("Male", length(time.women[obsmen]))))
+TV1 = data.frame(time, gender)
+save(TV1, file="TV1.RData")
+
+load("OLD/lbd1-2.RData")
+obswomen = !is.na(tv2$time.women)
+obsmen = !is.na(tv2$time.men)
+time = with(tv2, c(time.women[obswomen], time.men[obsmen]))
+gender = with(tv2, c(rep("Female", length(time.women[obswomen])), 
+           rep("Male", length(time.women[obsmen]))))
+TV2 = data.frame(time, gender)
+save(TV2, file="TV2.RData")
+
+load("OLD/nightlight.RData")
+Nightlight = nightlight
+save(Nightlight, file="Nightlight.RData")
+
+load("OLD/olympics.RData")
+Olympics = olym
+save(Olympics, file="Olympics.RData")
+
+load("OLD/pregnancy.RData")
+Pregnancy = pregnancy
+save(Pregnancy, file="Pregnancy.RData")
+
+load("OLD/sdintuition.RData")
+ratings
+score = with(ratings, c(Class.I, Class.II, Class.III))
+situation = c(rep("Class I", 27), rep("Class II", 27), rep("Class III", 27))
+Ratings = data.frame(score, situation)
+save(Ratings, file="Ratings.RData")
+
+load("OLD/seed.RData")
+Seed = seed
+save(Seed, file="Seed.RData")
+
+load("OLD/sleep.RData")
+Sleep = sleep
+save(Sleep, file="Sleep.RData")
+
+load("OLD/sleep2.RData")
+obsunder = !is.na(sleep$undergraduate)
+obsgrad = !is.na(sleep$graduate)
+hours = with(sleep, c(undergraduate[obsunder], graduate[obsgrad]))
+status = with(sleep, c(rep("Undergrad", length(undergraduate[obsunder])), 
+           rep("Graduate", length(graduate[obsgrad]))))
+Sleep2 = data.frame(hours, status)
+save(Sleep2, file="Sleep2.RData")
+
+load("OLD/student_survey.RData")
+Population = population
+save(Population, file="Population.RData")
+
+load("OLD/time.RData")
+Time = time
+save(Time, file="Time.RData")
 
 \end{verbatim}
 
