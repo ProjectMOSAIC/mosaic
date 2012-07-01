@@ -170,16 +170,16 @@ NA
 #'      A data frame with 71 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{CLASS}}{automobile type \code{TWO SEATERS}}
-#'     \item{\code{MFR}}{automobile brand: one of \code{MERCEDES=BENZ} \code{PORSCHE} \code{BMW} \code{LAMBORGHINI} \code{CHRYSLER} \code{FERRARI} \code{ASTON MARTIN} \code{CADILLAC} \code{CHEVROLET} \code{HONDA} \code{LOTUS} \code{MAZDA} \code{NISSAN} \code{PONTIAC} \code{SATURN} \code{SPYKR}}
-#'     \item{\code{CAR.LINE}}{}
-#'     \item{\code{DISPLACEMENT}}{displacement of the engine}
-#'     \item{\code{NUMB.CYL}}{number of cylinders}
-#'     \item{\code{TRANS}}{transmission type}
-#'     \item{\code{DRIVE.SYS}}{4 = , R = }
-#'     \item{\code{CITY.MPG}}{city mileage (in miles per gallon)}
-#'     \item{\code{HWY.MPG}}{highway mileage (in miles per gallon)}
-#'     \item{\code{COMB.MPG}}{combined city and highway (in miles per gallon)}
+#'     \item{\code{class} }{automobile type \code{TWO SEATERS}}
+#'     \item{\code{mfr} }{automobile brand: one of \code{MERCEDES=BENZ} \code{PORSCHE} \code{BMW} \code{LAMBORGHINI} \code{CHRYSLER} \code{FERRARI} \code{ASTON MARTIN} \code{CADILLAC} \code{CHEVROLET} \code{HONDA} \code{LOTUS} \code{MAZDA} \code{NISSAN} \code{PONTIAC} \code{SATURN} \code{SPYKR}}
+#'     \item{\code{line} }{model}
+#'     \item{\code{displace} }{displacement of the engine}
+#'     \item{\code{cylinders} }{number of cylinders}
+#'     \item{\code{trans} }{transmission type}
+#'     \item{\code{drive} }{drive system, 4 = , R = }
+#'     \item{\code{city} }{city mileage (in miles per gallon)}
+#'     \item{\code{hwy} }{highway mileage (in miles per gallon)}
+#'     \item{\code{mpg} }{combined city and highway (in miles per gallon)}
 #'   }
 #' 
 #' @references
@@ -469,11 +469,11 @@ NA
 #'  @name Sleep2
 #'  @usage data(Sleep2)
 #'  @format
-#'      A data frame with 75 rows on the following variables.
+#'      A data frame with 125 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{undergraduate}}{number of hours that an undergraduate sleeps in a typical day)}
-#'     \item{\code{graduate}}{number of hours that a graduate sleeps in a typical day}
+#'     \item{\code{hours} }{number of hours that a student sleeps in a typical day)}
+#'     \item{\code{status} }{\code{Undergrad} or \code{Graduate} student}
 #'   }
 #' 
 #' @references
