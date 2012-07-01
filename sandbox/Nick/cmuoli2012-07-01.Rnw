@@ -1085,8 +1085,9 @@ t.test(sleep$undergraduate,sleep$graduate,alternative = "less")
 <<eval=TRUE>>=
 library(mosaic)
 head(Sleep2)
-with(Sleep2, t.test(undergraduate, graduate, alternative = "less"))
-t.test(hours ~ status, alternative="less", data=Sleep2)
+bwplot(hours ~ status, data=Sleep2)
+favstats(hours ~ status, data=Sleep2)
+t.test(hours ~ status, alternative="greater", data=Sleep2)
 @
 
 \section{Module 13 (page 238)}
