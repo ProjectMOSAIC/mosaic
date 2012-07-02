@@ -38,13 +38,43 @@ test_that('Simple trigonometric functions are working',{
   
 })
 
-test_that('Affine Expression function works correctly',{
-  symbolicInt(3*(2*x)^2~x)
-  symbolicInt(1/(x+1)~x)
-  symbolicInt((x+1)^-1~x)
-  
-  symbolicInt(3*sin(3*x+1)~x)
-  symbolicInt(sin(2*(x))~x)
-  symbolicInt(2*pi*(x/P)~x)
-  symbolicInt(3^2~x)
+test_that('Things break correctly', {
+  expect_error(symbolicInt(sin(cos(x))~x))
+  expect_error(symbolicInt(sin(x^3)~x))
+  expect_error(symbolicInt(log(x+x)~x))
+  expect_error(symbolicInt((x+x^2)^2~x))
+  expect_error(symbolicInt(x^(x)~x))
+  expect_error(symbolicInt(1/x^2+1/x^3~x))
 })
+
+test_that('Everything works',{
+  checkFun <- function(formula, integral){
+    ff = symbolicInt(formula)
+    gg = makeFun(integral)
+    vars = list()
+    for(var in names(formals(ff))){
+      vars[[var]] = seq(-10,10, len = 40)
+    }
+    expect_that(do.call(ff, vars), equals(do.call(gg, vars), tol=0.00001))
+  }
+  
+  
+  checkFun(x^12+x^9-x^6+x^3-1~x, 1/13*x^13+1/10*x^10-1/7*x^7+1/4*x^4-x~x)
+  checkFun((2+3)*x^5+(2+9)*x^2+(8*6+2)*x~x, (2+3)*1/(6)*x^6+(2+9)*1/(3)*x^3+(8*6+2)*1/(2)*x^2~x)
+  checkFun((a+3)*x^7-a*4*x+a~x, (a+3)*1/(8)*x^8-a*4*1/(2)*x^2+a*x~x)
+  checkFun(x^n~x, 1/(n+1)*x^(n+1)~x)
+  checkFun(3*x^-4+x^-2-x^-3~x,3*1/(-3)*x^-3+1/(-1)*x^-1-1/(-2)*x^-2~x )
+  checkFun(3/x+3*x^2~x, 3*log(x)+x^3~x)
+  checkFun(((2+((3*((x))))))~x, 2*x+3/2*x^2~x)
+  checkFun(3*(2*x)^2~x, 1/2*(2*x)^3~x)
+  checkFun(1/(x+1)~x, log(1+x)~x)
+  checkFun((x+1)^-1~x, log(1+x)~x)
+  checkFun(3*sin(3*x+1)~x, -cos(3*x+1)~x)
+  checkFun(sin(2*(x))~x, -1/2*cos(2*x)~x)
+  checkFun(2*pi*(x/P)~x, pi/P*x^2~x)
+  checkFun(3^2~x, 9*x~x)
+  checkFun((x*8)^2~x, 1/24*(8*x)^3~x)
+  checkFun(exp(3*x+9)~x, 1/3*exp(3*x+9)~x)
+  checkFun(x^(1/2)~x, 2/3*x^(3/2)~x)
+  checkFun(x^(-31/52)~x, 52/21*x^(21/52)~x)
+  })

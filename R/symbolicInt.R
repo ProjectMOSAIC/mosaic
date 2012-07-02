@@ -1,24 +1,27 @@
-##change everything to return formulae instead of functions.
-## add division stuff
-#catch when n=-1 and return log instead.
-
 #'Find the symbolic integral of a formula
 #'
-#'@param form formula to be integrated.  Rhs of formula indicates which variable to
+#'@param form an object of type formula to be integrated.
+#'Rhs of formula indicates which variable to
 #'integrate with respect to.  Must only have one variable.
 #'@param \ldots extra parameters
 #'
-#'@details works for simple polynomial and trigonometric expressions
+#'@details This symbolic integrator recognizes simple polynomials and functions such as
+#'\code{sin}, \code{cos}, and \code{exp}.  It will not perform more complicated substitutions
+#'or integration by parts.
+#'
+#'@value symbolicInt returns a function whose body is the symbolic antiderivative of
+#'the formula.  If this method does not recognize the formula, it will return an error.
 #'
 symbolicInt<- function(form, ...){
   dots = list(...)
   rhsVar = all.vars(rhs(form))
   if(length(rhsVar)!=1) stop("Can only integrate with respect to one variable.")
   constants = setdiff(all.vars(form), rhsVar)
+  intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]#Name of integration constant
   
   #check if it's just constants
   if(length(grep(rhsVar, deparse(lhs(form))))==0){
-    form[[2]]<- parse(text = paste(deparse(lhs(form)), "*", rhsVar))[[1]]
+    form[[2]]<- parse(text = paste(deparse(lhs(form)), "*", rhsVar, "+", intc, sep=""))[[1]]
     return(makeFun(form,...))
   }
   
@@ -39,12 +42,11 @@ symbolicInt<- function(form, ...){
   
   #check if it's just x
   if((lhs(form))==rhsVar){
-    form[[2]]<- parse(text="1/(2)*x^2")[[1]]
+    intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
+    form[[2]]<- parse(text=paste("1/(2)*", rhsVar, "^2+", intc, sep=""))[[1]]
     return(makeFun(form, ...))
   }
-  
   stop("Error: symbolic algorithm gave up")
-
 }
 
 #--------------------------
@@ -70,8 +72,11 @@ intArith <- function(form, ...){
     rform[[2]] = lhs(form)[[3]]
     lfun = symbolicInt(lform, ...)
     rfun = symbolicInt(rform, ...)
+    
+    intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
     body = parse(text=paste(deparse(body(lfun)),
-                            deparse(lhs(form)[[1]]), deparse(body(rfun)), sep=""))[[1]]
+                            deparse(lhs(form)[[1]]), deparse(body(rfun)),
+                            "+", intc, sep=""))[[1]]
     form[[2]] <- body
     return(makeFun(form))
   }
@@ -86,15 +91,21 @@ intArith <- function(form, ...){
       stop("Error: symbolic algorithm gave up")
     if(regexpr(rhsVar, deparse(lform[[2]]))==1){
       lfun = symbolicInt(lform, ...)
+      intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
+      
       body = parse(text=paste(deparse(body(lfun)),
-                              deparse(lhs(form)[[1]]), deparse(lhs(rform))))[[1]] #parens???
+                              deparse(lhs(form)[[1]]), deparse(lhs(rform)),
+                              "+", intc, sep=""))[[1]]
       form[[2]] <- body
       return(makeFun(form))
     }
     else{
       rfun = symbolicInt(rform, ...)
+      intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
+      
       body = parse(text=paste(deparse(lhs(lform)),
-                              deparse(lhs(form)[[1]]),deparse(body(rfun)) ))[[1]] #parens???
+                              deparse(lhs(form)[[1]]),deparse(body(rfun)),
+                              "+", intc, sep=""))[[1]]
       form[[2]] <- body
       return(makeFun(form))
     }
@@ -104,21 +115,19 @@ intArith <- function(form, ...){
     num = lhs(form)[[2]]
     den = lhs(form)[[3]]
     if(length(grep(rhsVar, den))>0){
-      form[[2]] = parse(text = paste(deparse(num), "*", deparse(den), "^-1",sep="" ))[[1]]
+      form[[2]] = parse(text = paste(deparse(num), "*(", deparse(den), ")^-1",sep="" ))[[1]]
       return(symbolicInt(form, ...))
     }
     else{
-      form[[2]] = parse(text = paste("1/",deparse(den),"*", deparse(num) , sep=""))[[1]]
+      form[[2]] = parse(text = paste("1/(",deparse(den),")*", deparse(num) , sep=""))[[1]]
       return(symbolicInt(form,...))
     }
   }
   
   if(op == '^'){
-    #check to see if surrounded by parentheses
-    #if(length(grep("^\\(.*\\)$", deparse(lhs(form)[[2]])))>0)
-    #  form[[2]][[2]] = lhs(form)[[2]][[2]] #extract expression
+    intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
     
-    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
     if(length(affexp)>0 && length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
       exp = try(eval(form[[2]][[3]], envir=list(pi=3.1415932653589793, form=form),
                       enclos=NULL), silent=TRUE)
@@ -127,15 +136,22 @@ intArith <- function(form, ...){
       else(exp = eval(exp)+1) #change from call to numeric...
       
       if(exp == 0){
-        if(affexp$a==1) form[[2]] = parse(text=paste("log(", deparse(lhs(form)[[2]]), ")",sep=""))[[1]]
-        else form[[2]] <- parse(text = paste("1/(",deparse(affexp$a) ,")*log(", deparse(lhs(form)[[2]]), ")", sep=""))[[1]]
+        
+        if(affexp$a==1)
+          form[[2]] = parse(text=paste("log(", deparse(lhs(form)[[2]]),
+                                       ")+", intc ,sep=""))[[1]]
+        else
+          form[[2]] <- parse(text = paste("1/(",deparse(affexp$a) ,")*log(",
+                                          deparse(lhs(form)[[2]]), ")+", intc, sep=""))[[1]]
         return(makeFun(form))
       }
       form[[2]][[3]] <- exp
-      if(affexp$a==1) newform <- paste("1/(", deparse(exp), ")*",
-                                       deparse(form[[2]]), sep="")
-      else newform <- paste("1/(",deparse(affexp$a),")*1/(", deparse(exp), ")*",
-                                           deparse(form[[2]]), sep="")
+      if(affexp$a==1)
+        newform <- paste("1/(", deparse(exp), ")*",
+                                       deparse(form[[2]]), "+", intc, sep="")
+      else
+        newform <- paste("1/(",deparse(affexp$a),")*1/(", deparse(exp), ")*",
+                                           deparse(form[[2]]), "+", intc, sep="")
       form[[2]] <- parse(text=newform)[[1]]
       return(makeFun(form))
     }
@@ -155,11 +171,16 @@ intMath <- function(form, ...){
   constants = setdiff(all.vars(form), rhsVar)
   
   if(op =="sin"){#trig expression
+    intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
+    
     #check to see if we can integrate it
-    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
     if(length(affexp)>0){
-      if(affexp$a==1) newform = paste("-cos(", deparse(lhs(form)[[2]]), ")",sep="")
-      else newform = paste("1/(", deparse(affexp$a), ")*-cos(", deparse(lhs(form)[[2]]), ")", sep="")
+      if(affexp$a==1)
+        newform = paste("-cos(", deparse(lhs(form)[[2]]), ")+", intc, sep="")
+      else
+        newform = paste("1/(", deparse(affexp$a), ")*-cos(", deparse(lhs(form)[[2]]),
+                        ")+", intc, sep="")
       form[[2]]= parse(text=newform)[[1]]
       return(makeFun(form))
     }
@@ -167,11 +188,15 @@ intMath <- function(form, ...){
   }
   
   if(op == "cos"){
+    intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
+    
     #check to see if we can integrate it
-    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
     if(length(affexp)>0){
-      if(affexp$a==1) newform = paste("sin(", deparse(lhs(form)[[2]]), ")",sep="")
-      else newform = paste("1/(", deparse(affexp$a), ")*sin(", deparse(lhs(form)[[2]]), ")", sep="")
+      if(affexp$a==1)
+        newform = paste("sin(", deparse(lhs(form)[[2]]), ")+", intc, sep="")
+      else newform = paste("1/(", deparse(affexp$a), ")*sin(",
+                           deparse(lhs(form)[[2]]), ")+", intc, sep="")
       form[[2]]= parse(text=newform)[[1]]
       return(makeFun(form))
     }
@@ -179,19 +204,20 @@ intMath <- function(form, ...){
   }
   
   if(op == "exp"){
+    intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
+    
     #Check to see if we can integrate it
-    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
     if(length(affexp)>0){
-      if(affexp$a==1) newform = paste("exp(", deparse(lhs(form)[[2]]), ")",sep="")
-      else newform = paste("1/(", deparse(affexp$a), ")*exp(", deparse(lhs(form)[[2]]), ")", sep="")
+      if(affexp$a==1)
+        newform = paste("exp(", deparse(lhs(form)[[2]]), ")+", intc ,sep="")
+      else
+        newform = paste("1/(", deparse(affexp$a), ")*exp(",
+                        deparse(lhs(form)[[2]]), ")+", intc, sep="")
       form[[2]]= parse(text=newform)[[1]]
       return(makeFun(form))
     }
     else stop("Error: symbolic algorithm gave up")
-  }
-  
-  if(op =='sqrt'){
-    #TODO
   }
   
   stop("Error: symbolic algorithm gave up")
@@ -202,10 +228,10 @@ intMath <- function(form, ...){
 #'@param tree A call that will be parse
 #'@param .x. the variable name
 #'
-#'@return A list with values of a and b.  If the expression is not affine,
-#'returns an empty list.
+#'@return A list with values of a and b satisfying a*.x.+b  = tree.
+#'If the expression is not affine, returns an empty list.
 #'
-affine.exp <- function(tree, .x.){
+.affine.exp <- function(tree, .x.){
   #if it is a simple expression
   if(tree==.x.){
     a=1
@@ -293,7 +319,26 @@ affine.exp <- function(tree, .x.){
       a = parse(text=paste("(",deparse(lexp$a), ")*(", deparse(rexp$b),")",sep=""))[[1]]
       b = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$b),")",sep=""))[[1]]
       
-      ##ADD
+      if(rexp$b==0){
+        a = 0
+        b = 0
+      }
+      if(rexp$b==1){
+        a = lexp$a
+        b = lexp$b
+      }
+      if(lexp$a==0){
+        a = 0
+      }
+      if(lexp$b==0){
+        b = 0
+      }
+      if(lexp$a==1){
+        a = rexp$b
+      }
+      if(lexp$b==1){
+        b = rexp$b
+      }
       return(list(a=a,b=b))
     }
   }
