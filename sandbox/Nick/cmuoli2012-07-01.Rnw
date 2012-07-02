@@ -3,6 +3,7 @@
 
 \usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
 \usepackage{hyperref}
+\usepackage{language}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -110,7 +111,7 @@ Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith Colleg
 	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
 	}
 
-<<setup,echo=FALSE,message=FALSE,include=FALSE>>=
+<<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 set.seed(123)
@@ -123,6 +124,8 @@ h = gsub("([_#$%&])", "\\\\\\1", h)
 h = gsub('(["\'])', '\\1{}', h)
 gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 })
+showOriginal=FALSE
+showNew=TRUE
 @ 
 
 \chapter{Introduction}
@@ -144,12 +147,16 @@ This is a preliminary draft of the comparison code, and we look forward to discu
 \section{Installation}
 
 Throughout our examples, we access datasets and helper functions included in the {\tt mosaic} package. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
-<<eval=FALSE>>=
+<<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
 Once this is installed, it can be loaded by running the command:
-<<eval=FALSE>>=
+<<load_mosaic,eval=FALSE>>=
 library(mosaic)
+@
+or 
+<<require_mosaic,eval=FALSE>>=
+require(mosaic)
 @
 This
 needs to be done once per session, and will make all of the CMU OLI datasets as well as
@@ -164,7 +171,7 @@ For each of the pages within the CMU OLI Statistics modules which included R cod
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<unit1orig,eval=showOriginal>>=
 # UNIT 1: Exploratory Data Analysis
 # Module 1: Examining Distributions
 # Introduction (EDA), p7, "Exploring a Dataset"
@@ -187,7 +194,7 @@ depression;
 
 \subsection{Revised}
 
-<<eval=TRUE>>=
+<<tally,eval=TRUE>>=
 library(mosaic)
 tally(~ Gender, data=Depression)
 tally(~ Gender, format="percent", data=Depression)
@@ -196,7 +203,7 @@ tally(~ Gender, format="percent", data=Depression)
 \section{Module 1 (page 12)}
 
 \subsection{Original}
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # One Categorical Variable (3 of 3), p12, "One Categorical Variable"
 # File name: friends
@@ -225,12 +232,21 @@ percent
 pie(t)
 @
 
+\subsection{Re-Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Friends)
+tally(~ easiest, margins=FALSE, data=Friends)
+tally(~ easiest, margins=FALSE, format='percent', data=Friends)
+bargraph( ~ easiest, data=Friends)
+@
 
 \section{Module 1 (page 17)}
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Histogram (3 of 3), p17, "Histogram"
 # File name: actor
@@ -254,7 +270,7 @@ histogram(~ age, nint=8, data=Actors)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 #
 # Boxplot (1 of 3), p27, "Boxplot"
 # File name: actor
@@ -276,7 +292,7 @@ favstats(~ age, data=Actors)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 #
 # Boxplot (3 of 3), p29, "Boxplot"
 # File name: graduation
@@ -307,7 +323,7 @@ bwplot(ontime ~ college, data=Graduation)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Standard Deviation, p30, "Standard Deviation"
 # File name: sdintuition
@@ -353,17 +369,19 @@ t = table(Nightlight); t
 
 \subsection{Revised}
 
-XX how to get row percent? XX
 <<eval=TRUE>>=
 library(mosaic)
-tally(~ Light + Nearsightedness, data=Nightlight)
+library(vcd)
+tally(~ Nearsightedness | Light, data=Nightlight)
+tally(~ Light | Nearsightedness, data=Nightlight)
+mosaic(~ Light + Nearsightedness, data=Nightlight)
 @
 
 \section{Module 2 (page 47)}
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Scatterplot (5 of 5), p47, "Scatterplot"
 # File name: height
@@ -398,7 +416,7 @@ xyplot(weight ~ height, groups=gender, auto.key=TRUE, data=Heightweight)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Linear Relationships (4 of 8), p51, "Linear Relationships"
 # File name: animals
@@ -478,7 +496,7 @@ xyplot(Time ~ Year, main = mytitle, type=c("p", "r"), data=no1896)
 
 \subsection{Original}
 
-<<eval=TRUE>>=
+<<eval=FALSE>>=
 # 
 # UNIT 2: Producing Data
 # Module 3: Sampling
@@ -537,11 +555,10 @@ summary(business$Age);
 
 \subsection{Revised}
 
-XX not yet done XX
 <<eval=FALSE>>=
 library(mosaic)
-population;
-random_sample = population[sample(1:length(population$Course),129),];
+head(Population)
+random_sample = sample(Population, 129)
 random_sample;
 random_sample_percent = 100*summary(random_sample$Handed)/length(random_sample$Handed);
 random_sample_percent;
@@ -583,142 +600,85 @@ summary(population$Age);
 summary(business$Age);
 @
 
-\section{Module 4 (page 76)}
+\subsection{Re-Revised}
 
-\subsection{Original}
-
-<<eval=FALSE>>=
-# 
-# Module 4: Designing Studies
-# Causation and Experiments (1 of 3), p76, "Causation and Experiments"
-# File name: computers
-# Sample size: 20783
-# Codebook:
-# age: the ages of the population in years
-# gender: female or male
-# comp: hours per week of computer use
-# R script:
-computers;
-summary(computers);
-random_sample = computers[sample(1:length(computers $age),450),];
-summary(random_sample);
-group = floor(runif(450,min=1,max=4));
-random_sample = cbind(random_sample,group);
-boxplot(random_sample[group==1,]$age,random_sample[group==2,]$age,random_sample[group==3,]$age);
-@
-
-
-\subsection{Revised}
-
-<<eval=TRUE>>=
+<<eval=TRUE,out.width=".47\\textwidth">>=
 library(mosaic)
-head(Computers)
-summary(Computers)
-random_sample = sample(Computers, 450, replace=TRUE)
-summary(random_sample)
-group = sample(c("1", "2", "3"), 450, replace=TRUE)
-random_sample = cbind(random_sample,group)
-bwplot(age ~ group, data=random_sample)
+head(Population)
+Random_Sample = sample(Population, 129)
+head(Random_Sample)
+tally( ~ Handed, data=Random_Sample, format='percent' )
+tally( ~ Handed, data=Population, format='percent' )
+bargraph( ~ Handed, data=Population, main='Population')
+bargraph( ~ Handed, data=Random_Sample, main='Sample')
 @
 
-\chapter{Unit 3}
+<<eval=TRUE,out.width=".47\\textwidth">>=
+tally( ~ Sex, data=Random_Sample, format='percent' )
+tally( ~ Sex, data=Population, format='percent' )
+bargraph( ~ Sex, data=Population, main='Population')
+bargraph( ~ Sex, data=Random_Sample, main='Sample')
+@
+<<eval=TRUE,out.width=".77\\textwidth">>=
+require(vcd)
+mosaic( ~ Sex + Handed, Population, main = "Population")
+mosaic( ~ Sex + Handed, Population, main = "random sample")
+@
 
-\section{Module 8 (page 143)}
+<<>>=
+favstats(~ Verbal, Population)
+favstats(~ Verbal, Random_Sample)
+favstats(~ Age, Population)
+favstats(~ Age, Random_Sample)
+@
+<<>>=
+Business = subset(population, Course=="Business")
+head(Business)
+tally( ~ Handed, data=Population )
+tally( ~ Handed, data=Business )
+bargraph(~Course, groups=Handed, Population, main="Population", auto.key=TRUE)
+bargraph(~Course, groups=Handed, Random_Sample , main="Sample", auto.key=TRUE)
+@
+<<>>=
+require(vcd)
+mosaic(~Handed + Course, Population, main="Population" )
+mosaic(~Handed + Course, Random_Sample , main="Sample")
+@
 
+\section{???}
 \subsection{Original}
 
-<<eval=FALSE>>=
-# 
-# UNIT 3: Probability
-# Module 8: Random Variables
-# Binomial Random Variables (3 of 4), p143, "Binomial Random Variables"
-# For a binomial distribution:
-# k=number of successes in trails
-# n=number of independent trails
-# p=probability of success in each trial
-# Question: To find probabilities of the type P(X = k) or P(X ≤ k).
-# R script:
-# dbinom(k, n, p) = P(X = k);
-# pbinom(k, n, p) = P(X ≤ k);
-@
-
-\subsection{Revised}
-
-<<eval=TRUE>>=
-library(mosaic)
-dbinom(0:5, 5, .2) # P(X = k), for k = 0, 1, ..., 5
-pbinom(0:5, 5, .2)  # P(X ≤ k), for k = 0, 1, ..., 5
-@
-
-\section{Module 8 (page 155)}
-
-\subsection{Original}
-
-<<eval=FALSE>>=
-# 
-# Application (2 of 2), p155, "Normal Random Variables"
-# Question 1: Finding P(X > 700) where X is the SAT-M score which has a normal distribution with a mean of 507 and standard deviation of 111.
-# R Script:
-pnorm(700, mean=507, sd=111);
-1- pnorm(700, mean=507, sd=111);
-# 
-# Question 2: Finding the value of x that satisfies P(X > x) = .02 (or to say that satisfies P(X < x) = .98) where X is the SAT-M score, which has a normal distribution with a mean of 507 and standard deviation of 111.
-# R script:
-qnorm(0.98, mean=507, sd=111)
-@
-
-\subsection{Revised}
-
-<<eval=TRUE>>=
-library(mosaic)
-xpnorm(700, mean=507, sd=111)
-qnorm(0.98, mean=507, sd=111)
-@
-
-\chapter{Unit 4}
-
-\section{Module 11 (page 186)}
-
-\subsection{Original}
-
-<<eval=TRUE>>=
-# 
-# UNIT 4: Inference
-# Module 11: Estimation
-# Confidence Intervals for the Population Mean (7 of 8), p186, "Confidence Intervals for the Population Mean" (1)
-# File name: birthweight
-# Sample size: 125
-# Codebook:
-# birthweight: weights of newborns in grams
-# R script:
-# birthweight;
-head(Birthweight)
-conf.int = function(x,sigma,c)
-{
-n = length(x);
-m = mean(x);
-me = qnorm((1+c)/2)*sigma/sqrt(n)
-print.noquote(paste("sample size: ",n," sample mean: ",m))
-print.noquote(paste(c*100,"% confidence interval: (",m-me,", ",m+me,")"))
-};
-conf.int(Birthweight$birthweight,500,0.99);
-@
+YY Not sure what happened here.
 
 \subsection{Revised}
 
 XX uses t interval rather than normal
 Should we add some driver functions to help with this (or load them from the
 TeachingDemos package?)
+
+YY Not sure what you mean by driver functions.
+
+
 <<eval=TRUE>>=
 library(mosaic)
 with(Birthweight, t.test(birthweight, conf.level=0.99))
 @
+YY But I would avoid using with() if possible.
+<<>>=
+t.test( Birthweight$birthweight, conf.level=0.99 )
+@
+YY If we get t.test() working properly, this will become
+<<eval=FALSE>>=
+t.test( ~birthweight, data=Birthweight )
+confint(t.test( ~birthweight, data=Birthweight, conf.level=.99 ))
+@
+
 
 \section{Module 11 (page 186)}
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Confidence Intervals for the Population Mean (7 of 8), p186, "Confidence Intervals for the Population Mean" (2)
 # File name: sleep
@@ -742,7 +702,7 @@ with(Sleep, t.test(sleep, conf.level=0.95))
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Confidence Intervals for Population Proportion p (4 of 4), p191, "Confidence Intervals for the Population Proportion p"
 # File name: guns
@@ -774,7 +734,7 @@ prop.test(mytable[2], mytable[3], conf.level=0.95);
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Module 12: Hypothesis Testing
 # Hypothesis Testing for the Population Proportion p (9 of 13), p207, "Hypothesis Testing for the Population Proportion p"
@@ -800,7 +760,7 @@ z
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Hypothesis Testing for the Population Proportion p (10 of 13), p208, "Hypothesis Testing for the Population Proportion p"
 # Question: 78 defective products out of 400—were statistically significant in the sense that they provided enough evidence to conclude that the repair indeed reduced the proportion of defective products from 0.20 (the proportion prior to the repair). Conduct z-test
@@ -813,12 +773,14 @@ z = -sqrt(p$statistic); z;
 
 XX Can this be simplified? XX
 
+YY The \function{stat} function extracts test statistics from htest objects.
+
 <<eval=TRUE>>=
 library(mosaic)
-p = prop.test(78, 400, 0.2, alternative="less",
-    conf.level=0.95, correct=FALSE)
-p
-z = -sqrt(p$statistic)
+test = prop.test(78, 400, 0.2, alternative="less", correct=FALSE)
+test
+stat(test)
+z = -sqrt(stat(test))
 z
 @
 
@@ -826,7 +788,7 @@ z
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Hypothesis Testing for the Population Mean (2 of 9), p213, "Hypothesis Testing for the Population Mean"
 # File name: time
@@ -850,7 +812,7 @@ histogram(~ time1, data=Time)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Hypothesis Testing for the Population Mean (4 of 9), p215, "Hypothesis Testing for the Population Mean"
 # Question: To calculate the z-value and p-value for a sample of size n and sample mean x¯=550
@@ -877,11 +839,31 @@ significance = function(n) {
 significance(5:14)
 @
 
+\subsection{Re-revised}
+
+YY R functions should usually not return a string.  That makes it hard to do downstream 
+computations. Better is to return a list or a vector or a data frame or an object in some 
+user-defined class with a custom print method.  
+
+
+YY Also, adding named arguments to functions makes it clearer what is going on and also
+makes it easy to try other scenarios without modifying code.
+
+Here's an improvement on the preceding code.
+<<eval=TRUE>>=
+library(mosaic)
+significance = function(n, mu=500, sigma=100, x.bar=550) {
+  z = (x.bar-mu)/(sigma/sqrt(n))
+  data.frame( n = n, z = z, "p.value" = pnorm(-abs(z)) )
+}
+significance(5:14)
+@
+
 \section{Module 12 (page 216)}
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Hypothesis Testing for the Population Mean (5 of 9), p216, "Hypothesis Testing for the Population Mean"
 # File name: pregnancy
@@ -909,8 +891,8 @@ z.test(pregnancy$length, 16, 266, "less");
 \subsection{Revised}
 
 XX Can this be simplified? XX Should we add a {\tt z.test()} function? XX
+
 <<eval=TRUE>>=
-library(mosaic)
 head(Pregnancy)
 z.test = function(x, sigma, mu0, alt="greater") {
   mu = mean(x)
@@ -932,11 +914,17 @@ z.test = function(x, sigma, mu0, alt="greater") {
 z.test(Pregnancy$length, 16, 266, "less");
 @
 
+\subsection{Re-revised}
+The \pkg{TeachingDemos} package includes a \function{z.test()} function.
+<<>>=
+require(TeachingDemos) # for z.test(); rjp has a version as well
+z.test(Pregnancy$length, sd=16, mean=266, alternative="less")
+@
 \section{Module 12 (page 216)}
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Hypothesis Testing for the Population Mean (5 of 9), p216, "Hypothesis Testing for the Population Mean (Extra Problems)"
 # File name: epa_fuel_econ
@@ -985,16 +973,24 @@ z.test = function(x, sigma, mu0, alt="greater") {
     if (alt=="two.sided") { p = 2*(1-pnorm(abs(z))) }
     else { p = 1-pnorm(z)}
   }
-  paste("mean = ",mu,"n = ",n,", z = ",z,", p-value = ",p)
+  # even better would be to return an htest object
+  # rjp has code to do this (it is an exercise in FASt) as does the TeachingDemos package
+  c(mean=mu, n=n, z=z, "p-value"=p)  
 }
 z.test(EPA$mpg, 4.7, 20, "greater");
+@
+
+\subsection{Re-revised}
+<<>>=
+require(TeachingDemos)
+z.test( EPA$mpg, 20, sd=4.7, alternative="greater" )
 @
 
 \section{Module 12 (page 220)}
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Hypothesis Testing for the Population Mean (9 of 9), p220, "Hypothesis Testing for the Population Mean"
 # File name: drinks
@@ -1019,7 +1015,7 @@ with(Drinks, t.test(drinks.per.week, mu=4.73,
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Module 13: Case C->Q
 # Two Independent Samples (3 of 7), p228, "Two Independent Samples" (1)
@@ -1046,7 +1042,7 @@ histogram(~ time, groups=gender, data=TV1)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Two Independent Samples (3 of 7), p228, "Two Independent Samples" (2)
 # File name: lbd1-2
@@ -1072,7 +1068,7 @@ histogram(~ time, groups=gender, data=TV2)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Two Independent Samples (5 of 7), p230, "Two Independent Samples"
 # File name: sleep2
@@ -1099,7 +1095,7 @@ t.test(hours ~ status, alternative="greater", data=Sleep2)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Matched Pairs (6 of 8), p238, "Matched Pairs"
 # File name: seed
@@ -1124,7 +1120,7 @@ with(Seed, t.test(regular.seed - kiln.dried.seed, mu=0, alternative="less"))
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # ANOVA (6 of 7), p246, "ANOVA"
 # File name: flicker
@@ -1153,7 +1149,7 @@ summary(aov(cff ~ color, data=Flicker))
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Case C->C (3 of 5), p252, "Case C->C"
 # Question: Use R to calculate the expected counts
@@ -1177,7 +1173,7 @@ xchisq.test(data)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Case C->C (4 of 5), p253, "Case C->C" (1)
 # Question: Use R to calculate the p-value for the chi-square test
@@ -1201,7 +1197,7 @@ xchisq.test(data)
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Case Q->Q (2 of 3), p256, "Case Q->Q" (1)
 # File name: baby-crying-IQ
@@ -1228,7 +1224,7 @@ with(Baby, cor(cry.count, IQ))
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Case Q->Q (2 of 3), p256, "Case Q->Q" (2)
 # File name: baby-crying-IQ
@@ -1253,7 +1249,7 @@ summary(lm(IQ ~ cry.count, data=Baby))
 
 \subsection{Original}
 
-<<eval=FALSE>>=
+<<eval=showOriginal>>=
 # 
 # Case Q->Q  (3 of 5), p257, "Case Q->Q"
 # File name: baby-crying-IQ
