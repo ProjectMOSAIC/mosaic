@@ -38,13 +38,13 @@ test_that('Simple trigonometric functions are working',{
   
 })
 
-test_that('These are tests that do not run correctly yet',{
-  #symbolicInt(3*(2*x)^2~x)
-  #symbolicInt(1/(x+1)~x)
-  #symbolicInt((x+1)^-1~x)
+test_that('Affine Expression function works correctly',{
+  symbolicInt(3*(2*x)^2~x)
+  symbolicInt(1/(x+1)~x)
+  symbolicInt((x+1)^-1~x)
   
-  #symbolicInt(3*sin(3*x+1)~x)
-  #symbolicInt(sin(2*(x))~x)
-  #symbolicInt(2*pi*(x/P)~x)
-  # symbolicInt(3^2~x)
+  symbolicInt(3*sin(3*x+1)~x)
+  symbolicInt(sin(2*(x))~x)
+  symbolicInt(2*pi*(x/P)~x)
+  symbolicInt(3^2~x)
 })

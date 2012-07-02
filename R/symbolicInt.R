@@ -16,6 +16,12 @@ symbolicInt<- function(form, ...){
   if(length(rhsVar)!=1) stop("Can only integrate with respect to one variable.")
   constants = setdiff(all.vars(form), rhsVar)
   
+  #check if it's just constants
+  if(length(grep(rhsVar, deparse(lhs(form))))==0){
+    form[[2]]<- parse(text = paste(deparse(lhs(form)), "*", rhsVar))[[1]]
+    return(makeFun(form,...))
+  }
+  
   #check to see if surrounded by parentheses
   if(class(lhs(form))=="("){
     form[[2]]=lhs(form)[[2]]
@@ -30,12 +36,6 @@ symbolicInt<- function(form, ...){
     return(intArith(form, ...))
   if(group =="Math")
     return(intMath(form, ...))
-  
-  #check if it's just constants
-  if(is.numeric(lhs(form))||is.element(deparse(lhs(form)), constants)){
-    form[[2]]<- parse(text = paste(deparse(lhs(form)), "*", rhsVar))[[1]]
-    return(makeFun(form,...))
-  }
   
   #check if it's just x
   if((lhs(form))==rhsVar){
@@ -115,27 +115,28 @@ intArith <- function(form, ...){
   
   if(op == '^'){
     #check to see if surrounded by parentheses
-    if(length(grep("^\\(.*\\)$", deparse(lhs(form)[[2]])))>0)
-      form[[2]][[2]] = lhs(form)[[2]][[2]] #extract expression
+    #if(length(grep("^\\(.*\\)$", deparse(lhs(form)[[2]])))>0)
+    #  form[[2]][[2]] = lhs(form)[[2]][[2]] #extract expression
     
-    regex = paste("\\(?([[:alnum:]]+\\*)*",toString(rhsVar),"([\\+-][[:alnum:]]+)*\\)?",sep="")
-    if(length(grep(regex, deparse(lhs(form)[[2]]))>0)
-       &&length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
+    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0 && length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
       exp = try(eval(form[[2]][[3]], envir=list(pi=3.1415932653589793, form=form),
                       enclos=NULL), silent=TRUE)
       if(inherits(exp, "try-error"))
         exp = parse(text = paste(deparse(lhs(form)[[3]]), "+1"))[[1]]
       else(exp = eval(exp)+1) #change from call to numeric...
-      #handle the lhs side of ^
-      affexp = affine.exp(lhs(form)[[2]])
       
       if(exp == 0){
-        form[[2]] <- parse(text = paste("log(", deparse(lhs(form)[[2]]), ")", sep=""))[[1]]
+        if(affexp$a==1) form[[2]] = parse(text=paste("log(", deparse(lhs(form)[[2]]), ")",sep=""))[[1]]
+        else form[[2]] <- parse(text = paste("1/(",deparse(affexp$a) ,")*log(", deparse(lhs(form)[[2]]), ")", sep=""))[[1]]
         return(makeFun(form))
       }
       form[[2]][[3]] <- exp
-      form[[2]] <- parse(text = paste("1/(", deparse(exp), ")*",
-                                           deparse(form[[2]]), sep=""))[[1]]
+      if(affexp$a==1) newform <- paste("1/(", deparse(exp), ")*",
+                                       deparse(form[[2]]), sep="")
+      else newform <- paste("1/(",deparse(affexp$a),")*1/(", deparse(exp), ")*",
+                                           deparse(form[[2]]), sep="")
+      form[[2]] <- parse(text=newform)[[1]]
       return(makeFun(form))
     }
   }
@@ -155,17 +156,11 @@ intMath <- function(form, ...){
   
   if(op =="sin"){#trig expression
     #check to see if we can integrate it
-    strexpr = gsub(" ", "", deparse(lhs(form)[[2]]))
-    regex = paste("^(([[:digit:]]+\\*)*([", paste(constants, collapse=""),"]+\\*)*)*["
-                  ,paste(rhsVar, collapse=""),"]$")
-    if(length(grep(regex, strexpr))!=0){
-      split = strsplit(strexpr, rhsVar, fixed=TRUE)[[1]]
-      if(split=="") split = paste("-cos")
-      else{
-        split = strsplit(split, "\\*$") #take trailing '*' off end 
-        split= paste("-1/(",split,")*cos" ,sep="")
-      }
-      form[[2]][[1]]= parse(text=split)[[1]]
+    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1) newform = paste("-cos(", deparse(lhs(form)[[2]]), ")",sep="")
+      else newform = paste("1/(", deparse(affexp$a), ")*-cos(", deparse(lhs(form)[[2]]), ")", sep="")
+      form[[2]]= parse(text=newform)[[1]]
       return(makeFun(form))
     }
     else stop("Error: symbolic algorithm gave up")
@@ -173,17 +168,11 @@ intMath <- function(form, ...){
   
   if(op == "cos"){
     #check to see if we can integrate it
-    strexpr = gsub(" ", "", deparse(lhs(form)[[2]]))
-    regex = paste("^(([[:digit:]]+\\*)*([", paste(constants, collapse=""),"]+\\*)*)*["
-                  ,paste(rhsVar, collapse=""),"]$")
-    if(length(grep(regex, strexpr))!=0){
-      split = strsplit(strexpr, rhsVar, fixed=TRUE)[[1]]
-      if(split=="") split = paste("sin")
-      else{
-        split = strsplit(split, "\\*$") #take trailing '*' off end 
-        split= paste("1/(",split,")*sin" ,sep="")
-      }
-      form[[2]][[1]]= parse(text=split)[[1]]
+    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1) newform = paste("sin(", deparse(lhs(form)[[2]]), ")",sep="")
+      else newform = paste("1/(", deparse(affexp$a), ")*sin(", deparse(lhs(form)[[2]]), ")", sep="")
+      form[[2]]= parse(text=newform)[[1]]
       return(makeFun(form))
     }
     else stop("Error: symbolic algorithm gave up")
@@ -191,17 +180,11 @@ intMath <- function(form, ...){
   
   if(op == "exp"){
     #Check to see if we can integrate it
-    strexpr = gsub(" ", "", deparse(lhs(form)[[2]]))
-    regex = paste("^(([[:digit:]]+\\*)*([", paste(constants, collapse=""),"]+\\*)*)*["
-                  ,paste(rhsVar, collapse=""),"]$")
-    if(length(grep(regex, strexpr))!=0){
-      split = strsplit(strexpr, rhsVar, fixed=TRUE)[[1]]
-      if(split=="") return(makeFun(form))
-      else{
-        split = strsplit(split, "\\*$") #take trailing '*' off end 
-        split= paste("1/(",split,")*", deparse(lhs(form)) ,sep="")
-      }
-      form[[2]]= parse(text=split)[[1]]
+    affexp = affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1) newform = paste("exp(", deparse(lhs(form)[[2]]), ")",sep="")
+      else newform = paste("1/(", deparse(affexp$a), ")*exp(", deparse(lhs(form)[[2]]), ")", sep="")
+      form[[2]]= parse(text=newform)[[1]]
       return(makeFun(form))
     }
     else stop("Error: symbolic algorithm gave up")
@@ -283,12 +266,34 @@ affine.exp <- function(tree, .x.){
     if(lexp$a==0 && length(rexp)!=0){
       a = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$a),")",sep=""))[[1]]
       b = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$b),")",sep=""))[[1]]
+      if(lexp$b==0){
+        a = 0
+        b = 0
+      }
+      if(lexp$b==1){
+        a = rexp$a
+        b = rexp$b
+      }
+      if(rexp$a ==0){
+        a = 0
+      }
+      if(rexp$b == 0){
+        b = 0
+      }
+      if(rexp$a == 1){
+        a = lexp$b
+      }
+      if(rexp$b == 1){
+        b = lexp$b
+      }
       return(list(a=a,b=b))
     }
     
     if(rexp$a==0 && length(lexp)!=0){
       a = parse(text=paste("(",deparse(lexp$a), ")*(", deparse(rexp$b),")",sep=""))[[1]]
       b = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$b),")",sep=""))[[1]]
+      
+      ##ADD
       return(list(a=a,b=b))
     }
   }
@@ -300,6 +305,12 @@ affine.exp <- function(tree, .x.){
     if(rexp$a==0 && length(lexp)!=0){
       a = parse(text=paste(deparse(lexp$a), "/(", deparse(rexp$b),")",sep=""))[[1]]
       b = parse(text=paste(deparse(lexp$b), "/(", deparse(rexp$b),")",sep=""))[[1]]
+      
+      if(rexp$b==1){
+        a = lexp$a
+        b = lexp$b
+      }
+      
       return(list(a = a, b = b))
     }
   }
