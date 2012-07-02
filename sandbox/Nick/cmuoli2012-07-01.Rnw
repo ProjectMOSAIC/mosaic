@@ -102,7 +102,7 @@ Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith Colleg
 
 \SweaveOpts{
 	dev="pdf",
-	fig.path="figures",
+	fig.path="figures/",
 	fig.height=3,
 	fig.width=4,
 	fig.keep="hold",
