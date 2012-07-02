@@ -43,6 +43,29 @@ NA
 
 NA
 
+#' Monthly Premiums of Auto Insurance
+#' 
+#' The data were collected from a random sample of 50 drivers insured with a certain company and having similar auto insurance coverage. For each driver the monthly premium was recorded along with other relevant information such as gender, age, driving experience, history of auto accidents, model and age of the car. The data set contains only a subset of the variables.
+#'
+#'  @docType data
+#'  @name Autopremiums
+#'  @usage data(Autopremiums)
+#'  @format
+#'      A data frame with 50 observations on the following variables.
+#'    
+#'    \itemize{
+#'     \item{\code{Experience}} {driving experience (in years)}
+#'     \item{\code{Female}} {0 = Male, 1 = Female}
+#'     \item{\code{Premium}} {the monthly premium (in dollars)}
+#'   }
+#' 
+#' @references
+#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
+#' 
+#' @keywords datasets
+
+NA
+
 #' Baby Cry Count and IQ
 #' 
 #' A method for predicting IQ as soon as possible after birth could be important for early intervention in cases such as brain abnormalities or learning disabilities. It has been thought that greater infant vocalization (for instance, more crying) is associated with higher IQ. In 1964, a study was undertaken to see if IQ at 3 years of age is associated with amount of crying at newborn age. In the study, 38 newborns were made to cry after being tapped on the foot, and the number of distinct cry vocalizations within 20 seconds was counted. The subjects were followed up at 3 years of age and their IQs were measured.
@@ -77,6 +100,61 @@ NA
 #'    \itemize{
 #'     \item{\code{birthweight}}{weights of newborns (in grams)}
 #'   }
+#' 
+#' @references
+#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
+#' 
+#' @keywords datasets
+
+NA
+
+#' Body Image and Academic Performance of College Students
+#' 
+#' A student survey was conducted at a major university. Data were collected from a random sample of 236 undergraduate students, and the information that was collected included physical characteristics (such as height, handedness, etc.), study habits, academic performance and attitudes, and social behaviors.  
+#'
+#'  @docType data
+#'  @name Bodyimage
+#'  @usage data(Bodyimage)
+#'  @format
+#'      A data frame with 236 observations on the following variables.
+#'    
+#'    \itemize{
+#'     \item{\code{Gender}} {sex \code{Female} \code{Male}}
+#'     \item{\code{Height}} {self-reported heigh (in inches)}
+#'     \item{\code{GPA}} {student's cumulative college GPA}
+#'     \item{\code{HS_GPA}} {student's high school GPA for senior year}
+#'     \item{\code{Seat}} {typical classroom sear location, \code{F} = Front, \code{M} = Middle, \code{B}}
+#'     \item{\code{WtFeel}} {student's feeling about his/her weight: \code{UnderWt} \code{AboutRt} \code{OverWt}}
+#'     \item{\code{Cheat}} {would they tell the instructor if he/she saw somebody cheating on exam? \code{Yes} \code{No}}
+#'   }
+#' 
+#' @references
+#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
+#' 
+#' @keywords datasets
+
+NA
+
+#' Cell Phones
+#' 
+#' College students at a large state university completed a survey about their academic and personal life. Questions ranged from "How many credits are you registered for this semester?" to "Would you define yourself as a vegetarian?"  Four sections of an introductory statistics course were chosen at random from all the sections of introductory statistics courses offered at the university in the semester when the survey was conducted, and the 312 students who completed the survey were students registered in one of the four chosen sections.  
+#'
+#'  @docType data
+#'  @name Cellphones
+#'  @usage data(Cellphones)
+#'  @format
+#'      A data frame with 312 observations on the following variables.
+#'    
+#'    \itemize{
+#'     \item{\code{Math}} {SAT Math score}
+#'     \item{\code{Verbal}} {SAT Verbal score}
+#'     \item{\code{Credits}} {number of credits the student is registered for}
+#'     \item{\code{Year}} {year in college (1 = First Year, 2 = Sophomore, 3 = Junior, 4 = Senior)}
+#'     \item{\code{Exer}} {time (in minutes) spent exercising in a typical day}
+#'     \item{\code{Sleep}} {time (in hours) spend sleeping in a typical day}
+#'     \item{\code{Cell}} {do you own a cell phone? \code{yes} \code{no}}
+#'     \item{\code{Veg}} {are you a vegetarian? \code{yes} \code{no} \code{some}}
+#'   }
 #' 
 #' @references
 #' Part of the Carnegie Mellon University Online Learning Initiative datasets.
@@ -133,6 +211,30 @@ NA
 #' @examples
 #' favstats(Age ~ Gender, Depression)
 #' tally(~ Outcome | Treat, Depression)
+#' 
+#' @keywords datasets
+
+NA
+
+#' Drinking Habits and Integrity of College Students
+#'
+#' A student survey was conducted at a major university. Data were collected from a random sample of 236 undergraduate students, and the information that was collected included physical characteristics (such as height and handedness), study habits, academic performance and attitudes, and social behaviors.
+#'
+#'  @docType data
+#'  @name Drinking
+#'  @usage data(Drinking)
+#'  @format
+#'      A data frame with 236 observations on the following variables.
+#'    
+#'    \itemize{
+#'     \item{\code{Gender}} {sex \code{Female} \code{Male}}
+#'     \item{\code{Alcohol}} {number of alcoholic beverage (standard units) consumed in a typical week}
+#'     \item{\code{Height}} {self-reported height (in inches)}
+#'     \item{\code{Cheat}} {would you tell the instructor if you saw somebody cheating on an exam, 0 = No, 1 = Yes}
+#'   }
+#' 
+#' @references
+#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
 #' 
 #' @keywords datasets
 
@@ -233,6 +335,32 @@ NA
 
 NA
 
+#' A Course's Grade Book
+#' 
+#' At the end of the semester, an "Introduction to Statistics" instructor wanted to gain insight into his students' performance by analyzing gradebook data.  The instructor taught 3 large lecture sections offered at different times during the day.  Since each section, depending on the time it was taught, attracted different types of students (in terms of major, age, full-time/part-time, etc.) the instructor chose a random sample of 35 students from each section to insure proper representation. 
+#'
+#'  @docType data
+#'  @name Gradebook
+#'  @usage data(Gradebook)
+#'  @format
+#'      A data frame with 105 observations on the following variables.
+#'    
+#'    \itemize{
+#'     \item{\code{Midterm1}} {student's score on the first midterm (0-100 scale)}
+#'     \item{\code{Midterm2}} {student's score on the second midterm (0-100 scale)}
+#'     \item{\code{Diff_Mid}} {the difference between the two midterm exam scores (Midterm1 - Midterm2)}
+#'     \item{\code{Extra_Credit}} {did the student turn the extra credit assignment? 0 = No, 1 = Yes}
+#'     \item{\code{Final}} {student's score on the final}
+#'     \item{\code{Class}} {student's class (1 = First Year, 2 = Sophomore, 3 = Junior, 4 = Senior)}
+#'   }
+#' 
+#' @references
+#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
+#' 
+#' @keywords datasets
+
+NA
+
 #' Graduation Rate
 #' 
 #' The percentage of each entering Freshman class that graduated on time was recorded for each of six colleges at a major university over eight years.
@@ -292,6 +420,36 @@ NA
 #'     \item{\code{height} }{subject height (in inches)}
 #'     \item{\code{weight} }{subject weight (in pounds)}
 #'   }
+#' 
+#' @references
+#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
+#' 
+#' @keywords datasets
+
+NA
+
+#' Risk Factors for Low Birth Weight
+#' 
+#' Low birth weight is an outcome that has been of concern to physicians for years. This is due to the fact that infant mortality rates and birth defect rates are very high for babies with low birth weight. A woman's behavior during pregnancy (including diet, smoking habits, and obtaining prenatal care) can greatly alter her chances of carrying the baby to term and, consequently, of delivering a baby of normal birth weight. The goal of the study was to identify risk factors associated with giving birth to a low birth weight baby. 
+#'
+#'  @docType data
+#'  @name LBW
+#'  @usage data(LBW)
+#'  @format
+#'      A data frame with 189 observations on the following variables.
+#'    
+#'    \itemize{
+#'     \item{\code{low}} {low birth weight (0=No (birth weight >= 2500 g) 1=Yes (birth weight < 2500 g)}
+#'     \item{\code{age}} {age of mother (in years)}
+#'     \item{\code{momweight}} {weight of mother at the last menstrual period (in pounds)}
+#'     \item{\code{race}} {race of mother (1 = White, 2 = Black, 3 = Other)}
+#'     \item{\code{smoke}} {Smoking status during pregnancy (0 = No, 1 = Yes)}
+#'     \item{\code{histpreterm}} {history of premature labor (0 = None, 1 = One, etc.)}
+#'     \item{\code{hypertension}} {history of hypertension (0 = No, 1 = Yes)}
+#'     \item{\code{uterineirrit}} {presence of uterine irritability (0 = No, 1 = Yes)}
+#'     \item{\code{numvisit}} {number of physician visits during the first trimester}
+#'     \item{\code{birthweight}} {the actual birth weight (in grams)}
+#'   }
 #' 
 #' @references
 #' Part of the Carnegie Mellon University Online Learning Initiative datasets.
