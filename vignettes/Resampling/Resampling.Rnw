@@ -33,14 +33,14 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 \tableofcontents
 
 \SweaveOpts{
-tidy=FALSE,
-dev="pdf",
-fig.path="figures/fig-",  
-fig.width=3, fig.height=2,
-out.width="0.48\\textwidth",
-fig.align="center",
-fig.show="hold",
-comment=NA
+	tidy=FALSE,
+	dev="pdf",
+	fig.path="figures/fig-",  
+	fig.width=3, fig.height=2,
+	out.width="0.48\\textwidth",
+	fig.align="center",
+	fig.show="hold",
+	comment=NA
 }
 
 
