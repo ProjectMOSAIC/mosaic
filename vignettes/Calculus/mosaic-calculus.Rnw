@@ -1,48 +1,56 @@
 %\VignetteIndexEntry{Plotting, Derivatives and Integrals for Teaching Calculus in R}
-\documentclass{article}
+\documentclass[11pt]{article}
 \usepackage{graphicx}
-
-
-\SweaveOpts{
-	fig.path=figures/fig-,
-	fig.align=center,
-	fig.height=3, 
-	fig.width=5,
-	out.width=.47\textwidth,
-	tidy=TRUE,
-	dev=pdf,
-	fig.show=hold,
-	comment=NA
-	}
+\usepackage[margin=.9in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{language}
 
 
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
-\author{Daniel Kaplan}
-\date{March 25, 2012}
+%\author{Daniel Kaplan}
+%\date{March 25, 2012}
 
 \begin{document}
-%\SweaveOpts{concordance=TRUE}
 \maketitle
+
+\SweaveOpts{
+	fig.path="figures/fig-",
+	fig.align="center",
+	fig.height=3, 
+	fig.width=5,
+	out.width=".47\\textwidth",
+	tidy=TRUE,
+	dev="pdf",
+	fig.show="hold",
+	comment=NA
+	}
 
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
 trellis.par.set(theme=theme.mosaic())
+options(width=80)
 @
 
 
-The \texttt{mosaic} package provides a command notation in R designed to make it easier to teach and to learn introductory calculus, statistics, and modeling.  The principle behind \texttt{mosaic} is that a notation can more effectively support learning when it draws clear connections between related concepts, when it is concise and consistent, and when it suppresses extraneous form.  At the same time, the notation needs to mesh clearly with R, facilitating students' moving on from the basics to more advanced or individualized work with R.
+The \pkg{mosaic} package provides a command notation in R designed to make it easier to teach and to learn introductory calculus, statistics, and modeling.  The principle behind \pkg{mosaic} is that a notation can more effectively support learning when it draws clear connections between related concepts, when it is concise and consistent, and when it suppresses extraneous form.  At the same time, the notation needs to mesh clearly with R, facilitating students' moving on from the basics to more advanced or individualized work with R.
 
-This document describes the calculus-related features of \texttt{mosaic}.  As they have developed historically, and for the main as they are taught today, calculus instruction has little or nothing to do with statistics.  Calculus software is generally associated with computer algebra systems (CAS) such as Mathematica, which provide the ability to carry out the operations of differentiation, integration, and solving algebraic expressions. 
+This document describes the calculus-related features of \pkg{mosaic}.  As they have developed historically, and for the main as they are taught today, calculus instruction has little or nothing to do with statistics.  Calculus software is generally associated with computer algebra systems (CAS) such as Mathematica, which provide the ability to carry out the operations of differentiation, integration, and solving algebraic expressions. 
 
-At the core of the \texttt{mosaic} calculus features are a set of operators that work with mathematical functions of one or more variables and implement the core operations of calculus ---  differentiation and integration --- as well plotting, modeling, fitting, interpolating, smoothing, solving, etc.  The notation is designed to emphasize the roles of different kinds of mathematical objects --- variables, functions, parameters, data --- without unnecessarily turning one into another.  For example, the derivative of a function in \texttt{mosaic}, as in mathematics, is itself a function.  The result of fitting a functional form to data is similarly a function, not a set of numbers.
+The \pkg{mosaic} package provides functions implementing he core operations of
+calculus ---  differentiation and integration --- as well plotting, modeling,
+fitting, interpolating, smoothing, solving, etc.  The notation is designed to
+emphasize the roles of different kinds of mathematical objects --- variables,
+functions, parameters, data --- without unnecessarily turning one into another.
+For example, the derivative of a function in \pkg{mosaic}, as in mathematics,
+is itself a function.  The result of fitting a functional form to data is
+similarly a function, not a set of numbers.
 
 Traditionally, the calculus curriculum has emphasized symbolic algorithms and rules (such as $x^n \rightarrow n x^{n-1}$ and $\sin(x) \rightarrow \cos(x)$).  Computer algebra systems provide a way to automate such symbolic algorithms and extend them beyond human capabilities.
-The \texttt{mosaic} package provides only limited symbolic capabilities, so it will seem to many instructors that there is no mathematical reason to consider using \texttt{mosaic} for teaching calculus.  For such instructors, non-mathematical reasons may not be very compelling for instance that R is widely available, that students can carry their R skills from calculus to statistics, that R is clearly superior to the most widely encountered systems used in practice, viz. graphing calculators.  Indeed, instructors will often claim that it's good for students to learn {\em multiple} software systems --- a claim that they don't enforce on themselves nearly so often as on their students.
+The \pkg{mosaic} package provides only limited symbolic capabilities, so it will seem to many instructors that there is no mathematical reason to consider using \pkg{mosaic} for teaching calculus.  For such instructors, non-mathematical reasons may not be very compelling for instance that R is widely available, that students can carry their R skills from calculus to statistics, that R is clearly superior to the most widely encountered systems used in practice, viz. graphing calculators.  Indeed, instructors will often claim that it's good for students to learn {\em multiple} software systems --- a claim that they don't enforce on themselves nearly so often as on their students.
 
 Section \ref{sec:algebra-and-calculus} outlines an argument that computer algebra systems are in fact a mis-step in teaching introductory calculus.  Whether that argument applies to any given situation depends on the {\em purpose} for teaching calculus.  Of course, purpose can differ from setting to setting.  
 
-The \texttt{mosaic} calculus features were developed to support a calculus course with these goals: 
+The \pkg{mosaic} calculus features were developed to support a calculus course with these goals: 
 \begin{itemize}
 \item introduce the operations and applications of differentiation and integration (which is what calculus is about), 
 \item provide students with the skills needed to construct and interpret useful models that can apply {\em inter alia} to biology, chemistry, physics, economics, 
@@ -66,7 +74,7 @@ In introducing calculus to a lay audience, mathematician Steven Strogatz wrote:
 {\em But within that bulk you'll find two ideas shining through.  All the rest, as Rabbi Hillel said of the Golden Rule, is just commentary.  Those two ideas are the ``derivative'' and the ``integral.''  Each dominates its own half of the subject, named in their honor as differential and integral calculus.} --- New York Times, April 11, 2010
 \end{quotation}
 
-Although generations of students have graduated calculus courses with the ideas that a derivative is "the slope of a tangent line" and the integral is the `area under a curve," these are merely interpretations of the application of derivatives and integrals --- and limited ones at that.  
+Although generations of students have graduated calculus courses with the ideas that a derivative is ``the slope of a tangent line" and the integral is the `area under a curve," these are merely interpretations of the application of derivatives and integrals --- and limited ones at that.  
 
 More basically, a derivative is a function, as is an integral.  What's more, the operation of differentiation takes a function as an input and produces a function as an output.  Similarly with integration.  The ``slope" and ``area" interpretations relate to the values of those output functions when given a specific input.
 
@@ -76,26 +84,30 @@ R has a standard syntax for defining functions, for instance:
 <<>>=
 f <- function(x){m*x + b}
 @
-This syntax is nice in many respects.  It's completely explicit that a function is being created.  The input variable is also explicitly identified.  To use this syntax, students need to learn how computer notation for arithmetic differs from algebraic notation: \texttt{m*x + b} rather than $mx + b$.  This isn't hard, although it does take some practice.  Assignment and naming must also be taught.  Far from being a distraction, this is an important component of doing technical computing and transfers to future work, e.g. in statistics.  
+This syntax is nice in many respects.  It's completely explicit that a function is being created.  The input variable is also explicitly identified.  To use this syntax, students need to learn how computer notation for arithmetic differs from algebraic notation: \code{m*x + b} rather than $mx + b$.  This isn't hard, although it does take some practice.  Assignment and naming must also be taught.  Far from being a distraction, this is an important component of doing technical computing and transfers to future work, e.g. in statistics.  
 
-The native syntax also has problems. In the example above, the parameters \texttt{m} and \texttt{b} pose a particular difficulty.  Where will those values come from?  This is an issue of scoping.  Scoping is a difficult subject to teach and scoping rules differ among languages.
+The native syntax also has problems. In the example above, the parameters \variable{m} and \variable{b} pose a particular difficulty.  Where will those values come from?  This is an issue of scoping.  Scoping is a difficult subject to teach and scoping rules differ among languages.
 
-For many years I taught introductory using the native function-creation syntax, trying to finesse the matter of scoping by avoiding the use of symbolic parameters.  This sent the wrong message to students: they concluded that computer notation was not as flexible as traditional notation. 
+For many years I taught introductory calculus using the native function-creation syntax, trying to finesse the matter of scoping by avoiding the use of symbolic parameters.  This sent the wrong message to students: they concluded that computer notation was not as flexible as traditional notation. 
 
-In the \texttt{mosaic} calculus operators we provide a simple means to step around scoping issues while retaining the use of symbolic parameters. Here's an example using the \texttt{makeFun()} operator from \texttt{mosaic}.  
+In the \pkg{mosaic} package we provide a simple means to step around scoping
+issues while retaining the use of symbolic parameters. Here's an example using
+\function{makeFun()}.
 <<>>=
 f <- makeFun(m*x + b ~ x)
 @
-One difference is that the input variable is identified using the R \verb+~+ syntax: the "body" of the function is on the left of \verb+~+ and the input variable to the right.
+One difference is that the input variable is identified using \R's formula syntax: 
+the ``body" of the function is on the left of \verb+~+ and the input variable to the right.
+This is perhaps a slightly cleaner notation than \function{function}, and indeed
+my experience with introductory calculus students is that they make many fewer
+errors with the \function{makeFun()} notation.
 
-This is perhaps a slightly cleaner notation than \texttt{function}, and indeed my experience with introductory calculus students is that they make many fewer errors with the \texttt{makeFun()} notation.
-
-More important, though, \texttt{makeFun()} provides a simple framework for scoping of symbolic parameters: they are all explicit arguments to the function being created.  You can see this by examining the function itself:
+More important, though, \function{makeFun()} provides a simple framework for scoping of symbolic parameters: they are all explicit arguments to the function being created.  You can see this by examining the function itself:
 <<>>=
 f
 @
 
-When evaluating \texttt{f()}, you need to give values not just to the independent variables (\texttt{x} here), but to the parameters.  This is done using the standard named-argument syntax in R:
+When evaluating \function{f()}, you need to give values not just to the independent variables (\variable{x} here), but to the parameters.  This is done using the standard named-argument syntax in R:
 <<>>=
 f(x=2, m=3.5, b=10)
 @
@@ -103,94 +115,138 @@ Typically, you will assign values to the symbolic parameters at the time the fun
 <<>>=
 f <- makeFun(m*x + b~x, m=3.5, b=10)
 @
-This allows the function to be used as if the only input were \texttt{x}, while allowing the roles of the parameters to be explicit and self-documenting and enabling the parameters to be changed later on.
+This allows the function to be used as if the only input were \variable{x}, while allowing the roles of the parameters to be explicit and self-documenting and enabling the parameters to be changed later on.
 <<>>=
 f(x=2)
 @
-The variable \texttt{pi} is handled differently; it's always treated as the number $\pi$.
-
-In general, functions can have more than one input.  The \texttt{mosaic} package handles this using an obvous extension to the notation:
+Functions can have more than one input.  The \pkg{mosaic} package handles
+this using an obvous extension to the notation:
 <<>>=
-g <- makeFun(A*x*sin(x*y)~x&y, A=10)
+g <- makeFun(A*x*cos(pi*x*y)~x+y, A=3)
 g
 @
 
 In evaluating functions with multiple inputs, it's helpful to use the variable names to identify which input is which:
 <<>>=
-g(x=0.2,y=3)
+g(x=1,y=2)
 @
+\noindent
+Notice that the 
+variable \variable{pi} is handled differently; it's always treated as the number $\pi$.
 
-Mathematically, the \texttt{makeFun()} notation highlights the distinction between parameters and inputs to functions.  It allows the inputs to be identified explicitly, but it also does not enforce an artificial distinction between parameters and "inputs."  Sometimes, you want to study what happens as you vary a parameter.
+Using \function{makeFun()} to define functions has the following advantages for 
+introdcutory calculus students:
+\begin{itemize}
+\item
+The notation highlights the distinction between parameters and inputs to functions.  
+\item Inputs are identified explicitly, but there is no artificial distinction
+between parameters and ``inputs."  
+Sometimes, you want to study what happens as
+you vary a parameter.
+\item
+\R's formula syntax is introduced early and in a fundamental way.  
+The \pkg{mosaic} package builds on this to enhance functionality while
+maintaining a common theme.  In addition, the notation sets students up for a
+natural transition to functions of multiple variables.
+\end{itemize}
 
-It also introduces the \verb+~+ notation early and in a fundamental way.  The \texttt{mosaic} package builds on this to enhance functionality while maintaining a common theme.  In addition, the notation sets students up for a natural transition to functions of multiple variables.
-
-You can, of course, use functions constructed using \texttt{function()} or in any other way in the \texttt{mosaic} package operators.  Indeed, \texttt{mosaic} is designed to make it straightforward to employ calculus operations to construct and interpret functions that do not have a simple algebraic expression, for instance splines, smoothers, and fitted functions.  (See Section \ref{sec:functions-from-data}.)
+You can, of course, use functions constructed using \function{function()} or in
+any other way as well.  Indeed, \pkg{mosaic} is designed to make it
+straightforward to employ calculus operations to construct and interpret
+functions that do not have a simple algebraic expression, for instance splines,
+smoothers, and fitted functions.  (See Section \ref{sec:functions-from-data}.)
 
 \section{Graphs}
 
-The \texttt{mosaic} package provides a basic operator for graphing functions: \texttt{plotFun()}.  This one function handles three different formats of graph: the standard line graph of a function of one variable; a contour plot of a function of two variables; and a surface plot of a function of two variables.
+The \pkg{mosaic} package provides \function{plotFun()} to simplify graphing functions of 
+one or two variables.  This one function handles three different formats of
+graph: the standard line graph of a function of one variable; a contour plot of
+a function of two variables; and a surface plot of a function of two variables.
 
-The variables to the right of \verb+~+ set the independent axes plotting variables.  The plotting domain can be specified by a \texttt{lim} argument whose name is constructed to be prefaced by the variable being set.  For example, here's a conventional line plot of a function of $t$ alongside a contour plot of two variables:
+The \function{plotFun()} interface is similar to that of \function{makeFun()}.
+The variables to the right of \verb+~+ set the independent axes plotting
+variables.  The plotting domain can be specified by a \option{lim} argument
+whose name is constructed to be prefaced by the variable being set.  For
+example, here's are a conventional line plot of a function of $t$ and a
+contour plot of two variables:
 
-<<line1,fig.height=4,out.width=.5\textwidth>>=
+<<line1,fig.height=4>>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t, 
           t.lim=range(0,10), k=-0.3, A=10, P=4)
-plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4)
 @
 
-For functions of two variables, you can override the default with \texttt{surface=TRUE},
 
-<<surface1,fig.height=4,out.width=.7\textwidth,message=FALSE,warning=FALSE>>=
-plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
+For functions of two variables, you can override the default with \option{surface=TRUE}
+to obtain a surface plot instead.
+
+<<surface1,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE>>=
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4,
           surface=TRUE)
 @
+\noindent
+Typically, surface plots are hard to interpret, but they are useful in teaching
+students how to interpret contour plots.
 
-In general, surface plots are hard to interpret, but they are useful in teaching students how to interpret contour plots.
+The resolution of the two-variable plots can be changed with the \option{npts} argument.  By default, it's set to be something that's rather chunky in order to enhance the speed of drawing.  A value of 
+\option{npts=300} is generally satisfactory for publication purposes.
 
-The resolution of the two-variable plots can be changed with the \texttt{npts} argument.  By default, it's set to be something that's rather chunky in order to enhance the speed of drawing.  A value of 
-\texttt{npts=300} is generally satisfactory for publication purposes.
+%The \pkg{lattice} graphics package is used to implement \function{plotFun}.  We hope eventually to use the \pkg{lattice} panel capabilities to provide support for displaying functions of three variables.
 
-The \texttt{lattice} graphics package is used to implement \texttt{plotFun}.  We hope eventually to use the \texttt{lattice} panel capabilities to provide support for displaying functions of three variables.
+\subsection{Overlaying Graphs}
 
-Common graphical tasks are comparing two functions or plotting a function along with data.  The standard \texttt{lattice} approach to this can be daunting for students.  To make the task of overlaying plots easier, \texttt{plotFun()} has an \texttt{add} argument to control whether to make a new plot or overlay an old one.  Here's an example of laying a constraint $t + 1/k \leq 0$ over another function:
-<<constraint1,fig.height=4,out.width=.7\textwidth>>=
-plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t&k, 
-          t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4)
-plotFun( t + 1/k <= 0 ~ t&k, add=TRUE, npts=300, alpha=.2)
+The standard \pkg{lattice} approach to overlaying graphs on a single plot 
+can be daunting for students.  
+To make the task of overlaying plots easier, \function{plotFun()}
+has an \option{add} argument to control whether to make a new plot or overlay
+an old one.  Here's an example of laying a constraint $t + 1/k \leq 0$ over
+the surface plot another function:
+<<constraint1,fig.height=4,out.width=".7\\textwidth">>=
+plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
+          t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4, auto.key=TRUE)
+plotFun( t + 1/k <= 0 ~ t+k, add=TRUE, npts=300, alpha=.2)
 @
+\noindent
+The lighter region shows where the constraint is satisfied.  Note also that a
+high resolution (\option{npts=300}) was used for plotting the constraint.  At
+the default resolution, such contraints are often distractingly chunky.
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-constraint1}}
-
-The lighter region shows where the constraint is satisfied.
-Note also that a high resolution (\texttt{npts=300}) was used for plotting the constraint.  At the default resolution, such contraints are often distractingly chunky.
 
 
-The \texttt{mosaic} graphics operators are built on \texttt{lattice} but provide an interface similar to that of \texttt{makeFun()}.
-
-<<fig.height=4,out.width=.7\textwidth>>=
-plotFun( dt(t,df)~t&df, t.lim=range(-3,3), df.lim=range(1,10))
+<<fig.height=4,out.width=".7\\textwidth">>=
+plotFun( dt(t,df)~t+df, 
+         t.lim=range(-3,3), df.lim=range(1,10))
 @
 
 
 \section{Differentiation}
 
-A derivative is an operation that takes a function as input and returns a function as an output.  In \texttt{mosaic}, differentiation is implemented by the \texttt{D()} operator.\footnote{\texttt{mosaic} \texttt{D}} masks the original \texttt{D}) operator from the \texttt{stats} package.\footnote{ The \texttt{stats} operator can be accessed, if desired, by using the double-colon notation \texttt{stats::D}.}
+Differentiation is an operation that takes a function as input and returns a
+function as an output.  In \pkg{mosaic}, differentiation is implemented by the
+\function{D()} function.\footnote{The \pkg{mosaic} \function{D} masks the original
+\function{D} function from the \pkg{stats} package. But since the two use
+different syntax, the old behavior is still available.}
+A function is not the only input to differentiation; one also needs to specify
+the variable with respect to which the derivative is taken.  Traditionally,
+this is represented as the variable in the denominator of the Leibniz quotient,
+e.g. $x$ in  $\partial / \partial x$.  
 
-A function is not the only input to differentiation; one also needs to specify the variable with respect to which the derivative is taken.  Traditionally, this is represented as the variable in the denominator of the Leibniz quotient, e.g. $x$ in  $\partial / \partial x$.  
-
-To enable functions of multiple variables to be differentiated flexibly, the \texttt{mosaic} \texttt{D()} operator takes not a bare function name, like \texttt{sin}, but an expression that applies the function to a variable.  For instance,
+%To enable functions of multiple variables to be differentiated flexibly, 
+The first input to the \pkg{mosaic} \function{D()} function is a formula.  The left hand side 
+of the formula is an expression that applies the function to a variable or variables and the 
+right hand side provides the variable of differentiation.  For instance,
 <<>>=
 D(sin(x)~x)
 @
-The use of expressions in this way makes it straightforward to move on to functions of multiple variables and functions with symbolic parameters.  For example,
+This use of formulas makes it straightforward to move on to functions of multiple variables and functions with symbolic parameters.  For example,
 <<>>=
 D( A*x^2*sin(y) ~ x )
 D( A*x^2*sin(y) ~ y )
 @
 
-Notice that the object returned by \texttt{D()} is a function.  The function takes as arguments both the variables of differentiation and any other variables or symbolic paremeters in the expression being differentiated.  Default values for parameters will be retained in the return function.  Even parameters or variables that are eliminated in the process of differentiation will be retained in the function.  For example:
+Notice that the object returned by \function{D()} is a function.  The function takes as arguments both the variables of differentiation and any other variables or symbolic paremeters in the expression being differentiated.  Default values for parameters will be retained in the return function.  Even parameters or variables that are eliminated in the process of differentiation will be retained in the function.  For example:
 <<>>=
 D(A*x + b~y, A=10,b=5)
 @
@@ -198,30 +254,42 @@ The controlling rule here is that the derivative of a function should have the s
 
 Second- and higher-order derivatives can be handled using an obvious extention to the notation:
 <<>>=
-D( A*x^2*sin(y) ~ x&x )
-D( A*x^2*sin(y) ~ y&y )
-D( A*x^2*sin(y) ~ x&y ) #mixed partial
+D( A*x^2*sin(y) ~ x+x )
+D( A*x^2*sin(y) ~ y+y )
+D( A*x^2*sin(y) ~ x+y ) #mixed partial
 @
 
-The ability to carry out symbolic differentiation is inherited from the \texttt{stats::deriv()} operator.  This is valuable for two reasons. First, seeing R return something that matches the traditional form can be re-assuring for students and instructors.  Second, derivatives --- especially higher-order derivatives --- can have noticeable pathologies when evaluated through non-symbolic methods such as simple finite-differences.  Fortunately, \texttt{stats::deriv()} is capable of handling the large majority of sorts of expressions encountered in calculus courses.
+The ability to carry out symbolic differentiation is inherited from the \function{stats::deriv()} function  This is valuable for two reasons. First, seeing R return something that matches the traditional form can be re-assuring for students and instructors.  Second, derivatives --- especially higher-order derivatives --- can have noticeable pathologies when evaluated through non-symbolic methods such as simple finite-differences.  Fortunately, \function{stats::deriv()} is capable of handling the large majority of sorts of expressions encountered in calculus courses.
 
-Not every function has an algebraic form that can be differentiated using the algebraic rules of differentiation.  In such cases, numerical differentiation can be used.  \texttt{D()} is designed to carry out numerical differentiation and to package up the results as a function that can be used like any other function.  To illustrate, consider the derivative of the density of the t-distribution.  The density is implemented in R with the \texttt{dt(t, df)} function, taking two parameters, t and the "degrees of freedom" df.  Here's the derivative of density with respect to df constructed using \texttt{D()}:
-<<dfgraph,fig.height=4,out.width=.7\textwidth>>=
+But not every function has an algebraic form that can be differentiated using
+the algebraic rules of differentiation.  In such cases, numerical
+differentiation can be used.  \function{D()} is designed to carry out numerical
+differentiation and to package up the results as a function that can be used
+like any other function.  To illustrate, consider the derivative of the density
+of the t-distribution.  The density is implemented in R with the
+\function{dt(t, df)} function, taking two parameters, t and the ``degrees of
+freedom" df.  Here's the derivative of density with respect to df constructed
+using \function{D()}:
+<<dfgraph,fig.height=4,out.width=".7\\textwidth">>=
 f1 = D( dt(t,df) ~ df)
 f1(t=2,df=1)
 plotFun(f1(t=2,df=df)~df, df.lim=range(1,10))
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-dfgraph}}
 
-Numerical differentiation, especially high-order differentiation, has problematic numerical properties.  For this reason, only second-order numerical differentiation is directly supported.  You can, of course, construct a higher-order numerical derivative by iterative application of \texttt{D()} to a derivative function, but don't expect very accurate results. 
+Numerical differentiation, especially high-order differentiation, has
+problematic numerical properties.  For this reason, only second-order numerical
+differentiation is directly supported.  You can, of course, construct a
+higher-order numerical derivative by iterating \function{D()}, but don't expect
+very accurate results. 
 
 \section{Anti-Differentiation}
 
-The \texttt{antiD()} operator carries out anti-differentiation.  The syntax and return of a function is very similar to \texttt{D()} with two exceptions:
+The \function{antiD()} function carries out anti-differentiation.  Like \function{D()}, \function{antiD} uses a formula interface and returns a function.  There are two important 
+differences between \function{D()} and function{anitD()}, however.
 \begin{itemize}
 \item Only first-order integration is directly supported.
-\item The returned function retains the same arguments as the function being integrated, but splits the variable of integration into a "from" and a "to" part.
+\item The returned function retains the same arguments as the function being integrated, but splits the variable of integration into a ``from" and a ``to" part.
 \end{itemize}
 To illustrate, here is $\int a x^2 dx$ (which should give $\frac{a}{3} x^3$):
 <<>>=
@@ -230,28 +298,35 @@ F
 F(x.to=1) #should be 1/3
 @
 
-Being a function, the output of \texttt{antiD()} can be plotted:
-<<antiD1,fig.height=4,out.width=.7\textwidth>>=
+Being a function, the output of \function{antiD()} can be plotted:
+<<antiD1,fig.height=4,out.width=".7\\textwidth">>=
 plotFun(F(x.to=x)~x, x.lim=range(-2,2))
 plotFun(F(x.from=-1.5,x.to=x)~x, add=TRUE, col="red")
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-antiD1}}
 
-At this time, integration is purely numerical. The mechanics are hidden behind the function \texttt{numerical.integration()}, which is not intended to be used directly.   
+At this time, integration is purely numerical. The mechanics are hidden behind the function \function{numerical.integration()}, which is not intended to be used directly.   
 
 Unlike differentiation, integration has good numerical properties.  Even integrals out to infinity can often be handled with great precision.  Here, for instance, is a calculation of the mean of a normal distribution via integration from $-\infty$ to $\infty$:
 <<>>=
 F = antiD( x*dnorm(x,mean=3,sd=2)~x)
 F(x.from=-Inf,x.to=Inf)
+@
+\noindent
+And here are some examples using exponential distributions.
+<<>>=
 F = antiD(x*dexp(x,rate=rate)~x)
 F(x.from=0,x.to=Inf,rate=10)
 F(x.from=0,x.to=Inf,rate=100)
 @
 
-Because anti-differentiation is done numerically, you can compute the anti-derivative of any function that's numerically well behaved, even when there is no simple algebraic form.  In particular, you can take the anti-derivative of a function that is itself an anti-derivative.  Here, for example, is a double integral for the area of a circle of radius 1:
+Because anti-differentiation is done numerically, you can compute the
+anti-derivative of any function that is numerically well behaved, even when
+there is no simple algebraic form.  In particular, you can take the
+anti-derivative of a function that is itself an anti-derivative.  Here, for
+example, is a double integral for the area of a circle of radius 1:
 <<>>=
-one = makeFun(1~x&y)
+one = makeFun(1~x+y)
 by.x = antiD( one(x=x, y=y) ~x )
 by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
 by.xy(y.from=-1, y.to=1)
@@ -259,9 +334,9 @@ by.xy(y.from=-1, y.to=1)
 
 \subsection{Example: Jumping Off a Diving Board}
 
-The \texttt{antiD()} function allows you to specify the ``constant of integration.''  This is another style of providing information redundant with the \texttt{x.from} argument, but the constant of integration provides perhaps a clearer way to think about integrals where there is an initial condition.
+The \function{antiD()} function allows you to specify the ``constant of integration.''  This is another style of providing information redundant with the \option{x.from} argument, but the constant of integration provides perhaps a clearer way to think about integrals where there is an initial condition.
 
-As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.9 m/s$.  The velocity function is the 
+As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.8$ m/s.  The velocity function is the 
 integral of acceleration due to gravity over time, plus the initial velocity:
 <<>>=
 vel <- antiD( -9.8~t, Const=1 )
@@ -272,15 +347,17 @@ The position is, of course, the integral of velocity plus the initial position o
 pos <- antiD( vel(t.to=t)~t, Const=5 )
 @ 
 
-<<dive,fig.height=4,out.width=.7\textwidth>>=
-plotFun(pos(t.to=t)~t, t.lim=range(0,1.2), xlab="Height (m)", ylab="Time (s)")
+<<dive,fig.height=4,out.width=".7\\textwidth">>=
+plotFun(pos(t.to=t)~t, t.lim=range(0,1.2), 
+        xlab="Height (m)", ylab="Time (s)")
 @
 
 The differential equation solver provides another way to approach this problem.
 
 \section{Solving}
 
-The \texttt{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \texttt{plotFun()}, \texttt{D()}, and \texttt{antiD()}: You specify an expression and the values of any symbolic parameters.  The search for zeros is conducted over a range that can be specified in a number of ways.  To illustrate:
+The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A fromula is used to describe the function and it independent variable.
+The search for zeros is conducted over a range that can be specified in a number of ways.  To illustrate:
 \begin{itemize}
 \item Find the zeros within a specified range:
 <<>>=
@@ -296,32 +373,34 @@ findZeros( sin(t)~t, near=0, within=8)
 @
 \end{itemize}
 
-We hope to extend \texttt{findZeros()} to work with multiple functions of multiple variables.
+We hope to extend \function{findZeros()} to work with multiple functions of multiple variables.
 
 \section{Random-Example Functions}
 
-In teaching, it's helpful to have a set of functions that can be employed to illustrate various concepts.  Sometimes, all you need is a smooth function that displays some ups and downs and has one or two local maxima or minima.  The \texttt{rfun()} function will generate such functions ``at random."  That is, a random seed can be used to control which function is generated.
+In teaching, it's helpful to have a set of functions that can be employed to illustrate various concepts.  Sometimes, all you need is a smooth function that displays some ups and downs and has one or two local maxima or minima.  The \function{rfun()} function will generate such functions ``at random."  That is, a random seed can be used to control which function is generated.
 
-<<random1,fig.height=4,out.width=.7\textwidth>>=
-f = rfun(~x, seed=345)
+<<random1,fig.height=4,out.width=".7\\textwidth",fig.keep='last'>>=
+f <- rfun(~x, seed=345)
+g <- rfun(~x)
+h <- rfun(~x)
 plotFun(f(x)~x, x.lim=range(-5,5))
+plotFun(g(x) ~ x, add=TRUE, col='red')
+plotFun(h(x) ~ x, add=TRUE, col='darkgreen')
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-random1}}
 
 These random functions are particularly helpful to develop intuition about functions of two variables, since they are readily interpreted as a landscape:
 
-<<random2,fig.height=4,out.width=.7\textwidth>>=
-f = rfun(~x&y, seed=345)
-plotFun(f(x,y)~x&y, x.lim=range(-5,5), y.lim=range(-5,5))
+<<random2,fig.height=4,out.width=".7\\textwidth">>=
+f = rfun(~x+y, seed=345)
+plotFun(f(x,y)~x+y, x.lim=range(-5,5), y.lim=range(-5,5))
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-random2}}
 
 \section{Functions from Data}
 \label{sec:functions-from-data}
 
-Aside from \texttt{rfun()}, all the examples to this point have involved functions expressed algebraically, as is traditional in calculus instruction. In practice, however, functions are often created from data.  The \texttt{mosaic} package supports three different types of such functions:
+Aside from \function{rfun()}, all the examples to this point have involved functions expressed algebraically, as is traditional in calculus instruction. In practice, however, functions are often created from data.  The \pkg{mosaic} package supports three different types of such functions:
 \begin{enumerate}
 \item Interpolators: functions that connect data points.
 \item Smoothers: smooth functions that follow general trends in data.
@@ -331,45 +410,49 @@ Aside from \texttt{rfun()}, all the examples to this point have involved functio
 
 \subsection{Interpolators}
 
-Interpolating function connect data points.  Different interpolating functions have different properties of smoothness, monotonicity, end-points, etc.  These properties can be important in modeling.
-
-At present, \texttt{mosaic} implements only interpolating functions of one variable.
+Interpolating functions connect data points.  
+Different interpolating functions have different properties of smoothness, 
+monotonicity, end-points, etc.  These properties can be important in modeling.
+The \pkg{mosaic} package implements several interpolation methods for functions of 
+one variable.
 
 To illustrate, here are some data from a classroom example intended to illustrate the measurement of flow using derivatives.  Water was poured out of a bottle into a cup set on a scale.  Every three seconds, a student read off the digital reading from the scale, in grams.  Thus, the data indicate the mass of the water in the cup.
 
 <<>>=
-water <- data.frame( 
+Water <- data.frame( 
   mass=c(57,76,105,147,181,207,227,231,231,231), 
   time=c(0,  3,  6,  9, 12, 15, 18, 21, 24, 27))
 @
 
-Plotting out the data can be done in the usual way (using \texttt{lattice} graphics)
-<<fig.height=4,out.width=.7\textwidth>>=
-xyplot( mass ~ time, data=water)
+Plotting out the data can be done in the usual way (using \pkg{lattice} graphics)
+<<fig.height=4,out.width=".7\\textwidth">>=
+xyplot( mass ~ time, data=Water)
 @
 
-Of course, the mass in the cup varied continuously with time.  It's just the recorded data that are discrete.  Here's how to create a cubic-spline interpolant that connects the measured data:\footnote{Should this function be changed to  \texttt{makeSpline()}?}
+Of course, the mass in the cup varied continuously with time.  It's just the recorded data that are discrete.  Here's how to create a cubic-spline interpolant that connects the measured data:\footnote{Should this function be changed to  \function{makeSpline()}?}
 <<>>=
-f <- spliner(mass~time, data=water)
+f <- spliner(mass~time, data=Water)
 @
 
-The function \texttt{f()} created has input \texttt{time}.  It's been arranged so that when \texttt{time} is one of the values in the data \texttt{water}, the output will be the corresponding value of \texttt{mass} in the data.
+The function \function{f()} created has input \option{time}.  It's been
+arranged so that when \option{time} is one of the values in the data
+\dataframe{Water}, the output will be the corresponding value of
+\variable{mass} in the data.
 <<>>=
 f(time=c(0,3,6))
 @
-At intermediate values of \texttt{time}, the function takes on interpolating values:
+At intermediate values of \option{time}, the function takes on interpolated values:
 <<>>=
 f(time=c(0,.5,1,1.5,2,2.5,3))
 @
 
-<<waterspline,fig.height=4,out.width=.7\textwidth>>=
-xyplot( mass ~ time, data=water)
+<<waterspline,fig.height=4,out.width=".7\\textwidth">>=
+xyplot( mass ~ time, data=Water)
 plotFun(f(t)~t,add=TRUE,t.lim=range(0,27))
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-waterspline}}
 
-Like any other smooth function, \texttt{f()} can be differentiated:
+Like any other smooth function, \function{f()} can be differentiated:
 <<>>=
 Df <- D(f(t)~t)
 @
@@ -377,18 +460,18 @@ Df <- D(f(t)~t)
 There are, of course, other interpolating functions.  In situations
 that demand monotonicity (remember, the water was being poured into the cup, not spilling or draining out), monotonic, smooth splines can be created
 <<>>=
-fmono <- spliner(mass~time, data=water, monotonic=TRUE)
+fmono <- spliner(mass~time, data=Water, monotonic=TRUE)
 @
 
 If smoothness isn't important, the straight-line connector might be an appropriate interpolant:
 <<>>=
-fline <- connector(mass~time, data=water)
+fline <- connector(mass~time, data=Water)
 @
 
 The mathematical issues of smoothness and monotonicity are illustrated by these various interpolating functions in a natural way.  Sometimes these are better ways to think about the choice of functions for modeling --- you're not going to find a global polynomial or exponential or any other classical function to represent these data.
 
 Consider, for instance, the question of determining the rate of flow from the bottle.  This is the derivative of the mass measurement.  Here are plots of the derivatives of the three interpolating functions:
-<<waterflow,fig.height=4,out.width=.7\textwidth>>=
+<<waterflow,fig.height=4,out.width=".7\\textwidth">>=
 Df <- D( f(t)~t )
 Dfmono <- D( fmono(t)~t )
 Dfline <- D( fline(t)~t )
@@ -397,26 +480,26 @@ plotFun( Dfmono(t)~t, t.lim=range(0,30), add=TRUE, col="blue")
 plotFun( Dfline(t)~t, t.lim=range(0,30), add=TRUE, col="red")
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-waterflow}}
  
 It's a worthwhile classroom discussion: Which of the three estimates of flow is best?  The smoothest one has the unhappy property of negative flow near time 25 and positive flow even after the pouring stopped.
 
-Currently, only interpolating functions of one variable are available through the \texttt{mosaic} interface.  
 
 \subsection{Smoothers}
 
-A smoother is a function that follows general trends of data. Unlike an interpolating function, a smoother need not replicate the data exactly.  To illustrate, consider a moderate-sized data set \texttt{CPS} that gives wage and demographic data for 534 people.
+A smoother is a function that follows general trends of data. Unlike an
+interpolating function, a smoother need not replicate the data exactly.  To
+illustrate, consider a moderate-sized data set \dataframe{CPS85} that gives
+wage and demographic data for 534 people in 1985.
 
 <<>>=
-data(CPS)
+data(CPS85)
 @
 
 There is no definite relationship between wage and age, but there are general trends:
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage1}}
-<<wage1,fig.height=4,out.width=.7\textwidth>>=
-xyplot( wage ~ age, data=CPS )
-f <- smoother(wage~age, span=.9, data=CPS)
+<<wage1,fig.height=4,out.width=".7\\textwidth">>=
+xyplot( wage ~ age, data=CPS85 )
+f <- smoother(wage~age, span=.9, data=CPS85)
 plotFun(f(age)~age, add=TRUE, lwd=4)
 @
 
@@ -426,73 +509,106 @@ There appears to be a slight decline in wage --- a negative derivative --- for p
 set.seed(7832)
 @
 
-<<fig.height=4,out.width=.7\textwidth>>=
-CPS2 <- subset(CPS, wage < 30)
-f <- smoother( wage~age, span=0.9, data=CPS2)
+<<fig.height=4,out.width=".7\\textwidth">>=
+CPSclean <- subset(CPS85, wage < 30)
+f <- smoother( wage~age, span=1.2, data=CPSclean)
 f2 <- D( f(age)~age)
-plotFun( f2(age)~age, age.lim=range(20,60), lwd=4)
+plotFun( f2(age)~age, age.lim=range(20,60), ylab='change in wage',lwd=4)
 do(10) * {
-  fr<-smoother(wage~age,span=0.9,data=resample(CPS2))
+  fr<-smoother(wage~age,span=1.2,data=resample(CPSclean))
   fr2 <- D(fr(age)~age)
-  plotFun(fr2(age)~age, add=TRUE)
+  plotFun(fr2(age)~age, add=TRUE, col='gray40', alpha=.5)
   }
-# just to display the plot
-plotFun( 1~age, add=TRUE)
+# add horizontal line at 0
+plotFun( 0 ~ age, add=TRUE, lty=2, col='red', alpha=.5 )
+# replot on top of overlays
+plotFun( f2(age)~age, age.lim=range(20,60), lwd=4, add=TRUE)
 @
 
-Pretty good evidence for wage going up with age, particularly for the young.  The rate of increase per year of age gets smaller and smaller.  After about 35 years of age, there's weak evidence for any systematic effect.
+Pretty good evidence for wage going up with age, particularly for the young.
+The rate of increase per year of age gets smaller and smaller.  After about 35
+years of age, there's weak evidence for any systematic effect.
 
 Smoothers can construct functions of more than one variable.  Here, for instance, is a representation of the relationship between wage, age, and education.
-<<wage2,fig.height=4,out.width=.7\textwidth>>=
-g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPS2)
-plotFun( g(age=age,educ=educ)~age&educ, 
-         age.lim=range(20,50),educ.lim=range(5,14))
+<<wage2,fig.height=4,out.width=".7\\textwidth">>=
+g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPSclean)
+plotFun( g(age=age,educ=educ)~age+educ, 
+         age.lim=range(20,50),
+         educ.lim=range(5,14),
+         main='Log of wage as a function of age and education')
 @
-
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage2}}
-
+\noindent
 The graph suggests that people with a longer education see a steeper and more prolonged increase in wage with age.  To see this in a different way, here's the partial derivative of log wage with respect to age, holding education constant:
-<<wage3,fig.height=4,out.width=.7\textwidth>>=
+<<wage3,fig.height=4,out.width=".7\\textwidth">>=
 DgAge <- D( g(age=age,educ=educ)~age)
-plotFun( DgAge(age=age,educ=educ)~age&educ,
+plotFun( DgAge(age=age,educ=educ)~age+educ,
               age.lim=range(20,50), educ.lim=range(5,14))
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-wage3}}
 
 
 For economists, perhaps worthwhile to think about the elasticity of wages with respect to age for different levels of education.
 
-<<wage4,fig.height=4,out.width=.7\textwidth>>=
-CPS2$logage <- log(CPS2$age)
-g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPS2)
+<<wage4,fig.height=4,out.width=".7\\textwidth">>=
+CPSclean$logage <- log(CPSclean$age)
+g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPSclean)
 elasticity <- D( g2(logage=logage,educ=educ)~logage)
-plotFun( elasticity(logage=log(a),educ=educ)~a&educ,
+plotFun( elasticity(logage=log(a),educ=educ)~a+educ,
               a.lim=range(20,50), educ.lim=range(5,14))
 @
 
 Elasticity seems to fall off with age at pretty much the same rate for different levels of education.  It just starts out more positive for the more highly educated.
 
 \subsection{Fitted Functions}
-Statisticians will be familiar with parametric functions fitted to data.  The \texttt{lm()} operator returns information about the fitted model.  \texttt{mosaic} provides \texttt{linearModel()}, which takes the output of \texttt{lm()} and packages it up into a model function.
+Statisticians will be familiar with parametric functions fitted to data.  The \function{lm()} function returns information about the fitted model. The \pkg{mosaic} functon \function{makeFun()} takes the output of \function{lm()}, \function{glm()} (generalized linear models), 
+or \function{nls()} (nonlinear least squares) and packages it up into a model function.
 <<>>=
-g <- linearModel(log(wage)~age*educ+1,data=CPS)
+model <- lm(log(wage)~age*educ+1,data=CPS85)
+g <- makeFun(model)
 g(age=40,educ=12)
 dgdeduc <- D(g(age=age,educ=educ)~educ)
 dgdeduc(age=40,educ=12)
 @
 
-The \texttt{mosaic} function \texttt{nlsModel()} provides similar capabilities for nonlinear models, that is, models that are nonlinear in their parameters such as exponentials and sums of exponentials.
+In addition to applying \function{makeFun()} to models produced using 
+the standard statistical modeling functions 
+\function{lm()},
+\function{glm()}, and 
+\function{nls()},
+the \pkg{mosaic} function also provides \function{fitModel()} and \function{fitSplin()}
+which fits an nonlinear and spline models and return the model as a function.  
+The splines used by \function{fitSpline()} are not interpolating splines but splines 
+chosen by the method of least squares.  In typical applications, one limits the
+number of \emph{knots} (points where the piecewise polynomial function is ``stiched together'')
+\function{fitModel()} is roughly equivalent to
+first fitting the model with \function{nls()} and then applying \function{makeFun()}
+but provides an easier syntax for setting starting points for the least squares 
+search algorithm.
 
+<<warning=FALSE>>=
+f1 <- fitSpline( wage ~ age, data=CPSclean, df=10, type='natural')
+f2 <- fitSpline( wage ~ age, data=CPSclean, df=10, type='polynomial',degree=5)
+xyplot( wage ~ age, data=CPSclean, col="gray50" )
+plotFun( f1(age) ~ age, add=TRUE, lwd=3, col='green' )
+plotFun( f2(age) ~ age, add=TRUE, lwd=3, col='orange')
+@
+
+<<warning=FALSE>>=
+f1 <- fitSpline( mass ~ time, data=Water, df=7, type='natural', degree=3)
+f2 <- fitSpline( mass ~ time, data=Water, df=5, type='cubic')
+xyplot( mass ~ time, data=Water, col="gray50", xlim=c(-5,35) )
+plotFun( f1(time) ~ time, add=TRUE, lwd=2, col='green' )
+plotFun( f2(time) ~ time, add=TRUE, lwd=2, col='orange')
+@
 
 \section{Differential Equations}
 
 A basic strategy in calculus is to divide a challenging problem into easier bits, and then put together the bits to find the overall solution.  Thus, areas are reduced to integrating heights.  Volumes come from integrating areas.  
 
 Differential equations provide an important and compelling setting for illustrating the calculus strategy, while also providing insight into modeling approaches and a better understanding of real-world phenomena.
-A differential equation relates the instantaneous "state" of a system to the instantaneous change of state. "Solving" a differential equation amounts to finding the value of the state as a function of independent variables.   In an ``ordinary differential equations,'' there is only one independent variable, typically called time.  In a "partial differential equation," there are two or more dependent variables, for example, time and space.
+A differential equation relates the instantaneous ``state" of a system to the instantaneous change of state. ``Solving" a differential equation amounts to finding the value of the state as a function of independent variables.   In an ``ordinary differential equations,'' there is only one independent variable, typically called time.  In a ``partial differential equation," there are two or more dependent variables, for example, time and space.
 
-The \texttt{integrateODE()} function solves an ordinary differential equation starting at a given initial condition of the state.
+The \function{integrateODE()} function solves an ordinary differential equation starting at a given initial condition of the state.
 
 To illustrate, here is the differential equation corresponding to logistic growth:
 $$ \frac{dx}{dt} = r x (1-x/K) .$$
@@ -501,27 +617,26 @@ The equation describes how the change in state over time, $dx/dt$ is a function 
 
 The algebraic solution to this equation is a staple of calculus books.  It is
 $$x(t) = \frac{K x(0)}{x(0) + (K-x(0) e^{-rt})} .$$
-The solution gives the state as a function of time, $x(t)$, whereas the differential equation gives the change in state as a function of the state itself.  The initial value of the state (the "initial condition") is $x(0)$, that is, $x$ at time zero.
+The solution gives the state as a function of time, $x(t)$, whereas the differential equation gives the change in state as a function of the state itself.  The initial value of the state (the ``initial condition") is $x(0)$, that is, $x$ at time zero.
 
 The logistic equation is much beloved because of this algebraic solution.  Equations that are very closely related in their phenomenology, do not have analytic solutions.
 
-The \texttt{integrateODE()} function takes the differential equation as an input, together with the initial value of the state.  Numerical values for all parameters must be specified, as they would in any case to draw a graph of the solution.  In addition, must specify the range of time for which you want the function $x(t)$.  For example, here's the solution for time running from 0 to 20.
+The \function{integrateODE()} function takes the differential equation as an input, together with the initial value of the state.  Numerical values for all parameters must be specified, as they would in any case to draw a graph of the solution.  In addition, must specify the range of time for which you want the function $x(t)$.  For example, here's the solution for time running from 0 to 20.
 <<>>=
 soln <- integrateODE( dx ~ r*x*(1-x/K), 
                       x=1, K=10, r=.5, 
                       tdur=list(from=0,to=20))
 @
-The object that is created by \texttt{integrateODE()} is a function of time.  Or, rather, it is a set of solutions, one for each of the state variables.  In the logistic equation, there is only one state variable $x$.  Finding the value of $x$ at time $t$ means evaluating the function at some value of $t$.  Here are the values at $t=0,1,\ldots, 5$.
+The object that is created by \function{integrateODE()} is a function of time.  Or, rather, it is a set of solutions, one for each of the state variables.  In the logistic equation, there is only one state variable $x$.  Finding the value of $x$ at time $t$ means evaluating the function at some value of $t$.  Here are the values at $t=0,1,\ldots, 5$.
 <<>>=
 soln$x(0:5)
 @
 
 Often, you will plot out the solution against time:
-<<logistic1,fig.height=4,out.width=.7\textwidth>>=
+<<logistic1,fig.height=4,out.width=".7\\textwidth">>=
 plotFun(soln$x(t)~t, t.lim=range(0,20))
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-logistic1}}
 
 Differential equation systems with more than one state variable
 can be handled as well.  To illustrate, here is the SIR model of the spread of epidemics, in which the state is the number of susceptibles $S$ and the number of infectives $I$ in the population.  Susceptibles become infective by meeting an infective, infectives recover and leave the system.  There is one equation for the change in $S$ and a corresponding equation for the change in $I$.  The initial $I = 1$, corresponding to the start of the epidemic.
@@ -532,19 +647,18 @@ epi = integrateODE( dS~-a*S*I, dI~a*S*I - b*I,
 @
 
 This system of differential equations is solved to produce two functions, $S(t)$ and $I(t)$.
-<<epi1,fig.height=4,out.width=.7\textwidth>>=
+<<epi1,fig.height=4,out.width=".7\\textwidth">>=
 plotFun( epi$S(t)~t, t.lim=range(0,20))
 plotFun( epi$I(t)~t, add=TRUE, col="red")
 @
 
-%\centerline{\includegraphics[width=3in]{Figures/plt-explain-epi1}}
 
 In the solution, you can see the epidemic grow to a peak near $t=5$.  At this point, the number of susceptibles has fallen so sharply that the number of infectives starts to fall as well.  In the end, almost every susceptible has been infected.
 
 \subsection{Example: Another Dive from the Board}
 
 Let's return to the diving-board example, solving it as a differential equation with state variables $v$ and $x$.
-<<dive2,fig.height=4,out.width=.7\textwidth>>=
+<<dive2,fig.height=4,out.width=".7\\textwidth">>=
 dive = integrateODE( dv~-9.8, dx~v, 
   v=1,x=5,tdur=1.2)
 plotFun( dive$x(t)~t, t.lim=range(0,1.2), ylab="Height (m)" )
@@ -553,7 +667,7 @@ plotFun( dive$x(t)~t, t.lim=range(0,1.2), ylab="Height (m)" )
 What's nice about the differential equation format is that it's easy to add features like the buoyancy of water and drag of the water.  We'll do that here by changing the acceleration (the $dv$ term) so that when
 $x<0$ the acceleration is slightly positive with a drag term proportional to $v^2$ in the direction opposed to the motion.
 
-<<dive3,fig.height=4,out.width=.7\textwidth>>=
+<<dive3,fig.height=4,out.width=".7\\textwidth">>=
 diveFloat = integrateODE( dv~ifelse( x>0, -9.8, 1-sign(v)*v^2), dx~v, 
   v=1,x=5,tdur=10)
 plotFun( diveFloat$x(t)~t, t.lim=range(0,10), ylab="Height (m)" )
@@ -583,48 +697,13 @@ And computational skill is important.  Indeed, it can be one of the most useful 
 
 In terms of the basic calculus operations themselves, the need to compute derivatives and integrals using algebra-based algorithms limits the sorts of functions that can be employed in calculus. Students and textbooks have to stay on a narrow track which allows the operations to be successfully performed.  That's why there are so many calculus optimization problems that amount to differentiating a global cubic and solving a quadratic.(When was the last time you used a global cubic to represent something in the real world?) There's little room for realism, innovation, and creativity in modeling. Indeed, so much energy and time is needed for algebra, that its conventional for functions of multiple variables to be deferred to a third-semester of calculus, a level reached by only a small fraction of students who will use data intensively in their careers.
 
-With time, it's likely that more symbolic capabilities will be picked up in the \texttt{mosaic} package.\footnote{The Ryacas package already provides an R interface to a computer algebra system.}  This will speed up some computations, add precision, and be gratifying to those used to algebraic expressions.  But it will not fundamentally change the pedagogical issues and the desirability of applying the operations of calculus to functions that often may not be susceptible to symbolic calculation.
+With time, it's likely that more symbolic capabilities will be picked up in the \pkg{mosaic} package.\footnote{The Ryacas package already provides an R interface to a computer algebra system.}  This will speed up some computations, add precision, and be gratifying to those used to algebraic expressions.  But it will not fundamentally change the pedagogical issues and the desirability of applying the operations of calculus to functions that often may not be susceptible to symbolic calculation.
 
 \section*{Acknowledgments}
 
-The \texttt{mosaic} package is one of the initiatives of Project MOSAIC, an NSF-sponsored\footnote{NSF DUE 0920350} project that aims to make stronger connections among modeling, statistics, computation, and calculus in the undergraduate curriculum.
+The \pkg{mosaic} package is one of the initiatives of Project MOSAIC, an NSF-sponsored\footnote{NSF DUE 0920350} project that aims to make stronger connections among modeling, statistics, computation, and calculus in the undergraduate curriculum.
 
 
 \end{document}
 
-A quantitative curriculum with data and statistics at the center.  Modeling, linear algebra, interpretation.
-
-Teaching computation.  What does it mean to teach computation?  Sensitivity to syntax and the structure of computer commands.  The idea of assignment and sequences of steps.  For statistics: summarization, iteration, randomization, accumulation.  Identification of the ``types'' of objects: numbers, functions, vectors.
-
-Community of users: basic knowledge.  Everyone is expected to learn algebra and it is used in many fields in science.  Sometimes this just amounts to $\sqrt{n}$.  Similarly, we need a common language in computation, even if it's very simple operations.  There's a question of what that language should be, and whether there should be any language at all.  Let's not compromise on using many different languages, none of them well.
-
-Some people will argue that the ``language'' should be user-friendly interfaces that can be learned intuitively. I think there are good reasons to think that this will never happen.  QUOTE OF LESLEY GROVES: and I speak as an expert on explosives. If this is right, it will become self-evident as soon as such an interface is constructed.  In the meantime, we need to work with what we can get.
-
-Calculus taught using Mathematica doesn't seem to do it.  Few students learn how to define a function, let alone to iterate, randomize, accumulate, summarize.  Also, Mathematica has failed to make inroads into other fields.  
-
-The great deficiency of \texttt{mosaic} calculus operators is that they don't replicate the traditional symbolic integration capabilities and symbolic solutions.  (The symbolic differentiation properties are already pretty close.)  But is this really a deficiency?
-
-A lot of the difficulty of integral calculus comes from identifying the situations where an analytic integral does not exist and distinguishing them from the cases where one just hasn't figured out how to arrive at the analytic form.  For many important functional forms, there is no analytic form.  But there is always an integral.  Doing integration numerically may be slow in certain cases, but it is numerically stable and no less liable to error (due to singularities, etc.) than the traditional symbolic algorithms as implemented by students.
-
-
-
-
-
-
-
-
-The calculus features of the \texttt{mosaic} package were written to support teaching calculus to beginners, not for the professional who is using calculus in his or her technical work.  Much more powerful calculus capabilities are provided by widely accessible software such as Mathematica and Wolfram Alpha. What the \texttt{mosaic} functions provide is an {\em interface} to calculus functionality that is intended to be straightforward, to relate well to statistical operations that are not a part of the traditional calculus curriculum, and to help students learn basics of technical computing while they are learning calculus.
-
-For many calculus instructors, the reasons not to use R/\texttt{mosaic} will be obvious: the symbolic capabilities of \texttt{mosaic} are very limited, there are more powerful general-mathematics programs that can be used, and calculus instruction is not necessarily improved by electronic computation.  This last reason perhaps explains why so many calculus courses are being taught without modern computing.  If the point of teaching calculus is to support advanced calculations, then use software designed for this purpose.  If the point is to exercise logical reasoning abilities, then don't use electronic computation.\footnote{Somehow, from this dilemma, graphing calculators, ubiquitous in high schools, have become the compromise of choice.}
-
-The crux of the issue is the purpose of teaching calculus.  This is not such a simple matter.  The plain answer --- not necessarily a good answer --- is that the topics of calculus are useful, either directly in their technical application or as a means to train the mind.  But utility depends on context.  Many of the topics of the traditional calculus curriculum are there to support the technology of traditional calculus.  Doing integrals? Partial fractions might be useful. Trying to find a tricky limit?  L'Hopital's rule can simplify things, and for that you need symbolic differentiation.  Need to find an extremum?  Differentiate and solve.
-
-In science education, the curriculum gradually shifts to support new discoveries.  My mother's high-school education, in the 1940s, did not include any mention of DNA.  That would be absurd now.  Yet my daughter's calculus course was very similar to my father's.  There's little internal need for change in mathematics education.  Mathematics is always right.  In contrast, science is always wrong.  But science, even if wrong, can be useful.  Mathematics, even if right, is not always so.
-
-The big outside changes that need to influence mathematics are the emergence, both largely in the second half of the 20th century, of electronic computation and of statistics. Both computation and statistics are so widely used, in so many aspects of civic, commercial, and technical work, that the re-alignment of mathematics education to serve those needs ought to be both compelling and obvious.  Yet it has not happened very broadly.
-
-Calculus played a major role in the emergence of electronic computation.
-The name of the first general-purpose electronic computer, ENIAC, announced in 1946, stood for ``Electronic Numerical Integrator and Computer.''  Why feature integration in the name?  Because integration is both important and difficult.
-
-Imagine a negotiation where the science/mathematics curriculum were being devised {\em de novo}.  What arguments would proponents of calculus be able to bring to the table to support allocating student time and energy to calculus?  Point to the value of l'Hopital's rule in science?  Hardly.  Argue that trigonometric substitution is the foundation of physics?  No.  Instead, they might reasonably claim that calculus provides an important way to describe the world, that calculus concepts (differentiation, partial derivatives, accumulation, ...) are important in analyzing systems and in understanding approximation, that calculus helps in modeling.  There are important ways in which calculus supports statistics.  These have to do with modeling, approximation, and optimization and not so much with ``area under a curve.''
 

@@ -195,7 +195,7 @@ if(FALSE) {
 		names(result) <- .clean_names(names(result))
 		return( object$coef$fixed )
 	}
-	if (any(class(object)=='lm') ) {
+	if (inherits(object,c('lm','groupwiseModel')) ) {
 		sobject <- summary(object)
 		result <-  c( coef(object), sigma=sobject$sigma, "r-squared" = sobject$r.squared ) 
 		names(result) <- .clean_names(names(result))
@@ -242,6 +242,8 @@ if(FALSE) {
 
 #' @rdname do
 #' @aliases print,repeater-method
+#' @usage
+#' \S4method{print}{repeater}(x, ...) 
 setMethod("print",
     signature(x = "repeater"),
     function (x, ...) 
@@ -256,6 +258,9 @@ setMethod("print",
 #' @param e1 an object
 #' @param e2 an object
 #' @param ... additional arguemnts
+#' @usage
+#' \S4method{*}{repeater,ANY}(e1, e2) 
+
 setMethod("*",
     signature(e1 = "repeater", e2="ANY"),
     function (e1, e2) 

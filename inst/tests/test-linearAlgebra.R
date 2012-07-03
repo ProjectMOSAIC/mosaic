@@ -36,6 +36,6 @@ test_that("formula interface to project works in present environment",{
 })
 
 test_that("formula interface works with data frame",{
-  expect_that( project( wage ~ educ, data=CPS)[1], equals( 0.6954, tol=0.0001))
-  expect_that( project( wage ~ educ+1, data=CPS)[1], equals( -0.7460, tol=0.0001))
+  expect_that( project( wage ~ educ, data=CPS85)[1], equals( 0.6954, tol=0.0001))
+  expect_that( project( wage ~ educ+1, data=CPS85)[1], equals( -0.7460, tol=0.0001))
 })

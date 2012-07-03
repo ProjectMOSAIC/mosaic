@@ -44,18 +44,18 @@ NA
 NA 
 
 
-#' Data from the 1985 Current Population Survey (CPS)
+#' Data from the 1985 Current Population Survey (CPS85)
 #' 
 #' The Current Population Survey (CPS) is used to supplement census
 #' information between census years. These data consist of a random
-#' sample of persons from the CPS, with information on wages and
+#' sample of persons from the CPS85, with information on wages and
 #' other characteristics of the workers, including sex, number of years
 #' of education, years of work experience, occupational status, region of
 #' residence and union membership.  
 #' 
 #' @docType data
-#' @name CPS
-#' @usage data(CPS)
+#' @name CPS85
+#' @usage data(CPS85)
 #' @format 
 #'   A data frame with 534 observations on the following variables.
 #'   \itemize{
@@ -86,39 +86,8 @@ NA
 #' Berndt, ER. \emph{The Practice of Econometrics} 1991. Addison-Wesley. 
 #' 
 #' @examples
-#' data(CPS)
+#' data(CPS85)
 #' 
-
-NA
-
-#' Clinical Depression and Recurrence
-#' 
-#' In the study conducted by the National Institutes of Health, 109 clinically depressed patients were separated into three groups, and each group was given one of two active drugs (imipramine or lithium) or no drug at all. For each patient, the dataset contains the treatment used, the outcome of the treatment, and several other interesting characteristics.
-#'  
-#'  @docType data
-#'  @name depression
-#'  @usage data(depression)
-#'  @format
-#'      A data frame with 109 observations on the following variables.
-#'    
-#'    \itemize{
-#'     \item{\code{Hospt}}{the hospital of patient, represented by a code for each of the 5 hospitals (1, 2, 3, 5, or 6)}
-#'     \item{\code{Treat}} {the treatment received by the patient}
-#'     \item{\code{Outcome}} {whether or not a recurrence occurred during the treatment of patient (0 = No Recurrence, 1 = Recurrence)}
-#'     \item{\code{Time}} {either the time in days till the first recurrence, or if a recurrence did not occur, the length (in days) of the patient's participation in the study}
-#'     \item{\code{AcuteT}} {the time (in days) that the patient was depressed prior to the study}
-#'     \item{\code{Age}} {the age of the patient (in years), when the patient entered the study}
-#'     \item{\code{Gender}} {the gender of patient (1 = Female, 2 = Male)}
-#'   }
-#' 
-#' @references
-#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
-#' 
-#' @examples
-#' favstats(Age ~ Gender, depression)
-#' tally(~ Outcome | Treat, depression)
-#' 
-#' @keywords datasets
 
 NA
 
@@ -1688,4 +1657,32 @@ NA
 #' 
 #' @keywords datasets
 
+NA
+
+#' CoolingWater
+#' 
+#' Temperature of a mug of water as it cools
+#'  
+#' @name CoolingWater
+#' @usage data(CoolingWater)
+#' @docType data
+#' @format 
+#'   A data frame with 222 observations of the following variables.
+#'   \itemize{
+#'       \item \code{time} time in minutes
+#'       \item \code{temp} temperature in Celsius
+#'   }
+#' @source
+#' These data were collected Stan Wagon to help his
+#' mathematical modeling students explore Newton's 
+#' Law of Cooling and the ways that the law is really 
+#' only an approximation. More about Stan: \url{http://stanwagon.com}.
+#' @details
+#' The water was poured into a mug and a temperature probe inserted into
+#' the water with a few seconds of the pour.
+#' @examples 
+#' data(CoolingWater)
+#' xyplot(temp~time, data=CoolingWater)
+#' 
+#' @keywords datasets
 NA
