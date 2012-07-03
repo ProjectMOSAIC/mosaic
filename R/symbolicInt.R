@@ -16,8 +16,10 @@ symbolicInt<- function(form, ...){
   dots = list(...)
   antiDeriv <- symbolicAntiD(form, ...)
   intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
-  antiDeriv[[2]] <- parse(text = paste(deparse(lhs(antiDeriv)), "+", intc, sep=""))[[1]]
-  return(makeFun(antiDeriv))
+  newform = paste
+  antiDeriv[[2]] <- parse(text = paste(deparse(lhs(antiDeriv), width.cutoff=500), "+", intc, sep=""))[[1]]
+  intfun = eval(parse(text=paste("do.call(makeFun, list(antiDeriv,",intc, "=0))", sep=""))[[1]])
+  return(intfun)
 }
 
 #'Use recursion to find a symbolic antiderivative
@@ -32,8 +34,8 @@ symbolicAntiD <- function(form, ...){
   constants = setdiff(all.vars(form), rhsVar)
   
   #check if it's just constants
-  if(length(grep(rhsVar, deparse(lhs(form))))==0){
-    form[[2]]<- parse(text = paste(deparse(lhs(form)), "*", rhsVar, sep=""))[[1]]
+  if(length(grep(rhsVar, deparse(lhs(form), width.cutoff=500)))==0){
+    form[[2]]<- parse(text = paste(deparse(lhs(form), width.cutoff=500), "*", rhsVar, sep=""))[[1]]
     return(form)
   }
   
@@ -71,7 +73,7 @@ intArith <- function(form, ...){
   
   if(length(lhs(form))==2){#binary operation
     if(op=='-'){
-      form[[2]] = parse(text=paste("(-1)*",deparse(lhs(form)[[2]]),sep=""))[[1]]
+      form[[2]] = parse(text=paste("(-1)*",deparse(lhs(form)[[2]], width.cutoff=500),sep=""))[[1]]
       return(symbolicAntiD(form,...))
     }
   }
@@ -84,8 +86,9 @@ intArith <- function(form, ...){
     lform = symbolicAntiD(lform, ...)
     rform = symbolicAntiD(rform, ...)
     
-    newform = parse(text=paste(deparse(lhs(lform)),
-                            deparse(lhs(form)[[1]]), deparse(lhs(rform)), sep=""))[[1]]
+    newform = parse(text=paste(deparse(lhs(lform), width.cutoff=500),
+                            deparse(lhs(form)[[1]], width.cutoff=500),
+                               deparse(lhs(rform), width.cutoff=500), sep=""))[[1]]
     form[[2]] <- newform
     return(form)
   }
@@ -95,22 +98,24 @@ intArith <- function(form, ...){
     rform = form
     lform[[2]] = lhs(form)[[2]]
     rform[[2]] = lhs(form)[[3]]
-    if(length(grep(rhsVar, deparse(lform[[2]])))>0 &&
-      length(grep(rhsVar, deparse(rform[[2]])))>0)#too complex
+    if(length(grep(rhsVar, deparse(lform[[2]], width.cutoff=500)))>0 &&
+      length(grep(rhsVar, deparse(rform[[2]], width.cutoff=500)))>0)#too complex
       stop("Error: symbolic algorithm gave up")
-    if(regexpr(rhsVar, deparse(lform[[2]]))==1){
+    if(regexpr(rhsVar, deparse(lform[[2]], width.cutoff=500))==1){
       lform = symbolicAntiD(lform, ...)
       
-      newform = parse(text=paste(deparse(lhs(lform)),
-                              deparse(lhs(form)[[1]]), deparse(lhs(rform)), sep=""))[[1]]
+      newform = parse(text=paste(deparse(lhs(lform), width.cutoff=500),
+                              deparse(lhs(form)[[1]], width.cutoff=500),
+                                 deparse(lhs(rform), width.cutoff=500), sep=""))[[1]]
       form[[2]] <- newform
       return(form)
     }
     else{
       rform = symbolicAntiD(rform, ...)
       
-      newform = parse(text=paste(deparse(lhs(lform)),
-                              deparse(lhs(form)[[1]]),deparse(lhs(rform)), sep=""))[[1]]
+      newform = parse(text=paste(deparse(lhs(lform), width.cutoff=500),
+                              deparse(lhs(form)[[1]], width.cutoff=500),
+                                 deparse(lhs(rform), width.cutoff=500), sep=""))[[1]]
       form[[2]] <- newform
       return(form)
     }
@@ -120,11 +125,13 @@ intArith <- function(form, ...){
     num = lhs(form)[[2]]
     den = lhs(form)[[3]]
     if(length(grep(rhsVar, den))>0){
-      form[[2]] = parse(text = paste(deparse(num), "*(", deparse(den), ")^-1",sep="" ))[[1]]
+      form[[2]] = parse(text = paste(deparse(num, width.cutoff=500), "*(",
+                                     deparse(den, width.cutoff=500), ")^-1",sep="" ))[[1]]
       return(symbolicAntiD(form, ...))
     }
     else{
-      form[[2]] = parse(text = paste("1/(",deparse(den),")*", deparse(num) , sep=""))[[1]]
+      form[[2]] = parse(text = paste("1/(",deparse(den, width.cutoff=500),")*",
+                                     deparse(num, width.cutoff=500) , sep=""))[[1]]
       return(symbolicAntiD(form,...))
     }
   }
@@ -132,20 +139,20 @@ intArith <- function(form, ...){
   if(op == '^'){
     
     affexp = .affine.exp(lhs(form)[[2]], rhsVar)
-    if(length(affexp)>0 && length(grep(rhsVar, deparse(lhs(form)[[3]])))==0){
+    if(length(affexp)>0 && length(grep(rhsVar, deparse(lhs(form)[[3]], width.cutoff=500)))==0){
       exp = try(eval(form[[2]][[3]], envir=list(pi=3.1415932653589793, form=form),
                       enclos=NULL), silent=TRUE)
       if(inherits(exp, "try-error"))
-        exp = parse(text = paste(deparse(lhs(form)[[3]]), "+1"))[[1]]
+        exp = parse(text = paste(deparse(lhs(form)[[3]], width.cutoff=500), "+1"))[[1]]
       else(exp = eval(exp)+1) #change from call to numeric...
       
       if(exp == 0){
         
         if(affexp$a==1)
-          form[[2]] = parse(text=paste("log(", deparse(lhs(form)[[2]]),
+          form[[2]] = parse(text=paste("log(", deparse(lhs(form)[[2]], width.cutoff=500),
                                        ")", sep=""))[[1]]
         else
-          form[[2]] <- parse(text = paste("1/(",deparse(affexp$a) ,")*log(",
+          form[[2]] <- parse(text = paste("1/(",deparse(affexp$a, width.cutoff=500) ,")*log(",
                                           deparse(lhs(form)[[2]]), ")", sep=""))[[1]]
         return(form)
       }
