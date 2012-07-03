@@ -29,7 +29,7 @@ mosaic.options <- function (...)
     names(retVal) <- nm
     nm <- nm[isNamed]
     .mosaicEnv$mosaic.options <- .updateList(old, new[nm])
-    invisible(retVal)
+    return(invisible(retVal))
 }
 #' @rdname mosaic.options
 mosaic.getOption <- function (name) 
@@ -73,7 +73,7 @@ mosaic.par.set <- function (name, value, ..., theme, warn = TRUE, strict = FALSE
     }
     else mosaic.theme <- .updateList(mosaic.theme, theme)
     assign("mosaic.theme", mosaic.theme, envir = .mosaicEnv)
-    invisible(old.mosaic.theme)
+    return(invisible(old.mosaic.theme))
 }
 #' @rdname mosaic.options
 mosaic.par.get <- function (name = NULL) 

@@ -74,7 +74,7 @@ function (n, samples = 100, rdist = rnorm, args = list(), estimand = 0,
         cat("Did the interval cover?")
         print(table(cis$cover)/samples)
     }
-    invisible(cis)
+    return(invisible(cis))
 }
 
 

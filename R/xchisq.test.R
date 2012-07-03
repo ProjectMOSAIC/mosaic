@@ -47,5 +47,5 @@ function (...)
     cat("\t(expected)\n")
     cat("\t[contribution to X-squared]\n")
     cat("\t<residual>\n")
-    invisible(ttt)
+    return(invisible(ttt))
 }

@@ -194,9 +194,9 @@ googleMap <- function(latitude, longitude, position=NULL,
 			)
 
 	if (browse) {
-		invisible( sapply( urls, function(x) { browseURL(x,...) } ) )
+		return(invisible( sapply( urls, function(x) { browseURL(x,...) } ) ))
 	} else {
-		invisible(urls)
+		return(invisible(urls))
 	}
 }
 
@@ -240,14 +240,14 @@ googleMap <- function(latitude, longitude, position=NULL,
 	markString <- ""
 	if (mark == TRUE) { markString <- paste('&mlat=',round(latitude,6),'&mlon=',round(longitude,6) ,sep="") } 
 
-	invisible(paste(
+	return(invisible(paste(
 		url,
 		'?lat=', round(latitude,6),
 		'&lon=', round(longitude,6),
 		markString,
 		'&zoom=', zoom,
 		'&radius=', paste(as.character(radius),collapse=","),
-		sep=""))
+		sep="")))
 }
 
 #' @rdname rgeo-internals
@@ -271,7 +271,7 @@ googleMap <- function(latitude, longitude, position=NULL,
 	markString <- ""
 	if (mark == TRUE) { markString <- paste('&markers=size:tiny|', center,sep="") } 
 
-	invisible(paste(
+	return(invisible(paste(
 		url,
 		'center=', center,
 		markString,
@@ -279,5 +279,5 @@ googleMap <- function(latitude, longitude, position=NULL,
 		'&size=', size,
 		'&sensor=false', 
 		'&maptype=', maptype,
-		sep=""))
+		sep="")))
 }

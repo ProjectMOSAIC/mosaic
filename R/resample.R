@@ -228,7 +228,7 @@ sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL
 	if (orig.ids) {
 		result$orig.ids <- idsString
 	}
-	if (invisibly.return) { invisible(result) } else {return(result)}
+	if (invisibly.return) { return(invisible(result)) } else {return(result)}
 }
 
 #' @method sample matrix
@@ -246,7 +246,7 @@ sample.matrix <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 		if (orig.ids) {
 			attr(data,'orig.row') <- ids
 		}
-		if (length(ids) < 50) { return(data) } else {invisible(data)}
+		if (length(ids) < 50) { return(data) } else {return(invisible(data))}
 }
 
 #' @method sample factor

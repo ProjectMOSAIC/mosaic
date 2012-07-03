@@ -56,7 +56,7 @@ function (file, header = T, na.strings = c("NA", "", ".", "na",
     }
     if (regexpr("\\.Rdata", file) > 0) {
         varNames <- load(file)
-        invisible(varNames)
+        return(invisible(varNames))
     }
     return(read.table(file, header = header, na.strings = na.strings, 
         comment.char = comment.char, ...))
