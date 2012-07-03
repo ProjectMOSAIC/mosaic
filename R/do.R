@@ -249,7 +249,7 @@ setMethod("print",
     function (x, ...) 
     {
   		print(paste('This repeats a command',x@n,'times. Use with *.'))
-  		invisible(x)
+  		return(invisible(x))
     }
 )
 
