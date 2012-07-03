@@ -112,8 +112,10 @@ antiD <- function(formula, ..., Const=0){
   # so that the argument list gets created appropriately. So use NaN
   vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 
                         variants = c("from",".from"))$val
-  vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
-                      variants = c("to",".to"))$val
+# July version: The x.to argument will be just x
+#  vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
+#                      variants = c("to",".to"))$val
+  vi.to = NaN # july version placeholder for next line.
   res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6, Const)
   return(res)
 }
@@ -139,16 +141,18 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
     do.call(.function,.av,quote=TRUE) + 0*.vi #make the same size as vi
   }
   res <- function() {
+# July version: added "from" in next command
     numerical.integration(.newf, .wrt, #.function,.wrt, 
-                          as.list(match.call())[-1],formals())
+                          as.list(match.call())[-1],formals(), from)
   }
   resargs <- formals(.function) 
-  resargs[[.wrt]] <- NULL
+# July version:  resargs[[.wrt]] <- NULL
   limitsArgs = list()
-  limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
-  limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
+# July version
+#  limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
+#  limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
   limitsArgs[["initVal"]] <- Const
-  formals(res) <- c(limitsArgs,resargs)
+  formals(res) <- c(resargs,limitsArgs)
   
   return(Vectorize(res))
 }
@@ -165,7 +169,8 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
 #' of functions produced by \code{antiD} look nicer to human readers.
 #' @export
 #'
-numerical.integration <- function(f,wrt,av,args) {
+# July version: added vi.from argument
+numerical.integration <- function(f,wrt,av,args,vi.from) {
   # We are about to do the numerics.  At this point, every
   # variable should have a numerical binding.  Just in case some
   # are still expressions, go through the list and evaluate them
@@ -173,10 +178,11 @@ numerical.integration <- function(f,wrt,av,args) {
   av2 = c(av, args) # combine the actual arguments with the formals
   # to make sure that default values are included
   # Extract the limits from the argument list
-  vi.from <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
-                       variants = c("from",".from"))$val
+# July version
+#  vi.from <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
+#                       variants = c("from",".from"))$val
   vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
-                     variants = c("to",".to"))$val
+                     variants = c("","to",".to"))$val
   # If they are calls, turn them into values.  Redundant with loop above
   if( any(is.nan(vi.to)) | any(is.nan(vi.from))) stop("Integration bounds not given.")
   # and delete them from the call
