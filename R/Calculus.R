@@ -88,9 +88,7 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' @rdname Calculus
 #'
 #'
-#' @return a function of the same arguments as the original expression, but
-#' with the integration variable split into "from" and "to" prefaced by the 
-#' name of the variable, e.g. \code{y.from} and \code{y.to}.
+#' @return a function of the same arguments as the original expression.
 #' @export
 #' @examples
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
@@ -154,13 +152,13 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
 #' @param wrt character string naming a variable: the var. of integration
 #' @param av a list of the arguments passed to the function calling this
 #' @param args default values (if any) for parameterss
+#' @param vi.from the the lower bound of the interval of integration
 #' 
 #' @note This function is not intended for direct use.  It packages
 #' up the numerical anti-differentiation process so that the contents
 #' of functions produced by \code{antiD} look nicer to human readers.
 #' @export
 #'
-# July version: added vi.from argument
 numerical.integration <- function(f,wrt,av,args,vi.from) {
   # We are about to do the numerics.  At this point, every
   # variable should have a numerical binding.  Just in case some
@@ -169,9 +167,6 @@ numerical.integration <- function(f,wrt,av,args,vi.from) {
   av2 = c(av, args) # combine the actual arguments with the formals
   # to make sure that default values are included
   # Extract the limits from the argument list
-# July version
-#  vi.from <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
-#                       variants = c("from",".from"))$val
   vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
                      variants = c("","to",".to"))$val
   # If they are calls, turn them into values.  Redundant with loop above
