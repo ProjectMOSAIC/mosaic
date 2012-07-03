@@ -812,11 +812,13 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
 
 	#if ( ! is.null(evalF$condition) ) stop('Conditioning not allowed in this type of formula.')
 
-	if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  evalF$right <- rep(1, nrow(evalF$left))
-  
-	res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
+	if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  {
+		return( do.call(FUN, c(list(evalF$left[,1]), ...) ) )
+	} else {
+		res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
 				  function(x) { do.call(FUN, c(list(x), ...) ) }
-	)
+		)
+	}
 	if (! multiple ) res <- unlist(res)
 
 	if (! is.null(evalF$condition) ) {
