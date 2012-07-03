@@ -41,13 +41,13 @@
 #' (including mixed partials).
 #' \code{antiD} always does numerical integration.
 #' 
-#' \code{antiD} returns a function with arguments \code{to} 
-#' and \code{from=0}, the upper and lower
-#' bounds of the interval of integration w.r.t. the variable of integration.
+#' \code{antiD} returns a function with the same arguments as the 
+#' expression passed to it.  The returned function is the anti-derivative 
+#' of the expression, e.g., antiD(f(x)~x) -> F(x).  
+#' To calculate the integral of f(x), use F(to) - F(from). 
+#' This feature may be deprecated in an upcoming release:
 #' There is also an argument, \code{initVal}, that plays the role of the
-#' constant of integration.
-#' The numerical value of the integral or
-#' derivative can be found by evaluating that function.
+#' constant of integration.  
 #' 
 #' @export
 #' @examples
@@ -94,14 +94,13 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' @export
 #' @examples
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
-#' F(t.from=-Inf, t.to=0)
-#' F(t.from=-Inf, t.to=Inf)
+#' F(t=Inf)
 #' one = makeFun(1~x&y)
-#' by.x = antiD( one(x=x, y=y) ~x )
-#' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
-#' by.xy(y.from=-1, y.to=1)
+#' by.x = antiD( one(x=x, y=y) ~x)
+#' by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
+#' 4*by.xy(y=1) #area of quarter circle
 #' vel <- antiD( -9.8 ~ t  )
-#' pos <- antiD( vel( t.to=t, initVal=v0)~t, Const=50)
+#' pos <- antiD( vel( t=t, initVal=v0)~t, Const=50)
 #' pos(0:5, v0=10)
 #' pos(0:5, v0=10, initVal=100)
 antiD <- function(formula, ..., Const=0){
@@ -112,10 +111,7 @@ antiD <- function(formula, ..., Const=0){
   # so that the argument list gets created appropriately. So use NaN
   vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 
                         variants = c("from",".from"))$val
-# July version: The x.to argument will be just x
-#  vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
-#                      variants = c("to",".to"))$val
-  vi.to = NaN # july version placeholder for next line.
+  vi.to = NaN 
   res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6, Const)
   return(res)
 }
@@ -141,16 +137,11 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
     do.call(.function,.av,quote=TRUE) + 0*.vi #make the same size as vi
   }
   res <- function() {
-# July version: added "from" in next command
-    numerical.integration(.newf, .wrt, #.function,.wrt, 
+    numerical.integration(.newf, .wrt, 
                           as.list(match.call())[-1],formals(), from)
   }
   resargs <- formals(.function) 
-# July version:  resargs[[.wrt]] <- NULL
   limitsArgs = list()
-# July version
-#  limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
-#  limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
   limitsArgs[["initVal"]] <- Const
   formals(res) <- c(resargs,limitsArgs)
   
