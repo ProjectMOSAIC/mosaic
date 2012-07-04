@@ -225,8 +225,8 @@ plotFun( dt(t,df)~t+df,
 
 Differentiation is an operation that takes a function as input and returns a
 function as an output.  In \pkg{mosaic}, differentiation is implemented by the
-\function{D()} function.\footnote{The \pkg{mosaic} \function{D} masks the original
-\function{D} function from the \pkg{stats} package. But since the two use
+\function{D()} function.\footnote{The \pkg{mosaic} \function{D()} masks the original
+\function{D()} function from the \pkg{stats} package. But since the two use
 different syntax, the old behavior is still available.}
 A function is not the only input to differentiation; one also needs to specify
 the variable with respect to which the derivative is taken.  Traditionally,
@@ -438,7 +438,7 @@ Plotting out the data can be done in the usual way (using \pkg{lattice} graphics
 xyplot( mass ~ time, data=Water)
 @
 
-Of course, the mass in the cup varied continuously with time.  It's just the recorded data that are discrete.  Here's how to create a cubic-spline interpolant that connects the measured data:\footnote{Should this function be changed to  \function{makeSpline()}?}
+Of course, the mass in the cup varied continuously with time.  It's just the recorded data that are discrete.  Here's how to create a cubic-spline interpolant that connects the measured data:
 <<>>=
 f <- spliner(mass~time, data=Water)
 @
@@ -520,11 +520,11 @@ set.seed(7832)
 
 <<fig.height=4,out.width=".7\\textwidth">>=
 CPSclean <- subset(CPS85, wage < 30)
-f <- smoother( wage~age, span=1.2, data=CPSclean)
+f <- smoother( wage~age, span=1.0, data=CPSclean)
 f2 <- D( f(age)~age)
 plotFun( f2(age)~age, age.lim=range(20,60), ylab='change in wage',lwd=4)
 do(10) * {
-  fr<-smoother(wage~age,span=1.2,data=resample(CPSclean))
+  fr<-smoother(wage~age,span=1.0,data=resample(CPSclean))
   fr2 <- D(fr(age)~age)
   plotFun(fr2(age)~age, add=TRUE, col='gray40', alpha=.5)
   }
@@ -540,7 +540,7 @@ years of age, there's weak evidence for any systematic effect.
 
 Smoothers can construct functions of more than one variable.  Here, for instance, is a representation of the relationship between wage, age, and education.
 <<wage2,fig.height=4,out.width=".7\\textwidth">>=
-g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPSclean)
+g <- smoother(log(wage)~age+educ+1, span=1.0,data=CPSclean)
 plotFun( g(age=age,educ=educ)~age+educ, 
          age.lim=range(20,50),
          educ.lim=range(5,14),
@@ -560,7 +560,7 @@ For economists, perhaps worthwhile to think about the elasticity of wages with r
 
 <<wage4,fig.height=4,out.width=".7\\textwidth">>=
 CPSclean$logage <- log(CPSclean$age)
-g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPSclean)
+g2 <- smoother(log(wage)~logage+educ+1, span=1.0,data=CPSclean)
 elasticity <- D( g2(logage=logage,educ=educ)~logage)
 plotFun( elasticity(logage=log(a),educ=educ)~a+educ,
               a.lim=range(20,50), educ.lim=range(5,14))
