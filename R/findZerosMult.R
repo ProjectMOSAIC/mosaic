@@ -89,7 +89,16 @@ findZerosMult <- function(..., npts=10, rad = 5, center=c(0,0), sortBy='byx'){
     return(roots[order(roots[1]),])
   }
   
-  if(length(system)>1) stop("Currently only works for 2 dims.")
+  #Use Broyden when system has more than one equation.
+  if(length(system)>1){
+    if(length(system) < length(rhsVars)){ #Need to add equations
+      
+    }
+    root = Broyden(system, rhsVars, x=center+.001)#often does not work for (0,0)
+    roots = rbind(roots, root)
+    colnames(roots) = rhsVars
+    return(roots)
+  }
 }
 
 #sort the list of zeros by x, y, or radially.
@@ -163,3 +172,52 @@ findZerosMult <- function(..., npts=10, rad = 5, center=c(0,0), sortBy='byx'){
   for(i in (1:length(points))) colnames(points[[i]]) = vars
   return(points)
 }
+#'Multi-Dimensional Root Finding
+#'
+#'Implementation of Broyden's root finding function to numerically compute the root of
+#'a system of nonlinear equations
+#'
+#'@param system A list of functions
+#'
+#'@param vars A character string list of variables that appear in the functions
+#'
+#'@param x A starting vector
+#'
+#'@param tol The tolerance for the function specifying how precise it will be
+#'
+#'@param maxiters maximum number of iterations.
+#'
+Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1e5){
+  n = length(system)
+  if(is.null(x)) x = rep(1,length(system))#Add in something that makes sure this is valid.
+  if(toString(names(x))=="") names(x) = vars
+  
+  A = diag(n) #Default derivative is the identity matrix
+  
+  #Evaluates a system of equations at a given point. FIX.
+  .evalSys <- function(.x.,System){
+    n=length(System)
+    FF = rep(0,n)
+    for( i in (1:n))
+      FF[i]=do.call(System[[i]], as.list(.x.))
+    return(FF)
+  }
+  
+  FF=.evalSys(x,system)
+  
+  for(iter in (1:maxiters)){
+    if(max(abs(FF))<tol) break
+    xnew=as.vector(x-A%*%FF)
+    names(xnew)=names(x)
+    del = xnew-x
+    FFnew = .evalSys(xnew,system)
+    Del = FFnew-FF
+    Anew = A+((del-A%*%Del)%*%t(del)%*%A)/(t(del)%*%A%*%Del)[[1]]
+    x=xnew
+    A=Anew
+    FF=FFnew
+  }
+  return(x)
+}
+
+
