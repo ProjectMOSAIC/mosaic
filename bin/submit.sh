@@ -8,6 +8,6 @@ ftp  -u ftp://cran.r-project.org/incoming/$1 $1
 echo ""
 echo "A submission should be accompanied by an email to CRAN@R-project.org,"
 echo "if possible sent from the maintainer address listed in the package,"
-echo "and giving the package name and version on the subject line."
+echo "using the subject line `CRAN submission PACKAGE VERSION'."
 echo ""
 
