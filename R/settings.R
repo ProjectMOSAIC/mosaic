@@ -1,3 +1,5 @@
+utils::globalVariables(c('.LatticeEnv'))
+
 #' Setting options for mosaic package functions
 #'
 #' A mechanism for setting options in the mosaic package.

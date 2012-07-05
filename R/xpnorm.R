@@ -1,3 +1,4 @@
+utils::globalVariables( c('Q','MEAN','slider','manipulate'))
 #' Augmented versions of pnorm and qnorm
 #' 
 #' These functions behave similarly to the functions with the initial \code{x}

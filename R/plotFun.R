@@ -1,3 +1,6 @@
+
+utils::globalVariables(c('rot','elev','slider','manipulate','colorList'))
+
 #' Plotting mathematical expressions
 #'
 #' Plots mathematical expressions in one and two variables.  
@@ -507,14 +510,16 @@ panel.levelcontourplot <- function(x, y, z, subscripts,
                                    contour = FALSE, 
                                    region = TRUE,
                                    col = add.line$col, 
-								   lty = add.line$lty,
+				   lty = add.line$lty,
                                    lwd = add.line$lwd, 
                                    border = "transparent", ...,
                                    col.regions = regions$col,
                                    filled=TRUE, 
                                    alpha.regions = regions$alpha
-                                   ){
-	add.line <- trellis.par.get('add.line')
+                                   )
+{
+  add.line <- trellis.par.get('add.line')
+  regions <- trellis.par.get('regions')
 
   if(filled) panel.levelplot(x, y, z, subscripts, 
                              at = pretty(z,5*length(at)), shrink, 
