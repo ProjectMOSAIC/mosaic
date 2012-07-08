@@ -39,15 +39,13 @@
 #' any order (although the expression may become unmanageably complex).  The
 #' numerical derivative is limited to first or second-order partial derivatives
 #' (including mixed partials).
-#' \code{antiD} always does numerical integration.
+#' \code{antiD} will attempt simple symbolic integration but if it fails
+#' it will return a numerically-based anti-derivative.
 #' 
 #' \code{antiD} returns a function with the same arguments as the 
 #' expression passed to it.  The returned function is the anti-derivative 
 #' of the expression, e.g., antiD(f(x)~x) -> F(x).  
 #' To calculate the integral of f(x), use F(to) - F(from). 
-#' This feature may be deprecated in an upcoming release:
-#' There is also an argument, \code{initVal}, that plays the role of the
-#' constant of integration.  
 #' 
 #' @export
 #' @examples
@@ -91,16 +89,14 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' @return a function of the same arguments as the original expression.
 #' @export
 #' @examples
+#' antiD( a*x^2 ~ x)
+#' antiD( A/x~x )
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
 #' F(t=Inf)
 #' one = makeFun(1~x&y)
 #' by.x = antiD( one(x=x, y=y) ~x)
 #' by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
 #' 4*by.xy(y=1) #area of quarter circle
-#' vel <- antiD( -9.8 ~ t  )
-#' pos <- antiD( vel( t=t, initVal=v0)~t, Const=50)
-#' pos(0:5, v0=10)
-#' pos(0:5, v0=10, initVal=100)
 antiD <- function(formula, ..., Const=0){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
@@ -143,7 +139,7 @@ antiD <- function(formula, ..., Const=0){
       if (is.finite(constIntegration)) { 
         #reset the default value of the integration constant
         args <- formals(res)
-        constName <- get("..NameOfSymbolicConstant",envir=environment(f))
+        constName <- get("..NameOfSymbolicConstant",envir=environment(res))
         args[constName] <- -constIntegration
         formals(res) <- args
       }

@@ -53,9 +53,9 @@ symbolicAntiD <- function(form, ...){
     group = getGroup(toString(lhs(form)[[1]]))[[1]] #determine typ of highest-level expr.
   else group = -1
   if(group =="Arith")
-    return(intArith(form, ...))
+    return(.intArith(form, ...))
   if(group =="Math")
-    return(intMath(form, ...))
+    return(.intMath(form, ...))
   
   #check if it's just x
   if((lhs(form))==rhsVar){
@@ -66,7 +66,7 @@ symbolicAntiD <- function(form, ...){
 }
 
 #--------------------------
-intArith <- function(form, ...){
+.intArith <- function(form, ...){
   dots = list(...)
   
   rhsVar = all.vars(rhs(form))
@@ -175,7 +175,7 @@ intArith <- function(form, ...){
 }
 
 #--------------------------
-intMath <- function(form, ...){
+.intMath <- function(form, ...){
   
   op = lhs(form)[[1]]
   

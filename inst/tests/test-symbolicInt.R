@@ -54,13 +54,13 @@ test_that('Constant of integration has a valid name',{
 })
 
 test_that('Everything works',{
-  checkFun <- function(formula, integral){
+  checkFun <- function(formula, integral,minv=-10,maxv=10){
     ff = symbolicInt(formula)
     gg = makeFun(integral)
     vars = list()
     for(i in (1:length(formals(ff)))){
       if(class(formals(ff)[[i]])=="name")
-        vars[[names(formals(ff))[[i]]]] = seq(-10,10, len = 40)
+        vars[[names(formals(ff))[[i]]]] = seq(minv,maxv, len = 40)
     }
     expect_that(do.call(ff, vars), equals(do.call(gg, vars), tol=0.00001))
   }
@@ -71,11 +71,11 @@ test_that('Everything works',{
   checkFun((a+3)*y^7-a*4*y+a~y, (a+3)*1/(8)*y^8-a*4*1/(2)*y^2+a*y~y)
   checkFun(x^n~x, 1/(n+1)*x^(n+1)~x)
   checkFun(3*x^-4+x^-2-x^-3~x,3*1/(-3)*x^-3+1/(-1)*x^-1-1/(-2)*x^-2~x )
-  checkFun(3/y+3*y^2~y, 3*log(y)+y^3~y)
+  checkFun(minv=1,3/y+3*y^2~y, 3*log(y)+y^3~y)
   checkFun(((2+((3*((x))))))~x, 2*x+3/2*x^2~x)
   checkFun(3*(2*x)^2~x, 1/2*(2*x)^3~x)
-  checkFun(1/(x+1)~x, log(1+x)~x)
-  checkFun((x+1)^-1~x, log(1+x)~x)
+  checkFun(minv=1,1/(x+1)~x, log(1+x)~x)
+  checkFun(minv=1,(x+1)^-1~x, log(1+x)~x)
   checkFun(3*sin(3*x+1)~x, -cos(3*x+1)~x)
   checkFun(sin(2*(x))~x, -1/2*cos(2*x)~x)
   checkFun(2*pi*(x/P)~x, pi/P*x^2~x)
