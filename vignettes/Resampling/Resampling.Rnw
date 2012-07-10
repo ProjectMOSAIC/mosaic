@@ -185,7 +185,15 @@ The basic \pkg{lattice} syntax here --- operator, ``formula" involving \verb+~+,
 mean(~Price, data=mustangs)
 @ 
 
-Those familiar with \R{} may wonder why the statement has not been written as \texttt{mean(mustangs\$Price)}.  You can, of course, carry out exactly the same calculation this way.  By using \verb+mean(~Price, data=mustangs)+, we are anticipating the next steps: the introduction of 
+Those familiar with \R{} may wonder why the statement has not been written as 
+<<eval=FALSE>>=
+mean(mustangs$Price)
+@
+You can, of course, carry out exactly the same calculation this way.  By using 
+<<eval=FALSE>>=
+mean(~Price, data=mustangs)
+@
+we are anticipating the next steps: the introduction of 
 additional operations such as randomization and modeling.
 
 Resampling, also known as random selection with replacement, is an important operation in randomization.  The \function{resample} function performs this.  It can be illustrated in a very basic way on a small set of numbers:
@@ -211,7 +219,7 @@ By reference to the case numbers in the left column, you can see that case 19 ha
 
 One resampling trial of the mean can be carried out with
 <<>>=
-mean(Price, data=resample(mustangs))
+mean(~Price, data=resample(mustangs))
 @
 Even though a single trial is of little use, it's a nice idea to have
 students do the calculation to show that they are 
@@ -220,16 +228,16 @@ students do the calculation to show that they are
 
 Another trial can be carried out by repeating the command:
 <<>>=
-mean(Price, data=resample(mustangs))
+mean(~Price, data=resample(mustangs))
 @ 
 Let's generate five more, with a single command: 
 <<>>=
-do(5) * mean(Price, data=resample(mustangs))
+do(5) * mean(~Price, data=resample(mustangs))
 @
 Now conduct 1000 resampling trials, saving the results in an object
 called \dataframe{trials}:
 <<>>=
-trials <- do(1000) * mean(Price, data=resample(mustangs))
+trials <- do(1000) * mean(~Price, data=resample(mustangs))
 @ 
 
 

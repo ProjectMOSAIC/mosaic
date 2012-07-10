@@ -69,37 +69,41 @@ test_that("unmixed 2nd-order partials work",{
 test_that("basic integration works", {
   f <- antiD( a*x ~ x, a=10)
   expect_that( f(3), equals(45,tol=.001))
-  expect_that( f(x.to=3), equals(45, tol=.001))
+  expect_that( f(x=3), equals(45, tol=.001))
   expect_that( f(3,a=100), equals(450, tol=.001))
-  expect_that( f(x.to=3,a=100), equals(450, tol=.001))
+  expect_that( f(x=3,a=100), equals(450, tol=.001))
 })
 
 test_that("Default limits in integrals work",{
   f <- antiD( 1 ~ x, x.from=-5)
-  expect_that( f(x.to=3), equals(8,tol=0.001))
-  expect_that( f(x.to=3, x.from=-3), equals(6, tol=0.001))
-  expect_that( f(x.to=-3, x.from=3), equals(-6, tol=0.001))
+  expect_that( f(x=3), equals(8,tol=0.001))
+  f <- antiD( 1 ~ x, x.from=-3)
+  expect_that( f(x=3), equals(6, tol=0.001))
+  f <- antiD( 1 ~ x, x.from=3)
+  expect_that( f(x=-3), equals(-6, tol=0.001))
 })
 
 test_that("Integrals work with Inf args",{
   f <- antiD(dnorm(x)~x, x.from=-Inf)
-  expect_that( f(x.to=0),equals(.5,tol=0.0001))
-  expect_that( f(x.to=Inf), equals(1, tol=0.0001))
-  expect_that( f(x.to=Inf, x.from=0), equals(.5, tol=0.0001))
-  expect_that( f(x.to=-Inf, x.from=Inf), equals(-1, tol=0.0001))
+  expect_that( f(x=0),equals(.5,tol=0.0001))
+  expect_that( f(x=Inf), equals(1, tol=0.0001))
+  f <- antiD(dnorm(x)~x, x.from=0)
+  expect_that( f(x=Inf), equals(.5, tol=0.0001))
+  f <- antiD(dnorm(x)~x, x.from=Inf)
+  expect_that( f(x=-Inf), equals(-1, tol=0.0001))
 })
 
 test_that("Initial condition (constant of integration) works", {
   f <- antiD( 1~t)
-  expect_that( f(t.to=0), equals(0, tol=0.00001))
-  expect_that( f(t.to=5), equals(5, tol=0.00001))
-  expect_that( f(t.to=0, initVal=2), equals(2, tol=0.00001))
-  expect_that( f(t.to=5, initVal=2), equals(7, tol=0.00001))
+  expect_that( f(t=0), equals(0, tol=0.00001))
+  expect_that( f(t=5), equals(5, tol=0.00001))
+  expect_that( f(t=0, initVal=2), equals(2, tol=0.00001))
+  expect_that( f(t=5, initVal=2), equals(7, tol=0.00001))
 })
 
 test_that("Symbols for constant of integration work", {
   vel <- antiD( -9.8 ~ t  )
-  pos <- antiD( vel( t.to=t, initVal=v0)~t, Const=50)
+  pos <- antiD( vel( t=t, initVal=v0)~t, Const=50)
   expect_that(pos(5, v0=10, initVal=100), equals(27.5,tol=0.00001) )
 })
 
@@ -117,23 +121,23 @@ test_that("integrals work in other functions", {
   f <- antiD( a~x, a=10 )
   h <- makeFun(f(x)~x)
   expect_that( h(4), equals(f(4)))
-  h <- makeFun(f(x.to=x,a=100)~x)
+  h <- makeFun(f(x=x,a=100)~x)
   expect_that( h(4), equals(f(4,a=100)))
-  h <- makeFun(f(x.to=x,a=a)~x,a=20)
+  h <- makeFun(f(x=x,a=a)~x,a=20)
   expect_that( h(4),equals(f(4,a=20)))
 })
 
 test_that("integrals and derivatives interoperate", {
   F <- antiD(x~x)
-  f <- D( F(x.to=x,x.from=0)~x )
+  f <- D( F(x=x)~x )
   expect_that( f(3),equals(3,tol=0.00001))
 })
 
 test_that("integrals work on integrals", {
   one <- makeFun(1~x&y)
   by.x <- antiD( one(x=x, y=y) ~x )
-  by.xy <- antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
-  expect_that( by.xy(y.from=-1, y.to=1), equals(pi,tol=0.00001))
+  by.xy <- antiD(by.x(x=sqrt(1-y^2), y=y)~y, y.from=-1)
+  expect_that( by.xy(y=1), equals(pi/2,tol=0.00001))
 })
 
 test_that("Basic numerical differentiation works", {

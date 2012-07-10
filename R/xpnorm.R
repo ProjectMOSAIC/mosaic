@@ -1,3 +1,4 @@
+utils::globalVariables( c('Q','MEAN','slider','manipulate'))
 #' Augmented versions of pnorm and qnorm
 #' 
 #' These functions behave similarly to the functions with the initial \code{x}
@@ -78,7 +79,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
 		      vlwd=vlwd, vcol=vcol, rot=rot, ...))
     }
 	if (invisible) { 
-    	invisible(pnorm(q, mean = mean, sd = sd, lower.tail = lower.tail, log.p = log.p))
+    	return(invisible(pnorm(q, mean = mean, sd = sd, lower.tail = lower.tail, log.p = log.p)))
 	}
     return(pnorm(q, mean = mean, sd = sd, lower.tail = lower.tail, log.p = log.p))
 }
@@ -108,7 +109,7 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
 		      vlwd=vlwd, vcol=vcol, rot=rot, ...))
     }
 	if (invisible) { 
-    	invisible(q)
+    		return(invisible(q))
 	}
     return(q)
 }

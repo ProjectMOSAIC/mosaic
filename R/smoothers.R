@@ -1,3 +1,5 @@
+utils::globalVariables(c('.latticeEnv'))
+
 #' Create function from data
 #'
 #' These functions create mathematical functions from data, by smoothing, splining, or linear
@@ -77,7 +79,7 @@ linearModel <- function(formula, data, ...) {
   input.names <- all.vars(formula)[-1]
   L <- lm(update(formula,~-1+.), data, ...)
   makeDF <- paste( "data.frame( ", paste(input.names,collapse=",",sep=""),")")
-  F <- function() {
+  F <- function(showcoefs) {
     if( showcoefs ) coef(L)
     else { # evaluate the function 
       D <- eval(parse(text=makeDF))

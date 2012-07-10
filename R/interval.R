@@ -114,7 +114,7 @@ pval.htest <- function (x, digits=4, verbose=FALSE, ...){
 	  cat(')\n\n')
 	  cat( paste("p-value = ", signif(pval,digits), sep="") ) 
 	  cat('\n\n')
-	  invisible(pval)
+	  return(invisible(pval))
   }
 
   return( c(p.value=pval) )

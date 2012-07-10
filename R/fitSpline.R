@@ -25,6 +25,12 @@
 #' f <- fitSpline( weight ~ height, data=women, df=5 )
 #' xyplot( weight ~ height, data=women )
 #' plotFun(f(height) ~ height, add=TRUE)
+#' 
+#' g <- fitSpline( height ~ weight, Heightweight, type='natural', df=5 )
+#' h <- fitSpline( height ~ weight, Heightweight, type='linear', df=5 )
+#' xyplot( height ~ weight, Heightweight, col='gray70', pch=16)
+#' plotFun(g, add=TRUE, col='navy')
+#' plotFun(h, add=TRUE, col='red')
 
 fitSpline <- function( formula, data=parent.frame(), 
 			df = NULL,
@@ -34,10 +40,11 @@ fitSpline <- function( formula, data=parent.frame(),
 			...) {
 
 	type <- match.arg(type)
+
     xnames <- all.vars(rhs(formula))
     ynames <- all.vars(lhs(formula))
 	if (length(xnames) != 1 || length(ynames) != 1) 
-    	stop("Sorry: Doesn't yet handle multiple variables (yet).")
+    	stop("Sorry: Doesn't handle multiple variables (yet).")
 	x <- get( xnames, data )
 	y <- get( ynames, data )
 
@@ -45,23 +52,33 @@ fitSpline <- function( formula, data=parent.frame(),
 					natural="natural",
 					linear="linear",
 					polynomial="polynomial",
-					cubic='cubic',
-					periodic='periodic',
-					monotonic='monoH.FC',
-					interpolating='interpolating'
+					cubic='cubic'
 					)
+    if (method == 'natural') {
+		if (is.null(knots)) {
+			model <- lm( y ~ ns(x, df=df, ...) )
+		} else {
+			model <- lm( y ~ ns(x, df=df, knots=knots, ...) )
+		}
+    } else {
+		if (method == 'linear') degree=1
+		if (method == 'cubic') degree=3
+		if (is.null(knots)) {
+			model <- lm( y ~ bs(x, df=df, degre=degree, ...) )
+		} else {
+			model <- lm( y ~ bs(x, df=df, knots=knots, degre=degree, ...) )
+		}
+    }
 
-	model <- switch(method,
-					natural = lm( y ~ 1 + ns(x, knots=knots, df=df, ...), data=data ),
-					polynomial = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=degree, ...), data=data ),
-					linear = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=1, ...), data=data ),
-					cubic = lm( y ~ 1 + bs(x, knots=knots, df=df, degree=3, ...), data=data ),
-					NULL
-					)
-
-	result <- makeFun(model)
-	environment(result) <- list2env( c( as.list(environment(result)), 
-								       list(knots=knots, df=df, degree=degree)) )
-	return(result)
+	result <- function(x) {}
+	    body(result) <- parse(text = paste("return(predict(model, newdata=data.frame(", 
+            paste("x= ", xnames, collapse = ",", sep = ""), 
+            "), ...))"))
+        formals(result) <- eval(parse(text = paste("as.pairlist(alist(", 
+            paste(xnames, "= ", collapse = ",", sep = ""), ", ...=))")))
+		environment(result) <- list2env( c( as.list(environment(result)), 
+								       list(knots=knots, df=df, degree=degree, model=model)) )
+    	attr(result, "coefficients") <- coef(model)
+    return(result)
 }
 

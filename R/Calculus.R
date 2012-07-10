@@ -41,13 +41,13 @@
 #' (including mixed partials).
 #' \code{antiD} always does numerical integration.
 #' 
-#' \code{antiD} returns a function with arguments \code{to} 
-#' and \code{from=0}, the upper and lower
-#' bounds of the interval of integration w.r.t. the variable of integration.
+#' \code{antiD} returns a function with the same arguments as the 
+#' expression passed to it.  The returned function is the anti-derivative 
+#' of the expression, e.g., antiD(f(x)~x) -> F(x).  
+#' To calculate the integral of f(x), use F(to) - F(from). 
+#' This feature may be deprecated in an upcoming release:
 #' There is also an argument, \code{initVal}, that plays the role of the
-#' constant of integration.
-#' The numerical value of the integral or
-#' derivative can be found by evaluating that function.
+#' constant of integration.  
 #' 
 #' @export
 #' @examples
@@ -88,20 +88,17 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' @rdname Calculus
 #'
 #'
-#' @return a function of the same arguments as the original expression, but
-#' with the integration variable split into "from" and "to" prefaced by the 
-#' name of the variable, e.g. \code{y.from} and \code{y.to}.
+#' @return a function of the same arguments as the original expression.
 #' @export
 #' @examples
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
-#' F(t.from=-Inf, t.to=0)
-#' F(t.from=-Inf, t.to=Inf)
+#' F(t=Inf)
 #' one = makeFun(1~x&y)
-#' by.x = antiD( one(x=x, y=y) ~x )
-#' by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
-#' by.xy(y.from=-1, y.to=1)
+#' by.x = antiD( one(x=x, y=y) ~x)
+#' by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
+#' 4*by.xy(y=1) #area of quarter circle
 #' vel <- antiD( -9.8 ~ t  )
-#' pos <- antiD( vel( t.to=t, initVal=v0)~t, Const=50)
+#' pos <- antiD( vel( t=t, initVal=v0)~t, Const=50)
 #' pos(0:5, v0=10)
 #' pos(0:5, v0=10, initVal=100)
 antiD <- function(formula, ..., Const=0){
@@ -112,8 +109,7 @@ antiD <- function(formula, ..., Const=0){
   # so that the argument list gets created appropriately. So use NaN
   vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 
                         variants = c("from",".from"))$val
-  vi.to <- inferArgs( wrt, list(...), defaults=alist(val=NaN), 
-                      variants = c("to",".to"))$val
+  vi.to = NaN 
   res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6, Const)
   return(res)
 }
@@ -139,16 +135,13 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
     do.call(.function,.av,quote=TRUE) + 0*.vi #make the same size as vi
   }
   res <- function() {
-    numerical.integration(.newf, .wrt, #.function,.wrt, 
-                          as.list(match.call())[-1],formals())
+    numerical.integration(.newf, .wrt, 
+                          as.list(match.call())[-1],formals(), from)
   }
   resargs <- formals(.function) 
-  resargs[[.wrt]] <- NULL
   limitsArgs = list()
-  limitsArgs[[paste(.wrt,".to",sep="")]] <- to # should come first
-  limitsArgs[[paste(.wrt,".from",sep="")]] <- from # should come second
   limitsArgs[["initVal"]] <- Const
-  formals(res) <- c(limitsArgs,resargs)
+  formals(res) <- c(resargs,limitsArgs)
   
   return(Vectorize(res))
 }
@@ -159,13 +152,14 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
 #' @param wrt character string naming a variable: the var. of integration
 #' @param av a list of the arguments passed to the function calling this
 #' @param args default values (if any) for parameterss
+#' @param vi.from the the lower bound of the interval of integration
 #' 
 #' @note This function is not intended for direct use.  It packages
 #' up the numerical anti-differentiation process so that the contents
 #' of functions produced by \code{antiD} look nicer to human readers.
 #' @export
 #'
-numerical.integration <- function(f,wrt,av,args) {
+numerical.integration <- function(f,wrt,av,args,vi.from) {
   # We are about to do the numerics.  At this point, every
   # variable should have a numerical binding.  Just in case some
   # are still expressions, go through the list and evaluate them
@@ -173,10 +167,8 @@ numerical.integration <- function(f,wrt,av,args) {
   av2 = c(av, args) # combine the actual arguments with the formals
   # to make sure that default values are included
   # Extract the limits from the argument list
-  vi.from <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
-                       variants = c("from",".from"))$val
   vi.to <- inferArgs(wrt, av2, defaults=alist(val=NaN), 
-                     variants = c("to",".to"))$val
+                     variants = c("","to",".to"))$val
   # If they are calls, turn them into values.  Redundant with loop above
   if( any(is.nan(vi.to)) | any(is.nan(vi.from))) stop("Integration bounds not given.")
   # and delete them from the call
