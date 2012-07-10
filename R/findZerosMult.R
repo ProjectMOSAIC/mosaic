@@ -198,8 +198,12 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
   .evalSys <- function(.x.,System){
     n=length(System)
     FF = rep(0,n)
-    for( i in (1:n))
-      FF[i]=do.call(System[[i]], as.list(.x.))
+    for( i in (1:n)){
+      if(length(formals(System[[i]]))!= length(.x.))
+        FF[i]=do.call(System[[i]], as.list(.x.[-which(names(.x.)==
+          setdiff(names(.x.), names(formals(System[[i]]))))]))
+      else FF[i] = do.call(System[[i]], as.list(.x.))
+    }
     return(FF)
   }
   
