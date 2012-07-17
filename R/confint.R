@@ -34,7 +34,7 @@ confint.numeric = function(object, parm, level=0.95, ..., method=c("stderr", "qu
 #' @rdname confint
 #' @method confint data.frame
 confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", "quantile"), margin=FALSE) {
-  method <- method[1]
+  method <- match.arg(method) # which method was selected
   nms <- names(object)
   n <- length(nms)
   res <- data.frame( name=rep(NA,n), lower=rep(NA,n), upper=rep(NA,n) )
@@ -46,7 +46,7 @@ confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", 
       res$upper[k] <- vals[2]
     }
   }
-  res <- subset(res, !is.na(res$lower) )
+  res <- subset(res, !is.na(res$name) ) # get rid of non-quantitative variables
   if( margin ) {
     res <- data.frame(name=res$name, 
                      point=(res$upper+res$lower)/2, 
@@ -70,7 +70,7 @@ confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", 
               margin.of.error=(res[[3]]-res[[2]])/2)
 }
 .mosaic.get.ci = function( vals, level, method ) {
-  if( method == "stderr" ) res = mean(vals) + c(-1,1)*sd(vals)*qt(1-(1-level)/2, length(vals)-1)
+  if( method == "stderr" ) res = mean(vals, na.rm=TRUE) + c(-1,1)*sd(vals, na.rm=TRUE)*qt(1-(1-level)/2, length(vals)-1)
   else res = qdata( c((1-level)/2, 1-(1-level)/2), vals )
   return(res)
 }
