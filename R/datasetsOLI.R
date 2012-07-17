@@ -675,7 +675,7 @@ NA
 #'    
 #'    \itemize{
 #'     \item{\code{time}} {amount of time (in minutes) that an individual watched TV during a week}
-#'     \item{\code{gender} {{\code{Female} or \code{Male}}
+#'     \item{\code{gender}} {\code{Female} or \code{Male}}
 #'   }
 #' 
 #' @references
