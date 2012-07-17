@@ -9,7 +9,7 @@
 #'      A data frame with 32 observations on the following variable.
 #'    
 #'    \itemize{
-#'     \item{\code{age} }{Ages of Best Actor Oscar winners from 1970 to 2001}
+#'     \item{\code{age}} {ages of Best Actor Oscar winners from 1970 to 2001}
 #'   }
 #' 
 #' @references
@@ -31,9 +31,9 @@ NA
 #'      A data frame with 40 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{animal}}{the name of the animal species}
-#'     \item{\code{gestation}}{the average gestation period of the species (in days)}
-#'     \item{\code{longevity}}{the average longevity of the species (in years)}
+#'     \item{\code{animal}} {name of the animal species}
+#'     \item{\code{gestation}} {average gestation period of the species (in days)}
+#'     \item{\code{longevity}} {average longevity of the species (in years)}
 #'   }
 #' 
 #' @references
@@ -77,8 +77,8 @@ NA
 #'      A data frame with 38 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{cry.count}}{the number of distinct cry vocalizations within 20 seconds}
-#'     \item{\code{IQ}}{IQ at 3 years of age}
+#'     \item{\code{cry.count}} {the number of distinct cry vocalizations within 20 seconds}
+#'     \item{\code{IQ}} {IQ at 3 years of age}
 #'   }
 #' 
 #' @references
@@ -98,7 +98,7 @@ NA
 #'      A data frame with 125 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{birthweight}}{weights of newborns (in grams)}
+#'     \item{\code{birthweight}} {weights of newborns (in grams)}
 #'   }
 #' 
 #' @references
@@ -173,9 +173,9 @@ NA
 #'  @format
 #'  A data frame with 20783 observations on the following variables.
 #'    \itemize{
-#'     \item{\code{age}}{age of computer user (in years)}
-#'     \item{\code{gender}}{a factor with levels \code{female} or \code{male}}
-#'     \item{\code{comp}}{weekly time of computer use (in hours)}
+#'     \item{\code{age}} {age of computer user (in years)}
+#'     \item{\code{gender}} {a factor with levels \code{female} or \code{male}}
+#'     \item{\code{comp}} {weekly time of computer use (in hours)}
 #'  }
 #' 
 #' @references
@@ -196,13 +196,13 @@ NA
 #'      A data frame with 109 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{Hospt}}{the hospital of patient, represented by a code for each of the 5 hospitals (1, 2, 3, 5, or 6)}
-#'     \item{\code{Treat}}{the treatment received by the patient}
-#'     \item{\code{Outcome}}{whether or not a recurrence occurred during the treatment of patient (0 = No Recurrence, 1 = Recurrence)}
-#'     \item{\code{Time}}{either the time in days till the first recurrence, or if a recurrence did not occur, the length (in days) of the patient's participation in the study}
-#'     \item{\code{AcuteT}}{the time (in days) that the patient was depressed prior to the study}
-#'     \item{\code{Age}}{the age of the patient (in years), when the patient entered the study}
-#'     \item{\code{Gender}}{the gender of patient (\code{Female} or \code{Male})}
+#'     \item{\code{Hospt}} {the hospital of patient, represented by a code for each of the 5 hospitals (1, 2, 3, 5, or 6)}
+#'     \item{\code{Treat}} {the treatment received by the patient (0=Lithium, 1=Imipramine, or 2=Placebo)}
+#'     \item{\code{Outcome}} {whether or not a recurrence occurred during the treatment of patient (0 = No Recurrence, 1 = Recurrence)}
+#'     \item{\code{Time}} {either the time in days till the first recurrence, or if a recurrence did not occur, the length (in days) of the patient's participation in the study}
+#'     \item{\code{AcuteT}} {the time (in days) that the patient was depressed prior to the study}
+#'     \item{\code{Age}} {the age of the patient (in years), when the patient entered the study}
+#'     \item{\code{Gender}} {the gender of patient (\code{Female} or \code{Male})}
 #'   }
 #' 
 #' @references
@@ -251,7 +251,7 @@ NA
 #'      A data frame with 75 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{drinks.per.week}}{number of alcoholic drinks (standard units) per week}
+#'     \item{\code{drinks.per.week}} {number of alcoholic drinks (standard units) per week}
 #'   }
 #' 
 #' @references
@@ -272,16 +272,16 @@ NA
 #'      A data frame with 71 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{class} }{automobile type \code{TWO SEATERS}}
-#'     \item{\code{mfr} }{automobile brand: one of \code{MERCEDES=BENZ} \code{PORSCHE} \code{BMW} \code{LAMBORGHINI} \code{CHRYSLER} \code{FERRARI} \code{ASTON MARTIN} \code{CADILLAC} \code{CHEVROLET} \code{HONDA} \code{LOTUS} \code{MAZDA} \code{NISSAN} \code{PONTIAC} \code{SATURN} \code{SPYKR}}
-#'     \item{\code{line} }{model}
-#'     \item{\code{displace} }{displacement of the engine}
-#'     \item{\code{cylinders} }{number of cylinders}
-#'     \item{\code{trans} }{transmission type}
-#'     \item{\code{drive} }{drive system, 4 = , R = }
-#'     \item{\code{city} }{city mileage (in miles per gallon)}
-#'     \item{\code{hwy} }{highway mileage (in miles per gallon)}
-#'     \item{\code{mpg} }{combined city and highway (in miles per gallon)}
+#'     \item{\code{class}} {automobile type \code{TWO SEATERS}}
+#'     \item{\code{mfr}} {automobile brand: one of \code{MERCEDES=BENZ} \code{PORSCHE} \code{BMW} \code{LAMBORGHINI} \code{CHRYSLER} \code{FERRARI} \code{ASTON MARTIN} \code{CADILLAC} \code{CHEVROLET} \code{HONDA} \code{LOTUS} \code{MAZDA} \code{NISSAN} \code{PONTIAC} \code{SATURN} \code{SPYKR}}
+#'     \item{\code{line}} {model}
+#'     \item{\code{displace}} {displacement of the engine}
+#'     \item{\code{cylinders}} {number of cylinders}
+#'     \item{\code{trans}} {transmission type}
+#'     \item{\code{drive}} {drive system, 4 = , R = }
+#'     \item{\code{city}} {city mileage (in miles per gallon)}
+#'     \item{\code{hwy}} {highway mileage (in miles per gallon)}
+#'     \item{\code{mpg}} {combined city and highway (in miles per gallon)}
 #'   }
 #' 
 #' @references
@@ -302,8 +302,8 @@ NA
 #'      A data frame with 19 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{color}}{eye color: \code{Brown}, \code{Green}, or \code{Blue}}
-#'     \item{\code{cff}}{Critical Flicker Frequency}
+#'     \item{\code{color}} {eye color: \code{Brown}, \code{Green}, or \code{Blue}}
+#'     \item{\code{cff}} {critical flicker frequency}
 #'   }
 #' 
 #' @references
@@ -324,7 +324,7 @@ NA
 #'      A data frame with 1200 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{easiest} }{answer to the question: "With whom do you find it easiest to make friends?" \code{No difference} \code{Opposite sex} or \code{Same sex}}
+#'     \item{\code{easiest}} {answer to the question: "With whom do you find it easiest to make friends?" \code{No difference} \code{Opposite sex} or \code{Same sex}}
 #'   }
 #' 
 #' @references
@@ -372,8 +372,8 @@ NA
 #'      A data frame with 48 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{ontime}{percentage of students that graduated on time}
-#'     \item{\code{college}}{a factor with levels \code{A} through \code{F}}
+#'     \item{ontime} {percentage of students that graduated on time}
+#'     \item{\code{college}} {a factor with levels \code{A} through \code{F}}
 #'   }
 #' 
 #' @references
@@ -394,7 +394,7 @@ NA
 #'      A data frame with 1200 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{opinion}}{whether or not satisfied with the expiration of the ban on assault weapons: \code{satisfied} or \code{not satisfied}}
+#'     \item{\code{opinion}} {whether or not satisfied with the expiration of the ban on assault weapons: \code{satisfied} or \code{not satisfied}}
 #'   }
 #' 
 #' @references
@@ -415,10 +415,10 @@ NA
 #'      A data frame with 81 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{female}}{0 = male, 1 = female}
-#'     \item{\code{gender} }{a factor with levels \code{male} or \code{female}}
-#'     \item{\code{height} }{subject height (in inches)}
-#'     \item{\code{weight} }{subject weight (in pounds)}
+#'     \item{\code{female}} {0 = male, 1 = female}
+#'     \item{\code{gender}} {a factor with levels \code{male} or \code{female}}
+#'     \item{\code{height}} {subject height (in inches)}
+#'     \item{\code{weight}} {subject weight (in pounds)}
 #'   }
 #' 
 #' @references
@@ -469,8 +469,8 @@ NA
 #'      A data frame with 479 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{Light}}{lighting conditions \code{no light} \code{night light} \code{lamp}}
-#'     \item{\code{Nearsightedness}}{whether or not the subjects later became nearsighted \code{Yes} \code{No}}
+#'     \item{\code{Light}} {lighting conditions \code{no light} \code{night light} \code{lamp}}
+#'     \item{\code{Nearsightedness}} {whether or not the subjects later became nearsighted \code{Yes} \code{No}}
 #'   }
 #' 
 #' @references
@@ -491,8 +491,8 @@ NA
 #'  @format
 #'   A data frame with 24 observations on the following variables.
 #'    \itemize{
-#'     \item{\code{Year}}{the year of the Olympic Games, from 1896 to 2000}
-#'     \item{\code{Time}}{the winning time for the 1,500 meter race (in seconds)}
+#'     \item{\code{Year}} {the year of the Olympic Games, from 1896 to 2000}
+#'     \item{\code{Time}} {the winning time for the 1,500 meter race (in seconds)}
 #'   }
 #' 
 #' @references
@@ -513,11 +513,11 @@ NA
 #'      A data frame with 1129 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{Course}}{purpose of taking introductory statistics courses \code{natural science} \code{social science} \code{business}}
-#'     \item{\code{Handed}}{handedness \code{right-handed} \code{left-handed}}
-#'     \item{\code{Sex}}{a factor with levels \code{female} or \code{male}}
-#'     \item{\code{Verbal}}{SAT verbal scores up to 800}
-#'     \item{\code{Age}}{age (in years)}
+#'     \item{\code{Course}} {purpose of taking introductory statistics courses \code{natural science} \code{social science} \code{business}}
+#'     \item{\code{Handed}} {handedness \code{right-handed} \code{left-handed}}
+#'     \item{\code{Sex}} {a factor with levels \code{female} or \code{male}}
+#'     \item{\code{Verbal}} {SAT verbal scores up to 800}
+#'     \item{\code{Age}} {age (in years)}
 #'   }
 #' 
 #' @references
@@ -539,7 +539,7 @@ NA
 #'      A data frame with 25 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{length} }{the length of pregnancy (in days) of women who were smoking and/or drinking alcohol during their pregnancy}
+#'     \item{\code{length}} {the length of pregnancy (in days) of women who were smoking and/or drinking alcohol during their pregnancy}
 #'   }
 #' 
 #' @references
@@ -560,8 +560,8 @@ NA
 #'      A data frame with 81 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{score}}{score on the evaluation scale}
-#'     \item{\code{situation}}{a factor with levels \code{Class I}, \code{Class II} or \code{Class III}}
+#'     \item{\code{score}} {score on the evaluation scale}
+#'     \item{\code{situation}} {a factor with levels \code{Class I}, \code{Class II} or \code{Class III}}
 #'   }
 #' 
 #' @references
@@ -587,8 +587,8 @@ NA
 #'      A data frame with 11 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{regular.seed}}{the corn yield (in pounds per acre) planting regular seed}
-#'     \item{\code{kiln.dried.seed}}{the corn yield (in pounds per acre) planting kiln-dried seed}
+#'     \item{\code{regular.seed}} {corn yield (in pounds per acre) planting regular seed}
+#'     \item{\code{kiln.dried.seed}} {corn yield (in pounds per acre) planting kiln-dried seed}
 #'   }
 #' 
 #' @references
@@ -609,7 +609,7 @@ NA
 #'      A data frame with 142 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{sleep}}{sleeping time in a typical day (in hours)}
+#'     \item{\code{sleep}} {sleeping time in a typical day (in hours)}
 #'   }
 #' 
 #' @references
@@ -630,8 +630,8 @@ NA
 #'      A data frame with 125 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{hours} }{number of hours that a student sleeps in a typical day)}
-#'     \item{\code{status} }{\code{Undergrad} or \code{Graduate} student}
+#'     \item{\code{hours}} {number of hours that a student sleeps in a typical day)}
+#'     \item{\code{status}} {\code{Undergrad} or \code{Graduate} student}
 #'   }
 #' 
 #' @references
@@ -652,8 +652,8 @@ NA
 #'      A data frame with 40 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{time}}{amount of time (in minutes) that an individual watched TV during a week}
-#'     \item{\code{gender} }{\code{Female} or \code{Male}}
+#'     \item{\code{time}} {amount of time (in minutes) that an individual watched TV during a week}
+#'     \item{\code{gender}} {\code{Female} or \code{Male}}
 #'   }
 #' 
 #' @references
@@ -674,8 +674,8 @@ NA
 #'      A data frame with 400 rows on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{time}}{amount of time (in minutes) that an individual watched TV during a week}
-#'     \item{\code{gender} }{\code{Female} or \code{Male}}
+#'     \item{\code{time}} {amount of time (in minutes) that an individual watched TV during a week}
+#'     \item{\code{gender} {{\code{Female} or \code{Male}}
 #'   }
 #' 
 #' @references
@@ -696,10 +696,10 @@ NA
 #'      A data frame with 20 observations on the following variables.
 #'    
 #'    \itemize{
-#'     \item{\code{time1}}{time (in hours) spending on exercises in a typical week, sample 1 of size 20}
-#'     \item{\code{time2}}{time (in hours) spending on exercises in a typical week, sample 2 of size 20}
-#'     \item{\code{time3}}{time (in hours) spending on exercises in a typical week, sample 3 of size 20}
-#'     \item{\code{time4}}{time (in hours) spending on exercises in a typical week, sample 4 of size 20}
+#'     \item{\code{time1}} {time (in hours) spending on exercises in a typical week, sample 1 of size 20}
+#'     \item{\code{time2}} {time (in hours) spending on exercises in a typical week, sample 2 of size 20}
+#'     \item{\code{time3}} {time (in hours) spending on exercises in a typical week, sample 3 of size 20}
+#'     \item{\code{time4}} {time (in hours) spending on exercises in a typical week, sample 4 of size 20}
 #'   }
 #' 
 #' @references

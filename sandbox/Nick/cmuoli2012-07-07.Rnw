@@ -1,0 +1,1814 @@
+
+\documentclass[11pt]{report}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{CMU OLI R code suggestions}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+	 \medskip
+	 \setlength{\tempfmlength}{#1}
+	 \begin{lrbox}{\fmbox}
+	   \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{CMU OLI Statistics Module Datasets and Scripts: \\
+Proposed Changes and Possible Improvements}
+
+\author{
+Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu} \and Ruobing Zhang
+\and Randall Pruim
+}
+
+\date{\today}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+	dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	fig.keep="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\chapter{Introduction}
+
+This document describes proposed changes to the Carnegie Mellon University Online Learning Initiative Statistics modules intended to simplify the use of R by students.
+
+\section{Motivation}
+ This work leverages on initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum.
+
+As an overview, we propose that the {\tt mosaic} package (available from the Comprehensive R Archive Network, aka CRAN) be included as part of the R code fragments provided to students.  The {\tt mosaic} package (\url{http://cran.r-project.org/web/packages/mosaic}) provides utilities and datasets for teaching statistics.  We believe that leveraging the {\tt mosaic} package will facilitate access to the CMU OLI datasets as well as incorporate helper routines to simplify the code required by students as well as provide more intuitive and less complicated access to statistical and graphical operations.  Versions 0.5-1 or later of the {\tt mosaic} packages includes the CMU OLI datasets.
+
+In this document, we have excerpted the code from the June, 2012 version of the course (listed as \emph{Original}) then replicated this functionality in a section which immediately follows (listed as {\emph{Revised}}).  At times, we have provided additional functionality (labeled as {\emph{Re-Revised}}).  Overall we have attempted to keep the coding as simple as possible while maintaining a consistent interface.  At times (see for example section \ref{majorfix}, page \pageref{majorfix}), this can dramatically shorten the code needed to undertake a particular task.
+
+We have tried to minimize the changes to the datasets to keep backward compatibility, but for pedagogical reasons have revised several dataset names and recoded some variables (see Appendix for details of these manipulations).
+
+This is a preliminary draft of the comparison code, and we look forward to discussing whether these changes could be integrated into the base course.
+
+
+\section{Installation}
+
+Throughout our examples, we access datasets and helper functions included in the {\tt mosaic} package. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+library(mosaic)
+@
+or 
+<<require_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session, and will make all of the CMU OLI datasets as well as
+the helper functions available.
+
+
+\chapter{Unit 1}
+
+As described above, for each of the CMU OLI Statistics modules which included R code, we have taken those commands along with the introductory material regarding the datasets and included them below as the \emph{Original} code.  We have then replicated this functionality in the section entitled \emph{Revised}.  We have indicated which module and which page these were extracted from.
+
+
+\section{Module 1 (page 7)}
+
+
+\subsection{Original}
+
+<<unit1orig,eval=showOriginal>>=
+# UNIT 1: Exploratory Data Analysis
+# Module 1: Examining Distributions
+# Introduction (EDA), p7, "Exploring a Dataset"
+# File name: depression
+# Sample size: 109
+# Codebook: 
+# Hospt: The patient's hospital, represented by a code for each of the 5 hospitals (1, 2, 3, 5, or 6)
+# Treat: The treatment received by the patient (Lithium, Imipramine, or Placebo)
+# Outcome: Whether or not a recurrence occurred during the patient's treatment (Recurrence or No Recurrence)
+# Time: Either the time in days till the first recurrence, or if a recurrence did not occur, the length in days of the patient's participation in the study.
+# AcuteT: The time in days that the patient was depressed prior to the study.
+# Age: The age of the patient in years, when the patient entered the study.
+# Gender: The patient's gender (1 = Female, 2 = Male)
+# R script:
+depression;
+depression$Gender=replace(depression$Gender,depression$Gender==1,'Female');
+depression$Gender=replace(depression$Gender,depression$Gender==2,'Male');
+depression;
+@
+
+\subsection{Revised}
+
+Rather than start the first use of R with a recoding exercise, we proposed modifying the dataset to create the variables in a self-documenting manner in the format where they can be immediately used by the student.  Data manipulation should be included in the course, but later in the sequencing.
+<<tally,eval=TRUE>>=
+library(mosaic)
+tally(~ Gender, data=Depression)
+tally(~ Gender, format="percent", data=Depression)
+@
+
+\section{Module 1 (page 12)}
+
+\subsection{Original}
+<<eval=showOriginal>>=
+# 
+# One Categorical Variable (3 of 3), p12, "One Categorical Variable"
+# File name: friends
+# Sample size: 1200
+# Codebook: 
+# Friends: Answers to the question: "With whom do you find it easiest to make friends?": "No difference", "Opposite sex", "Same sex"
+# R script:  
+friends;
+t=table(friends);t;
+percent=100*t/sum(t);percent;
+pie(t);
+pf=format(percent,digit=3);
+lbl=paste(c("No difference","Opposite sex","Same sex",pf,"%",sep=""));
+pie(t,label=lbl);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Friends)
+t= tally(~ easiest, margins=FALSE, data=Friends)
+t
+percent=100*t/sum(t)
+percent
+pie(t)
+@
+
+\subsection{Re-Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Friends)
+tally(~ easiest, margins=FALSE, data=Friends)
+tally(~ easiest, margins=FALSE, format='percent', data=Friends)
+bargraph( ~ easiest, data=Friends)
+@
+
+\section{Module 1 (page 17)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Histogram (3 of 3), p17, "Histogram"
+# File name: actor
+# Sample size: 32
+# Codebook:
+# Age: Ages of best actor Oscar winners (1970-2001)
+# R script:
+actor_age;
+hist(actor_age$Age,breaks=8);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Actors);
+histogram(~ age, nint=8, data=Actors)
+@
+
+\section{Module 1 (page 27)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+#
+# Boxplot (1 of 3), p27, "Boxplot"
+# File name: actor
+# Sample size: 32
+# Codebook: 
+# Age: Ages of best actor Oscar winners (1970-2001)
+# R script:
+actor_age;
+summary(actor_age$Age);
+@
+
+\subsection{Revised}
+<<eval=TRUE,favactor>>=
+library(mosaic)
+favstats(~ age, data=Actors)
+@
+
+\section{Module 1 (page 29)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+#
+# Boxplot (3 of 3), p29, "Boxplot"
+# File name: graduation
+# Sample size: 8
+# Codebook:
+# College.A: graduation rate of College A over past eight years
+# College.B: graduation rate of College B over past eight years
+# College.C: graduation rate of College C over past eight years
+# College.D: graduation rate of College D over past eight years
+# College.E: graduation rate of College E over past eight years
+# College.F: graduation rate of College F over past eight years
+# R script:
+grad_data;
+summary(grad_data);
+boxplot(grad_data);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE,multibox>>=
+library(mosaic)
+head(Graduation);
+favstats(ontime ~ college, data=Graduation)
+bwplot(ontime ~ college, data=Graduation)
+@
+
+\section{Module 1 (page 30)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Standard Deviation, p30, "Standard Deviation"
+# File name: sdintuition
+# Sample size: 27
+# Codebook:
+# Class I, II, III: 27 students in the class were asked to rate the instructor on a number scale of 1 to 9 (1 being "very poor," and 9 being "best instructor I've ever had")
+# R script:
+ratings;
+sd(ratings);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE,mysd>>=
+library(mosaic)
+head(Ratings)
+sd(score ~ situation, data=Ratings)
+favstats(score ~ situation, data=Ratings)
+dotPlot(~ score | situation, data=Ratings)
+@
+<<eval=TRUE>>=
+bwplot(score ~ situation, data=Ratings)
+@
+
+\section{Stat Tutor: Drinking (page 33)}
+
+<<eval=TRUE,fig.keep='last'>>=
+#
+# Wrap-Up (Distributions), p33, "Drinking Habits and Integrity of College Students"
+# File name: Drinking
+# Sample size: 236
+# Codebook
+# Gender: male or female
+# Height: self-reported height (in inches)
+# Alcohol: number of alcoholic beverages consumed in a typical week
+# Height: self-reported height (in inches)
+# Cheat: would you tell the instructor if you saw somebody cheating on an exam? (0=No, 1=Yes)
+@
+
+\subsection{Q1 Original}
+
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+hist(data$Alcohol)
+summary(data$Alcohol)
+@
+
+\subsection{Q1 Revised}
+<<eval=TRUE>>=
+library(mosaic)
+histogram(~ Alcohol, data=Drinking)
+favstats(~ Alcohol, data=Drinking)
+@
+
+\subsection{Q2 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+tb1=table(Drinking$Cheat); tb1
+100*tb1/sum(tb1)
+pie(tb1)
+@
+
+\subsection{Q2 Revised}
+<<eval=TRUE,fig.keep='last'>>=
+library(mosaic)
+tab = tally(~ Cheat, margins=FALSE, data=Drinking)
+tab
+100*tab/sum(tab)
+pie(tab, labels=c("No", "Yes"))
+title("Proportion admitted cheating")
+@
+
+\section{Module 2 (page 41)}
+
+\subsection{Original}
+
+<<eval=TRUE>>=
+# 
+# Module 2: Examining Relationships
+# Case C→C, p41, "Case C→C"
+# File name: nightlight
+# Sample size: 479
+# Codebook:
+# Light: what kind of light ("no light", "night light" or "lamp")
+# Nearsightedness: whether or not the subjects later became nearsighted ("Yes" or "No")
+# R script:
+head(Nightlight)
+t = table(Nightlight); t
+100*t / rowSums(t);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+library(vcd)
+tally(~ Nearsightedness | Light, data=Nightlight)
+tally(~ Light | Nearsightedness, data=Nightlight)
+mosaic(~ Light + Nearsightedness, data=Nightlight)
+@
+
+\section{Module 2 (page 47)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Scatterplot (5 of 5), p47, "Scatterplot"
+# File name: height
+# Sample size: 81
+# Codebook:
+# gender: 0=male, 1=female
+# height: in inches
+# weight: in pounds 
+# R script:
+h;
+plot(h$height,h$weight);
+points(h$height[h$gender==1],h$weight[h$gender==1],col="red");
+m = h[h$gender==0,];
+f = h[h$gender==1,];
+xaxis = c(min(h$height),max(h$height));
+yaxis = c(min(h$weight),max(h$weight));
+plot(m$height,m$weight,xlab="height",ylab="weight",
+main="Heights and Weights",xlim=xaxis,ylim=yaxis,col="blue");
+points(f$height,f$weight,col="red");
+legend(55,225, pch=1, col=c("red","blue"),legend=c("females","males"));
+@
+
+\subsection{Revised}
+\label{majorfix}
+
+<<eval=TRUE>>=
+library(mosaic)
+xyplot(weight ~ height, groups=gender, auto.key=TRUE, data=Heightweight)
+@
+
+\section{Module 2 (page 51)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Linear Relationships (4 of 8), p51, "Linear Relationships"
+# File name: animals
+# Sample size: 40
+# Codebook:
+# animal: the name of the animal species
+# gestation: the average gestation period of the species, in days.
+# longevity: the average longevity of the species, in years
+# R script:
+a;
+plot(a$longevity,a$gestation);
+cor(a$longevity,a$gestation);
+cor(a$longevity[a$animal!="elephant"],a$gestation[a$animal!="elephant"]);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Animals)
+xyplot(gestation ~ longevity, groups = animal == "elephant", data=Animals)
+with(Animals, cor(longevity, gestation))
+with(subset(Animals, animal != "elephant"), cor(longevity, gestation))
+@
+
+\section{Module 2 (page 55)}
+
+\subsection{Original}
+
+<<eval=TRUE,fig.keep='last'>>=
+# 
+# Linear Relationships (8 of 8), p55, "Linear Relationships"
+# File name: olympics
+# Sample size: 24
+# Codebook
+# Year: the year of the Olympic Games, from 1896 to 2000
+# Time: the winning time for 1,500 meter race, in seconds
+# R script:
+olym = Olympics;
+L = lm(olym$Time~olym$Year);
+plot(olym$Year, olym$Time);
+title("All observations");
+abline(L);
+cf=coefficients(L);
+legend(1940,260,legend=paste("time = ",round(cf[1],0),round(cf[2],2),"year"));
+@
+<<eval=TRUE,fig.keep='last'>>=
+
+plot(olym$Year[olym$Year!=1896], olym$Time[olym$Year!=1896]);
+title("Not 1896")
+L = lm(olym$Time[olym$Year!=1896]~olym$Year[olym$Year!=1896]);
+abline(L);
+cf=coefficients(L);
+legend(1950,240,legend=paste("time = ",round(cf[1],0),round(cf[2],2),"year"));
+@
+
+\subsection{Revised}
+
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Olympics)
+cf = coef(lm(Time ~ Year, data=Olympics))
+cf
+mytitle = paste("time = ", round(cf[1],0), "+", round(cf[2],2), "year")
+xyplot(Time ~ Year, main = mytitle, type=c("p", "r"), data=Olympics)
+no1896 = subset(Olympics, Year != 1896)
+cf = coef(lm(Time ~ Year, data=no1896))
+cf
+mytitle = paste("time = ", round(cf[1],0), "+", round(cf[2],2), "year")
+xyplot(Time ~ Year, main = mytitle, type=c("p", "r"), data=no1896)
+@
+
+\section{Stat Tutor: Bodyimage (page 61)}
+
+<<eval=TRUE,fig.keep='last'>>=
+#
+# Wrap-Up (Relations), p61, "Body Image and Academic Performance of College Students"
+# File name: Bodyimage
+# Sample size: 236
+# Codebook
+# Gender: male or female
+# Height: self-reported height (in inches)
+# GPA: student's cumulative college GPA
+# HS_GPA: student's high school GPA for senior year
+# Seat: typical classroom sear location, Front, Middle, or Back
+# WtFeel: student's feeling about his/her weight: Underweight, Abour Right, or Overweight
+# Cheat: would they tell the instructor if he/she saw somebody cheating on exam? (No or Yes)
+@
+
+\subsection{Q1 Original}
+
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+plot(Bodyimage$HS_GPA, Bodyimage$GPA)
+cor(Bodyimage$HS_GPA, Bodyimage$GPA, use="c")
+L=lm(Bodyimage$GPA~Bodyimage$HS_GPA)
+abline(L)
+cf=coefficients(L)
+It=paste("GPA=",round(cf[1],2))
+legend(1.7,4.3,It)
+@
+
+\subsection{Q1 Revised}
+<<eval=TRUE>>=
+library(mosaic)
+xyplot(GPA ~ HS_GPA, type=c("p", "r"), data=Bodyimage)
+with(Bodyimage, cor(HS_GPA, GPA, use="c"))
+coef(lm(GPA ~ HS_GPA, data=Bodyimage))
+@
+
+\subsection{Q2 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+tb1=table(data.frame(Bodyimage$Gender,Bodyimage$WtFeel))
+tb1
+100*tb1/rowSums(tb1)
+@
+
+\subsection{Q2 Revised}
+<<eval=TRUE>>=
+library(mosaic)
+tab = tally(~ Gender + WtFeel, margins=FALSE, data=Bodyimage)
+tab
+100*tab/rowSums(tab)
+@
+
+\subsection{Q3 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R Script:
+plot(factor(Bodyimage$Seat), Bodyimage$GPA)
+tapply(Bodyimage$GPA, factor(Bodyimage$Seat), summary)
+@
+
+\subsection{Q3 Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+bwplot(GPA ~ Seat, data=Bodyimage)
+favstats(GPA ~ Seat, data=Bodyimage)
+@
+
+\chapter{Unit 2}
+
+\section{Module 3 (page 67)}
+
+\subsection{Original}
+
+<<eval=FALSE>>=
+# 
+# UNIT 2: Producing Data
+# Module 3: Sampling
+# Sampling (2 of 2), p67, "Sampling"
+# File name: student_survey
+# Sample size: 1129
+# Codebook:
+# Course: natural science, social science, or business
+# Handed: right-handed or left-handed
+# Sex: female or male
+# Verbal: SAT Verbal scores up to 800
+# Age: in years
+# R script:
+population = Population
+random_sample = population[sample(1:length(population$Course),129),];
+head(random_sample);
+random_sample_percent = 100*summary(random_sample$Handed)/length(random_sample$Handed);
+random_sample_percent;
+pop_percent = 100*summary(population$Handed)/length(population $Handed);
+pop_percent;
+par(mfrow=c(1,2));
+pie(pop_percent,labels=paste(c("left=","right="),round(pop_percent,0),"%"),main="Population");
+pie(random_sample_percent,labels=paste(c("left=","right="),round(random_sample_percent,0),"%"),main="Random Sample");
+random_sample_percent = 100*summary(random_sample$Sex)/length(random_sample$Sex);
+random_sample_percent;
+pop_percent = 100*summary(population$Sex)/length(population $Sex);
+pop_percent;
+par(mfrow=c(1,2));
+pie(pop_percent,labels=paste(c("female=","male="),round(pop_percent,0),"%"),main="Population");
+pie(random_sample_percent,labels=paste(c("female=","male="),round(random_sample_percent,0),"%"),main="Random Sample");
+summary(population$Verbal);
+summary(random_sample$Verbal);
+summary(population$Age);
+summary(random_sample$Age);
+business = population[population$Course=="Business",];
+head(business);
+business_percent = 100*summary(business$Handed)/length(business$Handed);
+business_percent;
+pop_percent = 100*summary(population$Handed)/length(population $Handed);
+pop_percent;
+par(mfrow=c(1,2));
+pie(pop_percent,labels=paste(c("left=","right="),round(pop_percent,0),"%"),main="Population");
+pie(business_percent,labels=paste(c("left=","right="),round(business_percent,0),"%"),main="Business Students");
+business_percent = 100*summary(business$Sex)/length(business$Sex);
+business_percent;
+pop_percent = 100*summary(population$Sex)/length(population $Sex);
+pop_percent;
+par(mfrow=c(1,2));
+pie(pop_percent,labels=paste(c("female=","male="),round(pop_percent,0),"%"),main="Population");
+pie(business_percent,labels=paste(c("female=","male="),round(business_percent,0),"%"),main="Business Students");
+summary(population$Verbal);
+summary(business$Verbal);
+summary(population$Age);
+summary(business$Age);
+@
+
+
+\subsection{Revised}
+
+<<eval=TRUE,out.width=".47\\textwidth">>=
+library(mosaic)
+head(Population)
+Random_Sample = sample(Population, 129)
+head(Random_Sample)
+tally( ~ Handed, data=Random_Sample, format='percent' )
+tally( ~ Handed, data=Population, format='percent' )
+bargraph( ~ Handed, data=Population, main='Population')
+bargraph( ~ Handed, data=Random_Sample, main='Sample')
+@
+
+<<eval=TRUE,out.width=".47\\textwidth">>=
+tally( ~ Sex, data=Random_Sample, format='percent' )
+tally( ~ Sex, data=Population, format='percent' )
+bargraph( ~ Sex, data=Population, main='Population')
+bargraph( ~ Sex, data=Random_Sample, main='Sample')
+@
+<<eval=TRUE,out.width=".77\\textwidth">>=
+require(vcd)
+mosaic( ~ Sex + Handed, Population, main = "Population")
+mosaic( ~ Sex + Handed, Population, main = "random sample")
+@
+
+<<>>=
+favstats(~ Verbal, Population)
+favstats(~ Verbal, Random_Sample)
+favstats(~ Age, Population)
+favstats(~ Age, Random_Sample)
+@
+<<>>=
+Business = subset(Population, Course=="Business")
+head(Business)
+tally( ~ Handed, data=Population )
+tally( ~ Handed, data=Business )
+bargraph(~Course, groups=Handed, Population, main="Population", auto.key=TRUE)
+bargraph(~Course, groups=Handed, Random_Sample, main="Sample", auto.key=TRUE)
+@
+<<>>=
+require(vcd)
+mosaic(~Handed + Course, Population, main="Population" )
+mosaic(~Handed + Course, Random_Sample, main="Sample")
+@
+
+\section{Stat Tutor: Depression (page 83)}
+
+<<eval=TRUE,fig.keep='last'>>=
+#
+# Wrap-Up (Designing Studies), p83, "Treating Depression: A Randomized Clinical Trial"
+# File name: Depression
+# Sample size: 109
+# Codebook
+# Hospt: The patient's hospital, represented by a code for each of the 5 hospitals (1, 2, 3, 5, or 6)
+# Treat: The treatment received by the patient (Lithium, Imipramine, or Placebo)
+# Outcome: Whether or not a recurrence occurred during the patient's treatment (Recurrence or No Recurrence)
+# Time: Either the time in days till the first recurrence, or if a recurrence did not occur, the length in days of the patient's participation in the study.
+# AcuteT: The time in days that the patient was depressed prior to the study.
+# Age: The age of the patient in years, when the patient entered the study.
+# Gender: The patient's gender, female or male
+@
+
+XX What are the three treatments?  They are currently numerically coded XX.
+
+\subsection{Q1 Original}
+
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+table(Depression$Treat)
+plot(factor(Depression$Treat), Depression$AcuteT)
+tb1=table(data.frame(Depression$Treat, Depression$Outcome)); tb1
+100*tb1/rowSums(tb1)
+@
+
+\subsection{Q1 Revised}
+<<eval=TRUE>>=
+library(mosaic)
+tally(~ Treat, data=Depression)
+xyplot(AcuteT ~ Treat, data=Depression)
+tab = tally(~ Treat + Outcome, margins=FALSE, data=Depression)
+tab
+100*tab/rowSums(tab)
+@
+
+\subsection{Q2 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+plot(factor(Depression$Treat), Depression$Time)
+tapply(Depression$Time, factor(Depression$Treat), summary)
+@
+
+\subsection{Q2 Revised}
+<<eval=TRUE>>=
+library(mosaic)
+xyplot(Time ~ Treat, data=Depression)
+favstats(Time ~ Treat, data=Depression)
+@
+
+\chapter{Unit 4}
+
+\section{Module 11 (page 186)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+#
+# File name: birthweight
+# Sample size: 125
+# Codebook:
+# birthweight: weights of newborns in grams
+# R script:
+birthweight;
+conf.int = function(x,sigma,c)
+{
+n = length(x);
+m = mean(x);
+me = qnorm((1+c)/2)*sigma/sqrt(n)
+print.noquote(paste("sample size: ",n," sample mean: ",m))
+print.noquote(paste(c*100,"% confidence interval: (",m-me,", ",m+me,")"))
+};
+conf.int(birthweight$birthweight,500,0.99);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+with(Birthweight, t.test(birthweight, conf.level=0.99))
+@
+or
+<<>>=
+t.test( Birthweight$birthweight, conf.level=0.99 )
+@
+
+
+\section{Module 11 (page 186)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Confidence Intervals for the Population Mean (7 of 8), p186, "Confidence Intervals for the Population Mean" (2)
+# File name: sleep
+# Sample size: 142
+# Codebook:
+# sleep: hours of college students sleeping in a typical day
+# R script:
+sleep;
+t.test(sleep, conf.level=0.95);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Sleep);
+with(Sleep, t.test(sleep, conf.level=0.95))
+@
+
+\section{Module 11 (page 191)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Confidence Intervals for Population Proportion p (4 of 4), p191, "Confidence Intervals for the Population Proportion p"
+# File name: guns
+# Sample size: 1200
+# Codebook:
+# opinion: "satisfied" or "not satisfied" with the expiration of the ban on assault weapons
+# R script:
+support;  
+length(support$opinion);
+length(support[support=="satisfied"]);
+prop.test(length(support[support=="satisfied"]),length(support$opinion),conf.level=0.95);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE,proptest>>=
+library(mosaic)
+head(Guns)  
+mytable = tally(~ opinion, data=Guns)
+mytable
+n = mytable[3]
+n
+x = mytable[2]
+x
+prop.test(mytable[2], mytable[3], conf.level=0.95);
+@
+
+\section{Module 12 (page 207)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Module 12: Hypothesis Testing
+# Hypothesis Testing for the Population Proportion p (9 of 13), p207, "Hypothesis Testing for the Population Proportion p"
+# Question: A study found that out of a random sample of 316 airplanes tested, 40 had coliform bacteria in the drinking water drawn from restrooms and kitchens. As a benchmark comparison, in 2003 the EPA found that about 3.5% of the U.S. population have coliform bacteria-infected drinking water. Whether we can conclude that drinking water on airplanes is more contaminated than drinking water in general?
+# R script:
+p = prop.test(40,316,0.035,alternative="greater",conf.level=0.95, correct=FALSE); p;
+z = sqrt(p$statistic); z
+@
+
+\subsection{Revised}
+
+
+<<eval=TRUE>>=
+library(mosaic)
+p = prop.test(40, 316, 0.035, alternative="greater",
+    conf.level=0.95, correct=FALSE)
+p
+z = sqrt(p$statistic)
+z
+@
+
+\section{Module 12 (page 208)}
+
+\subsection{Original}
+
+<<eval=TRUE>>=
+# 
+# Hypothesis Testing for the Population Proportion p (10 of 13), p208, "Hypothesis Testing for the Population Proportion p"
+# Question: 78 defective products out of 400—were statistically significant in the sense that they provided enough evidence to conclude that the repair indeed reduced the proportion of defective products from 0.20 (the proportion prior to the repair). Conduct z-test
+# R script:
+p = prop.test(78,400,0.2,alternative="less",conf.level=0.95, correct=FALSE); p;
+z = -sqrt(p$statistic); z;
+@
+
+\subsection{Revised}
+
+
+<<eval=TRUE>>=
+library(mosaic)
+test = prop.test(78, 400, 0.2, alternative="less", correct=FALSE)
+test
+stat(test)
+z = -sqrt(stat(test))
+z
+@
+
+\section{Module 12 (page 213)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Hypothesis Testing for the Population Mean (2 of 9), p213, "Hypothesis Testing for the Population Mean"
+# File name: time
+# Sample size: 20
+# Codebook:
+# time (time1, time2, time3, time4): in hours; 4 different samples of size 20
+# R script:
+time;
+hist(time$time1);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Time)
+histogram(~ time1, data=Time)
+@
+
+\section{Module 12 (page 215)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Hypothesis Testing for the Population Mean (4 of 9), p215, "Hypothesis Testing for the Population Mean"
+# Question: To calculate the z-value and p-value for a sample of size n and sample mean x¯=550
+# R script:
+significance = function(n)
+{
+z = (550-500)/(100/sqrt(n))
+paste("n = ",n,", z = ",z,", p-value = ",1-pnorm(z))
+};
+significance(5:14);
+@
+
+
+\subsection{Revised}
+
+Adding named arguments to functions makes it clearer what is going on and also
+makes it easy to try other scenarios without modifying code.
+
+Here's an improvement on the preceding code.
+<<eval=TRUE>>=
+library(mosaic)
+significance = function(n, mu=500, sigma=100, x.bar=550) {
+  z = (x.bar-mu)/(sigma/sqrt(n))
+  data.frame( n = n, z = z, "p.value" = pnorm(-abs(z)) )
+}
+significance(5:14)
+@
+
+\section{Module 12 (page 216)}
+
+\subsection{Original}
+
+<<eval=TRUE>>=
+# 
+# Hypothesis Testing for the Population Mean (5 of 9), p216, "Hypothesis Testing for the Population Mean"
+# File name: pregnancy
+# Sample size: 25
+# Codebook:
+# length: the length of pregnancy of women who were smoking and/or drinking alcohol during their pregnancy, in days. sample mean=266, standard deviation=16
+# R script:
+head(Pregnancy);
+z.test = function(x, sigma, mu0, alt="greater")
+{
+mu = mean(x);
+n = length(x);
+z = (mu-mu0)/(sigma/sqrt(n));
+if (alt=="less"){p = pnorm(z)}
+else
+{
+if (alt=="two.sided"){p = 2*(1-pnorm(abs(z)))}
+else {p = 1-pnorm(z)}
+};
+paste("mean = ",mu,"n = ",n,", z = ",z,", p-value = ",p)
+};
+z.test(Pregnancy$length, 16, 266, "less");
+rm(z.test);
+@
+
+
+\subsection{Revised}
+The \pkg{TeachingDemos} package includes a \function{z.test()} function.  We could consider adding a dependency on this with the {\tt mosaic} package.
+
+<<>>=
+require(TeachingDemos) # for z.test(); rjp has a version as well
+z.test(Pregnancy$length, stdev=16, mu=266, alternative="less")
+@
+\section{Module 12 (page 216)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Hypothesis Testing for the Population Mean (5 of 9), p216, "Hypothesis Testing for the Population Mean (Extra Problems)"
+# File name: epa_fuel_econ
+# Sample size: 71
+# Codebook:
+# CLASS: type of automobile
+# MFR: brand of automobile
+# CAR.LINE:
+# DISPLACEMENT:
+# NUMB.CYL:
+# TRANS:
+# DRIVE.SYS: drive system
+# CITY.MPG: city in miles per gallon
+# HWY.MPG: highway in miles per gallon
+# COMB.MPG: combined city and highway in miles per gallon
+# R script:
+epa;
+z.test = function(x, sigma, mu0, alt="greater")
+{
+mu = mean(x);
+n = length(x);
+z = (mu-mu0)/(sigma/sqrt(n))
+if (alt=="less"){p = pnorm(z)}
+else
+{
+if (alt=="two.sided"){p = 2*(1-pnorm(abs(z)))}
+else {p = 1-pnorm(z)}
+}
+paste("mean = ",mu,"n = ",n,", z = ",z,", p-value = ",p)
+};
+z.test(epa$COMB.MPG, 4.7, 20, "greater");
+@
+
+\subsection{Revised}
+<<>>=
+require(TeachingDemos)
+z.test(EPA$mpg, mu=20, stdev=4.7, alternative="greater" )
+@
+
+\section{Module 12 (page 220)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Hypothesis Testing for the Population Mean (9 of 9), p220, "Hypothesis Testing for the Population Mean"
+# File name: drinks
+# Sample size: 75
+# Codebook:
+# drinks.per.week: number of alcoholic drinks
+# R script:
+drinks;
+t.test(drinks$drinks.per.week,mu = 4.73, alternative = "two.sided")
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Drinks);
+with(Drinks, t.test(drinks.per.week, mu=4.73, 
+  alternative="two.sided"))
+@
+
+\section{Stat Tutor: Cellphones (page 221)}
+
+<<eval=TRUE,fig.keep='last'>>=
+#
+# Wrap-Up (Inference for One Variable), p221, "Cell Phones"
+# File name: Cellphones
+# Sample size: 312
+# Codebook
+# Math: SAT Math score
+# Verbal: SAT Verbal score
+# Credits: number of credits the student is registered for
+# Year: year in college (1=Freshman, 2=Sophomore, 3=Junior, 4=Senior)
+# Exer: time (in minutes) spent exercising in a typical day
+# Sleep: time (in hours) spent sleeping in a typical day
+# Cell: do you own a cell phone? (yes, no)
+# Veg: are you a vegetarian ? (yes, no, some)
+@
+
+\subsection{Q1 Original}
+
+
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+hist(Cellphones$Verbal)
+summary(Cellphones$Verbal)
+z=(mean(na.omit(Cellphones$Verbal))-580)/(111/sqrt(length(na.omit(Cellphones$Verbal))));z
+2*pnorm(abs(z), lower.tail=FALSE)
+lower=qnorm(0.025, mean=596.7, sd=111/sqrt(286)); lower
+upper=qnorm(0.975, mean=596.7, sd=111/sqrt(286)); upper
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q1 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+hist(Cellphones$Verbal)
+summary(Cellphones$Verbal)
+z=(mean(na.omit(Cellphones$Verbal))-580)/(111/sqrt(length(na.omit(Cellphones$Verbal))));z
+2*pnorm(abs(z), lower.tail=FALSE)
+lower=qnorm(0.025, mean=596.7, sd=111/sqrt(286)); lower
+upper=qnorm(0.975, mean=596.7, sd=111/sqrt(286)); upper
+@
+
+\subsection{Q2 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+tb1=table(Cellphones$Cell); tb1
+100*tb1/sum(tb1)
+pie(tb1)
+n=length(na.omit(Cellphones$Cell)); n
+np=length(na.omit(Cellphones$Cell[Cellphones$Cell=="yes"])); np
+prop.test(np, n, 0.80, alternative="less", correct=FALSE)
+z=(0.783871-0.80)/sqrt(0.80*(1-0.80)/n); z
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q2 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+tb1=table(Cellphones$Cell); tb1
+100*tb1/sum(tb1)
+pie(tb1)
+n=length(na.omit(Cellphones$Cell)); n
+np=length(na.omit(Cellphones$Cell[Cellphones$Cell=="yes"])); np
+prop.test(np, n, 0.80, alternative="less", correct=FALSE)
+z=(0.783871-0.80)/sqrt(0.80*(1-0.80)/n); z
+@
+
+\subsection{Q3 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+hist(Cellphones$Sleep)
+summary(Cellphones$Sleep)
+t.test(Cellphones$Sleep, alternative="two.sided", mu=7)
+t.test(Cellphones$Sleep)$conf.int
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q3 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+hist(Cellphones$Sleep)
+summary(Cellphones$Sleep)
+t.test(Cellphones$Sleep, alternative="two.sided", mu=7)
+t.test(Cellphones$Sleep)$conf.int
+@
+
+\section{Module 13 (page 228)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Module 13: Case C->Q
+# Two Independent Samples (3 of 7), p228, "Two Independent Samples" (1)
+# File name: lbd1-1
+# Sample size: 40 (22 women and 18 men)
+# Codebook:
+# time.women: amount of time (in minutes) that the individual watched TV during a week
+# time.men: amount of time (in minutes) that the individual watched TV during a week
+# R script:
+tv1;
+hist(tv1$time.men);
+hist(tv1$time.women);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(TV1)
+histogram(~ time, groups=gender, data=TV1)
+@
+
+\section{Module 13 (page 228)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Two Independent Samples (3 of 7), p228, "Two Independent Samples" (2)
+# File name: lbd1-2
+# Sample size: 400 (191 women and 209 men)
+# Codebook:
+# time.women: amount of time (in minutes) that the individual watched TV during a week
+# time.men: amount of time (in minutes) that the individual watched TV during a week
+# R script:
+tv2;
+hist(tv2$time.men);
+hist(tv2$time.women);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(TV2)
+histogram(~ time, groups=gender, data=TV2)
+@
+
+\section{Module 13 (page 230)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Two Independent Samples (5 of 7), p230, "Two Independent Samples"
+# File name: sleep2
+# Sample size: 125 (75 undergraduates and 50 graduates)
+# Codebook:
+# undergraduate: number of hours that undergraduates sleep in a typical day
+# graduate: number of hours that graduates sleep in a typical day
+# R script:
+sleep
+t.test(sleep$undergraduate,sleep$graduate,alternative = "less")
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Sleep2)
+bwplot(hours ~ status, data=Sleep2)
+favstats(hours ~ status, data=Sleep2)
+t.test(hours ~ status, alternative="greater", data=Sleep2)
+@
+
+\section{Module 13 (page 238)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Matched Pairs (6 of 8), p238, "Matched Pairs"
+# File name: seed
+# Sample size: 11
+# Codebook:
+# regular.seed: corn yield in pounds per acre
+# kiln.dried.seed: corn yield in pounds per acre
+# R script:
+seed;
+t.test(seed$regular.seed-seed$kiln.dried.seed, mu=0, alternative="less");
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Seed)
+with(Seed, t.test(regular.seed - kiln.dried.seed, mu=0, alternative="less"))
+@
+
+\section{Module 13 (page 246)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# ANOVA (6 of 7), p246, "ANOVA"
+# File name: flicker
+# Sample size: 19
+# Codebook:
+# color: eye color ("brown", "green", "blue")
+# cff: flicker "threshold" frequencies or Critical Flicker Frequency (CFF)
+# R script:
+flicker;
+boxplot(cff~color,flicker);
+tapply(flicker$cff, flicker$color, sd);
+summary(aov(cff~color,flicker));
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Flicker)
+bwplot(cff ~ color, data=Flicker)
+favstats(cff ~ color, data=Flicker)
+summary(aov(cff ~ color, data=Flicker))
+@
+
+\section{Stat Tutor: Gradebook (page 248)}
+
+<<eval=TRUE,fig.keep='last'>>=
+#
+# Conclusion of Case C->Q, p248, "Analyzing Data From a Course's Grade Book"
+# File name: Gradebook
+# Sample size: 105
+# Codebook
+# Midterm1: student's score on the first midterm (0-100 scale)
+# Midterm2: student's score on the second midterm (0-100 scale)
+# Diff_Mid: the difference between the two midterm exam scores (midterm1-midterm2)
+# Extra_Credit: did the student turn in the extra credit assignment? (0=No, 1=Yes)
+# Final: student's score on the final (0-100 scale)
+# Class: student's class (1=Freshman, 2=Sophomore, 3=Junior, 4=Senior)
+@
+
+\subsection{Q1 Original}
+
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+plot(factor(Gradebook$Extra_Credit), Gradebook$Final)
+tapply(Gradebook$Final, factor(Gradebook$Extra_Credit), summary)
+t.test(Gradebook$Final~Gradebook$Extra_Credit, alternative="less")
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q1 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+plot(factor(Gradebook$Extra_Credit), Gradebook$Final)
+tapply(Gradebook$Final, factor(Gradebook$Extra_Credit), summary)
+t.test(Gradebook$Final~Gradebook$Extra_Credit, alternative="less")
+@
+
+\subsection{Q2 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+hist(Gradebook$Diff_Mid)
+summary(Gradebook$Diff_Mid)
+t.test(Gradebook$Midterm1-Gradebook$Midterm2, alternative="greater")
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q2 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+hist(Gradebook$Diff_Mid)
+summary(Gradebook$Diff_Mid)
+t.test(Gradebook$Midterm1-Gradebook$Midterm2, alternative="greater")
+@
+
+\subsection{Q3 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+plot(factor(Gradebook$Class), Gradebook$Final)
+tapply(Gradebook$Final, factor(Gradebook$Class), summary)
+anova(lm(Gradebook$Final ~ factor(Gradebook$Class)))
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q3 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+plot(factor(Gradebook$Class), Gradebook$Final)
+tapply(Gradebook$Final, factor(Gradebook$Class), summary)
+anova(lm(Gradebook$Final ~ factor(Gradebook$Class)))
+@
+
+\section{Module 13 (page 252)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Case C->C (3 of 5), p252, "Case C->C"
+# Question: Use R to calculate the expected counts
+# R script:
+data=data.frame(no.risk=c(793,441),moderate.to.severe.risk=c(309,110),row.names=c("participated","did.not.participate"));data;
+chisq.test(data)$expected;
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+data = data.frame(no.risk=c(793,441),
+  moderate.to.severe.risk=c(309,110),
+  row.names=c("participated", "did.not.participate"))
+data
+xchisq.test(data)
+@
+
+\section{Module 13 (page 253)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Case C->C (4 of 5), p253, "Case C->C" (1)
+# Question: Use R to calculate the p-value for the chi-square test
+# R script:
+data = data.frame(no.risk=c(793,441),moderate.to.severe.risk=c(309,110),row.names=c("participated","did.not.participate")); data;
+chisq.test(data);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+data = data.frame(no.risk=c(793,441),
+  moderate.to.severe.risk=c(309,110),
+  row.names=c("participated", "did.not.participate"))
+data
+xchisq.test(data)
+@
+
+\section{Stat Tutor: LBW (page 254)}
+
+<<eval=TRUE,fig.keep='last'>>=
+#
+# Case C->C, p254, "Risk Factors for Low Birth Weight"
+# File name: LBW
+# Sample size: 189
+# Codebook
+# LOW: low birth weight (0=No (birth weight >=2500g)
+# AGE: age of mother (in years)
+# LWT: weight of mother at the last menstrual period (in pounds)
+# RACE: race of mother (1 = White, 2 = Black, 3 = Other)
+# SMOKE: smoking status during pregnancy (0 = No, 1 = Yes)
+# PTL: history of premature labor (0 = None, 1 = One, etc.)
+# HT: history of hypertension (0 = No, 1 = Yes)
+# UI: presence of uterine irritability (0 = No, 1 = Yes)
+# FTV: number of physician visits during the first trimester
+# BWT: the actual birth weight (in grams)
+@
+
+\subsection{Q1 Original}
+
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+tb1=table(data.frame(LBW$SMOKE, LBW$LOW)); tb1
+100*tb1/rowSums(tb1)
+chisq.test(tb1, correct=FALSE)
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q1 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+tb1=table(data.frame(LBW$SMOKE, LBW$LOW)); tb1
+100$tb1/rowSums(tb1)
+chisq.test(tb1, correct=FALSE)
+@
+
+\subsection{Q2 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+tb1=table(data.frame(LBW$RACE, LBW$LOW)); tb1
+100*tb1/rowSums(tb1)
+chisq.test(tb1, correct=FALSE)
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q2 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+tb1=table(data.frame(LBW$RACE, LBW$LOW)); tb1
+100*tb1/rowSums(tb1)
+chisq.test(tb1, correct=FALSE)
+@
+
+\subsection{Q3 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+plot(factor(LBW$LOW), LBW$AGE)
+tapply(LBW$AGE, factor(LBW$LOW), summary)
+t.test(LBW$AGE ~ LBW$LOW)
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q3 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+plot(factor(LBW$LOW), LBW$AGE)
+tapply(LBW$AGE, factor(LBW$LOW), summary)
+t.test(LBW$AGE ~ LBW$LOW)
+@
+
+\section{Module 13 (page 256)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Case Q->Q (2 of 3), p256, "Case Q->Q" (1)
+# File name: baby-crying-IQ
+# Sample size: 38
+# Codebook:
+# cry.count: number of distinct cry vocalizations within 20 seconds
+# IQ: IQ at 3 years of age
+# R script:
+baby;
+plot(baby$cry.count,baby$IQ);
+cor(baby$cry.count,baby$IQ);
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Baby)
+xyplot(IQ ~ cry.count, data=Baby)
+with(Baby, cor(cry.count, IQ))
+@
+
+\section{Module 13 (page 256)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Case Q->Q (2 of 3), p256, "Case Q->Q" (2)
+# File name: baby-crying-IQ
+# Sample size: 38
+# Codebook:
+# cry.count: number of distinct cry vocalizations within 20 seconds
+# IQ: IQ at 3 years of age
+# R script:
+baby;
+summary(lm(IQ~cry.count,baby));
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Baby)
+summary(lm(IQ ~ cry.count, data=Baby))
+@
+
+\section{Module 13 (page 257)}
+
+\subsection{Original}
+
+<<eval=showOriginal>>=
+# 
+# Case Q->Q  (3 of 5), p257, "Case Q->Q"
+# File name: baby-crying-IQ
+# Sample size: 38
+# Codebook:
+# cry.count: number of distinct cry vocalizations within 20 seconds
+# IQ: IQ at 3 years of age
+# R script:
+baby;
+plot(baby$cry.count,baby$IQ);
+L = lm(baby$IQ ~ baby$cry.count);
+abline(L);
+cf=coefficients(L);
+legend(10,150,legend=paste("IQ = ", round(cf[1],1), "+", round(cf[2],2), "(cry.count)"));
+@
+
+\subsection{Revised}
+
+<<eval=TRUE>>=
+library(mosaic)
+head(Baby)
+L = lm(IQ ~ cry.count, data=Baby)
+cf = coef(L)
+cf
+mytitle = paste("IQ = ", round(cf[1], 2), "+", round(cf[2], 2), "(cry.count)")
+xyplot(IQ ~ cry.count, type=c("p", "r"), 
+       main=mytitle, data=Baby)
+@
+
+\section{Stat Tutor: Autopremiums (page 257)}
+
+<<eval=TRUE,fig.keep='last'>>=
+#
+# Case Q->Q, p257, "Monthly Premiums of Auto Insurance"
+# File name: Autopremiums
+# Sample size: 50
+# Codebook
+# Experience: driving experience (in years)
+# Gender: 0=Male, 1=Female
+# Premium: the monthly premium (in dollars)
+@
+
+\subsection{Q1 Original}
+
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+plot(Autopremiums$Experience, Autopremiums$Premium)
+cor(Autopremiums$Experience, Autopremiums$Premium, use="c")
+summary(lm(Autopremiums$Premium ~ Autopremiums$Experience))
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q1 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+plot(Autopremiums$Experience, Autopremiums$Premium)
+cor(Autopremiums$Experience, Autopremiums$Premium, use="c")
+summary(lm(Autopremiums$Premium ~ Autopremiums$Experience))
+@
+
+\subsection{Q2 Original}
+<<eval=FALSE,fig.keep='last'>>=
+# R script:
+plot(factor(Autopremiums$Gender), Autopremiums$Premium)
+tapply(Autopremiums$Premium, factor(Autopremiums$Gender), summary)
+t.test(Autopremiums$Premium ~ Autopremiums$Gender, alternative="greater")
+@
+
+XX NOT YET UPDATED XX
+\subsection{Q2 Revised}
+<<eval=FALSE>>=
+library(mosaic)
+plot(factor(Autopremiums$Gender), Autopremiums$Premium)
+tapply(Autopremiums$Premium, factor(Autopremiums$Gender), summary)
+t.test(Autopremiums$Premium ~ Autopremiums$Gender, alternative="greater")
+@
+
+\chapter{Appendix}
+
+The following R code was used to process the CMU OLI datasets into the form used in the {\tt mosaic} package on CRAN. This may be helpful in determining what changes are needed for compatibility purposes.
+
+\section{Main datasets}
+\begin{verbatim}
+load("OLD/actor.RData")
+Actors = actor_age
+Actors$age = Actors$Age
+Actors$Age = NULL
+save(Actors, file="Actors.RData")
+
+load("OLD/animals.RData")
+Animals = a
+save(Animals, file="Animals.RData")
+
+load("OLD/baby-crying-IQ.RData")
+Baby = baby
+save(Baby, file="Baby.RData")
+
+load("OLD/birthweight.RData")
+Birthweight = birthweight
+save(Birthweight, file="Birthweight.RData")
+
+load("OLD/computers.RData")
+Computers = computers
+save(Computers, file="Computers.RData")
+
+load("OLD/depression.RData")
+Depression = depression
+Depression$Gender = ifelse(Depression$Gender==1, "Female", "Male")
+save(Depression, file="Depression.RData")
+
+load("OLD/drinks.RData")
+Drinks = drinks
+save(Drinks, file="Drinks.RData")
+
+load("OLD/epa_fuel_econ.RData")
+EPA = epa
+EPA$class = EPA$CLASS; EPA$CLASS = NULL
+EPA$mfr = EPA$MFR; EPA$MFR = NULL
+EPA$line = EPA$CAR.LINE; EPA$CAR.LINE = NULL
+EPA$displace = EPA$DISPLACEMENT; EPA$DISPLACEMENT = NULL
+EPA$cylinders = EPA$NUMB.CYL; EPA$NUMB.CYL = NULL
+EPA$trans = EPA$TRANS; EPA$TRANS = NULL
+EPA$drive = EPA$DRIVE.SYS; EPA$DRIVE.SYS = NULL
+EPA$city = EPA$CITY.MPG; EPA$CITY.MPG = NULL
+EPA$hwy = EPA$HWY.MPG; EPA$HWY.MPG = NULL
+EPA$mpg = EPA$COMB.MPG; EPA$COMB.MPG = NULL
+save(EPA, file="EPA.RData")
+
+load("OLD/flicker.RData")
+Flicker = flicker
+save(Flicker, file="Flicker.RData")
+
+load("OLD/friends.RData")
+Friends = friends
+Friends$easiest = Friends$Friends
+Friends$Friends = NULL
+save(Friends, file="Friends.RData")
+
+load("OLD/graduation.RData")
+college = c(rep("A", 8), rep("B", 8), rep("C", 8),
+  rep("D", 8), rep("E", 8), rep("F", 8))
+ontime = with(grad_data, c(College.A, College.B,
+  College.C, College.D, College.E, College.F))
+Graduation = data.frame(ontime, college)
+save(Graduation, file="Graduation.RData")
+
+load("OLD/guns.RData")
+Guns = support
+save(Guns, file="Guns.RData")
+
+load("OLD/height.RData")
+Height = h
+Height$female = Height$gender
+Height$gender = ifelse(Height$female == 1, "female", "male")
+Heightweight = Height
+save(Heightweight, file="Heightweight.RData")
+
+load("OLD/lbd1-1.RData")
+# TV1 = tv1
+obswomen = !is.na(tv1$time.women)
+obsmen = !is.na(tv1$time.men)
+time = with(tv1, c(time.women[obswomen], time.men[obsmen]))
+gender = with(tv1, c(rep("Female", length(time.women[obswomen])), 
+           rep("Male", length(time.women[obsmen]))))
+TV1 = data.frame(time, gender)
+save(TV1, file="TV1.RData")
+
+load("OLD/lbd1-2.RData")
+obswomen = !is.na(tv2$time.women)
+obsmen = !is.na(tv2$time.men)
+time = with(tv2, c(time.women[obswomen], time.men[obsmen]))
+gender = with(tv2, c(rep("Female", length(time.women[obswomen])), 
+           rep("Male", length(time.women[obsmen]))))
+TV2 = data.frame(time, gender)
+save(TV2, file="TV2.RData")
+
+load("OLD/nightlight.RData")
+Nightlight = nightlight
+save(Nightlight, file="Nightlight.RData")
+
+load("OLD/olympics.RData")
+Olympics = olym
+save(Olympics, file="Olympics.RData")
+
+load("OLD/pregnancy.RData")
+Pregnancy = pregnancy
+save(Pregnancy, file="Pregnancy.RData")
+
+load("OLD/sdintuition.RData")
+ratings
+score = with(ratings, c(Class.I, Class.II, Class.III))
+situation = c(rep("Class I", 27), rep("Class II", 27), rep("Class III", 27))
+Ratings = data.frame(score, situation)
+save(Ratings, file="Ratings.RData")
+
+load("OLD/seed.RData")
+Seed = seed
+save(Seed, file="Seed.RData")
+
+load("OLD/sleep.RData")
+Sleep = sleep
+save(Sleep, file="Sleep.RData")
+
+load("OLD/sleep2.RData")
+obsunder = !is.na(sleep$undergraduate)
+obsgrad = !is.na(sleep$graduate)
+hours = with(sleep, c(undergraduate[obsunder], graduate[obsgrad]))
+status = with(sleep, c(rep("Undergrad", length(undergraduate[obsunder])), 
+           rep("Graduate", length(graduate[obsgrad]))))
+Sleep2 = data.frame(hours, status)
+save(Sleep2, file="Sleep2.RData")
+
+load("OLD/student_survey.RData")
+Population = population
+save(Population, file="Population.RData")
+
+load("OLD/time.RData")
+Time = time
+save(Time, file="Time.RData")
+
+\end{verbatim}
+
+\section{Stat Tutor datasets}
+\begin{verbatim}
+load("low_birth_weight.RData")
+LBW = data
+LBW$low = LBW$LOW; LBW$LOW = NULL
+LBW$age = LBW$AGE; LBW$AGE = NULL
+LBW$momweight = LBW$LWT; LBW$LWT = NULL
+LBW$race = LBW$RACE; LBW$RACE = NULL
+LBW$smoke = LBW$SMOKE; LBW$SMOKE = NULL
+LBW$histpreterm = LBW$PTL; LBW$PTL = NULL
+LBW$hypertension = LBW$HT; LBW$HT = NULL
+LBW$uterineirrit = LBW$UI; LBW$UI = NULL
+LBW$numvisits = LBW$FTV; LBW$FTV = NULL
+LBW$birthweight = LBW$BWT; LBW$BWT = NULL
+save(LBW, file="processed/LBW.rda")
+
+load("gradebook.RData")
+Gradebook = data
+save(Gradebook, file="processed/Gradebook.rda")
+
+load("drinking.RData")
+Drinking = data
+save(Drinking, file="processed/Drinking.rda")
+
+load("cell_phones.RData")
+Cellphones = data
+Cellphones$Veg = Cellphones$Veg.
+Cellphones$Veg. = NULL
+save(Cellphones, file="processed/Cellphones.rda")
+
+load("body_image.RData")
+Bodyimage = data
+save(Bodyimage, file="processed/Bodyimage.rda")
+
+load("auto_premiums.RData")
+Autopremiums = data
+Autopremiums$Female = Autopremiums$Gender; Autopremiums$Gender = NULL
+save(Autopremiums, file="processed/Autopremiums.rda")
+\end{verbatim}
+
+\end{document}
+
+
