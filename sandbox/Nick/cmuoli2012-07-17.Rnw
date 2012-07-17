@@ -136,11 +136,11 @@ This document describes proposed changes to the Carnegie Mellon University Onlin
 \section{Motivation}
  This work leverages on initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum.
 
-As an overview, we propose that the {\tt mosaic} package (available from the Comprehensive R Archive Network, aka CRAN) be included as part of the R code fragments provided to students.  The {\tt mosaic} package (\url{http://cran.r-project.org/web/packages/mosaic}) provides utilities and datasets for teaching statistics.  We believe that leveraging the {\tt mosaic} package will facilitate access to the CMU OLI datasets as well as incorporate helper routines to simplify the code required by students as well as provide more intuitive and less complicated access to statistical and graphical operations.  Versions 0.5-1 or later of the {\tt mosaic} packages includes the CMU OLI datasets.
+As an overview, we propose that the {\tt mosaic} package (available from the Comprehensive R Archive Network, aka CRAN) be included as part of the R code fragments provided to students.  The {\tt mosaic} package (\url{http://cran.r-project.org/web/packages/mosaic}) provides utilities and datasets for teaching statistics.  We believe that leveraging the {\tt mosaic} package will facilitate access to the CMU OLI datasets as well as incorporate helper routines to simplify the code required by students as well as provide more intuitive and less complicated access to statistical and graphical operations.  Versions 0.5-1 or later of the {\tt mosaic} package includes the CMU OLI datasets.
 
 In this document, we have excerpted the code from the June, 2012 version of the course (listed as \emph{Original}) then replicated this functionality in a section which immediately follows (listed as {\emph{Revised}}).  At times, we have provided additional functionality (labeled as {\emph{Re-Revised}}).  Overall we have attempted to keep the coding as simple as possible while maintaining a consistent interface.  At times (see for example section \ref{majorfix}, page \pageref{majorfix}), this can dramatically shorten the code needed to undertake a particular task.
 
-We have tried to minimize the changes to the datasets to keep backward compatibility, but for pedagogical reasons have revised several dataset names and recoded some variables (see Appendix for details of these manipulations).
+We have tried to minimize the changes to the datasets to keep backward compatibility, but for pedagogical reasons have revised several dataset names and recoded some variables (see Appendix for details of these manipulations). There is a name confict with the {\tt Animals} dataset within the MASS package; this should be renamed in the {\tt mosaic} package.
 
 This is a preliminary draft of the comparison code, and we look forward to discussing whether these changes could be integrated into the base course.
 
@@ -1104,15 +1104,13 @@ lower=qnorm(0.025, mean=596.7, sd=111/sqrt(286)); lower
 upper=qnorm(0.975, mean=596.7, sd=111/sqrt(286)); upper
 @
 
-XX NEED CHECKING XX
-
 \subsection{Q1 Revised}
 <<eval=TRUE>>=
 library(mosaic)
 histogram(~Verbal, data = Cellphones)
 favstats(~Verbal, data = Cellphones)
 require(TeachingDemos)
-z.test(Cellphones$Verbal, mu = 580, stdev = 111, alternative = "greater")
+z.test(Cellphones$Verbal, mu=580, stdev=111, alternative="greater")
 @
 
 \subsection{Q2 Original}
@@ -1127,7 +1125,6 @@ prop.test(np, n, 0.80, alternative="less", correct=FALSE)
 z=(0.783871-0.80)/sqrt(0.80*(1-0.80)/n); z
 @
 
-XX NEED CHECKING XX
 \subsection{Q2 Revised}
 <<eval=TRUE>>=
 library(mosaic)
@@ -1136,8 +1133,6 @@ tab
 tally(~Cell, margins = FALSE, format = "percent", data = Cellphones)
 pie(tab, labels = c("no", "yes"))
 n = tally(~Cell, data = Cellphones)
-n[3]
-n[2]
 prop.test(243, 310, 0.80, alternative = "less", correct = FALSE)
 z=(0.783871-0.80)/sqrt(0.80*(1-0.80)/310); z
 @
@@ -1151,7 +1146,6 @@ t.test(Cellphones$Sleep, alternative="two.sided", mu=7)
 t.test(Cellphones$Sleep)$conf.int
 @
 
-XX NEED CHECKING XX
 \subsection{Q3 Revised}
 <<eval=TRUE>>=
 library(mosaic)
@@ -1319,13 +1313,12 @@ tapply(Gradebook$Final, factor(Gradebook$Extra_Credit), summary)
 t.test(Gradebook$Final~Gradebook$Extra_Credit, alternative="less")
 @
 
-XX NEED CHECKING XX
 \subsection{Q1 Revised}
 <<eval=TRUE>>=
 library(mosaic)
-bwplot(Final ~ factor(Extra_Credit), data = Gradebook)
-favstats(Final ~ factor(Extra_Credit), data = Gradebook)
-t.test(Final ~ Extra_Credit, alternative = "less", data = Gradebook)
+bwplot(Final ~ factor(Extra_Credit), data=Gradebook)
+favstats(Final ~ Extra_Credit, data=Gradebook)
+t.test(Final ~ Extra_Credit, alternative = "less", data=Gradebook)
 @
 
 \subsection{Q2 Original}
@@ -1340,8 +1333,9 @@ XX NEED CHECKING XX
 \subsection{Q2 Revised}
 <<eval=TRUE>>=
 library(mosaic)
-histogram(~Diff_Mid, data = Gradebook)
-favstats(~Diff_Mid, data = Gradebook)
+head(Gradebook)
+histogram(~Diff_Mid, data=Gradebook)
+favstats(~Diff_Mid, data=Gradebook)
 with(Gradebook, t.test(Midterm1 - Midterm2, mu = 0, alternative="greater"))
 @
 
@@ -1353,13 +1347,12 @@ tapply(Gradebook$Final, factor(Gradebook$Class), summary)
 anova(lm(Gradebook$Final ~ factor(Gradebook$Class)))
 @
 
-XX NEED CHECKING XX
 \subsection{Q3 Revised}
 <<eval=TRUE>>=
 library(mosaic)
-bwplot(Final ~ factor(Class), data = Gradebook)
-favstats(Final ~ factor(Class), data = Gradebook)
-anova(lm(Final ~ factor(Class), data = Gradebook))
+bwplot(Final ~ factor(Class), data=Gradebook)
+favstats(Final ~ Class, data=Gradebook)
+anova(lm(Final ~ factor(Class), data=Gradebook))
 @
 
 \section{Module 13 (page 252)}
@@ -1439,7 +1432,6 @@ tb1=table(data.frame(LBW$SMOKE, LBW$LOW)); tb1
 chisq.test(tb1, correct=FALSE)
 @
 
-XX NEED CHECKING XX
 \subsection{Q1 Revised}
 <<eval=TRUE>>=
 library(mosaic)
@@ -1457,13 +1449,12 @@ tb1=table(data.frame(LBW$RACE, LBW$LOW)); tb1
 chisq.test(tb1, correct=FALSE)
 @
 
-XX NEED CHECKING XX
 \subsection{Q2 Revised}
 <<eval=TRUE>>=
 library(mosaic)
-tab = tally(~race+low, margins = FALSE, data = LBW)
+tab = tally(~race + low, margins = FALSE, data = LBW)
 tab
-tally(~race+low, margins = FALSE, format = "percent", data = LBW)
+tally(~race + low, margins = FALSE, format = "percent", data = LBW)
 xchisq.test(tab, correct=FALSE)
 @
 
@@ -1475,12 +1466,11 @@ tapply(LBW$AGE, factor(LBW$LOW), summary)
 t.test(LBW$AGE ~ LBW$LOW)
 @
 
-XX NEED CHECKING XX
 \subsection{Q3 Revised}
 <<eval=TRUE>>=
 library(mosaic)
 bwplot(age ~ factor(low), data = LBW)
-favstats(age ~ factor(low), data = LBW)
+favstats(age ~ low, data = LBW)
 t.test(age ~ low, data = LBW)
 @
 
@@ -1592,13 +1582,12 @@ cor(Autopremiums$Experience, Autopremiums$Premium, use="c")
 summary(lm(Autopremiums$Premium ~ Autopremiums$Experience))
 @
 
-XX NEED CHECKING XX
 \subsection{Q1 Revised}
 <<eval=TRUE>>=
 library(mosaic)
-xyplot(Premium ~ Experience, data = Autopremiums)
+xyplot(Premium ~ Experience, data=Autopremiums)
 with(Autopremiums, cor(Experience, Premium))
-summary(lm(Premium ~ Experience, data = Autopremiums))
+summary(lm(Premium ~ Experience, data=Autopremiums))
 @
 
 \subsection{Q2 Original}
@@ -1609,18 +1598,19 @@ tapply(Autopremiums$Premium, factor(Autopremiums$Gender), summary)
 t.test(Autopremiums$Premium ~ Autopremiums$Gender, alternative="greater")
 @
 
-XX NEED CHECKING XX
 \subsection{Q2 Revised}
 <<eval=TRUE>>=
 library(mosaic)
-bwplot(Premium ~ factor(Female), data = Autopremiums)
-favstats(Premium ~ factor(Female), data = Autopremiums)
-t.test(Premium ~ Female, alternative = "greater", data = Autopremiums)
+bwplot(Premium ~ factor(Female), data=Autopremiums)
+favstats(Premium ~ Female, data = Autopremiums)
+t.test(Premium ~ Female, alternative = "greater", data=Autopremiums)
 @
 
 \chapter{Appendix}
 
 The following R code was used to process the CMU OLI datasets into the form used in the {\tt mosaic} package on CRAN. This may be helpful in determining what changes are needed for compatibility purposes.
+
+NOTE: We need to rename the {\tt Animals} dataset to prevent a name conflict with the MASS package.
 
 \section{Main datasets}
 \begin{verbatim}
