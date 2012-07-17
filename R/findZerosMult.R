@@ -93,33 +93,37 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
   #Use Broyden when system has more than one equation.
   if(length(system)>1){
     set.seed(23)
-    
     if(length(system) < length(rhsVars)){ #Need to add equations
+      need = length(rhsVars) - length(system)
       junk = runif(length(rhsVars), min=-2, max=2)
-      if(1< (length(rhsVars) - length(system)))
-        for(i in 1:(length(rhsVars) - length(system)))
-          junk = cbind(junk, runif(length(rhsVars, min=-2,max=2)))
+      if(1< need)
+        for(i in 1:need)
+          junk = cbind(junk, runif(length(rhsVars), min=-2,max=2))
       points = .findPoints(system, freeVars, rhsVars, rad, center, npts)
       for(i in (1:length(system))){
         for(j in (1:(length(rows(points[[i]]))))){#might be a more efficient way to do this
           for(k in (1:(length(rows(points[[length(points)-i+1]]))))){
-            browser()
-            pt1 = points[[i]][j,]
-            pt2 = points[[length(points)-i+1]][k,]
-            
-            m = cbind(t(pt2-pt1), junk)
-            norm = qr(m)$qr[,2]
-            hyperplane = function(){}
-            body(hyperplane) <- parse(text=paste("(c(",
-              toString(norm), ")%*%(c(", paste(rhsVars, collapse=","), ")-c(", toString(pt1), ")))[[1]]", sep=""
+            for(l in (1:need)){
+              pt1 = points[[i]][j,]
+              pt2 = points[[length(points)-i+1]][k,]
+              
+              m = cbind(t(pt2-pt1), junk)
+              norm = qr(m)$qr[,2]
+              hyperplane = function(){}
+              body(hyperplane) <- parse(text=paste("(c(",
+                                                   toString(norm), ")%*%(c(", paste(rhsVars, collapse=","), ")-c(", toString(pt1), ")))[[1]]", sep=""
               ))
-            formals(hyperplane) <- eval(parse( 
-              text=paste( "as.pairlist(alist(", 
-                          paste(rhsVars, "=", collapse=",", sep=""), "))"
-              )
-            ))
-            environment(hyperplane) <- environment(system[[1]])
-            newsystem = append(system, hyperplane)
+              formals(hyperplane) <- eval(parse( 
+                text=paste( "as.pairlist(alist(", 
+                            paste(rhsVars, "=", collapse=",", sep=""), "))"
+                )
+              ))
+              environment(hyperplane) <- environment(system[[1]])
+              if(l>1)
+                newsystem = append(newsystem, hyperplane)
+              else
+                newsystem = append(system, hyperplane)
+            }
             root = try(Broyden(newsystem, rhsVars, x=center+.001, maxiters=1e3), silent=TRUE)
             if(!inherits(root, "try-error"))
               roots = rbind(roots, root)
@@ -132,7 +136,7 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
       }
       colnames(roots) = rhsVars
       return(.sort(roots, center = center, type=sortBy))
-
+      
     }
     
     root = Broyden(system, rhsVars, x=center+.001)#often does not work for (0,0)
@@ -262,16 +266,5 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
     A=Anew
     FF=FFnew
   }
-
+  
 }
-
-check_root = function(system, roots){
-  browser()
-  for(i in length(rows(roots))){
-    for(func in system){
-      colnames(roots) = names(formals(func))
-      print(do.call(func, as.list(roots[i,])))
-    }
-  }
-}
-
