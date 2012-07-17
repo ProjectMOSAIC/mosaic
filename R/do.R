@@ -197,7 +197,7 @@ if(FALSE) {
 	}
 	if (inherits(object,c('lm','groupwiseModel')) ) {
 		sobject <- summary(object)
-		result <-  c( coef(object), sigma=sobject$sigma, "r-squared" = sobject$r.squared ) 
+		result <-  c( coef(object), sigma=sobject$sigma, r.squared = sobject$r.squared ) 
 		names(result) <- .clean_names(names(result))
 		return(result)
 	}
