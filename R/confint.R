@@ -70,7 +70,10 @@ confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", 
               margin.of.error=(res[[3]]-res[[2]])/2)
 }
 .mosaic.get.ci = function( vals, level, method ) {
-  if( method == "stderr" ) res = mean(vals, na.rm=TRUE) + c(-1,1)*sd(vals, na.rm=TRUE)*qt(1-(1-level)/2, length(vals)-1)
+  if( method == "stderr" ) res = mean(vals, na.rm=TRUE) + 
+    c(-1,1)*sd(vals, na.rm=TRUE)*
+    qt(1-(1-level)/2, length(sum(!is.na(vals))-1))
+  # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
   else res = qdata( c((1-level)/2, 1-(1-level)/2), vals )
   return(res)
 }
