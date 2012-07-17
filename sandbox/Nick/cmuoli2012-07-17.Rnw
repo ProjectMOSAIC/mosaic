@@ -549,12 +549,13 @@ cor(a$longevity[a$animal!="elephant"],a$gestation[a$animal!="elephant"]);
 
 \subsection{Revised}
 
+XX This will be fixed when Nick renames the \dataframe{Animals} dataset. XX
 <<eval=TRUE>>=
 require(mosaic)
-head(Animals)
-xyplot(gestation ~ longevity, groups = animal == "elephant", data=Animals)
-with(Animals, cor(longevity, gestation))
-with(subset(Animals, animal != "elephant"), cor(longevity, gestation))
+head(mosaic::Animals)
+xyplot(gestation ~ longevity, groups = animal == "elephant", data=mosaic::Animals)
+with(mosaic::Animals, cor(longevity, gestation))
+with(subset(mosaic::Animals, animal != "elephant"), cor(longevity, gestation))
 @
 
 \section{Module 2 (page 55)}
