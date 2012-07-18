@@ -62,7 +62,7 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 	}
 
 	if( length(rhsVars) != 1 ) #stop("Only works for one unknown.")
-    return(findZerosMult(expr,...))
+    return(findZerosMult(expr,..., npts=nearest))
 
 	pfun <- function(x){  # removed . from name, was .x
 		mydots <- dots
