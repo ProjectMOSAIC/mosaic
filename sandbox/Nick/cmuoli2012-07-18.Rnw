@@ -182,7 +182,7 @@ The CMU OLI data sets are not yet fully compatible with the conventions used in
 the rest of the \pkg{mosaic} package.  In particular,
 \begin{itemize}
 	\item Data set names are capitalized in \pkg{mosaic} while variable names are not.
-	Furthermore, data set names never match names of variables they contain.
+	Furthermore, data set names don't match names of variables they contain.
 
 We have found this helpful in reinforcing the distinctions among data sets, variables,
 and observational units.
@@ -211,11 +211,11 @@ require(mosaic)
 @
 or 
 <<require_mosaic,eval=FALSE>>=
-require(mosaic)
+library(mosaic)
 @
 This
 needs to be done once per session, and will make all of the CMU OLI datasets as well as
-the helper functions available.
+the helper functions available.  To help reinforce that this package is needed, we have included in each of the {\bf Revised} codeblocks.
 
 
 \chapter{Unit 1}
@@ -481,16 +481,6 @@ tally(~ Light | Nearsightedness, data=Nightlight)
 mosaicplot(~ Light + Nearsightedness, data=Nightlight)
 @
 
-\subsection{Re-Revised}
-
-<<eval=TRUE>>=
-require(mosaic)
-require(vcd)  # vcd provides mosaic() as an alternative to mosaicplot()
-tally(~ Nearsightedness | Light, data=Nightlight)
-tally(~ Light | Nearsightedness, data=Nightlight)
-mosaic(~ Light + Nearsightedness, data=Nightlight)
-@
-
 
 \section{Module 2 (page 47)}
 
@@ -667,8 +657,8 @@ tb1
 \subsection{Q2 Revised}
 <<eval=TRUE>>=
 require(mosaic)
-tally(~ Gender + WtFeel, margins=FALSE, data=Bodyimage)
-tally(~ Gender + WtFeel, margins=FALSE, format = "percent", data=Bodyimage)
+tally(~ Gender + WtFeel, data=Bodyimage)
+tally(~ WtFeel | Gender, margins=FALSE, format = "percent", data=Bodyimage)
 @
 
 \subsection{Q3 Original}
@@ -830,15 +820,6 @@ tb1=table(data.frame(Depression$Treat, Depression$Outcome)); tb1
 @
 
 \subsection{Q1 Revised}
-<<eval=TRUE>>=
-require(mosaic)
-tally(~ Treat, data=Depression)
-xyplot(AcuteT ~ Treat, data=Depression)
-tally(~ Treat + Outcome, margins=FALSE, data=Depression)
-tally(~ Treat + Outcome, margins=FALSE, format = "percent", data=Depression)
-@
-
-\subsection{Q1 Re-Revised}
 <<eval=TRUE>>=
 require(mosaic)
 Depression$treat = factor(Depression$Treat, labels=c('Lithium','Imipramine','Placebo'))
@@ -1216,13 +1197,15 @@ lower=qnorm(0.025, mean=596.7, sd=111/sqrt(286)); lower
 upper=qnorm(0.975, mean=596.7, sd=111/sqrt(286)); upper
 @
 
+XX This is kind of a mess: can we revisit how to do this? XX
+
 \subsection{Q1 Revised}
 <<eval=TRUE>>=
 require(mosaic)
 histogram(~Verbal, data = Cellphones)
 favstats(~Verbal, data = Cellphones)
 require(TeachingDemos)
-z.test(Cellphones$Verbal, mu=580, stdev=111, alternative="greater")
+z.test(na.omit(Cellphones$Verbal), mu=580, stdev=111, alternative="greater")
 @
 
 \subsection{Q2 Original}
@@ -1320,7 +1303,8 @@ hist(tv2$time.women);
 <<eval=TRUE>>=
 require(mosaic)
 head(TV2)
-histogram(~ time, groups=gender, data=TV2)
+histogram(~ time | gender, data=TV2)
+densityplot(~ time, groups=gender, auto.key=TRUE, data=TV2)
 @
 
 \section{Module 13 (page 230)}
@@ -1391,7 +1375,6 @@ with(Seed, t.test(regular.seed - kiln.dried.seed, mu=0, alternative="less"))
 flicker;
 boxplot(cff~color,flicker);
 tapply(flicker$cff, flicker$color, sd);
-summary(aov(cff~color,flicker));
 # an alternative -- can be applied to model objects saved from lm()
 anova(lm(cff~color,flicker));
 @
@@ -1448,7 +1431,6 @@ summary(Gradebook$Diff_Mid)
 t.test(Gradebook$Midterm1-Gradebook$Midterm2, alternative="greater")
 @
 
-XX NEED CHECKING XX
 \subsection{Q2 Revised}
 <<eval=TRUE>>=
 require(mosaic)
@@ -1556,7 +1538,7 @@ chisq.test(tb1, correct=FALSE)
 require(mosaic)
 tab = tally(~smoke+low, margins = FALSE, data = LBW)
 tab
-tally(~smoke+low, margins = FALSE, format = "percent", data = LBW)
+tally(~ low | smoke, margins = FALSE, format = "percent", data = LBW)
 xchisq.test(tab, correct = FALSE)
 @
 
@@ -1573,7 +1555,7 @@ chisq.test(tb1, correct=FALSE)
 require(mosaic)
 tab = tally(~race + low, margins = FALSE, data = LBW)
 tab
-tally(~race + low, margins = FALSE, format = "percent", data = LBW)
+tally(~ low | race, margins = FALSE, format = "percent", data = LBW)
 xchisq.test(tab, correct=FALSE)
 @
 
@@ -1643,6 +1625,7 @@ summary(lm(IQ~cry.count,baby));
 require(mosaic)
 head(Baby)
 summary(lm(IQ ~ cry.count, data=Baby))
+confint(lm(IQ ~ cry.count, data=Baby))
 @
 
 \section{Module 13 (page 257)}
