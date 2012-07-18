@@ -40,7 +40,7 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
     }
   }
   numEq = length(system)
-  #Extract the rhs variables.
+
   rhsVars = all.vars(rhs(system[[1]]))
   for(i in (1:length(system))){
     rhsVars = union(rhsVars, all.vars(rhs(system[[i]])))
@@ -48,34 +48,38 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
   
   allvars = all.vars(system[[1]])
   for(i in (1:length(system))){
-    allvars = union(allvars, all.vars(system[[1]]))
+    allvars = union(allvars, all.vars(system[[i]]))
   }
   
-  lhsOnlyVars = setdiff(allvars, rhsVars)
+  #Change all formula in the system are functions. Make sure rhs is consistent
+  for(i in (1:numEq)){
+    system[[i]][[3]]<- parse(text=paste(allvars, collapse="&"))[[1]]
+    system[[i]] = do.call(makeFun, as.list(c(system[[i]], freeVars)))
+  }
   
   if(is.null(center))
     center = rep(0, length(rhsVars))
-  #make sure all equations in the system are functions.
-  for(i in (1:numEq)) system[[i]] = try(makeFun(system[[i]]),silent=TRUE) #Fix - sloppy
   
   #if there is only one equation, use uniroot
   if(length(system)==1){ 
     points = .findPoints(system, freeVars, rhsVars, rad, center, npts)
-    for(j in (1:length(rows(points[[1]])))){
+    
+    for(j in (1:length(rows(points[[1]])))){ #Loop over all positive points
       pt1= points[[1]][j,]
-      for(k in (1:length(rows(points[[length(points)]])))){
+      
+      for(k in (1:length(rows(points[[2]])))){#Loop over all negative points
         pt2 = points[[2]][k,]
-        #Find the root
+        
         newf<-function(t){}
-        #construct the body of the function.
         newbody = "{"
         for(l in (1:length(rhsVars))){
           newbody = paste(newbody,rhsVars[l], "=t*",toString(pt1[l]),
                           "+(1-t)*",toString(pt2[l]),"\n")
         }
         newbody = parse(text = paste(newbody, 
-                                     "do.call(system[[1]],as.list(c(parse(text=rhsVars), freeVars)))}"))
+                        "do.call(system[[1]],as.list(c(parse(text=rhsVars), freeVars)))}"))
         body(newf)<- newbody
+        
         troot = uniroot(newf, c(0,1))$root
         root=pt1
         root = troot*pt1+(1-troot)*pt2
@@ -93,13 +97,16 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
   #Use Broyden when system has more than one equation.
   if(length(system)>1){
     set.seed(23)
+    
     if(length(system) < length(rhsVars)){ #Need to add equations
       need = length(rhsVars) - length(system)
       junk = runif(length(rhsVars), min=-2, max=2)
       if(1< need)
         for(i in 1:need)
           junk = cbind(junk, runif(length(rhsVars), min=-2,max=2))
+      
       points = .findPoints(system, freeVars, rhsVars, rad, center, npts)
+      
       for(i in (1:length(system))){
         for(j in (1:(length(rows(points[[i]]))))){#might be a more efficient way to do this
           for(k in (1:(length(rows(points[[length(points)-i+1]]))))){
@@ -243,7 +250,7 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
     n=length(System)
     FF = rep(0,n)
     for( i in (1:n)){
-      if(length(formals(System[[i]]))!= length(.x.))
+      if(length(formals(System[[i]]))< length(.x.))
         FF[i]=do.call(System[[i]], as.list(.x.[-which(names(.x.)==
           setdiff(names(.x.), names(formals(System[[i]]))))]))
       else FF[i] = do.call(System[[i]], as.list(.x.))
