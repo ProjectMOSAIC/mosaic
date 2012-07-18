@@ -189,7 +189,7 @@ if(FALSE) {
 		names(res) <- paste( attr(object,'stat.name'), 
 						.squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
 		return(res)
-	}
+	} #
 	if (any(class(object)=='lme')){ # for mixed effects models
 		result <- object
 		names(result) <- .clean_names(names(result))
