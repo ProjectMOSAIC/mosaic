@@ -1,0 +1,233 @@
+\documentclass[11pt]{report}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Sleuth Chapter 01}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+	 \setlength{\tempfmlength}{#1}
+	 \begin{lrbox}{\fmbox}
+	   \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in RStudio: \\
+Chapter 1}
+
+\author{
+Ruobing Zhang\thanks{Department of Mathematics and Statistics, Smith College, rzhang@smith.edu} \and Kate Aloisio\thanks{Department of Mathematics and Statistics, Smith College, kaloisio@smith.edu} \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\chapter{Chapter 1}
+
+\section{case0101}
+
+Do grading systems promote creativity in students? Do ranking systems and incentive awards increase productivity among employees? Do rewards and praise stimulate children to learn? Do rewards and praise stimulate children to learn? Although reward systems are deeply embedded in schools and in the workplace, a growing body of evidence suggests that rewards may operate in precisely the opposite way from what is intended. 
+
+A remarkable demonstration of this phenomenon was provided by psychologist Teresa Amabile in an experiment concerning the effects of intrinsic and extrinsic motivation on creativity.  (p.2 of the \emph{Sleuth})
+
+<<eval=TRUE>>=
+# from p.2 of the Statistical Sleuth
+creativity=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0101.csv")
+options(digits=3)
+numsim=1000
+lwdval=3
+summary(creativity)
+@
+
+47 subjects with considerable experience in creative writing were randomly assigned to one of two treatment groups: 24 were placed into "extrinsic" treatment group and 23 were placed into "intrinsic" treatment group. 
+
+
+<<eval=TRUE>>=
+favstats(SCORE~TREATMENT, data=creativity)
+xhistogram(~SCORE|TREATMENT, data=creativity)
+extrinsic=subset(creativity, TREATMENT=="EXTRINSIC")
+stem(extrinsic$SCORE, scale=5)
+intrinsic=subset(creativity, TREATMENT=="INTRINSIC")
+stem(intrinsic$SCORE, scale=5)
+@
+
+The extrinsic group (n=23) has an average creativity score that is 4.1 less than the intrinsic group (n=24). The extrinsic group has relatively larger spread than the intrinsic group (sd=5.25 for extrinsic group and sd=4.44 for intrinsic group). Both distributions are approximately normally distributed.
+
+
+<<eval=TRUE>>=
+t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity)
+@
+
+The two-sample t-test shows a strong evidence that a subject would receive a lower creativity score for a poem written after the extrinsic motivation questionnaire than for one written after the intrinsic motivation questionnaire. The two-sided p-value is 0.005, which is small enough to reject the null hypothesis. Thus, there is true difference between mean in extrinsic group and mean in intrinsic group; the estimated difference between these two scores is 4.1 points on the 0-40 point scale. A 95\% confidence interval for the decrease in score due to having extrinsic motivation rather than intrinsic motivation is between 1.3 and 7.0 points.
+
+<<eval=TRUE>>=
+summary(lm(SCORE~TREATMENT, data=creativity))
+@
+
+In the creativity study, the question that whether there is a treatment effect becomes a question about whether the parameter has a nonzero value. The value of the test statistic for the creativity scores is 4.14.
+
+<<eval=TRUE>>=
+diff=diff(mean(SCORE~TREATMENT, data=creativity))
+diff
+trails <- do(numsim)*diff(mean(SCORE~shuffle(TREATMENT), data=creativity))
+confint(trails)
+xhistogram(~INTRINSIC, nint=50, data=trails)
+@
+
+If the group assignment changes, we will get different results. First, the test statistics will be negative as positive. Second, the majority of values fall in the range from -3.0 to +3.0. Third, only few of the 1,000 randomization produced test statistics as large as 4.14. This last point indicates that 4.14 is a value corresponding to an unusually uneven randomization outcome, if the null hypothesis is correct.
+
+\section{case0102}
+
+Did a bank discriminatorily pay higher starting salaries to men than to women?  Display 1.3 (p.4 of the \emph{Sleuth}) displays the beginning salaries for male and female skilled entry level clerical employees hired between 1969 and 1977.
+
+
+<<eval=TRUE>>=
+# from p.4 of the Statistical Sleuth
+banksalary=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0102.csv")
+options(digits=3)
+numsim=1000
+lwdval=3
+summary(banksalary)
+@
+
+<<eval=TRUE>>=
+favstats(SALARY~SEX, data=banksalary)
+bwplot(SALARY~SEX, data=banksalary)
+densityplot(~SALARY, groups=SEX, auto.key=TRUE, data=banksalary)
+@
+
+The men (n=32) have an average starting salary that is more than \$800 more than the n=61 women (\$5,957 vs \$5,139).  Both distributions have similar spread (sd=\$540 for women and sd=\$691 for men) and distributions that are approximately normally distributed (see density plot). The key difference between the groups is the shift (as indicated by the parallel boxplots).
+
+We can undertake a permutation test to assess whether the differences in the center of these samples that we are observing are due to chance, if the distributions are actually equivalent back in the populations of male and female possible clerical hires.  We start by defining a function to calculate our test statistic (the difference in means), calculate this for the observed data, then simulate from the null distribution (where the labels can be interchanged) and calculate our p-value. 
+
+<<eval=TRUE>>=
+obsdiff=diff(mean(SALARY~SEX, data=banksalary))
+obsdiff
+res <- do(numsim)*diff(mean(SALARY~shuffle(SEX), data=banksalary))
+densityplot(~ MALE, data=res)
+conf=confint(res)
+lower=obsdiff+conf[2]
+lower
+upper=obsdiff+conf[3]
+upper
+p <- sum(abs(res$MALE) >= abs(obsdiff))/numsim
+p
+newres=res+obsdiff
+densityplot(~MALE, data=newres)
+@
+
+Through the permutation test, we can see that the mean starting salary for males is estimated to be (lower) to (upper) larger than the mean starting salary  for females (95\% confidence interval). We never see a permuted difference in means close to our observed value. Therefore, we reject the null hypothesis ($p<0.001$) and conclude that the salaries of the men are higher than that of the women.
+
+<<eval=TRUE>>=
+t.test(SALARY~SEX, alternative="less", data=banksalary)
+@
+
+The $p-value<0.0001$ from the two-sample t-test shows that the large difference between estimated salaries for males and females is unlikely to be due to chance.
+
+\end{document}
