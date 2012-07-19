@@ -7,8 +7,8 @@
 #'@param ... arguments for values NOTE: if the system has more than one equation and the rhs
 #'variables do not match up, there will be an error.
 #'@param npts number of desired zeros to return
-#'@param rad radius around center in which to look for zeros
-#'@param center center of search for zeros
+#'@param rad radius around near in which to look for zeros
+#'@param near center of search for zeros
 #'@param sortBy options for sorting zeros for plotting.  Options are 'byx', 'byy' and 'radial'.  The
 #'default value is 'byx'.
 #'
@@ -23,7 +23,7 @@
 #' findZerosMult(a*x^2-8~a&x, npts = 50)
 #' findZerosMult(a^2+x^2-8~a&x, npts = 1000, sortBy='radial')
 #'
-findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
+findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
   dots = list(...)
   system = list()
   freeVars = list()
@@ -57,17 +57,19 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
     system[[i]] = do.call(makeFun, as.list(c(system[[i]], freeVars)))
   }
   
-  if(is.null(center))
-    center = rep(0, length(rhsVars))
+  if(length(near)==1)
+    near = rep(0, length(rhsVars))
   
   #if there is only one equation, use uniroot
   if(length(system)==1){ 
-    points = .findPoints(system, freeVars, rhsVars, rad, center, npts)
+    points = .findPoints(system, freeVars, rhsVars, rad, near, npts= npts*2)
     
     for(j in (1:length(rows(points[[1]])))){ #Loop over all positive points
+      if(length(points[[1]])==0) break
       pt1= points[[1]][j,]
       
       for(k in (1:length(rows(points[[2]])))){#Loop over all negative points
+        if(length(points[[2]])==0) break
         pt2 = points[[2]][k,]
         
         newf<-function(t){}
@@ -86,12 +88,13 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
         roots <- rbind(roots, root)
         if(length(rows(roots)) >= npts){
           colnames(roots) = rhsVars
-          return(.sort(roots, center = center, type=sortBy)) #return ordered by the first variable.
+          return(.sort(roots, near = near, type=sortBy)) #return ordered by the first variable.
         }
       }
     }
+    if(length(roots)==0) stop("No roots found - try widening search")
     colnames(roots) = rhsVars
-    return(.sort(roots, center = center, type=sortBy))
+    return(.sort(roots, near = near, type=sortBy))
   }
   
   #Use Broyden when system has more than one equation.
@@ -105,11 +108,13 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
         for(i in 1:need)
           junk = cbind(junk, runif(length(rhsVars), min=-2,max=2))
       
-      points = .findPoints(system, freeVars, rhsVars, rad, center, npts)
+      points = .findPoints(system, freeVars, rhsVars, rad, near, npts=npts*2)
       
       for(i in (1:length(system))){
         for(j in (1:(length(rows(points[[i]]))))){#might be a more efficient way to do this
+          if(length(points[[i]])==0) break
           for(k in (1:(length(rows(points[[length(points)-i+1]]))))){
+            if(length(points[[length(points)-i+1]])==0) break
             for(l in (1:need)){
               pt1 = points[[i]][j,]
               pt2 = points[[length(points)-i+1]][k,]
@@ -131,30 +136,44 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
               else
                 newsystem = append(system, hyperplane)
             }
-            root = try(Broyden(newsystem, rhsVars, x=center+.001, maxiters=1e3), silent=TRUE)
+            root = try(Broyden(newsystem, rhsVars, x=near+.001, maxiters=1e3), silent=TRUE)
             if(!inherits(root, "try-error"))
               roots = rbind(roots, root)
             if(length(rows(roots)) >= npts){
               colnames(roots) = rhsVars
-              return(.sort(roots, center = center, type=sortBy)) #return ordered by the first variable.
+              return(.sort(roots, near = near, type=sortBy)) #return ordered by the first variable.
             }
           }
         }
       }
+      if(length(roots)==0) stop("No zeros found - try widening search")
       colnames(roots) = rhsVars
-      return(.sort(roots, center = center, type=sortBy))
+      return(.sort(roots, near = near, type=sortBy))
       
     }
     
-    root = Broyden(system, rhsVars, x=center+.001)#often does not work for (0,0)
-    roots = rbind(roots, root)
-    colnames(roots) = rhsVars
-    return(roots)
+    else{ #equal number of equations and variables
+      root = try(Broyden(system, rhsVars, x=near+.001), silent=TRUE)
+      if(!inherits(root, "try-error"))
+        roots = rbind(roots, root)
+      set.seed(35)
+      for(i in (1:npts)){
+        startingVec <- runif(1, min=near[1]-rad, max=near[1]+rad)
+        for(j in (1:(length(near)-1)))
+          startingVec <- append(startingVec, runif(1, min=near[j+1]-rad, max=near[j+1]-rad))
+        root = try(Broyden(system, rhsVars, x=startingVec), silent=TRUE)
+        if(!inherits(root, "try-error"))
+          roots = rbind(roots, root)
+      }
+      if(length(roots)==0) stop("None found - try widening search")
+      colnames(roots) = rhsVars
+      return(roots)
+    }
   }
 }
 
 #sort the list of zeros by x, y, or radially.
-.sort <- function(data, center=c(0,0), type = 'byx'){
+.sort <- function(data, near=c(0,0), type = 'byx'){
   #introduce some sort of infer args business...
   
   if(type == 'byx'){
@@ -167,7 +186,7 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
   
   if(type == 'radial'){
     npts = length(rows(data))
-    ref = center
+    ref = near
     data$angle <- apply(data, 1, function(row){angle <- atan((ref[2]-row[2])/(ref[1]-row[1]))
                                                if(sign(ref[1]-row[1])==-1) angle = angle+pi
                                                if(sign(angle)==-1) angle = 2*pi+angle
@@ -177,7 +196,6 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
     #     for(i in (1:(npts-2))){
     #      if(sqrt((data[i,1]-data[i+1,1])^2+(data[i,2]-data[i+1,2])^2) >= 
     #        sqrt((data[i,1]-data[i+2,1])^2+(data[i,2]-data[i+2,2])^2)){
-    #        browser()
     #        ref.x = mean(data[i,1],data[i+1,1],data[i+2,1])
     #        ref.y = mean(data[i,2],data[i+1,2],data[i+2,2])
     #        ref = c(ref.x,ref.y)
@@ -201,13 +219,13 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
 #returns npts number of points sorted into bins.  the ith bin can be paired with the
 #ith to last bin and used to find the equation of a line with a zero on it.
 #
-.findPoints<- function(system, freeVars, vars, rad, center, npts = 100){
+.findPoints<- function(system, freeVars, vars, rad, near, npts){
   numBins = 2^(length(system))
   points = list()
   for(i in (1:numBins)) points[[i]] = data.frame()
   set.seed(1) #set seed for random number generation
-  for(p in (1:100)){
-    pt =runif(length(vars), min=center[1]-rad, max=center[1]+rad)
+  for(p in (1:npts)){
+    pt =runif(length(vars), min=near[1]-rad, max=near[1]+rad)
     binNum = 1
     for(i in (1:(length(system)))){
       if(!sign(do.call(system[[i]], as.list(c(pt, freeVars))) )==1) #Positive
@@ -219,8 +237,7 @@ findZerosMult <- function(..., npts=10, rad = 5, center=NULL, sortBy='byx'){
   #     warning("No zeros found. Try choosing a different start value or widening your search.")
   #     return(numeric(0))
   #   }
-  
-  for(i in (1:length(points))) colnames(points[[i]]) = vars
+  for(i in (1:length(points))) try(colnames(points[[i]]) <- vars, silent=TRUE)
   return(points)
 }
 #'Multi-Dimensional Root Finding
@@ -273,5 +290,7 @@ Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1
     A=Anew
     FF=FFnew
   }
+  
+  stop("Failed to converge")
   
 }
