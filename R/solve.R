@@ -2,11 +2,7 @@
 #'
 #'@param form Expression to be solved
 #'
-#'@param \dots Extra parameters
 #'@param \dots Specific numerical values for the free variables in the expression.
-#'@param xlim The range of the dependent variable to search for zeros. \code{Inf} is a legitimate value, 
-#'but is interpreted in the numerical sense as the non-Inf largest floating point number.  This can also
-#'be specified replacing \code{x} with the name of the variable.  See the examples.
 #'@param near a value near which zeros are desired
 #'@param within only look for zeros at least this close to near.  \code{near} and \code{within} provide an
 #'alternative to using \code{xlim} to specify the search space.
@@ -17,17 +13,31 @@
 #'      a modest number of zeros near \code{near}.
 #'@param npts How many sub-intervals to divide the \code{xlim} into when looking for candidates for zeros.  
 #'The default is usually good enough.
+#' @param sortBy specifies how the zeros found will be sorted. Options are 'byx', 'byy', or 'radial'.
 #'If \code{Inf} is involved, the intervals are logarithmically spaced up to the largest finite floating point number.  
 #'There is no guarantee that all the roots will be found.
 #'
 #'
-#'@details Uses findZerosMult of findZeros to solve.
+#'@details Uses findZerosMult of findZeros to solve the given expression
 #'
-solve <- function(form, ..., xlim=c(near-within, near+within), near=0, 
+#'@return a dataframe with solutions to the expression.
+#'
+#'@examples
+#'solve(3*x==3~x)
+#'
+#'#plot out sphere
+#'sphere = solve(x^2+y^2+z^2==5, wihtin=5, nearest=1000)
+#'cloud(z~x+y, data=sphere)
+#'
+#'
+solve <- function(form, ..., near=0, 
                   within=Inf, nearest=10, npts=1000, iterate=1, sortBy=c('byx', 'byy', 'radial')){
   dots = list(...)
   system = list(form)
+  sortBy <- match.arg(sortBy)
   freeVars = list()
+  
+  
   #Separate formulae and free vars
   if(length(dots)>0){
     for(i in (1:length(dots))){
@@ -50,5 +60,7 @@ solve <- function(form, ..., xlim=c(near-within, near+within), near=0,
     formula[[2]] <- exp
     system[[i]] <- formula
     }
-  do.call(findZeros, c(system, freeVars))
+  
+  return(do.call(findZeros, c(system, freeVars, near=near, 
+                       within=within, nearest=nearest, npts=npts, iterate=iterate, sortBy=sortBy)))
 }

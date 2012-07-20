@@ -3,8 +3,8 @@
 context('Finding Zeros')
 
 test_that("zeros are found", {
-  expect_equivalent( round(findZeros(x^2 - 2 ~x),4), round(c(-sqrt(2), sqrt(2)),4) )
-  expect_equivalent( round(findZeros(x^2 - 3 ~x),4), round(c(-sqrt(3), sqrt(3)),4) )
+  expect_equivalent( round(findZeros(x^2 - 2 ~x)[,"x"],4), round(c(-sqrt(2), sqrt(2)),4) )
+  expect_equivalent( round(findZeros(x^2 - 3 ~x)[,"x"],4), round(c(-sqrt(3), sqrt(3)),4) )
 })
 
 test_that("zeros are within search interval", {
@@ -43,4 +43,12 @@ test_that("Works with Broyden",{
   expect_that(x*y^2-9+z, equals(rep(0, 10), tol=0.001))
   expect_that(x*y*z+z*w, equals(rep(0,10), tol=10))
   
+})
+
+test_that("Solve function works properly", {
+  sphere = solve(x^2+y^2+z^2==5~x&y&z, within=5, nearest=1000)
+  x = sphere[,"x"]
+  y = sphere[,"y"]
+  z = sphere[,"z"]
+  expect_that(x^2+y^2+z^2, equals(rep(5, 1000), tol=.001))
 })

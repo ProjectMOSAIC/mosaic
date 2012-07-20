@@ -137,8 +137,9 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
                 newsystem = append(system, hyperplane)
             }
             root = try(Broyden(newsystem, rhsVars, x=near+.001, maxiters=1e3), silent=TRUE)
-            if(!inherits(root, "try-error"))
+            if(!inherits(root, "try-error")){
               roots = rbind(roots, root)
+            }
             if(length(rows(roots)) >= npts){
               colnames(roots) = rhsVars
               return(.sort(roots, near = near, type=sortBy)) #return ordered by the first variable.
@@ -157,13 +158,14 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
       if(!inherits(root, "try-error"))
         roots = rbind(roots, root)
       set.seed(35)
-      for(i in (1:npts)){
+      for(i in (1:(npts-1))){
         startingVec <- runif(1, min=near[1]-rad, max=near[1]+rad)
         for(j in (1:(length(near)-1)))
           startingVec <- append(startingVec, runif(1, min=near[j+1]-rad, max=near[j+1]-rad))
         root = try(Broyden(system, rhsVars, x=startingVec), silent=TRUE)
-        if(!inherits(root, "try-error"))
+        if(!inherits(root, "try-error")){
           roots = rbind(roots, root)
+        }
       }
       if(length(roots)==0) stop("None found - try widening search")
       colnames(roots) = rhsVars
@@ -255,7 +257,7 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
 #'
 #'@param maxiters maximum number of iterations.
 #'
-Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.5, maxiters=1e5){
+Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.25, maxiters=1e3){
   n = length(system)
   if(is.null(x)) x = rep(1,length(system))#Add in something that makes sure this is valid.
   if(toString(names(x))=="") names(x) = vars

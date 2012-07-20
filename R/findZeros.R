@@ -21,12 +21,12 @@
 #' The default is usually good enough.
 #' If \code{Inf} is involved, the intervals are logarithmically spaced up to the largest finite floating point number.  
 #' There is no guarantee that all the roots will be found.
-#' 
+#' @param sortBy specifies how the zeros found will be sorted. Options are 'byx', 'byy', or 'radial'.
 #' 
 #' @details
 #' Searches numerically using \code{uniroot}.
 #' 
-#' @return A set of zero or more numerical values.  Plugging these into the
+#' @return A dataframe of zero or more numerical values.  Plugging these into the
 #' expression on the left side of the formula should result in values near zero.
 #'
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu}) 
@@ -48,7 +48,9 @@
 #' findZeros( f(x) ~ x, near=0, within=100 )
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=0 )
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=3 )
-#' 
+#' #Zeros in multiple dimensions
+#' findZeros(x^2+y^2+z^2-5~x&y&z, nearest=3000, within = 5)
+#' findZeros(x*y+z^2~z&y&z, z+y~x&y&z, npts=10)
 #' @keywords calculus 
 findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf, 
                       nearest=10, npts=1000, iterate=1, sortBy=c('byx', 'byy', 'radial')) {
