@@ -166,13 +166,21 @@ setMethod(
 			  do.call(predict, c(list(model, newdata=data.frame(x=x)), dots))
 		  }
 	  } else {
-		  body(result) <- 
+		  if (type == "link") {
+		    body(result) <- 
 			  parse( text=paste(
 								"return(predict(model, newdata=data.frame(",
 								paste(vars, "= ", vars, collapse=",", sep=""), 
-								"), ..., type=type))"
-								)
-		  )
+								"), ..., type='link'))"
+								) )
+		  } else {
+		    body(result) <- 
+			  parse( text=paste(
+								"return(predict(model, newdata=data.frame(",
+								paste(vars, "= ", vars, collapse=",", sep=""), 
+								"), ..., type='response'))"
+								) )
+		  }
 		  formals(result) <- 
 			  eval(parse( 
 						 text=paste( "as.pairlist(alist(", 
