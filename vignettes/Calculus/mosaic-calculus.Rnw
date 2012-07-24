@@ -11,10 +11,11 @@
 \date{July 3, 2012}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 
 \SweaveOpts{
-	fig.path="figures/fig-",
+  fig.path="figures/fig-",
 	fig.align="center",
 	fig.height=3, 
 	fig.width=5,
@@ -365,7 +366,7 @@ The differential equation solver provides another way to approach this problem.
 
 \section{Solving}
 
-The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A fromula is used to describe the function and it independent variable.
+The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A formula is used to describe the function and it independent variable.
 The search for zeros is conducted over a range that can be specified in a number of ways.  To illustrate:
 \begin{itemize}
 \item Find the zeros within a specified range:
@@ -383,6 +384,25 @@ findZeros( sin(t)~t, near=0, within=8)
 \end{itemize}
 
 We hope to extend \function{findZeros()} to work with multiple functions of multiple variables.
+
+\subsection{Example: GPS}
+
+The function \function{findZeros()} allows you to specify fewer equations than variables.  This results in multiple sets of solutions.  Consider the methods of using GPS satellites to determine a hiker's position on the Earth.  With information from only one satellite, the hiker knows only that they exist somewhere on a sphere of radius d from that satellite.  Say satellite A is at position (12480, 483901, 1239) and is a distance of 25 away from the hiker.  Then the hiker must exist somewhere in the sphere determined by
+
+<<>>=
+Z = findZeros((x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=1000, within=25)
+@
+
+Now, by adding information from a second satellite, we can narrow down the search for the position of the hikers.
+
+<<>>=
+Z2 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
+#cloudData = rbind(cbind(Z, name=rep("satA", length(rows(Z)))), cbind(Z2, name=rep("satB", length(rows(Z2)))))
+#cloud(z~x+y, data=cloudData)
+Z3 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, (x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
+@
+
+Now the hiker needs to gain information from another satellite to correctly determine their current postion.  Say this satellite is
 
 \section{Random-Example Functions}
 
@@ -714,5 +734,4 @@ The \pkg{mosaic} package is one of the initiatives of Project MOSAIC, an NSF-spo
 
 
 \end{document}
-
 
