@@ -165,7 +165,7 @@ summary(disability)
 favstats(SCORE ~ HANDICAP, data=disability)
 @
 
-A total of \Sexpr{nrow(diability)} undergradate students from a U.S. university were randomly assigned to view 5 tapes, 14 to each tapes. The five kinds of the tapes are: NONE, AMPUTEE, CRUTCHES, HEARING and WHEELCHAIR. After reviewing the tape, each subject rated the qualifications of the application on 0-10 scale. Among the five hadicap conditions, the CRUTCHES group gave the highest mean score, while the HEARING group gave the lowest mean score. 
+A total of \Sexpr{nrow(disability)} undergradate students from a U.S. university were randomly assigned to view 5 tapes, 14 to each tapes. The five kinds of the tapes are: NONE, AMPUTEE, CRUTCHES, HEARING and WHEELCHAIR. After reviewing the tape, each subject rated the qualifications of the application on 0-10 scale. Among the five hadicap conditions, the CRUTCHES group gave the highest mean score, while the HEARING group gave the lowest mean score. 
 
 <<>>=
 with(subset(disability, HANDICAP=="NONE"), stem(SCORE, scale=2))
@@ -191,7 +191,7 @@ Calculation p.151
 anova(lm(SCORE ~ HANDICAP, data=disability))
 @
 
-The $p-value=0.03$ shows the evidence that subjects rate qualifications differently according to handicap status.
+The p-value=$0.03$ shows the evidence that subjects rate qualifications differently according to handicap status.
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
 
