@@ -26,7 +26,7 @@
 #'solve(3*x==3~x)
 #'
 #'#plot out sphere
-#'sphere = solve(x^2+y^2+z^2==5, wihtin=5, nearest=1000)
+#'sphere = solve(x^2+y^2+z^2==5~x&y&z, within=5, nearest=1000)
 #'cloud(z~x+y, data=sphere)
 #'
 #'

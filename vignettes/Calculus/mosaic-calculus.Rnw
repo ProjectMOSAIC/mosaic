@@ -385,25 +385,6 @@ findZeros( sin(t)~t, near=0, within=8)
 
 We hope to extend \function{findZeros()} to work with multiple functions of multiple variables.
 
-\subsection{Example: GPS}
-
-The function \function{findZeros()} allows you to specify fewer equations than variables.  This results in multiple sets of solutions.  Consider the methods of using GPS satellites to determine a hiker's position on the Earth.  With information from only one satellite, the hiker knows only that they exist somewhere on a sphere of radius d from that satellite.  Say satellite A is at position (12480, 483901, 1239) and is a distance of 25 away from the hiker.  Then the hiker must exist somewhere in the sphere determined by
-
-<<>>=
-Z = findZeros((x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=1000, within=25)
-@
-
-Now, by adding information from a second satellite, we can narrow down the search for the position of the hikers.
-
-<<>>=
-Z2 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
-#cloudData = rbind(cbind(Z, name=rep("satA", length(rows(Z)))), cbind(Z2, name=rep("satB", length(rows(Z2)))))
-#cloud(z~x+y, data=cloudData)
-Z3 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, (x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
-@
-
-Now the hiker needs to gain information from another satellite to correctly determine their current postion.  Say this satellite is
-
 \section{Random-Example Functions}
 
 In teaching, it's helpful to have a set of functions that can be employed to illustrate various concepts.  Sometimes, all you need is a smooth function that displays some ups and downs and has one or two local maxima or minima.  The \function{rfun()} function will generate such functions ``at random."  That is, a random seed can be used to control which function is generated.
