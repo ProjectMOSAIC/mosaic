@@ -7,14 +7,15 @@
 
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
-%\author{Daniel Kaplan}
-%\date{March 25, 2012}
+\author{Daniel Kaplan \& Randall Pruim}
+\date{July 3, 2012}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 
 \SweaveOpts{
-	fig.path="figures/fig-",
+  fig.path="figures/fig-",
 	fig.align="center",
 	fig.height=3, 
 	fig.width=5,
@@ -225,8 +226,8 @@ plotFun( dt(t,df)~t+df,
 
 Differentiation is an operation that takes a function as input and returns a
 function as an output.  In \pkg{mosaic}, differentiation is implemented by the
-\function{D()} function.\footnote{The \pkg{mosaic} \function{D} masks the original
-\function{D} function from the \pkg{stats} package. But since the two use
+\function{D()} function.\footnote{The \pkg{mosaic} \function{D()} masks the original
+\function{D()} function from the \pkg{stats} package. But since the two use
 different syntax, the old behavior is still available.}
 A function is not the only input to differentiation; one also needs to specify
 the variable with respect to which the derivative is taken.  Traditionally,
@@ -285,51 +286,60 @@ very accurate results.
 
 \section{Anti-Differentiation}
 
-The \function{antiD()} function carries out anti-differentiation.  Like \function{D()}, \function{antiD} uses a formula interface and returns a function.  There are two important 
-differences between \function{D()} and function{anitD()}, however.
-\begin{itemize}
-\item Only first-order integration is directly supported.
-\item The returned function retains the same arguments as the function being integrated, but splits the variable of integration into a ``from" and a ``to" part.
-\end{itemize}
+The \function{antiD()} function carries out anti-differentiation.  Like \function{D()}, \function{antiD} uses a formula interface and returns a function with the same arguments as the formula.  Only first-order integration is directly supported. 
+
+
+
 To illustrate, here is $\int a x^2 dx$ (which should give $\frac{a}{3} x^3$):
 <<>>=
 F = antiD( a*x^2~x, a=1 )
-F
-F(x.to=1) #should be 1/3
+F(x=1, a=1) #should be 1/3
+F(x=1, a=3) #should be 1
 @
 
-Being a function, the output of \function{antiD()} can be plotted:
-<<antiD1,fig.height=4,out.width=".7\\textwidth">>=
-plotFun(F(x.to=x)~x, x.lim=range(-2,2))
-plotFun(F(x.from=-1.5,x.to=x)~x, add=TRUE, col="red")
+If you want to use the anti-derivative to compute an integral, evaluate the anti-derivative at the endpoints of the interval of integration and substract the two results.  For example, here is $\int_1^{3} x^2 dx$:
+<<>>=
+F(x=3)-F(x=1)
 @
 
+For the most part, the integration being carried out is purely numerical.  The mechanics are hidden behind the function \function{numerical.integration()}, which is not intended to be employed by end-users.  Over time, we plan to replace the use of 
+\function{numerical.integration()} with symbolic expressions for simple integrals.  
 
-At this time, integration is purely numerical. The mechanics are hidden behind the function \function{numerical.integration()}, which is not intended to be used directly.   
+Unlike symbolic anti-differentiation, numerical anti-differentiation always requires an interval of integration.  You specify the lower bound of this interval when constructing the anti-derivative, using a ``from'' argument whose name matches the variable of integration.  For example:
+<<>>=
+mylog = antiD( 1/x ~ x, x.from=1)
+mylog(10)
+log(10)
+@
+
+By default, the ``from'' value is zero.  If you are anti-differentiating a function that has a singularity near zero (as does $1/x$), you will want to choose ``from'' to avoid the singularity.  Also, if you will be using the anti-derivative to evaluate integrals that do not include zero, you may want to set ``from'' to a value closer to your interval of integration.  Remember, of course, the actual argument has a name based on the variable of integration, e.g., \code{x.from}, \code{z.from}, etc.
 
 Unlike differentiation, integration has good numerical properties.  Even integrals out to infinity can often be handled with great precision.  Here, for instance, is a calculation of the mean of a normal distribution via integration from $-\infty$ to $\infty$:
 <<>>=
-F = antiD( x*dnorm(x,mean=3,sd=2)~x)
-F(x.from=-Inf,x.to=Inf)
+F = antiD( x*dnorm(x,mean=3,sd=2)~x, x.from=-Inf)
+F(x=Inf)
 @
 \noindent
 And here are some examples using exponential distributions.
 <<>>=
-F = antiD(x*dexp(x,rate=rate)~x)
-F(x.from=0,x.to=Inf,rate=10)
-F(x.from=0,x.to=Inf,rate=100)
+F = antiD(x*dexp(x,rate=rate)~x, x.from=0)
+F(x=Inf,rate=10)
+F(x=Inf,rate=100)
 @
 
-Because anti-differentiation is done numerically, you can compute the
+Because anti-differentiation will be done numerically when a symbolic 
+method is not available, you can compute the
 anti-derivative of any function that is numerically well behaved, even when
-there is no simple algebraic form.  In particular, you can take the
+there is no simple algebraic form.  
+
+It's also possible to  take the
 anti-derivative of a function that is itself an anti-derivative.  Here, for
-example, is a double integral for the area of a circle of radius 1:
+example, is a double integral $\int_{-1}^{1} \int_0^{\sqrt{1-y^2}} 1\ dx\ dy$ for the area of the top half of a circle of radius 1:
 <<>>=
 one = makeFun(1~x+y)
-by.x = antiD( one(x=x, y=y) ~x )
-by.xy = antiD(by.x(x.from=-sqrt(1-y^2), x.to=sqrt(1-y^2), y=y)~y)
-by.xy(y.from=-1, y.to=1)
+by.x = antiD( one(x=x, y=y) ~x, x.from=0 )
+by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
+by.xy(y=1) - by.xy(y=-1)
 @
 
 \subsection{Example: Jumping Off a Diving Board}
@@ -344,11 +354,11 @@ vel <- antiD( -9.8~t, Const=1 )
 
 The position is, of course, the integral of velocity plus the initial position of 5 m --- the height of the board.
 <<>>=
-pos <- antiD( vel(t.to=t)~t, Const=5 )
+pos <- antiD( vel(t=t)~t, Const=5 )
 @ 
 
 <<dive,fig.height=4,out.width=".7\\textwidth">>=
-plotFun(pos(t.to=t)~t, t.lim=range(0,1.2), 
+plotFun(pos(t=t)~t, t.lim=range(0,1.2), 
         xlab="Height (m)", ylab="Time (s)")
 @
 
@@ -356,7 +366,7 @@ The differential equation solver provides another way to approach this problem.
 
 \section{Solving}
 
-The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A fromula is used to describe the function and it independent variable.
+The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A formula is used to describe the function and it independent variable.
 The search for zeros is conducted over a range that can be specified in a number of ways.  To illustrate:
 \begin{itemize}
 \item Find the zeros within a specified range:
@@ -374,6 +384,25 @@ findZeros( sin(t)~t, near=0, within=8)
 \end{itemize}
 
 We hope to extend \function{findZeros()} to work with multiple functions of multiple variables.
+
+\subsection{Example: GPS}
+
+The function \function{findZeros()} allows you to specify fewer equations than variables.  This results in multiple sets of solutions.  Consider the methods of using GPS satellites to determine a hiker's position on the Earth.  With information from only one satellite, the hiker knows only that they exist somewhere on a sphere of radius d from that satellite.  Say satellite A is at position (12480, 483901, 1239) and is a distance of 25 away from the hiker.  Then the hiker must exist somewhere in the sphere determined by
+
+<<>>=
+Z = findZeros((x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=1000, within=25)
+@
+
+Now, by adding information from a second satellite, we can narrow down the search for the position of the hikers.
+
+<<>>=
+Z2 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
+#cloudData = rbind(cbind(Z, name=rep("satA", length(rows(Z)))), cbind(Z2, name=rep("satB", length(rows(Z2)))))
+#cloud(z~x+y, data=cloudData)
+Z3 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, (x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
+@
+
+Now the hiker needs to gain information from another satellite to correctly determine their current postion.  Say this satellite is
 
 \section{Random-Example Functions}
 
@@ -429,7 +458,7 @@ Plotting out the data can be done in the usual way (using \pkg{lattice} graphics
 xyplot( mass ~ time, data=Water)
 @
 
-Of course, the mass in the cup varied continuously with time.  It's just the recorded data that are discrete.  Here's how to create a cubic-spline interpolant that connects the measured data:\footnote{Should this function be changed to  \function{makeSpline()}?}
+Of course, the mass in the cup varied continuously with time.  It's just the recorded data that are discrete.  Here's how to create a cubic-spline interpolant that connects the measured data:
 <<>>=
 f <- spliner(mass~time, data=Water)
 @
@@ -511,11 +540,11 @@ set.seed(7832)
 
 <<fig.height=4,out.width=".7\\textwidth">>=
 CPSclean <- subset(CPS85, wage < 30)
-f <- smoother( wage~age, span=1.2, data=CPSclean)
+f <- smoother( wage~age, span=1.0, data=CPSclean)
 f2 <- D( f(age)~age)
 plotFun( f2(age)~age, age.lim=range(20,60), ylab='change in wage',lwd=4)
 do(10) * {
-  fr<-smoother(wage~age,span=1.2,data=resample(CPSclean))
+  fr<-smoother(wage~age,span=1.0,data=resample(CPSclean))
   fr2 <- D(fr(age)~age)
   plotFun(fr2(age)~age, add=TRUE, col='gray40', alpha=.5)
   }
@@ -531,7 +560,7 @@ years of age, there's weak evidence for any systematic effect.
 
 Smoothers can construct functions of more than one variable.  Here, for instance, is a representation of the relationship between wage, age, and education.
 <<wage2,fig.height=4,out.width=".7\\textwidth">>=
-g <- smoother(log(wage)~age+educ+1, span=0.9,data=CPSclean)
+g <- smoother(log(wage)~age+educ+1, span=1.0,data=CPSclean)
 plotFun( g(age=age,educ=educ)~age+educ, 
          age.lim=range(20,50),
          educ.lim=range(5,14),
@@ -551,7 +580,7 @@ For economists, perhaps worthwhile to think about the elasticity of wages with r
 
 <<wage4,fig.height=4,out.width=".7\\textwidth">>=
 CPSclean$logage <- log(CPSclean$age)
-g2 <- smoother(log(wage)~logage+educ+1, span=0.9,data=CPSclean)
+g2 <- smoother(log(wage)~logage+educ+1, span=1.0,data=CPSclean)
 elasticity <- D( g2(logage=logage,educ=educ)~logage)
 plotFun( elasticity(logage=log(a),educ=educ)~a+educ,
               a.lim=range(20,50), educ.lim=range(5,14))
@@ -705,5 +734,4 @@ The \pkg{mosaic} package is one of the initiatives of Project MOSAIC, an NSF-spo
 
 
 \end{document}
-
 

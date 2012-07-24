@@ -227,7 +227,8 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
   for(i in (1:numBins)) points[[i]] = data.frame()
   set.seed(1) #set seed for random number generation
   for(p in (1:npts)){
-    pt =runif(length(vars), min=near[1]-rad, max=near[1]+rad)
+    #Construct a point within search range
+    pt =runif(length(vars), min=near-rad, max=near+rad)    
     binNum = 1
     for(i in (1:(length(system)))){
       if(!sign(do.call(system[[i]], as.list(c(pt, freeVars))) )==1) #Positive
