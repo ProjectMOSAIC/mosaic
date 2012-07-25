@@ -1,0 +1,362 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 5}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+	   \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 5}
+
+\author{
+Ruobing Zhang \and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+  
+<<echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session.
+
+We also set some options to improve legibility of graphs and output.
+<<eval=FALSE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=3)
+
+@
+
+The goal of this document is to demonstate how to calculate the quantities described in Chapter 5: Comparisons Among Several Samples using RStudio.
+
+\section{Diet and lifespan}
+Does restricting the diet of female mice lead to increased lifespan? This is the question addressed
+in case study 5.1 in the \emph{Sleuth}.
+
+
+\subsection{Summary statistics and graphical display} 
+<<>>=
+mice = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0501.csv")
+summary(mice)
+favstats(LIFETIME ~ DIET, data=mice)
+@
+
+<<>>=
+bwplot(LIFETIME ~ DIET, data=mice) # Display 5.1
+@
+<<fig.height=8, fig.width=8>>=
+densityplot(~ LIFETIME, groups=DIET, auto.key=TRUE, data=mice)
+@
+
+\subsection{One-way ANOVA}
+
+First we fit the one way analysis of variance (ANOVA) model, using all of the groups.
+
+<<eval=TRUE>>=
+anova(lm(LIFETIME ~ DIET, data=mice))
+@
+
+There is a strongly statistically significant difference between the diets (\Sexpr{print.pval(anova(lm(LIFETIME ~ DIET, data=mice))["Pr(>F)"])}, p.115).
+
+By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
+
+<<>>=
+summary(lm(LIFETIME ~ DIET, data=mice))
+@
+
+The reference group is lopro, followed by N/N85, N/R40, N/R50, NP, R/R50.
+
+\subsection{Pairwise comparisons}
+
+Calculation on p. 121 Display 5.7 and part a) on page 115:
+<<a>>=
+library(gmodels)
+fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, -1, 0, 1, 0, 0), conf.int=0.95)
+@
+The results for b on page 115-116:
+<<b>>=
+# N/R50 vs R/R50 (b)
+fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 0, -1, 0, 1), conf.int=0.95)
+@
+The results for c on page 116:
+<<c>>=
+# N/R40 vs N/R50 (c)
+fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 1, -1, 0, 0), conf.int=0.95)
+@
+The results for d on page 116:
+<<d>>=
+# N/R50 vs N/R50 lopro (d)
+fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(-1, 0, 0, 1, 0, 0), conf.int=0.95)
+@
+The results for e on page 116:
+<<e>>=
+# N/N85 vs NP (e)
+fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 1, 0, 0, -1, 0), conf.int=0.95)
+@
+
+Another way of viewing these results is through a model table, which displays the differences
+between the grand mean and the group means.
+<<>>=
+model.tables(aov(lm(LIFETIME ~ DIET, data=mice)))
+@
+Another way of calculating the above results is done with the following code:
+<<>>=
+mean(LIFETIME ~ DIET, data=mice)-mean(~ LIFETIME, data=mice)
+@
+
+\subsection{Other analyses}
+
+Let's demonstrate how to calculate the quantities on p. 120 Display 5.6.
+
+<<>>=
+df = length(mice$DIET) - length(unique(mice$DIET)); df
+sdvals = with(mice, tapply(LIFETIME, DIET, sd)); sdvals
+nvals = with(mice, tapply(LIFETIME, DIET, length)); nvals
+pooledsd = sum(sdvals*nvals)/sum(nvals); pooledsd
+@
+
+Note that the pooled standard deviation reported in chapter 5 is not the same as the root MSE from the ANOVA!
+For the rest of this document we will use the ANOVA estimate of the
+root mean squared error.
+
+\subsection{Residual analysis and diagnostics}
+
+The residuals vs. fitted graph doesn't demonstrate dramatic lack of fit (though some of the 
+mice had very small residuals).
+<<>>=
+aov1 = aov(lm(LIFETIME ~ DIET, data=mice))
+plot(aov1, which=1) 
+@
+
+The quantile plot of the residuals indicates that the normality assumption may be violated.
+<<>>=
+plot(aov1, which=2)
+plot(aov1, which=3)
+@
+
+
+
+\section{Spock Conspiracy Trial}
+Did Dr. Benjamin Spock have a fair trial?  More specifically, were women underrepresented on his jury pool?  This is the question considered in 
+case study 5.2 in the \emph{Sleuth}.
+
+
+\subsection{Summary statistics and graphical display} 
+<<>>=
+spock = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0502.csv", 
+                 stringsAsFactors=FALSE)
+
+summary(spock)
+spock$JUDGE = with(spock, as.factor(JUDGE))
+favstats(PERCENT ~ JUDGE, data=spock)
+@
+
+<<>>=
+bwplot(PERCENT ~ JUDGE, data=spock) # Display 5.5
+densityplot(~ PERCENT, groups=JUDGE, auto.key=TRUE, data=spock)
+@
+
+\subsection{One-way ANOVA}
+
+First we fit the one way analysis of variance (ANOVA) model, with all of the groups. Summarized on page 118.
+<<>>=
+aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1
+@
+
+By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
+<<>>=
+summary(lm(PERCENT ~ JUDGE, data=spock))
+@
+
+<<>>=
+model.tables(aov(lm(PERCENT ~ JUDGE, data=spock)))
+@
+
+Then we can fit the one way analysis of variance F-test of whether the mean percentage is the same for judges A-F (p. 118).
+
+<<>>=
+with(subset(spock, JUDGE!="SPOCK'S"), anova(lm(PERCENT~JUDGE)))
+@
+
+\subsection{Additional analyses}
+
+Now we will demonstrate how to fit the reduced model comparing Spock's judge to a combination of the
+other judge. First let's create a 2 level version of the grouping variable.
+
+<<>>=
+spock$TWOJUDGE = as.character(spock$JUDGE)
+spock$TWOJUDGE[spock$JUDGE != "SPOCK'S"] = "NOTSPOCK"
+tally(TWOJUDGE ~ JUDGE, format="count", data=spock)
+
+@
+Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (pg 130).  Below are the calculations for the numbers found on page 128. 
+
+<<>>=
+aov2 = anova(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)); aov2
+df1 = aov1["Residuals", "Df"]; df1 # Within
+df2 = aov2["Residuals", "Df"]; df2 # Spock and others 
+ss1 = aov1["Residuals", "Sum Sq"]; ss1 # Within
+ss2 = aov2["Residuals", "Sum Sq"]; ss2 # Spock and others 
+Fstat = ((ss2 - ss1)/(df2 - df1)) / (ss1 / df1); Fstat 
+1 - pf(Fstat, length(levels(spock$JUDGE))-2, df1)
+@
+
+<<>>=
+model.tables(aov(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)))
+@
+
+There are some other ways to compare whether the other judges differ from Spock's judge in their female composition?
+
+<<>>=
+# test all of the other judges vs. Spock's judge using a contrast
+fit.contrast(lm(PERCENT ~ JUDGE, data=spock), "JUDGE", c(1, 1, 1, 1, 1, 1, -6), conf.int=0.95)
+
+# calculate the 95% confidence interval for Dr. Spock's jury female composition?
+estimable(lm(PERCENT ~ JUDGE, data=spock), c(1,0,0,0,0,0,1), conf.int=0.95)
+@
+
+\subsection{Kruskal-Wallis Nonparametric Analysis of Variance}
+
+For the results of the Kruskal-Wallis test on page 136 we can use the following code.
+
+<<>>=
+kruskal.test(PERCENT~JUDGE, data=spock)
+@
+
+
+\end{document}
