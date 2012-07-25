@@ -322,6 +322,9 @@ intMath <- function(form, ...){
   #Use .affine.exp to find out what a and x really are
   if(tree[[1]]=='+'){
     #arcTan
+    if(grep(.x., deparse(tree[[2]]))==1&&length(grep(.x., deparse(tree[[2]])))==0){
+      .affine.exp()
+    }
     
   }
   
@@ -337,7 +340,6 @@ intMath <- function(form, ...){
   }
   
   return(NULL)
-    
     
 }
 
