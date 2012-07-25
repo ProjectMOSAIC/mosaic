@@ -6,7 +6,9 @@
 #'@param \ldots extra parameters
 #'
 #'@details This symbolic integrator recognizes simple polynomials and functions such as
-#'\code{sin}, \code{cos}, and \code{exp}.  It will not perform more complicated substitutions
+#'\code{sin}, \code{cos}, \code{tan}, \code{sinh}, \code{cosh}, \code{tanh}, \code{sqrt}, and \code{exp}.
+#'
+#'It will not perform more complicated substitutions
 #'or integration by parts.
 #'
 #'@value symbolicInt returns a function whose body is the symbolic antiderivative of
@@ -59,6 +61,7 @@ symbolicAntiD <- function(form, ...){
     form[[2]]<- parse(text=paste("1/(2)*", rhsVar, "^2", sep=""))[[1]]
     return(form)
   }
+  
   stop("Error: symbolic algorithm gave up")
 }
 
@@ -124,6 +127,13 @@ intArith <- function(form, ...){
   if(op=='/'){#let denominator have negative exponent if there is an x.
     num = lhs(form)[[2]]
     den = lhs(form)[[3]]
+    
+    #first see if it is a trigonometric substitution
+    check <- .TrigSub(den, rhsVar)
+    if(!is.null(check))
+      return(check)
+    
+    
     if(length(grep(rhsVar, den))>0){
       form[[2]] = parse(text = paste(deparse(num, width.cutoff=500), "*(",
                                      deparse(den, width.cutoff=500), ")^-1",sep="" ))[[1]]
@@ -225,7 +235,110 @@ intMath <- function(form, ...){
     else stop("Error: symbolic algorithm gave up")
   }
   
+  if(op == "tan"){
+    #check to see if we can integrate it
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1)
+        newform = paste("-log(abs(cos(", deparse(lhs(form)[[2]]), ")))", sep="")
+      else
+        newform = paste("1/(", deparse(affexp$a), ")*-log(abs(cos(",
+                        deparse(lhs(form)[[2]]), ")))", sep="")
+      form[[2]]= parse(text=newform)[[1]]
+      return(form)
+    }
+    else stop("Error: symbolic algorithm gave up")
+  }
+  
+  if(op == "sinh"){
+    #check to see if we can integrate it
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1)
+        newform = paste("cosh(", deparse(lhs(form)[[2]]), ")", sep="")
+      else
+        newform = paste("1/(", deparse(affexp$a), ")*cosh(",
+                        deparse(lhs(form)[[2]]), ")", sep="")
+      form[[2]]= parse(text=newform)[[1]]
+      return(form)
+    }
+    else stop("Error: symbolic algorithm gave up")
+  }
+  
+  if(op == "cosh"){
+    #check to see if we can integrate it
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1)
+        newform = paste("sinh(", deparse(lhs(form)[[2]]), ")", sep="")
+      else
+        newform = paste("1/(", deparse(affexp$a), ")*sinh(",
+                        deparse(lhs(form)[[2]]), ")", sep="")
+      form[[2]]= parse(text=newform)[[1]]
+      return(form)
+    }
+    else stop("Error: symbolic algorithm gave up")
+  }
+  
+  if(op == "sinh"){
+    #check to see if we can integrate it
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1)
+        newform = paste("log(cosh(", deparse(lhs(form)[[2]]), "))", sep="")
+      else
+        newform = paste("1/(", deparse(affexp$a), ")*log(cosh(",
+                        deparse(lhs(form)[[2]]), "))", sep="")
+      form[[2]]= parse(text=newform)[[1]]
+      return(form)
+    }
+    else stop("Error: symbolic algorithm gave up")
+  }
+  
+  if(op == "sqrt"){
+    #check to see if we can integrate it
+    affexp = .affine.exp(lhs(form)[[2]], rhsVar)
+    if(length(affexp)>0){
+      if(affexp$a==1)
+        newform = paste("2/3*sqrt(", deparse(lhs(form)[[2]]), ")^3", sep="")
+      else
+        newform = paste("1/(", deparse(affexp$a), ")*2/3*sqrt(",
+                        deparse(lhs(form)[[2]]), ")^3", sep="")
+      form[[2]]= parse(text=newform)[[1]]
+      return(form)
+    }
+    else stop("Error: symbolic algorithm gave up")
+  }
+  
   stop("Error: symbolic algorithm gave up")
+}
+
+#-------------------------
+.TrigSub <- function(tree, .x.){
+  #Note that this takes in the denominator and checks whether it might be a trig expression.
+  #Want to return the value of a and x and code for which trig expr.
+  if(!is.call(tree)) return(NULL)
+  #Note: need to make sure both sides don't have .x. in it
+  #Use .affine.exp to find out what a and x really are
+  if(tree[[1]]=='+'){
+    #arcTan
+    
+  }
+  
+  if(tree[[1]]=='-'){
+    
+    if(grep(.x., deparse(tree[[2]]))==1){
+      #arccos
+    }
+    
+    if(grep(.x., deparse(tree[[3]]==1))){
+      #arcsin
+    }
+  }
+  
+  return(NULL)
+    
+    
 }
 
 #'Takes a call and returns its affine coefficients.
