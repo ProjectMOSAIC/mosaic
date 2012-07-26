@@ -255,7 +255,7 @@ This comparision gives a sense about hot to choose the approporiate multiple com
 
 \section{Pre-existing Preference of Fish}
 
-Does Charles Darwin right that sexual selection is bt females?  This is the question addressed in case study 6.2 in the \emph{Sleuth}.  The goal of this document is to demonstrate how to calculate the quantities described in chapter 6 (linear combinations and multiple comparisons) using RStudio.
+Was Charles Darwin right that sexual selection is by females?  This is the question addressed in case study 6.2 in the \emph{Sleuth}.  The goal of this document is to demonstrate how to calculate the quantities described in chapter 6 (linear combinations and multiple comparisons) using RStudio.
 
 \subsection{Summary statistics and graphical display}
 
@@ -278,7 +278,7 @@ bwplot(PAIR ~ PROPORTION, data=fish)
 densityplot(~PROPORTION, groups=PAIR, auto.key=TRUE, data=fish)
 @
 
-Besides the distribution of pair 5, all distributions of other pairs are normally distributed. 
+Besides the distribution of pair 5, all distributions of other pairs are approximately normally distributed. 
 
 \subsection{One-way ANOVA}
 
@@ -288,7 +288,9 @@ First we fit the one way analysis of variance (ANOVA) model, using all of the gr
 anova(lm(PROPORTION ~ PAIR, data=fish))
 @
 
-The p-value is \Sexpr{pval(anova(lm(PROPORTION ~ PAIR, data=fish)))}, which doesn't provide evidence that the mean percentage of time with the yellow-sword male differed from one male pair to another.
+XX NOTE THAT YOU MIGHT NEED TO EXTRACT THE P-VALUE MANUALLY: TRY EXAMINING THE OUTPUT OF SUMMARY(ANOVA()) XX
+
+The p-value is \Sexpr{pval(anova(lm(PROPORTION ~ PAIR, data=fish)))}, which doesn't provide much evidence that the mean percentage of time with the yellow-sword male differed from one male pair to another.
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups. Note that the overall test of the model is the same.
 

@@ -252,7 +252,7 @@ summary(ao)
 favstats(DIOXIN ~ VETERAN, data=ao)
 @
 
-A total of \Sexpr{nrow(ao)} veterans were included in this data: \Sexpr{nrow(subset(ao, VEtERAN=="VIETNAM"))} served in Viewnam during 1967 and 1968  and \Sexpr{nrow(subset(ao, VETERAN="OTHER"))} served in US or Germany during 1965 and 1971.
+A total of \Sexpr{nrow(ao)} veterans were included in this data: \Sexpr{nrow(subset(ao, VETERAN=="VIETNAM"))} served in Viewnam during 1967 and 1968  and \Sexpr{nrow(subset(ao, VETERAN="OTHER"))} served in US or Germany during 1965 and 1971.
 
 <<>>=
 bwplot(VETERAN ~ DIOXIN, data=ao)
@@ -266,10 +266,10 @@ Both distributions are highly skewed to the right.
 
 \subsection{Summary statistics and graphical display (transformed)}
 
-Log transformation is useful here to reduce skewness.
+Log transformation can be useful here to reduce skewness.  We calculate the log on one plus the dioxin values, to address values of 0 dioxin.
 
 <<>>=
-ao$logdioxin=log(ao$DIOXIN)
+ao$logdioxin=log(1 + ao$DIOXIN)
 favstats(logdioxin ~ VETERAN, data=ao)
 @
 

@@ -285,6 +285,7 @@ Below displays a jittered scatterplot using the original data on a log-transform
 
 The following displays a jittered scatterplot using the original data stratified by body weight on a log-transformed axis (akin to Display 9.13 on page 255).
 
+XX THIS NEEDS TO BE LARGER XX
 <<>>=
 mammals$weightcut = cut(mammals$BODY, breaks=c(0, 2.1, 9.1, 100, 4200), labels=c("Body Weight: 0kg to 2.1kg","Body Weight: 2.1kg to 9.1kg", "Body Weight: 9.1kg to 100kg", "Body Weight: 100 to 4,200"))
 xyplot(BRAIN ~ jitter(LITTER) | weightcut, 
