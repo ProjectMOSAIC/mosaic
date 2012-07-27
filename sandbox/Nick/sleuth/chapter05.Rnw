@@ -112,7 +112,7 @@ Ruobing Zhang \and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mat
 	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
 	}
   
-<<echo=FALSE, message=FALSE>>=
+<<pvalues, echo=FALSE, message=FALSE>>=
 print.pval = function(pval) {
   threshold = 0.0001
     return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
@@ -288,6 +288,8 @@ favstats(PERCENT ~ JUDGE, data=spock)
 
 <<>>=
 bwplot(PERCENT ~ JUDGE, data=spock) # Display 5.5
+@
+<<fig.height=8, fig.width=8>>=
 densityplot(~ PERCENT, groups=JUDGE, auto.key=TRUE, data=spock)
 @
 
@@ -295,7 +297,7 @@ densityplot(~ PERCENT, groups=JUDGE, auto.key=TRUE, data=spock)
 
 First we fit the one way analysis of variance (ANOVA) model, with all of the groups. Summarized on page 118.
 <<>>=
-aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1
+aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1 # Display 5.10
 @
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
@@ -324,7 +326,7 @@ spock$TWOJUDGE[spock$JUDGE != "SPOCK'S"] = "NOTSPOCK"
 tally(TWOJUDGE ~ JUDGE, format="count", data=spock)
 
 @
-Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (pg 130).  Below are the calculations for the numbers found on page 128. 
+Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (pg 130).  Below are the calculations for the results found on page 128. 
 
 <<>>=
 aov2 = anova(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)); aov2
@@ -336,21 +338,22 @@ Fstat = ((ss2 - ss1)/(df2 - df1)) / (ss1 / df1); Fstat
 1 - pf(Fstat, length(levels(spock$JUDGE))-2, df1)
 @
 
+We can also compare the two models using an ANOVA (Display 5.12, p. 130) 
 <<>>=
-model.tables(aov(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)))
+anova(lm(PERCENT ~ as.factor(JUDGE), data=spock), lm(PERCENT ~ as.factor(TWOJUDGE), data=spock))
 @
 
-There are some other ways to compare whether the other judges differ from Spock's judge in their female composition?
+There are some other ways to compare whether the other judges differ from Spock's judge in their female composition using contrasts. 
 
 <<>>=
-# test all of the other judges vs. Spock's judge using a contrast
+# test all of the other judges vs. Spock's judge using a contrast p. 118
 fit.contrast(lm(PERCENT ~ JUDGE, data=spock), "JUDGE", c(1, 1, 1, 1, 1, 1, -6), conf.int=0.95)
 
-# calculate the 95% confidence interval for Dr. Spock's jury female composition?
+# calculate the 95% confidence interval for Dr. Spock's jury female composition p. 118
 estimable(lm(PERCENT ~ JUDGE, data=spock), c(1,0,0,0,0,0,1), conf.int=0.95)
 @
 
-\subsection{Kruskal-Wallis Nonparametric Analysis of Variance}
+\subsubsection{Kruskal-Wallis Nonparametric Analysis of Variance}
 
 For the results of the Kruskal-Wallis test on page 136 we can use the following code.
 

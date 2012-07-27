@@ -1,0 +1,288 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 11}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+	   \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 11}
+
+\author{
+Kate Aloisio\and Ruobing Zhang \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session.
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=3, show.signif.stars=FALSE)
+@
+
+The goal of this document is to demonstate how to calculate the quantities described in Chapter 11: Model Checking and Refinement using RStudio.
+
+\section{Alcohol metabolism in men and women}
+How do men and women metabolise alcohol?  This is the question addressed in case study 11.1.1 in the \emph{Sleuth}.  
+
+
+\subsection{Data coding, summary statistics and graphical display} 
+<<>>=
+alcometa = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1101.csv")
+summary(alcometa)
+@
+
+Display 11.2 (page 306)
+<<fig.height=8, fig.width=8>>=
+xyplot(METABOL ~ GASTRIC | SEX + ALCOHOL, data=alcometa, auto.key=TRUE,
+  xlab="Gastric AD activity (mu mol/min/g of tissue)", 
+  ylab="first pass metabolism (mmol/liter-hour)")
+@
+
+\subsection{Multiple regression}
+
+Summary on page 315 (display 11.9)
+<<display11.9>>=
+lm1 = lm(METABOL ~ GASTRIC + SEX + ALCOHOL + GASTRIC*SEX + SEX*ALCOHOL +
+  GASTRIC*ALCOHOL + GASTRIC*SEX*ALCOHOL, data=alcometa); summary(lm1)
+@
+
+Leverage, studentized resids and Cook's distance (page 319--320)
+<<message=FALSE>>=
+require(MASS)
+@
+<<>>=
+alcometa$hat = hatvalues(lm1)
+alcometa$studres = studres(lm1)
+alcometa$cooks = cooks.distance(lm1)
+alcometa[31,]
+@
+
+More summary on page 315 (Display 11.9)
+<<>>=
+alcometa2 = alcometa[-c(31, 32),]
+lm2 = lm(METABOL ~ GASTRIC + SEX + ALCOHOL + GASTRIC*SEX + SEX*ALCOHOL +
+  GASTRIC*ALCOHOL + GASTRIC*SEX*ALCOHOL, data=alcometa2); summary(lm2)
+@
+
+Display 11.7 (page 313)
+<<>>=
+plot(lm1, which=1)
+@
+
+Lack of fit test for the removal of {\tt ALCOHOL}(page 322)
+<<lackoffit>>=
+lm3 = lm(METABOL ~ GASTRIC + SEX + GASTRIC*SEX, data=alcometa2); summary(lm3)
+anova(lm3, lm2) # page 322
+@
+
+Fit without intercept (scientifically plausible) Display 11.14, page 323
+<<display11.14>>=
+lm4 = lm(METABOL ~  GASTRIC + GASTRIC:SEX -1 , data=alcometa2); summary(lm4)
+anova(lm4, lm3)
+@
+
+
+\section{Blood brain barrier}
+Neuroscientists working to better understand the blood brain barrier have infused rats with cells to induce brain tumors.   This is the topic addressed in case study 11.1.2 in the \emph{Sleuth}.  
+
+\subsection{Data coding and summary statistics}
+<<case1102>>=
+barrier = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1102.csv")
+barrier$Y = with(barrier, BRAIN/LIVER)
+barrier$logliver = with(barrier, log(LIVER)); barrier$logbrain = with(barrier, log(BRAIN))
+barrier$SAC = as.factor(barrier$TIME)
+barrier$logy = with(barrier, log(BRAIN/LIVER)); barrier$logtime = with(barrier, log(TIME))
+summary(barrier)
+@
+
+<<message=FALSE>>=
+require(GGally)
+@
+<<fig.height=8, fig.width=8>>=
+ggpairs(barrier[,c("logy", "logbrain","logliver","TREAT", "SAC")], 
+        diag=list(continuous="density", discrete="bar"), axisLabels="show")
+@
+
+\subsection{Graphical presentation}
+
+
+The following displays a scatterplot of log ratio (W) as a function of log time (akin to Display 11.5 on page 309).
+
+<<>>=
+xyplot(Y ~ TIME, group=TREAT, scales=list(y=list(log=TRUE), 
+                                          x=list(log=TRUE)), auto.key=TRUE, data=barrier)
+@
+
+The following graphs are akin to the second and third plots in Display 11.6 on page 326.
+
+<<>>=
+xyplot(logy ~ SEX, data=barrier)
+@
+
+<<>>=
+xyplot(logy ~ jitter(DAYS), data=barrier)
+@
+
+\subsection{Multiple regression}
+
+Model 1 from page 311
+<<fullmodel>>=
+lm1 = lm(logy ~ SAC + TREAT + SAC*TREAT + DAYS + SEX + 
+  WEIGHT + LOSS + TUMOR, data=barrier); summary(lm1)
+@
+
+Actual display 11.6 (page 312)
+<<>>=
+plot(lm1, which=1)
+@
+
+
+\subsection{Refining the model}
+
+Results can be found in Display 11.17 on page 327.
+<<reducedmodel>>=
+lm2 = lm(logy ~ SAC + TREAT, data=barrier); summary(lm2) # slightly different values for the (intercept) and the constant variable
+anova(lm2, lm1)
+@
+\end{document}
