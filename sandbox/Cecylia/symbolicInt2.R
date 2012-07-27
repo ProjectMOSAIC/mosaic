@@ -32,35 +32,36 @@ pattern1 <- list(One='cos', Two="affine")
 #'of the expression.
 #'If the expression is not a polynomial, returns an empty list or an error.
 #'
-.polynomial.expression <- function(tree, .x.){
+.polynomial.expression <- function(tree, .x., params){
   
   
   #if it is a simple expression
   if(tree==.x.){
-    coeffs <- c(a=1, b=0)
+    coeffs <- c(1, 0)
     return(list(coeffs= coeffs, pow=1))
   }
   
   #if it is a constant
   if(class(tree)=='numeric'||class(tree)=='name'){
-    coeffs <- c(a=tree)
+    coeffs <- c(tree)
     return(list(coeffs = coeffs, pow=0))
   }
 
   if(tree[[1]]=='('){
-    return(Recall(tree[[2]], .x.))
+    return(Recall(tree[[2]], .x., params))
   }
   
   if(tree[[1]] == '+'){
-    lside <- Recall(tree[[2]], .x.)
-    rside <- Recall(tree[[3]], .x.)
+    lside <- Recall(tree[[2]], .x., params)
+    rside <- Recall(tree[[3]], .x., params)
     
     if(rside$pow >= lside$pow){
       pow = rside$pow
       coeffs <- rside$coeffs
       lcoeffs <- append(rep(0, pow-lside$pow), lside$coeffs)
       browser()
-      coeffs <- coeffs + lcoeffs
+      for(i in 1:length(coeffs))
+        coeffs[i] <- parse(text = paste(deparse(coeffs[[i]]),  "+", deparse(lcoeffs[[i]]), sep=""))
       
       return(list(coeffs = coeffs, pow = pow))
     }
@@ -69,23 +70,23 @@ pattern1 <- list(One='cos', Two="affine")
       pow = lside$pow
       coeffs <- lside$coeffs
       rcoeffs <- append(rep(0, pow-rside$pow), rside$coeffs)
-      coeffs <- coeffs + rcoeffs
+      
+      for(i in 1:length(coeffs))
+        coeffs[i] <- parse(text = paste(deparse(coeffs[[i]]),  "+", deparse(rcoeffs[[i]]), sep=""))
       
       return(list(coeffs = coeffs, pow = pow))
     }
   }
   
   if(tree[[1]] == '-'){
-    lside <- Recall(tree[[2]], .x.)
-    rside <- Recall(tree[[3]], .x.)
+    lside <- Recall(tree[[2]], .x., params)
+    rside <- Recall(tree[[3]], .x., params)
     
     if(rside$pow >= lside$pow){
       pow = rside$pow
       coeffs <- rside$coeffs
       lcoeffs <- append(rep(0, pow-lside$pow), lside$coeffs)
-      names <- names(coeffs)
       coeffs <- lcoeffs - coeffs
-      names(coeffs) <- names
       
       return(list(coeffs = coeffs, pow = pow))
     }
@@ -102,8 +103,8 @@ pattern1 <- list(One='cos', Two="affine")
   
   if(tree[[1]] == '*'){
     
-    lside <- Recall(tree[[2]], .x.)
-    rside <- Recall(tree[[3]], .x.)
+    lside <- Recall(tree[[2]], .x., params)
+    rside <- Recall(tree[[3]], .x., params)
     
     pow <- lside$pow + rside$pow
     diff <- abs(lside$pow - rside$pow)
@@ -131,23 +132,23 @@ pattern1 <- list(One='cos', Two="affine")
         coeffs[i] <- sum(cmatrix[cbind((dim:(1+i-dim)), ((1+i-dim):dim))])
       }
     }
-    
-    names(coeffs) <- letters[(1:length(coeffs))]
-    
+        
     return(list(coeffs = coeffs, pow = pow))
   }
   
-  if(tree[[1]] == '^'){    
+  if(tree[[1]] == '^'){   
     #Recursively call as multiplication
     newTree <- tree
+    tree[[3]] <- eval(tree[[3]]) - 1
     
-    tree[[3]] <- tree[[3]] - 1
+    if(eval(tree[[3]]) <0) stop("Can only handle positive exponents")
+    
     if(tree[[3]] == 1){
       tree <- tree[[2]]
     }
     
     newTree <- parse(text= paste(deparse(newTree[[2]]), "*", deparse(tree), sep=""))[[1]]
-    return(Recall(newTree, .x.))
+    return(Recall(newTree, .x., params))
     
   }
   
