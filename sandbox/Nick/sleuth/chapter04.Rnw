@@ -122,7 +122,7 @@ print.pval = function(pval) {
 
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
-trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
 # this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
 knit_hooks$set(inline = function(x) {
@@ -160,7 +160,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 4: The Rank-Sum Test using RStudio.
+The goal of this document is to demonstate how to calculate the quantities described in Chapter 4: The Rank-Sum Test using R.
 
 \section{Space Shuttle O-Ring Failures}
 
@@ -193,6 +193,7 @@ t.test(INCIDENTS ~ LAUNCH, data=oring)
 @
 
 The t-statistic is \Sexpr{nrow(t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)$statistic)}.
+XX error XX
 
 <<>>=
 C244=factorial(24)/(factorial(4)*factorial(24-4)); C244
@@ -213,7 +214,7 @@ C0123=17*5; C0123
 onep=(C1123+C0123)/C244; onep
 @
 
-So the one-sided p-value from permutation test on t-statistics is \Sexpr{round(onep, 2)}.
+So the one-sided p-value from the permutation test on t-statistics is \Sexpr{round(onep, 2)}.
 
 \section{Cognitive Load Theory in Teaching}
 

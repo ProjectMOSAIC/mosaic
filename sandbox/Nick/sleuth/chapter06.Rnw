@@ -122,7 +122,7 @@ print.pval = function(pval) {
 
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
-trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
 # this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
 knit_hooks$set(inline = function(x) {
@@ -158,7 +158,7 @@ We also set some options to improve legibility of graphs and output.
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 @
-The goal of this document is to demonstrate how to calculate the quantities described in Chapter 6: Linear Combinations and Multiple Comparisons of Means using RStudio.
+The goal of this document is to demonstrate how to calculate the quantities described in Chapter 6: Linear Combinations and Multiple Comparisons of Means using R.
 
 \section{Discrimination Against the Handicapped}
 
@@ -262,13 +262,13 @@ LSD.test(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP", p.adj=c("bonfer
 scheffe.test(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP")    # Scheffe
 @
 
-The "Significant Difference" in each test result is the "95\% interval half-width" referred in the book.
+The ``Significant Difference" in each test result is the ``95\% interval half-width" referred in the book.
 
 This comparision gives a sense about hot to choose the approporiate multiple comparisinos procedure.
 
 \section{Pre-existing Preference of Fish}
 
-Was Charles Darwin right that sexual selection is by females?  This is the question addressed in case study 6.2 in the \emph{Sleuth}.  The goal of this document is to demonstrate how to calculate the quantities described in chapter 6 (linear combinations and multiple comparisons) using RStudio.
+Was Charles Darwin right that sexual selection is by females?  This is the question addressed in case study 6.2 in the \emph{Sleuth}.  The goal of this document is to demonstrate how to calculate the quantities described in chapter 6 (linear combinations and multiple comparisons) using R.
 
 \subsection{Summary statistics and graphical display}
 

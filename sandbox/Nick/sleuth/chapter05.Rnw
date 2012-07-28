@@ -157,12 +157,12 @@ needs to be done once per session.
 
 We also set some options to improve legibility of graphs and output.
 <<eval=FALSE>>=
-trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 options(digits=3)
 
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 5: Comparisons Among Several Samples using RStudio.
+The goal of this document is to demonstate how to calculate the quantities described in Chapter 5: Comparisons Among Several Samples using R.
 
 \section{Diet and lifespan}
 Does restricting the diet of female mice lead to increased lifespan? This is the question addressed
@@ -191,7 +191,7 @@ First we fit the one way analysis of variance (ANOVA) model, using all of the gr
 anova(lm(LIFETIME ~ DIET, data=mice))
 @
 
-There is a strongly statistically significant difference between the diets (\Sexpr{print.pval(anova(lm(LIFETIME ~ DIET, data=mice))["Pr(>F)"])}, p.115).
+There is a strongly statistically significant difference between the diets.
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
 
@@ -278,9 +278,10 @@ case study 5.2 in the \emph{Sleuth}.
 
 \subsection{Summary statistics and graphical display} 
 <<>>=
-spock = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0502.csv", 
-                 stringsAsFactors=FALSE)
-
+spock = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0502.csv",
+   stringsAsFactors=FALSE)
+@
+<<>>=
 summary(spock)
 spock$JUDGE = with(spock, as.factor(JUDGE))
 favstats(PERCENT ~ JUDGE, data=spock)
@@ -338,7 +339,7 @@ Fstat = ((ss2 - ss1)/(df2 - df1)) / (ss1 / df1); Fstat
 1 - pf(Fstat, length(levels(spock$JUDGE))-2, df1)
 @
 
-We can also compare the two models using an ANOVA (Display 5.12, p. 130) 
+We can also compare the two models using ANOVA (Display 5.12, p. 130).
 <<>>=
 anova(lm(PERCENT ~ as.factor(JUDGE), data=spock), lm(PERCENT ~ as.factor(TWOJUDGE), data=spock))
 @

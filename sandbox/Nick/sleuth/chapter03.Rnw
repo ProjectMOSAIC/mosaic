@@ -122,7 +122,7 @@ print.pval = function(pval) {
 
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
-trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
 # this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
 knit_hooks$set(inline = function(x){
@@ -160,7 +160,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in \emph{Sleuth} Chapter 3: A Closer Look at Assumptions using RStudio.
+The goal of this document is to demonstate how to calculate the quantities described in \emph{Sleuth} Chapter 3: A Closer Look at Assumptions using R.
 
 \section{Cloud Seeding to Increase Rainfall}
 
@@ -226,7 +226,7 @@ The two-sided p-value is \Sexpr{print.pval(pval(t.test(lograin ~ TREATMENT, data
 
 \subsection{Interpretation of log model}
 
-The following code is used to calculate the "Summary of Statistical Findings" on page 57. First, we want to calculate the multiplier.
+The following code is used to calculate the ``Summary of Statistical Findings" on page 57. First, we want to calculate the multiplier.
 
 <<>>=
 obslogdiff = -diff(mean(lograin ~ TREATMENT, data=rain)); obslogdiff
@@ -285,7 +285,7 @@ densityplot(~logdioxin, groups=VETERAN, auto.key=TRUE, data=ao)
 
 \subsection{Inferential procedures (two-sample t-test)}
 
-The following code is used to calculate the "Summary of Statistical Findings" on page 60.
+The following code is used to calculate the ``Summary of Statistical Findings" on page 60.
 <<>>=
 t.test(DIOXIN ~ VETERAN, alternative="less", data=ao)
 @

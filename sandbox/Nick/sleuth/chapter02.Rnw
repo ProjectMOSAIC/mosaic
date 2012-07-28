@@ -122,7 +122,7 @@ print.pval = function(pval) {
 
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
-trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
 # this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
 knit_hooks$set(inline = function(x) {
@@ -160,7 +160,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 2: Inference Using \emph{t}-Distributions using RStudio.
+The goal of this document is to demonstate how to calculate the quantities described in Chapter 2: Inference Using \emph{t}-Distributions using R.
 
 \section{Bumpus's Data on Natural Selection}
 
@@ -226,7 +226,7 @@ twopval=2*onepval; twopval
 
 So the one-sided p-value is \Sexpr{round(onepval, 2)} and the two-sided p-value is \Sexpr{round(twopval, 2)}
 
-Or we can get the results of "Summary of Statistical Findings" (on \emph{Sleuth} p.29) by using following code. 
+Or we can get the results of ``Summary of Statistical Findings" (on \emph{Sleuth} p.29) by using following code. 
 <<>>=
 t.test(HUMERUS ~ STATUS, var.equal=TRUE, data=sparrow)
 confint(lm(HUMERUS ~ STATUS, data=sparrow))
@@ -234,7 +234,7 @@ confint(lm(HUMERUS ~ STATUS, data=sparrow))
 
 \section{Anatomical Abnormalities Associated with Schizophrenia}
 
-Is the area of brain related to schizophrenia? That's the question being addressed by case study 2.2 in the \emph{Sleuth}.
+Is the area of brain related to the development of schizophrenia? That's the question being addressed by case study 2.2 in the \emph{Sleuth}.
 
 \subsection{Statistical summary and graphical display}
 We begin by reading the data and summarizing the variables.
@@ -252,7 +252,7 @@ DIFF=schizo[, "UNAFFECT"]-schizo[, "AFFECTED"]
 favstats(DIFF)
 @
 
-As showed in Display 2.2 (page 30 of \emph{Sleuth}).
+This matches the results in  Display 2.2 (page 30 of the \emph{Sleuth}).
 
 <<>>=
 densityplot(DIFF)
