@@ -111,6 +111,15 @@ Ruobing Zhang \and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mat
 	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
 	}
 
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
@@ -149,23 +158,23 @@ We also set some options to improve legibility of graphs and output.
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 @
+The goal of this document is to demonstrate how to calculate the quantities described in Chapter 6: Linear Combinations and Multiple Comparisons of Means using RStudio.
 
 \section{Discrimination Against the Handicapped}
 
-Do equivalent candidates with the same qualifications but different disabilities get treated differentially?  This is the question addressed in case study 6.1 in the \emph{Sleuth}.  The goal of this document is to demonstrate how to calculate the quantities described in chapter 6 (linear combinations and multiple comparisons) using RStudio.
+Do equivalent candidates with the same qualifications but different disabilities get treated differentially?  This is the question addressed in case study 6.1 in the \emph{Sleuth}.  
 
 \subsection{Summary statistics and graphical display}
 
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-#p.150 of Sleuth
 disability = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0601.csv")
 summary(disability)
 favstats(SCORE ~ HANDICAP, data=disability)
 @
 
-A total of \Sexpr{nrow(disability)} undergradate students from a U.S. university were randomly assigned to view 5 tapes, 14 to each tapes. The five kinds of the tapes are: NONE, AMPUTEE, CRUTCHES, HEARING and WHEELCHAIR. After reviewing the tape, each subject rated the qualifications of the application on 0-10 scale. Among the five hadicap conditions, the CRUTCHES group gave the highest mean score, while the HEARING group gave the lowest mean score. 
+A total of \Sexpr{nrow(disability)} undergradate students from a U.S. university were randomly assigned to view the tapes, \Sexpr{nrow(subset(disability, HANDICAP=="NONE"))} to each tape. The five kinds of tapes are: NONE, AMPUTEE, CRUTCHES, HEARING and WHEELCHAIR. After reviewing the tape, each subject rated the qualifications of the application on 0-10 scale. Among the five hadicap conditions, the CRUTCHES group gave the highest mean score, while the HEARING group gave the lowest mean score. Summarized on page 150 and in Display 6.1 of \emph{Sleuth}. 
 
 <<>>=
 with(subset(disability, HANDICAP=="NONE"), stem(SCORE, scale=2))
@@ -174,11 +183,11 @@ with(subset(disability, HANDICAP=="CRUTCHES"), stem(SCORE, scale=1))
 with(subset(disability, HANDICAP=="HEARING"), stem(SCORE, scale=2))
 with(subset(disability, HANDICAP=="WHEELCHAIR"), stem(SCORE, scale=2))
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 bwplot(HANDICAP ~ SCORE, data=disability)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 densityplot(~SCORE, groups=HANDICAP, auto.key=TRUE, data=disability)
 @
 
@@ -188,12 +197,12 @@ The stemplots show the applicant qualification scores given by objectives. The b
 
 First we fit the one way analysis of variance (ANOVA) model, using all of the groups:
 
-Calculation p.151
+This corresponds to the interpretations on page 151.
 <<>>=
 anova(lm(SCORE ~ HANDICAP, data=disability))
 @
 
-The p-value is \Sexpr{pval(anova(lm(SCORE ~ HANDICAP, data=disability)))}, which shows the evidence that subjects rate qualifications differently according to handicap status.
+The p-value is \Sexpr{print.pval(anova(lm(SCORE ~ HANDICAP, data=disability))["HANDICAP","Pr(>F)"])}, which shows the evidence that subjects rate qualifications differently according to handicap status.
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
 
@@ -217,16 +226,20 @@ mean(SCORE ~ HANDICAP, data=disability)-mean(~ SCORE, data=disability)
 
 \subsection{Contrasts and linear combination}
 
-The Tucky-Kramer test is the most approporiate approach for these data.
+The Tukey-Kramer test is the most approporiate approach for these data.
 
 Calculation on p.151
 <<>>=
 TukeyHSD(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP", ordered=TRUE, c(0,1,-1,0,0), conf.level=0.95)
 @
 
-Based on the Tukey-Kramer procedure, the difference is estimated to be 1.87 points higher for the CRUTCHES tapes, with a 95\% confidence from 0.14 to 3.60.
+<<echo=FALSE>>=
+tuk = TukeyHSD(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP", ordered=TRUE, c(0,1,-1,0,0), conf.level=0.95)
+@
 
-Next, we calculate the comparison of AMPUTEE/HEARING to CRUTCHES/WHEELCHAIR
+Based on the Tukey-Kramer procedure, the difference is estimated to be \Sexpr{round(tuk$HANDICAP["CRUTCHES-HEARING", "diff"], 2)} points higher for the CRUTCHES tapes, with a 95\% confidence from \Sexpr{round(tuk$HANDICAP["CRUTCHES-HEARING", "lwr"], 2)} to \Sexpr{round(tuk$HANDICAP["CRUTCHES-HEARING", "upr"], 2)}.
+
+Next, we calculate the comparison of AMPUTEE/HEARING to CRUTCHES/WHEELCHAIR.
 
 <<>>=
 library(gmodels)
@@ -270,11 +283,11 @@ favstats(PROPORTION ~ PAIR, data=fish)
 
 A total of \Sexpr{nrow(fish)} female fish was involved in this experiment.
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 bwplot(PAIR ~ PROPORTION, data=fish)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 densityplot(~PROPORTION, groups=PAIR, auto.key=TRUE, data=fish)
 @
 
@@ -288,9 +301,7 @@ First we fit the one way analysis of variance (ANOVA) model, using all of the gr
 anova(lm(PROPORTION ~ PAIR, data=fish))
 @
 
-XX NOTE THAT YOU MIGHT NEED TO EXTRACT THE P-VALUE MANUALLY: TRY EXAMINING THE OUTPUT OF SUMMARY(ANOVA()) XX
-
-The p-value is \Sexpr{pval(anova(lm(PROPORTION ~ PAIR, data=fish)))}, which doesn't provide much evidence that the mean percentage of time with the yellow-sword male differed from one male pair to another.
+The p-value is \Sexpr{print.pval(anova(lm(PROPORTION ~ PAIR, data=fish))["PAIR","Pr(>F)"])}, which doesn't provide much evidence that the mean percentage of time with the yellow-sword male differed from one male pair to another.
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups. Note that the overall test of the model is the same.
 
@@ -314,7 +325,7 @@ mean(PROPORTION ~ PAIR, data=fish)-mean(~PROPORTION, data=fish)
 
 \subsection{Contrasts and linear combination}
 
-Calculation on p. 152 and p.158
+We can calculate the values on page 152 and Display 6.5 on page 158 by using contrasts.
 <<>>=
 library(gmodels)
 lc=fit.contrast(lm(PROPORTION ~ PAIR, data=fish), "PAIR", c(5, -3, 1, 3, -9, 3), conf.int=0.95); lc
@@ -322,7 +333,7 @@ t=round(lc[, "t value"], 2); t
 pt(t, 78, lower.tail=TRUE)
 @
 
-The t-value is \Sexpr{round(fit.contrast(lm(PROPORTION ~ PAIR, data=fish), "PAIR", c(5, -3, 1, 3, -9, 3), conf.int=0.95)[, "t value"], 2)} and the one-sided p-value is \Sexpr{round(pt(t, 78, lower.tail=TRUE), 2)}
+The t-value is \Sexpr{round(fit.contrast(lm(PROPORTION ~ PAIR, data=fish), "PAIR", c(5, -3, 1, 3, -9, 3), conf.int=0.95)[, "t value"], 2)} and the one-sided p-value is \Sexpr{round(pt(t, 78, lower.tail=TRUE), 2)}.
 
 XX We didn't find way to calculate the values shown in the following sentences: The mean percentage of time spent with the yellow-sword male is estimated to be 62.4\%. A 95\% confidence interval for the mean percentage is 59.0\% to 65.8\%. This is convincing evidence (one-sided $p-value<0.0001$ that the mean percentage exceeds the lack-of-perference value (50\%). XX
 

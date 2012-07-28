@@ -167,15 +167,8 @@ A total of \Sexpr{nrow(creativity)} subjects with considerable experience in cre
 <<eval=TRUE>>=
 favstats(SCORE ~ TREATMENT, data=creativity)
 xhistogram(~SCORE | TREATMENT, data=creativity)
-@
-<<>>=
 with(subset(creativity, TREATMENT=="EXTRINSIC"), stem(SCORE, scale=5))
 with(subset(creativity, TREATMENT=="INTRINSIC"), stem(SCORE, scale=5))
-@
-
-Similar output can be generated using the following code:
-<<eval=FALSE>>=
-maggregate( width ~ sex, data=KidsFeet, FUN=stem)
 @
 
 The extrinsic group (n=\Sexpr{nrow(subset(creativity, TREATMENT=="EXTRINSIC"))}) has an average creativity score that is \Sexpr{round(diff(mean(SCORE ~ TREATMENT, data=creativity)), 1)} points less than the intrinsic group (n=\Sexpr{nrow(subset(creativity, TREATMENT=="INTRINSIC"))}). The extrinsic group has relatively larger spread than the intrinsic group (sd=\Sexpr{round(sd(SCORE, data=subset(creativity, TREATMENT=="EXTRINSIC")),2)} for extrinsic group and sd=\Sexpr{round(sd(SCORE, subset(creativity, TREATMENT=="INTRINSIC")), 2)} for intrinsic group). Both distributions are approximately normally distributed.
@@ -228,7 +221,7 @@ The $t$-test on page 4 of Sleuth can be replicated using the following commands,
 t.test(SALARY~SEX, var.equal=TRUE, data=banksalary)
 @
 
-We can undertake a permutation test to assess whether the differences in the center of these samples that we are observing are due to chance, if the distributions are actually equivalent back in the populations of male and female possible clerical hires.  We start by calculating our test statistic (the difference in means) for the observed data, then simulate from the null distribution (where the labels can be interchanged) and calculate our p-value. 
+We can undertake a permutation test to assess whether the differences in the center of these samples that we are observing are due to chance, if the distributions are actually equivalent back in the populations of male and female possible clerical hires.  We start by defining a function to calculate our test statistic (the difference in means), calculate this for the observed data, then simulate from the null distribution (where the labels can be interchanged) and calculate our p-value. 
 
 <<permutetest,eval=TRUE>>=
 obsdiff=diff(mean(SALARY ~ SEX, data=banksalary)); obsdiff
@@ -244,7 +237,7 @@ densityplot(~MALE, data=shiftres)
 Through the permutation test, we can see that the mean starting salary for males is estimated to be \Sexpr{round(confint(res)["lower"]+obsdiff, 2)} to \Sexpr{round(confint(res)["upper"]+obsdiff, 2)} larger than the mean starting salary  for females (95\% confidence interval). We never see a permuted difference in means close to our observed value. Therefore, we reject the null hypothesis ($p<0.001$) and conclude that the salaries of the men are higher than that of the women.
 
 <<eval=TRUE>>=
-t.test(SALARY ~ SEX, alternative="less", data=banksalary) 
+t.test(SALARY ~ SEX, alternative="less", data=banksalary) #XX less?
 @
 
 The $p-value<0.0001$ from the two-sample t-test shows that the large difference between estimated salaries for males and females is unlikely to be due to chance.
@@ -252,8 +245,8 @@ The $p-value<0.0001$ from the two-sample t-test shows that the large difference 
 To show Display 1.13
 <<>>=
 histogram(rnorm(1000))  # Normal
-histogram(rexp(1000))   # Long-tailed 
 histogram(runif(1000))  # Short-tailed
+histogram(rexp(1000))   # Long-tailed 
 histogram(rchisq(1000, df=15)) # Skewed
 @
 

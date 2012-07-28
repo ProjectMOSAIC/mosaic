@@ -164,7 +164,7 @@ The goal of this document is to demonstate how to calculate the quantities descr
 
 \section{Cloud Seeding to Increase Rainfall}
 
-Does seeding clouds lead to more rainfall? That's the question being addressed by case study 3.1 in the \emph{Sleuth}.
+Does seeding clouds lead to more rainfall? This is the question being addressed by case study 3.1 in the \emph{Sleuth}.
 
 \subsection{Summary statistics and graphycal displays (untransformed)}
 
@@ -176,19 +176,19 @@ summary(rain)
 favstats(RAINFALL ~ TREATMENT, data=rain)
 @
 
-A total of \Sexpr{nrow(rain)} subjects were included in this data: \Sexpr{nrow(subset(rain, TREATMENT=="SEEDED"))} seeded days  and \Sexpr{nrow(subset(rain, TREATMENT="UNSEEDED"))} unseeded days. As showed in Display 3.1 (\emph{Sleuth}, p.57).
+A total of \Sexpr{nrow(rain)} subjects were included in this data: \Sexpr{nrow(subset(rain, TREATMENT=="SEEDED"))} seeded days  and \Sexpr{nrow(subset(rain, TREATMENT=="UNSEEDED"))} unseeded days. As showed in Display 3.1 (\emph{Sleuth}, p.57).
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 bwplot(RAINFALL ~ TREATMENT, data=rain)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 densityplot(~RAINFALL, groups=TREATMENT, auto.key=TRUE, data=rain)
 @
 
-According to the boxplot and the densityplot, the rainfall from seeded days seem to be larger than unseeded days. Both density curves are highly skewed to the right.
+According to the boxplot and the densityplot, the rainfall from seeded days seems to be larger than unseeded days. Both density curves are highly skewed to the right.
 
-\subsection{Summary statistics and graphical display (tranformed)}
+\subsection{Summary statistics and graphical display (transformed)}
 
 The skewness suggests there is a need to apply the logarithmic transformation. The transformed data was shown on \emph{Sleuth} p.71.
 
@@ -197,11 +197,11 @@ rain$lograin=log(rain$RAINFALL)
 favstats(lograin ~ TREATMENT, data=rain)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 bwplot(lograin ~ TREATMENT, data=rain)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 densityplot(~lograin, groups=TREATMENT, auto.key=TRUE, data=rain)
 @
 
@@ -209,30 +209,31 @@ The log transformation reduces skewness of these two distributions.
 
 \subsection{Inferential procedures (two-sample t-test)}
 
+ 
 <<>>=
 t.test(RAINFALL ~ TREATMENT, var.equal=FALSE, data=rain)
 t.test(RAINFALL ~ TREATMENT, var.equal=TRUE, data=rain)
 @
 
-Calsulation on p.71
+Calculation on p.71
 
 <<>>=
 summary(lm(lograin ~ TREATMENT, data=rain))
-ttestlog=t.test(lograin ~ TREATMENT, data=rain); ttestlog
+ttestlog = t.test(lograin ~ TREATMENT, data=rain); ttestlog
 @
 
-The two-sided p-value is \Sexpr{pval(t.test(lograin ~ TREATMENT, data=rain))} and the 95\% confidence interval is between \Sexpr{round(confint(ttestlog)["lower"], 2)} and \Sexpr{round(confint(ttestlog)["upper"], 2)}.
+The two-sided p-value is \Sexpr{print.pval(pval(t.test(lograin ~ TREATMENT, data=rain)))} and the 95\% confidence interval is between \Sexpr{round(ttestlog$conf.int[1], 2)} and \Sexpr{round(ttestlog$conf.int[2], 2)}.
 
 \subsection{Interpretation of log model}
 
 The following code is used to calculate the "Summary of Statistical Findings" on page 57. First, we want to calculate the multiplier.
 
 <<>>=
-obslogdiff=-diff(mean(lograin ~ TREATMENT, data=rain)); obslogdiff
-multiplier=exp(obslogdiff); multiplier
+obslogdiff = -diff(mean(lograin ~ TREATMENT, data=rain)); obslogdiff
+multiplier = exp(obslogdiff); multiplier
 @
 
-Now, calculating the 95\% confidence interval for the multiplier
+Now we can calculate the 95\% confidence interval for the multiplier.
 <<>>=
 ttestlog$conf.int
 exp(ttestlog$conf.int)
@@ -240,25 +241,25 @@ exp(ttestlog$conf.int)
 
 \section{Effects of Agent Orange on Troops in Vietnam}
 
-Is dioxin concentation related to veteran status? That's the question being addressed by case study 3.2 in the \emph{Sleuth}.
+Is dioxin concentation related to veteran status? This is the question being addressed by case study 3.2 in the \emph{Sleuth}.
 
 \subsection{Summary statistics and graphical display (untransformed)}
 
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-ao=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0302.csv")
+ao = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0302.csv")
 summary(ao)
 favstats(DIOXIN ~ VETERAN, data=ao)
 @
 
-A total of \Sexpr{nrow(ao)} veterans were included in this data: \Sexpr{nrow(subset(ao, VETERAN=="VIETNAM"))} served in Viewnam during 1967 and 1968  and \Sexpr{nrow(subset(ao, VETERAN="OTHER"))} served in US or Germany during 1965 and 1971.
+A total of \Sexpr{nrow(ao)} veterans were included in this data: \Sexpr{nrow(subset(ao, VETERAN=="VIETNAM"))} served in Viewnam during 1967 and 1968  and \Sexpr{nrow(subset(ao, VETERAN=="OTHER"))} served in US or Germany during 1965 and 1971.
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 bwplot(VETERAN ~ DIOXIN, data=ao)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 densityplot(~DIOXIN, groups=VETERAN, auto.key=TRUE, data=ao)
 @
 
@@ -266,27 +267,37 @@ Both distributions are highly skewed to the right.
 
 \subsection{Summary statistics and graphical display (transformed)}
 
-Log transformation can be useful here to reduce skewness.  We calculate the log on one plus the dioxin values, to address values of 0 dioxin.
+XX Not sure if this is necessary XX
+Log transformation is useful here to reduce skewness.
 
 <<>>=
-ao$logdioxin=log(1 + ao$DIOXIN)
+ao$logdioxin=log(ao$DIOXIN + 1)
 favstats(logdioxin ~ VETERAN, data=ao)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 bwplot(VETERAN ~ logdioxin, data=ao)
 @
 
-<<>>=
-densityplot(~logdioxin, groups=VETERAN, data=ao)
+<<fig.height=8, fig.width=8>>=
+densityplot(~logdioxin, groups=VETERAN, auto.key=TRUE, data=ao)
 @
 
 \subsection{Inferential procedures (two-sample t-test)}
+
+The following code is used to calculate the "Summary of Statistical Findings" on page 60.
+<<>>=
+t.test(DIOXIN ~ VETERAN, alternative="less", data=ao)
+@
 
 XX Five observations have 0 for DIOXIN. After taking log transformation, there will be five "-Inf" for logdioxin. With these five "-Inf" values, it's hard to test the relationship. What it the most approporate way to solve this problem? Or can I try other kind os transformation, such as sqrt? XX
 
 \subsection{Removing outliers}
 
 We will remove two extreme observations from the data: obs 645 and obs 646 using following code. (Sleuth p.67)
+<<>>=
+ao2 = ao[-c(645, 646),]
+t.test(DIOXIN ~ VETERAN, alternative="less", data=ao2)
+@
 
 \end{document}

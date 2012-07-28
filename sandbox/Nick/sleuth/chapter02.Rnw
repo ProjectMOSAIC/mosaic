@@ -40,7 +40,7 @@
    \setlength{\tempfmlength}{#1}
    \begin{lrbox}{\fmbox}
      \begin{minipage}{#1}
-		 \vspace*{.02\tempfmlength}
+  	 \vspace*{.02\tempfmlength}
 		 \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
 		 {\end{minipage}\hfill
@@ -175,7 +175,7 @@ summary(sparrow)
 fav=favstats(HUMERUS ~ STATUS, data=sparrow); fav
 @
 
-A total of \Sexpr{nrow(sparrow)} subjects are included in the data: \Sexpr{nrow(subset(sparrow, STATUS=="SURVIVED"))} are adult male sparrows that perished and \Sexpr{nrow(subset(sparrow, STATUS=="PERISHED"))}. As showed in Display 2.1 (\emph{Sleuth}).
+A total of \Sexpr{nrow(sparrow)} subjects are included in the data: \Sexpr{nrow(subset(sparrow, STATUS=="SURVIVED"))} are adult male sparrows that survived and \Sexpr{nrow(subset(sparrow, STATUS=="PERISHED"))} perished. As showed in Display 2.1 (page 29 of \emph{Sleuth}).
 
 <<>>=
 bwplot(STATUS ~ HUMERUS, data=sparrow)
@@ -189,7 +189,7 @@ Both distributions are normally distributed.
 
 \subsection{Inferential procedures (two-sample t-test)}
 
-First, we calculate the pooled SD and the standard error between these two different sample average. (Calculation on p.40)
+First, we calculate the pooled SD and the standard error between these two different sample average. (Calculation on p.40, Display 2.8)
 <<>>=
 # Calculate Pooled SD
 n1=fav["PERISHED", "n"]; n1
@@ -203,7 +203,7 @@ SE=Sp*sqrt(1/n1+1/n2); SE
 
 So the pooled SD is \Sexpr{round(Sp, 2)} and the standard error is \Sexpr{round(SE, 1)}.
 
-Based on the information we got, we can construct 95\% confidence interval. (Calculation on p.41)
+Based on the information we got, we can construct 95\% confidence interval. (Calculation on p.41, Display 2.9)
 <<>>=
 Y1=fav["PERISHED", "mean"]; Y1
 Y2=fav["SURVIVED", "mean"]; Y2
@@ -217,7 +217,7 @@ upper=Yd+hw; upper
 
 So the 95\% confidence interval of the difference between means is (\Sexpr{round(lower, 1)}, \Sexpr{round(upper, 1)})
 
-Now we want to calculate the t-statistic and p-value. (Calculation on p.44)
+Now we want to calculate the t-statistic and p-value. (Calculation on p.44, Display 2.10)
 <<>>=
 tstats=(Yd-0)/SE; tstats      # The hypothesis difference=0
 onepval=1-pt(tstats, df); onepval
@@ -244,7 +244,7 @@ schizo=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0202.csv")
 summary(schizo)
 @
 
-A total of \Sexpr{nrow(schizo)} subjects are included in the data. they are \Sexpr{nrow(schizo[, "AFFECTED"])} pairs of twins; one of the twins is schizophrenia, whith the other one is not. So there are \Sexpr{nrow(schizo[, "AFFECTED"])} affected subjects and \Sexpr{nrow(schizo["UNAFFECT"])} unaffected subjects.
+A total of \Sexpr{nrow(schizo)} subjects are included in the data. There are \Sexpr{nrow(schizo[ "AFFECTED"])} pairs of twins; one of the twins has schizophrenia, and the other does not. So there are \Sexpr{nrow(schizo["AFFECTED"])} affected subjects and \Sexpr{nrow(schizo["UNAFFECT"])} unaffected subjects.
 
 The difference in area of left hippocampus of these pairs of twins is:
 <<>>=
@@ -252,7 +252,7 @@ DIFF=schizo[, "UNAFFECT"]-schizo[, "AFFECTED"]
 favstats(DIFF)
 @
 
-As showed in Display 2.2 (\emph{Sleuth}).
+As showed in Display 2.2 (page 30 of \emph{Sleuth}).
 
 <<>>=
 densityplot(DIFF)
