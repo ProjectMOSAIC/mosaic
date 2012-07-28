@@ -182,7 +182,7 @@ bwplot(STATUS ~ HUMERUS, data=sparrow)
 @
 
 <<>>=
-densityplot(~ HUMERUS, groups=STATUS, data=sparrow)
+densityplot(~ HUMERUS, groups=STATUS, auto.key=TRUE, data=sparrow)
 @
 
 Both distributions are normally distributed.

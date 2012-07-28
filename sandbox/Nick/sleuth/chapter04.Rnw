@@ -234,7 +234,7 @@ bwplot(TREATMT ~ TIME, data=teaching)
 @
 
 <<>>=
-densityplot(~TIME, groups=TREATMT, data=teaching)
+densityplot(~TIME, groups=TREATMT, auto.key=TRUE, data=teaching)
 @
 
 \subsection{Rank-sum test}
