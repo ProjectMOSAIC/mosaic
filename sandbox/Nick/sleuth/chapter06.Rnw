@@ -174,7 +174,7 @@ summary(disability)
 favstats(SCORE ~ HANDICAP, data=disability)
 @
 
-A total of \Sexpr{nrow(disability)} undergradate students from a U.S. university were randomly assigned to view the tapes, \Sexpr{nrow(subset(disability, HANDICAP=="NONE"))} to each tape. The five kinds of tapes are: NONE, AMPUTEE, CRUTCHES, HEARING and WHEELCHAIR. After reviewing the tape, each subject rated the qualifications of the application on 0-10 scale. Among the five hadicap conditions, the CRUTCHES group gave the highest mean score, while the HEARING group gave the lowest mean score. Summarized on page 150 and in Display 6.1 of \emph{Sleuth}. 
+A total of \Sexpr{nrow(disability)} undergradate students from a U.S. university were randomly assigned to view the tapes, \Sexpr{nrow(subset(disability, HANDICAP=="NONE"))} to each tape. The five kinds of tapes are: NONE, AMPUTEE, CRUTCHES, HEARING and WHEELCHAIR. After reviewing the tape, each subject rated the qualifications of the application on 0-10 scale. Among the five hadicap conditions, the CRUTCHES group gave the highest mean score, while the HEARING group gave the lowest mean score. This is summarized on page 150 and in Display 6.1 of the \emph{Sleuth}. 
 
 <<>>=
 with(subset(disability, HANDICAP=="NONE"), stem(SCORE, scale=2))
@@ -275,7 +275,7 @@ Was Charles Darwin right that sexual selection is by females?  This is the quest
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-#p.150 of Sleuth
+#p.150 of the Sleuth
 fish = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0602.csv")
 summary(fish)
 favstats(PROPORTION ~ PAIR, data=fish)
