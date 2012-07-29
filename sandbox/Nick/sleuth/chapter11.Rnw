@@ -187,7 +187,8 @@ lm1 = lm(METABOL ~ GASTRIC + SEX + ALCOHOL + GASTRIC*SEX + SEX*ALCOHOL +
   GASTRIC*ALCOHOL + GASTRIC*SEX*ALCOHOL, data=alcometa); summary(lm1)
 @
 
-Leverage, studentized resids and Cook's distance (page 319--320)
+Next we can calculate a number of model diagnostics, including
+leverage, studentized resids and Cook's distance (page 319--320).
 <<message=FALSE>>=
 require(MASS)
 @
