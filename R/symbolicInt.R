@@ -129,7 +129,7 @@ intArith <- function(form, ...){
     den = lhs(form)[[3]]
     
     #first see if it is a trigonometric substitution
-    check <- .TrigSub(den, rhsVar)
+    check <- .TrigSub(num, den, rhsVar)
     if(!is.null(check))
       return(check)
     
@@ -314,7 +314,7 @@ intMath <- function(form, ...){
 }
 
 #-------------------------
-.TrigSub <- function(tree, .x.){
+.TrigSub <- function(num, den, .x.){
   #Note that this takes in the denominator and checks whether it might be a trig expression.
   #Want to return the value of a and x and code for which trig expr.
   if(!is.call(tree)) return(NULL)
@@ -334,7 +334,7 @@ intMath <- function(form, ...){
       #arccos
     }
     
-    if(grep(.x., deparse(tree[[3]]==1))){
+    if(grep(.x., deparse(tree[[3]]))==1){
       #arcsin
     }
   }

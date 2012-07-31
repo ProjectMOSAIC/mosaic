@@ -1,28 +1,3 @@
-#First there are a list of patterns
-#
-#Each pattern is in the form of a list, specifying a desired parse tree
-#elements of the parse tree can be:
-#   Math expressions
-#   Arithmetic expressions
-#   Affine expressions
-#   Square of an affine expression
-#   Quadratic expression
-#   
-#
-#Examples
-#The generic formula for something will integrate into arctan is:
-# A/(B+C*(D*x+E)^2) and this will integrate into
-# A*(1/D)*(1/sqrt(C))*(1/sqrt(B))*arctan(D*sqrt(C)*x/sqrt(B))
-# ^^ double check ^^
-
-pattern1 <- list(One='cos', Two="affine")
-
-
-#for(ptrn in patternList){
-
-#}
-
-
 #'Takes a call and returns its polynomial coefficients
 #'
 #'@param tree A call that will be parse
@@ -336,6 +311,7 @@ pattern1 <- list(One='cos', Two="affine")
     
   }
   
+  stop("Is not a polynomial")
   return(list())
 }
 
@@ -458,9 +434,7 @@ pattern1 <- list(One='cos', Two="affine")
         coeffs[i] <- sum(cmatrix[cbind((dim:(1+i-dim)), ((1+i-dim):dim))])
       }
     }
-    
-    names(coeffs) <- letters[(1:length(coeffs))]
-    
+        
     return(list(coeffs = coeffs, pow = pow))
   }
   
@@ -477,6 +451,6 @@ pattern1 <- list(One='cos', Two="affine")
     return(Recall(newTree, .x.))
     
   }
-  
+  stop("Is not a polynomial")
   return(list())
 }
