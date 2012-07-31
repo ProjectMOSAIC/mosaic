@@ -19,7 +19,7 @@ pattern1 <- list(One='cos', Two="affine")
 
 
 #for(ptrn in patternList){
-  
+
 #}
 
 
@@ -35,15 +35,14 @@ pattern1 <- list(One='cos', Two="affine")
 #'If the expression is not a polynomial, returns an empty list or an error.
 #'
 .polynomial.expression <- function(tree, .x., params, iterate=1){
-  
   .reduce_coeffs <- function(coeffs, params){
-    for(i in length(coeffs)){
+    for(i in 1:length(coeffs)){
       new.x. <- params[1]
       if(length(params)==1)
-        params <- ""
+        newparams <- ""
       else
-        params <- params[-1]
-      newco <- .polynomial.expression(coeffs[[i]], new.x., params)
+        newparams <- params[-1]
+      newco <- .polynomial.expression(coeffs[[i]], new.x., newparams)
       if(newco$pow>=2){
         expvec <- c(rep("^", newco$pow-1), "", "")
         powvec <- c((newco$pow):2, "", "")
@@ -52,9 +51,38 @@ pattern1 <- list(One='cos', Two="affine")
         expvec <- rep("", newco$pow+1)
         powvec <- rep("", newco$pow+1)
       }
-      
-      coeffs[[i]] <- parse(text = paste(newco$coeffs, c(rep("*", newco$pow), "") , c(rep(new.x., newco$pow), ""),
-                                        expvec, powvec, collapse="+", sep=""))[[1]]
+      multvec <- c(rep("*", newco$pow), "")
+      varvec <-  c(rep(new.x., newco$pow), "")
+      #simplify expression
+      for(j in 1:length(newco$coeffs)){
+        if(newco$coeffs[[j]]==0){
+          newco$coeffs <- newco$coeffs[-j]
+          multvec <- multvec[-j]
+          varvec <- varvec[-j]
+          expvec <- expvec[-j]
+          powvec <- powvec[-j]
+        }
+        else{
+          if(newco$coeffs[[j]]==1 && j!= length(newco$coeffs)){
+            
+            newco$coeffs[j] <- ""
+            multvec[j] <- ""
+          }
+          else{
+            if(!(class(newco$coeffs[[j]])=='name')&&!(class(newco$coeffs[[j]])=='numeric')){
+              if(newco$coeffs[[j]][[1]]=='+'||newco$coeffs[[j]][[1]]=='-')
+                newco$coeffs[[j]] <- paste("(", deparse(newco$coeffs[[j]]), ")", sep="")
+            }
+          }
+        }
+        
+      }
+      if(length(newco$coeffs)==0)
+        coeffs[[i]] <- 0
+
+      else
+        coeffs[[i]] <- parse(text = paste(newco$coeffs, multvec , varvec,
+                                        expvec, powvec, collapse="+", sep=""))[[1]]      
     }
     return(coeffs)
   }
@@ -77,7 +105,7 @@ pattern1 <- list(One='cos', Two="affine")
     }
     return(list(coeffs = coeffs, pow=0))
   }
-
+  
   if(tree[[1]]=='('){
     return(Recall(tree[[2]], .x., params, iterate=iterate+1))
   }
@@ -98,7 +126,7 @@ pattern1 <- list(One='cos', Two="affine")
             coeffs[[i]] <- coeffs[[i]]
           else
             coeffs[[i]] <- parse(text = paste(deparse(coeffs[[i]], width.cutoff=500), 
-                                          "+", deparse(lcoeffs[[i]], width.cutoff=500), sep=""))[[1]]
+                                              "+", deparse(lcoeffs[[i]], width.cutoff=500), sep=""))[[1]]
         }
       }
       
@@ -122,7 +150,7 @@ pattern1 <- list(One='cos', Two="affine")
             coeffs[[i]] <- coeffs[[i]]
           else
             coeffs[[i]] <- parse(text = paste(deparse(coeffs[[i]], width.cutoff=500),  
-                                          "+", deparse(rcoeffs[[i]], width.cutoff=500), sep=""))[[1]]
+                                              "+", deparse(rcoeffs[[i]], width.cutoff=500), sep=""))[[1]]
         }
       }
       
@@ -153,57 +181,57 @@ pattern1 <- list(One='cos', Two="affine")
     }
     
     else{
-    lside <- Recall(tree[[2]], .x., params, iterate=iterate+1)
-    rside <- Recall(tree[[3]], .x., params, iterate=iterate+1)
-    if(rside$pow >= lside$pow){
-      pow = rside$pow
-      coeffs <- rside$coeffs
-      lcoeffs <- append(rep(0, pow-lside$pow), lside$coeffs)
-      
-      for(i in 1:length(coeffs)){
-        if(lcoeffs[[i]]==0)
-          coeffs[[i]] <- parse(text = paste("-", deparse(coeffs[[i]], width.cutoff=500), sep = ""))[[1]]
-        else{
-          if(coeffs[[i]] == 0)
-            coeffs[[i]] <- coeffs[[i]]
-          else
-            coeffs[[i]] <- parse(text = paste(deparse(lcoeffs[[i]], width.cutoff=500), 
-                                              "-", deparse(coeffs[[i]], width.cutoff=500), sep = ""))[[1]]
+      lside <- Recall(tree[[2]], .x., params, iterate=iterate+1)
+      rside <- Recall(tree[[3]], .x., params, iterate=iterate+1)
+      if(rside$pow >= lside$pow){
+        pow = rside$pow
+        coeffs <- rside$coeffs
+        lcoeffs <- append(rep(0, pow-lside$pow), lside$coeffs)
+        
+        for(i in 1:length(coeffs)){
+          if(lcoeffs[[i]]==0)
+            coeffs[[i]] <- parse(text = paste("-", deparse(coeffs[[i]], width.cutoff=500), sep = ""))[[1]]
+          else{
+            if(coeffs[[i]] == 0)
+              coeffs[[i]] <- coeffs[[i]]
+            else
+              coeffs[[i]] <- parse(text = paste(deparse(lcoeffs[[i]], width.cutoff=500), 
+                                                "-", deparse(coeffs[[i]], width.cutoff=500), sep = ""))[[1]]
+          }
+          
         }
         
-      }
-      
-      if(iterate==1){
-        coeffs <- .reduce_coeffs(coeffs, params)
-      }
-      
-      return(list(coeffs = coeffs, pow = pow))
-    }
-    
-    else{
-      pow = lside$pow
-      coeffs <- lside$coeffs
-      rcoeffs <- append(rep(0, pow-rside$pow), rside$coeffs)
-      
-      for(i in 1:length(coeffs)){
-        if(coeffs[[i]] == 0)
-          coeffs[[i]] <- parse(text = paste("-", deparse(rcoeffs[[i]], width.cutoff=500), sep = ""))[[1]]
-        else{
-          if(rcoeffs[[i]] == 0)
-            coeffs[[i]] <- coeffs[[i]]
-          else
-            coeffs[[i]] <- parse(text = paste(deparse(coeffs[[i]], width.cutoff=500), 
-                                              "-", deparse(rcoeffs[[i]], width.cutoff=500), sep = ""))[[1]]
+        if(iterate==1){
+          coeffs <- .reduce_coeffs(coeffs, params)
         }
+        
+        return(list(coeffs = coeffs, pow = pow))
       }
       
-      if(iterate==1){
-        coeffs <- .reduce_coeffs(coeffs, params)
+      else{
+        pow = lside$pow
+        coeffs <- lside$coeffs
+        rcoeffs <- append(rep(0, pow-rside$pow), rside$coeffs)
+        
+        for(i in 1:length(coeffs)){
+          if(coeffs[[i]] == 0)
+            coeffs[[i]] <- parse(text = paste("-", deparse(rcoeffs[[i]], width.cutoff=500), sep = ""))[[1]]
+          else{
+            if(rcoeffs[[i]] == 0)
+              coeffs[[i]] <- coeffs[[i]]
+            else
+              coeffs[[i]] <- parse(text = paste(deparse(coeffs[[i]], width.cutoff=500), 
+                                                "-", deparse(rcoeffs[[i]], width.cutoff=500), sep = ""))[[1]]
+          }
+        }
+        
+        if(iterate==1){
+          coeffs <- .reduce_coeffs(coeffs, params)
+        }
+        
+        return(list(coeffs = coeffs, pow = pow))
       }
-      
-      return(list(coeffs = coeffs, pow = pow))
     }
-  }
   }
   
   if(tree[[1]] == '*'){
@@ -283,7 +311,7 @@ pattern1 <- list(One='cos', Two="affine")
     if(iterate==1){
       coeffs <- .reduce_coeffs(coeffs, params)
     }
-
+    
     return(list(coeffs = coeffs, pow = pow))
   }
   
@@ -371,28 +399,28 @@ pattern1 <- list(One='cos', Two="affine")
     }
     
     else{
-    lside <- Recall(tree[[2]], .x.)
-    rside <- Recall(tree[[3]], .x.)
-    
-    if(rside$pow >= lside$pow){
-      pow = rside$pow
-      coeffs <- rside$coeffs
-      lcoeffs <- append(rep(0, pow-lside$pow), lside$coeffs)
-      names <- names(coeffs)
-      coeffs <- lcoeffs - coeffs
-      names(coeffs) <- names
+      lside <- Recall(tree[[2]], .x.)
+      rside <- Recall(tree[[3]], .x.)
       
-      return(list(coeffs = coeffs, pow = pow))
-    }
-    
-    else{
-      pow = lside$pow
-      coeffs <- lside$coeffs
-      rcoeffs <- append(rep(0, pow-rside$pow), rside$coeffs)
-      coeffs <- coeffs - rcoeffs
+      if(rside$pow >= lside$pow){
+        pow = rside$pow
+        coeffs <- rside$coeffs
+        lcoeffs <- append(rep(0, pow-lside$pow), lside$coeffs)
+        names <- names(coeffs)
+        coeffs <- lcoeffs - coeffs
+        names(coeffs) <- names
+        
+        return(list(coeffs = coeffs, pow = pow))
+      }
       
-      return(list(coeffs = coeffs, pow = pow))
-    }
+      else{
+        pow = lside$pow
+        coeffs <- lside$coeffs
+        rcoeffs <- append(rep(0, pow-rside$pow), rside$coeffs)
+        coeffs <- coeffs - rcoeffs
+        
+        return(list(coeffs = coeffs, pow = pow))
+      }
     }
   }
   
