@@ -54,26 +54,29 @@ pattern1 <- list(One='cos', Two="affine")
       multvec <- c(rep("*", newco$pow), "")
       varvec <-  c(rep(new.x., newco$pow), "")
       #simplify expression
+      index <- 1
       for(j in 1:length(newco$coeffs)){
-        if(newco$coeffs[[j]]==0){
-          newco$coeffs <- newco$coeffs[-j]
-          multvec <- multvec[-j]
-          varvec <- varvec[-j]
-          expvec <- expvec[-j]
-          powvec <- powvec[-j]
+        if(index>length(newco$coeffs)) break
+        if(newco$coeffs[[index]]==0){
+          newco$coeffs <- newco$coeffs[-index]
+          multvec <- multvec[-index]
+          varvec <- varvec[-index]
+          expvec <- expvec[-index]
+          powvec <- powvec[-index]
         }
         else{
-          if(newco$coeffs[[j]]==1 && j!= length(newco$coeffs)){
+          if(newco$coeffs[[index]]==1 && index!= length(newco$coeffs)){
             
-            newco$coeffs[j] <- ""
-            multvec[j] <- ""
+            newco$coeffs[index] <- ""
+            multvec[index] <- ""
           }
           else{
-            if(!(class(newco$coeffs[[j]])=='name')&&!(class(newco$coeffs[[j]])=='numeric')){
-              if(newco$coeffs[[j]][[1]]=='+'||newco$coeffs[[j]][[1]]=='-')
-                newco$coeffs[[j]] <- paste("(", deparse(newco$coeffs[[j]]), ")", sep="")
+            if(!(class(newco$coeffs[[index]])=='name')&&!(class(newco$coeffs[[index]])=='numeric')){
+              if(newco$coeffs[[index]][[1]]=='+'||newco$coeffs[[index]][[1]]=='-')
+                newco$coeffs[[index]] <- paste("(", deparse(newco$coeffs[[index]]), ")", sep="")
             }
           }
+          index <- index + 1
         }
         
       }
@@ -101,7 +104,7 @@ pattern1 <- list(One='cos', Two="affine")
     coeffs <- list(tree)
     
     if(iterate==1){
-      coeffs <- .reduce_coeffs(coeffs, params)
+      coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
     }
     return(list(coeffs = coeffs, pow=0))
   }
@@ -131,7 +134,7 @@ pattern1 <- list(One='cos', Two="affine")
       }
       
       if(iterate==1){
-        coeffs <- .reduce_coeffs(coeffs, params)
+        coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
       }
       
       return(list(coeffs = coeffs, pow = pow))
@@ -155,7 +158,7 @@ pattern1 <- list(One='cos', Two="affine")
       }
       
       if(iterate==1){
-        coeffs <- .reduce_coeffs(coeffs, params)
+        coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
       }
       
       return(list(coeffs = coeffs, pow = pow))
@@ -174,7 +177,7 @@ pattern1 <- list(One='cos', Two="affine")
       }
       
       if(iterate==1){
-        coeffs <- .reduce_coeffs(coeffs, params)
+        coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
       }
       
       return(list(coeffs = coeffs, pow=pow))
@@ -202,7 +205,7 @@ pattern1 <- list(One='cos', Two="affine")
         }
         
         if(iterate==1){
-          coeffs <- .reduce_coeffs(coeffs, params)
+          coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
         }
         
         return(list(coeffs = coeffs, pow = pow))
@@ -226,7 +229,7 @@ pattern1 <- list(One='cos', Two="affine")
         }
         
         if(iterate==1){
-          coeffs <- .reduce_coeffs(coeffs, params)
+          coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
         }
         
         return(list(coeffs = coeffs, pow = pow))
@@ -309,7 +312,7 @@ pattern1 <- list(One='cos', Two="affine")
     }
     
     if(iterate==1){
-      coeffs <- .reduce_coeffs(coeffs, params)
+      coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
     }
     
     return(list(coeffs = coeffs, pow = pow))
