@@ -35,5 +35,6 @@ test_that('polynomial simplifier works', {
   checkPoly(3~x)
   checkPoly(a*(b+x)^7~x)
   checkPoly(a*b*c*(x+9)^2~x)
+  checkPoly((a+b)^6*x^2+a*x-8~x)
   
 })

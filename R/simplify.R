@@ -144,6 +144,7 @@
     if(length(tree)==2){
       inside <- Recall(tree[[2]], .x., params, iterate = iterate+1)
       coeffs <- inside$coeffs
+      pow = inside$pow
       for(i in 1:length(coeffs)){
         if(coeffs[[i]] == 0)
           coeffs[[i]] <- coeffs[[i]]

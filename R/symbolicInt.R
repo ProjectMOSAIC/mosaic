@@ -128,9 +128,9 @@ intArith <- function(form, ...){
     num = lhs(form)[[2]]
     den = lhs(form)[[3]]
     
-    #first see if it is a trigonometric substitution
-    check <- .TrigSub(num, den, rhsVar)
-    if(!is.null(check))
+    #first see if it is a trigonometric substitution problem
+    check <- try(.TrigSub(num, den, rhsVar), silent=TRUE)
+    if(!inherits(check, "try-error"))
       return(check)
     
     
@@ -315,32 +315,53 @@ intMath <- function(form, ...){
 
 #-------------------------
 .TrigSub <- function(num, den, .x.){
-  #Note that this takes in the denominator and checks whether it might be a trig expression.
-  #Want to return the value of a and x and code for which trig expr.
-  if(!is.call(tree)) return(NULL)
-  #Note: need to make sure both sides don't have .x. in it
-  #Use .affine.exp to find out what a and x really are
-  if(tree[[1]]=='+'){
-    #arcTan
-    if(grep(.x., deparse(tree[[2]]))==1&&length(grep(.x., deparse(tree[[2]])))==0){
-      .affine.exp()
+  params <- all.vars(num)
+  if(length(params) == 0)
+    params <- ""
+  numco <- .poly.exp(num, .x., params)
+  
+  if(numco$pow != 0) stop("Not valid trig sub")
+  
+  if(den[[1]] == 'sqrt'){
+    browser()
+    #Could be arcsin or arccos
+    denco <- .poly.exp(den[[2]], .x., params)
+    if(denco$pow != 2) stop("Not valid trig sub")
+    
+    a <- denco$coeffs[[1]]
+    b <- denco$coeffs[[2]]
+    c <- denco$coeffs[[3]]
+    
+    if(sign(a)==-1){
+      #arcsec?
+      
     }
+    #complete the square to go from form 1/sqrt(ax^2+bx+c) to 1/sqrt(a(x-h)^2+k)
+    
+    h <- parse(text = paste("-(", deparse(b), ")/(2*(", deparse(a), "))", sep=""))[[1]]
+    k <- parse(text = paste(deparse(c), "-((", deparse(b), ")^2/(4*(", deparse(a), ")))", sep=""))[[1]]
+    
+    #Will be able to simplify special cases later :)
+    h <- tryCatch(eval(h), error=function(e){return(h)})
+    k <- tryCatch(eval(k), error=function(e){return(k)})
+    
+    if(sign(a)==-1){
+      #Arcsin
+      if(a!=-1)
+        k <- parse(text = paste("-(", deparse(k), ")/(", deparse(a), ")", sep=""))
+      
+      #Now need to integrate it ahhhh
+    }
+    
     
   }
   
-  if(tree[[1]]=='-'){
-    
-    if(grep(.x., deparse(tree[[2]]))==1){
-      #arccos
-    }
-    
-    if(grep(.x., deparse(tree[[3]]))==1){
-      #arcsin
-    }
-  }
   
-  return(NULL)
-    
+  if(denco$pow != 2) stop("Not valid trig sub")
+  
+  
+  stop("Not valid trig sub")
+  
 }
 
 #'Takes a call and returns its affine coefficients.
