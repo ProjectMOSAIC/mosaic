@@ -1,0 +1,299 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 10}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+	   \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 10}
+
+\author{
+Kate Aloisio \and Ruobing Zhang  \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+  
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session.
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=3)
+@
+
+The goal of this document is to demonstrate how to calculate the quantities described in Chapter 10: Inferential Tools for Multiple Regression using R.
+
+\section{Galileo's data on the motion of falling bodies}
+Galileo investigated the relationship between height and horizontal distance.  This is the question addressed in case study 10.1 in the \emph{Sleuth}.  
+
+\subsection{Data coding, summary statistics and graphical display} 
+
+We begin by reading the data and summarizing the variables.
+<<>>=
+galileo = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1001.csv")
+summary(galileo)
+favstats(~DISTANCE, data=galileo)
+@
+
+There we a total of \Sexpr{nrow(galileo)} trials of Galileo's experiment.  For each trial, he recorded the initial height and then measured the horizontal distance as shown in Display 10.1 (p.268).
+
+We can start to explore this relationship by creating a scatterplot of Galileo's horizontal distances versus initial heights.  The following graph is akin to Display 10.2 (p.269).
+<<>>=
+xyplot(DISTANCE ~ HEIGHT, data=galileo)
+@
+
+\subsection{Models}
+The first model that we created is a cubic model as interpreted on page 269 and summarized in Display 10.13 (p.286).
+<<>>=
+lm3 = lm(DISTANCE ~ HEIGHT + I(HEIGHT^2) + I(HEIGHT^3), data=galileo); summary(lm3)
+@
+
+We next decrease \emph{height} by one degree to obtain a quadratic model as interpreted on page 269 and summarized in Display 10.7 (p.277). Notice that this model is used for most of the following results. 
+
+<<>>=
+lm2 = lm(DISTANCE ~ HEIGHT + I(HEIGHT^2), data=galileo); summary(lm2)
+@
+
+The following figure presents the predicted values from the quadratic model and the original data points akin to Display 10.2 (p.269).
+
+<<fig.height=8, fig.width=8>>=
+galileo$pred = predict(lm2)
+xyplot(pred + DISTANCE ~ HEIGHT, auto.key=TRUE, data=galileo)
+@
+
+To obtain the expected values of \^{$\mu$}$\{distance|height = 0\}$ and \^{$\mu$}$\{distance|height = 250\}$, we used the {\tt predict} command with the quadratic model as shown in Display 10.7 (p.277).
+<<>>=
+predict(lm2, interval="confidence", data.frame(HEIGHT=c(0, 250)))
+@
+
+We can also verify the above confidence interval calculations with the following code:
+<<>>=
+355.1 + c(-1, 1)*6.62*qt(.975, 4)
+@
+
+To verify numbers on page 279, an interval for the predicted values , we used the following code:
+<<>>=
+predict(lm2, interval="predict", data.frame(HEIGHT=c(0, 250)))
+@
+
+Lastly, we produced an ANOVA for the quadratic model interpreted on page 283 (Display 10.11).
+<<>>=
+anova(lm2)
+@
+
+
+
+\section{Echolocation in bats}
+How do bats make their way about in the dark?  Echolocation requires a lot of energy.  Does it depend on mass and species?   This is the question addressed in case study 10.2 in the \emph{Sleuth}.  
+
+\subsection{Data coding, summary statistics and graphical display}
+
+We begin by reading the data, performing transformations where necessary and summarizing the variables.
+<<>>=
+echo = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1002.csv")
+echo$logmass = log(echo$MASS); echo$logenergy = log(echo$ENERGY)
+summary(echo)
+favstats(MASS ~ TYPE, data=echo)
+favstats(ENERGY ~ TYPE, data=echo)
+@
+
+A total of \Sexpr{nrow(echo)} flying vertebrates were included in this study.  There were \Sexpr{nrow(subset(echo, TYPE=="echolocating bats"))} echolocating bats, \Sexpr{nrow(subset(echo, TYPE=="non-echolocating bats"))} non-echolocating bats, and \Sexpr{nrow(subset(echo, TYPE=="non-echolocating birds"))} non-echolocating birds. For each subject their \emph{mass} and \emph{flight energy expenditure} were recorded as shown in Display 10.3 (p.270).
+
+We can next observe the pattern between log(\emph{energy expenditure(W)}) as a function of log(\emph{body mass(g)}) for each group with a scatterplot. The following figure is akin to Display 10.4 (p.271).
+
+<<fig.height=8, fig.width=8>>=
+xyplot(ENERGY ~ MASS, group=TYPE, scales=list(y=list(log=TRUE), 
+    x=list(log=TRUE)), auto.key=TRUE, data=echo)
+@
+
+
+\subsection{Multiple regression}
+
+We first evaluate a multiple regression model for log(\emph{energy expenditure(W)}) given type of species and log(\emph{body mass(g)}) as defined on page 272. 
+<<>>=
+lm1 = lm(logenergy ~ logmass + TYPE, data=echo); summary(lm1)
+@
+Notice that in R the reference group for {\tt TYPE} is not the same as in the book, therefore we can use {\tt relevel} to create a new variable which allows us to specify a reference group.  With this new {\tt TYPE} variable we can re-fit our model and the resulting table is similar to Display 10.6 (p.273).
+<<>>=
+echo$newtype = relevel(echo$TYPE, ref="non-echolocating bats")
+lm1 = lm(logenergy ~ logmass + newtype, data=echo); summary(lm1)
+@
+
+Next, we calculated confidence intervals for the coefficients which are interpreted on page 274.
+<<>>=
+confint(lm1)
+exp(confint(lm1))
+@
+
+Since the significance of a model depends on which variables are included, the \emph{Sleuth} proposes two other models, one only looking at the type of flying animal and the other allows the three groups to have different straight-line regressions with \emph{mass}.  These two models are displayed below and discussed on pages 274- 275.
+<<>>=
+summary(lm(logenergy ~ newtype, data=echo))
+summary(lm(logenergy ~ newtype * logmass, data=echo))
+@
+
+To construct the confidence bands discussed on page 277 and shown in Display 10.9 (p.279) we used the following code: 
+<<>>=
+predict(lm1, interval="confidence",
+  newdata=data.frame(newtype=c("non-echolocating birds", "non-echolocating birds"), 
+            logmass=c(log(100), log(400))))
+@
+XX The confidence interval is not the same as in display 10.9 (7.9-12.0)XX
+
+Next we can assess the model by evaluating the extra sums of squares $F$-test for testing the equality of intercepts in the parallel regression lines model as shown in Display 10.10 (p. 282).
+<<>>=
+lm2 = lm(logenergy ~ logmass, data=echo)
+anova(lm2, lm1)
+@
+
+We can also compare the full model with interaction terms and the reduced model (without interaction terms) with the extra sum of squares $F$-test as described in Display 10.12 (p.284). 
+<<>>=
+lm3 = lm(logenergy ~ logmass*newtype, data=echo)
+anova(lm3, lm1)
+@
+
+Another way to test the equality of the groups is by using linear combinations which we can attain using the {\tt estimable} command as follows.  These results can be found on page 276 and 289.
+<<>>=
+library(gmodels)
+estimable(lm1, c(0, 0, -1, 1))
+@
+
+\end{document}
