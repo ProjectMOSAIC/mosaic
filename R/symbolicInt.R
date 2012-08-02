@@ -129,7 +129,7 @@ intArith <- function(form, ...){
     den = lhs(form)[[3]]
     
     #first see if it is a trigonometric substitution problem
-    check <- try(.TrigSub(num, den, rhsVar), silent=TRUE)
+    check <- try(.TrigSub(form, num, den, rhsVar), silent=TRUE)
     if(!inherits(check, "try-error"))
       return(check)
     
@@ -314,7 +314,7 @@ intMath <- function(form, ...){
 }
 
 #-------------------------
-.TrigSub <- function(num, den, .x.){
+.TrigSub <- function(form, num, den, .x.){
   params <- all.vars(num)
   if(length(params) == 0)
     params <- ""
@@ -345,15 +345,27 @@ intMath <- function(form, ...){
     h <- tryCatch(eval(h), error=function(e){return(h)})
     k <- tryCatch(eval(k), error=function(e){return(k)})
     
-    if(sign(a)==-1){
+    
+    if(sign(a)==-1&&sign(k)==1){
       #Arcsin
-      if(a!=-1)
-        k <- parse(text = paste("-(", deparse(k), ")/(", deparse(a), ")", sep=""))
+      if(a!=-1){
+        k <- parse(text = paste("(", deparse(k), ")/(-1*(", deparse(a), "))", sep=""))[[1]]
+        num <- parse(text = paste("(", deparse(num), ")/sqrt(-1*(", deparse(a), "))", sep=""))[[1]]
+      }
+      k <- parse(text = paste("sqrt(", deparse(k), ")", sep=""))[[1]]
+      #Now need to integrate it
+      browser()
       
-      #Now need to integrate it ahhhh
+      if(a==-1)
+        expr <- parse(text = paste(deparse(num), "*asin((", .x., "-", deparse(h), ")/", deparse(k), ")", sep=""))[[1]]
+      else
+        expr <- parse(text = paste(deparse(num), "*asin((sqrt(-1*(", deparse(a), "))*", .x., "-", deparse(h), ")/",
+                                   deparse(k), ")", sep=""))[[1]]
+      form[[2]] <- expr
+      return(form)
+      
     }
-    
-    
+
   }
   
   

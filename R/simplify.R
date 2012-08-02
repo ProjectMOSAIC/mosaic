@@ -279,7 +279,7 @@
                 coeffs[[index]] <- coeffs[[index]]
               else
                 coeffs[[index]] <- parse(text = paste(deparse(coeffs[[index]], width.cutoff=500),
-                                                      "+", deparse(cmatrix[[length(cmatrix)-i+1]][[i+j-1]], width.cutoff=500), sep=""))[[1]]
+                              "+", deparse(cmatrix[[length(cmatrix)-i+1]][[i+j-1]], width.cutoff=500), sep=""))[[1]]
             }
           }
         }
