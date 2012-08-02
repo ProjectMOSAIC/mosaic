@@ -141,8 +141,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -160,7 +164,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstrate how to calculate the quantities described in Chapter 2: Inference Using \emph{t}-Distributions using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 2: Inference Using \emph{t}-Distributions using R.
 
 \section{Bumpus's Data on Natural Selection}
 
@@ -175,7 +179,8 @@ summary(sparrow)
 fav=favstats(HUMERUS ~ STATUS, data=sparrow); fav
 @
 
-A total of \Sexpr{nrow(sparrow)} subjects are included in the data: \Sexpr{nrow(subset(sparrow, STATUS=="SURVIVED"))} are adult male sparrows that survived and \Sexpr{nrow(subset(sparrow, STATUS=="PERISHED"))} that perished. As showed in Display 2.1 (emph{Sleuth}, p.29).
+A total of \Sexpr{nrow(sparrow)} subjects are included in the data: \Sexpr{nrow(subset(sparrow, STATUS=="SURVIVED"))} are adult male sparrows that survived and \Sexpr{nrow(subset(sparrow, STATUS=="PERISHED"))} that perished. 
+The following figure replicates Display 2.1 on page 29.
 
 <<>>=
 bwplot(STATUS ~ HUMERUS, data=sparrow)
@@ -189,7 +194,7 @@ Both distributions are approximately normally distributed.
 
 \subsection{Inferential procedures (two-sample t-test)}
 
-First, we calculate the pooled SD and the standard error between these two different sample average. (Calculation on p.40, Display 2.8)
+First, we calculate the pooled SD and the standard error between these two different sample average (page 40, Display 2.8).
 <<>>=
 # Calculate Pooled SD
 n1=fav["PERISHED", "n"]; n1
@@ -203,7 +208,7 @@ SE=Sp*sqrt(1/n1+1/n2); SE
 
 So the pooled SD is \Sexpr{round(Sp, 2)} and the standard error is \Sexpr{round(SE, 1)}.
 
-Based on this information, we can construct a 95\% confidence interval. (Calculation on p.41, Display 2.9)
+Based on this information, we can construct a 95\% confidence interval (page 41, Display 2.9).
 <<>>=
 Y1=fav["PERISHED", "mean"]; Y1
 Y2=fav["SURVIVED", "mean"]; Y2
@@ -217,16 +222,16 @@ upper=Yd+hw; upper
 
 So the 95\% confidence interval of the difference between means is (\Sexpr{round(lower, 1)}, \Sexpr{round(upper, 1)})
 
-Now we want to calculate the $t$-statistic and $p$-value. (Calculation on p.44, Display 2.10)
+Now we want to calculate the $t$-statistic and $p$-value (as shown on page 44, Display 2.10).
 <<>>=
-tstats=(Yd-0)/SE; tstats      # The hypothesis difference=0
-onepval=1-pt(tstats, df); onepval
-twopval=2*onepval; twopval
+tstats = (Yd-0)/SE; tstats      # The hypothesis difference=0
+onepval = 1-pt(tstats, df); onepval
+twopval = 2*onepval; twopval
 @
 
-So the one-sided $p$-value is \Sexpr{round(onepval, 2)} and the two-sided $p$-value is \Sexpr{round(twopval, 2)}
+The one-sided $p$-value is \Sexpr{round(onepval, 2)} and the two-sided $p$-value is \Sexpr{round(twopval, 2)}
 
-Or we can get the results of ``Summary of Statistical Findings" (p.29) by using the following code: 
+We can get the results of ``Summary of Statistical Findings" (page 29) by using the following code: 
 <<>>=
 t.test(HUMERUS ~ STATUS, var.equal=TRUE, data=sparrow)
 confint(lm(HUMERUS ~ STATUS, data=sparrow))
@@ -252,7 +257,7 @@ DIFF=schizo[, "UNAFFECT"]-schizo[, "AFFECTED"]
 favstats(DIFF)
 @
 
-This matches the results on p.30, Display 2.2.
+This matches the results on page 30, Display 2.2.
 
 <<>>=
 densityplot(DIFF)

@@ -141,8 +141,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -160,7 +164,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 @
 
-The goal of this document is to demonstrate how to calculate the quantities described in Chapter 9: Multiple Regression using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 9: Multiple Regression using R.
 
 \section{Effects of light on meadowfoam flowering}
 Do different amounts of light affect the growth of meadowfoam (a small plant used to create seed oil)?  This is the question addressed in case study 9.1 in the \emph{Sleuth}.  
@@ -184,10 +188,8 @@ summary(light)
 favstats(FLOWERS ~ INTENS | day24, data=light)
 @
 
-A total of \Sexpr{nrow(light)} meadowfoam plants were included in this data.  There were \Sexpr{length(unique(light[,"TIME"]))*length(unique(light[, "INTENS"]))} treatment groups -  \Sexpr{length(unique(light[, "INTENS"]))} light intensities at each of the  \Sexpr{length(unique(light[,"TIME"]))} timing levels. As shown in Display 9.2 (page 237 of the \emph{Sleuth}).
-
-
-The following displays the scatterplot of the average number of flowers per
+A total of \Sexpr{nrow(light)} meadowfoam plants were included in this data.  There were \Sexpr{length(unique(light[,"TIME"]))*length(unique(light[, "INTENS"]))} treatment groups -  \Sexpr{length(unique(light[, "INTENS"]))} light intensities at each of the  \Sexpr{length(unique(light[,"TIME"]))} timing levels (Display 9.2, page 237 of the \emph{Sleuth}).
+The following code generates the scatterplot of the average number of flowers per
 plant versus the applied light intensity for each of the 12 experimental units akin to Display 9.3 on page 238.
 
 <<>>=
@@ -197,7 +199,7 @@ xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), data=light, a
 
 \subsection{Multiple linear regression model}
 
-We then can fit a multiple linear regression model that specifies parallel regression lines for the mean  number of flowers as a function of light intensity as interpreted on page 237.
+We next fit a multiple linear regression model that specifies parallel regression lines for the mean  number of flowers as a function of light intensity as interpreted on page 237.
 
 <<>>=
 lm1 = lm(FLOWERS ~ INTENS + day24, data=light)

@@ -141,8 +141,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -160,7 +164,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstrate how to calculate the quantities described in \emph{Sleuth} Chapter 3: A Closer Look at Assumptions using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in \emph{Sleuth} Chapter 3: A Closer Look at Assumptions using R.
 
 \section{Cloud Seeding to Increase Rainfall}
 
@@ -176,7 +180,8 @@ summary(rain)
 favstats(RAINFALL ~ TREATMENT, data=rain)
 @
 
-A total of \Sexpr{nrow(rain)} subjects were included in this data: \Sexpr{nrow(subset(rain, TREATMENT=="SEEDED"))} seeded days  and \Sexpr{nrow(subset(rain, TREATMENT=="UNSEEDED"))} unseeded days. As showed in Display 3.1 (\emph{Sleuth}, p.57).
+A total of \Sexpr{nrow(rain)} subjects were included in this data: \Sexpr{nrow(subset(rain, TREATMENT=="SEEDED"))} seeded days  and \Sexpr{nrow(subset(rain, TREATMENT=="UNSEEDED"))} 
+unseeded days (Display 3.1, page 57). 
 
 <<fig.height=8, fig.width=8>>=
 bwplot(RAINFALL ~ TREATMENT, data=rain)
@@ -278,21 +283,24 @@ So the one-sided $p$-value from a two-sample $t$-test is \Sexpr{pval(t.test(DIOX
 
 \subsection{Removing outliers}
 
-We will remove two extreme observations from the data.  First we remove observation 646 and perform a $t$-test (Display 3.7, p. 67).   
+We will remove two extreme observations from the data.  First we remove observation 646 and perform a $t$-test (Display 3.7, page 67).   
 
 <<>>=
 ao2 = ao[-c(646), ]
 t.test(DIOXIN ~ VETERAN, alternative="less", data=ao2)
 @
 
-Next we remove observations 645 and 646 and preform a $t$-test.
+Next we remove observations 645 and 646 and perform a $t$-test.
 
 <<>>=
+dim(ao)
 ao3 = ao[-c(645, 646), ]
+dim(ao3)
 t.test(DIOXIN ~ VETERAN, alternative="less", data=ao3)
 @
 
-Notice that after removing these outliers, the $p$-value and the confidence interval have changed but the conclusion is unchanged.
+Notice that after removing these outliers, the $p$-value and the confidence interval have changed but the 
+substantive conclusion is unchanged.
 
 
 \end{document}

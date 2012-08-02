@@ -141,8 +141,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -160,7 +164,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstrate how to calculate the quantities described in Chapter 4: The Rank-Sum Test using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 4: The Rank-Sum Test using R.
 
 \section{Space Shuttle O-Ring Failures}
 
@@ -176,7 +180,7 @@ summary(oring)
 favstats(INCIDENTS ~ LAUNCH, data=oring)
 @
 
-A total of \Sexpr{nrow(oring)} subjects are included in the data: \Sexpr{nrow(subset(oring, LAUNCH=="COOL"))} O-ring incidents when temperature was cold and \Sexpr{nrow(subset(oring, LAUNCH=="WARM"))} O-ring incidents when temperature was warm. As shown in Display 4.1 , p. 86.
+A total of \Sexpr{nrow(oring)} subjects are included in the data: \Sexpr{nrow(subset(oring, LAUNCH=="COOL"))} O-ring incidents when temperature was cold and \Sexpr{nrow(subset(oring, LAUNCH=="WARM"))} O-ring incidents when temperature was warm (Display 4.1, page 86).
 
 <<>>=
 xhistogram(~ INCIDENTS | LAUNCH, data=oring)
@@ -184,9 +188,8 @@ xhistogram(~ INCIDENTS | LAUNCH, data=oring)
 
 \subsection{Permutation test on t-statistics}
 
-To replicate the permutation test performed on page 96 we used the following code.
-
-First, we calculate the $t$-statistic of the observed outcome.
+To replicate the permutation test performed on page 96 we used the following code, which
+first calculates the $t$-statistic of the observed outcome.
 
 <<>>=
 t.test(INCIDENTS ~ LAUNCH, data=oring)
@@ -208,30 +211,35 @@ The total number of regroupings is \Sexpr{nrow(C244)} with 8 possible outcomes: 
 
 XX How to calculate the t-test for (1, 1, 2, 3) and (0, 1, 2, 3) here? The t-statistics for (1, 1, 2, 3) is supposed to be 5.952, and for (0, 1, 2, 3) is supposed to be 3.888. XX
 
+XX RESPONSE: One group consists of the values 1,1,2,3.  The other group consists of the remaining values.  
+You should be able to do this by indexing the locations in the vector of the original values.  Note that
+x[c(3,4)] gives you the 3rd and 4th element of x, and x[-c(3,4)] gives you all but the 3rd and 4th. XX
+
 <<>>=
-C1123=factorial(5)/(factorial(2)*factorial(5-2)); C1123
-C0123=17*5; C0123
-onep=(C1123+C0123)/C244; onep
+C1123 = factorial(5)/(factorial(2)*factorial(5-2)); C1123
+C0123 = 17*5; C0123
+onep = (C1123+C0123)/C244; onep
 @
 
 So the one-sided $p$-value from the permutation test on the $t$-statistic is \Sexpr{round(onep, 2)}.
 
-Alternatively, we can approximate the $p$-value using the difference of means and simulating a null distribution. 
+Alternatively, we can approximate the $p$-value using the difference of means and simulating the 
+null distribution. 
 
 <<fig.height=8, fig.width=8>>=
 t.test(INCIDENTS ~ LAUNCH, data=oring)
 obs = diff(mean(INCIDENTS ~ LAUNCH, data=oring)); obs
 nulldist = do(5000) * diff(mean(INCIDENTS ~ shuffle(LAUNCH), data=oring))
 xhistogram(~ WARM, groups=WARM <= obs, v=obs, data=nulldist)
-tally(~ WARM < obs, format="percent", data=nulldist)
+tally(~ WARM <= obs, format="percent", data=nulldist)
 @
 
 This simulation resulted in a $p$-value of \Sexpr{tally(~ WARM < obs, format="percent", data=nulldist)["TRUE"]}.  
-XX Why are the p-values so different? Strict rounding? XX
+XX Why are the p-values so different? Strict rounding? XX  XX RESPONSE: I changed to less than or equal: does that help? XX
 
 \section{Cognitive Load Theory in Teaching}
 
-Does modified instructional materials lead to quicker problem solving? That's the question being addressed by case study 4.2 in the \emph{Sleuth}.
+Does use of modified instructional materials lead to quicker problem solving? That's the question being addressed by case study 4.2 in the \emph{Sleuth}.
 
 \subsection{Summary statistics and graphical display}
 
@@ -253,7 +261,9 @@ densityplot(~TIME, groups=TREATMT, auto.key=TRUE, data=teaching)
 
 \subsection{Rank-sum test}
 
-We conduct Wilcoxon rank-sum test to calculate the results displayed on p.88.
+We conduct Wilcoxon rank-sum test to calculate the results displayed on page 88.
+
+XX Are there any other analyses for this case study? XX
 
 <<>>=
 wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)

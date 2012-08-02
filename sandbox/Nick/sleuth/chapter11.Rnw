@@ -141,8 +141,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -160,7 +164,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstrate how to calculate the quantities described in Chapter 11: Model Checking and Refinement using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 11: Model Checking and Refinement using R.
 
 \section{Alcohol metabolism in men and women}
 How do men and women metabolise alcohol?  This is the question addressed in case study 11.1 in the \emph{Sleuth}.  
@@ -218,18 +222,19 @@ lm2 = lm(METABOL ~ GASTRIC + SEX + ALCOHOL + GASTRIC*SEX + SEX*ALCOHOL +
 \subsection{Refining the Model}
 
 This section addresses the process of refining the model.
-We first tested the lack of fit for the removal of {\tt ALCOHOL} as shown in Display 11.13 (p.322).
+We first tested the lack of fit for the removal of {\tt ALCOHOL} as shown in Display 11.13 (page 322).
 <<lackoffit>>=
 lm3 = lm(METABOL ~ GASTRIC + SEX + GASTRIC*SEX, data=alcometa2); summary(lm3)
 anova(lm3, lm2) # page 322
 @
 
-Next we assessed a model without an intercept which is scientifically plausible as summarized in Display 11.14 (p.323).
+Next we assessed a model without an intercept which is scientifically plausible as summarized in Display 11.14 
+(page 323).
 <<display11.14>>=
 lm4 = lm(METABOL ~  GASTRIC + GASTRIC:SEX -1 , data=alcometa2); summary(lm4)
 anova(lm4, lm3)
 @
-Note that the ``Summary of Statistical Findings" section (p.306) is based on this final model.
+Note that the ``Summary of Statistical Findings" section (page 306) is based on this final model.
 
 \section{Blood brain barrier}
 Neuroscientists working to better understand the blood brain barrier have infused rats with cells to induce brain tumors.   This is the topic addressed in case study 11.2 in the \emph{Sleuth}.  
@@ -286,7 +291,9 @@ lm1 = lm(logy ~ SAC + TREAT + SAC*TREAT + DAYS + SEX +
   WEIGHT + LOSS + TUMOR, data=barrier); summary(lm1)
 @
 
-We can then display a residual plot to assess the fit of the above model.  This is the actual Display 11.6 (p.312). 
+We can then display a residual plot to assess the fit of the above model.  This is provided in
+Display 11.6 
+(page 312). 
 <<>>=
 plot(lm1, which=1)
 @
@@ -294,9 +301,10 @@ plot(lm1, which=1)
 
 \subsection{Refining the model}
 
-Lastly, we fit a refined model. These results can be found in Display 11.17 (p.327).
+Lastly, we fit a refined model. These results can be found in Display 11.17 (page 327).
 <<reducedmodel>>=
-lm2 = lm(logy ~ SAC + TREAT, data=barrier); summary(lm2) # slightly different values for the (intercept) and the constant variable
+lm2 = lm(logy ~ SAC + TREAT, data=barrier); summary(lm2) 
+# XX slightly different values for the (intercept) and the constant variable ?  RESPONSE: Why? XX
 anova(lm2, lm1)
 @
 \end{document}

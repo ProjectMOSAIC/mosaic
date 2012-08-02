@@ -142,8 +142,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -162,7 +166,7 @@ options(digits=3)
 
 @
 
-The goal of this document is to demonstrate how to calculate the quantities described in Chapter 5: Comparisons Among Several Samples using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 5: Comparisons Among Several Samples using R.
 
 \section{Diet and lifespan}
 Does restricting the diet of female mice lead to increased lifespan? This is the question addressed
@@ -338,10 +342,11 @@ tally(TWOJUDGE ~ JUDGE, format="count", data=spock)
 Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (p.130).  Below are the calculations for the results found on page 128. 
 
 <<>>=
-aov2 = anova(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)); aov2
 df1 = aov1["Residuals", "Df"]; df1 # Within
-df2 = aov2["Residuals", "Df"]; df2 # Spock and others 
+# XX I'd suggest calling this numdf1 for numerator degrees of freedom
 ss1 = aov1["Residuals", "Sum Sq"]; ss1 # Within
+aov2 = anova(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)); aov2
+df2 = aov2["Residuals", "Df"]; df2 # Spock and others 
 ss2 = aov2["Residuals", "Sum Sq"]; ss2 # Spock and others 
 Fstat = ((ss2 - ss1)/(df2 - df1)) / (ss1 / df1); Fstat 
 1 - pf(Fstat, length(levels(spock$JUDGE))-2, df1)
@@ -352,7 +357,7 @@ We can also compare the two models using ANOVA (Display 5.12, p. 130).
 anova(lm(PERCENT ~ as.factor(JUDGE), data=spock), lm(PERCENT ~ as.factor(TWOJUDGE), data=spock))
 @
 
-There are some other ways to compare whether the other judges differ from Spock's judge in their female composition using contrasts. 
+There are some other ways to compare whether the other judges differ from Dr. Spock's judge in their female composition using contrasts. 
 
 <<>>=
 # test all of the other judges vs. Spock's judge using a contrast p. 118

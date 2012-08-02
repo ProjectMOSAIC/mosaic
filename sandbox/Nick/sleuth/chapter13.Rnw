@@ -141,8 +141,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -160,7 +164,7 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstrate how to calculate the quantities described in Chapter 13: The Analysis of Variance for Two-Way Classifications using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 13: The Analysis of Variance for Two-Way Classifications using R.
 
 \section{Intertidal seaweed grazers}
 This wicked complicated trial is a subset of a factorial design (6 of the possible 2 by 2 by 2 combination of factors) plus blocking.  This randomized 
@@ -204,14 +208,14 @@ Then we can create an ANOVA for the nonadditive model estimating the log of the 
 anova(lm(logitcover ~ BLOCK*TREAT, data=seaweed))
 @
 
-This model has an R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adj. R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$sigma, 4)}.
+This model has an $R^2$  \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adjusted R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$sigma, 4)}.
 
 We can then compare these results to an ANOVA for the additive model estimating the log of the seaweed regeneration ratio as shown in Display 13.11 on page 387.
 <<>>=
 anova(lm(logitcover ~ BLOCK + TREAT, data=seaweed))
 @
 
-This model has an R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adj. R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$sigma, 4)}.
+This model has an R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adjusted R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$sigma, 4)}.
 
 Next we can assess the fit of the models through diagnostic plots.  First we can check linearity for the nonadditive model, this figure is akin to Display 13.8 on page 384.
 
@@ -230,7 +234,7 @@ xhistogram(~ resid, fit="normal", data=seaweed)
 @
 From this figure normality seems reasonable as well.
 
-Now we can assess equality of variance for the additive model which, from the figure, seems to be somewhat problematic.
+Now we can assess equality of variance for the additive model which, from the figure (XX which one? XX), seems to be somewhat problematic.
 <<fig.height=8, fig.width=8>>=
 plot(aov(logitcover ~ BLOCK + TREAT, data=seaweed), which=3)
 @
@@ -240,13 +244,15 @@ Lastly we can look for influential points and/or high leverage with the additive
 plot(aov(logitcover ~ BLOCK + TREAT, data=seaweed), which=4)
 @
 From this figure we can obtain certain plots that bear some scrutiny and further inquiry would be needed.
+XX CRYPTIC XX.
 <<>>=
 seaweed[c(13, 22, 56, 79, 80, 87),]
 @
 
 \subsection{Linear combinations}
 
-To answer specific questions of interest we can use linear combinations.  The following is interpreted on pages 389-390 and are found in Display 13.13.  For this model the reference group is \emph{control} followed by \emph{f, fF, L, Lf, LfF}.   Note the error in the sign of the $t$-statistic.
+To answer specific questions of interest regarding subgroup comparisons we can use linear combinations.  The following is interpreted on pages 389-390 and in Display 13.13.  For this model the reference group is \emph{control} followed by \emph{f, fF, L, Lf, LfF}.   Note the error in the sign of the $t$-statistic (XX can this
+be made less cryptic? XX).
 <<>>=
 library(gmodels)
 lm1 = lm(logitcover ~ TREAT + BLOCK, data=seaweed); coef(lm1)
@@ -288,7 +294,7 @@ with(pygmalion, interaction.plot(COMPANY, TREAT, SCORE))
 
 \subsection{Two way ANOVA (fit using multiple linear regression model)}
 
-We can then use multiple linear regression models for the additive and nonadditive models and compare them using the Two-way ANOVA.  The following is similar to Display 13.16 (p.394).  
+We can then use multiple linear regression models for the additive and nonadditive models and compare them using the Two-way ANOVA.  The following is similar to Display 13.16 (page 394).  
 <<>>=
 lm1 = lm(SCORE ~ COMPANY*TREAT, data=pygmalion); summary(lm1)
 lm2 = lm(SCORE ~ COMPANY + TREAT, data=pygmalion); summary(lm2) # Display 13.18 page 395
