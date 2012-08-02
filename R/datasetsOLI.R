@@ -317,8 +317,8 @@ NA
 #' The average gestation period, or time of pregnancy, of an animal is closely related to its longevity (the length of its lifespan.) Data on the average gestation period and longevity (in captivity) of 40 different species of animals have been examined, with the purpose of examining how the gestation period of an animal is related to (or can be predicted from) its longevity.
 #'  
 #'  @docType data
-#'  @name Gestationlongevity
-#'  @usage data(Gestationlongevity)
+#'  @name GestationLongevity
+#'  @usage data(GestationLongevity)
 #'  @format
 #'      A data frame with 40 observations on the following variables.
 #'    
