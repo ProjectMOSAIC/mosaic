@@ -1,0 +1,313 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 13}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+     \begin{minipage}{#1}
+     \vspace*{.02\tempfmlength}
+  	 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 13}
+
+\author{
+Kate Aloisio \and Ruobing Zhang \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
+
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session.
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=3, show.signif.stars=FALSE)
+@
+
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 13: The Analysis of Variance for Two-Way Classifications using R.
+
+\section{Intertidal seaweed grazers}
+This wicked complicated trial is a subset of a factorial design (6 of the possible 2 by 2 by 2 combination of factors) plus blocking.  This randomized 
+block design is analyzed in case study 13.1 in the \emph{Sleuth}.  
+
+
+\subsection{Data coding, summary statistics and graphical display}
+
+We begin by reading the data, performing the necessary transformations and summarizing the variables.
+
+<<>>=
+seaweed = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1301.csv")
+# logit transformation
+seaweed$logitcover = with(seaweed, log(COVER/(100-COVER)))
+@
+
+
+<<>>=
+summary(seaweed)
+@
+
+There were a total of \Sexpr{nrow(seaweed)} rock plots free of seaweed. These plots where split into \Sexpr{length(unique(seaweed[,"BLOCK"]))} blocks based on location.  Each block contained \Sexpr{nrow(subset(seaweed, BLOCK=="BLOCK 1"))} plots.  Then \Sexpr{length(unique(seaweed[,"TREAT"]))} treatments were randomly assigned to plots within each block.  Therefore there were two plots per treatment within each block, as shown in Display 13.2 (page 377 of the \emph{Sleuth}).
+
+We can check for evidence of nonadditivity using interaction plots. For a figure akin to Display 13.7 on page 383 we can use the following code:
+
+<<fig.height=8, fig.width=8>>=
+with(seaweed, interaction.plot(BLOCK, TREAT, COVER))
+@
+
+This figure shows evidence of nonadditivity.
+
+We can also observe an interaction plot on the log transformed data akin to Display 13.9 on page 385.
+<<fig.height=8, fig.width=8>>=
+with(seaweed, interaction.plot(BLOCK, TREAT, logitcover))
+@
+
+\subsection{Models}
+
+Then we can create an ANOVA for the nonadditive model estimating the log of the seaweed regeneration ratio as summarized on page 385 (Display 13.10).
+<<>>=
+anova(lm(logitcover ~ BLOCK*TREAT, data=seaweed))
+@
+
+This model has an $R^2$  \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adjusted R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$sigma, 4)}.
+
+We can then compare these results to an ANOVA for the additive model estimating the log of the seaweed regeneration ratio as shown in Display 13.11 on page 387.
+<<>>=
+anova(lm(logitcover ~ BLOCK + TREAT, data=seaweed))
+@
+
+This model has an R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adjusted R-squared of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$sigma, 4)}.
+
+Next we can assess the fit of the models through diagnostic plots.  First we can check linearity for the nonadditive model, this figure is akin to Display 13.8 on page 384.
+
+<<fig.height=8, fig.width=8>>=
+plot(aov(logitcover ~ BLOCK*TREAT, data=seaweed), which=1)
+@
+From this plot is appears that the linearity assumption seems reasonable.
+
+We will need to assume independence based on the information given.
+
+Next we will assess the normality assumption for the additive model XX WHY DO WE CHANGE MODELS? XX
+
+<<fig.height=8, fig.width=8, message=FALSE>>=
+seaweed$resid = predict(aov(logitcover ~ BLOCK + TREAT, data=seaweed))
+xhistogram(~ resid, fit="normal", data=seaweed)
+@
+From this figure normality seems reasonable as well.
+
+Now we can assess equality of variance for the additive model which, from the figure (XX which one? XX), seems to be somewhat problematic.
+<<fig.height=8, fig.width=8>>=
+plot(aov(logitcover ~ BLOCK + TREAT, data=seaweed), which=3)
+@
+
+Lastly we can look for influential points and/or high leverage with the additive model.
+<<fig.height=8, fig.width=8>>=
+plot(aov(logitcover ~ BLOCK + TREAT, data=seaweed), which=4)
+@
+From this figure we can obtain certain plots that bear some scrutiny and further inquiry would be needed.
+XX CRYPTIC XX.
+<<>>=
+seaweed[c(13, 22, 56, 79, 80, 87),]
+@
+
+\subsection{Linear combinations}
+
+To answer specific questions of interest regarding subgroup comparisons we can use linear combinations.  The following is interpreted on pages 389-390 and in Display 13.13.  For this model the reference group is \emph{control} followed by \emph{f, fF, L, Lf, LfF}.   Note the error in the sign of the $t$-statistic (XX can this
+be made less cryptic? XX).
+<<>>=
+library(gmodels)
+lm1 = lm(logitcover ~ TREAT + BLOCK, data=seaweed); coef(lm1)
+large = rbind('Large fish' = c(0, -1/2, 1/2, 0, -1/2, 1/2, rep(0, 7)))
+small = rbind('Small fish' = c(-1/2, 1/2, 0, -1/2, 1/2, 0, rep(0, 7)))
+limpets = rbind('Limpets' = c(1/3, 1/3, 1/3, -1/3, -1/3, -1/3, rep(0, 7)))
+limpetsSmall = rbind('Limpets X Small'   = c(1, -1/2, -1/2, -1, 1/2, 1/2, rep(0, 7)))
+limpetsLarge = rbind('Limpets X Large'   = c(0, 1, -1, 0, -1, 1, rep(0, 7)))
+table1 = cbind(large, small, limpets, limpetsSmall, limpetsLarge)
+estimable(lm1, large)
+estimable(lm1, small) ## XX NOT THE SAME IN BOOK
+estimable(lm1, limpets) ## XX NOT THE SAME IN BOOK
+estimable(lm1, limpetsSmall) ## XX NOT THE SAME IN BOOK
+estimable(lm1, limpetsLarge)
+@
+
+
+\section{Pygmalion effect}
+Does telling a manager that some of the supervisees are superior affect their perceived performance?  This is the question addressed in case study 13.2 in the \emph{Sleuth}.  
+
+\subsection{Statistical summary}
+
+We begin by reading the data and summarizing the variables.
+<<>>=
+pygmalion = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1302.csv")
+summary(pygmalion)
+@
+
+There were a total of \Sexpr{nrow(pygmalion)} platoons.  For each of the \Sexpr{length(unique(pygmalion[, "COMPANY"]))} companies, one platoon received the Pygmalion treatment and two platoons were control, with the exception of one company that only had one control platoon.  Therefore, there were \Sexpr{nrow(subset(pygmalion, TREAT=="PYGMALION"))} Pygmalion platoons and \Sexpr{nrow(subset(pygmalion, TREAT=="CONTROL"))} control platoons. As shown in Display 13.3 (page 378 of the \emph{Sleuth}).
+
+\subsection{Graphical presentation}
+
+The following figure displays an interaction plot for the Pygmalion dataset, akin to Display 13.14 on page 392.
+
+<<fig.height=8, fig.width=8>>=
+with(pygmalion, interaction.plot(COMPANY, TREAT, SCORE))
+@
+
+
+\subsection{Two way ANOVA (fit using multiple linear regression model)}
+
+We can then use multiple linear regression models for the additive and nonadditive models and compare them using the Two-way ANOVA.  The following is similar to Display 13.16 (page 394).  
+<<>>=
+lm1 = lm(SCORE ~ COMPANY*TREAT, data=pygmalion); summary(lm1)
+lm2 = lm(SCORE ~ COMPANY + TREAT, data=pygmalion); summary(lm2) # Display 13.18 page 395
+lm3 = lm(SCORE ~ 1, data=pygmalion)
+anova(lm2, lm1)
+@
+
+Lastly we can observe the residual plot from the fit of the additive model, akin to Display 13.17 on page 395.
+
+<<fig.height=8, fig.width=8>>=
+plot(lm2, which=1)
+@
+
+
+
+\end{document}

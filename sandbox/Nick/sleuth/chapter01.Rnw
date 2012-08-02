@@ -14,7 +14,7 @@
 \lhead[\sf \thepage]{\sf \leftmark}
 \rhead[\sf \leftmark]{\sf \thepage}
 \lfoot{}
-\cfoot{Statistical Sleuth in R: Chapter 01}
+\cfoot{Statistical Sleuth in R: Chapter 1}
 \rfoot{}
 
 \newcounter{myenumi}
@@ -37,7 +37,7 @@
 \newenvironment{fmpage}[1]
      {
    \medskip
-	 \setlength{\tempfmlength}{#1}
+   \setlength{\tempfmlength}{#1}
 	 \begin{lrbox}{\fmbox}
 	   \begin{minipage}{#1}
 		 \vspace*{.02\tempfmlength}
@@ -111,9 +111,18 @@ Ruobing Zhang \and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mat
 	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
 	}
 
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
-trellis.par.set(theme=col.mosaic())  # get a better color scheme 
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 set.seed(123)
 # this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
 knit_hooks$set(inline = function(x) {
@@ -131,9 +140,11 @@ showNew=TRUE
 \section{Introduction}
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
-More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.  This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -151,42 +162,56 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 @
 
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 1: Drawing Statistical Conclusions using R.
+
 \section{Motivation and Creativity}
 
-For Case Study 1: Motivation and Creativity, Sleuth is interested in answering the following questions: Do grading systems promote creativity in students? Do ranking systems and incentive awards increase productivity among employees? Do rewards and praise stimulate children to learn? Do rewards and praise stimulate children to learn? 
+For Case Study 1: Motivation and Creativity, the following questions are posed: Do grading systems promote creativity in students? Do ranking systems and incentive awards increase productivity among employees? Do rewards and praise stimulate children to learn? Do rewards and praise stimulate children to learn? 
 
-The data for Case Study 1 was collected by psychologist Teresa Amabile in an experiment concerning the effects of intrinsic and extrinsic motivation on creativity.  (p.2 of the \emph{Sleuth})
+The data for Case Study 1 was collected by psychologist Teresa Amabile in an experiment concerning the effects of intrinsic and extrinsic motivation on creativity (page 2 of the \emph{Sleuth}).
+
+\subsection{Statistical summary and graphical display}
 
 We begin by reading the data and summarizing the variables.
 <<>>=
 creativity=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0101.csv")
 summary(creativity)
 @
-A total of \Sexpr{nrow(creativity)} subjects with considerable experience in creative writing were randomly assigned to one of two treatment groups: \Sexpr{nrow(subset(creativity, TREATMENT=="EXTRINSIC"))} were placed into the ``extrinsic" treatment group and \Sexpr{nrow(subset(creativity, TREATMENT=="INTRINSIC"))} were placed into the ``intrinsic" treatment group. As summeraized in Display 1.1 (\emph{Sleuth}, p.2)
+A total of \Sexpr{nrow(creativity)} subjects with considerable experience in creative writing were randomly assigned to one of two treatment groups: \Sexpr{nrow(subset(creativity, TREATMENT=="EXTRINSIC"))} were placed into the ``extrinsic" treatment group and \Sexpr{nrow(subset(creativity, TREATMENT=="INTRINSIC"))} were placed into the ``intrinsic" treatment group. As summarized in Display 1.1 (\emph{Sleuth}, page 2)
 
 <<eval=TRUE>>=
 favstats(SCORE ~ TREATMENT, data=creativity)
 xhistogram(~SCORE | TREATMENT, data=creativity)
+@
+<<>>=
 with(subset(creativity, TREATMENT=="EXTRINSIC"), stem(SCORE, scale=5))
 with(subset(creativity, TREATMENT=="INTRINSIC"), stem(SCORE, scale=5))
 @
 
+Similar output can be generated using the following code:
+<<eval=FALSE>>=
+maggregate(SCORE ~ TREATMENT, data=creativity, FUN=stem)
+@
+
 The extrinsic group (n=\Sexpr{nrow(subset(creativity, TREATMENT=="EXTRINSIC"))}) has an average creativity score that is \Sexpr{round(diff(mean(SCORE ~ TREATMENT, data=creativity)), 1)} points less than the intrinsic group (n=\Sexpr{nrow(subset(creativity, TREATMENT=="INTRINSIC"))}). The extrinsic group has relatively larger spread than the intrinsic group (sd=\Sexpr{round(sd(SCORE, data=subset(creativity, TREATMENT=="EXTRINSIC")),2)} for extrinsic group and sd=\Sexpr{round(sd(SCORE, subset(creativity, TREATMENT=="INTRINSIC")), 2)} for intrinsic group). Both distributions are approximately normally distributed.
 
+\subsection{Inferential procedures (two-sample t-test)}
 
 <<eval=TRUE>>=
 t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity)
 @
+The two-sample $t$-test shows strong evidence that a subject would receive a lower creativity score for a poem written after the extrinsic motivation questionnaire than for one written after the intrinsic motivation questionnaire. The two-sided $p$-value is \Sexpr{pval(t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity), digits=4)}, which is small enough to reject the null hypothesis. 
 
-The two-sample t-test shows a strong evidence that a subject would receive a lower creativity score for a poem written after the extrinsic motivation questionnaire than for one written after the intrinsic motivation questionnaire. The two-sided p-value is \Sexpr{pval(t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity), digits=4)}, which is small enough to reject the null hypothesis. 
+Thus, we can conclude that there is a difference between the population mean in extrinsic group and the population mean for the intrinsic group; the estimated difference between these two scores is \Sexpr{round(diff(mean(SCORE ~ TREATMENT, data=creativity)), 1)} points on the 0-40 point scale. A 95\% confidence interval for the decrease in score due to having extrinsic motivation rather than intrinsic motivation is between \Sexpr{round(t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity)$conf.int[2], 2)} and  \Sexpr{round(t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity)$conf.int[1], 2)} points (\emph{Sleuth}, page 3).
 
-Thus, we can conclude that there is a difference between the population mean in extrinsic group and the population mean for the intrinsic group; the estimated difference between these two scores is \Sexpr{round(diff(mean(SCORE ~ TREATMENT, data=creativity)), 1)} points on the 0-40 point scale. A 95\% confidence interval for the decrease in score due to having extrinsic motivation rather than intrinsic motivation is between \Sexpr{round(abs(confint(t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity))["upper"]), 1)} and \Sexpr{round(abs(confint(t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity))["lower"]), 1)} points (\emph{Sleuth}, p.3).
 
 <<eval=TRUE>>=
 summary(lm(SCORE ~ TREATMENT, data=creativity))
 @
 
 In the creativity study, the question that whether there is a treatment effect becomes a question about whether the parameter has a nonzero value. The value of the test statistic for the creativity scores is \Sexpr{round(diff(mean(SCORE ~ TREATMENT, data=creativity)), 2)}.
+
+\subsection{Permutation test}
 
 <<eval=TRUE>>=
 diffmeans=diff(mean(SCORE ~ TREATMENT, data=creativity))
@@ -201,8 +226,11 @@ As described in the Sleuth on page 12, if the group assignment changes, we will 
 
 \section{Gender Discrimination}
 
-For Case Study 2: Gender Discrimination the following questions are posed: Did a bank discriminatorily pay higher starting salaries to men than to women?  Display 1.3 (p.4 of the \emph{Sleuth}) displays the beginning salaries for male and female skilled entry level clerical employees hired between 1969 and 1977.
+For Case Study 2: Gender Discrimination the following questions are posed: Did a bank discriminatorily pay higher starting salaries to men than to women?  Display 1.3 (page 4 of the \emph{Sleuth}) displays the beginning salaries for male and female skilled entry level clerical employees hired between 1969 and 1977.
 
+\subsection{Statistical summary and graphical display}
+
+We begin by reading the data and summarizing the variables.
 
 <<eval=TRUE>>=
 banksalary = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0102.csv")
@@ -217,39 +245,44 @@ densityplot(~ SALARY, groups=SEX, auto.key=TRUE, data=banksalary)
 
 The \Sexpr{nrow(subset(banksalary, SEX=="MALE"))} men have an average starting salary that is \$\Sexpr{round(diff(mean(SALARY ~ SEX, data=banksalary)), 1)} more than the \Sexpr{nrow(subset(banksalary, SEX=="FEMALE"))} women (\$\Sexpr{round(mean(SALARY, data=subset(banksalary, SEX=="MALE")),0)} vs \$\Sexpr{round(mean(SALARY, data=subset(banksalary, SEX=="FEMALE")),0)}).  Both distributions have similar spread (sd=\$\Sexpr{round(sd(SALARY, subset(banksalary, SEX=="FEMALE")), 2)} for women and sd=\$\Sexpr{round(sd(SALARY, subset(banksalary, SEX=="MALE")), 2)} for men) and distributions that are approximately normally distributed (see density plot). The key difference between the groups is the shift (as indicated by the parallel boxplots).
 
-The $t$-test on page 4 of the Sleuth can be replicated using the following commands, note that the test is using {\tt var.equal=TRUE} which is not the default.
+To show Display 1.13
+<<>>=
+histogram(rnorm(1000))  # Normal
+histogram(rexp(1000))   # Long-tailed 
+histogram(runif(1000))  # Short-tailed
+histogram(rchisq(1000, df=15)) # Skewed
+@
+
+\subsection{Inferential procedures (two-sample t-test)}
+
+The $t$-test on page 4 of Sleuth can be replicated using the following commands (note that the equal-variance t-test is specified by {\tt var.equal=TRUE} which is not the default).
 
 <<eval=TRUE>>=
 t.test(SALARY~SEX, var.equal=TRUE, data=banksalary)
 @
 
-We can undertake a permutation test to assess whether the differences in the center of these samples that we are observing are due to chance, if the distributions are actually equivalent back in the populations of male and female possible clerical hires.  We start by defining a function to calculate our test statistic (the difference in means), calculate this for the observed data, then simulate from the null distribution (where the labels can be interchanged) and calculate our p-value. 
+\subsection{Permutation test}
+
+We undertake a permutation test to assess whether the differences in the center of these samples that we are observing are due to chance, if the distributions are actually equivalent back in the populations of male and female possible clerical hires.  We start by calculating our test statistic (the difference in means) for the observed data, then simulate from the null distribution (where the labels can be interchanged) and calculate our $p$-value. 
 
 <<permutetest,eval=TRUE>>=
-obsdiff=diff(mean(SALARY ~ SEX, data=banksalary)); obsdiff
-numsim=1000
+obsdiff = diff(mean(SALARY ~ SEX, data=banksalary)); obsdiff
+numsim = 1000
 res = do(numsim) * diff(mean(SALARY~shuffle(SEX), data=banksalary))
 densityplot(~ MALE, data=res)
 confint(res)
 p = sum(abs(res$MALE) >= abs(obsdiff))/numsim; p
-shiftres=res+obsdiff
-densityplot(~MALE, data=shiftres)
+# shiftres = res+obsdiff   XX delete this?
+# densityplot(~MALE, data=shiftres)  XX delete this?
 @
 
-Through the permutation test, we can see that the mean starting salary for males is estimated to be \Sexpr{round(confint(res)["lower"]+obsdiff, 2)} to \Sexpr{round(confint(res)["upper"]+obsdiff, 2)} larger than the mean starting salary  for females (95\% confidence interval). We never see a permuted difference in means close to our observed value. Therefore, we reject the null hypothesis ($p<0.001$) and conclude that the salaries of the men are higher than that of the women.
+Through the permutation test, we observe that the mean starting salary for males is estimated to be \$\Sexpr{round(confint(res)["lower"]+obsdiff, 2)} to \$\Sexpr{round(confint(res)["upper"]+obsdiff, 2)} larger than the mean starting salary  for females (95\% confidence interval). We never see a permuted difference in means close to our observed value. Therefore, we reject the null hypothesis ($p<0.001$) and conclude that the salaries of the men are higher than that of the women.
 
 <<eval=TRUE>>=
-t.test(SALARY ~ SEX, alternative="less", data=banksalary) #XX less?
+t.test(SALARY ~ SEX, alternative="less", data=banksalary) 
 @
 
-The $p-value<0.0001$ from the two-sample t-test shows that the large difference between estimated salaries for males and females is unlikely to be due to chance.
+The $p$-value ($<0.001$) from the two-sample t-test shows that the large difference between estimated salaries for males and females is unlikely to be due to chance.
 
-To show Display 1.13
-<<>>=
-histogram(rnorm(1000))  # Normal
-histogram(runif(1000))  # Short-tailed
-histogram(rexp(1000))   # Long-tailed 
-histogram(rchisq(1000, df=15)) # Skewed
-@
 
 \end{document}

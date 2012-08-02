@@ -38,7 +38,7 @@
      {
    \medskip
    \setlength{\tempfmlength}{#1}
-	 \begin{lrbox}{\fmbox}
+   \begin{lrbox}{\fmbox}
 	   \begin{minipage}{#1}
 		 \vspace*{.02\tempfmlength}
 		 \hfill
@@ -141,8 +141,12 @@ showNew=TRUE
 
 This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
 More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded project to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
 \pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
@@ -160,12 +164,15 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3)
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 9: Multiple Regression using R.
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 9: Multiple Regression using R.
 
 \section{Effects of light on meadowfoam flowering}
-Do different amounts of light affect the growth of meadowfoam (a small plant used to create seed oil)?  This is the question addressed in case study 9.1.1 in the \emph{Sleuth}.  
+Do different amounts of light affect the growth of meadowfoam (a small plant used to create seed oil)?  This is the question addressed in case study 9.1 in the \emph{Sleuth}.  
 
 \subsection{Data coding, summary statistics and graphical display} 
+
+We begin by reading the data and summarizing the variables.
+
 <<>>=
 light = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0901.csv")
 @
@@ -175,40 +182,44 @@ light = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0901.csv")
 light$day24 = relevel(as.factor(ifelse(light$TIME==1, "late", "early")), ref="late")
 @
 
-Display 9.2 (page 237)
+
 <<>>=
 summary(light)
 favstats(FLOWERS ~ INTENS | day24, data=light)
 @
 
-The following displays the scatterplot of the average number of flowers per
-plant versus the applied light intensity for each of the 12 experimental units. (Display 9.3 page 238 of \emph{Sleuth})
+A total of \Sexpr{nrow(light)} meadowfoam plants were included in this data.  There were \Sexpr{length(unique(light[,"TIME"]))*length(unique(light[, "INTENS"]))} treatment groups -  \Sexpr{length(unique(light[, "INTENS"]))} light intensities at each of the  \Sexpr{length(unique(light[,"TIME"]))} timing levels (Display 9.2, page 237 of the \emph{Sleuth}).
+The following code generates the scatterplot of the average number of flowers per
+plant versus the applied light intensity for each of the 12 experimental units akin to Display 9.3 on page 238.
 
 <<>>=
-xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), data=light, 
-       auto.key=TRUE, xlab="light intensity (mu mol/m^2/sec)", ylab="average number of flowers")
+xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), data=light, auto.key=TRUE, xlab="light intensity (mu mol/m^2/sec)", ylab="average number of flowers")
 @
 
 
 \subsection{Multiple linear regression model}
 
-We then can fit a multiple linear regression model that specifies parallel regression lines for the mea  number of flowers as a function of light intensity as interpreted on page 237.
+We next fit a multiple linear regression model that specifies parallel regression lines for the mean  number of flowers as a function of light intensity as interpreted on page 237.
+
 <<>>=
 lm1 = lm(FLOWERS ~ INTENS + day24, data=light)
 summary(lm1)
 confint(lm1, level=.95) # 95% confidence intervals  
 @
 
-We can also fit a mulitple linear regression with an ineraction between light intensity and timing of its initiation as shown in Display 9.14 (page 256) and interpreted on page 237.
+We can also fit a multiple linear regression with an interaction between light intensity and timing of its initiation as shown in Display 9.14 (page 256) and interpreted on page 237.
+
 <<>>=
 lm2 = lm(FLOWERS ~ INTENS * day24, data=light)
 summary(lm2)
 @
 
 \section{Why do some mammals have large brains?}
-What characteristics predict large brains in elephants?   This is the question addressed in case study 9.1.2 in the \emph{Sleuth}.  
+What characteristics predict large brains in mammals?   This is the question addressed in case study 9.2 in the \emph{Sleuth}.  
 
 \subsection{Data coding and summary statistics}
+
+We begin by reading the data and summarizing the variables.
 
 <<>>=
 mammals = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0902.csv")
@@ -220,11 +231,14 @@ mammals$loggest = log(mammals$GESTATION); mammals$loglitter = log(mammals$LITTER
 summary(mammals)
 @
 
+A total of \Sexpr{nrow(mammals)} mammals were included in this data.  The average values of brain weight, body weight, gestation length, and litter size for each of the species were calculated and presented in Display 9.2 (page 237 of the \emph{Sleuth}).
+
+
 \subsection{Graphical presentation}
 
 The following displays a simple (unadorned) pairs plot (akin to Display 9.10 on page 252).
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 pairs(mammals[c("BRAIN", "BODY", "GESTATION", "LITTER")])
 @
 
@@ -252,7 +266,7 @@ panel.lm = function(x, y, col=par("col"), bg=NA,
 
 Below displays a fancier pairs plot.
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
   pairs(~ BRAIN + BODY + GESTATION + LITTER, 
         lower.panel=panel.smooth, diag.panel=panel.hist, 
         upper.panel=panel.lm, data=mammals)
@@ -261,7 +275,7 @@ Below displays a fancier pairs plot.
 
 Here is a fancier pairs plot using the log-transformed variables (akin to Display 9.11 on page 253).
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
   pairs(~ logbrain + logbody + loggest + loglitter, 
               lower.panel=panel.smooth, diag.panel=panel.hist, 
               upper.panel=panel.lm, data=mammals)
@@ -270,14 +284,14 @@ Here is a fancier pairs plot using the log-transformed variables (akin to Displa
 
 The following displays a jittered scatterplot of log brain weight as a function of log litter size (akin to Display 9.12 on page 254).
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
   xyplot(logbrain ~ jitter(loglitter), data=mammals)
 @
 
 
 Below displays a jittered scatterplot using the original data on a log-transformed axis (akin to Display 9.12 on page 254).
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
   xyplot(BRAIN ~ jitter(LITTER), scales=list(y=list(log=TRUE),
                                              x=list(log=TRUE)), data=mammals)
 @
@@ -285,11 +299,11 @@ Below displays a jittered scatterplot using the original data on a log-transform
 
 The following displays a jittered scatterplot using the original data stratified by body weight on a log-transformed axis (akin to Display 9.13 on page 255).
 
-XX THIS NEEDS TO BE LARGER XX
-<<>>=
+
+<<fig.height=8, fig.width=8>>=
 mammals$weightcut = cut(mammals$BODY, breaks=c(0, 2.1, 9.1, 100, 4200), labels=c("Body Weight: 0kg to 2.1kg","Body Weight: 2.1kg to 9.1kg", "Body Weight: 9.1kg to 100kg", "Body Weight: 100 to 4,200"))
 xyplot(BRAIN ~ jitter(LITTER) | weightcut, 
-       scales=list(y=list(log=TRUE), x=list(log=TRUE)), data=mammals)
+       scales=list(y=list(log=TRUE), x=list(log=TRUE)), type=c("p", "r"), data=mammals)
 @
 
 \subsection{Multiple linear regression model}
