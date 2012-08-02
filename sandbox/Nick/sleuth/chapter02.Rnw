@@ -40,7 +40,7 @@
    \setlength{\tempfmlength}{#1}
    \begin{lrbox}{\fmbox}
      \begin{minipage}{#1}
-  	 \vspace*{.02\tempfmlength}
+     \vspace*{.02\tempfmlength}
 		 \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
 		 {\end{minipage}\hfill
@@ -160,11 +160,11 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 2: Inference Using \emph{t}-Distributions using R.
+The goal of this document is to demonstrate how to calculate the quantities described in Chapter 2: Inference Using \emph{t}-Distributions using R.
 
 \section{Bumpus's Data on Natural Selection}
 
-Is humerus length related to whether the bird would survive or perish? That's the question being addressed by case study 2.1 in the \emph{Sleuth}.
+Is humerus length related to whether the bird would survive or perish? That's the question being addressed by Case Study 2.1 in the \emph{Sleuth}.
 
 \subsection{Statistical summary and graphical display}
 We begin by reading the data and summarizing the variables.
@@ -175,7 +175,7 @@ summary(sparrow)
 fav=favstats(HUMERUS ~ STATUS, data=sparrow); fav
 @
 
-A total of \Sexpr{nrow(sparrow)} subjects are included in the data: \Sexpr{nrow(subset(sparrow, STATUS=="SURVIVED"))} are adult male sparrows that survived and \Sexpr{nrow(subset(sparrow, STATUS=="PERISHED"))} perished. As showed in Display 2.1 (page 29 of \emph{Sleuth}).
+A total of \Sexpr{nrow(sparrow)} subjects are included in the data: \Sexpr{nrow(subset(sparrow, STATUS=="SURVIVED"))} are adult male sparrows that survived and \Sexpr{nrow(subset(sparrow, STATUS=="PERISHED"))} that perished. As showed in Display 2.1 (emph{Sleuth}, p.29).
 
 <<>>=
 bwplot(STATUS ~ HUMERUS, data=sparrow)
@@ -185,7 +185,7 @@ bwplot(STATUS ~ HUMERUS, data=sparrow)
 densityplot(~ HUMERUS, groups=STATUS, auto.key=TRUE, data=sparrow)
 @
 
-Both distributions are normally distributed.
+Both distributions are approximately normally distributed.
 
 \subsection{Inferential procedures (two-sample t-test)}
 
@@ -203,7 +203,7 @@ SE=Sp*sqrt(1/n1+1/n2); SE
 
 So the pooled SD is \Sexpr{round(Sp, 2)} and the standard error is \Sexpr{round(SE, 1)}.
 
-Based on the information we got, we can construct 95\% confidence interval. (Calculation on p.41, Display 2.9)
+Based on this information, we can construct a 95\% confidence interval. (Calculation on p.41, Display 2.9)
 <<>>=
 Y1=fav["PERISHED", "mean"]; Y1
 Y2=fav["SURVIVED", "mean"]; Y2
@@ -217,16 +217,16 @@ upper=Yd+hw; upper
 
 So the 95\% confidence interval of the difference between means is (\Sexpr{round(lower, 1)}, \Sexpr{round(upper, 1)})
 
-Now we want to calculate the t-statistic and p-value. (Calculation on p.44, Display 2.10)
+Now we want to calculate the $t$-statistic and $p$-value. (Calculation on p.44, Display 2.10)
 <<>>=
 tstats=(Yd-0)/SE; tstats      # The hypothesis difference=0
 onepval=1-pt(tstats, df); onepval
 twopval=2*onepval; twopval
 @
 
-So the one-sided p-value is \Sexpr{round(onepval, 2)} and the two-sided p-value is \Sexpr{round(twopval, 2)}
+So the one-sided $p$-value is \Sexpr{round(onepval, 2)} and the two-sided $p$-value is \Sexpr{round(twopval, 2)}
 
-Or we can get the results of ``Summary of Statistical Findings" (on \emph{Sleuth} p.29) by using following code. 
+Or we can get the results of ``Summary of Statistical Findings" (p.29) by using the following code: 
 <<>>=
 t.test(HUMERUS ~ STATUS, var.equal=TRUE, data=sparrow)
 confint(lm(HUMERUS ~ STATUS, data=sparrow))
@@ -252,7 +252,7 @@ DIFF=schizo[, "UNAFFECT"]-schizo[, "AFFECTED"]
 favstats(DIFF)
 @
 
-This matches the results in  Display 2.2 (page 30 of the \emph{Sleuth}).
+This matches the results on p.30, Display 2.2.
 
 <<>>=
 densityplot(DIFF)
@@ -275,12 +275,12 @@ schizolower=difmean-q*difSE; schizolower
 schizoupper=difmean+q*difSE; schizoupper
 @
 
-So the two-sided p-value is \Sexpr{round(twopvalue, 3)} and the 95\% confidence interval is (\Sexpr{round(schizolower, 2)}, \Sexpr{round(schizoupper, 2)}).
+So the two-sided $p$-value is \Sexpr{round(twopvalue, 3)} and the 95\% confidence interval is (\Sexpr{round(schizolower, 2)}, \Sexpr{round(schizoupper, 2)}).
 
-Or we can get the results displayed on \emph{Sleuth} p.31 by conducting a paired t-test.
+Or we can get the results displayed on page 31 by conducting a paired $t$-test.
 
 <<>>=
-summary(lm(UNAFFECT ~ AFFECTED, data=schizo))
+t.test(schizo[, "UNAFFECT"], schizo[, "AFFECTED"], paired=TRUE)
 @
 
 \end{document}

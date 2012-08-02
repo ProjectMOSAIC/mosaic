@@ -39,7 +39,7 @@
    \medskip
    \setlength{\tempfmlength}{#1}
    \begin{lrbox}{\fmbox}
-	   \begin{minipage}{#1}
+     \begin{minipage}{#1}
 		 \vspace*{.02\tempfmlength}
 		 \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
@@ -84,7 +84,7 @@
 Chapter 5}
 
 \author{
-Ruobing Zhang \and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+Kate Aloisio \and Ruobing Zhang \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
 } 
 
 \date{\today}
@@ -162,7 +162,7 @@ options(digits=3)
 
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 5: Comparisons Among Several Samples using R.
+The goal of this document is to demonstrate how to calculate the quantities described in Chapter 5: Comparisons Among Several Samples using R.
 
 \section{Diet and lifespan}
 Does restricting the diet of female mice lead to increased lifespan? This is the question addressed
@@ -170,11 +170,16 @@ in case study 5.1 in the \emph{Sleuth}.
 
 
 \subsection{Summary statistics and graphical display} 
+
+We begin by reading the data and summarizing the variables.
+
 <<>>=
 mice = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0501.csv")
 summary(mice)
 favstats(LIFETIME ~ DIET, data=mice)
 @
+
+There were a total of \Sexpr{nrow(mice)} female mice. These mice were randomly assigned to one of \Sexpr{length(unique(mice[, "DIET"]))} diets.  Their lifetimes were then recorded, as shown in Display 5.2 (page 115 of the \emph{Sleuth}).
 
 <<>>=
 bwplot(LIFETIME ~ DIET, data=mice) # Display 5.1
@@ -191,7 +196,7 @@ First we fit the one way analysis of variance (ANOVA) model, using all of the gr
 anova(lm(LIFETIME ~ DIET, data=mice))
 @
 
-There is a strongly statistically significant difference between the diets.
+There is a strong statistically significant difference between the diets.
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
 
@@ -199,31 +204,31 @@ By default, the use of the linear model (regression) function displays the pairw
 summary(lm(LIFETIME ~ DIET, data=mice))
 @
 
-The reference group is lopro, followed by N/N85, N/R40, N/R50, NP, R/R50.
+The reference group is \emph{lopro}, followed by \emph{N/N85, N/R40, N/R50, NP, R/R50}.
 
 \subsection{Pairwise comparisons}
 
-Calculation on p. 121 Display 5.7 and part a) on page 115:
+Next we used contrasts for the results on page 121, Display 5.7, and part {\bf(a)} on page 115:
 <<a>>=
 library(gmodels)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, -1, 0, 1, 0, 0), conf.int=0.95)
 @
-The results for b on page 115-116:
+The results for {\bf(b)} on page 115-116:
 <<b>>=
 # N/R50 vs R/R50 (b)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 0, -1, 0, 1), conf.int=0.95)
 @
-The results for c on page 116:
+The results for {\bf(c)} on page 116:
 <<c>>=
 # N/R40 vs N/R50 (c)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 1, -1, 0, 0), conf.int=0.95)
 @
-The results for d on page 116:
+The results for {\bf(d)} on page 116:
 <<d>>=
 # N/R50 vs N/R50 lopro (d)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(-1, 0, 0, 1, 0, 0), conf.int=0.95)
 @
-The results for e on page 116:
+The results for {\bf(e)} on page 116:
 <<e>>=
 # N/N85 vs NP (e)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 1, 0, 0, -1, 0), conf.int=0.95)
@@ -241,7 +246,7 @@ mean(LIFETIME ~ DIET, data=mice)-mean(~ LIFETIME, data=mice)
 
 \subsection{Other analyses}
 
-Let's demonstrate how to calculate the quantities on p. 120 Display 5.6.
+We will next demonstrate how to calculate the quantities on page 120 (Display 5.6).
 
 <<>>=
 df = length(mice$DIET) - length(unique(mice$DIET)); df
@@ -250,7 +255,7 @@ nvals = with(mice, tapply(LIFETIME, DIET, length)); nvals
 pooledsd = sum(sdvals*nvals)/sum(nvals); pooledsd
 @
 
-Note that the pooled standard deviation reported in chapter 5 is not the same as the root MSE from the ANOVA!
+Note that the pooled standard deviation reported in chapter 5 is not the same as the root MSE from the ANOVA.
 For the rest of this document we will use the ANOVA estimate of the
 root mean squared error.
 
@@ -258,13 +263,13 @@ root mean squared error.
 
 The residuals vs. fitted graph doesn't demonstrate dramatic lack of fit (though some of the 
 mice had very small residuals).
-<<>>=
+<<fig.height=8, fig.width=8>>=
 aov1 = aov(lm(LIFETIME ~ DIET, data=mice))
 plot(aov1, which=1) 
 @
 
 The quantile plot of the residuals indicates that the normality assumption may be violated.
-<<>>=
+<<fig.height=8, fig.width=8>>=
 plot(aov1, which=2)
 plot(aov1, which=3)
 @
@@ -276,7 +281,9 @@ Did Dr. Benjamin Spock have a fair trial?  More specifically, were women underre
 case study 5.2 in the \emph{Sleuth}.
 
 
-\subsection{Summary statistics and graphical display} 
+\subsection{Summary statistics and graphical display}
+
+We begin by reading the data and summarizing the variables.
 <<>>=
 spock = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0502.csv",
    stringsAsFactors=FALSE)
@@ -286,6 +293,7 @@ summary(spock)
 spock$JUDGE = with(spock, as.factor(JUDGE))
 favstats(PERCENT ~ JUDGE, data=spock)
 @
+There were a total of \Sexpr{nrow(spock)} venires. They compared Spock's judge with \Sexpr{length(unique(subset(spock, JUDGE!="SPOCK'S")[, "JUDGE"]))} other judges.  The precent of women within each venire was recorded as shown in Display 5.4 (page 117 of the \emph{Sleuth}).
 
 <<>>=
 bwplot(PERCENT ~ JUDGE, data=spock) # Display 5.5
@@ -296,9 +304,9 @@ densityplot(~ PERCENT, groups=JUDGE, auto.key=TRUE, data=spock)
 
 \subsection{One-way ANOVA}
 
-First we fit the one way analysis of variance (ANOVA) model, with all of the groups. Summarized on page 118.
+First we fit the one way analysis of variance (ANOVA) model, with all of the groups. These results are summarized on page 118.
 <<>>=
-aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1 # Display 5.10
+aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1  # Display 5.10
 @
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
@@ -319,7 +327,7 @@ with(subset(spock, JUDGE!="SPOCK'S"), anova(lm(PERCENT~JUDGE)))
 \subsection{Additional analyses}
 
 Now we will demonstrate how to fit the reduced model comparing Spock's judge to a combination of the
-other judge. First let's create a 2 level version of the grouping variable.
+other judge. First we create a 2 level version of the grouping variable.
 
 <<>>=
 spock$TWOJUDGE = as.character(spock$JUDGE)
@@ -327,7 +335,7 @@ spock$TWOJUDGE[spock$JUDGE != "SPOCK'S"] = "NOTSPOCK"
 tally(TWOJUDGE ~ JUDGE, format="count", data=spock)
 
 @
-Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (pg 130).  Below are the calculations for the results found on page 128. 
+Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (p.130).  Below are the calculations for the results found on page 128. 
 
 <<>>=
 aov2 = anova(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)); aov2
@@ -356,7 +364,7 @@ estimable(lm(PERCENT ~ JUDGE, data=spock), c(1,0,0,0,0,0,1), conf.int=0.95)
 
 \subsubsection{Kruskal-Wallis Nonparametric Analysis of Variance}
 
-For the results of the Kruskal-Wallis test on page 136 we can use the following code.
+For the results of the Kruskal-Wallis test on page 136 we can use the following code:
 
 <<>>=
 kruskal.test(PERCENT~JUDGE, data=spock)

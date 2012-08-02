@@ -41,7 +41,7 @@
    \begin{lrbox}{\fmbox}
      \begin{minipage}{#1}
      \vspace*{.02\tempfmlength}
-		 \hfill
+  	 \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
 		 {\end{minipage}\hfill
 		 \vspace*{.015\tempfmlength}
@@ -160,11 +160,11 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 4: The Rank-Sum Test using R.
+The goal of this document is to demonstrate how to calculate the quantities described in Chapter 4: The Rank-Sum Test using R.
 
 \section{Space Shuttle O-Ring Failures}
 
-Does launch temperature tend to cause O-ring incidents? That's the question being addressed by case study 4.1 in the \emph{Sleuth}.
+Does launch temperature tend to cause O-ring incidents? This is the question being addressed by case study 4.1 in the \emph{Sleuth}.
 
 \subsection{Summary statistics and graphical display}
 
@@ -176,7 +176,7 @@ summary(oring)
 favstats(INCIDENTS ~ LAUNCH, data=oring)
 @
 
-A total of \Sexpr{nrow(oring)} subjects are included in the data: \Sexpr{nrow(subset(oring, LAUNCH=="COOL"))} O-ring incidents when temperature was low and \Sexpr{nrow(subset(oring, LAUNCH=="WARM"))} O-ring incidents when temperature was warm. As showed in Display 4.1 (\emph{Sleuth}).
+A total of \Sexpr{nrow(oring)} subjects are included in the data: \Sexpr{nrow(subset(oring, LAUNCH=="COOL"))} O-ring incidents when temperature was cold and \Sexpr{nrow(subset(oring, LAUNCH=="WARM"))} O-ring incidents when temperature was warm. As shown in Display 4.1 , p. 86.
 
 <<>>=
 xhistogram(~ INCIDENTS | LAUNCH, data=oring)
@@ -184,29 +184,29 @@ xhistogram(~ INCIDENTS | LAUNCH, data=oring)
 
 \subsection{Permutation test on t-statistics}
 
-We want to calculate the p-value of permutation test using following code
+To replicate the permutation test performed on page 96 we used the following code.
 
-First, we calculat the t-statistic of observed outcome.
+First, we calculate the $t$-statistic of the observed outcome.
 
 <<>>=
 t.test(INCIDENTS ~ LAUNCH, data=oring)
 @
 
-The t-statistic is \Sexpr{nrow(t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)$statistic)}.
-XX error XX
+The $t$-statistic is \Sexpr{t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)$statistic}.
+
 
 <<>>=
 C244=factorial(24)/(factorial(4)*factorial(24-4)); C244
 @
 
-The total number of regroupings is \Sexpr{nrow(C244)} with 8 possible outcomes: (0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), (0, 0, 0, 3), (0, 0, 1, 1), (0, 0, 1, 2), (0, 0, 1, 3), (0, 0, 2, 3), (0, 1, 1, 1), (0, 1, 1, 2), (0, 1, 1, 3), (0, 1, 2, 3), (1, 1, 1, 1), (1, 1, 1, 2), (1, 1, 1, 3), (1, 1, 2, 3). Because the obeserved group is (1, 1, 1, 3), we will only examine the more extreme groups, which are (1, 1, 2, 3) and (0, 1, 2, 3)
+The total number of regroupings is \Sexpr{nrow(C244)} with 8 possible outcomes: (0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), (0, 0, 0, 3), (0, 0, 1, 1), (0, 0, 1, 2), (0, 0, 1, 3), (0, 0, 2, 3), (0, 1, 1, 1), (0, 1, 1, 2), (0, 1, 1, 3), (0, 1, 2, 3), (1, 1, 1, 1), (1, 1, 1, 2), (1, 1, 1, 3), (1, 1, 2, 3). Because the observed group is (1, 1, 1, 3), we will only examine the more extreme groups, which are (1, 1, 2, 3) and (0, 1, 2, 3)
 
 <<>>=
 # t.test(c(1, 1, 2, 3))
 # t.test(c(0, 1, 2, 3))
 @
 
-XX How to calculate the t-test for (1, 1, 2, 3) qnd (0, 1, 2, 3) here? The t-statistics for (1, 1, 2, 3) is supposed to be 5.952, and for (0, 1, 2, 3) is supposed to be 3.888. XX
+XX How to calculate the t-test for (1, 1, 2, 3) and (0, 1, 2, 3) here? The t-statistics for (1, 1, 2, 3) is supposed to be 5.952, and for (0, 1, 2, 3) is supposed to be 3.888. XX
 
 <<>>=
 C1123=factorial(5)/(factorial(2)*factorial(5-2)); C1123
@@ -214,7 +214,20 @@ C0123=17*5; C0123
 onep=(C1123+C0123)/C244; onep
 @
 
-So the one-sided p-value from the permutation test on t-statistics is \Sexpr{round(onep, 2)}.
+So the one-sided $p$-value from the permutation test on the $t$-statistic is \Sexpr{round(onep, 2)}.
+
+Alternatively, we can approximate the $p$-value using the difference of means and simulating a null distribution. 
+
+<<fig.height=8, fig.width=8>>=
+t.test(INCIDENTS ~ LAUNCH, data=oring)
+obs = diff(mean(INCIDENTS ~ LAUNCH, data=oring)); obs
+nulldist = do(5000) * diff(mean(INCIDENTS ~ shuffle(LAUNCH), data=oring))
+xhistogram(~ WARM, groups=WARM <= obs, v=obs, data=nulldist)
+tally(~ WARM < obs, format="percent", data=nulldist)
+@
+
+This simulation resulted in a $p$-value of \Sexpr{tally(~ WARM < obs, format="percent", data=nulldist)["TRUE"]}.  
+XX Why are the p-values so different? Strict rounding? XX
 
 \section{Cognitive Load Theory in Teaching}
 
@@ -225,21 +238,28 @@ Does modified instructional materials lead to quicker problem solving? That's th
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-teaching=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0402.csv")
+teaching = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0402.csv")
 summary(teaching)
 favstats(TIME ~ TREATMT, data=teaching)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 bwplot(TREATMT ~ TIME, data=teaching)
 @
 
-<<>>=
+<<fig.height=8, fig.width=8>>=
 densityplot(~TIME, groups=TREATMT, auto.key=TRUE, data=teaching)
 @
 
 \subsection{Rank-sum test}
 
-XX NEED TO BE UPDATED: calculation of p-value of ranked-sum test. XX
+We conduct Wilcoxon rank-sum test to calculate the results displayed on p.88.
+
+<<>>=
+wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)
+@
+
+So the one-sided p-value is \Sexpr{round((wilcox.test(TIME ~ TREATMT, conf.int=TRUE, var.equal=TRUE, data=teaching)$p.value/2), 3)}. The 95\% confidence interval is (\Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[1:1], 1)}, \Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[2:2], 1)}).
+
 
 \end{document}

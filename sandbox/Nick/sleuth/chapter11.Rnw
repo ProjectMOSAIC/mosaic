@@ -39,7 +39,7 @@
    \medskip
    \setlength{\tempfmlength}{#1}
    \begin{lrbox}{\fmbox}
-	   \begin{minipage}{#1}
+     \begin{minipage}{#1}
 		 \vspace*{.02\tempfmlength}
 		 \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
@@ -160,19 +160,24 @@ trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 options(digits=3, show.signif.stars=FALSE)
 @
 
-The goal of this document is to demonstate how to calculate the quantities described in Chapter 11: Model Checking and Refinement using R.
+The goal of this document is to demonstrate how to calculate the quantities described in Chapter 11: Model Checking and Refinement using R.
 
 \section{Alcohol metabolism in men and women}
-How do men and women metabolise alcohol?  This is the question addressed in case study 11.1.1 in the \emph{Sleuth}.  
+How do men and women metabolise alcohol?  This is the question addressed in case study 11.1 in the \emph{Sleuth}.  
 
 
 \subsection{Data coding, summary statistics and graphical display} 
+
+We begin by reading the data and summarizing the variables.
+
 <<>>=
 alcometa = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1101.csv")
 summary(alcometa)
 @
 
-Display 11.2 (page 306)
+A total of \Sexpr{nrow(alcometa)} volunteers were included in this data.  There were \Sexpr{nrow(subset(alcometa, SEX=="FEMALE"))} females and \Sexpr{nrow(subset(alcometa, SEX=="MALE"))} males.    As recorded in Display 9.2 (page 237 of the \emph{Sleuth}).
+
+The following is a graphical display of the variables akin to Display 11.2 (page 306).
 <<fig.height=8, fig.width=8>>=
 xyplot(METABOL ~ GASTRIC | SEX + ALCOHOL, data=alcometa, auto.key=TRUE,
   xlab="Gastric AD activity (mu mol/min/g of tissue)", 
@@ -181,14 +186,14 @@ xyplot(METABOL ~ GASTRIC | SEX + ALCOHOL, data=alcometa, auto.key=TRUE,
 
 \subsection{Multiple regression}
 
-Summary on page 315 (display 11.9)
+First we can fit a full model for estimating \emph{metabolism} given a subjects \emph{gastric AD activity}, whether they are \emph{alcoholic} and \emph{gender}.  This first model is summarized on page 315 (Display 11.9).
 <<display11.9>>=
 lm1 = lm(METABOL ~ GASTRIC + SEX + ALCOHOL + GASTRIC*SEX + SEX*ALCOHOL +
   GASTRIC*ALCOHOL + GASTRIC*SEX*ALCOHOL, data=alcometa); summary(lm1)
 @
 
 Next we can calculate a number of model diagnostics, including
-leverage, studentized resids and Cook's distance (page 319--320).
+leverage, studentized resids and Cook's distance (pages 319--320).
 <<message=FALSE>>=
 require(MASS)
 @
@@ -198,36 +203,41 @@ alcometa$studres = studres(lm1)
 alcometa$cooks = cooks.distance(lm1)
 alcometa[31,]
 @
+The following is a residual plot for the full model akin to Display 11.7 (page 313).
+<<>>=
+plot(lm1, which=1)
+@
 
-More summary on page 315 (Display 11.9)
+From these diagnostics it appears that observations 31 and 32 may be influential points.  Therefore, we next re-fit the full model excluding these two observations. The following results are found in Display 11.9 and discussed on page 315.  
 <<>>=
 alcometa2 = alcometa[-c(31, 32),]
 lm2 = lm(METABOL ~ GASTRIC + SEX + ALCOHOL + GASTRIC*SEX + SEX*ALCOHOL +
   GASTRIC*ALCOHOL + GASTRIC*SEX*ALCOHOL, data=alcometa2); summary(lm2)
 @
 
-Display 11.7 (page 313)
-<<>>=
-plot(lm1, which=1)
-@
+\subsection{Refining the Model}
 
-Lack of fit test for the removal of {\tt ALCOHOL}(page 322)
+This section addresses the process of refining the model.
+We first tested the lack of fit for the removal of {\tt ALCOHOL} as shown in Display 11.13 (p.322).
 <<lackoffit>>=
 lm3 = lm(METABOL ~ GASTRIC + SEX + GASTRIC*SEX, data=alcometa2); summary(lm3)
 anova(lm3, lm2) # page 322
 @
 
-Fit without intercept (scientifically plausible) Display 11.14, page 323
+Next we assessed a model without an intercept which is scientifically plausible as summarized in Display 11.14 (p.323).
 <<display11.14>>=
 lm4 = lm(METABOL ~  GASTRIC + GASTRIC:SEX -1 , data=alcometa2); summary(lm4)
 anova(lm4, lm3)
 @
-
+Note that the ``Summary of Statistical Findings" section (p.306) is based on this final model.
 
 \section{Blood brain barrier}
-Neuroscientists working to better understand the blood brain barrier have infused rats with cells to induce brain tumors.   This is the topic addressed in case study 11.1.2 in the \emph{Sleuth}.  
+Neuroscientists working to better understand the blood brain barrier have infused rats with cells to induce brain tumors.   This is the topic addressed in case study 11.2 in the \emph{Sleuth}.  
 
 \subsection{Data coding and summary statistics}
+
+We begin by reading the data, performing transformations where needed and summarizing the variables.
+
 <<case1102>>=
 barrier = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1102.csv")
 barrier$Y = with(barrier, BRAIN/LIVER)
@@ -237,6 +247,9 @@ barrier$logy = with(barrier, log(BRAIN/LIVER)); barrier$logtime = with(barrier, 
 summary(barrier)
 @
 
+A total of \Sexpr{nrow(barrier)} rats were included in this experiment.  Each rat was given either the barrier solution (n = \Sexpr{nrow(subset(barrier, TREAT=="BD"))}) or a normal saline solution (n = \Sexpr{nrow(subset(barrier, TREAT=="NS"))}). Then variables of interest were calculated and are displayed in Display 9.2 (page 237 of the \emph{Sleuth}).
+
+We can graphically display summary information about the variables using a custom pairs plot. 
 <<message=FALSE>>=
 require(GGally)
 @
@@ -248,14 +261,14 @@ ggpairs(barrier[,c("logy", "logbrain","logliver","TREAT", "SAC")],
 \subsection{Graphical presentation}
 
 
-The following displays a scatterplot of log ratio (W) as a function of log time (akin to Display 11.5 on page 309).
+The following displays a scatterplot of log ratio (Y) as a function of log time, akin to Display 11.5 on page 309.
 
 <<>>=
 xyplot(Y ~ TIME, group=TREAT, scales=list(y=list(log=TRUE), 
                                           x=list(log=TRUE)), auto.key=TRUE, data=barrier)
 @
 
-The following graphs are akin to the second and third plots in Display 11.6 on page 326.
+The following graphs are akin to the second and third plots in Display 11.16 on page 326.
 
 <<>>=
 xyplot(logy ~ SEX, data=barrier)
@@ -267,13 +280,13 @@ xyplot(logy ~ jitter(DAYS), data=barrier)
 
 \subsection{Multiple regression}
 
-Model 1 from page 311
+We first fit a model that reflects the initial investigation. This is the proposed model from page 311.
 <<fullmodel>>=
 lm1 = lm(logy ~ SAC + TREAT + SAC*TREAT + DAYS + SEX + 
   WEIGHT + LOSS + TUMOR, data=barrier); summary(lm1)
 @
 
-Actual display 11.6 (page 312)
+We can then display a residual plot to assess the fit of the above model.  This is the actual Display 11.6 (p.312). 
 <<>>=
 plot(lm1, which=1)
 @
@@ -281,7 +294,7 @@ plot(lm1, which=1)
 
 \subsection{Refining the model}
 
-Results can be found in Display 11.17 on page 327.
+Lastly, we fit a refined model. These results can be found in Display 11.17 (p.327).
 <<reducedmodel>>=
 lm2 = lm(logy ~ SAC + TREAT, data=barrier); summary(lm2) # slightly different values for the (intercept) and the constant variable
 anova(lm2, lm1)
