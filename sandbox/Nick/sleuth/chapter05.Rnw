@@ -188,6 +188,7 @@ There were a total of \Sexpr{nrow(mice)} female mice. These mice were randomly a
 <<>>=
 bwplot(LIFETIME ~ DIET, data=mice) # Display 5.1
 @
+
 <<fig.height=8, fig.width=8>>=
 densityplot(~ LIFETIME, groups=DIET, auto.key=TRUE, data=mice)
 @
@@ -215,23 +216,30 @@ The reference group is \emph{lopro}, followed by \emph{N/N85, N/R40, N/R50, NP, 
 Next we used contrasts for the results on page 121, Display 5.7, and part {\bf(a)} on page 115:
 <<a>>=
 library(gmodels)
+# N/N85 vs N/R50
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, -1, 0, 1, 0, 0), conf.int=0.95)
 @
+
 The results for {\bf(b)} on page 115-116:
 <<b>>=
 # N/R50 vs R/R50 (b)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 0, -1, 0, 1), conf.int=0.95)
 @
+
 The results for {\bf(c)} on page 116:
 <<c>>=
 # N/R40 vs N/R50 (c)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 1, -1, 0, 0), conf.int=0.95)
+# N/N85 vs N/R40
+fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, -1, 1, 0, 0, 0), conf.int=0.95)
 @
+
 The results for {\bf(d)} on page 116:
 <<d>>=
 # N/R50 vs N/R50 lopro (d)
 fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(-1, 0, 0, 1, 0, 0), conf.int=0.95)
 @
+
 The results for {\bf(e)} on page 116:
 <<e>>=
 # N/N85 vs NP (e)
@@ -243,6 +251,7 @@ between the grand mean and the group means.
 <<>>=
 model.tables(aov(lm(LIFETIME ~ DIET, data=mice)))
 @
+
 Another way of calculating the above results is done with the following code:
 <<>>=
 mean(LIFETIME ~ DIET, data=mice)-mean(~ LIFETIME, data=mice)
@@ -265,8 +274,8 @@ root mean squared error.
 
 \subsection{Residual analysis and diagnostics}
 
-The residuals vs. fitted graph doesn't demonstrate dramatic lack of fit (though some of the 
-mice had very small residuals).
+The residuals versus fitted graph does not demonstrate dramatic lack of fit (though some of the 
+mice had very small residuals).  The following figure is akin to Display 5.14 (page 132).
 <<fig.height=8, fig.width=8>>=
 aov1 = aov(lm(LIFETIME ~ DIET, data=mice))
 plot(aov1, which=1) 
@@ -300,7 +309,7 @@ favstats(PERCENT ~ JUDGE, data=spock)
 There were a total of \Sexpr{nrow(spock)} venires. They compared Spock's judge with \Sexpr{length(unique(subset(spock, JUDGE!="SPOCK'S")[, "JUDGE"]))} other judges.  The precent of women within each venire was recorded as shown in Display 5.4 (page 117 of the \emph{Sleuth}).
 
 <<>>=
-bwplot(PERCENT ~ JUDGE, data=spock) # Display 5.5
+bwplot(PERCENT ~ JUDGE, data=spock) # Display 5.5 (page 118)
 @
 <<fig.height=8, fig.width=8>>=
 densityplot(~ PERCENT, groups=JUDGE, auto.key=TRUE, data=spock)
@@ -308,9 +317,9 @@ densityplot(~ PERCENT, groups=JUDGE, auto.key=TRUE, data=spock)
 
 \subsection{One-way ANOVA}
 
-First we fit the one way analysis of variance (ANOVA) model, with all of the groups. These results are summarized on page 118.
+First we fit the one way analysis of variance (ANOVA) model, with all of the groups. These results are summarized on page 118 and shown in Display 5.10 (page 127).
 <<>>=
-aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1  # Display 5.10
+aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1 
 @
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
@@ -322,37 +331,36 @@ summary(lm(PERCENT ~ JUDGE, data=spock))
 model.tables(aov(lm(PERCENT ~ JUDGE, data=spock)))
 @
 
-Then we can fit the one way analysis of variance F-test of whether the mean percentage is the same for judges A-F (p. 118).
+Then we can fit the one way analysis of variance $F$-test of whether the mean percentage is the same for judges A-F (page 118).
 
 <<>>=
-with(subset(spock, JUDGE!="SPOCK'S"), anova(lm(PERCENT~JUDGE)))
+with(subset(spock, JUDGE!="SPOCK'S"), anova(lm(PERCENT ~ JUDGE)))
 @
 
 \subsection{Additional analyses}
 
 Now we will demonstrate how to fit the reduced model comparing Spock's judge to a combination of the
-other judge. First we create a 2 level version of the grouping variable.
+other judges. First we create a 2 level version of the grouping variable.
 
 <<>>=
 spock$TWOJUDGE = as.character(spock$JUDGE)
-spock$TWOJUDGE[spock$JUDGE != "SPOCK'S"] = "NOTSPOCK"
+spock$TWOJUDGE[spock$JUDGE!="SPOCK'S"] = "NOTSPOCK"
 tally(TWOJUDGE ~ JUDGE, format="count", data=spock)
 
 @
-Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (p.130).  Below are the calculations for the results found on page 128. 
+Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (page 130).  Below are the calculations for the results found on page 128. 
 
 <<>>=
-df1 = aov1["Residuals", "Df"]; df1 # Within
-# XX I'd suggest calling this numdf1 for numerator degrees of freedom
+numdf1 = aov1["Residuals", "Df"]; numdf1 # Within
 ss1 = aov1["Residuals", "Sum Sq"]; ss1 # Within
 aov2 = anova(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)); aov2
 df2 = aov2["Residuals", "Df"]; df2 # Spock and others 
 ss2 = aov2["Residuals", "Sum Sq"]; ss2 # Spock and others 
-Fstat = ((ss2 - ss1)/(df2 - df1)) / (ss1 / df1); Fstat 
-1 - pf(Fstat, length(levels(spock$JUDGE))-2, df1)
+Fstat = ((ss2 - ss1)/(df2 - numdf1)) / (ss1 / numdf1); Fstat 
+1-pf(Fstat, length(levels(spock$JUDGE))-2, numdf1)
 @
 
-We can also compare the two models using ANOVA (Display 5.12, p. 130).
+We can also compare the two models using ANOVA (Display 5.12, page 130).
 <<>>=
 anova(lm(PERCENT ~ as.factor(JUDGE), data=spock), lm(PERCENT ~ as.factor(TWOJUDGE), data=spock))
 @
@@ -360,10 +368,10 @@ anova(lm(PERCENT ~ as.factor(JUDGE), data=spock), lm(PERCENT ~ as.factor(TWOJUDG
 There are some other ways to compare whether the other judges differ from Dr. Spock's judge in their female composition using contrasts. 
 
 <<>>=
-# test all of the other judges vs. Spock's judge using a contrast p. 118
+# test all of the other judges vs. Spock's judge using a contrast page 118
 fit.contrast(lm(PERCENT ~ JUDGE, data=spock), "JUDGE", c(1, 1, 1, 1, 1, 1, -6), conf.int=0.95)
 
-# calculate the 95% confidence interval for Dr. Spock's jury female composition p. 118
+# calculate the 95% confidence interval for Dr. Spock's jury female composition page 118
 estimable(lm(PERCENT ~ JUDGE, data=spock), c(1,0,0,0,0,0,1), conf.int=0.95)
 @
 
@@ -372,7 +380,7 @@ estimable(lm(PERCENT ~ JUDGE, data=spock), c(1,0,0,0,0,0,1), conf.int=0.95)
 For the results of the Kruskal-Wallis test on page 136 we can use the following code:
 
 <<>>=
-kruskal.test(PERCENT~JUDGE, data=spock)
+kruskal.test(PERCENT ~ JUDGE, data=spock)
 @
 
 
