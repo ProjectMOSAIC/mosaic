@@ -16,11 +16,24 @@
 #'
 symbolicInt<- function(form, ...){
   dots = list(...)
+  #First check if it's a polynomial.  If it is, simplify it.
+  params <- setdiff(all.vars(form), all.vars(rhs(form)))
+  if(length(params)==0)
+    params <- ""
+  res <- try(.polyExp(lhs(form), all.vars(rhs(form)), params), silent=TRUE)
+  if(!inherits(res, "try-error")){
+    form <- .makePoly(form, res)
+  }
   antiDeriv <- symbolicAntiD(form, ...)
+
+  #determine which letter the constant will be
   intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
-  newform = paste
+
+  #add the constant into the expression
   antiDeriv[[2]] <- parse(text = paste(deparse(lhs(antiDeriv), width.cutoff=500), "+", intc, sep=""))[[1]]
-  intfun = eval(parse(text=paste("do.call(makeFun, list(antiDeriv,",intc, "=0))", sep=""))[[1]])
+  
+  #make the integral formula into a function
+  intfun = eval(parse(text=paste("do.call(makeFun, list(antiDeriv, ..., ",intc, "=0))", sep=""))[[1]])
   return(intfun)
 }
 
@@ -318,14 +331,17 @@ intMath <- function(form, ...){
   params <- all.vars(num)
   if(length(params) == 0)
     params <- ""
-  numco <- .poly.exp(num, .x., params)
+  numco <- .polyExp(num, .x., params)
   
   if(numco$pow != 0) stop("Not valid trig sub")
   
   if(den[[1]] == 'sqrt'){
-    browser()
     #Could be arcsin or arccos
-    denco <- .poly.exp(den[[2]], .x., params)
+    params <- setdiff(all.vars(den), .x.)
+    if(length(params)==0)
+      params <-""
+    
+    denco <- .polyExp(den[[2]], .x., params)
     if(denco$pow != 2) stop("Not valid trig sub")
     
     a <- denco$coeffs[[1]]
@@ -336,41 +352,130 @@ intMath <- function(form, ...){
       #arcsec?
       
     }
-    #complete the square to go from form 1/sqrt(ax^2+bx+c) to 1/sqrt(a(x-h)^2+k)
+    #complete the square to go from form 1/ax^2+bx+c to 1/a(x-h)^2+k
+    if(b==0){
+      h <- 0
+      k <- c
+    }
+    else{
+      h <- parse(text = paste("-(", deparse(b), ")/(2*(", deparse(a), "))", sep=""))[[1]]
+      k <- parse(text = paste(deparse(c), "-((", deparse(b), ")^2/(4*(", deparse(a), ")))", sep=""))[[1]]
+    }
+    if(is.numeric(c(a,b,c))){
+      h <- eval(h)
+      k <- eval(k)
+    }
     
-    h <- parse(text = paste("-(", deparse(b), ")/(2*(", deparse(a), "))", sep=""))[[1]]
-    k <- parse(text = paste(deparse(c), "-((", deparse(b), ")^2/(4*(", deparse(a), ")))", sep=""))[[1]]
+    #Check what the sign on a and k are.
+    if(!is.numeric(a))
+      asign=1
+    else
+      asign=sign(a)
+    if(!is.numeric(k))
+      ksign=1
+    else
+      ksign=sign(k)
     
-    #Will be able to simplify special cases later :)
-    h <- tryCatch(eval(h), error=function(e){return(h)})
-    k <- tryCatch(eval(k), error=function(e){return(k)})
-    
-    
-    if(sign(a)==-1&&sign(k)==1){
+    if(asign==-1&&ksign==1){
       #Arcsin
       if(a!=-1){
-        k <- parse(text = paste("(", deparse(k), ")/(-1*(", deparse(a), "))", sep=""))[[1]]
+        #k <- parse(text = paste("(", deparse(k), ")/(-1*(", deparse(a), "))", sep=""))[[1]]
         num <- parse(text = paste("(", deparse(num), ")/sqrt(-1*(", deparse(a), "))", sep=""))[[1]]
       }
       k <- parse(text = paste("sqrt(", deparse(k), ")", sep=""))[[1]]
       #Now need to integrate it
-      browser()
       
       if(a==-1)
         expr <- parse(text = paste(deparse(num), "*asin((", .x., "-", deparse(h), ")/", deparse(k), ")", sep=""))[[1]]
       else
-        expr <- parse(text = paste(deparse(num), "*asin((sqrt(-1*(", deparse(a), "))*", .x., "-", deparse(h), ")/",
+        expr <- parse(text = paste(deparse(num), "*asin((sqrt(-1*(", deparse(a), "))*(", .x., "-", deparse(h), "))/",
                                    deparse(k), ")", sep=""))[[1]]
       form[[2]] <- expr
       return(form)
       
     }
+    
+    if(asign==1&&ksign==1){
+      #Arcsinh
+      if(a!=1){
+        #k <- parse(text = paste("(", deparse(k), ")/(-1*(", deparse(a), "))", sep=""))[[1]]
+        num <- parse(text = paste("(", deparse(num), ")/sqrt(", deparse(a), ")", sep=""))[[1]]
+      }
+      k <- parse(text = paste("sqrt(", deparse(k), ")", sep=""))[[1]]
+      #Now need to integrate it
+      
+      if(a==1)
+        expr <- parse(text = paste(deparse(num), "*asinh((", .x., "-", deparse(h), ")/", deparse(k), ")", sep=""))[[1]]
+      else
+        expr <- parse(text = paste(deparse(num), "*asinh((sqrt(", deparse(a), ")*(", .x., "-", deparse(h), "))/",
+                                   deparse(k), ")", sep=""))[[1]]
+      form[[2]] <- expr
+      return(form)
+    }
 
   }
-  
-  
-  if(denco$pow != 2) stop("Not valid trig sub")
-  
+  else{
+    params <- setdiff(all.vars(den), .x.)
+    if(length(params)==0){
+      params <- ""
+    }
+    denco <- .polyExp(den[[2]], .x., params)
+    if(denco$pow != 2) stop("Not valid trig sub")
+    
+    a <- denco$coeffs[[1]]
+    b <- denco$coeffs[[2]]
+    c <- denco$coeffs[[3]]
+    
+    #complete the square to go from form 1/ax^2+bx+c to 1/a(x-h)^2+k
+    if(b==0){
+      h <- 0
+      k <- c
+    }
+    else{
+      h <- parse(text = paste("-(", deparse(b), ")/(2*(", deparse(a), "))", sep=""))[[1]]
+      k <- parse(text = paste(deparse(c), "-((", deparse(b), ")^2/(4*(", deparse(a), ")))", sep=""))[[1]]
+    }
+    if(is.numeric(c(a,b,c))){
+      h <- eval(h)
+      k <- eval(k)
+    }
+    
+    if(!is.numeric(a))
+      asign=1
+    else
+      asign=sign(a)
+    if(!is.numeric(k))
+      ksign=1
+    else
+      ksign=sign(k)
+    
+    if(asign==ksign){
+      #arctan
+      if(a!=1){
+        num <- parse(text = paste("(", deparse(num), ")/(", deparse(a), ")", sep=""))[[1]]
+      }
+      
+      if(sign(a)==-1){
+        num <- parse(text=paste("-1*(", deparse(num), ")", sep=""))[[1]]
+        a <- parse(text = paste("-(", deparse(a), ")", sep=""))[[1]]
+        k <- parse(text = paste("-(", deparse(k), ")", sep=""))[[1]]
+        
+      }
+      
+      if(a==1){
+        expr <- parse(text = paste(deparse(num), "*sqrt(1/(", deparse(k), "))*atan((", .x., "-", deparse(h),
+                                   ")/sqrt(", deparse(k), "))" , sep=""))[[1]]
+      }
+      else{
+        expr <- parse(text = paste(deparse(num), "*sqrt((", deparse(a), ")/(", deparse(k), "))*atan(sqrt(", deparse(a),
+                                   ")*(", .x., "-", deparse(h), ")/sqrt(", deparse(k), "))" , sep=""))[[1]]
+      }
+      
+      form[[2]] <- expr
+      return(form)
+    }
+    
+  }  
   
   stop("Not valid trig sub")
   

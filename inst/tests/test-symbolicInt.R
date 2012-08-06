@@ -42,7 +42,6 @@ test_that('Things break correctly', {
   expect_error(symbolicInt(sin(cos(x))~x))
   expect_error(symbolicInt(sin(x^3)~x))
   expect_error(symbolicInt(log(x+x)~x))
-  expect_error(symbolicInt((x+x^2)^2~x))
   expect_error(symbolicInt(x^(x)~x))
   expect_error(symbolicInt(1/x^2+1/x^3~x))
 })
@@ -81,3 +80,18 @@ test_that('Everything works',{
   checkFun(2*z+2*z+2*z+2*z+2*z+2*z+2*z+2*z+2*z+2*z+2*z+2*z~z,
            z^2+z^2+z^2+z^2+z^2+z^2+z^2+z^2+z^2+z^2+z^2+z^2~z)
   })
+
+
+test_that('trig subs work', {
+  eq <- symbolicInt(1/sqrt(-2*x^2+4*x+3)~x)
+  eq2 <- antiD(1/sqrt(-2*x^2+4*x+3)~x)
+  
+  expect_that(eq(seq(-.5,1,len=10), C=-eq(0)), equals(eq2(seq(-.5,1,len=10)), tol=0.00001))
+  #standard dev. really small
+  
+  eq <- symbolicInt(1/(3*x^2+x+9)~x)
+  eq2 <- antiD(1/(3*x^2+x+9)~x)
+  
+  expect_that(eq(seq(-.5,1,len=10), C=-eq(0)), equals(eq2(seq(-.5,1,len=10)), tol=0.00001))
+  
+})

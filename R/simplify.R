@@ -1,15 +1,18 @@
 #'Takes a call and returns its polynomial coefficients
 #'
-#'@param tree A call that will be parse
+#'@param tree A call that will be parsed and simplified recursively
 #'@param .x. the variable name
 #'@param params All names of free variables.  If there are no free variables, the value should be "".
-#'@param iterate How many times the call is nested
+#'@param iterate The number of times the call is nested
 #'
 #'@return A list with values of a, b, c, ... satisfying a*.x.^2+b*.x.+c  = tree. The last value in the list, pow, indicates the highest power
 #'of the expression.
 #'If the expression is not a polynomial, returns an empty list or an error.
 #'
-.poly.exp <- function(tree, .x., params, iterate=1){
+.polyExp <- function(tree, .x., params, iterate=1){
+  
+  #A function the calls .polyExp() on each of the resultant coefficients in turn to further simplify them with
+  #respect to the additional parameters.
   .reduce_coeffs <- function(coeffs, params){
     for(i in 1:length(coeffs)){
       new.x. <- params[1]
@@ -17,7 +20,7 @@
         newparams <- ""
       else
         newparams <- params[-1]
-      newco <- .poly.exp(coeffs[[i]], new.x., newparams)
+      newco <- .polyExp(coeffs[[i]], new.x., newparams)
       if(newco$pow>=2){
         expvec <- c(rep("^", newco$pow-1), "", "")
         powvec <- c((newco$pow):2, "", "")
@@ -65,8 +68,10 @@
     return(coeffs)
   }
   
+  #If there are no additional parameters, we can assume the coefficients will be numeric and call a faster,
+  #more simplified version
   if(params =="")
-    return(.poly.exp.num(tree, .x.))
+    return(.polyExp.num(tree, .x.))
   
   #if it is a simple expression
   if(tree==.x.){
@@ -318,8 +323,9 @@
 
 
 #------------------------------------------------------------
-#Numerical evaluation only
-.poly.exp.num <- function(tree, .x.){
+#Numerical evaluation only 
+#To fully simplify expression.
+.polyExp.num <- function(tree, .x.){
   
   
   #if it is a simple expression
@@ -454,4 +460,56 @@
   }
   stop("Is not a polynomial")
   return(list())
+}
+
+#' Method for putting a polynomial together given the coefficients and power from .polyExp()
+#' 
+#' @params poly output of .polyExp()
+#' @params form original formula
+#' 
+#' @return A formula whose left hand side is a polynomial that fits the description given with the input poly.
+.makePoly <- function(form, poly){
+  
+  if(poly$pow>=2){
+    expvec <- c(rep("^", poly$pow-1), "", "")
+    powvec <- c((poly$pow):2, "", "")
+  }
+  else{
+    expvec <- rep("", poly$pow+1)
+    powvec <- rep("", poly$pow+1)
+  }
+  multvec <- c(rep("*", poly$pow), "")
+  varvec <-  c(rep(all.vars(rhs(form)), poly$pow), "")
+  #simplify exppolysion
+  index <- 1
+  for(j in 1:length(poly$coeffs)){
+    if(index>length(poly$coeffs)) break
+    if(poly$coeffs[[index]]==0){
+      poly$coeffs <- poly$coeffs[-index]
+      multvec <- multvec[-index]
+      varvec <- varvec[-index]
+      expvec <- expvec[-index]
+      powvec <- powvec[-index]
+    }
+    else{
+      if(poly$coeffs[[index]]==1 && index!= length(poly$coeffs)){
+        
+        poly$coeffs[index] <- ""
+        multvec[index] <- ""
+      }
+      else{
+        if(!(class(poly$coeffs[[index]])=='name')&&!(class(poly$coeffs[[index]])=='numeric')){
+          if(poly$coeffs[[index]][[1]]=='+'||poly$coeffs[[index]][[1]]=='-')
+            poly$coeffs[[index]] <- paste("(", deparse(poly$coeffs[[index]]), ")", sep="")
+        }
+      }
+      index <- index + 1
+    }
+  }
+  if(length(poly$coeffs)==0)
+    lhs(form) <- 0
+  else
+    form[[2]] <- parse(text = paste(poly$coeffs, multvec , varvec,
+                                    expvec, powvec, collapse="+", sep=""))[[1]]
+  return(form)
 }
