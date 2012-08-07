@@ -1,8 +1,8 @@
-context('Testing simplification and use in calculus.R such as .poly.exp()')
+context('Testing simplification and use in calculus.R such as .polyExp()')
 
 
 test_that('polynomial simplifier works', {
-  coeffs <- .poly.exp(lhs(3*(x+1)^6+x^6-x^2+3*8~x), "x", "")
+  coeffs <- .polyExp(lhs(3*(x+1)^6+x^6-x^2+3*8~x), "x", "")
   
   expect_that(coeffs$pow, equals(6))
   
@@ -16,7 +16,7 @@ test_that('polynomial simplifier works', {
     if(length(params)==0)
       params=""
 
-    p <- suppressWarnings(.poly.exp(lhs(formula), .x., params))
+    p <- suppressWarnings(.polyExp(lhs(formula), .x., params))
     co <- p$coeffs
     po <- p$pow
 

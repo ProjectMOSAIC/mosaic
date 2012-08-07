@@ -86,12 +86,16 @@ test_that('trig subs work', {
   eq <- symbolicInt(1/sqrt(-2*x^2+4*x+3)~x)
   eq2 <- antiD(1/sqrt(-2*x^2+4*x+3)~x)
   
-  expect_that(eq(seq(-.5,1,len=10), C=-eq(0)), equals(eq2(seq(-.5,1,len=10)), tol=0.00001))
-  #standard dev. really small
+  #standard dev. really small, indicates that the difference between the numerical integration and 
+  #the symbolic one is a constant.
+  vals1 <- eq(seq(-.5,1,len=10), C=-eq(0))
+  vals2 <- eq2(seq(-.5,1,len=10))
+  expect_that(sd(vals2-vals1), equals(0, tol=0.00001))
   
   eq <- symbolicInt(1/(3*x^2+x+9)~x)
   eq2 <- antiD(1/(3*x^2+x+9)~x)
   
-  expect_that(eq(seq(-.5,1,len=10), C=-eq(0)), equals(eq2(seq(-.5,1,len=10)), tol=0.00001))
-  
+  vals1 <- eq(seq(-.5,1,len=10), C=-eq(0))
+  vals2 <- eq2(seq(-.5,1,len=10))
+  expect_that(sd(vals2-vals1), equals(0, tol=0.00001))
 })

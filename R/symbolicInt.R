@@ -142,7 +142,7 @@ intArith <- function(form, ...){
     den = lhs(form)[[3]]
     
     #first see if it is a trigonometric substitution problem
-    check <- try(.TrigSub(form, num, den, rhsVar), silent=TRUE)
+    check <- try(intTrig(form, num, den, rhsVar), silent=TRUE)
     if(!inherits(check, "try-error"))
       return(check)
     
@@ -327,7 +327,7 @@ intMath <- function(form, ...){
 }
 
 #-------------------------
-.TrigSub <- function(form, num, den, .x.){
+intTrig <- function(form, num, den, .x.){
   params <- all.vars(num)
   if(length(params) == 0)
     params <- ""
