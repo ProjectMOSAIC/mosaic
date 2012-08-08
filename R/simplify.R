@@ -334,8 +334,6 @@
 #'
 #'@param tree A call that will be parsed and simplified recursively
 #'@param .x. the variable name with respect to which the polynomial should be most simplified
-#'@param params All names of free variables.  If there are no free variables, the value should be ""
-#'@param iterate The number of times the call is nested.  Default and proper value when called from the outside is 1
 #'
 #'@details works with the same structure as .polyExp() but will return only if all coefficients reduce to numeric values.
 #'
