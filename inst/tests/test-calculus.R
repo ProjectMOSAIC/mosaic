@@ -78,12 +78,12 @@ test_that("basic integration works", {
 })
 
 test_that("Default limits in integrals work",{
-  f <- antiD( 1 ~ x, x.from=-5)
-  expect_that( f(x=3), equals(8,tol=0.001))
-  f <- antiD( 1 ~ x, x.from=-3)
-  expect_that( f(x=3), equals(6, tol=0.001))
-  f <- antiD( 1 ~ x, x.from=3)
-  expect_that( f(x=-3), equals(-6, tol=0.001))
+  f <- antiD( dnorm(x) ~ x, lower.bound=-5)
+  expect_that( f(x=3), equals(pnorm(3)-pnorm(-5), tol=0.001))
+  f <- antiD( dnorm(x) ~ x, lower.bound=-3)
+  expect_that( f(x=3), equals(pnorm(3)-pnorm(-3), tol=0.001))
+  f <- antiD( dnorm(x) ~ x, lower.bound=3)
+  expect_that( f(x=-3), equals(pnorm(-3)-pnorm(3), tol=0.001))
 })
 
 test_that("Integrals work with Inf args",{
