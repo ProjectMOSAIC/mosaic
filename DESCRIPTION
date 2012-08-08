@@ -91,6 +91,12 @@ Collate:
     'project.R'
     'fitModel.R'
     'fitSpline.R'
+<<<<<<< HEAD
     'plotPoints.R'
     'datasetsOLI.R'
     'solve.R'
+=======
+    'simplify.R'
+    'symbolicInt.R'
+    'vectorField.R'
+>>>>>>> issue113
