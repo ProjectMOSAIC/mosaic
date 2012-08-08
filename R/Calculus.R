@@ -112,48 +112,9 @@ antiD <- function(formula, ..., Const=0){
   
   res = try(symbolicInt(formula, ...), silent=TRUE)
   symbolicSucceeds <-  !inherits(res, "try-error")  #Note the negation !
-  if (symbolicSucceeds) { # It was a successful symbolic integration 
-    # set the default values of the arguments if they are given as inputs
-    # This should have been done in symbolicInt
-    herelist <- list(...)
-    # kill off any "x.from" form
-    for (suf in from.suffixes) {
-      herelist[[paste(wrt,suf,sep="")]] <- NULL
-    }
-    arglist <- formals(res)
-    for (k in names(herelist)) {
-      arglist[[k]] <- herelist[[k]]
-    }
-    formals(res) <- arglist
-    # If no attempt made to set lower bound, just return the symbolic anti-derivative
-    if (is.null(vi.from)) return(res) #DONE
-    # Try to compute the value of the constant from the lower bound
-    arglist <- list(...)
-    # kill off the "x.from" form
-    for (suf in from.suffixes) {
-      arglist[[paste(wrt,suf,sep="")]] <- NULL
-    }
-    arglist[wrt] <- vi.from  #set value of variable of integration
-    constIntegration <- try(do.call(res, arglist), silent=TRUE)
-    # See if there is enough information to evaluate the constant of integration
-    # For example, if all constants are defined.
-    # If not, we'll have to drop down to a numerical integration
-    if (!inherits(constIntegration,"try-error")) {
-      if (is.finite(constIntegration)) { 
-        #reset the default value of the integration constant
-        args <- formals(res)
-        constName <- get("..NameOfSymbolicConstant",envir=environment(res))
-        args[constName] <- -constIntegration
-        formals(res) <- args
-      }
-      else { #Leave const at zero
-        warning("Singularity at lower bound of interval of integration.")  
-      }
-    }
-    else {
+  if (!symbolicSucceeds) { 
       warning("Producing numerical anti-derivative since parameters could not be evaluated.")
       symbolicSucceeds <- FALSE 
-    }
   }
   if( is.null(vi.from)) vi.from <- 0 #reset to correct numerical default
   if( !symbolicSucceeds ){ # symbolic attempt unsuccessful
