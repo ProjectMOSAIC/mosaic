@@ -45,7 +45,10 @@ test_that("derivs with respect to irrelevant variables are zero",{
 })
 
 test_that("default values of parameters retained in the anti-derivative",{
-  g <- antiD(A*x^2 + b~x, A=10, b=15)
+  g <- antiD(A*exp(x^2) + b~x, A=10, b=15) #numerical
+  expect_that( formals(g)[["b"]], equals(15))
+  expect_that( formals(g)[["A"]], equals(10))
+  g <- antiD(A*x^2 + b~x, A=10, b=15) #symbolic
   expect_that( formals(g)[["b"]], equals(15))
   expect_that( formals(g)[["A"]], equals(10))
 })
@@ -94,7 +97,7 @@ test_that("Integrals work with Inf args",{
 })
 
 test_that("Initial condition (constant of integration) works", {
-  f <- antiD( 1~t)
+  f <- antiD( 1+ 0*exp(t^2)~t) #numerical
   expect_that( f(t=0), equals(0, tol=0.00001))
   expect_that( f(t=5), equals(5, tol=0.00001))
   expect_that( f(t=0, initVal=2), equals(2, tol=0.00001))
@@ -102,7 +105,7 @@ test_that("Initial condition (constant of integration) works", {
 })
 
 test_that("Symbols for constant of integration work", {
-  vel <- antiD( -9.8 ~ t  )
+  vel <- antiD( -9.8 + 0*exp(t^2) ~ t  ) # numerical
   pos <- antiD( vel( t=t, initVal=v0)~t, Const=50)
   expect_that(pos(5, v0=10, initVal=100), equals(27.5,tol=0.00001) )
 })
@@ -118,7 +121,7 @@ test_that("derivatives work in derivatives",{
 
 
 test_that("integrals work in other functions", {
-  f <- antiD( a~x, a=10 )
+  f <- antiD( a + 0*exp(x^2)~x, a=10 ) # numerical
   h <- makeFun(f(x)~x)
   expect_that( h(4), equals(f(4)))
   h <- makeFun(f(x=x,a=100)~x)
@@ -189,7 +192,7 @@ test_that("add.h.control works",{
   equals(f(3, .hstep=1), equals(-.83305,tol=0.0001)) 
 })
 
-test_that("symbolic derivative on function works",{
+test_that("symbolic derivative on simple function works",{
   f = makeFun(x^2~x)
   g = makeFun(sin(x)+x~x)
   df = D(f(z)~z)
