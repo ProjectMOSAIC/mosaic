@@ -11,10 +11,11 @@
 \date{July 3, 2012}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \maketitle
 
 \SweaveOpts{
-	fig.path="figures/fig-",
+  fig.path="figures/fig-",
 	fig.align="center",
 	fig.height=3, 
 	fig.width=5,
@@ -365,7 +366,7 @@ The differential equation solver provides another way to approach this problem.
 
 \section{Solving}
 
-The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A fromula is used to describe the function and it independent variable.
+The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A formula is used to describe the function and it independent variable.
 The search for zeros is conducted over a range that can be specified in a number of ways.  To illustrate:
 \begin{itemize}
 \item Find the zeros within a specified range:
@@ -714,5 +715,4 @@ The \pkg{mosaic} package is one of the initiatives of Project MOSAIC, an NSF-spo
 
 
 \end{document}
-
 
