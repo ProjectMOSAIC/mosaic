@@ -412,6 +412,35 @@ intTrig <- function(form, num, den, .x.){
       form[[2]] <- expr
       return(form)
     }
+    
+    if(asign==1&&ksign==-1){
+      #natural log problem
+#        if(a!=1){
+#          num <- parse(text = paste("(", deparse(num), ")/sqrt(", deparse(a), ")", sep=""))[[1]]
+#        }
+#       if(is.numeric(k))
+#         k <- k*-1
+#       else{
+#         if(is.call(k)&&k[[1]]=='-')
+#          k <- k[[2]]
+#         else
+#           k <- parse(text=paste("-1*(", deparse(k), ")", sep=""))[[1]]
+#       }
+#         
+#        k <- parse(text = paste("(", deparse(k), ")", sep=""))[[1]]
+# #       #Now need to integrate it
+# #       
+#        if(a==1){
+#          expr <- parse(text = paste(deparse(num), "*log(", .x., "-", deparse(h), "+
+#                sqrt((", .x., "-", deparse(h), ")^2-", deparse(k), "))", sep=""))[[1]]
+#         }
+#        else{
+#          expr <- parse(text = paste(deparse(num), "*log(", .x., "-", deparse(h), "+
+#                sqrt((", .x., "-", deparse(h), ")^2-", deparse(k), "/(", deparse(a), ")))", sep=""))[[1]]
+#          }
+#        form[[2]] <- expr
+#        return(form)
+    }
 
   }
   else{
@@ -513,6 +542,9 @@ intTrig <- function(form, num, den, .x.){
     lexp=Recall(tree[[2]], .x.)
     rexp=Recall(tree[[3]], .x.)
     
+    if(length(lexp)==0||length(rexp)==0)
+      return(list())
+    
     if(lexp$a==0 && length(rexp)!=0){
       a = rexp$a
       b = parse(text=paste(deparse(lexp$b), "+", deparse(rexp$b),sep=""))[[1]]
@@ -530,6 +562,9 @@ intTrig <- function(form, num, den, .x.){
     lexp=Recall(tree[[2]], .x.)
     rexp=Recall(tree[[3]], .x.)
     
+    if(length(lexp)==0||length(rexp)==0)
+      return(list())
+    
     if(lexp$a==0 && length(rexp)!=0){
       a = parse(text=paste("-1*(",deparse(lexp$a), ")",sep=""))[[1]]
       b = parse(text=paste(deparse(lexp$b), "-(", deparse(rexp$b),")",sep=""))[[1]]
@@ -546,6 +581,9 @@ intTrig <- function(form, num, den, .x.){
   if(tree[[1]]=='*'){
     lexp=Recall(tree[[2]], .x.)
     rexp=Recall(tree[[3]], .x.)
+    
+    if(length(lexp)==0||length(rexp)==0)
+      return(list())
     
     if(lexp$a==0 && length(rexp)!=0){
       a = parse(text=paste("(",deparse(lexp$b), ")*(", deparse(rexp$a),")",sep=""))[[1]]
@@ -604,6 +642,9 @@ intTrig <- function(form, num, den, .x.){
   if(tree[[1]]=='/'){
     lexp=Recall(tree[[2]], .x.)
     rexp=Recall(tree[[3]], .x.)
+    
+    if(length(lexp)==0||length(rexp)==0)
+      return(list())
     
     if(rexp$a==0 && length(lexp)!=0){
       a = parse(text=paste(deparse(lexp$a), "/(", deparse(rexp$b),")",sep=""))[[1]]
