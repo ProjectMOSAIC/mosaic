@@ -1,0 +1,350 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 6}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+	   \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 6}
+
+\author{
+Ruobing Zhang \and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
+
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the mosaic package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session.
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=3)
+@
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 6: Linear Combinations and Multiple Comparisons of Means using R.
+
+\section{Discrimination Against the Handicapped}
+
+Do equivalent candidates with the same qualifications but different disabilities get treated differentially?  This is the question addressed in case study 6.1 in the \emph{Sleuth}.  
+
+\subsection{Summary statistics and graphical display}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+disability = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0601.csv")
+summary(disability)
+favstats(SCORE ~ HANDICAP, data=disability)
+@
+
+A total of \Sexpr{nrow(disability)} undergraduate students from a U.S. university were randomly assigned to view the tapes, \Sexpr{nrow(subset(disability, HANDICAP=="NONE"))} to each tape. The five kinds of tapes are: \emph{none}, \emph{amputee}, \emph{crutches}, \emph{hearing} and \emph{wheelchair}. After reviewing the tape, each subject rated the qualifications of the application on 0-10 scale. Among the five handicap conditions, the \emph{crutches} group gave the highest mean score, while the \emph{hearing} group gave the lowest mean score. This is summarized on page 150 and in Display 6.1 of the \emph{Sleuth}. 
+
+<<>>=
+with(subset(disability, HANDICAP=="NONE"), stem(SCORE, scale=2))
+with(subset(disability, HANDICAP=="AMPUTEE"), stem(SCORE, scale=2))
+with(subset(disability, HANDICAP=="CRUTCHES"), stem(SCORE, scale=1))
+with(subset(disability, HANDICAP=="HEARING"), stem(SCORE, scale=2))
+with(subset(disability, HANDICAP=="WHEELCHAIR"), stem(SCORE, scale=2))
+
+<<fig.height=8, fig.width=8>>=
+bwplot(HANDICAP ~ SCORE, data=disability)
+@
+
+<<fig.height=8, fig.width=8>>=
+densityplot(~SCORE, groups=HANDICAP, auto.key=TRUE, data=disability)
+@
+
+The stem plots show the applicant qualification scores given by objectives. The boxplots and the density plots show that all the distributions are approximately normally distributed.
+
+\subsection{One-way ANOVA}
+
+First we fit the one way analysis of variance (ANOVA) model, using all of the groups.
+This corresponds to the interpretations on page 151.
+<<>>=
+anova(lm(SCORE ~ HANDICAP, data=disability))
+@
+
+The p-value of
+$\Sexpr{print.pval(anova(lm(SCORE ~ HANDICAP, data=disability))["HANDICAP","Pr(>F)"])}$,
+provides some evidence that subjects rate qualifications differently according to handicap status.
+
+By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
+
+<<>>=
+summary(lm(SCORE ~ HANDICAP, data=disability))
+@
+
+The reference group here is \emph{amputee}, followed by \emph{crutches}, \emph{hearing}, \emph{none} and \emph{wheelchair}.
+
+Another way of viewing these results is through a model table, which displays the differences between the grand mean and the group means.
+
+<<>>=
+model.tables(aov(SCORE ~ HANDICAP, data=disability))
+@
+
+Or by:
+
+<<>>=
+mean(SCORE ~ HANDICAP, data=disability)-mean(~ SCORE, data=disability)
+@
+
+\subsection{Contrasts and linear combination}
+
+The Tukey-Kramer test is a reasonable method for these data.  We can
+use this to verify the
+calculation on page 151.
+<<>>=
+TukeyHSD(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP", ordered=TRUE, c(0,1,-1,0,0), conf.level=0.95)
+@
+
+<<echo=FALSE>>=
+tuk = TukeyHSD(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP", ordered=TRUE, c(0,1,-1,0,0), conf.level=0.95)
+@
+
+Based on the Tukey-Kramer procedure, the difference is estimated to be \Sexpr{round(tuk$HANDICAP["CRUTCHES-HEARING", "diff"], 2)} points higher for the \emph{crutches} tapes, with a 95\% confidence from \Sexpr{round(tuk$HANDICAP["CRUTCHES-HEARING", "lwr"], 2)} to \Sexpr{round(tuk$HANDICAP["CRUTCHES-HEARING", "upr"], 2)}.
+
+Next, we calculate the comparison of \emph{amputee/hearing} to \emph{crutches/wheelchair}.
+
+<<>>=
+library(gmodels)
+fit.contrast(lm(SCORE ~ HANDICAP, data=disability), "HANDICAP", c(-1, 1, -1, 0, 1), conf.int=0.95)
+@
+
+The $t$-value=\Sexpr{round(fit.contrast(lm(SCORE ~ HANDICAP, data=disability), "HANDICAP", c(-1, 1, -1, 0, 1), conf.int=0.95)[, "t value"], 2)} supports a difference between the average scores given to the \emph{wheelchair} and  \emph{crutches} handicaps and the average scores given to the \emph{amputee} and \emph{hearing} handicaps.
+
+To verify the calculations on p.155 we used the following contrast:
+<<>>=
+fit.contrast(lm(SCORE ~ HANDICAP, data=disability), "HANDICAP", c(-0.5, 0.5, -0.5, 0, 0.5), conf.int=0.95)
+@
+
+Other multiple comparison procedures could also be implemented. The following shows the calculation on p.164.
+<<>>=
+library(agricolae)
+LSD.test(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP")   # LSD
+HSD.test(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP")   # Tukey-Kramer
+LSD.test(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP", p.adj=c("bonferroni"))  # Bonferroni
+scheffe.test(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP")    # Scheffe
+@
+
+The ``Significant Difference" in each test result is the ``95\% interval half-width" described in the book.
+
+\section{Pre-existing Preference of Fish}
+
+Was Charles Darwin right that sexual selection is driven by females?  This is the question addressed in case study 6.2 in the \emph{Sleuth}.  
+
+\subsection{Summary statistics and graphical display}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+fish = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0602.csv")
+summary(fish)
+favstats(PROPORTION ~ PAIR, data=fish)
+@
+
+A total of \Sexpr{nrow(fish)} female fish were involved in this experiment (p.150).
+
+<<fig.height=8, fig.width=8>>=
+bwplot(PAIR ~ PROPORTION, data=fish)
+@
+
+<<fig.height=8, fig.width=8>>=
+densityplot(~PROPORTION, groups=PAIR, auto.key=TRUE, data=fish)
+@
+
+Besides the distribution of pair 5, all distributions of other pairs are approximately normally distributed. 
+
+\subsection{One-way ANOVA}
+
+First we fit the one way analysis of variance (ANOVA) model, using all of the groups:
+
+<<>>=
+anova(lm(PROPORTION ~ PAIR, data=fish))
+@
+
+The p-value is $\Sexpr{print.pval(anova(lm(PROPORTION ~ PAIR, data=fish))["PAIR","Pr(>F)"])}$, which doesn't provide much evidence that the mean percentage of time with the yellow-sword male differed from one male pair to another.
+
+By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups. Note that the overall test of the model is the same.
+
+<<>>=
+summary(lm(PROPORTION ~ PAIR, data=fish))
+@
+
+The reference group here is pair 1, followed by pairs 2-6.
+Another way of viewing these results is through a model table, which displays the differences between the grand mean and the group means.
+
+<<>>=
+model.tables(aov(PROPORTION ~ PAIR, data=fish))
+@
+
+Or by:
+
+<<>>=
+mean(PROPORTION ~ PAIR, data=fish)-mean(~PROPORTION, data=fish)
+@
+
+\subsection{Contrasts and linear combination}
+
+We can calculate the values on page 152 and Display 6.5 on page 158 using contrasts.
+<<>>=
+library(gmodels)
+lc=fit.contrast(lm(PROPORTION ~ PAIR, data=fish), "PAIR", c(5, -3, 1, 3, -9, 3), conf.int=0.95); lc
+t=round(lc[, "t value"], 2); t
+pt(t, 78, lower.tail=TRUE)
+@
+
+The $t$-value is \Sexpr{round(fit.contrast(lm(PROPORTION ~ PAIR, data=fish), "PAIR", c(5, -3, 1, 3, -9, 3), conf.int=0.95)[, "t value"], 2)} and the one-sided $p$-value is \Sexpr{round(pt(t, 78, lower.tail=TRUE), 2)}.
+
+<<>>=
+mean(mean(PROPORTION ~ PAIR, data=fish))
+t.test(mean(PROPORTION ~ PAIR, data=fish))
+@
+
+The estimated mean percentage of time spent with the yellow-sword male is \Sexpr{round(mean(mean(PROPORTION ~ PAIR, data=fish)), 3)*100}\%. The one-sided $p$-value$<0.0001$, and the 95\% confidence interval is (\Sexpr{round(t.test(mean(PROPORTION ~ PAIR, data=fish))$conf.int[1:1], 3)*100}\%, \Sexpr{round(t.test(mean(PROPORTION ~ PAIR, data=fish))$conf.int[2:2], 3)*100}\%).
+
+XX We didn't find way to calculate the values shown in the following sentences: The mean percentage of time spent with the yellow-sword male is estimated to be 62.4\%. A 95\% confidence interval for the mean percentage is 59.0\% to 65.8\%. This is convincing evidence (one-sided $p$-value$<0.0001$) that the mean percentage exceeds the lack-of-preference value (50\%). XX
+
+XX RESPONSE: Isn't this just a test of proportions for this subgroup?  XX
+
+\end{document}

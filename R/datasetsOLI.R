@@ -20,29 +20,6 @@
 
 NA
 
-#' Average Gestation Period
-#' 
-#' The average gestation period, or time of pregnancy, of an animal is closely related to its longevity (the length of its lifespan.) Data on the average gestation period and longevity (in captivity) of 40 different species of animals have been examined, with the purpose of examining how the gestation period of an animal is related to (or can be predicted from) its longevity.
-#'  
-#'  @docType data
-#'  @name Animals
-#'  @usage data(Animals)
-#'  @format
-#'      A data frame with 40 observations on the following variables.
-#'    
-#'    \itemize{
-#'     \item{\code{animal}} {name of the animal species}
-#'     \item{\code{gestation}} {average gestation period of the species (in days)}
-#'     \item{\code{longevity}} {average longevity of the species (in years)}
-#'   }
-#' 
-#' @references
-#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
-#' 
-#' @keywords datasets
-
-NA
-
 #' Monthly Premiums of Auto Insurance
 #' 
 #' The data were collected from a random sample of 50 drivers insured with a certain company and having similar auto insurance coverage. For each driver the monthly premium was recorded along with other relevant information such as gender, age, driving experience, history of auto accidents, model and age of the car. The data set contains only a subset of the variables.
@@ -330,6 +307,29 @@ NA
 #' @references
 #' Part of the Carnegie Mellon University Online Learning Initiative datasets.
 #' 
+#' 
+#' @keywords datasets
+
+NA
+
+#' Gestation Period and Longevity for Animals
+#' 
+#' The average gestation period, or time of pregnancy, of an animal is closely related to its longevity (the length of its lifespan.) Data on the average gestation period and longevity (in captivity) of 40 different species of animals have been examined, with the purpose of examining how the gestation period of an animal is related to (or can be predicted from) its longevity.
+#'  
+#'  @docType data
+#'  @name GestationLongevity
+#'  @usage data(GestationLongevity)
+#'  @format
+#'      A data frame with 40 observations on the following variables.
+#'    
+#'    \itemize{
+#'     \item{\code{animal}} {name of the animal species}
+#'     \item{\code{gestation}} {average gestation period of the species (in days)}
+#'     \item{\code{longevity}} {average longevity of the species (in years)}
+#'   }
+#' 
+#' @references
+#' Part of the Carnegie Mellon University Online Learning Initiative datasets.
 #' 
 #' @keywords datasets
 
