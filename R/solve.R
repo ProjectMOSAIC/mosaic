@@ -22,6 +22,8 @@
 #'
 #'@return a dataframe with solutions to the expression.
 #'
+#'@author Cecylia Bocovich
+#'
 #'@examples
 #'solve(3*x==3~x)
 #'
