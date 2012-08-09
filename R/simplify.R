@@ -479,8 +479,8 @@
 
 #' Method for putting a polynomial together given the coefficients and power from .polyExp()
 #' 
-#' @params poly output of .polyExp()
-#' @params form original formula - provides information on which variable the polynomial was reduced with respect to.
+#' @param poly output of .polyExp()
+#' @param form original formula - provides information on which variable the polynomial was reduced with respect to.
 #' 
 #' @return A formula whose left hand side is a polynomial that fits the description given with the input poly.
 .makePoly <- function(form, poly){

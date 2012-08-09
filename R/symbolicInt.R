@@ -11,7 +11,7 @@
 #'It will not perform more complicated substitutions
 #'or integration by parts.
 #'
-#'@value symbolicInt returns a function whose body is the symbolic antiderivative of
+#'@return symbolicInt returns a function whose body is the symbolic antiderivative of
 #'the formula.  If this method does not recognize the formula, it will return an error.
 #'
 symbolicInt<- function(form, ...){

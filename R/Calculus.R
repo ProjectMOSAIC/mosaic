@@ -212,10 +212,10 @@ numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C") {
   }
   val0 <- stats::integrate(newf, vi.from, vi.to[1])$value
   # work around a bug in integrate()
-  if( vi.from==Inf ) {
-    # When "lower" limit is +Inf, the sign is wrong!  This might
+  if( vi.to[1]==-Inf ) {
+    # When "upper" limit is -Inf, the sign is wrong!  This might
     # change, so check that the bug still exists
-    if( stats::integrate(function(x){dnorm(x)},lower=Inf,upper=0)$val > 0) {
+    if( stats::integrate(function(x){dnorm(x)},lower=0,upper=-Inf)$val > 0) {
       # bug exists!
       val0 <- -val0
     }
