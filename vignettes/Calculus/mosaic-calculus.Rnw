@@ -7,7 +7,7 @@
 
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
-\author{Daniel Kaplan \& Randall Pruim}
+\author{Daniel Kaplan, Cecylia Bocovich, \& Randall Pruim}
 \date{July 3, 2012}
 
 \begin{document}
@@ -289,41 +289,59 @@ The \function{antiD()} function carries out anti-differentiation.  Like \functio
 
 
 
-To illustrate, here is $\int a x^2 dx$ (which should give $\frac{a}{3} x^3$):
+To illustrate, here is $\int a x^2 dx$ (which should give $\frac{a}{3} x^3 + C$):
 <<>>=
 F = antiD( a*x^2~x, a=1 )
-F(x=1, a=1) #should be 1/3
-F(x=1, a=3) #should be 1
+F
 @
+The anti-derivative here has been computed symbolically, so the function \function{F} contains a formula.  Note that the constant of integration, \texttt{C} has been included explicitly as an argument to the function with a default value of 0.
 
-If you want to use the anti-derivative to compute an integral, evaluate the anti-derivative at the endpoints of the interval of integration and substract the two results.  For example, here is $\int_1^{3} x^2 dx$:
+
+If you want to use the anti-derivative to compute an integral, evaluate the anti-derivative at the endpoints of the interval of integration and subtract the two results.  For example, here is $\int_1^{3} x^2 dx$:
 <<>>=
-F(x=3)-F(x=1)
+F(x=3)-F(x=1) # Should be 9 - 1/3
 @
 
-For the most part, the integration being carried out is purely numerical.  The mechanics are hidden behind the function \function{numerical.integration()}, which is not intended to be employed by end-users.  Over time, we plan to replace the use of 
-\function{numerical.integration()} with symbolic expressions for simple integrals.  
-
-Unlike symbolic anti-differentiation, numerical anti-differentiation always requires an interval of integration.  You specify the lower bound of this interval when constructing the anti-derivative, using a ``from'' argument whose name matches the variable of integration.  For example:
+\function{antiD} is capable of performing some simple integrals symbolically.  For instance
 <<>>=
-mylog = antiD( 1/x ~ x, x.from=1)
-mylog(10)
-log(10)
+antiD( 1/(a*x+b) ~ x)
 @
 
-By default, the ``from'' value is zero.  If you are anti-differentiating a function that has a singularity near zero (as does $1/x$), you will want to choose ``from'' to avoid the singularity.  Also, if you will be using the anti-derivative to evaluate integrals that do not include zero, you may want to set ``from'' to a value closer to your interval of integration.  Remember, of course, the actual argument has a name based on the variable of integration, e.g., \code{x.from}, \code{z.from}, etc.
+Not all mathematical functions have anti-derivatives that can be expressed in terms of simple functions, and \function{antiD} contains only a small number of symbolic forms.  When \function{antiD} cannot find a symbolic form, the anti-derivative will be based on a process of numerical integration.  For example:
+<<>>=
+P = antiD( exp(x^2)~x )
+P
+@
+integration being carried out is numerical but the result is in the same format: a function of the same arguments as the original, but including the constant of integration as a new argument.  The name of the constant of integration is generally \texttt{C}, but if this symbol is already in use in the function, \texttt{D} will be used instead and down the line to \texttt{Z}. 
+
+The symbolic anti-derivatives and the numerical anti-derivatives are used in the same ways.  The symbolic forms will typically be more precise and in general will be faster to calculate, although this is important only if you are doing many, many evaluations of the integral.
+
+\paragraph{Technical Point:} Unlike symbolic anti-differentiation, numerical anti-differentiation always requires an interval of integration. 
+By default, the lower bound of the interval is zero.  If you are anti-differentiating a function that has a singularity near zero (as does $1/x$), you will want to choose a lower bound to avoid the singularity.  Do this using the optional \texttt{lower.bound} argument.  If you will be using the anti-derivative to evaluate integrals that do not include zero, for better precision you may want to set \texttt{lower.bound} to a value closer to your interval of integration.  In particular, if the function you are integrating is non-zero over a small range, you will get better precision if \texttt{lower.bound} falls in an interval where the function is non-zero.  For instance, the function being integrated here is numerically non-zero only within $\pm 1$ of $x=6000$:
+<<>>=
+F = antiD( dnorm(x, mean=6000, sd=0.01)~x )
+@
+The numerical integration method doesn't discover the small range over which the integrand is non-zero. For instance, the following integral should be 1.
+<<>>=
+F(Inf) - F(-Inf)
+@
+Setting \texttt{lower.bound} to a value of $x$ where the integrand is numerically nonzero resolves the problem:
+<<>>=
+F = antiD( dnorm(x, mean=6000, sd=0.01)~x, lower.bound=6000 )
+F(Inf) - F(-Inf)
+@
 
 Unlike differentiation, integration has good numerical properties.  Even integrals out to infinity can often be handled with great precision.  Here, for instance, is a calculation of the mean of a normal distribution via integration from $-\infty$ to $\infty$:
 <<>>=
-F = antiD( x*dnorm(x,mean=3,sd=2)~x, x.from=-Inf)
+F = antiD( x*dnorm(x,mean=3,sd=2)~x, lower.bound=-Inf)
 F(x=Inf)
 @
 \noindent
 And here are some examples using exponential distributions.
 <<>>=
-F = antiD(x*dexp(x,rate=rate)~x, x.from=0)
-F(x=Inf,rate=10)
-F(x=Inf,rate=100)
+F = antiD(x*dexp(x,rate=rate)~x)
+F(x=Inf,rate=10) - F(x=0, rate=10)
+F(x=Inf,rate=100) - F(x=0, rate=100)
 @
 
 Because anti-differentiation will be done numerically when a symbolic 
@@ -333,35 +351,37 @@ there is no simple algebraic form.
 
 It's also possible to  take the
 anti-derivative of a function that is itself an anti-derivative.  Here, for
-example, is a double integral $\int_{-1}^{1} \int_0^{\sqrt{1-y^2}} 1\ dx\ dy$ for the area of the top half of a circle of radius 1:
+example, is a double integral $\int_{-1}^{1} \int_0^{\sqrt{1-y^2}} 1\ dx\ dy$ for the area of the top half of a circle of radius 1 (which is, of course $\pi/2$.)
 <<>>=
 one = makeFun(1~x+y)
-by.x = antiD( one(x=x, y=y) ~x, x.from=0 )
+by.x = antiD( one(x=x, y=y) ~x )
 by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
 by.xy(y=1) - by.xy(y=-1)
 @
 
 \subsection{Example: Jumping Off a Diving Board}
 
-The \function{antiD()} function allows you to specify the ``constant of integration.''  This is another style of providing information redundant with the \option{x.from} argument, but the constant of integration provides perhaps a clearer way to think about integrals where there is an initial condition.
+The \function{antiD()} function allows you to specify the ``constant of integration.''  
 
 As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.8$ m/s.  The velocity function is the 
 integral of acceleration due to gravity over time, plus the initial velocity:
 <<>>=
-vel <- antiD( -9.8~t, Const=1 )
+vel <- antiD( -9.8~t )
 @ 
+The velocity function \function{vel} includes a constant of integration which, in this case, corresponds to the velocity at time zero.  
 
-The position is, of course, the integral of velocity plus the initial position of 5 m --- the height of the board.
+The position is, of course, the integral of velocity:
 <<>>=
-pos <- antiD( vel(t=t)~t, Const=5 )
+pos <- antiD( vel(t=t, C=v0)~t )
 @ 
+By assigning a symbolic value for the constant of integration in the velocity function, the value of the velocity at time zero can be specified.  The \function{pos} function has it's own constant of integration, which corresponds to initial position.  So, to plot the position of the diver with an initial position of 5 m and an initial velocity of 1 m/s:
 
 <<dive,fig.height=4,out.width=".7\\textwidth">>=
-plotFun(pos(t=t)~t, t.lim=range(0,1.2), 
+plotFun(pos(t=t,v0=1,C=5)~t, t.lim=range(0,1.2), 
         xlab="Height (m)", ylab="Time (s)")
 @
 
-The differential equation solver provides another way to approach this problem.
+The differential equation solver, described later, provides another way to approach this problem.
 
 \section{Solving}
 
@@ -518,7 +538,7 @@ There appears to be a slight decline in wage --- a negative derivative --- for p
 set.seed(7832)
 @
 
-<<fig.height=4,out.width=".7\\textwidth">>=
+<<fig.height=4,out.width=".7\\textwidth",results="hide">>=
 CPSclean <- subset(CPS85, wage < 30)
 f <- smoother( wage~age, span=1.0, data=CPSclean)
 f2 <- D( f(age)~age)
@@ -534,8 +554,7 @@ plotFun( 0 ~ age, add=TRUE, lty=2, col='red', alpha=.5 )
 plotFun( f2(age)~age, age.lim=range(20,60), lwd=4, add=TRUE)
 @
 
-Pretty good evidence for wage going up with age, particularly for the young.
-The rate of increase per year of age gets smaller and smaller.  After about 35
+With increasing age, the derivative gets smaller. It is positive --- meaning that wage increases with age --- only up through the late 30s.   After about 35
 years of age, there's weak evidence for any systematic effect.
 
 Smoothers can construct functions of more than one variable.  Here, for instance, is a representation of the relationship between wage, age, and education.
