@@ -192,7 +192,7 @@ bwplot(HANDICAP ~ SCORE, data=disability)
 @
 
 <<fig.height=8, fig.width=8>>=
-densityplot(~SCORE, groups=HANDICAP, auto.key=TRUE, data=disability)
+densityplot(~ SCORE, groups=HANDICAP, auto.key=TRUE, data=disability)
 @
 
 The stem plots show the applicant qualification scores given by objectives. The boxplots and the density plots show that all the distributions are approximately normally distributed.
@@ -253,12 +253,12 @@ fit.contrast(lm(SCORE ~ HANDICAP, data=disability), "HANDICAP", c(-1, 1, -1, 0, 
 
 The $t$-value=\Sexpr{round(fit.contrast(lm(SCORE ~ HANDICAP, data=disability), "HANDICAP", c(-1, 1, -1, 0, 1), conf.int=0.95)[, "t value"], 2)} supports a difference between the average scores given to the \emph{wheelchair} and  \emph{crutches} handicaps and the average scores given to the \emph{amputee} and \emph{hearing} handicaps.
 
-To verify the calculations on p.155 we used the following contrast:
+To verify the calculations on page 155 we used the following contrast:
 <<>>=
 fit.contrast(lm(SCORE ~ HANDICAP, data=disability), "HANDICAP", c(-0.5, 0.5, -0.5, 0, 0.5), conf.int=0.95)
 @
 
-Other multiple comparison procedures could also be implemented. The following shows the calculation on p.164.
+Other multiple comparison procedures could also be implemented. The following shows the calculation on page 164.
 <<>>=
 library(agricolae)
 LSD.test(aov(lm(SCORE ~ HANDICAP, data=disability)), "HANDICAP")   # LSD
@@ -283,14 +283,14 @@ summary(fish)
 favstats(PROPORTION ~ PAIR, data=fish)
 @
 
-A total of \Sexpr{nrow(fish)} female fish were involved in this experiment (p.150).
+A total of \Sexpr{nrow(fish)} female fish were involved in this experiment, which shows on page 150.
 
 <<fig.height=8, fig.width=8>>=
 bwplot(PAIR ~ PROPORTION, data=fish)
 @
 
 <<fig.height=8, fig.width=8>>=
-densityplot(~PROPORTION, groups=PAIR, auto.key=TRUE, data=fish)
+densityplot(~ PROPORTION, groups=PAIR, auto.key=TRUE, data=fish)
 @
 
 Besides the distribution of pair 5, all distributions of other pairs are approximately normally distributed. 
@@ -321,7 +321,7 @@ model.tables(aov(PROPORTION ~ PAIR, data=fish))
 Or by:
 
 <<>>=
-mean(PROPORTION ~ PAIR, data=fish)-mean(~PROPORTION, data=fish)
+mean(PROPORTION ~ PAIR, data=fish)-mean(~ PROPORTION, data=fish)
 @
 
 \subsection{Contrasts and linear combination}
@@ -329,7 +329,7 @@ mean(PROPORTION ~ PAIR, data=fish)-mean(~PROPORTION, data=fish)
 We can calculate the values on page 152 and Display 6.5 on page 158 using contrasts.
 <<>>=
 library(gmodels)
-lc=fit.contrast(lm(PROPORTION ~ PAIR, data=fish), "PAIR", c(5, -3, 1, 3, -9, 3), conf.int=0.95); lc
+lc = fit.contrast(lm(PROPORTION ~ PAIR, data=fish), "PAIR", c(5, -3, 1, 3, -9, 3), conf.int=0.95); lc
 t=round(lc[, "t value"], 2); t
 pt(t, 78, lower.tail=TRUE)
 @
@@ -343,8 +343,5 @@ t.test(mean(PROPORTION ~ PAIR, data=fish))
 
 The estimated mean percentage of time spent with the yellow-sword male is \Sexpr{round(mean(mean(PROPORTION ~ PAIR, data=fish)), 3)*100}\%. The one-sided $p$-value$<0.0001$, and the 95\% confidence interval is (\Sexpr{round(t.test(mean(PROPORTION ~ PAIR, data=fish))$conf.int[1:1], 3)*100}\%, \Sexpr{round(t.test(mean(PROPORTION ~ PAIR, data=fish))$conf.int[2:2], 3)*100}\%).
 
-XX We didn't find way to calculate the values shown in the following sentences: The mean percentage of time spent with the yellow-sword male is estimated to be 62.4\%. A 95\% confidence interval for the mean percentage is 59.0\% to 65.8\%. This is convincing evidence (one-sided $p$-value$<0.0001$) that the mean percentage exceeds the lack-of-preference value (50\%). XX
-
-XX RESPONSE: Isn't this just a test of proportions for this subgroup?  XX
 
 \end{document}

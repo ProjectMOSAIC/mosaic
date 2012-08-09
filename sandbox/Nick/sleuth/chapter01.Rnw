@@ -174,14 +174,14 @@ The data for Case Study 1 was collected by psychologist Teresa Amabile in an exp
 
 We begin by reading the data and summarizing the variables.
 <<>>=
-creativity=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0101.csv")
+creativity = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0101.csv")
 summary(creativity)
 @
 A total of \Sexpr{nrow(creativity)} subjects with considerable experience in creative writing were randomly assigned to one of two treatment groups: \Sexpr{nrow(subset(creativity, TREATMENT=="EXTRINSIC"))} were placed into the ``extrinsic" treatment group and \Sexpr{nrow(subset(creativity, TREATMENT=="INTRINSIC"))} were placed into the ``intrinsic" treatment group. As summarized in Display 1.1 (\emph{Sleuth}, page 2)
 
 <<eval=TRUE>>=
 favstats(SCORE ~ TREATMENT, data=creativity)
-xhistogram(~SCORE | TREATMENT, data=creativity)
+xhistogram(~ SCORE | TREATMENT, data=creativity)
 @
 <<>>=
 with(subset(creativity, TREATMENT=="EXTRINSIC"), stem(SCORE, scale=5))
@@ -196,9 +196,9 @@ maggregate(SCORE ~ TREATMENT, data=creativity, FUN=stem)
 The extrinsic group (n=\Sexpr{nrow(subset(creativity, TREATMENT=="EXTRINSIC"))}) has an average creativity score that is \Sexpr{round(diff(mean(SCORE ~ TREATMENT, data=creativity)), 1)} points less than the intrinsic group (n=\Sexpr{nrow(subset(creativity, TREATMENT=="INTRINSIC"))}). The extrinsic group has relatively larger spread than the intrinsic group (sd=\Sexpr{round(sd(SCORE, data=subset(creativity, TREATMENT=="EXTRINSIC")),2)} for extrinsic group and sd=\Sexpr{round(sd(SCORE, subset(creativity, TREATMENT=="INTRINSIC")), 2)} for intrinsic group). Both distributions are approximately normally distributed.
 
 \subsection{Inferential procedures (two-sample t-test)}
-
+ 
 <<eval=TRUE>>=
-t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity)
+t.test(SCORE ~ TREATMENT, alternative="two.sided", data=creativity)
 @
 The two-sample $t$-test shows strong evidence that a subject would receive a lower creativity score for a poem written after the extrinsic motivation questionnaire than for one written after the intrinsic motivation questionnaire. The two-sided $p$-value is \Sexpr{pval(t.test(SCORE~TREATMENT, alternative="two.sided", data=creativity), digits=4)}, which is small enough to reject the null hypothesis. 
 
@@ -214,7 +214,7 @@ In the creativity study, the question that whether there is a treatment effect b
 \subsection{Permutation test}
 
 <<eval=TRUE>>=
-diffmeans=diff(mean(SCORE ~ TREATMENT, data=creativity))
+diffmeans = diff(mean(SCORE ~ TREATMENT, data=creativity))
 diffmeans     # observed difference
 numsim = 1000     # set to a sufficient number
 nulldist = do(numsim)*diff(mean(SCORE~shuffle(TREATMENT), data=creativity))
@@ -258,7 +258,7 @@ histogram(rchisq(1000, df=15)) # Skewed
 The $t$-test on page 4 of Sleuth can be replicated using the following commands (note that the equal-variance t-test is specified by {\tt var.equal=TRUE} which is not the default).
 
 <<eval=TRUE>>=
-t.test(SALARY~SEX, var.equal=TRUE, data=banksalary)
+t.test(SALARY ~ SEX, var.equal=TRUE, data=banksalary)
 @
 
 \subsection{Permutation test}
@@ -272,8 +272,6 @@ res = do(numsim) * diff(mean(SALARY~shuffle(SEX), data=banksalary))
 densityplot(~ MALE, data=res)
 confint(res)
 p = sum(abs(res$MALE) >= abs(obsdiff))/numsim; p
-# shiftres = res+obsdiff   XX delete this?
-# densityplot(~MALE, data=shiftres)  XX delete this?
 @
 
 Through the permutation test, we observe that the mean starting salary for males is estimated to be \$\Sexpr{round(confint(res)["lower"]+obsdiff, 2)} to \$\Sexpr{round(confint(res)["upper"]+obsdiff, 2)} larger than the mean starting salary  for females (95\% confidence interval). We never see a permuted difference in means close to our observed value. Therefore, we reject the null hypothesis ($p<0.001$) and conclude that the salaries of the men are higher than that of the women.

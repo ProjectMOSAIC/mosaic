@@ -174,7 +174,7 @@ Is humerus length related to whether the bird would survive or perish? That's th
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-sparrow=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0201.csv")
+sparrow = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0201.csv")
 summary(sparrow)
 fav=favstats(HUMERUS ~ STATUS, data=sparrow); fav
 @
@@ -197,27 +197,28 @@ Both distributions are approximately normally distributed.
 First, we calculate the pooled SD and the standard error between these two different sample average (page 40, Display 2.8).
 <<>>=
 # Calculate Pooled SD
-n1=fav["PERISHED", "n"]; n1
-n2=fav["SURVIVED", "n"]; n2
-s1=fav["PERISHED", "sd"]; s1
-s2=fav["SURVIVED", "sd"]; s2
-Sp=sqrt(((n1-1)*(s1)^2+(n2-1)*(s2)^2)/(n1+n2-2)); Sp
+n1 = fav["PERISHED", "n"]; n1
+n2 = fav["SURVIVED", "n"]; n2
+s1 = fav["PERISHED", "sd"]; s1
+s2 = fav["SURVIVED", "sd"]; s2
+Sp = sqrt(((n1-1)*(s1)^2+(n2-1)*(s2)^2)/(n1+n2-2)); Sp
 # Calculate standard error
-SE=Sp*sqrt(1/n1+1/n2); SE
+SE = Sp*sqrt(1/n1+1/n2); SE
 @
 
 So the pooled SD is \Sexpr{round(Sp, 2)} and the standard error is \Sexpr{round(SE, 1)}.
 
 Based on this information, we can construct a 95\% confidence interval (page 41, Display 2.9).
+
 <<>>=
-Y1=fav["PERISHED", "mean"]; Y1
-Y2=fav["SURVIVED", "mean"]; Y2
-Yd=Y2-Y1; Yd
-df=n1+n2-2; df
-qt=qt(0.975, 57); qt
-hw=qt*SE; hw
-lower=Yd-hw; lower
-upper=Yd+hw; upper
+Y1 = fav["PERISHED", "mean"]; Y1
+Y2 = fav["SURVIVED", "mean"]; Y2
+Yd = Y2-Y1; Yd
+df = n1+n2-2; df
+qt = qt(0.975, 57); qt
+hw = qt*SE; hw
+lower = Yd-hw; lower
+upper = Yd+hw; upper
 @
 
 So the 95\% confidence interval of the difference between means is (\Sexpr{round(lower, 1)}, \Sexpr{round(upper, 1)})
@@ -245,7 +246,7 @@ Is the area of brain related to the development of schizophrenia? That's the que
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-schizo=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0202.csv")
+schizo = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0202.csv")
 summary(schizo)
 @
 
@@ -253,7 +254,7 @@ A total of \Sexpr{nrow(schizo)} subjects are included in the data. There are \Se
 
 The difference in area of left hippocampus of these pairs of twins is:
 <<>>=
-DIFF=schizo[, "UNAFFECT"]-schizo[, "AFFECTED"]
+DIFF = schizo[, "UNAFFECT"]-schizo[, "AFFECTED"]
 favstats(DIFF)
 @
 
@@ -269,15 +270,15 @@ We want to calculate the paired t-test and 95\% confidence interval.
 
 <<>>=
 # Calculate t-statistics
-difmean=favstats(DIFF)[, "mean"]; difmean
-difsd=favstats(DIFF)[, "sd"]; difsd
-difSE=difsd/sqrt(15); difSE
-tscore=(difmean-0)/difSE; tscore         # hypothesis difference=0
-twopvalue=2*(1-pt(tscore, 15-1)); twopvalue
+difmean = favstats(DIFF)[, "mean"]; difmean
+difsd = favstats(DIFF)[, "sd"]; difsd
+difSE = difsd/sqrt(15); difSE
+tscore = (difmean-0)/difSE; tscore         # hypothesis difference=0
+twopvalue = 2*(1-pt(tscore, 15-1)); twopvalue
 # Construct confidence interval
-q=qt(0.975, 15-1); q
-schizolower=difmean-q*difSE; schizolower
-schizoupper=difmean+q*difSE; schizoupper
+q = qt(0.975, 15-1); q
+schizolower = difmean-q*difSE; schizolower
+schizoupper = difmean+q*difSE; schizoupper
 @
 
 So the two-sided $p$-value is \Sexpr{round(twopvalue, 3)} and the 95\% confidence interval is (\Sexpr{round(schizolower, 2)}, \Sexpr{round(schizoupper, 2)}).

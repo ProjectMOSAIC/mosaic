@@ -179,9 +179,9 @@ light = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0901.csv")
 
 <<>>=
 # create a better named variable for day24
-light$day24 = relevel(as.factor(ifelse(light$TIME==1, "late", "early")), ref="late")
+light$day24 = relevel(as.factor(ifelse(light$TIME==1, "late", "early")), 
+                      ref="late")
 @
-
 
 <<>>=
 summary(light)
@@ -193,7 +193,9 @@ The following code generates the scatterplot of the average number of flowers pe
 plant versus the applied light intensity for each of the 12 experimental units akin to Display 9.3 on page 238.
 
 <<>>=
-xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), data=light, auto.key=TRUE, xlab="light intensity (mu mol/m^2/sec)", ylab="average number of flowers")
+xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), 
+       data=light, auto.key=TRUE, 
+       xlab="light intensity (mu mol/m^2/sec)", ylab="average number of flowers")
 @
 
 
@@ -202,7 +204,7 @@ xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), data=light, a
 We next fit a multiple linear regression model that specifies parallel regression lines for the mean  number of flowers as a function of light intensity as interpreted on page 237.
 
 <<>>=
-lm1 = lm(FLOWERS ~ INTENS + day24, data=light)
+lm1 = lm(FLOWERS ~ INTENS+day24, data=light)
 summary(lm1)
 confint(lm1, level=.95) # 95% confidence intervals  
 @
@@ -210,12 +212,12 @@ confint(lm1, level=.95) # 95% confidence intervals
 We can also fit a multiple linear regression with an interaction between light intensity and timing of its initiation as shown in Display 9.14 (page 256) and interpreted on page 237.
 
 <<>>=
-lm2 = lm(FLOWERS ~ INTENS * day24, data=light)
+lm2 = lm(FLOWERS ~ INTENS*day24, data=light)
 summary(lm2)
 @
 
 \section{Why do some mammals have large brains?}
-What characteristics predict large brains in mammals?   This is the question addressed in case study 9.2 in the \emph{Sleuth}.  
+What characteristics predict large brains in mammals? This is the question addressed in case study 9.2 in the \emph{Sleuth}.  
 
 \subsection{Data coding and summary statistics}
 
@@ -223,8 +225,10 @@ We begin by reading the data and summarizing the variables.
 
 <<>>=
 mammals = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0902.csv")
-mammals$logbrain = log(mammals$BRAIN); mammals$logbody = log(mammals$BODY)
-mammals$loggest = log(mammals$GESTATION); mammals$loglitter = log(mammals$LITTER)
+mammals$logbrain = log(mammals$BRAIN); 
+mammals$logbody = log(mammals$BODY);
+mammals$loggest = log(mammals$GESTATION); 
+mammals$loglitter = log(mammals$LITTER)
 @
 
 <<>>=
@@ -236,7 +240,7 @@ A total of \Sexpr{nrow(mammals)} mammals were included in this data.  The averag
 
 \subsection{Graphical presentation}
 
-The following displays a simple (unadorned) pairs plot (akin to Display 9.10 on page 252).
+The following displays a simple (unadorned) pairs plot, akin to Display 9.10 on page 252.
 
 <<fig.height=8, fig.width=8>>=
 pairs(mammals[c("BRAIN", "BODY", "GESTATION", "LITTER")])
@@ -267,29 +271,28 @@ panel.lm = function(x, y, col=par("col"), bg=NA,
 Below displays a fancier pairs plot.
 
 <<fig.height=8, fig.width=8>>=
-  pairs(~ BRAIN + BODY + GESTATION + LITTER, 
+  pairs(~ BRAIN+BODY+GESTATION+LITTER, 
         lower.panel=panel.smooth, diag.panel=panel.hist, 
         upper.panel=panel.lm, data=mammals)
 @
 
 
-Here is a fancier pairs plot using the log-transformed variables (akin to Display 9.11 on page 253).
+Here is a fancier pairs plot using the log-transformed variables, akin to Display 9.11 on page 253.
 
 <<fig.height=8, fig.width=8>>=
-  pairs(~ logbrain + logbody + loggest + loglitter, 
+  pairs(~ logbrain+logbody+loggest+loglitter, 
               lower.panel=panel.smooth, diag.panel=panel.hist, 
               upper.panel=panel.lm, data=mammals)
 @
 
-
-The following displays a jittered scatterplot of log brain weight as a function of log litter size (akin to Display 9.12 on page 254).
+The following displays a jittered scatterplot of log brain weight as a function of log litter size, akin to Display 9.12 on page 254.
 
 <<fig.height=8, fig.width=8>>=
   xyplot(logbrain ~ jitter(loglitter), data=mammals)
 @
 
 
-Below displays a jittered scatterplot using the original data on a log-transformed axis (akin to Display 9.12 on page 254).
+Below displays a jittered scatterplot using the original data on a log-transformed axis, akin to Display 9.12 on page 254.
 
 <<fig.height=8, fig.width=8>>=
   xyplot(BRAIN ~ jitter(LITTER), scales=list(y=list(log=TRUE),
@@ -297,7 +300,7 @@ Below displays a jittered scatterplot using the original data on a log-transform
 @
 
 
-The following displays a jittered scatterplot using the original data stratified by body weight on a log-transformed axis (akin to Display 9.13 on page 255).
+The following displays a jittered scatterplot using the original data stratified by body weight on a log-transformed axis, akin to Display 9.13 on page 255.
 
 
 <<fig.height=8, fig.width=8>>=
@@ -310,7 +313,10 @@ xyplot(BRAIN ~ jitter(LITTER) | weightcut,
 
 The following model is interpreted on page 238 and shown in Display 9.15 (page 256).
 <<>>=
-lm1 = lm(logbrain ~ logbody + loggest + loglitter, data=mammals); summary(lm1)
+lm1 = lm(logbrain ~ logbody+loggest+loglitter, data=mammals)
+summary(lm1)
 @
+
+XX Ruobing: When compiling PDF, some lines would beyond the margin. XX
 
 \end{document}
