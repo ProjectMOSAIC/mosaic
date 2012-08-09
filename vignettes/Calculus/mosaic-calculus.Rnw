@@ -385,7 +385,11 @@ The differential equation solver, described later, provides another way to appro
 
 \section{Solving}
 
-The \function{findZeros()} function will locate zeros of a function in a flexible way that's easy to use.  The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A fromula is used to describe the function and it independent variable.
+The function \function{findZeros()} will locate zeros of functions in a flexible way that's easy to use.  \function{solve} does much the same way, but solves {\em equations} specified with the \code{==} form of equality.
+
+The syntax is very similar to that of \function{plotFun()}, \function{D()}, and \function{antiD()}: A formula is used to describe the function and its independent variables.
+
+To start, consider a function of a single variable.  
 The search for zeros is conducted over a range that can be specified in a number of ways.  To illustrate:
 \begin{itemize}
 \item Find the zeros within a specified range:
@@ -402,7 +406,108 @@ findZeros( sin(t)~t, near=0, within=8)
 @
 \end{itemize}
 
-We hope to extend \function{findZeros()} to work with multiple functions of multiple variables.
+Notice that in each of these cases, there is an expression to the left of the tilde.  You may prefer to write the expressions in the form of an equation.  You will still need the tilde, but can use \code{==} as the equal sign.  For example, to find a solution to $4 \sin( 3 x ) = 2$, 
+<<>>=
+solve( 4*sin(3*x) == 2 ~ x, near=0, within=1)
+@
+You still need the tilde, since that indicates which variables to solve for.
+
+
+\function{findZeros()}  works with multiple functions of multiple variables.  There are two basic settings:
+\begin{itemize}
+\item $n$ functions in $n$ unknowns.  In this setting, the simultaneous zeros of all $n$ functions will tend, generically, to be isolated points.  This is the classical setting taught to high-school students: isolated zeros.
+
+\item $p$ functions in $n$ unknowns, where $p < n$.  In this setting, high-school students have been taught to believe that there is no solution.  Nonsense.  There are lots of solutions.  In fact, this is an easier situation to find a solution than with fully $n$ functions.
+
+The solutions are, generically, on a manifold of dimension $n-p$.  That is, with one function in two unknowns, the solutions typically lie on one-dimensional curves.  With one function in three unknowns, the solutions like on two-dimensional surfaces.  With two functions in three unknowns, the solutions are generically on one-dimensional curves.
+
+To illustrate with the familiar situation of linear functions, here are two linear in two unknowns:
+<<>>=
+s <- findZeros( 3*x + y - 5 ~ x&y, y + x - - 2 ~ x&y)
+@
+Two functions in two unknowns generically has a single point zero.
+
+Let's drop one of the equations.  Then there is one function in two unknowns, and there will be infinite zeros.
+<<>>=
+s <- findZeros( 3*x + y - 5 ~ x&y)
+s
+@
+\function{findZeros} didn't give back all of the infinite number of zeros!  How could it?  To keep the operation of \function{findZeros} simple, it's arranged to return a numerical sample of the zeros.  It does this in the form of a data frame, each row of which will evaluate to zero when plugged into the functions.
+<<>>=
+with(data=s, 3*x + y - 5)
+@
+
+\function{findZeros} also works for nonlinear functions.
+<<>>=
+findZeros(x*y^2 - 8 ~ x&y, sin(x*y)-0.5 ~ x&y)
+@
+Such systems often have more than one isolated zero.  You can use \texttt{near} and \texttt{within} to specify a locale.
+<<>>=
+findZeros(x*y^2 - 8 ~ x&y, sin(x*y)-0.5 ~ x&y, 
+               near=c(x=20,y=0), within=c(x=5,y=1))
+@
+
+Again, there's no need to have as many functions as unknowns.  To illustrate, consider all the zeros of the function $x^2 + y^2 + z^2 - 10$.  These are points on a sphere of radius $\sqrt{10}$ in $x,y,z$ space.
+<<>>=
+findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z, near=0, within=4)
+@
+
+To be able to show the surface nicely, you need lots of points. Here, 1000 points are requested
+<<cache=TRUE>>=
+s1 <- findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z, 
+                near=0, within=10, nearest=1000)
+cloud( z ~ x+y, data=s1, pch=19)
+@
+
+Suppose you have two such equations, corresponding to two spheres.  Then the intersection will, generically, lie on a manifold of dimension 1: a curve.
+<<cache=TRUE>>=
+s2 <- findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z, 
+                 (x-2)^2 + (y-1)^2 + z^2 - 8 ~ x&y&z, 
+                near=0, within=10, nearest=200)
+cloud( z ~ x+y, data=s2, pch=19)
+@
+
+With three equations, corresponding to three spheres, the result will be isolated points.  In this case, there are two
+solutions.
+<<cache=TRUE>>=
+s3 <- findZeros(x^2 + y^2 + z^2 - 10 ~ x&y&z, 
+                 (x-2)^2 + (y-1)^2 + z^2 - 8 ~ x&y&z, 
+                (x+1)^2+(y-2)^2+(z-1)^2-9~x&y&z,
+                near=0, within=10, nearest=20)
+cloud( z ~ x+y, data=s3, pch=19)
+
+@
+
+To visualize how all three of these intersections interact, consider the following plot:
+<<chache=TRUE>>=
+s <- rbind(cbind(s1, group=1),
+           cbind(s2, group=2),
+           cbind(s3, group=3))
+
+cloud( z ~ x+y, data=s, groups=group, pch=19, cex=.3)
+
+
+@
+
+\subsection{Example: GPS}
+
+The function \function{findZeros()} allows you to specify fewer equations than variables.  This results in multiple sets of solutions.  Consider the methods of using GPS satellites to determine a hiker's position on the Earth.  With information from only one satellite, the hiker knows only that they exist somewhere on a sphere of radius d from that satellite.  Say satellite A is at position (12480, 483901, 1239) and is a distance of 25 away from the hiker.  Then the hiker must exist somewhere in the sphere determined by
+
+<<>>=
+Z = findZeros((x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=1000, within=25)
+@
+
+Now, by adding information from a second satellite, we can narrow down the search for the position of the hikers.
+
+<<>>=
+Z2 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
+#cloudData = rbind(cbind(Z, name=rep("satA", length(rows(Z)))), cbind(Z2, name=rep("satB", length(rows(Z2)))))
+#cloud(z~x+y, data=cloudData)
+Z3 = findZeros((x-12485)^2+(y- 483900)^2+(z-1243)^2 - 30 ~ x&y&z, (x-12480)^2+(y- 483901)^2+(z-1239)^2 - 25 ~ x&y&z, near=c(12480, 483901, 1239), nearest=5000, within=25)
+@
+
+Now the hiker needs to gain information from another satellite to correctly determine their current postion.  Say this satellite is
+
 
 \section{Random-Example Functions}
 
