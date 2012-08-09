@@ -67,7 +67,7 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
   if( length(rhsVars) != 1 ){
     if(within==Inf)
       within=100
-    return(findZerosMult(expr,..., npts=nearest, rad=within, near = near, sortBy = sortBy))
+    return(unique(signif(findZerosMult(expr,..., npts=nearest, rad=within, near = near, sortBy = sortBy), 7)))
   }
   
   pfun <- function(x){  # removed . from name, was .x
@@ -142,6 +142,6 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
   } else {
     result <- data.frame(result)
     colnames(result)<- rhsVars
-    return(result)
+    return(unique(signif(result, 7)))
   }
 }
