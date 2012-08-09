@@ -147,6 +147,7 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
               roots = rbind(roots, root)
             }
             if(length(rows(roots)) >= npts){
+              colnames(roots) = rhsVars
               roots = .sort(roots, near = near, type=sortBy)
               rownames(roots) <- (1:(length(rows(roots))))
               return(roots) #return ordered by the first variable.

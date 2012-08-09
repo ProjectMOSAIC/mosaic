@@ -434,17 +434,39 @@ findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z, near=0, within=4)
 
 To be able to show the surface nicely, you need lots of points. Here, 1000 points are requested
 <<cache=TRUE>>=
-s <- findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z, 
+s1 <- findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z, 
                 near=0, within=10, nearest=1000)
-cloud( z ~ x+y, data=s )
+cloud( z ~ x+y, data=s1, pch=19)
 @
 
 Suppose you have two such equations, corresponding to two spheres.  Then the intersection will, generically, lie on a manifold of dimension 1: a curve.
 <<cache=TRUE>>=
 s2 <- findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z, 
                  (x-2)^2 + (y-1)^2 + z^2 - 8 ~ x&y&z, 
-                near=0, within=20, nearest=50)
-cloud( z ~ x+y, data=s2)
+                near=0, within=10, nearest=200)
+cloud( z ~ x+y, data=s2, pch=19)
+@
+
+With three equations, corresponding to three spheres, the result will be isolated points.  In this case, there are two
+solutions.
+<<cache=TRUE>>=
+s3 <- findZeros(x^2 + y^2 + z^2 - 10 ~ x&y&z, 
+                 (x-2)^2 + (y-1)^2 + z^2 - 8 ~ x&y&z, 
+                (x+1)^2+(y-2)^2+(z-1)^2-9~x&y&z,
+                near=0, within=10, nearest=20)
+cloud( z ~ x+y, data=s3, pch=19)
+
+@
+
+To visualize how all three of these intersections interact, consider the following plot:
+<<chache=TRUE>>=
+s <- rbind(cbind(s1, group=1),
+           cbind(s2, group=2),
+           cbind(s3, group=3))
+
+cloud( z ~ x+y, data=s, groups=group, pch=19, cex=.3)
+
+
 @
 
 \subsection{Example: GPS}
