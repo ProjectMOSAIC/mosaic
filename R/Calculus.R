@@ -156,31 +156,6 @@ makeAntiDfun <- function(.function, .wrt, from, .tol) {
   # return(Vectorize(res))
   return(res)
 }
-OLDmakeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) { 
-  # Create a new function of argument .vi that will take additional
-  # arguments
-  .newf <- function(.vi,.av){
-    .av[[.wrt]] = .vi
-    do.call(.function,.av,quote=TRUE) + 0*.vi #make the same size as vi
-  }
-  # find the name of the constant of integration
-  
-  
-
-  resargs <- formals(.function) 
- 
-  intC <- LETTERS[-(1:2)][!LETTERS[-(1:2)]%in% names(resargs)][1]
-  if (length(intC)==0) intC <- paste("ConstantOfIntegration",runif(1),sep="")
-  resargs[intC] <- 0
-  res <- function() {
-    #Still need to add in constant of integration.
-    numerical.integration(.newf,.wrt,as.list(match.call())[-1],formals(), from)
-  }
-  browser()
-  formals(res) <- c(resargs)
-  
-  return(Vectorize(res))
-}
 # =============
 #' @rdname Calculus
 #'
