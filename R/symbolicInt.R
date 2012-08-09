@@ -65,9 +65,9 @@ symbolicAntiD <- function(form, ...){
     group = getGroup(toString(lhs(form)[[1]]))[[1]] #determine typ of highest-level expr.
   else group = -1
   if(group =="Arith")
-    return(intArith(form, ...))
+    return(.intArith(form, ...))
   if(group =="Math")
-    return(intMath(form, ...))
+    return(.intMath(form, ...))
   
   #check if it's just x
   if((lhs(form))==rhsVar){
@@ -79,7 +79,15 @@ symbolicAntiD <- function(form, ...){
 }
 
 #--------------------------
-intArith <- function(form, ...){
+#' @rdname symbolicInt
+#'Attempts symbolic integration of some mathematical/arithmetical forms
+#'
+#'@param form A call that will be parsed
+#'@param \ldots additional arguments such as assignments to symbolic parameters
+#'
+#'@return An expression with the integral, or throws an error if unsuccessful.
+#'
+.intArith <- function(form, ...){
   dots = list(...)
   
   rhsVar = all.vars(rhs(form))
@@ -142,7 +150,7 @@ intArith <- function(form, ...){
     den = lhs(form)[[3]]
     
     #first see if it is a trigonometric substitution problem
-    check <- try(intTrig(form, num, den, rhsVar), silent=TRUE)
+    check <- try(.intTrig(form, num, den, rhsVar), silent=TRUE)
     if(!inherits(check, "try-error"))
       return(check)
     
@@ -195,7 +203,15 @@ intArith <- function(form, ...){
 }
 
 #--------------------------
-intMath <- function(form, ...){
+#' @rdname symbolicInt
+#'Attempts symbolic integration of some mathematical forms
+#'
+#'@param form A call that will be parsed
+#'@param \ldots additional arguments such as assignments to symbolic parameters
+#'
+#'@return An expression with the integral, or throws an error if unsuccessful.
+#'
+.intMath <- function(form, ...){
   
   op = lhs(form)[[1]]
   
@@ -327,7 +343,18 @@ intMath <- function(form, ...){
 }
 
 #-------------------------
-intTrig <- function(form, num, den, .x.){
+#' @rdname symbolicInt
+#'Attempts symbolic integration of some mathematical forms using trigonometric substitution
+#'
+#'@param form A call that will be parsed
+#'@param num variable names
+#'@param den variable names
+#'@param .x. something else
+
+#'
+#'@return An expression with the integral, or throws an error if unsuccessful.
+#'
+.intTrig <- function(form, num, den, .x.){
   params <- all.vars(num)
   if(length(params) == 0)
     params <- ""
@@ -507,9 +534,9 @@ intTrig <- function(form, num, den, .x.){
   }  
   
   stop("Not valid trig sub")
-  
 }
 
+#' @rdname symbolicInt
 #'Takes a call and returns its affine coefficients.
 #'
 #'@param tree A call that will be parse

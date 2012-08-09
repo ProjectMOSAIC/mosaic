@@ -16,8 +16,6 @@
 #' default values of "from" and "to" can be assigned.  They are to be written with
 #' the name of the variable as a prefix, e.g. \code{y.from}.
 #'
-#' @param Const Numerical value for the constant of integration.
-#'
 #' @param .hstep  horizontal distance between points used for secant slope
 #'   calculation in numerical derivatives. 
 #'   
@@ -130,10 +128,8 @@ antiD <- function(formula, ..., lower.bound=0, force.numeric=FALSE){
 #' @param .function function to be integrated
 #' @param .wrt character string naming the variable of integration
 #' @param from default value for the lower bound of the integral region
-#' @param to default value for the upper bound of the integral region
-#' @param .tol tolerance of the numerical integrator (not yet implemented)
 # I don't want this function to be exported.
-makeAntiDfun <- function(.function, .wrt, from, .tol) {
+makeAntiDfun <- function(.function, .wrt, from, .tol=.Machine$double.eps^0.25) {
   resargs <- formals(.function) 
   
   intC <- LETTERS[-(1:2)][!LETTERS[-(1:2)]%in% names(resargs)][1]
@@ -148,7 +144,7 @@ makeAntiDfun <- function(.function, .wrt, from, .tol) {
   # Create the numerical integral
   res <- function(){
     numerical.integration(.newf,.wrt,as.list(match.call())[-1],formals(),
-                          from,ciName=intC) 
+                          from,ciName=intC, .tol) 
   }
   
   formals(res) <- c(resargs)
@@ -164,13 +160,15 @@ makeAntiDfun <- function(.function, .wrt, from, .tol) {
 #' @param av a list of the arguments passed to the function calling this
 #' @param args default values (if any) for parameterss
 #' @param vi.from the the lower bound of the interval of integration
+#' @param ciName character string giving the name of the symbol for the constant of integration
+#' @param .tol Numerical tolerance.  See stats::integrate
 #' 
 #' @note This function is not intended for direct use.  It packages
 #' up the numerical anti-differentiation process so that the contents
 #' of functions produced by \code{antiD} look nicer to human readers.
 #' @export
 #'
-numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C") {
+numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
   # We are about to do the numerics.  At this point, every
   # variable should have a numerical binding.  Just in case some
   # are still expressions, go through the list and evaluate them
@@ -206,16 +204,16 @@ numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C") {
     if( length(vi.from)!=length(vi.to) ) stop("Either fix 'from' or set it to the same length as 'to'")
     res <- rep(0,length(vi.to))
     for (k in 1:length(vi.to)) {
-      res[k] <- stats::integrate(newf,vi.from[k],vi.to[k])$value
+      res[k] <- stats::integrate(newf,vi.from[k],vi.to[k],rel.tol=.tol)$value
     }
     return(res+initVal)
   }
-  val0 <- stats::integrate(newf, vi.from, vi.to[1])$value
+  val0 <- stats::integrate(newf, vi.from, vi.to[1],rel.tol=.tol)$value
   # work around a bug in integrate()
   if( vi.to[1]==-Inf ) {
     # When "upper" limit is -Inf, the sign is wrong!  This might
     # change, so check that the bug still exists
-    if( stats::integrate(function(x){dnorm(x)},lower=0,upper=-Inf)$val > 0) {
+    if( stats::integrate(function(x){dnorm(x)},lower=0,upper=-Inf,rel.tol=.tol)$val > 0) {
       # bug exists!
       val0 <- -val0
     }
@@ -227,7 +225,7 @@ numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C") {
   }
   res <- rep(val0, length(vi.to))
   for (k in 2:length(res)) {
-    res[k] <- stats::integrate(newf, vi.to[k-1], vi.to[k])$value
+    res[k] <- stats::integrate(newf, vi.to[k-1], vi.to[k],rel.tol=.tol)$value
   }
   res <- cumsum(res)
   return(multiplier*res)
