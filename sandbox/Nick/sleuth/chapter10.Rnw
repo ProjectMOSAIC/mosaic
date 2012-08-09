@@ -192,7 +192,7 @@ The first model that we created is a cubic model as interpreted on page 269 and 
 lm3 = lm(DISTANCE ~ HEIGHT+I(HEIGHT^2)+I(HEIGHT^3), data=galileo); summary(lm3)
 @
 
-We next decrease \emph{height} by one degree to obtain a quadratic model as interpreted on page 269 and summarized in Display 10.7 (page 277). Notice that this model is used for most of the following results. 
+We next decrease the polynomial for \emph{height} by one degree to obtain a quadratic model as interpreted on page 269 and summarized in Display 10.7 (page 277). This model is used for most of the following results. 
 
 <<>>=
 lm2 = lm(DISTANCE ~ HEIGHT+I(HEIGHT^2), data=galileo); summary(lm2)
@@ -205,7 +205,8 @@ galileo$pred = predict(lm2)
 xyplot(pred+DISTANCE ~ HEIGHT, auto.key=TRUE, data=galileo)
 @
 
-To obtain the expected values of $\hat{\mu}\left(\mathrm{distance}|\mathrm{height} = 0 \right)$ and \hat{\mu}\left(\mathrm{distance}|\mathrm{height} = 250\}$, we used the {\tt predict()} command with the quadratic model as shown in Display 10.7 (page 277).
+To obtain the expected values of $\hat{\mu}\left(\mathrm{distance}|\mathrm{height} = 0 \right)$ 
+and $\hat{\mu}\left(\mathrm{distance}|\mathrm{height} = 250\right)$, we used the {\tt predict()} command with the quadratic model as shown in Display 10.7 (page 277).
 <<>>=
 predict(lm2, interval="confidence", data.frame(HEIGHT=c(0, 250)))
 @

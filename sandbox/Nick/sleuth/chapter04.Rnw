@@ -180,7 +180,8 @@ summary(oring)
 favstats(INCIDENTS ~ LAUNCH, data=oring)
 @
 
-A total of \Sexpr{nrow(oring)} subjects are included in the data: \Sexpr{nrow(subset(oring, LAUNCH=="COOL"))} O-ring incidents when temperature was cold and \Sexpr{nrow(subset(oring, LAUNCH=="WARM"))} O-ring incidents when temperature was warm (Display 4.1, page 86).
+A total of \Sexpr{nrow(oring)} subjects are included in the data: \Sexpr{nrow(subset(oring, LAUNCH=="COOL"))} O-ring incidents when the temperature was cold and \Sexpr{nrow(subset(oring, LAUNCH=="WARM"))} incidents when 
+the temperature was warm (Display 4.1, page 86).
 
 <<>>=
 xhistogram(~ INCIDENTS | LAUNCH, data=oring)
@@ -195,25 +196,28 @@ first calculates the $t$-statistic of the observed outcome.
 t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)
 @
 
-The $t$-statistic is \Sexpr{t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)$statistic}.
+We observe a
+test statistic of \Sexpr{t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)$statistic}.
 
 
 <<>>=
 C244=factorial(24)/(factorial(4)*factorial(24-4)); C244
 @
 
-The total number of regroupings is \Sexpr{nrow(C244)} with 8 possible outcomes: (0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), (0, 0, 0, 3), (0, 0, 1, 1), (0, 0, 1, 2), (0, 0, 1, 3), (0, 0, 2, 3), (0, 1, 1, 1), (0, 1, 1, 2), (0, 1, 1, 3), (0, 1, 2, 3), (1, 1, 1, 1), (1, 1, 1, 2), (1, 1, 1, 3), (1, 1, 2, 3). Because the observed group is (1, 1, 1, 3), we will only examine the more extreme groups, which are (1, 1, 2, 3) and (0, 1, 2, 3)
+There are a total of \Sexpr{C244} regroupings with 8 possible (non-equiprobable) outcomes:
+(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), (0, 0, 0, 3), (0, 0, 1, 1), (0, 0, 1, 2), (0, 0, 1, 3), (0, 0, 2, 3), (0, 1, 1, 1), (0, 1, 1, 2), (0, 1, 1, 3), (0, 1, 2, 3), (1, 1, 1, 1), (1, 1, 1, 2), (1, 1, 1, 3), (1, 1, 2, 3). Because the observed cold temperature outcomes was (1, 1, 1, 3), we will only examine the more extreme groupings, which are (1, 1, 2, 3) and (0, 1, 2, 3).
 
 <<>>=
-# t.test for (1, 1, 2, 3)
-t.test(oring[c(1,2,4,24),]$INCIDENTS, oring[-c(1,2,4,24),]$INCIDENTS, var.equal=TRUE)
+# t.test for (1, 1, 2, 3)   # observations 1, 2, 4 and 24
+oring$INCIDENTS[c(1,2,4,24)]
+with(oring, t.test(INCIDENTS[c(1,2,4,24)], INCIDENTS[-c(1,2,4,24)], var.equal=TRUE))
 # t.test for (0, 1, 2, 3)
-t.test(oring[c(1,4,5,24),]$INCIDENTS, oring[-c(1,4,5,24),]$INCIDENTS, var.equal=TRUE)
+oring$INCIDENTS[c(1,4,5,24)]
+with(oring, t.test(INCIDENTS[c(1,4,5,24)], INCIDENTS[-c(1,4,5,24)], var.equal=TRUE))
 @
 
-The $t$-statistic for (1, 1, 2, 3) is \Sexpr{t.test(oring[c(1,2,4,24),]$INCIDENTS, oring[-c(1,2,4,24),]$INCIDENTS, var.equal=TRUE)$statistic} and the $t$-statistic for (1, 1, 2, 3) is \Sexpr{t.test(oring[c(1,4,5,24),]$INCIDENTS, oring[-c(1,4,5,24),]$INCIDENTS, var.equal=TRUE)$statistic}
-
-XX Ruobing: I can only get the t-statistics shown on the book by turning the option var.equal=TRUE. If it's OK, please not delete it. XX
+The test statistic for (1, 1, 2, 3) is \Sexpr{t.test(oring[c(1,2,4,24),]$INCIDENTS, oring[-c(1,2,4,24),]$INCIDENTS, var.equal=TRUE)$statistic} 
+and the test statistic for (1, 4, 5, 24) is \Sexpr{t.test(oring[c(1,4,5,24),]$INCIDENTS, oring[-c(1,4,5,24),]$INCIDENTS, var.equal=TRUE)$statistic}.
 
 <<>>=
 C1123 = factorial(5)/(factorial(2)*factorial(5-2)); C1123
@@ -221,24 +225,20 @@ C0123 = 17*5; C0123
 onep = (C1123+C0123)/C244; onep
 @
 
-So the one-sided $p$-value from the permutation test on the $t$-statistic is \Sexpr{round(onep, 2)}.
+The one-sided $p$-value from the permutation test on the $t$-statistic is \Sexpr{round(onep, 2)}.
 
-Alternatively, we can approximate the $p$-value using the difference of means and simulating the 
-null distribution. 
+Alternatively, we can approximate the $p$-value using the difference of means and simulating repeatedly from the 
+null distribution (note that the book enumerates all of the possible outcomes to get an exact result). 
 
 <<fig.height=8, fig.width=8>>=
 t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)
 obs = diff(mean(INCIDENTS ~ LAUNCH, data=oring)); obs
-nulldist = do(5000) * diff(mean(INCIDENTS ~ shuffle(LAUNCH), data=oring))
+nulldist = do(10000) * diff(mean(INCIDENTS ~ shuffle(LAUNCH), data=oring))
 xhistogram(~ WARM, groups=WARM <= obs, v=obs, data=nulldist)
 tally(~ WARM <= obs, format="percent", data=nulldist)
 @
 
-This simulation resulted in a $p$-value of \Sexpr{tally(~ WARM < obs, format="percent", data=nulldist)["TRUE"]}.  
-XX Why are the p-values so different? Strict rounding? XX  
-XX RESPONSE: I changed to less than or equal: does that help? XX
-XX Ruobing: Not really. The p-value calculated using book's method is around 0.01, but the one calculated using computer simulation is around 0.1. XX
-
+This simulation resulted in a $p$-value of \Sexpr{tally(~ WARM <= obs, format="proportion", data=nulldist)["TRUE"]}.  
 \section{Cognitive Load Theory in Teaching}
 
 Does use of modified instructional materials lead to quicker problem solving? That's the question being addressed by case study 4.2 in the \emph{Sleuth}.
@@ -264,20 +264,36 @@ densityplot(~ TIME, groups=TREATMT, auto.key=TRUE, data=teaching)
 \subsection{Rank-sum test}
 
 We conduct Wilcoxon rank-sum test to calculate the results displayed on page 88.
+We can calculate the one-sided p-value by following rank-sum procedure.
+First, we try to find the statistic T (display 4.5, page 91):
 
-XX Are there any other analyses for this case study? XX
-XX Ruobing: Yes, there are, but I'm still on my way to figure out how to present those displays. This case is about rank-sum test and there is a table listing all observations and explaining the procedures of assigning orders and ranks. I haven't figured out how to show the calculation of p-value in the document. XX
+<<>>=
+rank = rank(teaching$TIME, ties.method="average"); rank
+mt = sum(rank[1:14]); mt
+@
+
+Next we calculate the p-value using a normal approximation (Display 4.7, page 93).
+
+<<>>=
+average = mean(rank); average
+sd = sd(rank); sd
+n = nrow(subset(teaching, TREATMT=="MODIFIED")); n
+MEANT = n * average; MEANT
+SDT = sd * sqrt((n^2)/(2*n)); SDT
+z = (mt-MEANT)/SDT; z
+p = pnorm(-abs(z)); p
+@
+
+The one-sided p-value is \Sexpr{p}.
+
+Alternatively, we can conduct Wilcoxon rank-sum test to calculate the p-value.
 
 <<>>=
 wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)
 @
 
 So the one-sided p-value is \Sexpr{round((wilcox.test(TIME ~ TREATMT, conf.int=TRUE, var.equal=TRUE, data=teaching)$p.value/2), 3)}. The 95\% confidence interval is (\Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[1:1], 1)}, \Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[2:2], 1)}).
-
-XX The book says that the 95\% confidence interval should be (58, 159). However, what I got from wilcox.test is a little bit wilder, which is (57, 160); if I turn correct=FALSE, I'll get a narrower result, which is (59, 158). How can I adjust this? XX
-
-<<>>=
-rank(teaching$TIME, ties.method="average")
-@
+The book suggests that the 95\% confidence interval should be (58, 159), which is slightly narrower
+than these results.
 
 \end{document}
