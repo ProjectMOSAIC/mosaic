@@ -146,3 +146,58 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
     return(unique(signif(result, 7)))
   }
 }
+#' Solve an equation
+#' @rdname findZeros
+#'
+#' @method solve formula
+#'
+#'@param form Expression to be solved
+#'
+#'@details Uses findZerosMult of findZeros to solve the given expression
+#'
+#'@return a dataframe with solutions to the expression.
+#'
+#'@author Cecylia Bocovich
+#'
+#'@examples
+#'solve(3*x==3~x)
+#'
+#'#plot out sphere
+#'sphere = solve(x^2+y^2+z^2==5~x&y&z, within=5, nearest=1000)
+#'cloud(z~x+y, data=sphere)
+#'
+
+solve.formula <- function(form, ..., near=0, 
+                  within=Inf, nearest=10, npts=1000, iterate=1, sortBy=c('byx', 'byy', 'radial')){
+  dots = list(...)
+  system = list(form)
+  sortBy <- match.arg(sortBy)
+  freeVars = list()
+  
+  
+  #Separate formulae and free vars
+  if(length(dots)>0){
+    for(i in (1:length(dots))){
+      if(class(dots[[i]])=="formula")
+        system = append(system, dots[[i]]) #system contains all equations
+      else{
+        if(class(dots[[i]])=="numeric")
+          freeVars[[names(dots)[i]]] <- dots[[i]] #freeVars contains values we will sub in
+        else stop(paste("Improper value: ", deparse(dots[[i]])))
+      }
+    }
+  }
+  
+  #change expression into formula.
+  for(i in (1:length(system))){
+    formula = system[[i]]
+    exp = lhs(formula)
+    exp = parse(text=paste(deparse(exp[[2]], width.cutoff=500), "-",
+                           deparse(exp[[3]], width.cutoff=500), sep=""))[[1]]
+    formula[[2]] <- exp
+    system[[i]] <- formula
+  }
+  
+  return(do.call(findZeros, c(system, freeVars, near=near, 
+                              within=within, nearest=nearest, npts=npts, iterate=iterate, sortBy=sortBy)))
+}
