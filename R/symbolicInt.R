@@ -80,6 +80,7 @@ symbolicAntiD <- function(form, ...){
 
 #--------------------------
 #' @rdname symbolicInt
+#' 
 #'Attempts symbolic integration of some mathematical/arithmetical forms
 #'
 #'@param form A call that will be parsed
@@ -204,6 +205,7 @@ symbolicAntiD <- function(form, ...){
 
 #--------------------------
 #' @rdname symbolicInt
+#' 
 #'Attempts symbolic integration of some mathematical forms
 #'
 #'@param form A call that will be parsed
@@ -344,6 +346,7 @@ symbolicAntiD <- function(form, ...){
 
 #-------------------------
 #' @rdname symbolicInt
+#' 
 #'Attempts symbolic integration of some mathematical forms using trigonometric substitution
 #'
 #'@param form A call that will be parsed

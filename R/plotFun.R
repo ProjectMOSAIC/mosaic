@@ -61,7 +61,7 @@ utils::globalVariables(c('rot','elev','slider','manipulate','colorList'))
 #' ladd( panel.abline(h=0,v=0,col='gray50') )
 #' plotFun( (x^2 -3) * (x^2 > 3) ~ x, type='h', alpha=.1, lwd=4, col='lightblue', add=TRUE )
 #' plotFun( sin(x) ~ x, 
-#'    groups=cut(x, findZeros(sin(x) ~ x, within=10)), 
+#'    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
 #'    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
 #' plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t,k=2,P=.3)
 #' f <- rfun( ~ u & v )
@@ -138,7 +138,7 @@ plotFun <- function(object, ...,
     
 		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) {
       zeros <- c() #empty
-      tryCatch( zeros <- findZeros( object, nearest=6, ... ), 
+      tryCatch( zeros <- findZeros( object, nearest=6, ... )[[1]], 
                 error=function(e){e},warning=function(e){} )
 			limits$xlim <- switch(as.character(length(zeros)), 
 				"0" = c(0,1),
