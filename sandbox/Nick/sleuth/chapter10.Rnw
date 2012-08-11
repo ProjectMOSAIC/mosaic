@@ -216,7 +216,7 @@ We can also verify the above confidence interval calculations with the following
 355.1+c(-1, 1)*6.62*qt(.975, 4)
 @
 
-To verify numbers on page 279, an interval for the predicted values , we used the following code:
+To verify the interval for the predicted values on page 279, we used the following code:
 <<>>=
 predict(lm2, interval="predict", data.frame(HEIGHT=c(0, 250)))
 @

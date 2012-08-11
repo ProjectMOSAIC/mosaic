@@ -285,15 +285,15 @@ We can calculate the one-sided $p$-value by following rank-sum procedure.
 First, we try to find the statistic T (display 4.5, page 91):
 
 <<>>=
-rank = rank(teaching$TIME, ties.method="average"); rank
-mt = sum(rank[1:14]); mt
+obsrank = rank(teaching$TIME, ties.method="average"); obsrank
+mt = sum(obsrank[1:14]); mt
 @
 
 Next we calculate the $p$-value using a normal approximation (Display 4.7, page 93).
 
 <<>>=
-average = mean(rank); average
-sd = sd(rank); sd
+average = mean(obsrank); average
+sd = sd(obsrank); sd
 n = nrow(subset(teaching, TREATMT=="MODIFIED")); n
 MEANT = n * average; MEANT
 SDT = sd * sqrt((n^2)/(2*n)); SDT
