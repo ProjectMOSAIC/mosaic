@@ -39,7 +39,7 @@
    \medskip
    \setlength{\tempfmlength}{#1}
    \begin{lrbox}{\fmbox}
-	   \begin{minipage}{#1}
+     \begin{minipage}{#1}
 		 \vspace*{.02\tempfmlength}
 		 \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
@@ -279,13 +279,18 @@ summary(lm(logenergy ~ newtype * logmass, data=echo))
 To construct the confidence bands discussed on page 277 and shown in Display 10.9 (page 279) we used the following code: 
 <<>>=
 pred = predict(lm1, se.fit=TRUE, newdata=data.frame(newtype=c("non-echolocating birds", "non-echolocating birds"), logmass=c(log(100), log(400))))
-pred.fit = pred$fit[1]; predfit
-pred.se = pred$se.fit[1]; predse
+pred.fit = pred$fit[1]; pred.fit
+pred.se = pred$se.fit[1]; pred.se
 multiplier = sqrt(4*qf(.95, 4, 16)); multiplier
 lower = exp(pred.fit-pred.se*multiplier); lower
 upper = exp(pred.fit+pred.se*multiplier); upper 
+
+# for the other reference points
+pred2 = predict(lm1, se.fit=TRUE, newdata=data.frame(newtype=c("non-echolocating bats", "non-echolocating bats"), logmass=c(log(100), log(400))))
+pred3 = predict(lm1, se.fit=TRUE, newdata=data.frame(newtype=c("echolocating bats", "echolocating bats"), logmass=c(log(100), log(400))))
+
+table10.9 = rbind(c("Intercept estimate", "Standard error"), round(cbind(pred2$fit, pred2$se.fit), 4), round(cbind(pred3$fit, pred3$se.fit), 4)); table10.9
 @
-XX There are more numbers in Display 10.9 
 
 Next we can assess the model by evaluating the extra sums of squares $F$-test for testing the equality of intercepts in the parallel regression lines model as shown in Display 10.10 (page 282).
 <<>>=

@@ -39,7 +39,7 @@
    \medskip
    \setlength{\tempfmlength}{#1}
    \begin{lrbox}{\fmbox}
-	   \begin{minipage}{#1}
+     \begin{minipage}{#1}
 		 \vspace*{.02\tempfmlength}
 		 \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
@@ -317,6 +317,5 @@ lm1 = lm(logbrain ~ logbody+loggest+loglitter, data=mammals)
 summary(lm1)
 @
 
-XX Ruobing: When compiling PDF, some lines would beyond the margin. XX
 
 \end{document}

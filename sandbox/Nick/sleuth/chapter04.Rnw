@@ -41,7 +41,7 @@
    \begin{lrbox}{\fmbox}
      \begin{minipage}{#1}
      \vspace*{.02\tempfmlength}
-  	 \hfill
+     \hfill
 	   \begin{minipage}{.95 \tempfmlength}}
 		 {\end{minipage}\hfill
 		 \vspace*{.015\tempfmlength}
@@ -189,7 +189,7 @@ xhistogram(~ INCIDENTS | LAUNCH, data=oring)
 
 \subsection{Permutation test on t-statistics}
 
-To replicate the permutation test performed on page 96 we used the following code, which
+To replicate the permutation test performed on page 96 we use the following code, which
 first calculates the $t$-statistic of the observed outcome.
 
 <<>>=
@@ -199,30 +199,45 @@ t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)
 We observe a
 test statistic of \Sexpr{t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)$statistic}.
 
+We want to get the total number of regroupings by calculating \emph{$C_{24,4}$}.
 
 <<>>=
 C244=factorial(24)/(factorial(4)*factorial(24-4)); C244
 @
 
 There are a total of \Sexpr{C244} regroupings with 8 possible (non-equiprobable) outcomes:
-(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), (0, 0, 0, 3), (0, 0, 1, 1), (0, 0, 1, 2), (0, 0, 1, 3), (0, 0, 2, 3), (0, 1, 1, 1), (0, 1, 1, 2), (0, 1, 1, 3), (0, 1, 2, 3), (1, 1, 1, 1), (1, 1, 1, 2), (1, 1, 1, 3), (1, 1, 2, 3). Because the observed cold temperature outcomes was (1, 1, 1, 3), we will only examine the more extreme groupings, which are (1, 1, 2, 3) and (0, 1, 2, 3).
+(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), (0, 0, 0, 3), (0, 0, 1, 1), (0, 0, 1, 2), (0, 0, 1, 3), (0, 0, 2, 3), (0, 1, 1, 1), (0, 1, 1, 2), (0, 1, 1, 3), (0, 1, 2, 3), (1, 1, 1, 1), (1, 1, 1, 2), (1, 1, 1, 3), (1, 1, 2, 3). Because the observed cold temperature outcomes was (1, 1, 1, 3), we will only examine the same or more extreme groupings, which are (1, 1, 2, 3) and (0, 1, 2, 3).
 
 <<>>=
 # t.test for (1, 1, 2, 3)   # observations 1, 2, 4 and 24
 oring$INCIDENTS[c(1,2,4,24)]
 with(oring, t.test(INCIDENTS[c(1,2,4,24)], INCIDENTS[-c(1,2,4,24)], var.equal=TRUE))
-# t.test for (0, 1, 2, 3)
+# t.test for (0, 1, 2, 3)   # observation 1, 4, 5 and 24 
 oring$INCIDENTS[c(1,4,5,24)]
 with(oring, t.test(INCIDENTS[c(1,4,5,24)], INCIDENTS[-c(1,4,5,24)], var.equal=TRUE))
 @
 
 The test statistic for (1, 1, 2, 3) is \Sexpr{t.test(oring[c(1,2,4,24),]$INCIDENTS, oring[-c(1,2,4,24),]$INCIDENTS, var.equal=TRUE)$statistic} 
-and the test statistic for (1, 4, 5, 24) is \Sexpr{t.test(oring[c(1,4,5,24),]$INCIDENTS, oring[-c(1,4,5,24),]$INCIDENTS, var.equal=TRUE)$statistic}.
+and the test statistic for (0, 1, 2, 3) is \Sexpr{t.test(oring[c(1,4,5,24),]$INCIDENTS, oring[-c(1,4,5,24),]$INCIDENTS, var.equal=TRUE)$statistic}.
 
+We already know that the total number of regroupings is \emph{$C_{24,4}$}=\Sexpr{C244}. In order to calculate the $p$-value, we need to know the combinations of (1, 1, 1, 3), (2, 1, 2, 3) and (0, 1, 2, 3). There are 17 zeros, 5 ones, 1 two and 1 three.
+
+For outcome (1, 1, 1, 3), we calculate C1113=\emph{$C_{5,3}$}*\emph{$C_{1,1}$}:
 <<>>=
-C1123 = factorial(5)/(factorial(2)*factorial(5-2)); C1123
-C0123 = 17*5; C0123
-onep = (C1123+C0123)/C244; onep
+C1113 = factorial(5)/(factorial(3)*factorial(5-3))*1; C1113
+@
+For outcome (1, 1, 2, 3), we calculate C1123=\emph{$C_{5,2}$}*\emph{$C_{1,1}$}*\emph{$C_{1,1}$}:
+<<>>=
+C1123 = factorial(5)/(factorial(2)*factorial(5-2))*1*1; C1123
+@
+For outcome (0, 1, 2, 3), we calculate C0123=\emph{$C_{17,1}$}*\emph{$C_{5,1}$}*\emph{$C_{1,1}$}*\emph{$C_{1,1}$}
+<<>>=
+C0123 = 17*5*1*1; C0123
+@
+Now we can calculate the $p$-value as the proportion of the number of rearrangements that are as extreme or 
+more extreme over the total number of rearrangements:
+<<>>=
+onep = (C1113+C1123+C0123)/C244; onep
 @
 
 The one-sided $p$-value from the permutation test on the $t$-statistic is \Sexpr{round(onep, 2)}.
@@ -231,14 +246,15 @@ Alternatively, we can approximate the $p$-value using the difference of means an
 null distribution (note that the book enumerates all of the possible outcomes to get an exact result). 
 
 <<fig.height=8, fig.width=8>>=
-t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)
-obs = diff(mean(INCIDENTS ~ LAUNCH, data=oring)); obs
-nulldist = do(10000) * diff(mean(INCIDENTS ~ shuffle(LAUNCH), data=oring))
-xhistogram(~ WARM, groups=WARM <= obs, v=obs, data=nulldist)
-tally(~ WARM <= obs, format="percent", data=nulldist)
+result = t.test(INCIDENTS ~ LAUNCH, var.equal=TRUE, data=oring)$statistic; result
+nulldist = do(10000)*t.test(INCIDENTS ~ shuffle(LAUNCH), var.equal=TRUE, data=oring)$statistic
+xhistogram(~ t, groups=t >= result, v=result, data=nulldist)
+tally(~ t >= result, format="proportion", data=nulldist)
 @
 
-This simulation resulted in a $p$-value of \Sexpr{tally(~ WARM <= obs, format="proportion", data=nulldist)["TRUE"]}.  
+This simulation resulted in a $p$-value of \Sexpr{tally(~ t >= result, format="proportion", data=nulldist)["TRUE"]}.
+
+
 \section{Cognitive Load Theory in Teaching}
 
 Does use of modified instructional materials lead to quicker problem solving? That's the question being addressed by case study 4.2 in the \emph{Sleuth}.
@@ -253,6 +269,8 @@ summary(teaching)
 favstats(TIME ~ TREATMT, data=teaching)
 @
 
+A total of \Sexpr{nrow(teaching)} subjects are included in the data: \Sexpr{nrow(subset(teaching, TREATMT=="MODIFIED"))} students were assigned to modified instructional materials and \Sexpr{nrow(subset(teaching, TREATMT=="CONVENTIONAL"))} students were assigned to conventional materials.
+
 <<fig.height=8, fig.width=8>>=
 bwplot(TREATMT ~ TIME, data=teaching)
 @
@@ -263,8 +281,7 @@ densityplot(~ TIME, groups=TREATMT, auto.key=TRUE, data=teaching)
 
 \subsection{Rank-sum test}
 
-We conduct Wilcoxon rank-sum test to calculate the results displayed on page 88.
-We can calculate the one-sided p-value by following rank-sum procedure.
+We can calculate the one-sided $p$-value by following rank-sum procedure.
 First, we try to find the statistic T (display 4.5, page 91):
 
 <<>>=
@@ -272,7 +289,7 @@ rank = rank(teaching$TIME, ties.method="average"); rank
 mt = sum(rank[1:14]); mt
 @
 
-Next we calculate the p-value using a normal approximation (Display 4.7, page 93).
+Next we calculate the $p$-value using a normal approximation (Display 4.7, page 93).
 
 <<>>=
 average = mean(rank); average
@@ -284,16 +301,16 @@ z = (mt-MEANT)/SDT; z
 p = pnorm(-abs(z)); p
 @
 
-The one-sided p-value is \Sexpr{p}.
+The one-sided $p$-value is \Sexpr{p}.
 
-Alternatively, we can conduct Wilcoxon rank-sum test to calculate the p-value.
+Alternatively, we can use following code to calculate the Wilcoxon rank-sum test:
 
 <<>>=
-wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)
+wilcox.test(TIME ~ TREATMT, conf.int=TRUE, exact=TRUE, data=teaching)
 @
 
-So the one-sided p-value is \Sexpr{round((wilcox.test(TIME ~ TREATMT, conf.int=TRUE, var.equal=TRUE, data=teaching)$p.value/2), 3)}. The 95\% confidence interval is (\Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[1:1], 1)}, \Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[2:2], 1)}).
+So the one-sided $p$-value is \Sexpr{round((wilcox.test(TIME ~ TREATMT, conf.int=TRUE, var.equal=TRUE, data=teaching)$p.value/2), 3)}. The 95\% confidence interval is (\Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[1:1], 1)}, \Sexpr{round(wilcox.test(TIME ~ TREATMT, conf.int=TRUE, data=teaching)$conf.int[2:2], 1)}).
 The book suggests that the 95\% confidence interval should be (58, 159), which is slightly narrower
-than these results.
+than these results. Their procedure is on page 94.
 
 \end{document}
