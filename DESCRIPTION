@@ -93,3 +93,5 @@ Collate:
     'fitSpline.R'
     'plotPoints.R'
     'datasetsOLI.R'
+    'simplify.R'
+    'symbolicInt.R'
