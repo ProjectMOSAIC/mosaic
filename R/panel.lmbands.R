@@ -1,3 +1,19 @@
+#' show confidence and preciction bands on plots
+#' 
+#' @param x,y numeric vectors
+#' @param interval a vector subset of \code{'confidence'} and \code{'prediction'}
+#' @param level conficence level
+#' @param model model to be used for generating bands
+#' @param band.col a vector of length 1 or 2 giving the color of bands 
+#' @param band.lty a vector of length 1 or 2 giving the line type for bands
+#' @param band.show logical vector of length 1 or 2 indicating whether 
+#' confidence and prediction bands should be shown
+#' @param fit.show logical indicating whether the model fit should be shown
+#' @param band.alpha a vector of length 1 or 2 alpha level for bands
+#' @param band.lwd a vector of length 1 or 2 giving line width for bands
+#' @param npts resolution parameter for bands (increase to get better resolution)
+#' @param \dots additional arguments
+#' 
 #' @export
 panel.lmbands <-
 function (x, y, 
@@ -31,7 +47,7 @@ function (x, y,
 	bandDots[['alpha']] <- NULL
 	bandDots[['lwd']] <- NULL
 
-	if (bands.show[2])
+	if (band.show[2])
 	do.call( panel.plotFun, 
 			c(list(Plower(x)~x, 
 				   col=band.col[2], 
@@ -41,7 +57,7 @@ function (x, y,
 				   lwd=band.lwd[2]),
 			  bandDots) )
 
-	if (bands.show[2])
+	if (band.show[2])
 	do.call( panel.plotFun, 
 			c(list(Pupper(x)~x, 
 				   col=band.col[2], 
@@ -51,7 +67,7 @@ function (x, y,
 				   npts=npts), 
 			  bandDots) )
 
-	if (bands.show[1])
+	if (band.show[1])
 	do.call( panel.plotFun, 
 			c(list(Clower(x)~x, 
 				   col=band.col[1], 
@@ -61,7 +77,7 @@ function (x, y,
 				   npts=npts), 
 			  bandDots) )
 
-	if (bands.show[1])
+	if (band.show[1])
 	do.call( panel.plotFun, 
 			c(list(Cupper(x)~x, 
 				   col=band.col[1], 
