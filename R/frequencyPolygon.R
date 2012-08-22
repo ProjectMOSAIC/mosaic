@@ -5,7 +5,7 @@
 #' distributions.
 #'
 #' @param x a formula or a numeric vector
-#' @param \dots additional arguments passed on to \code{\link{densityplot}} and \code{panel}.
+#' @param \dots additional arguments passed on to \code{\link{histogram}} and \code{panel}.
 #' @param panel a panel function
 #'
 #' @return a trellis object
@@ -19,7 +19,7 @@
 #' freqpolygon(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
 
 freqpolygon <- function(x, ..., panel=panel.freqpolygon) {
-  densityplot(x, ..., panel=panel)
+  histogram(x, ..., panel=panel)
 }
 
 
@@ -29,7 +29,8 @@ freqpolygon <- function(x, ..., panel=panel.freqpolygon) {
 #' how points are to be displayed
 #' @param gcol color of guidelines
 #' @param glwd width of guidelines
-#' @param groups,weights,jitter.amount,identifier as in \code{\link{densityplot}}
+#' @param groups,weights,jitter.amount,identifier as in \code{\link{densityplot}} 
+#' or \code{\link{histogram}}
 #' @param type one of \code{'density'}, \code{'percent'}, or \code{'count'}
 #' @param breaks a vector of breaks for the frequency polygon bins
 #' @param nint an approximate number of bins for the frequency polygon
@@ -38,8 +39,7 @@ freqpolygon <- function(x, ..., panel=panel.freqpolygon) {
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param ref a logical indicating whether a horizontal reference line should be 
 #' added (roughly equivalent to \code{h=0})
-#' @warning These functions are still under development.  In particular, the pre-panel function (borrowed
-#' from \code{\link{densityplot}} does not always leave enough headroom for the frequency polygons.
+#' @details These functions are still under development.  Future improvements may be forthcoming.
 #' 
 panel.freqpolygon <- function (x, plot.points = "jitter", ref = FALSE, 
           groups = NULL, weights = NULL, 
