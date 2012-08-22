@@ -1,0 +1,306 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 3}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+     \begin{minipage}{#1}
+     \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 3}
+
+\author{
+Ruobing Zhang \and Kate Aloisio \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x){
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
+
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session.
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=3, show.signif.stars=FALSE)
+@
+
+The specific goal of this document is to demonstrate how to calculate the quantities described in \emph{Sleuth} Chapter 3: A Closer Look at Assumptions using R.
+
+\section{Cloud Seeding to Increase Rainfall}
+
+Does seeding clouds lead to more rainfall? This is the question being addressed by case study 3.1 in the \emph{Sleuth}.
+
+\subsection{Summary statistics and graphical displays (untransformed)}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+rain=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0301.csv")
+summary(rain)
+favstats(RAINFALL ~ TREATMENT, data=rain)
+@
+
+A total of \Sexpr{nrow(rain)} subjects were included in this data: \Sexpr{nrow(subset(rain, TREATMENT=="SEEDED"))} seeded days  and \Sexpr{nrow(subset(rain, TREATMENT=="UNSEEDED"))} 
+unseeded days (Display 3.1, page 57). 
+
+<<fig.height=8, fig.width=8>>=
+bwplot(RAINFALL ~ TREATMENT, data=rain)
+@
+
+<<fig.height=8, fig.width=8>>=
+densityplot(~RAINFALL, groups=TREATMENT, auto.key=TRUE, data=rain)
+@
+
+According to the boxplot and the density plot, the rainfall from seeded days seems to be larger than unseeded days. Both density curves are highly skewed to the right.
+
+\subsection{Summary statistics and graphical display (transformed)}
+
+The skewness suggests there is a need to apply the logarithmic transformation. The transformed data is shown on page 71 (Display 3.9).
+
+<<>>=
+rain$lograin=log(rain$RAINFALL)
+favstats(lograin ~ TREATMENT, data=rain)
+@
+
+<<fig.height=8, fig.width=8>>=
+bwplot(lograin ~ TREATMENT, data=rain)
+@
+
+<<fig.height=8, fig.width=8>>=
+densityplot(~lograin, groups=TREATMENT, auto.key=TRUE, data=rain)
+@
+
+The log transformation reduces skewness of these two distributions.
+
+\subsection{Inferential procedures (two-sample t-test)}
+
+ 
+<<>>=
+t.test(RAINFALL ~ TREATMENT, var.equal=FALSE, data=rain)
+t.test(RAINFALL ~ TREATMENT, var.equal=TRUE, data=rain)
+@
+
+The following corresponds to the calculations on page 71.
+
+<<>>=
+summary(lm(lograin ~ TREATMENT, data=rain))
+ttestlog = t.test(lograin ~ TREATMENT, data=rain); ttestlog
+@
+
+The two-sided $p$-value is \Sexpr{print.pval(pval(t.test(lograin ~ TREATMENT, data=rain)))} and the 95\% confidence interval is between \Sexpr{round(ttestlog$conf.int[1], 2)} and \Sexpr{round(ttestlog$conf.int[2], 2)}.
+
+\subsection{Interpretation of log model}
+
+The following code is used to calculate the ``Summary of Statistical Findings" on page 57. First, we want to calculate the multiplier.
+
+<<>>=
+obslogdiff = -diff(mean(lograin ~ TREATMENT, data=rain)); obslogdiff
+multiplier = exp(obslogdiff); multiplier
+@
+
+Next we can calculate the 95\% confidence interval for the multiplier.
+<<>>=
+ttestlog$conf.int
+exp(ttestlog$conf.int)
+@
+
+\section{Effects of Agent Orange on Troops in Vietnam}
+
+Is dioxin concentration related to veteran status? This is the question being addressed by case study 3.2 in the \emph{Sleuth}.
+
+\subsection{Summary statistics and graphical display}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+ao = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0302.csv")
+summary(ao)
+favstats(DIOXIN ~ VETERAN, data=ao)
+@
+
+A total of \Sexpr{nrow(ao)} veterans were included in this data: \Sexpr{nrow(subset(ao, VETERAN=="VIETNAM"))} served in Vietnam during 1967 and 1968  and \Sexpr{nrow(subset(ao, VETERAN=="OTHER"))} served in US or Germany during 1965 and 1971.
+
+<<fig.height=8, fig.width=8>>=
+bwplot(VETERAN ~ DIOXIN, data=ao)
+@
+
+<<fig.height=8, fig.width=8>>=
+densityplot(~DIOXIN, groups=VETERAN, auto.key=TRUE, data=ao)
+@
+
+Both distributions are highly skewed to the right.
+
+
+\subsection{Inferential procedures (two-sample t-test)}
+
+The following code is used to calculate the ``Summary of Statistical Findings" on page 60.
+<<>>=
+t.test(DIOXIN ~ VETERAN, var.equal=TRUE, alternative="less", data=ao)
+t.test(DIOXIN ~ VETERAN, var.equal=TRUE, data=ao)$conf.int
+@
+
+So the one-sided $p$-value from a two-sample $t$-test is \Sexpr{pval(t.test(DIOXIN ~ VETERAN, var.equal=TRUE, alternative="less", data=ao))}. The 95\% confidence interval is (\Sexpr{round(t.test(DIOXIN ~ VETERAN, var.equal=TRUE, data=ao)$conf.int[1], 2)}, \Sexpr{round(t.test(DIOXIN ~ VETERAN, var.equal=TRUE, data=ao)$conf.int[2], 2)}).
+
+\subsection{Removing outliers}
+
+We will remove two extreme observations from the data.  First we remove observation 646 and perform a $t$-test (Display 3.7, page 67).   
+
+<<>>=
+ao2 = ao[-c(646), ]
+t.test(DIOXIN ~ VETERAN, alternative="less", data=ao2)
+@
+
+Next we remove observations 645 and 646 and perform a $t$-test.
+
+<<>>=
+dim(ao)
+ao3 = ao[-c(645, 646), ]
+dim(ao3)
+t.test(DIOXIN ~ VETERAN, alternative="less", data=ao3)
+@
+
+Notice that after removing these outliers, the $p$-value and the confidence interval have changed but the 
+substantive conclusion is unchanged.
+
+
+\end{document}

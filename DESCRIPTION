@@ -95,3 +95,5 @@ Collate:
     'datasetsOLI.R'
     'frequencyPolygon.R'
     'panel.lmbands.R'
+    'simplify.R'
+    'symbolicInt.R'

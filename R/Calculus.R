@@ -16,8 +16,6 @@
 #' default values of "from" and "to" can be assigned.  They are to be written with
 #' the name of the variable as a prefix, e.g. \code{y.from}.
 #'
-#' @param Const Numerical value for the constant of integration.
-#'
 #' @param .hstep  horizontal distance between points used for secant slope
 #'   calculation in numerical derivatives. 
 #'   
@@ -39,15 +37,13 @@
 #' any order (although the expression may become unmanageably complex).  The
 #' numerical derivative is limited to first or second-order partial derivatives
 #' (including mixed partials).
-#' \code{antiD} always does numerical integration.
+#' \code{antiD} will attempt simple symbolic integration but if it fails
+#' it will return a numerically-based anti-derivative.
 #' 
 #' \code{antiD} returns a function with the same arguments as the 
 #' expression passed to it.  The returned function is the anti-derivative 
 #' of the expression, e.g., antiD(f(x)~x) -> F(x).  
 #' To calculate the integral of f(x), use F(to) - F(from). 
-#' This feature may be deprecated in an upcoming release:
-#' There is also an argument, \code{initVal}, that plays the role of the
-#' constant of integration.  
 #' 
 #' @export
 #' @examples
@@ -65,52 +61,60 @@
 #' f <- makeFun(x^2~x)
 #' D(f(cos(z))~z) #will look in user functions also
 #' 
-
 D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
-
   tryCatch( return( stats::D(formula, ...) ), error=function(e) {}  )
-
+  
   formulaEnv = environment(formula) # where was the formula made?
   #Try to construct a symbolic derivative
   res = try(symbolicD(formula, ...), silent=TRUE)
   #Failed?  Do it numerically  
   if( inherits(res, "try-error") ){ # first symbolic attempt unsuccessful
-    newformula <- try(expandFun(formula), silent=TRUE)
+    expandedForm <-try(expandFun(formula), silent=TRUE)
+    if(!inherits(expandedForm, "try-error"))
+      newformula <- expandedForm$formula
     res = try(symbolicD(newformula, ...), silent=TRUE)
     if( inherits(res, "try-error") ) # second symbolic attempt unsuccessful
       res = numD( formula, ..., .hstep=.hstep, add.h.control=add.h.control)
+    else #extracted function correctly
+      formals(res) = expandedForm$formals
   }
   else # it's generated from symbolicD
     environment(res) = formulaEnv # function should refer to environment of the formula
   return(res)
 }
+
 # ============================
 #' @rdname Calculus
 #'
-#'
-#' @return a function of the same arguments as the original expression.
+#' @param lower.bound for numerical integraion, the lower bound used
+#' 
+#' @param force.numeric If \code{TRUE}, a numerical integral is performed even when a 
+#' symbolic integral is available.
+#' 
+#' @return a function of the same arguments as the original expression with a 
+#' constant of integration set to zero by default, named "C", "D", ... depending on the first 
+#' such letter not otherwise in the argument list.
 #' @export
 #' @examples
+#' antiD( a*x^2 ~ x)
+#' antiD( A/x~x )
 #' F <- antiD( A*exp(-k*t^2 ) ~ t, A=1, k=0.1)
 #' F(t=Inf)
 #' one = makeFun(1~x&y)
 #' by.x = antiD( one(x=x, y=y) ~x)
 #' by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
 #' 4*by.xy(y=1) #area of quarter circle
-#' vel <- antiD( -9.8 ~ t  )
-#' pos <- antiD( vel( t=t, initVal=v0)~t, Const=50)
-#' pos(0:5, v0=10)
-#' pos(0:5, v0=10, initVal=100)
-antiD <- function(formula, ..., Const=0){
+antiD <- function(formula, ..., lower.bound=0, force.numeric=FALSE){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")
+  
+  if (!force.numeric){ # Try symbolic integral
+    res = try(symbolicInt(formula, ...), silent=TRUE)
+    if (!inherits(res, "try-error") ) return(res) 
+  }
+  # Do integral numerically
   f <- makeFun(formula, ..., strict.declaration=FALSE)
-  # NOTE: Don't use NULL as the default value.  Non-NULL is needed
-  # so that the argument list gets created appropriately. So use NaN
-  vi.from <- inferArgs( wrt, list(...), defaults=alist(val=0), 
-                        variants = c("from",".from"))$val
-  vi.to = NaN 
-  res = makeAntiDfun(f, wrt, vi.from, vi.to, 1e-6, Const)
+  res <- makeAntiDfun(f, wrt, lower.bound, 1e-6)
   return(res)
 }
 # ===================
@@ -124,26 +128,29 @@ antiD <- function(formula, ..., Const=0){
 #' @param .function function to be integrated
 #' @param .wrt character string naming the variable of integration
 #' @param from default value for the lower bound of the integral region
-#' @param to default value for the upper bound of the integral region
-#' @param .tol tolerance of the numerical integrator (not yet implemented)
 # I don't want this function to be exported.
-makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) { 
+makeAntiDfun <- function(.function, .wrt, from, .tol=.Machine$double.eps^0.25) {
+  resargs <- formals(.function) 
+  
+  intC <- LETTERS[-(1:2)][!LETTERS[-(1:2)]%in% names(resargs)][1]
+  if (length(intC)==0) intC <- paste("ConstantOfIntegration",runif(1),sep="")
+  resargs[intC] <- 0
   # Create a new function of argument .vi that will take additional
   # arguments
   .newf <- function(.vi,.av){
     .av[[.wrt]] = .vi
-    do.call(.function,.av,quote=TRUE) + 0*.vi #make the same size as vi
+    do.call(.function,.av,quote=TRUE) + 0*.vi  # make the same size as vi
   }
-  res <- function() {
-    numerical.integration(.newf, .wrt, 
-                          as.list(match.call())[-1],formals(), from)
+  # Create the numerical integral
+  res <- function(){
+    numerical.integration(.newf,.wrt,as.list(match.call())[-1],formals(),
+                          from,ciName=intC, .tol) 
   }
-  resargs <- formals(.function) 
-  limitsArgs = list()
-  limitsArgs[["initVal"]] <- Const
-  formals(res) <- c(resargs,limitsArgs)
   
-  return(Vectorize(res))
+  formals(res) <- c(resargs)
+  ## Vectorize at the end
+  # return(Vectorize(res))
+  return(res)
 }
 # =============
 #' @rdname Calculus
@@ -153,13 +160,15 @@ makeAntiDfun <- function(.function, .wrt, from, to, .tol, Const) {
 #' @param av a list of the arguments passed to the function calling this
 #' @param args default values (if any) for parameterss
 #' @param vi.from the the lower bound of the interval of integration
+#' @param ciName character string giving the name of the symbol for the constant of integration
+#' @param .tol Numerical tolerance.  See stats::integrate
 #' 
 #' @note This function is not intended for direct use.  It packages
 #' up the numerical anti-differentiation process so that the contents
 #' of functions produced by \code{antiD} look nicer to human readers.
 #' @export
 #'
-numerical.integration <- function(f,wrt,av,args,vi.from) {
+numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
   # We are about to do the numerics.  At this point, every
   # variable should have a numerical binding.  Just in case some
   # are still expressions, go through the list and evaluate them
@@ -174,8 +183,8 @@ numerical.integration <- function(f,wrt,av,args,vi.from) {
   # and delete them from the call
   av[[paste(wrt,".from",sep="")]] <- NULL
   av[[paste(wrt,".to",sep="")]] <- NULL
-  initVal <- av2[["initVal"]]
-  av[["initVal"]] <- NULL
+  initVal <- av2[[ciName]]
+  av[[ciName]] <- NULL
   newf <- function(vi){
     av[[wrt]] = vi
     # make the same size as input vi
@@ -195,16 +204,16 @@ numerical.integration <- function(f,wrt,av,args,vi.from) {
     if( length(vi.from)!=length(vi.to) ) stop("Either fix 'from' or set it to the same length as 'to'")
     res <- rep(0,length(vi.to))
     for (k in 1:length(vi.to)) {
-      res[k] <- stats::integrate(newf,vi.from[k],vi.to[k])$value
+      res[k] <- stats::integrate(newf,vi.from[k],vi.to[k],rel.tol=.tol)$value
     }
     return(res+initVal)
   }
-  val0 <- stats::integrate(newf, vi.from, vi.to[1])$value
+  val0 <- stats::integrate(newf, vi.from, vi.to[1],rel.tol=.tol)$value
   # work around a bug in integrate()
-  if( vi.from==Inf ) {
-    # When "lower" limit is +Inf, the sign is wrong!  This might
+  if( vi.to[1]==-Inf ) {
+    # When "upper" limit is -Inf, the sign is wrong!  This might
     # change, so check that the bug still exists
-    if( stats::integrate(function(x){dnorm(x)},lower=Inf,upper=0)$val > 0) {
+    if( stats::integrate(function(x){dnorm(x)},lower=0,upper=-Inf,rel.tol=.tol)$val > 0) {
       # bug exists!
       val0 <- -val0
     }
@@ -216,7 +225,7 @@ numerical.integration <- function(f,wrt,av,args,vi.from) {
   }
   res <- rep(val0, length(vi.to))
   for (k in 2:length(res)) {
-    res[k] <- stats::integrate(newf, vi.to[k-1], vi.to[k])$value
+    res[k] <- stats::integrate(newf, vi.to[k-1], vi.to[k],rel.tol=.tol)$value
   }
   res <- cumsum(res)
   return(multiplier*res)

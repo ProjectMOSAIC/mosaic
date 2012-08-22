@@ -1,0 +1,321 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 9}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+     \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 9}
+
+\author{
+Kate Aloisio\and Ruobing Zhang \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+
+\SweaveOpts{
+  dev="pdf",
+	fig.path="figures/",
+	fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+	}
+
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+<<setup,echo=FALSE,message=FALSE>>=
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@ 
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.
+This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
+
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This
+needs to be done once per session.
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=3)
+@
+
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 9: Multiple Regression using R.
+
+\section{Effects of light on meadowfoam flowering}
+Do different amounts of light affect the growth of meadowfoam (a small plant used to create seed oil)?  This is the question addressed in case study 9.1 in the \emph{Sleuth}.  
+
+\subsection{Data coding, summary statistics and graphical display} 
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+light = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0901.csv")
+@
+
+<<>>=
+# create a better named variable for day24
+light$day24 = relevel(as.factor(ifelse(light$TIME==1, "late", "early")), 
+                      ref="late")
+@
+
+<<>>=
+summary(light)
+favstats(FLOWERS ~ INTENS | day24, data=light)
+@
+
+A total of \Sexpr{nrow(light)} meadowfoam plants were included in this data.  There were \Sexpr{length(unique(light[,"TIME"]))*length(unique(light[, "INTENS"]))} treatment groups -  \Sexpr{length(unique(light[, "INTENS"]))} light intensities at each of the  \Sexpr{length(unique(light[,"TIME"]))} timing levels (Display 9.2, page 237 of the \emph{Sleuth}).
+The following code generates the scatterplot of the average number of flowers per
+plant versus the applied light intensity for each of the 12 experimental units akin to Display 9.3 on page 238.
+
+<<>>=
+xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), 
+       data=light, auto.key=TRUE, 
+       xlab="light intensity (mu mol/m^2/sec)", ylab="average number of flowers")
+@
+
+
+\subsection{Multiple linear regression model}
+
+We next fit a multiple linear regression model that specifies parallel regression lines for the mean  number of flowers as a function of light intensity as interpreted on page 237.
+
+<<>>=
+lm1 = lm(FLOWERS ~ INTENS+day24, data=light)
+summary(lm1)
+confint(lm1, level=.95) # 95% confidence intervals  
+@
+
+We can also fit a multiple linear regression with an interaction between light intensity and timing of its initiation as shown in Display 9.14 (page 256) and interpreted on page 237.
+
+<<>>=
+lm2 = lm(FLOWERS ~ INTENS*day24, data=light)
+summary(lm2)
+@
+
+\section{Why do some mammals have large brains?}
+What characteristics predict large brains in mammals? This is the question addressed in case study 9.2 in the \emph{Sleuth}.  
+
+\subsection{Data coding and summary statistics}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+mammals = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0902.csv")
+mammals$logbrain = log(mammals$BRAIN); 
+mammals$logbody = log(mammals$BODY);
+mammals$loggest = log(mammals$GESTATION); 
+mammals$loglitter = log(mammals$LITTER)
+@
+
+<<>>=
+summary(mammals)
+@
+
+A total of \Sexpr{nrow(mammals)} mammals were included in this data.  The average values of brain weight, body weight, gestation length, and litter size for each of the species were calculated and presented in Display 9.2 (page 237 of the \emph{Sleuth}).
+
+
+\subsection{Graphical presentation}
+
+The following displays a simple (unadorned) pairs plot, akin to Display 9.10 on page 252.
+
+<<fig.height=8, fig.width=8>>=
+pairs(mammals[c("BRAIN", "BODY", "GESTATION", "LITTER")])
+@
+
+We can make it fancier if we like.
+<<>>=
+  panel.hist = function(x, ...)
+  {
+    usr = par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h = hist(x, plot=FALSE)
+    breaks = h$breaks; nB = length(breaks)
+    y = h$counts; y = y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col="cyan", ...)
+  }
+
+panel.lm = function(x, y, col=par("col"), bg=NA, 
+                    pch=par("pch"), cex=1, col.lm="red", ...) 
+{
+  points(x, y, pch=pch, col=col, bg=bg, cex=cex)
+  ok = is.finite(x) & is.finite(y)
+  if (any(ok)) 
+    abline(lm(y[ok] ~ x[ok]))
+}
+@
+
+Below displays a fancier pairs plot.
+
+<<fig.height=8, fig.width=8>>=
+  pairs(~ BRAIN+BODY+GESTATION+LITTER, 
+        lower.panel=panel.smooth, diag.panel=panel.hist, 
+        upper.panel=panel.lm, data=mammals)
+@
+
+
+Here is a fancier pairs plot using the log-transformed variables, akin to Display 9.11 on page 253.
+
+<<fig.height=8, fig.width=8>>=
+  pairs(~ logbrain+logbody+loggest+loglitter, 
+              lower.panel=panel.smooth, diag.panel=panel.hist, 
+              upper.panel=panel.lm, data=mammals)
+@
+
+The following displays a jittered scatterplot of log brain weight as a function of log litter size, akin to Display 9.12 on page 254.
+
+<<fig.height=8, fig.width=8>>=
+  xyplot(logbrain ~ jitter(loglitter), data=mammals)
+@
+
+
+Below displays a jittered scatterplot using the original data on a log-transformed axis, akin to Display 9.12 on page 254.
+
+<<fig.height=8, fig.width=8>>=
+  xyplot(BRAIN ~ jitter(LITTER), scales=list(y=list(log=TRUE),
+                                             x=list(log=TRUE)), data=mammals)
+@
+
+
+The following displays a jittered scatterplot using the original data stratified by body weight on a log-transformed axis, akin to Display 9.13 on page 255.
+
+
+<<fig.height=8, fig.width=8>>=
+mammals$weightcut = cut(mammals$BODY, breaks=c(0, 2.1, 9.1, 100, 4200), labels=c("Body Weight: 0kg to 2.1kg","Body Weight: 2.1kg to 9.1kg", "Body Weight: 9.1kg to 100kg", "Body Weight: 100 to 4,200"))
+xyplot(BRAIN ~ jitter(LITTER) | weightcut, 
+       scales=list(y=list(log=TRUE), x=list(log=TRUE)), type=c("p", "r"), data=mammals)
+@
+
+\subsection{Multiple linear regression model}
+
+The following model is interpreted on page 238 and shown in Display 9.15 (page 256).
+<<>>=
+lm1 = lm(logbrain ~ logbody+loggest+loglitter, data=mammals)
+summary(lm1)
+@
+
+
+\end{document}

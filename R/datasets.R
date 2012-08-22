@@ -1,3 +1,45 @@
+#' Volume of Users of a Rail Trail
+#'
+#' The Pioneer Valley Planning Commission (PVPC) collected data north of Chestnut Street in 
+#' Florence, MA for ninety days from April 5, 2005 to November 15, 2005. Data collectors set up a 
+#' laser sensor, with breaks in the laser beam recording when a rail-trail user passed the 
+#' data collection station.  
+#'
+#' @docType data
+#' @name RailTrail
+#' @usage data(RailTrail)
+#' @format
+#'   A data frame with 90 observations on the following variables.
+#'   \itemize{
+#'     \item{\code{hightemp}} {daily high temperature (in degrees Fahrenheit)}
+#'     \item{\code{lowtemp}} {daily low temperature (in degrees Fahrenheit)}
+#'     \item{\code{avgtemp}} {average of daily low and daily high temperature (in degrees Fahrenheit)}
+#'     \item{\code{spring}} {indicator of whether the season was Spring}
+#'     \item{\code{summer}} {indicator of whether the season was Summer}
+#'     \item{\code{fall}} {indicator of whether the season was Fall}
+#'     \item{\code{cloudcover}} {measure of cloud cover (in oktas)}
+#'     \item{\code{precip}} {measure of precipitation (in inches)}
+#'     \item{\code{volume}} {estimated number of trail users that day (number of breaks recorded)}
+#'     \item{\code{weekday}} {indicator of whether the day was a non-holiday weekday}
+#'   }
+#'
+#' @details
+#' There is a potential for error when two users trigger the infrared beam at exactly the same time since the counter 
+#' would only logs one of the crossings.  The collectors left the motion detector out during the winter, but because the 
+#' counter drops data when the temperature falls below 14 degrees Fahrenheit, there is no data for the cold winter months. 
+#'
+#' @source
+#' Pioneer Valley Planning Commission
+#'
+#' @references
+#' http://www.fvgreenway.org/pdfs/Northampton-Bikepath-Volume-Counts%20_05_LTA.pdf
+#'
+#' @examples
+#' data(RailTrail)
+#'
+
+NA
+
 #' US Births in 1978
 #'
 #' A day by day record of the number of births in the United States in 1978.
