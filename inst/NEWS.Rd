@@ -1,5 +1,17 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+\section{Changes in version 0.6}{
+	\itemize{
+		\item Augmented \code{TukeyHSD} so that explicit use of \code{aov} is no longer required 
+		\item Added \code{panel.lmbands} for plotting confidence and prediction bands in linear regression
+		\item Some data cleaning in the Carnegie Melon University Online Learning Initiative Statistics Modules.  In particular
+		the name collision with \code{Animals} from \code{MASS} has been 
+		removed by renaming the data set \code{GestationLongevity}.
+		\item Added \code{freqpolygon} for making frequency polygons.
+		\item Added \code{r.squared} for extracting r-squared from models and model-like objects.
+		\item Modified names of data frame produced by \code{do} so that hyphens ('-') are turned into dots ('.')
+	}
+}
 \section{Changes in version 0.5}{
 We're still in beta, but we hope things are beginning to stabilize as we settle on 
 syntax and coding idioms for the package.  Here are some of the key updates since 0.4:
