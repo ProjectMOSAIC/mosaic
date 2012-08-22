@@ -131,3 +131,16 @@ stat <- function(x,...) { UseMethod("stat", x)}
 stat.htest <- function(x,...) {
 	x $ statistic
 }
+
+#' Extract r-squared value
+#' 
+#' Attempts to extract an r-squared value from a model or model-like object.
+#' @param x an object
+#' @param \dots additional arguments
+r.squared <- function(x, ...) {
+  NULLFUN <- function(e) NULL 
+  result <- tryCatch( x$r.squared, error=NULLFUN)
+  if (is.null(result)) 
+    result <- tryCatch( summary(x, ...)$r.squared, error=NULLFUN )
+  return(result)
+}
