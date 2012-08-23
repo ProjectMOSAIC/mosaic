@@ -121,6 +121,7 @@ print.pval = function(pval) {
 @
 
 <<setup,echo=FALSE,message=FALSE>>=
+require(Sleuth2)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
@@ -158,6 +159,14 @@ require(mosaic)
 This
 needs to be done once per session.
 
+In addition the data files for the \emph{Sleuth} case studies can be accessed by installing the \pkg{Sleuth2} package.
+<<install_Sleuth2,eval=FALSE>>=
+install.packages('Sleuth2')               # note the quotation marks
+@
+<<load_Sleuth2,eval=FALSE>>=
+require(Sleuth2)
+@
+
 We also set some options to improve legibility of graphs and output.
 <<eval=TRUE>>=
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
@@ -175,20 +184,19 @@ Does seeding clouds lead to more rainfall? This is the question being addressed 
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-rain=read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0301.csv")
-summary(rain)
-favstats(RAINFALL ~ TREATMENT, data=rain)
+summary(case0301)
+favstats(Rainfall ~ Treatment, data=case0301)
 @
 
-A total of \Sexpr{nrow(rain)} subjects were included in this data: \Sexpr{nrow(subset(rain, TREATMENT=="SEEDED"))} seeded days  and \Sexpr{nrow(subset(rain, TREATMENT=="UNSEEDED"))} 
+A total of \Sexpr{nrow(case0301)} subjects were included in this data: \Sexpr{nrow(subset(case0301, Treatment=="Seeded"))} seeded days  and \Sexpr{nrow(subset(case0301, Treatment=="Unseeded"))} 
 unseeded days (Display 3.1, page 57). 
 
 <<fig.height=8, fig.width=8>>=
-bwplot(RAINFALL ~ TREATMENT, data=rain)
+bwplot(Rainfall ~ Treatment, data=case0301)
 @
 
 <<fig.height=8, fig.width=8>>=
-densityplot(~RAINFALL, groups=TREATMENT, auto.key=TRUE, data=rain)
+densityplot(~Rainfall, groups=Treatment, auto.key=TRUE, data=case0301)
 @
 
 According to the boxplot and the density plot, the rainfall from seeded days seems to be larger than unseeded days. Both density curves are highly skewed to the right.
@@ -198,16 +206,16 @@ According to the boxplot and the density plot, the rainfall from seeded days see
 The skewness suggests there is a need to apply the logarithmic transformation. The transformed data is shown on page 71 (Display 3.9).
 
 <<>>=
-rain$lograin=log(rain$RAINFALL)
-favstats(lograin ~ TREATMENT, data=rain)
+case0301$lograin=log(case0301$Rainfall)
+favstats(lograin ~ Treatment, data=case0301)
 @
 
 <<fig.height=8, fig.width=8>>=
-bwplot(lograin ~ TREATMENT, data=rain)
+bwplot(lograin ~ Treatment, data=case0301)
 @
 
 <<fig.height=8, fig.width=8>>=
-densityplot(~lograin, groups=TREATMENT, auto.key=TRUE, data=rain)
+densityplot(~lograin, groups=Treatment, auto.key=TRUE, data=case0301)
 @
 
 The log transformation reduces skewness of these two distributions.
@@ -216,25 +224,25 @@ The log transformation reduces skewness of these two distributions.
 
  
 <<>>=
-t.test(RAINFALL ~ TREATMENT, var.equal=FALSE, data=rain)
-t.test(RAINFALL ~ TREATMENT, var.equal=TRUE, data=rain)
+t.test(Rainfall ~ Treatment, var.equal=FALSE, data=case0301)
+t.test(Rainfall ~ Treatment, var.equal=TRUE, data=case0301)
 @
 
 The following corresponds to the calculations on page 71.
 
 <<>>=
-summary(lm(lograin ~ TREATMENT, data=rain))
-ttestlog = t.test(lograin ~ TREATMENT, data=rain); ttestlog
+summary(lm(lograin ~ Treatment, data=case0301))
+ttestlog = t.test(lograin ~ Treatment, data=case0301); ttestlog
 @
 
-The two-sided $p$-value is \Sexpr{print.pval(pval(t.test(lograin ~ TREATMENT, data=rain)))} and the 95\% confidence interval is between \Sexpr{round(ttestlog$conf.int[1], 2)} and \Sexpr{round(ttestlog$conf.int[2], 2)}.
+The two-sided $p$-value is \Sexpr{print.pval(pval(t.test(lograin ~ Treatment, data=case0301)))} and the 95\% confidence interval is between \Sexpr{round(ttestlog$conf.int[1], 2)} and \Sexpr{round(ttestlog$conf.int[2], 2)}.
 
 \subsection{Interpretation of log model}
 
 The following code is used to calculate the ``Summary of Statistical Findings" on page 57. First, we want to calculate the multiplier.
 
 <<>>=
-obslogdiff = -diff(mean(lograin ~ TREATMENT, data=rain)); obslogdiff
+obslogdiff = -diff(mean(lograin ~ Treatment, data=case0301)); obslogdiff
 multiplier = exp(obslogdiff); multiplier
 @
 
@@ -253,19 +261,18 @@ Is dioxin concentration related to veteran status? This is the question being ad
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-ao = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0302.csv")
-summary(ao)
-favstats(DIOXIN ~ VETERAN, data=ao)
+summary(case0302)
+favstats(Dioxin ~ Veteran, data=case0302)
 @
 
-A total of \Sexpr{nrow(ao)} veterans were included in this data: \Sexpr{nrow(subset(ao, VETERAN=="VIETNAM"))} served in Vietnam during 1967 and 1968  and \Sexpr{nrow(subset(ao, VETERAN=="OTHER"))} served in US or Germany during 1965 and 1971.
+A total of \Sexpr{nrow(case0302)} veterans were included in this data: \Sexpr{nrow(subset(case0302, Veteran=="Vietnam"))} served in Vietnam during 1967 and 1968  and \Sexpr{nrow(subset(case0302, Veteran=="Other"))} served in US or Germany during 1965 and 1971.
 
 <<fig.height=8, fig.width=8>>=
-bwplot(VETERAN ~ DIOXIN, data=ao)
+bwplot(Veteran ~ Dioxin, data=case0302)
 @
 
 <<fig.height=8, fig.width=8>>=
-densityplot(~DIOXIN, groups=VETERAN, auto.key=TRUE, data=ao)
+densityplot(~Dioxin, groups=Veteran, auto.key=TRUE, data=case0302)
 @
 
 Both distributions are highly skewed to the right.
@@ -275,28 +282,28 @@ Both distributions are highly skewed to the right.
 
 The following code is used to calculate the ``Summary of Statistical Findings" on page 60.
 <<>>=
-t.test(DIOXIN ~ VETERAN, var.equal=TRUE, alternative="less", data=ao)
-t.test(DIOXIN ~ VETERAN, var.equal=TRUE, data=ao)$conf.int
+t.test(Dioxin ~ Veteran, var.equal=TRUE, alternative="less", data=case0302)
+t.test(Dioxin ~ Veteran, var.equal=TRUE, data=case0302)$conf.int
 @
 
-So the one-sided $p$-value from a two-sample $t$-test is \Sexpr{pval(t.test(DIOXIN ~ VETERAN, var.equal=TRUE, alternative="less", data=ao))}. The 95\% confidence interval is (\Sexpr{round(t.test(DIOXIN ~ VETERAN, var.equal=TRUE, data=ao)$conf.int[1], 2)}, \Sexpr{round(t.test(DIOXIN ~ VETERAN, var.equal=TRUE, data=ao)$conf.int[2], 2)}).
+So the one-sided $p$-value from a two-sample $t$-test is \Sexpr{pval(t.test(Dioxin ~ Veteran, var.equal=TRUE, alternative="less", data=case0302))}. The 95\% confidence interval is (\Sexpr{round(t.test(Dioxin ~ Veteran, var.equal=TRUE, data=case0302)$conf.int[1], 2)}, \Sexpr{round(t.test(Dioxin ~ Veteran, var.equal=TRUE, data=case0302)$conf.int[2], 2)}).
 
 \subsection{Removing outliers}
 
 We will remove two extreme observations from the data.  First we remove observation 646 and perform a $t$-test (Display 3.7, page 67).   
 
 <<>>=
-ao2 = ao[-c(646), ]
-t.test(DIOXIN ~ VETERAN, alternative="less", data=ao2)
+case0302.2 = case0302[-c(646), ]
+t.test(Dioxin ~ Veteran, alternative="less", data=case0302.2)
 @
 
 Next we remove observations 645 and 646 and perform a $t$-test.
 
 <<>>=
-dim(ao)
-ao3 = ao[-c(645, 646), ]
-dim(ao3)
-t.test(DIOXIN ~ VETERAN, alternative="less", data=ao3)
+dim(case0302)
+case0302.3 = case0302[-c(645, 646), ]
+dim(case0302.3)
+t.test(Dioxin ~ Veteran, alternative="less", data=case0302.3)
 @
 
 Notice that after removing these outliers, the $p$-value and the confidence interval have changed but the 

@@ -121,6 +121,7 @@ print.pval = function(pval) {
 @
 
 <<setup,echo=FALSE,message=FALSE>>=
+require(Sleuth2)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 set.seed(123)
@@ -158,6 +159,14 @@ require(mosaic)
 This
 needs to be done once per session.
 
+In addition the data files for the \emph{Sleuth} case studies can be accessed by installing the \pkg{Sleuth2} package.
+<<install_Sleuth2,eval=FALSE>>=
+install.packages('Sleuth2')               # note the quotation marks
+@
+<<load_Sleuth2,eval=FALSE>>=
+require(Sleuth2)
+@
+
 We also set some options to improve legibility of graphs and output.
 <<eval=TRUE>>=
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
@@ -176,59 +185,56 @@ block design is analyzed in case study 13.1 in the \emph{Sleuth}.
 We begin by reading the data, performing the necessary transformations and summarizing the variables.
 
 <<>>=
-seaweed = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1301.csv")
 # logit transformation
-seaweed$logitcover = with(seaweed, log(COVER/(100-COVER)))
+case1301$logitcover = with(case1301, log(Cover/(100-Cover)))
 @
 
 
 <<>>=
-summary(seaweed)
-favstats(logitcover~TREAT, data=seaweed)
-
+summary(case1301)
+favstats(logitcover~Treat, data=case1301)
 @
 
-There were a total of \Sexpr{nrow(seaweed)} rock plots free of seaweed. These plots where split into \Sexpr{length(unique(seaweed[,"BLOCK"]))} blocks based on location.  Each block contained \Sexpr{nrow(subset(seaweed, BLOCK=="BLOCK 1"))} plots.  Then \Sexpr{length(unique(seaweed[,"TREAT"]))} treatments were randomly assigned to plots within each block.  Therefore there were two plots per treatment within each block, as shown in Display 13.2 (page 377 of the \emph{Sleuth}).
+There were a total of \Sexpr{nrow(case1301)} rock plots free of seaweed. These plots where split into \Sexpr{length(unique(case1301[,"Block"]))} blocks based on location.  Each block contained \Sexpr{nrow(subset(case1301, Block=="B1"))} plots.  Then \Sexpr{length(unique(case1301[,"Treat"]))} treatments were randomly assigned to plots within each block.  Therefore there were two plots per treatment within each block, as shown in Display 13.2 (page 377 of the \emph{Sleuth}).
 
 We can check for evidence of nonadditivity using interaction plots. For a figure akin to Display 13.7 on page 383 we can use the following code:
 
 <<fig.height=8, fig.width=8>>=
-with(seaweed, interaction.plot(BLOCK, TREAT, COVER))
+with(case1301, interaction.plot(Block, Treat, Cover))
 @
 
 This figure shows evidence of nonadditivity. However as the authors note the type of nonadditivity seen in this figure may be removed by transformations.  In addition, the residual plot from the saturated model (shown below and is akin to Display 13.8 on page 384) has a distinct funnel shape, also indicating a need for transformation.
 
 <<fig.height=8, fig.width=8>>=
-plot(aov(COVER ~ BLOCK*TREAT, data=seaweed), which=1)
+plot(aov(Cover ~ Block*Treat, data=case1301), which=1)
 @
 
 After the log transformation, we can then observe an interaction plot on the log transformed data akin to Display 13.9 on page 385.
 <<fig.height=8, fig.width=8>>=
-with(seaweed, interaction.plot(BLOCK, TREAT, logitcover))
+with(case1301, interaction.plot(Block, Treat, logitcover))
 @
-%XX is there a way to order the blocks so it looks more like Display 13.9?
 
 \subsection{Models}
 
 Then we can create an ANOVA for the nonadditive model estimating the log of the seaweed regeneration ratio as summarized on page 385 (Display 13.10).
 <<>>=
-anova(lm(logitcover ~ BLOCK*TREAT, data=seaweed))
+anova(lm(logitcover ~ Block*Treat, data=case1301))
 @
 
-This model has an $R^2$ of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adjusted $R^2$ of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK*TREAT, data=seaweed))$sigma, 4)}. Notice that the interaction term has a large $p$-value, \Sexpr{round(anova(lm(logitcover ~ BLOCK*TREAT, data=seaweed))["BLOCK:TREAT", "Pr(>F)"], 4)}, suggesting that the data may be more consistent with an additive model.  
+This model has an $R^2$ of \Sexpr{round(summary(lm(logitcover ~ Block*Treat, data=case1301))$r.squared*100, 2)}$\%$, an adjusted $R^2$ of \Sexpr{round(summary(lm(logitcover ~ Block*Treat, data=case1301))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ Block*Treat, data=case1301))$sigma, 4)}. Notice that the interaction term has a large $p$-value, \Sexpr{round(anova(lm(logitcover ~ Block*Treat, data=case1301))["Block:Treat", "Pr(>F)"], 4)}, suggesting that the data may be more consistent with an additive model.  
 
 We can then compare these results to an ANOVA for the additive model estimating the log of the seaweed regeneration ratio as shown in Display 13.11 on page 387.
 <<>>=
-anova(lm(logitcover ~ BLOCK+TREAT, data=seaweed))
+anova(lm(logitcover ~ Block+Treat, data=case1301))
 @
 
-This model has an $R^2$ of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$r.squared*100, 2)}$\%$, an adjusted $R^2$ of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ BLOCK+TREAT, data=seaweed))$sigma, 4)}. 
+This model has an $R^2$ of \Sexpr{round(summary(lm(logitcover ~ Block+Treat, data=case1301))$r.squared*100, 2)}$\%$, an adjusted $R^2$ of \Sexpr{round(summary(lm(logitcover ~ Block+Treat, data=case1301))$adj.r.squared*100, 2)}$\%$, and an estimated SD of \Sexpr{round(summary(lm(logitcover ~ Block+Treat, data=case1301))$sigma, 4)}. 
 
 
 Next we can assess the fit of the additive model through diagnostic plots.  First we can check the linearity assumption.
 
 <<fig.height=8, fig.width=8>>=
-plot(aov(logitcover ~ BLOCK+TREAT, data=seaweed), which=1)
+plot(aov(logitcover ~ Block+Treat, data=case1301), which=1)
 @
 From this plot is appears that the linearity assumption seems reasonable.
 
@@ -237,24 +243,24 @@ We will need to assume independence based on the information given.
 Next we will assess the normality assumption for the additive model. 
 
 <<fig.height=8, fig.width=8, message=FALSE>>=
-seaweed$resid = predict(aov(logitcover ~ BLOCK+TREAT, data=seaweed))
-xhistogram(~ resid, fit="normal", data=seaweed)
+case1301$resid = predict(aov(logitcover ~ Block+Treat, data=case1301))
+xhistogram(~ resid, fit="normal", data=case1301)
 @
 From this figure normality seems reasonable as well.
 
 Now we can assess equality of variance.
 <<fig.height=8, fig.width=8>>=
-plot(aov(logitcover ~ BLOCK+TREAT, data=seaweed), which=3)
+plot(aov(logitcover ~ Block+Treat, data=case1301), which=3)
 @
 From this figure, the assumption of equal variance seems to be somewhat problematic, as seen in the curvature of the lowess line.
 
 Lastly we can look for influential points and/or high leverage with the additive model.
 <<fig.height=8, fig.width=8>>=
-plot(aov(logitcover ~ BLOCK+TREAT, data=seaweed), which=4)
+plot(aov(logitcover ~ Block+Treat, data=case1301), which=4)
 @
 From this figure we can obtain certain plots that appear to be influential points.
 <<>>=
-seaweed[c(13, 22, 87),]
+case1301[c(13, 22, 87),]
 @
 
 \subsection{Linear combinations}
@@ -262,31 +268,31 @@ First we can observe the Block and Treatment averages and the Block and Treatmen
 
 For the effects we used:
 <<>>=
-model.tables(aov(lm(logitcover ~ BLOCK*TREAT, data=seaweed)), type="effects")
+model.tables(aov(lm(logitcover ~ Block*Treat, data=case1301)), type="effects")
 @
 
 For the means we changed the {\tt type} attribute to {\tt "means"}:
 <<>>=
-model.tables(aov(lm(logitcover ~ BLOCK*TREAT, data=seaweed)), type="means")
+model.tables(aov(lm(logitcover ~ Block*Treat, data=case1301)), type="means")
 @
 
 To answer specific questions of interest regarding subgroup comparisons we can use linear combinations.  The \emph{Sleuth} proposes five questions as detailed on pages 289-390. The code for results of these questions is displayed below and these results are also interpreted on pages 389-390 and summarized in Display 13.13.  For this model the reference group is \emph{control} followed by \emph{f, fF, L, Lf, LfF}.  
 
 <<>>=
 library(gmodels)
-lm1 = lm(logitcover ~ TREAT+BLOCK, data=seaweed); coef(lm1)
+lm1 = lm(logitcover ~ Treat+Block, data=case1301); coef(lm1)
 large = rbind('Large fish' = c(0, -1/2, 1/2, 0, -1/2, 1/2))
 small = rbind('Small fish' = c(-1/2, 1/2, 0, -1/2, 1/2, 0))
 limpets = rbind('Limpets' = c(-1/3, -1/3, -1/3, 1/3, 1/3, 1/3))
 limpetsSmall = rbind('Limpets X Small' = c(1, -1/2, -1/2, -1, 1/2, 1/2))
 limpetsLarge = rbind('Limpets X Large' = c(0, 1, -1, 0, -1, 1))
-fit.contrast(lm1, "TREAT", large, conf.int=.95)
-fit.contrast(lm1, "TREAT", small, conf.int=.95) 
-fit.contrast(lm1, "TREAT", limpets, conf.int=.95)
-fit.contrast(lm1, "TREAT", limpetsSmall, conf.int=.95) 
-fit.contrast(lm1, "TREAT", limpetsLarge, conf.int=.95)
+fit.contrast(lm1, "Treat", large, conf.int=.95)
+fit.contrast(lm1, "Treat", small, conf.int=.95) 
+fit.contrast(lm1, "Treat", limpets, conf.int=.95)
+fit.contrast(lm1, "Treat", limpetsSmall, conf.int=.95) 
+fit.contrast(lm1, "Treat", limpetsLarge, conf.int=.95)
 @
-To attain the confidence intervals discussed in the ``Summary of Statistical Findings" (page 376) we need to exponential the lower and upper bounds of the above 95$\%$ confidence intervals.  Therefore, for the limpets estimation, the corresponding 95$\%$ confidence interval is (\Sexpr{round(exp(fit.contrast(lm1, "TREAT", limpets, conf.int=.95)[,"lower CI"]), 3)}, \Sexpr{round(exp(fit.contrast(lm1, "TREAT", limpets, conf.int=.95)[,"upper CI"]), 3)}). The resulting large fish 95$\%$ confidence interval is (\Sexpr{round(exp(fit.contrast(lm1, "TREAT", large, conf.int=.95)[,"lower CI"]), 3)}, \Sexpr{round(exp(fit.contrast(lm1, "TREAT", large, conf.int=.95)[,"upper CI"]), 3)}). Lastly for the estimation of the regeneration ratio for small fish the 95$\%$ confidence interval is (\Sexpr{round(exp(fit.contrast(lm1, "TREAT", small, conf.int=.95)[,"lower CI"]), 3)}, \Sexpr{round(exp(fit.contrast(lm1, "TREAT", small, conf.int=.95)[,"upper CI"]), 3)}).
+To attain the confidence intervals discussed in the ``Summary of Statistical Findings" (page 376) we need to exponential the lower and upper bounds of the above 95$\%$ confidence intervals.  Therefore, for the limpets estimation, the corresponding 95$\%$ confidence interval is (\Sexpr{round(exp(fit.contrast(lm1, "Treat", limpets, conf.int=.95)[,"lower CI"]), 3)}, \Sexpr{round(exp(fit.contrast(lm1, "Treat", limpets, conf.int=.95)[,"upper CI"]), 3)}). The resulting large fish 95$\%$ confidence interval is (\Sexpr{round(exp(fit.contrast(lm1, "Treat", large, conf.int=.95)[,"lower CI"]), 3)}, \Sexpr{round(exp(fit.contrast(lm1, "Treat", large, conf.int=.95)[,"upper CI"]), 3)}). Lastly for the estimation of the regeneration ratio for small fish the 95$\%$ confidence interval is (\Sexpr{round(exp(fit.contrast(lm1, "Treat", small, conf.int=.95)[,"lower CI"]), 3)}, \Sexpr{round(exp(fit.contrast(lm1, "Treat", small, conf.int=.95)[,"upper CI"]), 3)}).
 
 \section{Pygmalion effect}
 Does telling a manager that some of the supervisees are superior affect their perceived performance?  This is the question addressed in case study 13.2 in the \emph{Sleuth}.  
@@ -295,18 +301,18 @@ Does telling a manager that some of the supervisees are superior affect their pe
 
 We begin by reading the data and summarizing the variables.
 <<>>=
-pygmalion = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case1302.csv")
-summary(pygmalion)
+summary(case1302)
+case1302$newTreat = relevel(case1302$Treat, ref="Control")
 @
 
-There were a total of \Sexpr{nrow(pygmalion)} platoons.  For each of the \Sexpr{length(unique(pygmalion[, "COMPANY"]))} companies, one platoon received the Pygmalion treatment and two platoons were control, with the exception of one company that only had one control platoon.  Therefore, there were \Sexpr{nrow(subset(pygmalion, TREAT=="PYGMALION"))} Pygmalion platoons and \Sexpr{nrow(subset(pygmalion, TREAT=="CONTROL"))} control platoons. As shown in Display 13.3 (page 378 of the \emph{Sleuth}).
+There were a total of \Sexpr{nrow(case1302)} platoons.  For each of the \Sexpr{length(unique(case1302[, "Company"]))} companies, one platoon received the Pygmalion treatment and two platoons were control, with the exception of one company that only had one control platoon.  Therefore, there were \Sexpr{nrow(subset(case1302, newTreat=="Pygmalion"))} Pygmalion platoons and \Sexpr{nrow(subset(case1302, newTreat=="Control"))} control platoons. As shown in Display 13.3 (page 378 of the \emph{Sleuth}).
 
 \subsection{Graphical presentation}
 
 The following figure displays an interaction plot for the Pygmalion dataset, akin to Display 13.14 on page 392.
 
 <<fig.height=8, fig.width=8>>=
-with(pygmalion, interaction.plot(COMPANY, TREAT, SCORE))
+with(case1302, interaction.plot(Company, newTreat, Score))
 @
 
 \subsection{Two way ANOVA (fit using multiple linear regression model)}
@@ -316,8 +322,8 @@ We can then use multiple linear regression models for the additive and nonadditi
 
 The following is similar to Display 13.16 (page 394).  
 <<>>=
-lm1 = lm(SCORE ~ COMPANY*TREAT, data=pygmalion); summary(lm1)
-lm2 = lm(SCORE ~ COMPANY+TREAT, data=pygmalion); summary(lm2) # Display 13.18 page 395
+lm1 = lm(Score ~ Company*newTreat, data=case1302); summary(lm1)
+lm2 = lm(Score ~ Company+newTreat, data=case1302); summary(lm2) # Display 13.18 page 395
 anova(lm1)
 anova(lm2)
 anova(lm2, lm1)
@@ -332,8 +338,8 @@ plot(lm2, which=1)
 
 As introduced in Chapter 4, we can construct a randomization distribution by considering the distribution of a test statistic over all possible ways the randomization could have turned out.  For the Pygmalion data we can construct a randomization distribution for the $t$-statistic of the treatment effect as discussed on pages 397-398.   
 <<>>=
-obs = summary(lm(SCORE ~ COMPANY+TREAT, data=pygmalion))$coefficients["TREATPYGMALION", "t value"]
-nulldist = do(15000) * summary(lm(SCORE ~ shuffle(COMPANY)+shuffle(TREAT), data=pygmalion))$coefficients["shuffle(TREAT)PYGMALION", "t value"]
+obs = summary(lm(Score ~ Company+newTreat, data=case1302))$coefficients["newTreatPygmalion", "t value"]
+nulldist = do(10000) * summary(lm(Score ~ shuffle(Company)+shuffle(newTreat), data=case1302))$coefficients["shuffle(newTreat)Pygmalion", "t value"]
 xhistogram(~ result, groups=result >= obs, v=obs, data=nulldist) # akin to Display 13.20 page 398
 tally(~ result >= obs, format="proportion", data=nulldist)
 @

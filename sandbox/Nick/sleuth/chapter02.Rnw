@@ -121,6 +121,7 @@ print.pval = function(pval) {
 @
 
 <<setup,echo=FALSE,message=FALSE>>=
+require(Sleuth2)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
@@ -158,6 +159,14 @@ require(mosaic)
 This
 needs to be done once per session.
 
+In addition the data files for the \emph{Sleuth} case studies can be accessed by installing the \pkg{Sleuth2} package.
+<<install_Sleuth2,eval=FALSE>>=
+install.packages('Sleuth2')               # note the quotation marks
+@
+<<load_Sleuth2,eval=FALSE>>=
+require(Sleuth2)
+@
+
 We also set some options to improve legibility of graphs and output.
 <<eval=TRUE>>=
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
@@ -174,20 +183,19 @@ Is humerus length related to whether the bird would survive or perish? That's th
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-sparrow = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0201.csv")
-summary(sparrow)
-fav=favstats(HUMERUS ~ STATUS, data=sparrow); fav
+summary(case0201)
+fav=favstats(Humerus ~ Status, data=case0201); fav
 @
 
-A total of \Sexpr{nrow(sparrow)} subjects are included in the data: \Sexpr{nrow(subset(sparrow, STATUS=="SURVIVED"))} are adult male sparrows that survived and \Sexpr{nrow(subset(sparrow, STATUS=="PERISHED"))} that perished. 
+A total of \Sexpr{nrow(case0201)} subjects are included in the data: \Sexpr{nrow(subset(case0201, Status=="Survived"))} are adult male sparrows that survived and \Sexpr{nrow(subset(case0201, Status=="Perished"))} that perished. 
 The following figure replicates Display 2.1 on page 29.
 
 <<>>=
-bwplot(STATUS ~ HUMERUS, data=sparrow)
+bwplot(Status ~ Humerus, data=case0201)
 @
 
 <<>>=
-densityplot(~ HUMERUS, groups=STATUS, auto.key=TRUE, data=sparrow)
+densityplot(~ Humerus, groups=Status, auto.key=TRUE, data=case0201)
 @
 
 Both distributions are approximately normally distributed.
@@ -197,10 +205,10 @@ Both distributions are approximately normally distributed.
 First, we calculate the pooled SD and the standard error between these two different sample average (page 40, Display 2.8).
 <<>>=
 # Calculate Pooled SD
-n1 = fav["PERISHED", "n"]; n1
-n2 = fav["SURVIVED", "n"]; n2
-s1 = fav["PERISHED", "sd"]; s1
-s2 = fav["SURVIVED", "sd"]; s2
+n1 = fav["Perished", "n"]; n1
+n2 = fav["Survived", "n"]; n2
+s1 = fav["Perished", "sd"]; s1
+s2 = fav["Survived", "sd"]; s2
 Sp = sqrt(((n1-1)*(s1)^2+(n2-1)*(s2)^2)/(n1+n2-2)); Sp
 # Calculate standard error
 SE = Sp*sqrt(1/n1+1/n2); SE
@@ -211,8 +219,8 @@ So the pooled SD is \Sexpr{round(Sp, 2)} and the standard error is \Sexpr{round(
 Based on this information, we can construct a 95\% confidence interval (page 41, Display 2.9).
 
 <<>>=
-Y1 = fav["PERISHED", "mean"]; Y1
-Y2 = fav["SURVIVED", "mean"]; Y2
+Y1 = fav["Perished", "mean"]; Y1
+Y2 = fav["Survived", "mean"]; Y2
 Yd = Y2-Y1; Yd
 df = n1+n2-2; df
 qt = qt(0.975, 57); qt
@@ -234,8 +242,8 @@ The one-sided $p$-value is \Sexpr{round(onepval, 2)} and the two-sided $p$-value
 
 We can get the results of ``Summary of Statistical Findings" (page 29) by using the following code: 
 <<>>=
-t.test(HUMERUS ~ STATUS, var.equal=TRUE, data=sparrow)
-confint(lm(HUMERUS ~ STATUS, data=sparrow))
+t.test(Humerus ~ Status, var.equal=TRUE, data=case0201)
+confint(lm(Humerus ~ Status, data=case0201))
 @
 
 \section{Anatomical Abnormalities Associated with Schizophrenia}
@@ -246,15 +254,14 @@ Is the area of brain related to the development of schizophrenia? That's the que
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-schizo = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0202.csv")
-summary(schizo)
+summary(case0202)
 @
 
-A total of \Sexpr{nrow(schizo)} subjects are included in the data. There are \Sexpr{nrow(schizo[ "AFFECTED"])} pairs of twins; one of the twins has schizophrenia, and the other does not. So there are \Sexpr{nrow(schizo["AFFECTED"])} affected subjects and \Sexpr{nrow(schizo["UNAFFECT"])} unaffected subjects.
+A total of \Sexpr{nrow(case0202)} subjects are included in the data. There are \Sexpr{nrow(case0202[ "Affected"])} pairs of twins; one of the twins has schizophrenia, and the other does not. So there are \Sexpr{nrow(case0202["Affected"])} affected subjects and \Sexpr{nrow(case0202["Unaffect"])} unaffected subjects.
 
 The difference in area of left hippocampus of these pairs of twins is:
 <<>>=
-DIFF = schizo[, "UNAFFECT"]-schizo[, "AFFECTED"]
+DIFF = case0202[, "Unaffect"]-case0202[, "Affected"]
 favstats(DIFF)
 @
 
@@ -286,7 +293,7 @@ So the two-sided $p$-value is \Sexpr{round(twopvalue, 3)} and the 95\% confidenc
 Or we can get the results displayed on page 31 by conducting a paired $t$-test.
 
 <<>>=
-t.test(schizo[, "UNAFFECT"], schizo[, "AFFECTED"], paired=TRUE)
+t.test(case0202[, "Unaffect"], case0202[, "Affected"], paired=TRUE)
 @
 
 \end{document}

@@ -121,6 +121,7 @@ print.pval = function(pval) {
 @
 
 <<setup,echo=FALSE,message=FALSE>>=
+require(Sleuth2)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme 
 set.seed(123)
@@ -158,6 +159,14 @@ require(mosaic)
 This
 needs to be done once per session.
 
+In addition the data files for the \emph{Sleuth} case studies can be accessed by installing the \pkg{Sleuth2} package.
+<<install_Sleuth2,eval=FALSE>>=
+install.packages('Sleuth2')               # note the quotation marks
+@
+<<load_Sleuth2,eval=FALSE>>=
+require(Sleuth2)
+@
+
 We also set some options to improve legibility of graphs and output.
 <<eval=TRUE>>=
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
@@ -174,27 +183,17 @@ Do different amounts of light affect the growth of meadowfoam (a small plant use
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-light = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0901.csv")
+summary(case0901)
+favstats(Flowers ~ Intens | Time, data=case0901)
 @
 
-<<>>=
-# create a better named variable for day24
-light$day24 = relevel(as.factor(ifelse(light$TIME==1, "late", "early")), 
-                      ref="late")
-@
-
-<<>>=
-summary(light)
-favstats(FLOWERS ~ INTENS | day24, data=light)
-@
-
-A total of \Sexpr{nrow(light)} meadowfoam plants were included in this data.  There were \Sexpr{length(unique(light[,"TIME"]))*length(unique(light[, "INTENS"]))} treatment groups -  \Sexpr{length(unique(light[, "INTENS"]))} light intensities at each of the  \Sexpr{length(unique(light[,"TIME"]))} timing levels (Display 9.2, page 237 of the \emph{Sleuth}).
+A total of \Sexpr{nrow(case0901)} meadowfoam plants were included in this data.  There were \Sexpr{length(unique(case0901[,"Time"]))*length(unique(case0901[, "Intens"]))} treatment groups -  \Sexpr{length(unique(case0901[, "Intens"]))} light intensities at each of the  \Sexpr{length(unique(case0901[,"Time"]))} timing levels (Display 9.2, page 237 of the \emph{Sleuth}).
 The following code generates the scatterplot of the average number of flowers per
 plant versus the applied light intensity for each of the 12 experimental units akin to Display 9.3 on page 238.
 
 <<>>=
-xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"), 
-       data=light, auto.key=TRUE, 
+xyplot(Flowers ~ Intens, groups=Time, type=c("p", "r", "smooth"), 
+       data=case0901, auto.key=TRUE, 
        xlab="light intensity (mu mol/m^2/sec)", ylab="average number of flowers")
 @
 
@@ -204,7 +203,7 @@ xyplot(FLOWERS ~ INTENS, groups=day24, type=c("p", "r", "smooth"),
 We next fit a multiple linear regression model that specifies parallel regression lines for the mean  number of flowers as a function of light intensity as interpreted on page 237.
 
 <<>>=
-lm1 = lm(FLOWERS ~ INTENS+day24, data=light)
+lm1 = lm(Flowers ~ Intens+Time, data=case0901)
 summary(lm1)
 confint(lm1, level=.95) # 95% confidence intervals  
 @
@@ -212,7 +211,7 @@ confint(lm1, level=.95) # 95% confidence intervals
 We can also fit a multiple linear regression with an interaction between light intensity and timing of its initiation as shown in Display 9.14 (page 256) and interpreted on page 237.
 
 <<>>=
-lm2 = lm(FLOWERS ~ INTENS*day24, data=light)
+lm2 = lm(Flowers ~ Intens*Time, data=case0901)
 summary(lm2)
 @
 
@@ -224,18 +223,17 @@ What characteristics predict large brains in mammals? This is the question addre
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-mammals = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0902.csv")
-mammals$logbrain = log(mammals$BRAIN); 
-mammals$logbody = log(mammals$BODY);
-mammals$loggest = log(mammals$GESTATION); 
-mammals$loglitter = log(mammals$LITTER)
+case0902$logbrain = log(case0902$Brain); 
+case0902$logbody = log(case0902$Body);
+case0902$loggest = log(case0902$Gestation); 
+case0902$loglitter = log(case0902$Litter)
 @
 
 <<>>=
-summary(mammals)
+summary(case0902)
 @
 
-A total of \Sexpr{nrow(mammals)} mammals were included in this data.  The average values of brain weight, body weight, gestation length, and litter size for each of the species were calculated and presented in Display 9.2 (page 237 of the \emph{Sleuth}).
+A total of \Sexpr{nrow(case0902)} mammals were included in this data.  The average values of brain weight, body weight, gestation length, and litter size for each of the species were calculated and presented in Display 9.2 (page 237 of the \emph{Sleuth}).
 
 
 \subsection{Graphical presentation}
@@ -243,7 +241,7 @@ A total of \Sexpr{nrow(mammals)} mammals were included in this data.  The averag
 The following displays a simple (unadorned) pairs plot, akin to Display 9.10 on page 252.
 
 <<fig.height=8, fig.width=8>>=
-pairs(mammals[c("BRAIN", "BODY", "GESTATION", "LITTER")])
+pairs(case0902[c("Brain", "Body", "Gestation", "Litter")])
 @
 
 We can make it fancier if we like.
@@ -271,9 +269,9 @@ panel.lm = function(x, y, col=par("col"), bg=NA,
 Below displays a fancier pairs plot.
 
 <<fig.height=8, fig.width=8>>=
-  pairs(~ BRAIN+BODY+GESTATION+LITTER, 
+  pairs(~ Brain+Body+Gestation+Litter, 
         lower.panel=panel.smooth, diag.panel=panel.hist, 
-        upper.panel=panel.lm, data=mammals)
+        upper.panel=panel.lm, data=case0902)
 @
 
 
@@ -282,21 +280,21 @@ Here is a fancier pairs plot using the log-transformed variables, akin to Displa
 <<fig.height=8, fig.width=8>>=
   pairs(~ logbrain+logbody+loggest+loglitter, 
               lower.panel=panel.smooth, diag.panel=panel.hist, 
-              upper.panel=panel.lm, data=mammals)
+              upper.panel=panel.lm, data=case0902)
 @
 
 The following displays a jittered scatterplot of log brain weight as a function of log litter size, akin to Display 9.12 on page 254.
 
 <<fig.height=8, fig.width=8>>=
-  xyplot(logbrain ~ jitter(loglitter), data=mammals)
+  xyplot(logbrain ~ jitter(loglitter), data=case0902)
 @
 
 
 Below displays a jittered scatterplot using the original data on a log-transformed axis, akin to Display 9.12 on page 254.
 
 <<fig.height=8, fig.width=8>>=
-  xyplot(BRAIN ~ jitter(LITTER), scales=list(y=list(log=TRUE),
-                                             x=list(log=TRUE)), data=mammals)
+  xyplot(Brain ~ jitter(Litter), scales=list(y=list(log=TRUE),
+                                             x=list(log=TRUE)), data=case0902)
 @
 
 
@@ -304,16 +302,16 @@ The following displays a jittered scatterplot using the original data stratified
 
 
 <<fig.height=8, fig.width=8>>=
-mammals$weightcut = cut(mammals$BODY, breaks=c(0, 2.1, 9.1, 100, 4200), labels=c("Body Weight: 0kg to 2.1kg","Body Weight: 2.1kg to 9.1kg", "Body Weight: 9.1kg to 100kg", "Body Weight: 100 to 4,200"))
-xyplot(BRAIN ~ jitter(LITTER) | weightcut, 
-       scales=list(y=list(log=TRUE), x=list(log=TRUE)), type=c("p", "r"), data=mammals)
+case0902$weightcut = cut(case0902$Body, breaks=c(0, 2.1, 9.1, 100, 4200), labels=c("Body Weight: 0kg to 2.1kg","Body Weight: 2.1kg to 9.1kg", "Body Weight: 9.1kg to 100kg", "Body Weight: 100 to 4,200"))
+xyplot(Brain ~ jitter(Litter) | weightcut, 
+       scales=list(y=list(log=TRUE), x=list(log=TRUE)), type=c("p", "r"), data=case0902)
 @
 
 \subsection{Multiple linear regression model}
 
 The following model is interpreted on page 238 and shown in Display 9.15 (page 256).
 <<>>=
-lm1 = lm(logbrain ~ logbody+loggest+loglitter, data=mammals)
+lm1 = lm(logbrain ~ logbody+loggest+loglitter, data=case0902)
 summary(lm1)
 @
 

@@ -122,6 +122,7 @@ print.pval = function(pval) {
 @
 
 <<setup,echo=FALSE,message=FALSE>>=
+require(Sleuth2)
 require(mosaic)
 trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
 set.seed(123)
@@ -159,6 +160,14 @@ require(mosaic)
 This
 needs to be done once per session.
 
+In addition the data files for the \emph{Sleuth} case studies can be accessed by installing the \pkg{Sleuth2} package.
+<<install_Sleuth2,eval=FALSE>>=
+install.packages('Sleuth2')               # note the quotation marks
+@
+<<load_Sleuth2,eval=FALSE>>=
+require(Sleuth2)
+@
+
 We also set some options to improve legibility of graphs and output.
 <<eval=FALSE>>=
 trellis.par.set(theme=col.mosaic())  # get a better color scheme 
@@ -178,19 +187,18 @@ in case study 5.1 in the \emph{Sleuth}.
 We begin by reading the data and summarizing the variables.
 
 <<>>=
-mice = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0501.csv")
-summary(mice)
-favstats(LIFETIME ~ DIET, data=mice)
+summary(case0501)
+favstats(Lifetime ~ Diet, data=case0501)
 @
 
-There were a total of \Sexpr{nrow(mice)} female mice. These mice were randomly assigned to one of \Sexpr{length(unique(mice[, "DIET"]))} diets.  Their lifetimes were then recorded, as shown in Display 5.2 (page 115 of the \emph{Sleuth}).
+There were a total of \Sexpr{nrow(case0501)} female mice. These mice were randomly assigned to one of \Sexpr{length(unique(case0501[, "Diet"]))} diets.  Their lifetimes were then recorded, as shown in Display 5.2 (page 115 of the \emph{Sleuth}).
 
 <<>>=
-bwplot(LIFETIME ~ DIET, data=mice) # Display 5.1
+bwplot(Lifetime ~ Diet, data=case0501) # Display 5.1
 @
 
 <<fig.height=8, fig.width=8>>=
-densityplot(~ LIFETIME, groups=DIET, auto.key=TRUE, data=mice)
+densityplot(~ Lifetime, groups=Diet, auto.key=TRUE, data=case0501)
 @
 
 \subsection{One-way ANOVA}
@@ -198,7 +206,7 @@ densityplot(~ LIFETIME, groups=DIET, auto.key=TRUE, data=mice)
 First we fit the one way analysis of variance (ANOVA) model, using all of the groups.
 
 <<eval=TRUE>>=
-anova(lm(LIFETIME ~ DIET, data=mice))
+anova(lm(Lifetime ~ Diet, data=case0501))
 @
 
 There is a strong statistically significant difference between the diets.
@@ -206,10 +214,10 @@ There is a strong statistically significant difference between the diets.
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
 
 <<>>=
-summary(lm(LIFETIME ~ DIET, data=mice))
+summary(lm(Lifetime ~ Diet, data=case0501))
 @
 
-The reference group is \emph{lopro}, followed by \emph{N/N85, N/R40, N/R50, NP, R/R50}.
+The reference group is \emph{NP}, followed by \emph{N/N85, lopro, N/R50, R/R50, N/R40}.
 
 \subsection{Pairwise comparisons}
 
@@ -217,44 +225,44 @@ Next we used contrasts for the results on page 121, Display 5.7, and part {\bf(a
 <<a>>=
 library(gmodels)
 # N/N85 vs N/R50
-fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, -1, 0, 1, 0, 0), conf.int=0.95)
+fit.contrast(lm(Lifetime ~ Diet, data=case0501), "Diet", c(0, -1, 0, 1, 0, 0), conf.int=0.95)
 @
 
 The results for {\bf(b)} on page 115-116:
 <<b>>=
 # N/R50 vs R/R50 (b)
-fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 0, -1, 0, 1), conf.int=0.95)
+fit.contrast(lm(Lifetime ~ Diet, data=case0501), "Diet", c(0, 0, 0, -1, 1, 0), conf.int=0.95)
 @
 
 The results for {\bf(c)} on page 116:
 <<c>>=
 # N/R40 vs N/R50 (c)
-fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 0, 1, -1, 0, 0), conf.int=0.95)
+fit.contrast(lm(Lifetime ~ Diet, data=case0501), "Diet", c(0, 0, 0, -1, 0, 1), conf.int=0.95)
 # N/N85 vs N/R40
-fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, -1, 1, 0, 0, 0), conf.int=0.95)
+fit.contrast(lm(Lifetime ~ Diet, data=case0501), "Diet", c(0, -1, 0, 0, 0, 1), conf.int=0.95)
 @
 
 The results for {\bf(d)} on page 116:
 <<d>>=
 # N/R50 vs N/R50 lopro (d)
-fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(-1, 0, 0, 1, 0, 0), conf.int=0.95)
+fit.contrast(lm(Lifetime ~ Diet, data=case0501), "Diet", c(0, 0, 1, -1, 0, 0), conf.int=0.95)
 @
 
 The results for {\bf(e)} on page 116:
 <<e>>=
 # N/N85 vs NP (e)
-fit.contrast(lm(LIFETIME ~ DIET, data=mice), "DIET", c(0, 1, 0, 0, -1, 0), conf.int=0.95)
+fit.contrast(lm(Lifetime ~ Diet, data=case0501), "Diet", c(-1, 1, 0, 0, 0, 0), conf.int=0.95)
 @
 
 Another way of viewing these results is through a model table, which displays the differences
 between the grand mean and the group means.
 <<>>=
-model.tables(aov(lm(LIFETIME ~ DIET, data=mice)))
+model.tables(aov(lm(Lifetime ~ Diet, data=case0501)))
 @
 
 Another way of calculating the above results is done with the following code:
 <<>>=
-mean(LIFETIME ~ DIET, data=mice)-mean(~ LIFETIME, data=mice)
+mean(Lifetime ~ Diet, data=case0501)-mean(~ Lifetime, data=case0501)
 @
 
 \subsection{Other analyses}
@@ -262,9 +270,9 @@ mean(LIFETIME ~ DIET, data=mice)-mean(~ LIFETIME, data=mice)
 We will next demonstrate how to calculate the quantities on page 120 (Display 5.6).
 
 <<>>=
-df = length(mice$DIET) - length(unique(mice$DIET)); df
-sdvals = with(mice, tapply(LIFETIME, DIET, sd)); sdvals
-nvals = with(mice, tapply(LIFETIME, DIET, length)); nvals
+df = length(case0501$Diet) - length(unique(case0501$Diet)); df
+sdvals = with(case0501, tapply(Lifetime, Diet, sd)); sdvals
+nvals = with(case0501, tapply(Lifetime, Diet, length)); nvals
 pooledsd = sum(sdvals*nvals)/sum(nvals); pooledsd
 @
 
@@ -277,7 +285,7 @@ root mean squared error.
 The residuals versus fitted graph does not demonstrate dramatic lack of fit (though some of the 
 mice had very small residuals).  The following figure is akin to Display 5.14 (page 132).
 <<fig.height=8, fig.width=8>>=
-aov1 = aov(lm(LIFETIME ~ DIET, data=mice))
+aov1 = aov(lm(Lifetime ~ Diet, data=case0501))
 plot(aov1, which=1) 
 @
 
@@ -297,44 +305,41 @@ case study 5.2 in the \emph{Sleuth}.
 \subsection{Summary statistics and graphical display}
 
 We begin by reading the data and summarizing the variables.
-<<>>=
-spock = read.csv("http://www.math.smith.edu/~nhorton/sleuth/case0502.csv",
-   stringsAsFactors=FALSE)
-@
-<<>>=
-summary(spock)
-spock$JUDGE = with(spock, as.factor(JUDGE))
-favstats(PERCENT ~ JUDGE, data=spock)
-@
-There were a total of \Sexpr{nrow(spock)} venires. They compared Spock's judge with \Sexpr{length(unique(subset(spock, JUDGE!="SPOCK'S")[, "JUDGE"]))} other judges.  The precent of women within each venire was recorded as shown in Display 5.4 (page 117 of the \emph{Sleuth}).
 
 <<>>=
-bwplot(PERCENT ~ JUDGE, data=spock) # Display 5.5 (page 118)
+summary(case0502)
+case0502$Judge = with(case0502, as.factor(Judge))
+favstats(Percent ~ Judge, data=case0502)
+@
+There were a total of \Sexpr{nrow(case0502)} venires. They compared Spock's judge with \Sexpr{length(unique(subset(case0502, Judge!="Spock's")[, "Judge"]))} other judges.  The precent of women within each venire was recorded as shown in Display 5.4 (page 117 of the \emph{Sleuth}).
+
+<<>>=
+bwplot(Percent ~ Judge, data=case0502) # Display 5.5 (page 118)
 @
 <<fig.height=8, fig.width=8>>=
-densityplot(~ PERCENT, groups=JUDGE, auto.key=TRUE, data=spock)
+densityplot(~ Percent, groups=Judge, auto.key=TRUE, data=case0502)
 @
 
 \subsection{One-way ANOVA}
 
 First we fit the one way analysis of variance (ANOVA) model, with all of the groups. These results are summarized on page 118 and shown in Display 5.10 (page 127).
 <<>>=
-aov1 = anova(lm(PERCENT ~ JUDGE, data=spock)); aov1 
+aov1 = anova(lm(Percent ~ Judge, data=case0502)); aov1 
 @
 
 By default, the use of the linear model (regression) function displays the pairwise differences between the first group and each of the other groups.  Note that the overall test of the model is the same.
 <<>>=
-summary(lm(PERCENT ~ JUDGE, data=spock))
+summary(lm(Percent ~ Judge, data=case0502))
 @
 
 <<>>=
-model.tables(aov(lm(PERCENT ~ JUDGE, data=spock)))
+model.tables(aov(lm(Percent ~ Judge, data=case0502)))
 @
 
 Then we can fit the one way analysis of variance $F$-test of whether the mean percentage is the same for judges A-F (page 118).
 
 <<>>=
-with(subset(spock, JUDGE!="SPOCK'S"), anova(lm(PERCENT ~ JUDGE)))
+with(subset(case0502, Judge!="Spock's"), anova(lm(Percent ~ Judge)))
 @
 
 \subsection{Additional analyses}
@@ -343,9 +348,9 @@ Now we will demonstrate how to fit the reduced model comparing Spock's judge to 
 other judges. First we create a 2 level version of the grouping variable.
 
 <<>>=
-spock$TWOJUDGE = as.character(spock$JUDGE)
-spock$TWOJUDGE[spock$JUDGE!="SPOCK'S"] = "NOTSPOCK"
-tally(TWOJUDGE ~ JUDGE, format="count", data=spock)
+case0502$twoJudge = as.character(case0502$Judge)
+case0502$twoJudge[case0502$Judge!="Spock's"] = "notspock"
+tally(twoJudge ~ Judge, format="count", data=case0502)
 
 @
 Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)/(44-39)) / (1864.45 / 39) = 1.37, with df 5 and 39.  P(F $\textgreater$ 1.366) = 0.26 (page 130).  Below are the calculations for the results found on page 128. 
@@ -353,26 +358,26 @@ Recall that the book calculates the extra sum of squares as (2,190.90 - 1864.45)
 <<>>=
 numdf1 = aov1["Residuals", "Df"]; numdf1 # Within
 ss1 = aov1["Residuals", "Sum Sq"]; ss1 # Within
-aov2 = anova(lm(PERCENT ~ as.factor(TWOJUDGE), data=spock)); aov2
+aov2 = anova(lm(Percent ~ as.factor(twoJudge), data=case0502)); aov2
 df2 = aov2["Residuals", "Df"]; df2 # Spock and others 
 ss2 = aov2["Residuals", "Sum Sq"]; ss2 # Spock and others 
 Fstat = ((ss2 - ss1)/(df2 - numdf1)) / (ss1 / numdf1); Fstat 
-1-pf(Fstat, length(levels(spock$JUDGE))-2, numdf1)
+1-pf(Fstat, length(levels(case0502$Judge))-2, numdf1)
 @
 
 We can also compare the two models using ANOVA (Display 5.12, page 130).
 <<>>=
-anova(lm(PERCENT ~ as.factor(JUDGE), data=spock), lm(PERCENT ~ as.factor(TWOJUDGE), data=spock))
+anova(lm(Percent ~ as.factor(Judge), data=case0502), lm(Percent ~ as.factor(twoJudge), data=case0502))
 @
 
 There are some other ways to compare whether the other judges differ from Dr. Spock's judge in their female composition using contrasts. 
 
 <<>>=
 # test all of the other judges vs. Spock's judge using a contrast page 118
-fit.contrast(lm(PERCENT ~ JUDGE, data=spock), "JUDGE", c(1, 1, 1, 1, 1, 1, -6), conf.int=0.95)
+fit.contrast(lm(Percent ~ Judge, data=case0502), "Judge", c(-6, 1, 1, 1, 1, 1, 1), conf.int=0.95)
 
 # calculate the 95% confidence interval for Dr. Spock's jury female composition page 118
-estimable(lm(PERCENT ~ JUDGE, data=spock), c(1,0,0,0,0,0,1), conf.int=0.95)
+estimable(lm(Percent ~ Judge, data=case0502), c(1,0,0,0,0,0,0), conf.int=0.95)
 @
 
 \subsubsection{Kruskal-Wallis Nonparametric Analysis of Variance}
@@ -380,7 +385,7 @@ estimable(lm(PERCENT ~ JUDGE, data=spock), c(1,0,0,0,0,0,1), conf.int=0.95)
 For the results of the Kruskal-Wallis test on page 136 we can use the following code:
 
 <<>>=
-kruskal.test(PERCENT ~ JUDGE, data=spock)
+kruskal.test(Percent ~ Judge, data=case0502)
 @
 
 
