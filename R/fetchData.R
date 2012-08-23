@@ -1,28 +1,25 @@
 #' A Web and Library Data-Loading Facility
 #' 
-#' \code{fetchData} provides a means for students and others to locate and load data sets provided by instructors.  
-#' Data can be pre-loaded for off-line sessions, can be positioned on identified web sites, or loaded from packages.  
-#' \code{fetchData} also will load local \code{.csv} files using \code{file.choose()}.
+#' \code{fetchData} provides a means for students and others to 
+#' locate and load data sets and R commands provided by instructors.  
+#' Data can be pre-loaded for off-line sessions, can be positioned 
+#' on identified web sites, or loaded from packages.  
+#' \code{fetchData} also will load local files using a complete path name (relative
+#' to the current working directory) or, if no name is given, via a dialog box.
 #'
 #' @param name a character string naming a data set.  
-#'    This will often end in \code{.csv} for reading in a data set. When used
-#'    in conjunction with \code{TRUE} values for the following arguments, it can also
-#'    name a web directory (always ending in \code{/}). 
-#' It can also give a name to a data set to be stored in the cached library.  
-#' 
-#' @param add.to.path If \code{TRUE}, indicates that the web search path is to printed out, or, 
-#' if \code{name} is specified, the name should be a web directory (ending in \code{/}), which 
+#'    This will often end in \code{.csv} for reading in a data set. 
+#'    If it ends in \code{.r} or \code{.R}, the file will be "sourced".
+#' @param show.path If \code{TRUE}, causes the current search path to be returned
+#' @param add.to.path Name of a web directory (ending in \code{/}), which 
 #' should be pre-pended to the search path.
 #'   
-#' @param drop.from.path If \code{TRUE}, wipes out the web search path, or, 
-#' if \code{name} is specified, removes that web directory from the search path.
-#' @param add.to.library If \code{TRUE}, indicates that a data set is to be pre-loaded 
+#' @param drop.from.path Name of a web directory to be deleted from the path. 
+#' @param cache If \code{TRUE}, indicates that a data set is to be pre-loaded 
 #' into the cached library.  This allows, 
 #' for instance, users to pre-load on-line data to be used when they are off-line.
 #' @param verbose a logical indicating whether additional status messages (e.g., indicating
 #'    where the dataset was located) should be printed.
-#' @param data The data frame to be put in the cached library if \code{add.to.library=TRUE}.
-#' @param directory The name of a web directory to be searched but not added to the search path.
 #' 
 #' 
 #' @details
@@ -32,7 +29,8 @@
 #' differs from the behavior of \code{data}, which doesn't return a value but
 #' instead creates an object without explicit assignment.
 #' 
-#' The other purpose is to allow instructors or other group leaders to post data on
+#' The other purpose is to allow instructors or other group leaders to post data 
+#' and R code on
 #' web sites that can be searched as naturally as if the data were on the users'
 #' own machines.  For instance, an instructor might want to post a new data set
 #' just before class, enabling her students to access it in class.
@@ -44,120 +42,179 @@
 #' script file stored on a website and, using a web page, provide students with
 #' the text of the command to \code{source} it. 
 #' 
+#' Currently, https addresses are changed to http
+#' 
 #' @return a data frame.
 #'
 #' @export
 #' @examples
-#' \dontrun{kids <- fetchData("KidsFeet.csv")}
+#' \dontrun{dome <- fetchData("Dome.csv")}
 #' \dontrun{carbon <- fetchData("CO2")}
-#' \dontrun{fetchData(add.to.path=TRUE)}
-#' \dontrun{fetchData(add.to.path=TRUE, name="http://www.macalester.edu/~kaplan/ISM/datasets/")}
-#' \dontrun{fetchData(drop.from.path=TRUE, name="http://www.macalester.edu/~kaplan/ISM/datasets/") }
-#' \dontrun{fetchData(drop.from.path=TRUE)}
-#' \dontrun{fetchData(add.to.library=TRUE, name="mydata.csv", data=data.frame(x=c(1,2,3), y=c(7,1,4)))}
+#' \dontrun{fetchData(show=TRUE)}
+#' \dontrun{fetchData(add.to.path="http://www.macalester.edu/~kaplan/ISM/datasets/")}
+#' \dontrun{fetchData(drop.from.path="http://www.macalester.edu/~kaplan/ISM/datasets/") }
+#' \dontrun{dome <- fetchData("Dome.csv", cache=TRUE)}
 #' @keywords util 
+#' 
 
-fetchData <- function(name=NULL,
-  add.to.path=FALSE, drop.from.path=FALSE,
-  add.to.library=FALSE, directory=NULL, data=NULL, verbose=TRUE){
-  # #### load a data set to the local library
-  if (add.to.library) {
-      if( !is.null(data)) {
-        .fetchData.storage(name=name,val=data,library=TRUE,action="add")
-      }
-      else {
-        fetchedData <- fetchData(name)  # get it from the web site
-        if (exists("fetchedData") ) .fetchData.storage(name=name, val=fetchedData, library=TRUE, action="add") 
-        else warning("Can't find file ", name)
-      }
-      return(NULL)
+
+fetchData <- function(name=NULL,show.path=FALSE, 
+                         add.to.path = NULL, drop.from.path = NULL, 
+                         cache = FALSE, verbose = TRUE) {
+  # Deal with lack of https support
+  if( !is.null(name)) name <- .https2http(name)
+  # Handle various actions
+  if(show.path) return( get("path",envir=.fetchEnvironment))
+  if(!is.null(add.to.path)) {
+    .fetchStorage(add=.https2http(add.to.path))
+    return( fetchData(show.path=TRUE) )
   }
-  # #### Interface to the search path
-  if (add.to.path) {
-    if ( !is.null(name) )
-      .fetchData.storage(searchpath=TRUE, name=name, action="add")
-    return(.fetchData.storage(searchpath=TRUE, action="get"))
+  if(!is.null(drop.from.path)) {
+    .fetchStorage(drop=.https2http(drop.from.path))
+    return( fetchData(show.path=TRUE) )
   }
-  if (drop.from.path) { # leaving out name means that path will be emptied.
-      return(.fetchData.storage(searchpath=TRUE, name=name, action="delete"))
-  }
-  # #### Look for file in a local directory.
-  if( is.null(name) ) {
-    return( read.csv( file.choose() ))
-  }
-
-  # #### Look on web, in library, in packages.         
-  if (name %in% .fetchData.storage(library=TRUE, action="names") ) {
-	  return( .fetchData.storage(library=TRUE, action="get", name=name) )
-  } else {
-	  res <- NULL
-	  # look for it in the web sites
-	  web.sites <- c(directory,.fetchData.storage(searchpath=TRUE,action="get"))
-	  for (k in web.sites) {
-		  sourceFileLocation <- paste(k,name,sep="") 
-		  res <- try( suppressWarnings(read.csv( sourceFileLocation )), silent=TRUE )
-		  if( !(is.null(res) | class(res)=="try-error") ) {
-			  if (verbose) {
-				  message(paste("Retrieving data from", sourceFileLocation)) 
-			  }
-			  return(res)
-		  }
-	  }
-
-	  # If not found on the web search path or in the local library, try packages.
-	  # This is just for convenience.  Strip .csv from the end of the string if it is there
-
-	  cleanName <- gsub(".csv$|.CSV$", "", name)
-	  suppressWarnings( data(list=c(cleanName)) )
-	  if (exists(cleanName)) {
-			  if (verbose) {
-				  message(paste( "Retrieving data from", paste(find(cleanName),collapse="::") )) 
-			  }
-		  return(get(cleanName)) 
-	  }
-	  if (is.null(res) | class(res) == "try-error" )
-		  stop("Can't locate file ",name )
-  }
-}
-
-
-#' Internel fetch data function
-#'
-#' For internal use only
-#'
-#' @rdname fetchData-internel
-#' @keywords internal
-.fetchData.storage.helper <- function( ){
-  local.library <- list()
-  search.path <- c("http://www.mosaic-web.org/go/datasets/")
-#                   "http://www.macalester.edu/~kaplan/ISM/datasets/",
-#                   "http://dl.dropbox.com/u/5098197/Math155/Data/")
   
-  result <- function(library=FALSE, searchpath=FALSE, val=NULL, name=NULL, action) {
-    if( library ) {
-      if( action=="add"){ local.library[[name]] <- val; return(c())}   # <<- 
-      if( action=="get"){ return( local.library[[name]] ) }
-      if( action=="names"){ return( names(local.library) ) }
-    }
-    if( searchpath ){
-      if( action=="add") {search.path <- c(name, search.path); return(search.path)}  # <-
-      if( action=="delete") {
-        if( is.null(val) ) search.path <- c()
-        else search.path <- search.path[ val != search.path ]
-        return(search.path)
-      }
-      if( action=="get") return(search.path)
-    }
-    stop("Can use only for the fetchData library and search path.")
+  ## Get the data
+  file.found <- FALSE
+  look.for.name <- FALSE
+  ## Is it a request to search on the local computer?  
+  if (!file.found && is.null(name) ) { 
+    name = file.choose()
+    look.for.name <- TRUE
   }
-  return(result)
-}
+  ## What should we do when we find it?
+  action <- .fileTypeAction(name)
+  
+  ## Check the data sets in packages
+  if( !file.found ) {
+    suppressWarnings( data(name) )
+    if (exists(name)) {
+      val = get(name)
+      if(verbose) message(paste("Data",name,"found in package."))
+      file.found <- TRUE
+    }
+  }
+  
+  ## Is the name complete enough to work on its own. 
+  if( !file.found ) {
+    val <- action(name)
+    if( !is.null(val) ) {
+      if( !look.for.name ) 
+        if(verbose) message("Complete file name given.  No searching necessary.")
+      file.found <- TRUE
+    }
+  }
+  
+  ## Is it a URL
+  if (!file.found && .isURL(name)) {
+    val <- action(name)
+    file.found <- TRUE
+  }
+  ## Check the current directory
+  if (!file.found) {
+    if( length(ls(pattern=name))>0 ) {
+      if(verbose) message("File found in current working directory.")
+      val <- action(name)
+      file.found <- TRUE
+    }
+  }
+  
+  ## Check the library
+  if( !file.found ) {
+    val <- .checkLibrary(name)
+    if( !is.null(val) ) {
+      file.found <- TRUE
+      if(verbose) message("Data found in mosaic cache.")
+    }
+  }
+  ## Look through web sites on the path
+  if( !file.found ) {
+    path <- fetchData(show.path=TRUE)
+    for (k in path) {
+      location <- paste(k, name, sep="")
+      val <-  action(location)
+      if( !is.null(val)) {
+        if (verbose) message(paste("Retrieving from", location)) 
+        file.found <- TRUE
+        break
+      }
+    }
+  }
+  
 
+  if( !file.found )
+    stop("Can't locate file ",name)
+  
+
+  ## Did we want to cache it?
+  if (cache & !is.null(val)) {
+    .fetchStorage(cache=TRUE, name=name, val=val )
+    message("Caching data.")
+  }
+  
+  return(val)
+}
 
 #' @rdname fetchData-internel
 #' @keywords mosaic 
 #' @keywords internel 
 
-.fetchData.storage <- .fetchData.storage.helper() # run the function to create .fetchData.storage
+.fetchEnvironment <- new.env()
+# initialize the storage environment
+assign( "data.library", list(), envir=.fetchEnvironment)
+assign( "path", c("http://www.mosaic-web.org/go/datasets/"), envir=.fetchEnvironment)
 
+.fetchStorage <- function(...){
+  dots <- list(...)
+  
+  if( "add" %in% names(dots) ) {
+    path <- get("path", envir=.fetchEnvironment)
+    assign("path", c(path, dots[["add"]]), envir=.fetchEnvironment)
+  }
+  if( "drop" %in% names(dots) ) {
+    path <- get("path", envir=.fetchEnvironment)
+    to.be.dropped <- dots[["drop"]]
+    ind <- which( to.be.dropped == path )
+    if (length(ind) == 0 )
+      warning(paste("Path", to.be.dropped, "not found in search path:", paste(path,collapse=":")))
+    else {
+      path <- path[-ind]
+      assign("path", path, envir=.fetchEnvironment)
+    }
+  }
+  if( "cache" %in% names(dots) ) { 
+    # cache is true. name contains name, val contains data
+    if (!("name" %in% names(dots) && "val" %in% names(dots))) # should never get here
+      stop("Must provide arguments <name> and <val> when caching.")
+    lib <- get("data.library", envir=.fetchEnvironment)
+    lib[[ dots[["name"]] ]] <- dots[["val"]]
+    assign("data.library", lib, envir=.fetchEnvironment)
+  }
+}
+.checkLibrary <- function(name){  
+  lib <- get("data.library", envir=.fetchEnvironment)
+  if( name %in% names(lib) ) return(lib[[name]])
+  else return(NULL)
+}
 
+.loadWorkspace <- function(name) { stop("Not yet implemented.")}
+.read.csv <- function(name) {
+  res <- try( suppressWarnings(read.csv( name )), silent=TRUE )
+  if( is.null(res) | class(res)=="try-error" ) return(NULL)
+  else return(res)
+}
+.source.file <- function(name){
+  res <- try( suppressWarnings(source( name )), silent=TRUE )
+  if( is.null(res) | class(res)=="try-error" ) return(NULL)
+  else return(TRUE)
+}
+# What to do with various file types
+.fileTypeAction <- function(name) {
+  matches <- function(pattern) { length( grep(pattern,name)) > 0 }
+  if( matches(".r$|.R$") ) return( .source.file )
+  if( matches(".csv$|.CSV$") ) return( .read.csv )
+  if( matches(".Rdata$|.rdata$|.rda$|.RDA$")) return( .loadWorkspace )
+  return(read.csv) # default
+}
+.isURL <- function(name) {length( grep("^http|^https|^ftp", name)) > 0}
+.https2http <- function(name) sub("^https","http",name)
