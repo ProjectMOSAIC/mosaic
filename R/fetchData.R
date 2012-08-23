@@ -155,7 +155,7 @@ fetchData <- function(name=NULL,show.path=FALSE,
   return(val)
 }
 
-#' @rdname fetchData-internel
+#' @rdname fetchData
 #' @keywords mosaic 
 #' @keywords internel 
 
