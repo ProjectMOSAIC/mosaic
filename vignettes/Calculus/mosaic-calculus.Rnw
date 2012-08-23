@@ -668,6 +668,22 @@ first fitting the model with \function{nls()} and then applying \function{makeFu
 but provides an easier syntax for setting starting points for the least squares 
 search algorithm.
 
+The \function{fitModel} function can be used to allow students to refine eyeballed fits to data.  For example, here's an exponential model fitted to the \texttt{CoolingWater} data.  From the graph, it's easy to see that the exponential ``half-life'' is approximately 30 minutes and the asymptotic temperature is about 30C, so these can be used as starting guesses.
+<<>>=
+plotPoints( temp ~ time, data=CoolingWater)
+mod <- fitModel( temp ~ A + B*exp(-k*time), 
+                 start=list(A=30,k=log(2)/30),
+                 data=CoolingWater)
+plotFun( mod(time)~time, add=TRUE, col="red")
+@
+
+The function returned by \function{fitModel} shows the specific numerical values of the parameters:
+<<>>=
+mod
+@
+As a rule, starting guesses for linear parameters don't need to be provided.  For complicated models, the fitting process may fail to converge unless the starting guess is good.  Commonly encountered examples of nonlinear parameters include the exponential scale $k$ in the above, the period of a sine wave.
+
+
 <<warning=FALSE>>=
 f1 <- fitSpline( wage ~ age, data=CPSclean, df=10, type='natural')
 f2 <- fitSpline( wage ~ age, data=CPSclean, df=10, type='polynomial',degree=5)

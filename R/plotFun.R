@@ -387,7 +387,12 @@ panel.plotFun <- function( object, ...,
 									f=function(xxqq){ ..f..(xxqq) }, length=npts)
 	  .yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
 
-	  return(panel.xyplot(.xvals, .yvals, type=type, alpha=alpha, ...))
+	  # need to strip out any components of ... that are in the object so they
+	  # don't get passed to the panel function.
+	  cleandots = list(...)
+	  cleandots[ names(cleandots) %in% all.vars(object) ] <- NULL
+	  # use do.call to call the panel function so that the cleandots can be put back in
+    return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
 	  #return(panel.xyplot(.xvals, .yvals, ...))
   }
 	   
