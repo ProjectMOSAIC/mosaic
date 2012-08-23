@@ -205,8 +205,11 @@ evalFormula <- function(formula, data=parent.frame(), ops=c('+','&')) {
 
 evalSubFormula <- function(x, data=parent.frame(), ops=c('+','&') ){
   if (is.null(x)) return(NULL)
+  
   if( is.name(x) || !(as.character(x[[1]]) %in% ops) ) {
-    res <- data.frame(eval(x, envir=data))
+    evalx <- eval(x, envir=data)
+#    if (inherits(evalx, 'formula')) evalx <- rhs(evalx)
+    res <- as.data.frame(evalx)
     names(res) <- deparse(x)
     return( res )
   }

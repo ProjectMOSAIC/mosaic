@@ -121,17 +121,12 @@ setMethod(
 #' @aliases mean,formula-method
 #' @export
 #' @usage
-#' \S4method{mean}{formula}(x, data=parent.frame(), ..., na.rm=TRUE, trim=0) 
+#' \S4method{mean}{formula}(x, data=parent.frame(2), ..., na.rm=TRUE, trim=0) 
 setMethod( 
 	"mean", 
 	signature=c("formula"),
-	function(x, data=parent.frame(), ..., na.rm=TRUE, trim=0) {
-		if(FALSE &&  .is.simple.formula(x) ) {
-			return( base::mean( eval( .simple.part(x), envir=data, enclos=parent.frame()), 
-							   ..., na.rm=na.rm, trim=trim ) )
-		} else {
-			return( maggregate( x, data, FUN=base::mean, ..., na.rm=na.rm, trim=trim ) )
-		} 
+	function(x, data=parent.frame(2), ..., na.rm=TRUE, trim=0) {
+			return( maggregate( x, data=data, FUN=base::mean, ..., na.rm=na.rm, trim=trim ) ) 
 	}
 )
 
@@ -208,17 +203,12 @@ setMethod(
 #' @aliases median,formula-method
 #' @export
 #' @usage
-#' \S4method{median}{formula}(x, data=parent.frame(), ..., na.rm=TRUE) 
+#' \S4method{median}{formula}(x, data=parent.frame(2), ..., na.rm=TRUE) 
 setMethod( 
 	"median", 
 	signature=c("formula"),
-	function(x, data=parent.frame(), ..., na.rm=TRUE) {
-		if(FALSE && .is.simple.formula(x) ) {
-			return( median( eval( .simple.part(x), data, enclos=parent.frame()), 
-							   ..., na.rm=na.rm ) )
-		} else {
-			return( maggregate( x, data, FUN=stats::median, na.rm=na.rm) )
-		} 
+	function(x, data=parent.frame(2), ..., na.rm=TRUE) {
+			return( maggregate( x, data, FUN=stats::median, na.rm=na.rm) ) 
 	}
 )
 
@@ -293,16 +283,12 @@ setMethod(
 #' @aliases sd,formula-method
 #' @export
 #' @usage
-#' \S4method{sd}{formula}(x, data=parent.frame(), ..., na.rm=TRUE) 
+#' \S4method{sd}{formula}(x, data=parent.frame(2), ..., na.rm=TRUE) 
 setMethod( 
 	"sd", 
 	signature=c("formula"),
-	function(x, data=parent.frame(), ..., na.rm=TRUE) {
-		if(FALSE && .is.simple.formula(x) ) {
-			return( sd( eval( .simple.part(x), envir=data, enclos=parent.frame()), ..., na.rm=na.rm ) )
-		} else {
+	function(x, data=parent.frame(2), ..., na.rm=TRUE) {
 			return( maggregate( x, data, FUN=SD, na.rm=na.rm) )
-		} 
 	}
 )
 ##########################################################################################
@@ -346,12 +332,7 @@ setMethod(
 		function(x, ..., na.rm=TRUE) {
 			dots <- list(...)
 			data  <- dots[[1]]
-
-			if(FALSE && .is.simple.formula(x) ) {
-				return( FUN( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
-			} else {
-				return( maggregate( x, data, FUN=FUN, na.rm=na.rm) )
-			} 
+			return( maggregate( x, data, FUN=FUN, na.rm=na.rm) )
 		}
 	)
 }
@@ -407,24 +388,20 @@ setMethod(
 		dots <- list(...)
 		data  <- .fetchFromDots( dots, 'data', 1, 'data.frame', parent.frame())
 
-		if(FALSE && .is.simple.formula(x) ) {
-			return( base::max( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
-		} else {
-			return( maggregate( x, data, FUN=base::max, na.rm=na.rm) )
-		} 
+		return( maggregate( x, data, FUN=base::max, na.rm=na.rm) )
 	}
 )
 ###############################################################
 setGeneric( 
-	'.Min', 
-	function(x, ..., na.rm=FALSE)  {
-		dots <- list(...)
-		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
-			data <- .fetchFromDots(dots, 'data', 'data.frame', 1, NULL)
-			return(base::min(eval( substitute(x), data),  na.rm=na.rm))
-		}
-		standardGeneric('.Min')
-	}
+  '.Min', 
+  function(x, ..., na.rm=FALSE)  {
+    dots <- list(...)
+    if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
+      data <- dots[[1]]
+      return(base::min(eval( substitute(x), data),  na.rm=na.rm))
+    }
+    standardGeneric('.Min')
+  }
 )
 
 setMethod(
@@ -457,13 +434,8 @@ setMethod(
 	signature=c("formula"),
 	function(x, ..., na.rm=TRUE) {
 		dots <- list(...)
-		data <- .fetchFromDots(dots, 'data', 'data.frame', 1, NULL)
-
-		if(FALSE && .is.simple.formula(x) ) {
-			return( base::min( eval( .simple.part(x), data, enclos=parent.frame()), na.rm=na.rm ) )
-		} else {
-			return( maggregate( x, data, FUN=base::min, na.rm=na.rm) )
-		} 
+		data <- .fetchFromDots(dots, 'data', 'data.frame', 1, parent.frame())
+		return( maggregate( x, data, FUN=base::min, na.rm=na.rm) )
 	}
 )
 
@@ -527,11 +499,11 @@ setGeneric(
 ### @aliases var,ANY,ANY,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{ANY,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
+#' \S4method{var}{ANY,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
 setMethod(
 	'var',
 	c('ANY','ANY'),
-	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
+	function(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -539,11 +511,11 @@ setMethod(
 ### @aliases var,numeric,numeric,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{numeric,numeric,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
+#' \S4method{var}{numeric,numeric,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
 setMethod(
 	'var',
 	c('numeric','numeric'),
-	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
+	function(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -551,11 +523,11 @@ setMethod(
 ### @aliases var,numeric,ANY,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{numeric,ANY,ANY,ANY,ANY}(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame()) 
+#' \S4method{var}{numeric,ANY,ANY,ANY,ANY}(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame(2)) 
 setMethod(
 	'var',
 	c('numeric'),
-	function(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame()) {
+	function(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame(2)) {
 		if (is.null(y) )
 			stats::var( x, y, na.rm=na.rm)
 		else
@@ -567,11 +539,11 @@ setMethod(
 ### @aliases var,matrix,ANY,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{matrix,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
+#' \S4method{var}{matrix,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
 setMethod(
 	'var',
 	c('matrix'),
-	function(x, y, na.rm=FALSE, use='everything', data=parent.frame()) 
+	function(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -590,16 +562,12 @@ setMethod(
 ### @aliases var,formula,missing,ANY,ANY,missing-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,missing,ANY,ANY,missing}(x, y, na.rm=TRUE, use='everything', data=parent.frame())
+#' \S4method{var}{formula,missing,ANY,ANY,missing}(x, y, na.rm=TRUE, use='everything', data=parent.frame(2))
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y, na.rm=TRUE, use='everything', data=parent.frame()) {
-		if(FALSE && .is.simple.formula(x) ) {
-			return( stats::var( eval( .simple.part(x), data ),  na.rm=na.rm, use=use ) )
-		} else {
-			return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
-		} 
+	function(x, y, na.rm=TRUE, use='everything', data=parent.frame(2)) {
+		return( maggregate( x, data=parent.frame(2), FUN=stats::var, na.rm=na.rm, use=use) )
 	}
 )
 
@@ -607,16 +575,12 @@ setMethod(
 ### @aliases var,formula,missing,ANY,ANY,data.frame-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,missing,ANY,ANY,data.frame}(x, y, na.rm=TRUE, use='everything', data=parent.frame())
+#' \S4method{var}{formula,missing,ANY,ANY,data.frame}(x, y, na.rm=TRUE, use='everything', data=parent.frame(2))
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x, y, na.rm=TRUE, use='everything', data=parent.frame()) {
-		if(FALSE && .is.simple.formula(x) ) {
-			return( stats::var( eval( .simple.part(x), data ),  na.rm=na.rm, use=use ) )
-		} else {
-			return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
-		} 
+	function(x, y, na.rm=TRUE, use='everything', data=parent.frame(2)) {
+		return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
 	}
 )
 
@@ -624,17 +588,13 @@ setMethod(
 ### @aliases var,formula,data.frame,ANY,ANY,missing-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,data.frame,ANY,ANY,missing}(x, y=parent.frame(), na.rm=FALSE, use='everything')
+#' \S4method{var}{formula,data.frame,ANY,ANY,missing}(x, y=parent.frame(2), na.rm=FALSE, use='everything')
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="data.frame", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y=parent.frame(),  na.rm=FALSE, use='everything') {
+	function(x, y=parent.frame(2),  na.rm=FALSE, use='everything') {
 		data <- y
-		if(FALSE && .is.simple.formula(x) ) {
-			return( stats::var( eval( .simple.part(x), data),  na.rm=na.rm, use=use ) )
-		} else {
-			return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
-		} 
+		return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
 	}
 )
 
@@ -644,7 +604,7 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="ANY", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x,y, na.rm=FALSE, use, data=parent.frame()) {
+	function(x,y, na.rm=FALSE, use, data=parent.frame(2)) {
 		return( stats::var( eval( substitute(x), data ), na.rm=na.rm, use=use) )
 	}
 )
@@ -655,7 +615,7 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="ANY", y="ANY", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x,y, na.rm=FALSE, use, data=parent.frame()) {
+	function(x,y, na.rm=FALSE, use, data=parent.frame(2)) {
 		return( stats::var( eval( substitute(x), data ), eval( substitute(y), data ), na.rm=na.rm, use=use) )
 	}
 )
@@ -795,7 +755,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
 					   format=c('default'), drop=FALSE, multiple=FALSE, ...) {
 	dots <- list(...)
 	format <- match.arg(format)
-	evalF <- evalFormula(formula, data)
+	evalF <- evalFormula(formula, data=data)
   
 	if (!missing(subset)) {
 		subset <- eval(substitute(subset), data, environment(formula))
