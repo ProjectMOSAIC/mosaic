@@ -1,5 +1,7 @@
 #'Takes a call and returns its polynomial coefficients
 #'
+#'@rdname simplify
+#'
 #'@param tree A call that will be parsed and simplified recursively
 #'@param .x. the variable name with respect to which the polynomial should be most simplified
 #'@param params All names of free variables.  If there are no free variables, the value should be ""
@@ -14,9 +16,10 @@
 #'If the expression is not a polynomial, this method returns an empty list or an error.
 #'
 #'@examples
-#'.polyExp(lhs((2*x+x^3+1)^3+x~x), "x", "")
-#'.polyExp(lhs((3+a*x)^2+a^2*(x+2)~x), "x", "a")
-#'.polyExp(lhs((a+b*x)^3~x), "x", c("a", "b"))
+# Move to tests.
+#'mosaic:::.polyExp(lhs((2*x+x^3+1)^3+x~x), "x", "")
+#'mosaic:::.polyExp(lhs((3+a*x)^2+a^2*(x+2)~x), "x", "a")
+#'mosaic:::.polyExp(lhs((a+b*x)^3~x), "x", c("a", "b"))
 .polyExp <- function(tree, .x., params, iterate=1){
   
   #A function the calls .polyExp() on each of the resultant coefficients in turn to further simplify them with
@@ -332,8 +335,7 @@
 
 #'Takes a call and returns its polynomial coefficients as numerics.
 #'
-#'@param tree A call that will be parsed and simplified recursively
-#'@param .x. the variable name with respect to which the polynomial should be most simplified
+#'@rdname simplify
 #'
 #'@details works with the same structure as .polyExp() but will return only if all coefficients reduce to numeric values.
 #'
@@ -341,14 +343,11 @@
 #'the polynomial 2*x^2+3*x+4 ) and value, \code{pow}, indicating the order of the polynomial.
 #'If the expression is not a polynomial, this method returns an empty list or an error.
 .polyExp.num <- function(tree, .x.){
-  
-  
   #if it is a simple expression
   if(tree==.x.){
     coeffs <- c(1, 0)
     return(list(coeffs= coeffs, pow=1))
   }
-  
   #if it is a constant
   if(class(tree)=='numeric'||class(tree)=='name'){
     coeffs <- c(tree)
@@ -479,6 +478,8 @@
 
 #' Method for putting a polynomial together given the coefficients and power from .polyExp()
 #' 
+#' @rdname simplify
+#' 
 #' @param poly output of .polyExp()
 #' @param form original formula - provides information on which variable the polynomial was reduced with respect to.
 #' 
@@ -521,10 +522,9 @@
       index <- index + 1
     }
   }
-  if(length(poly$coeffs)==0)
-    lhs(form) <- 0
+  form[[2]] <- if(length(poly$coeffs)==0) 0
   else
-    form[[2]] <- parse(text = paste(poly$coeffs, multvec , varvec,
+    parse(text = paste(poly$coeffs, multvec , varvec,
                                     expvec, powvec, collapse="+", sep=""))[[1]]
   return(form)
 }
