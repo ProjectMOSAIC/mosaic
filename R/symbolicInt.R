@@ -1,17 +1,17 @@
 #'Find the symbolic integral of a formula
 #'
-#'@param form an object of type formula to be integrated.
-#'Rhs of formula indicates which variable to
-#'integrate with respect to.  Must only have one variable.
-#'@param \ldots extra parameters
+#' @param form an object of type formula to be integrated.
+#' Rhs of formula indicates which variable to
+#' integrate with respect to.  Must only have one variable.
+#' @param \ldots extra parameters
 #'
-#'@details This symbolic integrator recognizes simple polynomials and functions such as
+#' @details This symbolic integrator recognizes simple polynomials and functions such as
 #'\code{sin}, \code{cos}, \code{tan}, \code{sinh}, \code{cosh}, \code{tanh}, \code{sqrt}, and \code{exp}.
 #'
 #'It will not perform more complicated substitutions
 #'or integration by parts.
 #'
-#'@return symbolicInt returns a function whose body is the symbolic antiderivative of
+#' @return symbolicInt returns a function whose body is the symbolic antiderivative of
 #'the formula.  If this method does not recognize the formula, it will return an error.
 #'
 symbolicInt<- function(form, ...){
@@ -39,10 +39,11 @@ symbolicInt<- function(form, ...){
 
 #'Use recursion to find a symbolic antiderivative
 #'
-#'@param form Formula for which to find antiderivative
+#' @rdname symbolicInt
 #'
-#'@param \ldots Extra parameters
-#'
+#' @return a formula implementing giving symbolic anti-derivative.  If the formula
+#' isn't found by the algorithm, an error is thrown.  
+#' 
 symbolicAntiD <- function(form, ...){
   rhsVar = all.vars(rhs(form))
   if(length(rhsVar)!=1) stop("Can only integrate with respect to one variable.")
@@ -78,15 +79,11 @@ symbolicAntiD <- function(form, ...){
   stop("Error: symbolic algorithm gave up")
 }
 
-#--------------------------
-#' @rdname symbolicInt
-#' 
 #'Attempts symbolic integration of some mathematical/arithmetical forms
 #'
-#'@param form A call that will be parsed
-#'@param \ldots additional arguments such as assignments to symbolic parameters
+#' @rdname symbolicInt
 #'
-#'@return An expression with the integral, or throws an error if unsuccessful.
+#' @return An expression with the integral, or throws an error if unsuccessful.
 #'
 .intArith <- function(form, ...){
   dots = list(...)
@@ -204,14 +201,11 @@ symbolicAntiD <- function(form, ...){
 }
 
 #--------------------------
-#' @rdname symbolicInt
-#' 
 #'Attempts symbolic integration of some mathematical forms
 #'
-#'@param form A call that will be parsed
-#'@param \ldots additional arguments such as assignments to symbolic parameters
-#'
-#'@return An expression with the integral, or throws an error if unsuccessful.
+#' @rdname symbolicInt
+#' 
+#' @return An expression with the integral, or throws an error if unsuccessful.
 #'
 .intMath <- function(form, ...){
   
@@ -345,14 +339,14 @@ symbolicAntiD <- function(form, ...){
 }
 
 #-------------------------
-#' @rdname symbolicInt
-#' 
+
 #'Attempts symbolic integration of some mathematical forms using trigonometric substitution
 #'
-#'@param form A call that will be parsed
-#'@param num variable names
-#'@param den variable names
-#'@param .x. something else
+#' @rdname symbolicInt
+#'
+#' @param num numerator 
+#' @param den denominator
+#' @param .x. the variable name
 
 #'
 #'@return An expression with the integral, or throws an error if unsuccessful.
@@ -539,14 +533,14 @@ symbolicAntiD <- function(form, ...){
   stop("Not valid trig sub")
 }
 
-#' @rdname symbolicInt
+
 #'Takes a call and returns its affine coefficients.
 #'
-#'@param tree A call that will be parse
-#'@param .x. the variable name
+#' @rdname symbolicInt
 #'
-#'@return A list with values of a and b satisfying a*.x.+b  = tree.
-#'If the expression is not affine, returns an empty list.
+#' @param tree the expression to be analyzed
+#' @return A list with values of a and b satisfying a*.x.+b  = tree.
+#' If the expression is not affine, returns an empty list.
 #'
 .affine.exp <- function(tree, .x.){
   #if it is a simple expression
