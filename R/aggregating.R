@@ -464,12 +464,13 @@ setMethod(
 #' @usage var(x, y, na.rm=getOption("na.rm",FALSE), use, data)
 setGeneric( 
 	"var", 
-	function(x, y=NULL, na.rm=getOption("na.rm",FALSE), use, data=NULL)  {
+	function(x, y=NULL, na.rm=getOption("na.rm",FALSE), use, data)  {
 		useSpecified <- !missing(use)
-		if ( is.data.frame(data) && is.name(substitute(x)) && is.name(substitute(y)) ) {
+		dataSpecified <- !missing(data)
+		if ( dataSpecified && is.data.frame(data) && is.name(substitute(x)) && is.name(substitute(y)) ) {
 			return( stats::var(eval( substitute(x), data), eval(substitute(y), data), na.rm=na.rm, use=use) )
 		}
-		if ( is.data.frame(data) && is.name(substitute(x)) && is.null(y) ) {
+		if ( dataSpecified && is.data.frame(data) && is.name(substitute(x)) && is.null(y) ) {
 			return( stats::var( eval( substitute(x), data), na.rm=na.rm, use=use) )
 		}
 		if ( is.data.frame(y) && is.name(substitute(x)) ) {
@@ -565,12 +566,13 @@ setMethod(
 ### @aliases var,formula,missing,ANY,ANY,missing-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,missing,ANY,ANY,missing}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2))
+#' \S4method{var}{formula,missing,ANY,ANY,missing}(x, y, na.rm=getOption("na.rm",FALSE), use, data)
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data) {
 		..x <- x
+		if (missing(use)) return( maggregate( ..x, data=parent.frame(2), FUN=var, na.rm=na.rm) )
 		return( maggregate( ..x, data=data, FUN=var, na.rm=na.rm, use=use) )
 	}
 )
@@ -579,11 +581,12 @@ setMethod(
 ### @aliases var,formula,missing,ANY,ANY,environment-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,missing,ANY,ANY,environment}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2))
+#' \S4method{var}{formula,missing,ANY,ANY,environment}(x, y, na.rm=getOption("na.rm",FALSE), use, data)
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="environment"),
-	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=data) {
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data) {
+		if (missing(use)) return( maggregate( x, data=data, FUN=var, na.rm=na.rm) )
 		return( maggregate( x, data=data, FUN=var, na.rm=na.rm, use=use) )
 	}
 )
@@ -591,11 +594,12 @@ setMethod(
 ### @aliases var,formula,missing,ANY,ANY,data.frame-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,missing,ANY,ANY,data.frame}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2))
+#' \S4method{var}{formula,missing,ANY,ANY,data.frame}(x, y, na.rm=getOption("na.rm",FALSE), use, data)
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data) {
+		if (missing(use)) return( maggregate( x, data=data, FUN=var, na.rm=na.rm) )
 		return( maggregate( x, data=data, FUN=var, na.rm=na.rm, use=use) )
 	}
 )
@@ -604,12 +608,13 @@ setMethod(
 ### @aliases var,formula,data.frame,ANY,ANY,missing-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,data.frame,ANY,ANY,missing}(x, y=parent.frame(2), na.rm=getOption("na.rm",FALSE), use)
+#' \S4method{var}{formula,data.frame,ANY,ANY,missing}(x, y=parent.frame(2), na.rm=getOption("na.rm",FALSE), use, data)
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="data.frame", na.rm='ANY', use='ANY', data="missing"),
 	function(x, y=parent.frame(2),  na.rm=getOption("na.rm",FALSE), use, data) {
 		data <- y
+		if (missing(use)) return( maggregate( x, data=data, FUN=function(z){ stats::var(z, na.rm=na.rm) } ) )
 		return( maggregate( x, data=data, FUN=function(z){ stats::var(z, na.rm=na.rm, use=use) } ) )
 	}
 )
@@ -620,7 +625,8 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="ANY", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x,y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
+	function(x,y, na.rm=getOption("na.rm",FALSE), use, data) {
+		if (missing(use)) return( stats::var( eval( substitute(x), data ), na.rm=na.rm) )
 		return( stats::var( eval( substitute(x), data ), na.rm=na.rm, use=use) )
 	}
 )
@@ -631,7 +637,8 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="ANY", y="ANY", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x,y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
+	function(x,y, na.rm=getOption("na.rm",FALSE), use, data) {
+		if(missing(use)) return( stats::var( eval( substitute(x), data ), eval( substitute(y), data ), na.rm=na.rm) )
 		return( stats::var( eval( substitute(x), data ), eval( substitute(y), data ), na.rm=na.rm, use=use) )
 	}
 )

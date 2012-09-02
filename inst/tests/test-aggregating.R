@@ -52,7 +52,7 @@ test_that("na.rm works", {
   expect_equivalent( sd( x, na.rm=TRUE ), sd(y))
   expect_equivalent( var( x, na.rm=TRUE ), var(y))
   expect_equivalent( var( x, x, na.rm=TRUE ), var(x,x,na.rm=TRUE))
-  expect_equivalent( var( x, 1:6, na.rm=TRUE ), var(x,1:6))
+  expect_equivalent( var( x, 1:6, na.rm=TRUE ), stats::var(x,1:6,na.rm=TRUE))
   expect_equivalent( median( x, na.rm=TRUE ), median(y))
   expect_equivalent( max( x, na.rm=TRUE ), max(y))
 })
