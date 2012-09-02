@@ -58,11 +58,11 @@
 #' mean(age ~ sex & treat, data=HELPrct)
 
 #' @rdname aggregating-methods
-#' @usage mean(x, ..., na.rm=FALSE, trim=0)
+#' @usage mean(x, ..., na.rm=getOption("na.rm",FALSE), trim=0)
 
 setGeneric( 
 	"mean", 
-	function(x, ..., na.rm=FALSE, trim=0)  {
+	function(x, ..., na.rm=getOption("na.rm",FALSE), trim=0)  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -81,12 +81,12 @@ setGeneric(
 #' @param data a data frame
 #' @export
 #' @usage
-#' \S4method{mean}{ANY}(x, ..., na.rm=FALSE, trim=0) 
+#' \S4method{mean}{ANY}(x, ..., na.rm=getOption("na.rm",FALSE), trim=0) 
 
 setMethod(
 	'mean',
 	'ANY',
-	function(x, ..., na.rm=FALSE, trim=0) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE), trim=0) 
 		base::mean( .flatten(c(x,list(...))), na.rm=na.rm, trim=trim ) 
 	
 )
@@ -95,12 +95,12 @@ setMethod(
 ### @aliases mean,numeric-method
 #' @export
 #' @usage
-#' \S4method{mean}{numeric}(x, ..., na.rm=FALSE, trim=0) 
+#' \S4method{mean}{numeric}(x, ..., na.rm=getOption("na.rm",FALSE), trim=0) 
 
 setMethod(
 	'mean',
 	'numeric',
-	function(x, ..., na.rm=FALSE, trim=0) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE), trim=0) 
 		base::mean( c(x,.flatten(list(...))), na.rm=na.rm, trim=trim ) 
 	
 )
@@ -109,11 +109,11 @@ setMethod(
 ### @aliases mean,data.frame-method
 #' @export
 #' @usage
-#' \S4method{mean}{data.frame}(x, ..., na.rm=TRUE, trim=0) 
+#' \S4method{mean}{data.frame}(x, ..., na.rm=getOption("na.rm",FALSE), trim=0) 
 setMethod( 
 	"mean", 
 	signature=c("data.frame"),
-	function(x, ..., na.rm=TRUE, trim=0) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE), trim=0) 
 		base::mean(x=x, ..., na.rm=na.rm, trim=trim)
 )
 
@@ -121,11 +121,11 @@ setMethod(
 #' @aliases mean,formula-method
 #' @export
 #' @usage
-#' \S4method{mean}{formula}(x, data=parent.frame(2), ..., na.rm=TRUE, trim=0) 
+#' \S4method{mean}{formula}(x, data=parent.frame(2), ..., na.rm=getOption("na.rm",FALSE), trim=0) 
 setMethod( 
 	"mean", 
 	signature=c("formula"),
-	function(x, data=parent.frame(2), ..., na.rm=TRUE, trim=0) {
+	function(x, data=parent.frame(2), ..., na.rm=getOption("na.rm",FALSE), trim=0) {
 			return( maggregate( x, data=data, FUN=base::mean, ..., na.rm=na.rm, trim=trim ) ) 
 	}
 )
@@ -149,10 +149,10 @@ setMethod(
 #' @export
 
 #' @rdname aggregating-methods
-#' @usage median(x, ..., na.rm=FALSE)
+#' @usage median(x, ..., na.rm=getOption("na.rm",FALSE))
 setGeneric( 
 	"median", 
-	function(x, ..., na.rm=FALSE)  {
+	function(x, ..., na.rm=getOption("na.rm",FALSE))  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -166,11 +166,11 @@ setGeneric(
 #' @aliases median,ANY-method
 #' @export
 #' @usage
-#' \S4method{median}{ANY}(x, ..., na.rm=FALSE) 
+#' \S4method{median}{ANY}(x, ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod(
 	'median',
 	'ANY',
-	function(x, ..., na.rm=FALSE) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) 
 		stats::median( .flatten(c(x,list(...))), na.rm=na.rm ) 
 	
 )
@@ -179,11 +179,11 @@ setMethod(
 #' @aliases median,numeric-method
 #' @export
 #' @usage
-#' \S4method{median}{numeric}(x, ..., na.rm=FALSE) 
+#' \S4method{median}{numeric}(x, ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod(
 	'median',
 	'numeric',
-	function(x, ..., na.rm=FALSE) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) 
 		stats::median( c(x,.flatten(list(...))), na.rm=na.rm)
 	
 )
@@ -192,22 +192,22 @@ setMethod(
 #' @aliases median,data.frame-method
 #' @export
 #' @usage
-#' \S4method{median}{numeric}(x, ..., na.rm=FALSE) 
+#' \S4method{median}{numeric}(x, ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod( 
 	"median", 
 	signature=c("data.frame"),
-	function(x, ..., na.rm=TRUE) sapply( x, stats::median, na.rm=na.rm)
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) sapply( x, stats::median, na.rm=na.rm)
 )
 
 #' @rdname aggregating-methods
 #' @aliases median,formula-method
 #' @export
 #' @usage
-#' \S4method{median}{formula}(x, data=parent.frame(2), ..., na.rm=TRUE) 
+#' \S4method{median}{formula}(x, data=parent.frame(2), ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod( 
 	"median", 
 	signature=c("formula"),
-	function(x, data=parent.frame(2), ..., na.rm=TRUE) {
+	function(x, data=parent.frame(2), ..., na.rm=getOption("na.rm",FALSE)) {
 			return( maggregate( x, data, FUN=stats::median, na.rm=na.rm) ) 
 	}
 )
@@ -230,10 +230,10 @@ setMethod(
 #' @export
 
 #' @rdname aggregating-methods
-#' @usage sd(x, ..., na.rm=FALSE)
+#' @usage sd(x, ..., na.rm=getOption("na.rm",FALSE))
 setGeneric( 
 	"sd", 
-	function(x, ..., na.rm=FALSE)  {
+	function(x, ..., na.rm=getOption("na.rm",FALSE))  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -247,11 +247,11 @@ setGeneric(
 #' @aliases sd,ANY-method
 #' @export
 #' @usage
-#' \S4method{sd}{ANY}(x, ..., na.rm=FALSE) 
+#' \S4method{sd}{ANY}(x, ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod(
 	'sd',
 	'ANY',
-	function(x, ..., na.rm=FALSE) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) 
 		stats::sd( .flatten(c(x,list(...))), na.rm=na.rm) 
 )
 
@@ -259,11 +259,11 @@ setMethod(
 #' @aliases sd,numeric-method
 #' @export
 #' @usage
-#' \S4method{sd}{numeric}(x, ..., na.rm=FALSE) 
+#' \S4method{sd}{numeric}(x, ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod(
 	'sd',
 	'numeric',
-	function(x, ..., na.rm=FALSE) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) 
 		stats::sd( c(x,.flatten(list(...))), na.rm=na.rm)
 	
 )
@@ -272,22 +272,22 @@ setMethod(
 #' @aliases sd,data.frame-method
 #' @export
 #' @usage
-#' \S4method{sd}{data.frame}(x, ..., na.rm=TRUE) 
+#' \S4method{sd}{data.frame}(x, ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod( 
 	"sd", 
 	signature=c("data.frame"),
-	function(x, ..., na.rm=TRUE) sapply( x, stats::sd, na.rm=na.rm)
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) sapply( x, stats::sd, na.rm=na.rm)
 )
 
 #' @rdname aggregating-methods
 #' @aliases sd,formula-method
 #' @export
 #' @usage
-#' \S4method{sd}{formula}(x, data=parent.frame(2), ..., na.rm=TRUE) 
+#' \S4method{sd}{formula}(x, data=parent.frame(2), ..., na.rm=getOption("na.rm",FALSE)) 
 setMethod( 
 	"sd", 
 	signature=c("formula"),
-	function(x, data=parent.frame(2), ..., na.rm=TRUE) {
+	function(x, data=parent.frame(2), ..., na.rm=getOption("na.rm",FALSE)) {
 			return( maggregate( x, data, FUN=SD, na.rm=na.rm) )
 	}
 )
@@ -298,7 +298,7 @@ setMethod(
 
 	setGeneric( 
 		NAME, 
-		function(x, ..., na.rm=FALSE)  {
+		function(x, ..., na.rm=getOption("na.rm",FALSE))  {
 			dots <- list(...)
 			if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 				data <- dots[[1]]
@@ -311,7 +311,7 @@ setMethod(
 	setMethod(
 		NAME,
 		'numeric',
-		function(x, ..., na.rm=FALSE) {
+		function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 			FUN(x, ..., na.rm=na.rm) 
 		}
 	)
@@ -320,7 +320,7 @@ setMethod(
 	setMethod( 
 		NAME, 
 		signature=c("data.frame"),
-		function(x, ..., na.rm=TRUE) {
+		function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 			sapply( x, FUN, na.rm=na.rm)
 		}
 	)
@@ -329,7 +329,7 @@ setMethod(
 	setMethod( 
 		NAME, 
 		signature=c("formula"),
-		function(x, ..., na.rm=TRUE) {
+		function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 			dots <- list(...)
 			data  <- dots[[1]]
 			return( maggregate( x, data, FUN=FUN, na.rm=na.rm) )
@@ -346,7 +346,7 @@ setMethod(
 # 
 setGeneric( 
 	'.Max', 
-	function(x, ..., na.rm=FALSE)  {
+	function(x, ..., na.rm=getOption("na.rm",FALSE))  {
 		dots <- list(...)
 		if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
 			data <- dots[[1]]
@@ -359,14 +359,14 @@ setGeneric(
 setMethod(
 	'.Max',
 	'ANY',
-	function(x, ..., na.rm=FALSE) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) 
 		base::max( x,..., na.rm=na.rm) 
 )
 
 setMethod(
 	'.Max',
 	'numeric',
-	function(x, ..., na.rm=FALSE) {
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 		base::max(x, ..., na.rm=na.rm) 
 	}
 )
@@ -375,7 +375,7 @@ setMethod(
 setMethod( 
 	'.Max', 
 	signature=c("data.frame"),
-	function(x, ..., na.rm=TRUE) {
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 		sapply( x, base::max, na.rm=na.rm)
 	}
 )
@@ -384,7 +384,7 @@ setMethod(
 setMethod( 
 	'.Max', 
 	signature=c("formula"),
-	function(x, ..., na.rm=TRUE) {
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 		dots <- list(...)
 		data  <- .fetchFromDots( dots, 'data', 1, 'data.frame', parent.frame())
 
@@ -394,7 +394,7 @@ setMethod(
 ###############################################################
 setGeneric( 
   '.Min', 
-  function(x, ..., na.rm=FALSE)  {
+  function(x, ..., na.rm=getOption("na.rm",FALSE))  {
     dots <- list(...)
     if ( ! .is.formula(x) && length(dots) > 0 && is.data.frame( dots[[1]] ) ) {
       data <- dots[[1]]
@@ -407,14 +407,14 @@ setGeneric(
 setMethod(
 	'.Min',
 	'ANY',
-	function(x, ..., na.rm=FALSE) 
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) 
 		base::min(x ,..., na.rm=na.rm)
 )
 
 setMethod(
 	'.Min',
 	'numeric',
-	function(x, ..., na.rm=FALSE) {
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 		base::min(x, ..., na.rm=na.rm) 
 	}
 )
@@ -423,7 +423,7 @@ setMethod(
 setMethod( 
 	'.Min', 
 	signature=c("data.frame"),
-	function(x, ..., na.rm=TRUE) {
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 		sapply( x, base::min, na.rm=na.rm)
 	}
 )
@@ -432,7 +432,7 @@ setMethod(
 setMethod( 
 	'.Min', 
 	signature=c("formula"),
-	function(x, ..., na.rm=TRUE) {
+	function(x, ..., na.rm=getOption("na.rm",FALSE)) {
 		dots <- list(...)
 		data <- .fetchFromDots(dots, 'data', 'data.frame', 1, parent.frame())
 		return( maggregate( x, data, FUN=base::min, na.rm=na.rm) )
@@ -461,10 +461,11 @@ setMethod(
 #' var(age ~ sex & treat, data=HELPrct)
 
 #' @rdname aggregating-methods
-#' @usage var(x, y=NULL, na.rm=FALSE, use='everything', data=NULL)
+#' @usage var(x, y, na.rm=getOption("na.rm",FALSE), use, data)
 setGeneric( 
 	"var", 
-	function(x, y=NULL, na.rm=FALSE, use='everything', data=NULL)  {
+	function(x, y=NULL, na.rm=getOption("na.rm",FALSE), use, data=NULL)  {
+		useSpecified <- !missing(use)
 		if ( is.data.frame(data) && is.name(substitute(x)) && is.name(substitute(y)) ) {
 			return( stats::var(eval( substitute(x), data), eval(substitute(y), data), na.rm=na.rm, use=use) )
 		}
@@ -482,15 +483,16 @@ setGeneric(
 			data <- na.rm
 			return( stats::var(eval( substitute(x), data), use=use) )
 		}
-		if ( is.data.frame(use) && is.name(substitute(x)) && is.name(substitute(y)) ) {
+		if ( useSpecified && is.data.frame(use) && is.name(substitute(x)) && is.name(substitute(y)) ) {
 			data <- use
 			return( stats::var(eval( substitute(x), data), eval(substitute(y), data), na.rm=na.rm) )
 		}
-		if ( is.data.frame(use) && is.name(substitute(x)) && is.null(y) ) {
+		if ( useSpecified && is.data.frame(use) && is.name(substitute(x)) && is.null(y) ) {
 			data <- use
 			return( stats::var(eval( substitute(x), data), na.rm=na.rm) )
 		}
-		standardGeneric('var')
+		return(standardGeneric('var'))
+		stop("Bug alert: This line should never be reached.")
 	}
 )
 
@@ -499,11 +501,11 @@ setGeneric(
 ### @aliases var,ANY,ANY,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{ANY,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
+#' \S4method{var}{ANY,ANY,ANY,ANY,ANY}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) 
 setMethod(
 	'var',
 	c('ANY','ANY'),
-	function(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -511,23 +513,24 @@ setMethod(
 ### @aliases var,numeric,numeric,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{numeric,numeric,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
+#' \S4method{var}{numeric,numeric,ANY,ANY,ANY}(x, y, na.rm=getOption("na.rm",FALSE), use, data) 
 setMethod(
 	'var',
 	c('numeric','numeric'),
-	function(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data) {
 		stats::var( x, y, na.rm=na.rm, use=use) 
+	}
 )
 
 #' @rdname aggregating-methods
 ### @aliases var,numeric,ANY,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{numeric,ANY,ANY,ANY,ANY}(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame(2)) 
+#' \S4method{var}{numeric,ANY,ANY,ANY,ANY}(x, y=NULL, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) 
 setMethod(
 	'var',
 	c('numeric'),
-	function(x, y=NULL, na.rm=FALSE, use='everything', data=parent.frame(2)) {
+	function(x, y=NULL, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
 		if (is.null(y) )
 			stats::var( x, y, na.rm=na.rm)
 		else
@@ -539,11 +542,11 @@ setMethod(
 ### @aliases var,matrix,ANY,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{matrix,ANY,ANY,ANY,ANY}(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
+#' \S4method{var}{matrix,ANY,ANY,ANY,ANY}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) 
 setMethod(
 	'var',
 	c('matrix'),
-	function(x, y, na.rm=FALSE, use='everything', data=parent.frame(2)) 
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) 
 		stats::var( x, y, na.rm=na.rm, use=use) 
 )
 
@@ -551,36 +554,49 @@ setMethod(
 ### @aliases var,data.frame,ANY,ANY,ANY,ANY-method
 #' @export
 #' @usage
-#' \S4method{var}{data.frame,ANY,ANY,ANY,ANY}(x, y, na.rm=TRUE, use='everything')
+#' \S4method{var}{data.frame,ANY,ANY,ANY,ANY}(x, y, na.rm=getOption("na.rm",FALSE), use)
 setMethod( 
 	"var", 
 	signature=c("data.frame"),
-	function(x, y, na.rm=TRUE, use='everything') stats::var(x, y, na.rm=na.rm, use=use)
+	function(x, y, na.rm=getOption("na.rm",FALSE), use) stats::var(x, y, na.rm=na.rm, use=use)
 )
 
 #' @rdname aggregating-methods
 ### @aliases var,formula,missing,ANY,ANY,missing-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,missing,ANY,ANY,missing}(x, y, na.rm=TRUE, use='everything', data=parent.frame(2))
+#' \S4method{var}{formula,missing,ANY,ANY,missing}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2))
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y, na.rm=TRUE, use='everything', data=parent.frame(2)) {
-		return( maggregate( x, data=parent.frame(2), FUN=stats::var, na.rm=na.rm, use=use) )
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
+		..x <- x
+		return( maggregate( ..x, data=data, FUN=var, na.rm=na.rm, use=use) )
 	}
 )
 
 #' @rdname aggregating-methods
+### @aliases var,formula,missing,ANY,ANY,environment-method
+#' @export
+#' @usage
+#' \S4method{var}{formula,missing,ANY,ANY,environment}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2))
+setMethod( 
+	"var", 
+	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="environment"),
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=data) {
+		return( maggregate( x, data=data, FUN=var, na.rm=na.rm, use=use) )
+	}
+)
+#' @rdname aggregating-methods
 ### @aliases var,formula,missing,ANY,ANY,data.frame-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,missing,ANY,ANY,data.frame}(x, y, na.rm=TRUE, use='everything', data=parent.frame(2))
+#' \S4method{var}{formula,missing,ANY,ANY,data.frame}(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2))
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x, y, na.rm=TRUE, use='everything', data=parent.frame(2)) {
-		return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
+	function(x, y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
+		return( maggregate( x, data=data, FUN=var, na.rm=na.rm, use=use) )
 	}
 )
 
@@ -588,13 +604,13 @@ setMethod(
 ### @aliases var,formula,data.frame,ANY,ANY,missing-method
 #' @export
 #' @usage
-#' \S4method{var}{formula,data.frame,ANY,ANY,missing}(x, y=parent.frame(2), na.rm=FALSE, use='everything')
+#' \S4method{var}{formula,data.frame,ANY,ANY,missing}(x, y=parent.frame(2), na.rm=getOption("na.rm",FALSE), use)
 setMethod( 
 	"var", 
 	signature=c(x="formula", y="data.frame", na.rm='ANY', use='ANY', data="missing"),
-	function(x, y=parent.frame(2),  na.rm=FALSE, use='everything') {
+	function(x, y=parent.frame(2),  na.rm=getOption("na.rm",FALSE), use, data) {
 		data <- y
-		return( maggregate( x, data=data, FUN=stats::var, na.rm=na.rm, use=use) )
+		return( maggregate( x, data=data, FUN=function(z){ stats::var(z, na.rm=na.rm, use=use) } ) )
 	}
 )
 
@@ -604,7 +620,7 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="ANY", y="missing", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x,y, na.rm=FALSE, use, data=parent.frame(2)) {
+	function(x,y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
 		return( stats::var( eval( substitute(x), data ), na.rm=na.rm, use=use) )
 	}
 )
@@ -615,7 +631,7 @@ setMethod(
 setMethod( 
 	"var", 
 	signature=c(x="ANY", y="ANY", na.rm='ANY', use='ANY', data="data.frame"),
-	function(x,y, na.rm=FALSE, use, data=parent.frame(2)) {
+	function(x,y, na.rm=getOption("na.rm",FALSE), use, data=parent.frame(2)) {
 		return( stats::var( eval( substitute(x), data ), eval( substitute(y), data ), na.rm=na.rm, use=use) )
 	}
 )
