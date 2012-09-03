@@ -3,7 +3,7 @@
 %\VignetteKeywords{mosaic, resampling, bootstrapping, permutation}
 
 \documentclass{article}
-\usepackage{pdfpages}
+%\usepackage{pdfpages}
 \begin{document}
-\includepdf[pages=-, fitpaper=true]{Resampling-src.pdf}
+%\includepdf[pages=-, fitpaper=true]{Resampling-src.pdf}
 \end{document}

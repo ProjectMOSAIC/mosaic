@@ -3,7 +3,7 @@
 %\VignetteKeywords{mosaic, functions, formulas, calculus}
 
 \documentclass{article}
-\usepackage{pdfpages}
+%\usepackage{pdfpages}
 \begin{document}
-\includepdf[pages=-, fitpaper=true]{Calculus-src.pdf}
+%\includepdf[pages=-, fitpaper=true]{Calculus-src.pdf}
 \end{document}
