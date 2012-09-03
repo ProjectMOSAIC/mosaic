@@ -49,9 +49,9 @@
 #' findZeros( f(x) ~ x, near=0, within=100 )
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=0 )
 #' findZeros( f(x) ~ x, near=0, within=100, iterate=3 )
-#' #Zeros in multiple dimensions
-#' findZeros(x^2+y^2+z^2-5~x&y&z, nearest=3000, within = 5)
-#' findZeros(x*y+z^2~z&y&z, z+y~x&y&z, npts=10)
+#' # Zeros in multiple dimensions (not run: these take a long time)
+#' # findZeros(x^2+y^2+z^2-5~x&y&z, nearest=3000, within = 5)
+#' # findZeros(x*y+z^2~z&y&z, z+y~x&y&z, npts=10)
 #' @keywords calculus 
 findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf, 
                       nearest=10, npts=1000, iterate=1, sortBy=c('byx', 'byy', 'radial')) {
@@ -162,9 +162,9 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 #'@examples
 #'solve(3*x==3~x)
 #'
-#'#plot out sphere
-#'sphere = solve(x^2+y^2+z^2==5~x&y&z, within=5, nearest=1000)
-#'cloud(z~x+y, data=sphere)
+#'# plot out sphere (not run)
+#'# sphere = solve(x^2+y^2+z^2==5~x&y&z, within=5, nearest=1000)
+#'# cloud(z~x+y, data=sphere)
 #'
 
 solve.formula <- function(form, ..., near=0, 
