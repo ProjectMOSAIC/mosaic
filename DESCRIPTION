@@ -98,5 +98,4 @@ Collate:
     'simplify.R'
     'symbolicInt.R'
     'Tukey.R'
-    'ttest.R'
     'evalFormula.R'
