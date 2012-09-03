@@ -10,6 +10,6 @@ echo "A submission should be accompanied by an email to CRAN@R-project.org,"
 echo "if possible sent from the maintainer address listed in the package,"
 echo "using a subject line of the form"
 echo ""
-echo "    `CRAN submission PACKAGE VERSION'."
+echo "    CRAN submission PACKAGE VERSION"
 echo ""
 
