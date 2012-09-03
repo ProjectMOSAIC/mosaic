@@ -15,7 +15,6 @@
 #'           a data frame if \code{x} is a formula
 #'
 #' @param subset an optional vector specifying a subset of observations to be used.  
-#' Currently ignored.
 #'
 #' @param na.action a function which indicates what should happen when the data 
 #' contain \code{NA}s.
@@ -46,6 +45,10 @@ t.test.formula <- function (formula, data=parent.frame(), subset, na.action, ...
     if (missing(formula))
         stop("'formula' missing or incorrect")
 
+	# if stats::t.test can handle thigs, let it do so.
+	tryCatch(return(stats::t.test(formula, data, subset, na.action, ...)), error=function(e) {})
+
+	# stats::t.test() wasn't enough; it's all up to us now.
     evalF <- evalFormula( formula, data )
     df <- joinFrames( evalF$left, evalF$right, evalF$condition ) 
 
@@ -83,7 +86,3 @@ t.test.formula <- function (formula, data=parent.frame(), subset, na.action, ...
     stop("'formula' missing or incorrect")
 }
 
-# #' @rdname t.test
-# #' @usage t.test( x, ... )
-# #' @export
-# t.test <- stats:::t.test
