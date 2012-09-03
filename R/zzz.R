@@ -7,6 +7,9 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
 {
     ## library.dynam("mosaic", pkgname, libname )
     mosaic.par.set(.defaultMosaicOptions())
+	require(lattice)
+	# have histogram use panel.xhistogram by default
+	lattice::lattice.options(panel.histogram = "panel.xhistogram")
 }
 
 .noGenerics <- FALSE
@@ -28,6 +31,8 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
     ## having the next line causes a warning from R CMD check
     ## if (!require("grid")) stop("The grid package couldn't be loaded.\nPlease check your installation of R")
     mosaic.par.set(.defaultMosaicOptions())
+	# have histogram use panel.xhistogram by default
+	lattice::lattice.options(panel.histogram = "panel.xhistogram")
 }
 
 
