@@ -7,6 +7,9 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
 {
     ## library.dynam("mosaic", pkgname, libname )
     mosaic.par.set(.defaultMosaicOptions())
+	require(lattice)
+	# have histogram use panel.xhistogram by default
+	lattice::lattice.options(panel.histogram = "panel.xhistogram")
 }
 
 .noGenerics <- FALSE
