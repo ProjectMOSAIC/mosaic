@@ -27,7 +27,7 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
 
 .First.lib <- function(lib, pkg) 
 {
-    cat(gettext("Note: you shouldn't be seeing this message unless\nyou are using a non-standard version of mosaic"),
+    packageStartupMessage(gettext("Note: you shouldn't be seeing this message unless\nyou are using a non-standard version of mosaic"),
         fill = TRUE)
     library.dynam("mosaic", pkg, lib )
     ## having the next line causes a warning from R CMD check
