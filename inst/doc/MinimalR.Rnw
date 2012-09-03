@@ -1,0 +1,9 @@
+%\VignetteIndexEntry{Minimal R for Intro Stats}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, teaching}
+
+\documentclass{article}
+\usepackage{pdfpages}
+\begin{document}
+\includepdf[pages=-, fitpaper=true]{MinimalR-src.pdf}
+\end{document}

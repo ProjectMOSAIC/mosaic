@@ -27,7 +27,7 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     aspects of quantitative work that students in science, technology,
     engineering and mathematics will need in their professional lives, but
     which are usually taught in isolation, if at all.
-License: GPL>=3
+License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
 Collate:
