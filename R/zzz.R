@@ -3,19 +3,21 @@
 assign("mosaic.theme",   list(), envir = .mosaicEnv)
 assign("mosaic.options", list(), envir = .mosaicEnv)
 
-.onLoad <- function(libname, pkgname) 
-{
+.onLoad <- function(libname, pkgname) {
     ## library.dynam("mosaic", pkgname, libname )
     mosaic.par.set(.defaultMosaicOptions())
-	require(lattice)
+}
+
+.onAttach <- function(libname, pkgname) {
 	# have histogram use panel.xhistogram by default
 	lattice::lattice.options(panel.histogram = "panel.xhistogram")
 }
 
 .noGenerics <- FALSE
 
-.onUnload <- function(libpath)
+.onUnload <- function(libpath) {
     ## library.dynam.unload("mosaic", libpath)
+}
 
 
 ## If present, .First.lib will be used if the NAMESPACE file is
