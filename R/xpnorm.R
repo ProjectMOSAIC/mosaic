@@ -1,4 +1,5 @@
-utils::globalVariables( c('Q','MEAN','slider','manipulate'))
+tryCatch(utils::globalVariables( c('Q','MEAN','slider','manipulate')),
+		 error=function(e) message('Looks like you should update R.'))
 #' Augmented versions of pnorm and qnorm
 #' 
 #' These functions behave similarly to the functions with the initial \code{x}

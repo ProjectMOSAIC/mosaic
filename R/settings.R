@@ -1,4 +1,5 @@
-utils::globalVariables(c('.LatticeEnv'))
+tryCatch(utils::globalVariables(c('.LatticeEnv')),
+		 error=function(e) message('Looks like you should update R.'))
 
 #' Setting options for mosaic package functions
 #'
