@@ -122,7 +122,7 @@ setMethod(
 		else format <- 'proportion'
 	}
 
-	res <- table( logical2factor( joinFrames(evalF$right,evalF$condition) ) )
+	res <- table( logical2factor( joinFrames(evalF$right,evalF$condition) ), ... )
 
 	res <- switch(format,
 		   'count' = 

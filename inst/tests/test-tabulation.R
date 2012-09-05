@@ -52,3 +52,10 @@ test_that("count/perc/prop wrappers work", {
   expect_equivalent( prop(~sex, data=HELPrct), sum(HELPrct$sex == 'female') / nrow(HELPrct))
   expect_equivalent( perc(~sex, data=HELPrct), 100 * sum(HELPrct$sex == 'female') / nrow(HELPrct))
 })
+
+test_that("... passes through to table()", {
+	x <- c(1,2,2,3,3,3,NA,NA)
+	expect_equivalent( length( tally(x) ), 4 )
+	expect_equivalent( length( tally(x, useNA='ifany') ), 5 )
+	expect_equivalent( length( tally(x[1:6], useNA='always') ), 5 )
+})
