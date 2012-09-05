@@ -51,7 +51,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param quiet a logical indicating whether messages about order in which marginal distributions
 #'        are calculated should be surpressed.  See \code{\link{addmargins}}.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
-#' @param ... additional arguments
+#' @param ... additional arguments passed to \code{\link{table}}
 #' @export
 #' @examples
 #' tally( ~ substance, HELPrct)
@@ -60,6 +60,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ substance | sex , HELPrct)
 #' tally( ~ substance | sex , HELPrct, format='count')
 #' tally( ~ substance & sex , HELPrct, format='percent')
+#' tally( ~ link, HELPrct, useNA="always")
 
 setGeneric( 
 	"tally", 
