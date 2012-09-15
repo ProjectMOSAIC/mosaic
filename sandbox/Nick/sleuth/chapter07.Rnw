@@ -147,7 +147,9 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 \url{http://www.math.smith.edu/~nhorton/sleuth}.
 
 This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
@@ -188,11 +190,12 @@ summary(case0701)
 A total of \Sexpr{nrow(case0701)} nebulae are included in this data.
 
 <<>>=
-xhistogram(~ Velocity, density=TRUE, data=case0701)
-xhistogram(~ Distance, density=TRUE, data=case0701)
+histogram(~ Velocity, type='density', density=TRUE, nint=10, data=case0701)
+histogram(~ Distance, type='density', density=TRUE, nint=10, data=case0701)
 @
 
-The density plots show that the distributions for the two variables are approximately normally distributed.
+The density plots show that the distributions for the two variables are fairly symmetric, but more uniform than normally
+distributed.
 
 <<>>=
 xyplot(Distance ~ Velocity, type=c("p", "r"), data=case0701)
@@ -223,9 +226,8 @@ Display 7.8 (page 184) shows the list of fitted values and residuals for this mo
 
 We can also display 95\% confidence bands for the model line and the predicted values, the following graph is akin to Display 7.11 (page 189).
 
-<<fig.width=6, fig.height=4.5, message=FALSE>>=
-require(fastR)
-xyplot(Distance ~ Velocity, data=case0701, panel=panel.lmbands)
+<<fig.width=6, fig.height=4.5>>=
+xyplot(Distance ~ Velocity, panel=panel.lmbands, data=case0701)
 @
 
 \subsection{Inferential Tools}
@@ -313,7 +315,6 @@ predict(lm3, interval="prediction")[5,]
 So the 95\% prediction interval is (\Sexpr{round(predlower, 2)}, \Sexpr{round(predupper, 2)}).
 
 <<fig.width=8, fig.height=6, message=FALSE>>=
-require(fastR)
 xyplot(pH ~ logtime, abline=(h=6), data=case0702, panel=panel.lmbands)
 @
 

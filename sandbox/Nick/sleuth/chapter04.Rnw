@@ -148,7 +148,9 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 
 
 This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
@@ -192,7 +194,7 @@ A total of \Sexpr{nrow(case0401)} subjects are included in the data: \Sexpr{nrow
 the temperature was warm (Display 4.1, page 86).
 
 <<>>=
-xhistogram(~ Incidents | Launch, data=case0401)
+histogram(~ Incidents | Launch, data=case0401)
 @
 
 \subsection{Permutation test on t-statistics}
@@ -256,7 +258,7 @@ null distribution (note that the book enumerates all of the possible outcomes to
 <<fig.height=8, fig.width=8>>=
 result = t.test(Incidents ~ Launch, var.equal=TRUE, data=case0401)$statistic; result
 nulldist = do(10000)*t.test(Incidents ~ shuffle(Launch), var.equal=TRUE, data=case0401)$statistic
-xhistogram(~ t, groups=t >= result, v=result, data=nulldist)
+histogram(~ t, groups=t >= result, v=result, data=nulldist)
 tally(~ t >= result, format="proportion", data=nulldist)
 @
 

@@ -149,7 +149,9 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 
 
 This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
@@ -223,7 +225,7 @@ The reference group is \emph{NP}, followed by \emph{N/N85, lopro, N/R50, R/R50, 
 
 Next we used contrasts for the results on page 121, Display 5.7, and part {\bf(a)} on page 115:
 <<a>>=
-library(gmodels)
+require(gmodels)
 # N/N85 vs N/R50
 fit.contrast(lm(Lifetime ~ Diet, data=case0501), "Diet", c(0, -1, 0, 1, 0, 0), conf.int=0.95)
 @

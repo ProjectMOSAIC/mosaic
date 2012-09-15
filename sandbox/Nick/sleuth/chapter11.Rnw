@@ -148,7 +148,9 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 
 
 This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
@@ -261,13 +263,10 @@ summary(case1102)
 
 A total of \Sexpr{nrow(case1102)} rats were included in this experiment.  Each rat was given either the barrier solution (n = \Sexpr{nrow(subset(case1102, Treat=="BD"))}) or a normal saline solution (n = \Sexpr{nrow(subset(case1102, Treat=="NS"))}). Then variables of interest were calculated and are displayed in Display 9.2 (page 237 of the \emph{Sleuth}).
 
-We can graphically display summary information about the variables using a custom pairs plot. 
-<<message=FALSE>>=
-require(GGally)
-@
+We can graphically relationships between the variables using a pairs plot. 
 <<fig.height=10, fig.width=10>>=
-ggpairs(case1102[,c("logy", "logbrain","logliver","Treat", "SAC")], 
-        diag=list(continuous="density", discrete="bar"), axisLabels="show")
+smallds = case1102[,c("logy", "logbrain","logliver","Treat", "SAC")]
+pairs(smallds)
 @
 
 \subsection{Graphical presentation}

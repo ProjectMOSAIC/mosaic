@@ -148,7 +148,9 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 
 
 This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
@@ -266,18 +268,18 @@ panel.lm = function(x, y, col=par("col"), bg=NA,
 }
 @
 
-Below displays a fancier pairs plot.
+Below is a somewhat fancier pairs plot.
 
-<<fig.height=8, fig.width=8>>=
+<<fig.height=9, fig.width=9>>=
   pairs(~ Brain+Body+Gestation+Litter, 
         lower.panel=panel.smooth, diag.panel=panel.hist, 
         upper.panel=panel.lm, data=case0902)
 @
 
 
-Here is a fancier pairs plot using the log-transformed variables, akin to Display 9.11 on page 253.
+Here is an even fancier pairs plot using the log-transformed variables, akin to Display 9.11 on page 253.
 
-<<fig.height=8, fig.width=8>>=
+<<fig.height=9, fig.width=9>>=
   pairs(~ logbrain+logbody+loggest+loglitter, 
               lower.panel=panel.smooth, diag.panel=panel.hist, 
               upper.panel=panel.lm, data=case0902)

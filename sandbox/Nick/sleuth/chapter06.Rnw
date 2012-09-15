@@ -147,7 +147,9 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 \url{http://www.math.smith.edu/~nhorton/sleuth}.
 
 
-This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the mosaic package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the mosaic package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
@@ -256,7 +258,7 @@ Based on the Tukey-Kramer procedure, the difference is estimated to be \Sexpr{ro
 Next, we calculate the comparison of \emph{Amputee/Hearing} to \emph{Crutches/Wheelchair}.
 
 <<>>=
-library(gmodels)
+require(gmodels)
 fit.contrast(lm(Score ~ Handicap, data=case0601), "Handicap", c(-1, 0, 1, -1, 1), conf.int=0.95)
 @
 
@@ -269,7 +271,7 @@ fit.contrast(lm(Score ~ Handicap, data=case0601), "Handicap", c(-0.5, 0, 0.5, -0
 
 Other multiple comparison procedures could also be implemented. The following shows the calculation on page 164.
 <<>>=
-library(agricolae)
+require(agricolae)
 LSD.test(aov(lm(Score ~ Handicap, data=case0601)), "Handicap")   # LSD
 HSD.test(aov(lm(Score ~ Handicap, data=case0601)), "Handicap")   # Tukey-Kramer
 LSD.test(aov(lm(Score ~ Handicap, data=case0601)), "Handicap", p.adj=c("bonferroni"))  # Bonferroni
@@ -336,7 +338,7 @@ mean(Proportion ~ Pair, data=case0602)-mean(~ Proportion, data=case0602)
 
 We can calculate the values on page 152 and Display 6.5 on page 158 using contrasts.
 <<>>=
-library(gmodels)
+require(gmodels)
 lc = fit.contrast(lm(Proportion ~ Pair, data=case0602), "Pair", c(5, -3, 1, 3, -9, 3), conf.int=0.95); lc
 t=round(lc[, "t value"], 2); t
 pt(t, 78, lower.tail=TRUE)

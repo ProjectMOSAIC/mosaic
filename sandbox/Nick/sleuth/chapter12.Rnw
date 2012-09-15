@@ -1,0 +1,419 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in,bottom=.5in,includehead,includefoot]{geometry}
+\usepackage{hyperref}
+\usepackage{language}
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+%% Now begin customising things. See the fancyhdr docs for more info.
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+\lfoot{}
+\cfoot{Statistical Sleuth in R: Chapter 12}
+\rfoot{}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\pagestyle{fancy}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+
+\usepackage{relsize}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+   \medskip
+   \setlength{\tempfmlength}{#1}
+   \begin{lrbox}{\fmbox}
+     \begin{minipage}{#1}
+     \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\title{The Statistical Sleuth in R: \\
+Chapter 12}
+
+\author{
+Kate Aloisio \and Ruobing Zhang \and Nicholas J. Horton\thanks{Department of Mathematics and Statistics, Smith College, nhorton@smith.edu}
+} 
+
+\date{\today}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+
+\maketitle
+\tableofcontents
+
+%\parindent=0pt
+
+<<setup, include=FALSE, cache=FALSE, echo=FALSE, message=FALSE>>=
+opts_chunk$set(
+  dev="pdf",
+  fig.path="figures/",
+  fig.height=3,
+	fig.width=4,
+	out.width=".47\\textwidth",
+	fig.keep="high",
+	fig.show="hold",
+	fig.align="center",
+	prompt=TRUE,  # show the prompts; but perhaps we should not do this 
+	comment=NA    # turn off commenting of ouput (but perhaps we should not do this either
+  )
+require(Sleuth2)
+require(mosaic)
+trellis.par.set(theme=col.mosaic())  # get a better color scheme 
+set.seed(123)
+# this allows for code formatting inline.  Use \Sexpr{'function(x,y)'}, for exmaple.
+knit_hooks$set(inline = function(x) {
+if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+x = as.character(x)
+h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+h = gsub("([_#$%&])", "\\\\\\1", h)
+h = gsub('(["\'])', '\\1{}', h)
+gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+})
+showOriginal=FALSE
+showNew=TRUE
+@
+
+<<pvalues, echo=FALSE, message=FALSE>>=
+print.pval = function(pval) {
+  threshold = 0.0001
+    return(ifelse(pval < threshold, paste("p<", sprintf("%.4f", threshold), sep=""),
+                ifelse(pval > 0.1, paste("p=",round(pval, 2), sep=""),
+                       paste("p=", round(pval, 3), sep=""))))
+}
+@
+
+
+\section{Introduction}
+
+This document is intended to help describe how to undertake analyses introduced as examples in the Second Edition of the \emph{Statistical Sleuth} (2002) by Fred Ramsey and Dan Schafer.
+More information about the book can be found at \url{http://www.proaxis.com/~panorama/home.htm}.  This
+file as well as the associated \pkg{knitr} reproducible analysis source file can be found at
+\url{http://www.math.smith.edu/~nhorton/sleuth}.
+
+This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}). 
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+<<install_mosaic,eval=FALSE>>=
+install.packages('mosaic')               # note the quotation marks
+@
+Once this is installed, it can be loaded by running the command:
+<<load_mosaic,eval=FALSE>>=
+require(mosaic)
+@
+This needs to be done once per session.
+
+In addition the data files for the \emph{Sleuth} case studies can be accessed by installing the \pkg{Sleuth2} package.
+<<install_Sleuth2,eval=FALSE>>=
+install.packages('Sleuth2')               # note the quotation marks
+@
+<<load_Sleuth2,eval=FALSE>>=
+require(Sleuth2)
+@
+
+We also set some options to improve legibility of graphs and output.
+<<eval=TRUE>>=
+trellis.par.set(theme=col.mosaic())  # get a better color scheme for lattice
+options(digits=4)
+@
+
+The specific goal of this document is to demonstrate how to calculate the quantities described in Chapter 12: Strategies for Variable Selection using R.
+
+\section{State Average SAT Scores}
+
+Which the compositional/demographic and school-structural characteristics are implicated in SAT differences? This is the question addressed in case study 12.1 in the \emph{Sleuth}.
+
+\subsection{Summary statistics}
+
+We begin by reading the data and summarizing the variables.
+
+<<>>=
+summary(case1201)
+@
+
+The data are shown on page 340 (display 12.1). A total of \Sexpr{nrow(case1201)} state average SAT scores are included in this data.
+
+\subsection{Dealing with Many Explanatory Variables}
+
+The following graph is presented as Display 12.4, page 348.
+<<fig.width=8, fig.height=8>>=
+pairs(~ Takers+Rank+Years+Income+Public+Expend+SAT, data=case1201)
+@
+
+We can get a fancier graph using following code:
+
+<<>>=
+  panel.hist = function(x, ...)
+  {
+    usr = par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h = hist(x, plot=FALSE)
+    breaks = h$breaks; nB = length(breaks)
+    y = h$counts; y = y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col="cyan", ...)
+  }
+
+panel.lm = function(x, y, col=par("col"), bg=NA, 
+                    pch=par("pch"), cex=1, col.lm="red", ...) 
+{
+  points(x, y, pch=pch, col=col, bg=bg, cex=cex)
+  ok = is.finite(x) & is.finite(y)
+  if (any(ok)) 
+    abline(lm(y[ok] ~ x[ok]))
+}
+@
+
+<<fig.height=8, fig.width=8>>=
+pairs(~ Takers+Rank+Years+Income+Public+Expend+SAT, 
+      lower.panel=panel.smooth, diag.panel=panel.hist, 
+      upper.panel=panel.lm, data=case1201)
+@
+An alternative graph can be generated using the \pkg{car} package.
+<<message=FALSE, fig.height=8, fig.width=8>>=
+require(car)
+scatterplotMatrix(~ Takers+Rank+Years+Income+Public+Expend+SAT, diagonal="histogram", smooth=F, data=case1201)
+@
+
+Based on the scatterplot, we choose the logarithm of percentage of SAT takers and median class rank to fit our first model (page 349):
+
+<<>>=
+lm1 = lm(SAT ~ Rank+log(Takers), data=case1201)
+summary(lm1)
+@
+
+From the regression output, we observe that these two variables can explain \Sexpr{round(summary(lm1)$r.squared, 3)*100}\% of the variation.
+
+Next we fit a linear regression model using all variables and create the partial residual plot presented on page 349 as Display 12.5:
+<<fig.width=6, fig.height=5>>=
+lm2 = lm(SAT ~ log2(Takers)+Income+Years+Public+Expend+Rank, data=case1201)
+summary(lm2)
+plot(lm2, which=4) 
+@
+
+According to the Cook's distance plot, obs 29 (Alaska) seems to be an influential outlier. We may consider removing this observation from the dataset.
+
+<<fig.width=5, fig.height=5>>=
+case1201r = case1201[-c(29),]
+lm3 = lm(SAT ~ log2(Takers) + Income+ Years + Public + Expend + Rank, data=case1201r)
+anova(lm3)
+crPlots(lm2, term = ~ Expend) # with Alaska
+crPlots(lm3, term = ~ Expend) # without Alaska
+@
+
+The difference between these two slopes indicates that Alaska is an influential observation. We decide to remove it from the original dataset.
+
+\subsection{Sequential Variable Selection}
+
+The book uses F-statistics as the criterion and present the procedures of forward selection and backward elimination on page 351-353. The forward selection required to fit 16 of 64 possible models, and the final model is using Expenditure and log(Takers) to predict SAT. The backward elimination required to fit 3 models, and the final model is using Year, Expenditure, Rank and log(Takers) to predict SAT.
+
+To the best of our knowledge, there is no built-in machnism(?) to undertake the procedure using F. Instead, we demonstrate  using AIC criterion and get the final model by following code. Note that we choose log(Taker) as our preliminary predictor for forward selection, because it has the largest F-value when we fitted lm3.
+<<>>=
+# Forward Selection
+lm4 = lm(SAT ~ log2(Takers), data=case1201r)
+stepAIC(lm4, scope=list(upper=lm3, lower=~1), direction="forward", trace=FALSE)$anova
+# Backward Elimination
+stepAIC(lm3, direction="backward", trace=FALSE)$anova
+# Stepwise Regression
+stepAIC(lm3, direction="both", trace=FALSE)$anova
+@
+
+So the final model includes log(Takers), Expenditure, Years and Rank.
+
+<<>>=
+lm5 = lm(SAT ~ log2(Takers) + Expend + Years + Rank, data=case1201r)
+summary(lm5)
+@
+
+The final model can explain \Sexpr{round(summary(lm5)$r.squared, 3)*100}\% percent or the variation of SAT. All 
+of the explanatory variables are statistically significant at the $\alpha=.05$ level.
+
+\subsection{Model Selection Among All Subsets}
+
+The Cp-statistic can be an useful criterion to select model among all subsets. We'll give an example about how to calculate 
+this statistic for one model, which includes  log(Takers), Expenditure, Years and Rank.
+
+<<>>=
+sigma5 = summary(lm5)$sigma^2 # sigma-squared of chosen model
+sigma3 = summary(lm3)$sigma^2 # sigma-squared of full model
+n = 49 # sample size
+p = 4+1 # number of coefficients in model
+Cp=(n-p)*sigma5/sigma3+(2*p-n)
+Cp
+@
+The Cp statistic for this fitting model is \Sexpr{Cp}.
+
+Alternatively, the Cp statistic can be calculated using the following command:
+<<fig.width=6, fig.height=5, message=FALSE>>=
+require(leaps)
+explanatory = with(case1201r, cbind(log(Takers), Income, Years, Public, Expend, Rank))
+with(case1201r, leaps(explanatory, SAT, method="Cp"))$which[27,]
+@
+This means that the 27th fitting model includes log(Takers), Years and Expend.
+<<>>=
+with(case1201r, leaps(explanatory, SAT, method="Cp"))$Cp[27]
+@
+The Cp statistic for this model is \Sexpr{with(case1201r, leaps(explanatory, SAT, method="Cp"))$Cp[27]}. This will be the the "tyer" point on the Display 12.9, page 357.
+
+We use the following code to generate the graph presented as Display 12.14 on page 364.
+<<fig.width=6, fig.height=4>>=
+plot(lm5, which=1)
+@
+From the scatterplot, we see that obs 28 (New Hampshire) has the largest residual, while obs 50 (Sorth Carolina) has the smallest.
+
+\subsection{Contribution of Expend}
+
+Display 12.13 (page 363) shows the contribution of Expend to the model.
+
+<<>>=
+lm7 = lm(SAT ~ Expend, data=case1201r)
+summary(lm7)
+lm8 = lm(SAT ~ Income + Expend, data=case1201r)
+summary(lm8)
+@
+
+\section{Sex Discrimination in Employment}
+
+Do females receive lower starting salaries than similarly qualified and similarly experience males and did females receive smaller pay increases than males?  These are the questions explored in case 12.2 in the \emph{Sleuth}.
+
+\subsection{Summary Statistics}
+
+We begin by summarizing the data.
+
+<<>>=
+summary(case1202)
+@
+
+The data is shown on page 343-344 as display 12.3. A total of \Sexpr{nrow(case1202)} employee salaries 
+are included: \Sexpr{nrow(subset(case1202, Sex=="Female"))} females and \Sexpr{nrow(subset(case1202, Sex=="Male"))} males. 
+
+Next we present a full graphical display for the variables within the dataset and the log of the beginning salary variable.
+
+
+<<echo=FALSE>>=
+  panel.hist = function(x, ...)
+  {
+    usr = par("usr"); on.exit(par(usr))
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h = hist(x, plot=FALSE)
+    breaks = h$breaks; nB = length(breaks)
+    y = h$counts; y = y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col="cyan", ...)
+  }
+
+panel.lm = function(x, y, col=par("col"), bg=NA, 
+                    pch=par("pch"), cex=1, col.lm="red", ...) 
+{
+  points(x, y, pch=pch, col=col, bg=bg, cex=cex)
+  ok = is.finite(x) & is.finite(y)
+  if (any(ok)) 
+    abline(lm(y[ok] ~ x[ok]))
+}
+@
+
+<<fig.height=8, fig.width=8>>=
+pairs(~ Bsal+Sex+Senior+Age+Educ+Exper+log(Bsal), 
+      lower.panel=panel.smooth, diag.panel=panel.hist, 
+      upper.panel=panel.lm, data=case1202)
+@
+
+Through these scatterplots it appears that beginning salary should be on the log scale and the starting model without the effects of gender will be a saturated second-order model with 14 variables including Seniority, Age, Education, Experience, as main effects, quadratic terms, and their full interactions.
+
+\subsection{Model Selection}
+
+To determine the best subset of these variables we first compared Cp statistics. Display 12.11 shows the Cp statistics for models that meet `good practice' and have small Cp values.  We will demonstrate how to calculate the Cp statistics for the two models with the lowest Cp statistics discussed in ``Identifying Good Subset Models" on pages 359-360.
+
+The first model includes Seniority, Age, Education, Experience, and the interactions between Seniority and Education, Age and Education, and Age and Experience.
+The second model includes Seniority, Age, Education, Experience, and the interactions between Age and Education and Age and Experience.
+
+<<fig.width=6, fig.height=5, message=FALSE>>=
+require(leaps)
+explanatory1 = with(case1202, cbind(Senior, Age, Educ, Exper, Senior*Educ, Age*Educ, Age*Exper))
+# First model (saexnck)
+with(case1202, leaps(explanatory1, log(Bsal), method="Cp"))$which[55,]
+with(case1202, leaps(explanatory1, log(Bsal), method="Cp"))$Cp[55]
+# second model (saexck)
+with(case1202, leaps(explanatory1, log(Bsal), method="Cp"))$which[49,]
+with(case1202, leaps(explanatory1, log(Bsal), method="Cp"))$Cp[49]
+@
+
+This first model has a Cp statistic of \Sexpr{round(with(case1202, leaps(explanatory1, log(Bsal), method="Cp"))$Cp[55], 2)}. Compared to the second model with a Cp statistic of \Sexpr{round(with(case1202, leaps(explanatory1, log(Bsal), method="Cp"))$Cp[49], 2)}.
+
+We can also compare models using the BIC, we will next compare the second model with a thrid model defined as \emph{saexyc} = Seniority + Age + Education + Experience + Experience$^2$ + Age*Education.
+
+<<>>=
+BIC(lm(log(Bsal) ~ Senior+Age+Educ+Exper+Age*Educ+Age*Exper, data=case1202))
+BIC(lm(log(Bsal) ~ Senior+Age+Educ+Exper+(Exper)^2+Age*Educ, data=case1202))
+@
+
+Thus our final model is the second model, summarized below.
+<<>>=
+lm1 = lm(log(Bsal) ~ Senior + Age + Educ + Exper + Age*Educ + Age*Exper, data=case1202)
+summary(lm1)
+@
+
+\subsection{Evaluating the Sex Effect}
+After selecting the model \emph{saexck} = Seniority + Age + Education + Experience + Age*Education + Age*Experience we can add the sex indicator variable as summarized on page 360.
+
+<<>>=
+lm2 = lm(log(Bsal) ~ Senior + Age + Educ + Exper + Age*Educ + Age*Exper + Sex, data=case1202)
+summary(lm2)
+@
+
+In contrast to the book, our reference group is Male, therefore the median male salary is estimated to be \Sexpr{round(exp(coef(lm2)["SexMale"]), 2)} times as large as the median female salary, adjusted for the other variables. 
+
+\end{document}

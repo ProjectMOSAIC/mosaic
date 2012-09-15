@@ -148,7 +148,9 @@ file as well as the associated \pkg{knitr} reproducible analysis source file can
 \url{http://www.math.smith.edu/~nhorton/sleuth}.
 
 This work leverages initiatives undertaken by Project MOSAIC (\url{http://www.mosaic-web.org}), an NSF-funded effort to improve the teaching of statistics, calculus, science and computing in the undergraduate curriculum. In particular, we utilize the 
-\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
+\pkg{mosaic} package, which was written to simplify the use of R for introductory statistics courses. A short summary of the R needed to teach introductory statistics can be found in the mosaic package vignette (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/MinimalR.pdf}).
+
+To use a package within R, it must be installed (one time), and loaded (each session). The package can be installed using the following command:
 <<install_mosaic,eval=FALSE>>=
 install.packages('mosaic')               # note the quotation marks
 @
@@ -191,7 +193,7 @@ A total of \Sexpr{nrow(case0101)} subjects with considerable experience in creat
 
 <<eval=TRUE>>=
 favstats(Score ~ Treatment, data=case0101)
-xhistogram(~ Score | Treatment, data=case0101)
+histogram(~ Score | Treatment, data=case0101)
 @
 <<>>=
 with(subset(case0101, Treatment=="Extrinsic"), stem(Score, scale=5))
@@ -229,7 +231,8 @@ diffmeans     # observed difference
 numsim = 1000     # set to a sufficient number
 nulldist = do(numsim)*diff(mean(Score~shuffle(Treatment), data=case0101))
 confint(nulldist)
-xhistogram(~ Intrinsic, nint=50, data=nulldist, v=c(-4.14,4.14)) # Display 1.8 Sleuth
+# Display 1.8 Sleuth
+histogram(~ Intrinsic, nint=50, data=nulldist, v=c(-4.14,4.14)) 
 @
 
 As described in the Sleuth on page 12, if the group assignment changes, we will get different results. First, the test statistics will be just as likely to be negative as positive. Second, the majority of values fall in the range from -3.0 to +3.0. Third, only few of the 1,000 randomization produced test statistics as large as 4.14. This last point indicates that 4.14 is a value corresponding to an unusually uneven randomization outcome, if the null hypothesis is correct.
