@@ -1,5 +1,11 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+\section{Changes in version 0.7}{
+	\itemize{
+		\item Plan to deprecate Carnegie Melon University Online Learning Initiative Statistics Modules datasets in next release.
+		\item changes in format to \code{RailTrail} dataset.
+	}
+}
 \section{Changes in version 0.6}{
 	\itemize{
 		\item Added vignette: Minimal R for Intro Stats.
