@@ -189,27 +189,30 @@ Randall Pruim
 
 
 
-\SweaveOpts{
-	dev="pdf",
-	fig.path="figures"
-	}
+
 
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
-source('setup.R')
+#source('setup.R')
 require(mosaic)
 trellis.par.set(theme=col.mosaic())
 set.seed(123)
-knit_hooks$set(inline = function(x) {
-if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
-x = as.character(x)
-h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
-h = gsub("([_#$%&])", "\\\\\\1", h)
-h = gsub('(["\'])', '\\1{}', h)
-gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
-})
+#knit_hooks$set(inline = function(x) {
+#	if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+#	x = as.character(x)
+#	h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+#	h = gsub("([_#$%&])", "\\\\\\1", h)
+#	h = gsub('(["\'])', '\\1{}', h)
+#	gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+#})
+opts_chunk$set(
+	dev="pdf",
+	fig.path='figures/fig-',  
+	eval=FALSE,
+	tidy=FALSE,
+	fig.align='center',
+	fig.show='hold'
+	)
 @ 
-
-\SweaveOpts{eval=FALSE, tidy=FALSE}
 
 
 \let\oldchapter=\chapter
@@ -517,23 +520,27 @@ rownames()
 %\hfill
 %``Less volume, more creativity" (Mike McCarthy, head coach, Green Bay Packers)
 
-\begin{multicols}{3}
-
-\SweaveOpts{
+<<more-hooks,eval=TRUE,echo=FALSE>>=
+opts_chunk$set(
 	eval=TRUE, 
-	fig.path='figures',
+	fig.path='figures/fig-',
 	fig.width=4,
 	fig.height=2,
 	fig.align="center",
 	out.width=".25\\textwidth",
+	out.height=".125\\textwidth",
 	tidy=TRUE,
 	comment=NA
-	}
+)
+@
+
+\begin{multicols}{3}
 
 <<echo=FALSE>>=
 options(width=40)
 options(show.signif.stars=FALSE)
 @
+
 <<coins,fig.keep="last">>=
 rflip(10)
 do(2) * rflip(10)
@@ -550,15 +557,16 @@ tally( ~ substance + sex, data=HELPrct )
 mean( age ~ substance, data=HELPrct )
 sd( age ~ substance, data=HELPrct )
 @
-<<densityplot,height=2.4>>=
-densityplot( ~ age | sex, groups=substance, data=HELPrct, auto.key=TRUE )
+<<densityplot,fig.height=2.4>>=
+densityplot( ~ age | sex, groups=substance, 
+               data=HELPrct, auto.key=TRUE )
 @
 <<bwplot>>=
 bwplot( age ~ substance | sex, data=HELPrct )
 @
 \columnbreak
 <<>>=
-confint( t.test( ~age, data=HELPrct ) )
+confint( binom.test( ~sex, data=HELPrct ) )
 @
 <<>>=
 anova( lm(age ~ sex + substance, data=HELPrct ) )
@@ -566,7 +574,8 @@ anova( lm(age ~ sex + substance, data=HELPrct ) )
 
 
 <<>>=
-xyplot( Sepal.Length ~ Sepal.Width, data=iris, groups=Species )
+xyplot( Sepal.Length ~ Sepal.Width, data=iris, 
+	    groups=Species )
 @
 
 <<include=FALSE>>=
