@@ -13,3 +13,4 @@
 ^.*~$
 ^README\.mediawiki$
 ^mosaic.*\.gz$
+^.*\.Rproj$
