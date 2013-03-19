@@ -86,6 +86,8 @@ plotFun <- function(object, ...,
 					levels=NULL, nlevels=10,labels=TRUE,
 					surface=FALSE,
 					groups=NULL,
+          col = trellis.par.get('superpose.line')$col,
+          idx=1,
 					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL ) { 
@@ -107,14 +109,14 @@ plotFun <- function(object, ...,
 	} 
 
 	dots <- list(...)
-	dots[['type']] <- type
-	dots[['alpha']] <- alpha
+	# dots[['type']] <- type
+	# dots[['alpha']] <- alpha
 
 	# funny names (like ..f..) are to avoid names that might be used by the user
 	# not sure whether this precaution is necessary in current implementation
 
 	# perhaps use environment(object)?
-	..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+	..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame()) 
 
 	vars <- formals(..f..)
 	rhsVars <- all.vars(rhs(object))
@@ -124,6 +126,8 @@ plotFun <- function(object, ...,
 	for (v in otherVars) {
 		cleanDots[[v]] <- NULL
 	}
+  conditions <- paste(otherVars, ".groups", sep="")
+  conditions <- intersect(conditions, names(dots))
 
 	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
 
@@ -166,31 +170,35 @@ plotFun <- function(object, ...,
 
 		# note: passing ... through to the lattice functions currently conflicts with
 		# using ... to set values of "co-variates" of the function.
-		# print(cleanDots)
+# 		print(names(cleanDots))
 		if( length(limits$ylim) != 2 ) {
+    
 			thePlot <- do.call(lattice::xyplot,
 							 c(list(y ~ x, 
 								data=localData,
+                object=object,
 								# groups=eval(substitute(groups),localData),
 								groups=substitute(groups),
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
-								panel=panel.xyplot
-								),
-								cleanDots
+								panel="panel.plotFun",
+                col=col[idx] ),
+								dots
 								)
 			)
 		} else { 
 			thePlot <- do.call(lattice::xyplot, c(list(
 							    y ~ x,
 								data=localData,
+                object=object,
 								# groups=eval(substitute(groups),localData),
 								groups=substitute(groups),
 								xlim=limits$xlim, 
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
-								panel=panel.xyplot),
-								cleanDots)
+								panel="panel.xplotFun",
+                col=col[idx]),
+								dots)
 								)
 		}
 		return(thePlot)
@@ -312,6 +320,8 @@ plotFun <- function(object, ...,
 #'
 #' @seealso plotFun
 #' @param object an object (e.g., a formula) describing a function
+#' @param col a vector of colors
+#' @param idx an integer indicating which color to use from the color pallet given in \code{col}
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
 #' @param filled fill with color between the contours (\code{TRUE} by default)
@@ -339,16 +349,24 @@ plotFun <- function(object, ...,
 #' ladd(panel.plotFun( sin(x) ~ x, col='red', lty=2 ) )    # plots sin(x) in each panel
 
 panel.plotFun <- function( object, ..., 
-						  type="l", 
-						  npts=NULL,
-						  zlab=NULL, 
-						  filled=TRUE, 
-						  levels=NULL, 
-						  nlevels=10,
-						  surface=FALSE,
-                   		  col.regions =topo.colors, 
-				   		  alpha=NULL ) { 
+                           type="l", 
+                           col = trellis.par.get('superpose.line')$col,
+                           idx=1,
+                           npts=NULL,
+                           zlab=NULL, 
+                           filled=TRUE, 
+                           levels=NULL, 
+                           nlevels=10,
+                           surface=FALSE,
+                           col.regions =topo.colors, 
+                           alpha=NULL ) { 
   dots <- list(...)
+  if (is.numeric(col)) {
+    message('converting numerical color value into a color using lattice settings')
+    idx <- round(col)
+    col <- trellis.par.get('superpose.line')$col
+  }
+  if (length(col) < idx) col <- rep(col, length.out=idx)
   if ( is.function(object) ) { 
 		formula <- f(x) ~ x 
 		formula[[2]] <- as.call( list(substitute(object), quote(x)))
@@ -392,9 +410,10 @@ panel.plotFun <- function( object, ...,
 	  # don't get passed to the panel function.
 	  cleandots = list(...)
 	  cleandots[ names(cleandots) %in% all.vars(object) ] <- NULL
+    cleandots[c('x','y','type','alpha','col')] <- NULL
 	  # use do.call to call the panel function so that the cleandots can be put back in
-    return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
-	  #return(panel.xyplot(.xvals, .yvals, ...))
+    return(do.call(panel.xyplot,
+                   c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=col[idx]),  cleandots)))
   }
 	   
   if (ndims == 2 ) {
@@ -402,7 +421,7 @@ panel.plotFun <- function( object, ...,
 			stop('no add option for surface plots yet.')
 			return(NULL)
 	}
-    # if we get here, surface == FALSE & ndims=2
+    # if we get here, surface == FALSE & ndims == 2
     npts <- ifelse( is.null(npts), 40, npts)
     # create a function of those two variables
 
