@@ -84,16 +84,16 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 #' things multiple time using a different syntax and different output
 #' format from that used by, for example, \code{\link{replicate}}.
 #'
-#' Each object contains slots for 
-#' \itemize{
-#' \item{\code{n}} number of times to repeat something
-#' \item{\code{cull}} a function used to cull output
-#' \item{\code{mode}} the mode used for results (NULL or data frame or matrix)
-#' }
 #' @rdname repeater-class
 #' @name repeater-class
 #' @exportClass repeater
 #' @seealso \code{\link{do}}
+#' @section Slots:
+#' \describe{
+#'   \item{\code{n}:}{Object of class \code{"numeric"} indicating how many times to repeat something.}
+#'   \item{\code{cull}:}{Object of class \code{"function"} that culls the ouput from each repetition.}
+#'   \item{\code{mode}:}{Object of class \code{"character"} indicating the output mode (NULL or 'data.frame' or 'list').}
+#' }
 
 setClass('repeater', 
 	representation = representation(n='numeric', cull='ANY', mode='ANY'),
@@ -256,9 +256,6 @@ setMethod("print",
 
 #' @rdname do
 #' @aliases *,repeater,ANY-method
-#' @param e1 an object
-#' @param e2 an object
-#' @param ... additional arguemnts
 #' @usage
 #' \S4method{*}{repeater,ANY}(e1, e2) 
 
