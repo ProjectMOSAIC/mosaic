@@ -30,11 +30,11 @@ opt <- parse_args(OptionParser(option_list=option_list))
 		write(paste("Processing package", opt$path, "...\n"), stderr())
 	}
 
-if (require(devtools)) {
+if (FALSE & require(devtools)) {
 	suppressPackageStartupMessages(library("devtools"))
 	document(opt$path, clean=opt$clean)
 } else {
-	roxygenize(opt$path,clean=opt$clean)
+	roxygenize(opt$path)  # ,clean=opt$clean)
 }
 
 cat("\n")
