@@ -19,7 +19,8 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' @param xlab label for x axis
 #' @param ylab label for y axis
 #' @param zlab label for z axis (when in surface-plot mode)
-#' @param col color for line graphs and contours
+#' @param col vector of colors for line graphs and contours
+#' @param idx index number for selecting colors
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
