@@ -88,7 +88,7 @@ plotFun <- function(object, ...,
 					surface=FALSE,
 					groups=NULL,
           col = trellis.par.get('superpose.line')$col,
-          idx=1,
+          # idx=1,
 					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL ) { 
@@ -98,26 +98,19 @@ plotFun <- function(object, ...,
 		formula[[2]] <- as.call( list(substitute(object), quote(x)))
 		object <- formula
 	}
-
-	if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
-
-  if (length(unique(levels))==1) levels = c(levels,Inf) #make sure there's a range
-	if (add) { 
-		ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
-							filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
-							col.regions=col.regions, type=type, alpha=alpha, ...))
-		return(invisible(NULL))
-	} 
-
+  
 	dots <- list(...)
 	# dots[['type']] <- type
 	# dots[['alpha']] <- alpha
+	
+	..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame()) 
 
+  if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
+
+  if (length(unique(levels))==1) levels = c(levels,Inf) # make sure there's a range
+	
 	# funny names (like ..f..) are to avoid names that might be used by the user
 	# not sure whether this precaution is necessary in current implementation
-
-	# perhaps use environment(object)?
-	..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame()) 
 
 	vars <- formals(..f..)
 	rhsVars <- all.vars(rhs(object))
@@ -127,9 +120,35 @@ plotFun <- function(object, ...,
 	for (v in otherVars) {
 		cleanDots[[v]] <- NULL
 	}
-  conditions <- paste(otherVars, ".groups", sep="")
-  conditions <- intersect(conditions, names(dots))
 
+  pgArgs <- list()
+  print(otherVars)
+  otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,".groups",sep="") else c()
+  if (length( setdiff( otherGroups, names(dots) ) ) > 0 ) 
+    stop(paste("Cannot plot with free paramters; try setting", 
+               paste( setdiff(otherGroups, names(dots)), collapse=", " ) ))
+  for (param in otherVars) pgArgs[[param]] <- dots[[paste(param,".groups",sep="")]]
+  paramGrid <- do.call( "expand.grid", pgArgs )
+  
+	fList <- if (nrow(paramGrid) < 1) list(..f..) else list()
+	for (r in rows(paramGrid) ) {
+    rowAsList <- as.list( paramGrid[r,])
+    names(rowAsList) <- otherVars
+    print( c( object, c(dots, rowAsList, strict.declaration=FALSE) ) )
+	  fList <- c( fList, do.call ( "makeFun", 
+	                               c( object, c(dots, rowAsList,
+	                                           strict.declaration=FALSE, envir= parent.frame()) ) 
+	  ))
+	}
+
+
+	if (add) { 
+	  ladd( panel.plotFun1( fList, npts=npts, # lwd=lwd, #col=col, 
+	                        filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
+	                        col.regions=col.regions, type=type, alpha=alpha, col=col, ...))
+	  return(invisible(NULL))
+	} 
+	
 	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
 
 	if( ndims == 1 ){
@@ -141,16 +160,17 @@ plotFun <- function(object, ...,
 
 		if( is.null(ylab) ) ylab <- deparse( lhs(object) ) # deparse(..f..$sexpr)
 		if( is.null(xlab) ) xlab <- rhsVars
-    
+
+    # need to handle range detection for list of functions
 		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) {
       zeros <- c() #empty
       tryCatch( zeros <- findZeros( object, nearest=6, ... )[[1]], 
                 error=function(e){e},warning=function(e){} )
-			limits$xlim <- switch(as.character(length(zeros)), 
-				"0" = c(0,1),
-				"1" = c(-1.5,1.5) * (zeros+ifelse(zeros==0,1,0)),
-				( c(-.1,.1) * diff(range(zeros)) ) + range(zeros)
-			)
+      limits$xlim <- switch(as.character(length(zeros)), 
+                            "0" = c(0,1),
+                            "1" = c(-1.5,1.5) * (zeros+ifelse(zeros==0,1,0)),
+                            c(-.1,.1) * diff(range(zeros)) + range(zeros)
+      )
 		} 
 
 		limits$xlim <- range(limits$xlim)
@@ -158,48 +178,49 @@ plotFun <- function(object, ...,
 		if (length(limits$xlim) !=2) stop ("Invalid limits.")
 
 		# Evaluate the function on appropriate inputs.
+    .f. <- fList[[1]]
 		.xvals <- 
 			if ('h' %in% type)  
 				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
 			else 
 				mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
-										   f=function(xxqq){ ..f..(xxqq) }, length=npts)
-		
-		.yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
-		localData <- data.frame(.xvals, .yvals, .xvals, .yvals)
-		names(localData) <- c("x", "y", rhsVars, paste('f(',rhsVars,')',sep=''))
+										   f=function(xxqq){ .f.(xxqq) }, length=npts)
+	
+    .yvals <- c()
+    for ( .f. in fList ) .yvals <- c( .yvals, sapply( .xvals, .f. ) )
+		localData <- data.frame(x = range(.xvals), y = range(.yvals))
 
 		# note: passing ... through to the lattice functions currently conflicts with
 		# using ... to set values of "co-variates" of the function.
-# 		print(names(cleanDots))
+
 		if( length(limits$ylim) != 2 ) {
     
 			thePlot <- do.call(lattice::xyplot,
-							 c(list(y ~ x, 
+							 c( list(y ~ x, 
+                 ..f.. = fList,
 								data=localData,
-                object=object,
 								# groups=eval(substitute(groups),localData),
 								groups=substitute(groups),
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
-								panel="panel.plotFun",
-                col=col[idx] ),
-								dots
+								panel="panel.plotFun1",
+                col=col ),
+								cleanDots
 								)
 			)
 		} else { 
 			thePlot <- do.call(lattice::xyplot, c(list(
 							    y ~ x,
+                  ..f.. = fList,
 								data=localData,
-                object=object,
 								# groups=eval(substitute(groups),localData),
 								groups=substitute(groups),
 								xlim=limits$xlim, 
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
-								panel="panel.xplotFun",
-                col=col[idx]),
-								dots)
+								panel="panel.xplotFun1",
+                col=col),
+								cleanDots)
 								)
 		}
 		return(thePlot)
@@ -317,6 +338,7 @@ plotFun <- function(object, ...,
 	stop("Bug alert: You should not get here.  Please report.")
 }
 
+
 #' Panel function for plotting functions
 #'
 #' @seealso plotFun
@@ -336,7 +358,7 @@ plotFun <- function(object, ...,
 #'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
 #'        Frequently used arguments include
 #'        \describe{
-#'        	\item{\code{lwd}}{line width}
+#'          \item{\code{lwd}}{line width}
 #'        	\item{\code{lty}}{line type}
 #'        	\item{\code{col}}{a color}
 #'        }
@@ -345,122 +367,77 @@ plotFun <- function(object, ...,
 #' x <- runif(30,0,2*pi) 
 #' d <- data.frame( x = x,  y = sin(x) + rnorm(30,sd=.2) )
 #' xyplot( y ~ x, data=d )
-#' ladd(panel.plotFun( sin(x) ~ x, col='red' ) )
+#' ladd(panel.plotFun( sin, col='red' ) )
 #' xyplot( y ~ x | rbinom(30,1,.5), data=d )
-#' ladd(panel.plotFun( sin(x) ~ x, col='red', lty=2 ) )    # plots sin(x) in each panel
+#' ladd(panel.plotFun1( sin, col='red', lty=2 ) )    # plots sin(x) in each panel
 
-panel.plotFun <- function( object, ..., 
+panel.plotFun1 <- function( ..f.., ...,
+                           x, y,
                            type="l", 
                            col = trellis.par.get('superpose.line')$col,
-                           idx=1,
+                           # idx=1,
                            npts=NULL,
                            zlab=NULL, 
                            filled=TRUE, 
                            levels=NULL, 
                            nlevels=10,
                            surface=FALSE,
-                           col.regions =topo.colors, 
                            alpha=NULL ) { 
   dots <- list(...)
+
+  if (is.function(..f..) ) ..f.. <- list(..f..)
+  if (! is.list(..f..) || length(..f..) < 1) stop("Empty or malformed list of functions.")
+  
   if (is.numeric(col)) {
     message('converting numerical color value into a color using lattice settings')
-    idx <- round(col)
-    col <- trellis.par.get('superpose.line')$col
+    col <- trellis.par.get('superpose.line')$col[col]
   }
-  if (length(col) < idx) col <- rep(col, length.out=idx)
-  if ( is.function(object) ) { 
-		formula <- f(x) ~ x 
-		formula[[2]] <- as.call( list(substitute(object), quote(x)))
-		object <- formula
-	}
-
-  if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
-
-  plot.line <- trellis.par.get('plot.line')
-  superpose.line <- trellis.par.get('superpose.line')
- 
+  
+    
   # funny names (like ..f..) are to avoid names that might be used by the user
   # not sure whether this precaution is necessary in current implementation
- 
+  
   # perhaps use environment(object)?
-  ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
-
-  vars <- formals(..f..)
-  rhsVars <- all.vars(rhs(object))
-  ndims <- length(rhsVars)
- 
-  parent.xlim <- current.panel.limits()$xlim
-  parent.ylim <- current.panel.limits()$ylim
-
-  if( ndims > 2 || ndims < 1 ) 
-    stop("Formula must provide 1 or 2 independent variables (right hand side).")
-
-  if( ndims == 1 ){
-	  npts <- ifelse( is.null(npts), 200, npts)
-
-	  # Evaluate the function on appropriate inputs.
-	  .xvals <- 
-		  if ('h' %in% type)  
-			  seq(min(parent.xlim), max(parent.xlim), length.out=npts)
-			  else 
-				  mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
-									f=function(xxqq){ ..f..(xxqq) }, length=npts)
-	  .yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
-
-	  # need to strip out any components of ... that are in the object so they
-	  # don't get passed to the panel function.
-	  cleandots = list(...)
-	  cleandots[ names(cleandots) %in% all.vars(object) ] <- NULL
+  # ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+  idx = 0
+  
+  for ( .f. in ..f..) {  
+    idx <- idx + 1
+    print(.f.)
+    vars <- formals(.f.)
+    #  rhsVars <- all.vars(rhs(object))
+    #  ndims <- length(rhsVars)
+    
+    parent.xlim <- current.panel.limits()$xlim
+    parent.ylim <- current.panel.limits()$ylim
+    
+    npts <- ifelse( is.null(npts), 200, npts)
+    
+    # Evaluate the function on appropriate inputs.
+    .xvals <-  if ('h' %in% type)  
+      seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+    else 
+      mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
+                        f=function(xxqq){ .f.(xxqq) }, length=npts)
+    
+    .yvals <- sapply( .xvals, .f. ) 
+    
+    # need to strip out any components of ... that are in the object so they
+    # don't get passed to the panel function.
+    cleandots = list(...)
+    # cleandots[ intersect(names(cleandots), all.vars(object)) ] <- NULL
     cleandots[c('x','y','type','alpha','col')] <- NULL
-	  # use do.call to call the panel function so that the cleandots can be put back in
-    return(do.call(panel.xyplot,
-                   c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=col[idx]),  cleandots)))
+    # use do.call to call the panel function so that the cleandots can be put back in
+    do.call(panel.xyplot,
+            c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=.getColor(idx,col)),  cleandots)
+    )
   }
-	   
-  if (ndims == 2 ) {
-    if( surface ) { 
-			stop('no add option for surface plots yet.')
-			return(NULL)
-	}
-    # if we get here, surface == FALSE & ndims == 2
-    npts <- ifelse( is.null(npts), 40, npts)
-    # create a function of those two variables
-
-    if( length(zlab) == 0 ) zlab <- deparse(lhs(object) )
-    
-    .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
-    .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
-    zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
-    grid <- expand.grid( .xvals, .yvals )
-    grid$height <- c(zvals)
-    
-	zcuts <- pretty(grid$height,50)
-	zcolors <- col.regions (length(zcuts),alpha=.5)
-	# print(zcolors)
-	if( is.null(alpha) ) alpha<-.4
-
-	if( all(is.logical(zvals)) ) {  # it's a constraint function
-		#nlevels <- 2
-    levels <- c(0.0,Inf) 
-	}
-	fillcolors <- col.regions (length(levels) + 2, alpha=alpha)
-  if(is.null(levels)) levels=pretty(grid$height, nlevels)
-
-	return( panel.levelcontourplot(x = grid$Var1, y = grid$Var2, z = grid$height,
-						   subscripts = 1:nrow(grid),
-						   at = levels,
-						   col.regions = fillcolors,
-						   filled=filled, 
-						   ...
-						   #col=col, lwd = lwd, lty = 1,
-						   )
-	)
-  }
-  stop("Bug alert: You should not get here.  Please report.")
 }
 
-
-
+.getColor <- function( n=1, col=trellis.par.get('superpose.line')$col) {
+  if (length(col) < n) col <- rep(col, length.out=n)
+  col[n]
+}
 #' Infer arguments 
 #' 
 #' The primary purpose is for inferring argument settings from names derived from variables
