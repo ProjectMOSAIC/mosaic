@@ -161,7 +161,7 @@ columns <- function(x, default=c()) {
 #' @rdname columns
 rows <- function(x, default=c()) {
 	hi <- nrow(x)
-	if (is.null(hi)) return(default) else  return( 1:hi )
+	if (is.null(hi) || hi < 1) return(default) else  return( 1:hi )
 }
 
 #' Compute proportions, percents, or counts for a single level
