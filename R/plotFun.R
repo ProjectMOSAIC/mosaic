@@ -122,7 +122,7 @@ plotFun <- function(object, ...,
 	}
 
   pgArgs <- list()
-  print(otherVars)
+  # print(otherVars)
   otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,".groups",sep="") else c()
   if (length( setdiff( otherGroups, names(dots) ) ) > 0 ) 
     stop(paste("Cannot plot with free paramters; try setting", 
@@ -130,17 +130,18 @@ plotFun <- function(object, ...,
   for (param in otherVars) pgArgs[[param]] <- dots[[paste(param,".groups",sep="")]]
   paramGrid <- do.call( "expand.grid", pgArgs )
   
-	fList <- if (nrow(paramGrid) < 1) list(..f..) else list()
+	fList <- list()
+	if (nrow(paramGrid) < 1) fList[[1]] <- ..f..
+    
 	for (r in rows(paramGrid) ) {
     rowAsList <- as.list( paramGrid[r,])
     names(rowAsList) <- otherVars
-    print( c( object, c(dots, rowAsList, strict.declaration=FALSE) ) )
+    # print( c( object, c(dots, rowAsList, strict.declaration=FALSE) ) )
 	  fList <- c( fList, do.call ( "makeFun", 
 	                               c( object, c(dots, rowAsList,
 	                                           strict.declaration=FALSE, envir= parent.frame()) ) 
 	  ))
 	}
-
 
 	if (add) { 
 	  ladd( panel.plotFun1( fList, npts=npts, # lwd=lwd, #col=col, 
@@ -181,9 +182,9 @@ plotFun <- function(object, ...,
     .f. <- fList[[1]]
 		.xvals <- 
 			if ('h' %in% type)  
-				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
+				seq(base::min(limits$xlim), base::max(limits$xlim), length.out=npts)
 			else 
-				mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
+				mosaic::adapt_seq(base::min(limits$xlim), base::max(limits$xlim), 
 										   f=function(xxqq){ .f.(xxqq) }, length=npts)
 	
     .yvals <- c()
@@ -384,6 +385,7 @@ panel.plotFun1 <- function( ..f.., ...,
                            surface=FALSE,
                            alpha=NULL ) { 
   dots <- list(...)
+  message("in panel.plotFun1()")
 
   if (is.function(..f..) ) ..f.. <- list(..f..)
   if (! is.list(..f..) || length(..f..) < 1) stop("Empty or malformed list of functions.")
@@ -400,7 +402,7 @@ panel.plotFun1 <- function( ..f.., ...,
   # perhaps use environment(object)?
   # ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
   idx = 0
-  
+
   for ( .f. in ..f..) {  
     idx <- idx + 1
     print(.f.)
@@ -415,9 +417,9 @@ panel.plotFun1 <- function( ..f.., ...,
     
     # Evaluate the function on appropriate inputs.
     .xvals <-  if ('h' %in% type)  
-      seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+      seq(base::min(parent.xlim), base::max(parent.xlim), length.out=npts)
     else 
-      mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
+      mosaic::adapt_seq(base::min(parent.xlim), base::max(parent.xlim), 
                         f=function(xxqq){ .f.(xxqq) }, length=npts)
     
     .yvals <- sapply( .xvals, .f. ) 
