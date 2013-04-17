@@ -1,5 +1,7 @@
 #! /usr/bin/Rscript --vanilla
 
+suppressPackageStartupMessages(library("methods"))
+suppressPackageStartupMessages(library("utils"))
 suppressPackageStartupMessages(library("roxygen2"))
 suppressPackageStartupMessages(library("optparse"))
 
