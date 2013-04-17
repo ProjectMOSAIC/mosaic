@@ -10,27 +10,27 @@
 #' @return A vector of statistical summaries
 #' @export
 #' @examples
-#' favstats(1:10)
-#' favstats(faithful$eruptions)
+#' fav_stats(1:10)
+#' fav_stats(faithful$eruptions)
 #' 
 #' @keywords stats
 
 
 setGeneric( 
-	"favstats", 
+	"fav_stats", 
 	function (x, ..., na.rm = TRUE) {
-		standardGeneric('favstats')
+		standardGeneric('fav_stats')
 	}
 )
 
 
-#' @rdname favstats
-#' @aliases favstats,matrix,ANY-method
+#' @rdname fav_stats
+#' @aliases fav_stats,matrix,ANY-method
 #' @export
 #' @usage
-#' \S4method{favstats}{matrix,ANY}(x, ..., na.rm = TRUE) 
+#' \S4method{fav_stats}{matrix,ANY}(x, ..., na.rm = TRUE) 
 setMethod(
-		  'favstats',
+		  'fav_stats',
 		  'matrix',
 		  function (x, ..., na.rm = TRUE) 
 		  {
@@ -50,13 +50,13 @@ setMethod(
 )
 
 
-#' @rdname favstats
-#' @aliases favstats,numeric,ANY-method
+#' @rdname fav_stats
+#' @aliases fav_stats,numeric,ANY-method
 #' @export
 #' @usage
-#' \S4method{favstats}{numeric,ANY}(x, ..., na.rm = TRUE) 
+#' \S4method{fav_stats}{numeric,ANY}(x, ..., na.rm = TRUE) 
 setMethod(
-		  'favstats',
+		  'fav_stats',
 		  'numeric',
 		  function (x, ..., na.rm = TRUE) 
 		  {
@@ -74,32 +74,32 @@ setMethod(
 )
 
 
-#' @rdname favstats
-#' @aliases favstats,formula,ANY-method
+#' @rdname fav_stats
+#' @aliases fav_stats,formula,ANY-method
 #' @export
 #' @usage
-#' \S4method{favstats}{formula,ANY}(x, data=parent.frame(), ..., na.rm = TRUE) 
+#' \S4method{fav_stats}{formula,ANY}(x, data=parent.frame(), ..., na.rm = TRUE) 
 setMethod(
-		  'favstats',
+		  'fav_stats',
 		  c('formula'),
 		  function (x, data=parent.frame(), ..., na.rm = TRUE) 
 		  {
 			  formula <- x 
-			  return(maggregate(formula, data=data, FUN=favstats, multiple=TRUE))
+			  return(maggregate(formula, data=data, FUN=fav_stats, multiple=TRUE))
 		  }
 )
 
-#' @rdname favstats
-#' @aliases favstats,ANY,data.frame-method
+#' @rdname fav_stats
+#' @aliases fav_stats,ANY,data.frame-method
 #' @export
 #' @usage
-#' \S4method{favstats}{ANY,data.frame}(x, data=parent.frame(), ..., na.rm = TRUE) 
+#' \S4method{fav_stats}{ANY,data.frame}(x, data=parent.frame(), ..., na.rm = TRUE) 
 setMethod(
-		  'favstats',
+		  'fav_stats',
 		  c('ANY', 'data.frame'),
 		  function (x, data=parent.frame(), ..., na.rm = TRUE) 
 		  {
 			  x <- eval(x, data) 
-			  return(favstats(x))
+			  return(fav_stats(x))
 		  }
 )
