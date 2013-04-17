@@ -8,92 +8,167 @@
 #   * need to confirm scoping is correct when using programmatically and interactively.
 # 
  
-require(mosaic)
-require(plr)
-myaggregate <- function( formula, data, FUN ) {
-  ddply( data, .(all.vars(rhs(formula))), summarise, val=FUN )
-}
+# require(mosaic)
+# require(pylr)
+# myaggregate <- function( formula, data, FUN ) {
+#   ddply( data, .(all.vars(rhs(formula))), summarise, val=FUN )
+# }
 
-aggregatingFunction1 <- function( default )
-  result <- function( x, ... ) {
+#' 1-ary Aggregating functions
+#' 
+#' \code{aggregatinFuntion1} creates statistical summaries of one numerical vector that are formula aware.
+#' 
+#' @rdname aggregatingFunction1
+#' @aliases aggregatingFunction1 
+#' @param fun a function that takes a numeric vector and computes a summary statistic,
+#' returning a numeric vector of length 1.
+#' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
+#' 
+#' @export
+#' @examples
+#' foo <- aggregatingFunction1( base::mean )
+#' foo( ~length, data=KidsFeet )
+#' base::mean(KidsFeet$length)
+#' foo( length ~ sex, data=KidsFeet )
+aggregatingFunction1 <- function( fun ) {
+  result <- function( x, ..., data=parent.frame()) {
     orig.call <- match.call() 
-    base.call <- orig.call
-    base.call[[1]] <- quote(default)
     mosaic.call <- orig.call 
-    mosaic.call[[1]] <- quote(default)
-   
-    if ( ! .is.formula(eval(orig.call$x) ) && "data" %in% names(orig.call) )  {  
-      mosaic.call[[1]] <- default
+    
+    if (! .is.formula(x) && "data" %in% names(list(...)) )  { 
+      return( with(data, ..fun..(x, ...) ) )
+      message( "Using mosaic mini powers!" )
+      mosaic.call[[1]] <- substitute(..fun..)
+      mosaic.call[[2]] <- substitute(x)
+      mosaic.call[['data']] <- NULL
       return ( eval( mosaic.call , envir=list(...)[["data"]], enclos=parent.frame()) )
     }
     
-    if ( ! .is.formula(eval(orig.call$x) ) ) {
-      tryCatch( return( eval(base.call)), error=function(e) {})
+    if (! .is.formula(x) ) {
+      mosaic.call[[1]] <- substitute(..fun..)
+      mosaic.call[[2]] <- substitute(x)
+      print(mosaic.call)
+      tryCatch( return( eval(mosaic.call), envir=parent.frame(2)), 
+                error=function(e) {message("Old dog needs new tricks!")} )
     }
-    message( "Using mosaic super powers!" )
+    # message( "Using mosaic super powers!" )
     mosaic.call[[1]] <- quote(maggregate)
-    mosaic.call$formula <- orig.call$x
+    mosaic.call$formula <- x
+    mosaic.call$data <- eval(list(...)$data, envir=parent.frame()) 
+    # mosaic.call$data <- quote(list(...)$data)  # not sure this is best way yet.
     mosaic.call$x <- NULL
-    mosaic.call$FUN <- default
+    mosaic.call$FUN <- ..fun..
+    # print(mosaic.call)
     return( eval(mosaic.call) )
   }
+  formals(result) <- c(formals(result), ..fun.. = substitute(fun))
+  return(result)
+}
 
+#' 2-ary Aggregating functions
+#' 
+#' \code{aggregatinFuntion2} creates statistical summaries of two numerical vectors that are formula aware.
+#' 
 
-aggregatingFunction2 <- function( default ) {
+#' @rdname aggregatingFunction2
+#' @aliases aggregatingFunction2 
+#' @param fun a function that takes two numeric vectors and computes a summary statistic,
+#' returning a numeric vector of length 1.
+#' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
+#' 
+#' @export
+#' @examples
+#' foo <- aggregatingFunction2( stats::cor)
+#' foo( length ~ width, data=KidsFeet )
+#' stats::cor( KidsFeet$length, KidsFeet$width )
+aggregatingFunction2 <- function( fun ) {
   result <- function( x, y=NULL, ... ) {
     orig.call <- match.call()
     base.call <- orig.call
-    base.call[[1]] <- quote(default)
+    base.call[[1]] <- quote(fun)
     if (! is.null(base.call[['data']]) ) base.call[['data']] <- NULL
     mosaic.call <- orig.call 
-    mosaic.call[[1]] <- quote(default)
+    mosaic.call[[1]] <- quote(fun)
     
-    if ( ! .is.formula(eval(orig.call$x) ) && "data" %in% names(orig.call) )  {  
-      mosaic.call[[1]] <- default
+    if ( ! .is.formula(eval(orig.call$x, parent.frame()) ) && "data" %in% names(orig.call) )  {  
+      mosaic.call[[1]] <- fun
       return ( eval( mosaic.call , envir=list(...)[["data"]], enclos=parent.frame()) )
     }
     
-    if ( ! .is.formula(eval(orig.call$x) ) ) {
+    if ( ! .is.formula(eval(orig.call$x,parent.frame()) ) ) {
       tryCatch( return( eval(base.call)), error=function(e) {}) #  , warning= function(w) {} )
     }
     
     message( "Using mosaic super powers!" )
-    mosaic.call[[1]] <- default
-    formula <- eval(orig.call$x)
+    mosaic.call[[1]] <- fun
+    formula <- eval(orig.call$x,parent.frame())
     if (is.null( mosaic.call[['data']] ) ) mosaic.call[['data']] <- quote(parent.frame())
     mosaic.call$x <- eval(rhs(formula), envir=eval(orig.call$data), enclos=parent.frame())
     mosaic.call$y <- eval(lhs(formula), envir=eval(orig.call$data), enclos=parent.frame())
     if (! "..." %in% names(formals(orig.call))) {
-      for (n in setdiff( names(mosaic.call), names(formals(default))) ) {
+      for (n in setdiff( names(mosaic.call), names(formals(fun))) ) {
         if (n != "") mosaic.call[[n]] <- NULL
       }
     }
     return( eval(mosaic.call) )
   }
+  assign("fun", fun, environment(result))
   return(result)
 }
 
+#' Aggregating functions
+#' 
+#' The \code{mosaic} package makes several summary statistic functions (like \code{mean} and \code{sd})
+#' formula aware.
+#' 
+#' @rdname aggregating
+#' @aliases sum min max mean median sd var cov cor favstats
+#' @param x an object, often a formula
+#' @param y an object, often a numeric vector 
+#' @param \dots additional arguments
+#' @export
 mean <- aggregatingFunction1( base::mean )
+#' @rdname aggregating
+#' @export
 sd <- aggregatingFunction1( stats::sd )
+#' @rdname aggregating
+#' @export
 max <- aggregatingFunction1( base::max)
+#' @rdname aggregating
+#' @export
 min <- aggregatingFunction1( base::min)
-favstats <- aggregatingFunction1( mosaic::favstats)
+#' @rdname aggregating
+#' @export
+sum <- aggregatingFunction1( base::sum)
+#' @rdname aggregating
+#' @export
+favstats <- aggregatingFunction1(fav_stats)
+#' @rdname aggregating
+#' @export
 var <- aggregatingFunction1( stats::var )
+#' @rdname aggregating
+#' @export
 cor <- aggregatingFunction2( stats::cor )
+#' @rdname aggregating
+#' @export
+#' 
+#' @examples
+#' mean( HELPrct$age )
+#' mean( ~ age, data=HELPrct )
+#' mean( age ~ sex + substance, data=HELPrct )
+#' mean( ~ age | sex + substance, data=HELPrct )
+#' mean( sqrt(age), data=HELPrct )
+#' sum( ~ age, data=HELPrct )
+#' sd( HELPrct$age )
+#' sd( ~ age, data=HELPrct )
+#' sd( age ~ sex + substance, data=HELPrct )
+#' var( HELPrct$age )
+#' var( ~ age, data=HELPrct )
+#' var( age ~ sex + substance, data=HELPrct )
+#' 
+#' cor( length ~ width, data=KidsFeet )
+#' cov ( length ~ width, data=KidsFeet )
+
 cov <- aggregatingFunction2( stats::cov)
 
-mean( HELPrct$age )
-mean( ~ age, data=HELPrct )
-mean( age ~ sex + substance, data=HELPrct )
-mean( ~ age | sex + substance, data=HELPrct )
-mean( sqrt(age), data=HELPrct )
-sd( HELPrct$age )
-sd( ~ age, data=HELPrct )
-sd( age ~ sex + substance, data=HELPrct )
-var( HELPrct$age )
-var( ~ age, data=HELPrct )
-var( age ~ sex + substance, data=HELPrct )
 
-cor( length ~ width, data=KidsFeet )
-var ( length ~ width, data=KidsFeet )
-cov ( length ~ width, data=KidsFeet )
