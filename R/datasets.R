@@ -1278,7 +1278,7 @@ NA
 #'   \itemize{
 #'     \item{\code{age}} {subject age at baseline (in years)}
 #'     \item{\code{anysub}} {use of any substance post-detox: a factor with levels \code{no} \code{yes}} 
-#'     \item{\code{cesd}} {Center for Epidemiologic Studies Depression measure at baseline}
+#'     \item{\code{cesd}} {Center for Epidemiologic Studies Depression measure at baseline (high scores indicate more depressive symptoms)}
 #'     \item{\code{d1}} {lifetime number of hospitalizations for medical problems (measured at baseline)}
 #'     \item{\code{daysanysub}} {time (in days) to first use of any substance post-detox}
 #'     \item{\code{dayslink}} {time (in days) to linkage to primary care}
@@ -1296,9 +1296,9 @@ NA
 #'     \item{\code{indtot}} {Inventory of Drug Use Consequences (InDUC) total score (measured at baseline)}
 #'     \item{\code{linkstatus}} {post-detox linkage to primary care (0 = no, 1 = yes)}
 #'     \item{\code{link}} {post-detox linkage to primary care: \code{no} \code{yes}} 
-#'     \item{\code{mcs}} {SF-36 Mental Component Score (measured at baseline)}
-#'     \item{\code{pcs}} {SF-36 Physical Component Score (measured at baseline)}
-#'     \item{\code{pss_fr}} {perceived social support by friends (measured at baseline)}
+#'     \item{\code{mcs}} {SF-36 Mental Component Score (measured at baseline, lower scores indicate worse status)}
+#'     \item{\code{pcs}} {SF-36 Physical Component Score (measured at baseline, lower scores indicate worse status)}
+#'     \item{\code{pss_fr}} {perceived social support by friends (measured at baseline, higher scores indicate more support)}
 #'     \item{\code{racegrp}} {race/ethnicity: levels \code{black} \code{hispanic} \code{other} \code{white}}
 #'     \item{\code{satreat}} {any BSAS substance abuse treatment at baseline: \code{no} \code{yes}}
 #'     \item{\code{sexrisk}} {Risk Assessment Battery sex risk score (measured at baseline)}
