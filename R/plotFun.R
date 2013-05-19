@@ -53,7 +53,7 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
-#' plotFun( a*sin(x^2)~x, xlim=range(-5,5), a=2 )  # setting parameter value
+#' plotFun( a*sin(x^2)~x, xlim=range(-5,5), a.groups=2 )  # setting parameter value
 #' plotFun( u^2 ~ u, ulim=c(-4,4) )                # limits in terms of u
 #' # Note roles of ylim and y.lim in this example
 #' plotFun( y^2 ~ y, ylim=c(-2,20), y.lim=c(-4,4) )    
@@ -64,7 +64,7 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' plotFun( sin(x) ~ x, 
 #'    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
 #'    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
-#' plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t,k=2,P=.3)
+#' ## plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t, k.groups=2, P.groups=.3)
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
@@ -76,7 +76,7 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' # Can also just give fit since it is a "function of one variable"
 #' plotFun(fit, add=TRUE, lwd=2, col='white')
 #' # Attempts to find sensible axis limits by default
-#' plotFun( sin(k*x)~x, k=0.01 )
+#' plotFun( sin(k*x)~x, k.groups=0.01 )
 
 plotFun <- function(object, ..., 
 					add=FALSE,
@@ -141,15 +141,20 @@ plotFun <- function(object, ...,
 
 
 	if (add) { 
-	  ladd( panel.plotFun1( fList, npts=npts, # lwd=lwd, #col=col, 
-	                        filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
-	                        col.regions=col.regions, type=type, alpha=alpha, col=col, ...))
-	  return(invisible(NULL))
+		if (ndims==1) {
+			ladd( panel.plotFun1( fList, npts=npts, # lwd=lwd, #col=col, 
+								 filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
+								 col.regions=col.regions, type=type, alpha=alpha, col=col, ...))
+			return(invisible(NULL))
+		}
+		message("2-D adding temporarily discontinued.")
+		return(invisible(NULL))
 	} 
 	
 	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
 
 	if( ndims == 1 ){
+		message("One Dimension.")
 
 		npts <- ifelse( is.null(npts), 200, npts)
 
@@ -216,7 +221,7 @@ plotFun <- function(object, ...,
 								xlim=limits$xlim, 
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
-								panel="panel.xplotFun1",
+								panel="panel.plotFun1",
                 col=col),
 								cleanDots)
 								)
@@ -225,6 +230,7 @@ plotFun <- function(object, ...,
 	}  # end ndims == 1
 
 	if (ndims == 2 ) {
+		message("Two Dimensions.")
 		npts <- ifelse( is.null(npts), 40, npts)
 		if( length(ylab) == 0 ) ylab <- rhsVars[2]
 		if( length(xlab) == 0 ) xlab <- rhsVars[1]
@@ -364,7 +370,7 @@ plotFun <- function(object, ...,
 #' x <- runif(30,0,2*pi) 
 #' d <- data.frame( x = x,  y = sin(x) + rnorm(30,sd=.2) )
 #' xyplot( y ~ x, data=d )
-#' ladd(panel.plotFun( sin, col='red' ) )
+#' ladd(panel.plotFun1( sin, col='red' ) )
 #' xyplot( y ~ x | rbinom(30,1,.5), data=d )
 #' ladd(panel.plotFun1( sin, col='red', lty=2 ) )    # plots sin(x) in each panel
 
