@@ -34,13 +34,14 @@ tryCatch(utils::globalVariables( c('Q','MEAN','slider','manipulate')),
 #' @examples
 #' xpnorm(650, 500, 100)
 #' xqnorm(.75, 500, 100)
+#' \dontrun{
 #' if (require(manipulate)) {
 #'   manipulate( xpnorm(score, 500, 100, verbose=verbose),
 #'     score = slider(200,800),
-#' 	verbose = checkbox(TRUE, label="Verbose Output")
+#' 	   verbose = checkbox(TRUE, label="Verbose Output")
 #'   )
 #' }
-#' 
+#' }
 
 xpnorm <-
 function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, digits = 4, 
