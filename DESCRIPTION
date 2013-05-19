@@ -3,12 +3,11 @@ Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
 Version: 0.7-0
-Date: 2013-01-03
+Date: 2013-04-17
 Depends:
     lattice,
     grid,
     methods,
-    survival,
     Hmisc,
     utils
 Suggests:
@@ -31,10 +30,10 @@ License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
 Collate:
+    'Tukey.R'
     'favstats.R'
     'CIsim.R'
     'adapt_seq.R'
-    'aggregating.R'
     'binom.test.R'
     'confint.R'
     'cross.R'
@@ -72,7 +71,6 @@ Collate:
     'integrateODE.R'
     'is.wholenumber.R'
     'parseFormula.R'
-    'plotFun.R'
     'bargraph.R'
     'as.xtabs.R'
     'plotCumfreq.R'
@@ -92,10 +90,11 @@ Collate:
     'fitModel.R'
     'fitSpline.R'
     'plotPoints.R'
-    'datasetsOLI.R'
     'frequencyPolygon.R'
     'panel.lmbands.R'
     'simplify.R'
     'symbolicInt.R'
-    'Tukey.R'
     'evalFormula.R'
+    'aggregatingMeta.R'
+    'aggregatingAux.R'
+    'plotFun.R'

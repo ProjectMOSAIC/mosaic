@@ -71,6 +71,8 @@ setGeneric(
 
 #' @rdname tally-methods
 #' @aliases tally,ANY-method
+#' @usage
+#' \S4method{tally}{ANY}( x, ...)
 
 setMethod(
 	'tally',
@@ -82,11 +84,15 @@ setMethod(
 )
 
 #' @rdname tally-methods
-### @aliases tally,formula-method
+#' @aliases tally,formula,ANY-method
 #' 
-#' @export
 #' @usage
 #' \S4method{tally}{formula}( x, data=parent.frame(), 
+#'				   format=c('default','count','proportion','percent'), 
+#'				   margins=TRUE,
+#'				   quiet=TRUE,
+#'				   subset, ...) 
+#' \S4method{tally}{formula,ANY}( x, data=parent.frame(), 
 #'				   format=c('default','count','proportion','percent'), 
 #'				   margins=TRUE,
 #'				   quiet=TRUE,

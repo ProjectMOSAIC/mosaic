@@ -20,7 +20,6 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' @param ylab label for y axis
 #' @param zlab label for z axis (when in surface-plot mode)
 #' @param col vector of colors for line graphs and contours
-#' @param idx index number for selecting colors
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
@@ -87,8 +86,7 @@ plotFun <- function(object, ...,
 					levels=NULL, nlevels=10,labels=TRUE,
 					surface=FALSE,
 					groups=NULL,
-          col = trellis.par.get('superpose.line')$col,
-          # idx=1,
+          			col = trellis.par.get('superpose.line')$col,
 					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL ) { 
@@ -342,16 +340,15 @@ plotFun <- function(object, ...,
 #' Panel function for plotting functions
 #'
 #' @seealso plotFun
-#' @param object an object (e.g., a formula) describing a function
+#' @param ..f.. an object (e.g., a formula) describing a function
+#' @param x,y ignored, but there for compatibility with other lattice panel functions
 #' @param col a vector of colors
-#' @param idx an integer indicating which color to use from the color pallet given in \code{col}
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
 #' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
-#' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param \dots additional arguments, typically processed by \code{lattice} panel functions
@@ -375,7 +372,6 @@ panel.plotFun1 <- function( ..f.., ...,
                            x, y,
                            type="l", 
                            col = trellis.par.get('superpose.line')$col,
-                           # idx=1,
                            npts=NULL,
                            zlab=NULL, 
                            filled=TRUE, 
@@ -399,7 +395,7 @@ panel.plotFun1 <- function( ..f.., ...,
   
   # perhaps use environment(object)?
   # ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
-  idx = 0
+  idx <- 0
   
   for ( .f. in ..f..) {  
     idx <- idx + 1

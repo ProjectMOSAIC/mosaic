@@ -51,7 +51,7 @@ setGeneric(
 #' project(width~length+sex, data=KidsFeet)
 #' project(log(width) ~ I(length^2)+sin(length)+sex, data=KidsFeet)
 #' @usage
-#' \S4method{project}{formula,ANY}( x, u=NULL, data=parent.frame(), ...) 
+#' \S4method{project}{formula}( x, u=NULL, data=parent.frame(), ...) 
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -76,10 +76,11 @@ setMethod(
 
 # This is used in fastR and should not go away.
 
+
 #' @rdname project-methods
 #' @aliases project,numeric,ANY-method
 #' @usage
-#' \S4method{project}{numeric,ANY}(x, u = rep(1, length(x)), type = c("vector", "length"), ...) 
+#' \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector", "length"), ...) 
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -93,7 +94,7 @@ setMethod(
 #' @rdname project-methods
 #' @aliases project,matrix,ANY-method
 #' @usage
-#' \S4method{project}{matrix,ANY}(x, u, data=parent.frame())
+#' \S4method{project}{matrix}(x, u, data=parent.frame())
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),

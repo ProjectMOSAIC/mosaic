@@ -149,7 +149,7 @@ setMethod(
 			  }
 
 			  if ( length(x) == 2 ) {
-				  result <-  stats::binom.test(x=x[1], n=sum(x), p=p, alternative=alternative,
+				  result <-  stats::binom.test(x=x[1], n=base::sum(x), p=p, alternative=alternative,
 											   conf.level=conf.level) 
 				  result$data.name <- deparse(substitute(x))
 				  return(result)
@@ -232,7 +232,7 @@ setMethod(
 				  success <- levels(x)[1]
 			  }
 			  x <- x [!is.na(x)]
-			  count <- sum(x==success)
+			  count <- base::sum(x==success)
 			  n <- length(x)
 			  result <- stats::binom.test( x=count, n=n , p = p,
 										  alternative = alternative,

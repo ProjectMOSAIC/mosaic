@@ -31,35 +31,40 @@
 #' base::mean(KidsFeet$length)
 #' foo( length ~ sex, data=KidsFeet )
 aggregatingFunction1 <- function( fun ) {
-  result <- function( x, ..., data=parent.frame()) {
-    orig.call <- match.call() 
-    mosaic.call <- orig.call 
+  result <- function( x, ..., data) {
+    orig.call <- match.call()
+    fun.call <- orig.call 
+    fun.call[[1]] <- substitute(..fun..)
+    fun.call[[2]] <- substitute(x)
     
-    if (! .is.formula(x) && "data" %in% names(list(...)) )  { 
-      return( with(data, ..fun..(x, ...) ) )
-      message( "Using mosaic mini powers!" )
-      mosaic.call[[1]] <- substitute(..fun..)
-      mosaic.call[[2]] <- substitute(x)
-      mosaic.call[['data']] <- NULL
-      return ( eval( mosaic.call , envir=list(...)[["data"]], enclos=parent.frame()) )
+    missingData <- FALSE  
+    if ( missing(data) ) {
+      missingData <- TRUE
+
+      print(fun.call)
+      tryCatch( return( eval(fun.call, envir=parent.frame()) ), 
+                error=function(e) {} ) # message(paste(e,"Old dog needs new tricks!"))} )
     }
-    
     if (! .is.formula(x) ) {
-      mosaic.call[[1]] <- substitute(..fun..)
-      mosaic.call[[2]] <- substitute(x)
-      print(mosaic.call)
-      tryCatch( return( eval(mosaic.call), envir=parent.frame(2)), 
-                error=function(e) {message("Old dog needs new tricks!")} )
+      if (missingData) {
+        data <- parent.frame()  
+      } else {
+        fun.call[['data']] <- NULL
+      }
+      # print(fun.call)
+      tryCatch( return( eval(fun.call, envir=data, enclos=parent.frame())  ) ,
+                error = function(e) { stop(paste(e, "Did you perhaps omit data= ?")) } )
     }
+
     # message( "Using mosaic super powers!" )
-    mosaic.call[[1]] <- quote(maggregate)
-    mosaic.call$formula <- x
-    mosaic.call$data <- eval(list(...)$data, envir=parent.frame()) 
-    # mosaic.call$data <- quote(list(...)$data)  # not sure this is best way yet.
-    mosaic.call$x <- NULL
-    mosaic.call$FUN <- ..fun..
-    # print(mosaic.call)
-    return( eval(mosaic.call) )
+    maggregate.call <- orig.call
+    maggregate.call[[1]] <- quote(maggregate)
+    maggregate.call$formula <- x
+    maggregate.call$data <- substitute(data) 
+    maggregate.call$x <- NULL
+    maggregate.call$FUN <- substitute(..fun..)
+    # print(maggregate.call)
+    return( eval(maggregate.call) )
   }
   formals(result) <- c(formals(result), ..fun.. = substitute(fun))
   return(result)
@@ -125,6 +130,8 @@ aggregatingFunction2 <- function( fun ) {
 #' @aliases sum min max mean median sd var cov cor favstats
 #' @param x an object, often a formula
 #' @param y an object, often a numeric vector 
+#' @param ..fun.. the underlyin function used in the computation
+#' @data a data frame in which to evaluate formulas (or bare names)
 #' @param \dots additional arguments
 #' @export
 mean <- aggregatingFunction1( base::mean )
