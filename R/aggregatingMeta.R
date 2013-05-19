@@ -41,7 +41,6 @@ aggregatingFunction1 <- function( fun ) {
     if ( missing(data) ) {
       missingData <- TRUE
 
-      print(fun.call)
       tryCatch( return( eval(fun.call, envir=parent.frame()) ), 
                 error=function(e) {} ) # message(paste(e,"Old dog needs new tricks!"))} )
     }
@@ -51,7 +50,6 @@ aggregatingFunction1 <- function( fun ) {
       } else {
         fun.call[['data']] <- NULL
       }
-      # print(fun.call)
       tryCatch( return( eval(fun.call, envir=data, enclos=parent.frame())  ) ,
                 error = function(e) { stop(paste(e, "Did you perhaps omit data= ?")) } )
     }
@@ -63,7 +61,6 @@ aggregatingFunction1 <- function( fun ) {
     maggregate.call$data <- substitute(data) 
     maggregate.call$x <- NULL
     maggregate.call$FUN <- substitute(..fun..)
-    # print(maggregate.call)
     return( eval(maggregate.call) )
   }
   formals(result) <- c(formals(result), ..fun.. = substitute(fun))
@@ -104,7 +101,7 @@ aggregatingFunction2 <- function( fun ) {
       tryCatch( return( eval(base.call)), error=function(e) {}) #  , warning= function(w) {} )
     }
     
-    message( "Using mosaic super powers!" )
+    # message( "Using mosaic super powers!" )
     mosaic.call[[1]] <- fun
     formula <- eval(orig.call$x,parent.frame())
     if (is.null( mosaic.call[['data']] ) ) mosaic.call[['data']] <- quote(parent.frame())
@@ -131,7 +128,7 @@ aggregatingFunction2 <- function( fun ) {
 #' @param x an object, often a formula
 #' @param y an object, often a numeric vector 
 #' @param ..fun.. the underlyin function used in the computation
-#' @data a data frame in which to evaluate formulas (or bare names)
+#' @param data a data frame in which to evaluate formulas (or bare names)
 #' @param \dots additional arguments
 #' @export
 mean <- aggregatingFunction1( base::mean )
