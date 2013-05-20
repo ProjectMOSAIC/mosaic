@@ -40,13 +40,18 @@ aggregatingFunction1 <- function( fun ) {
     missingData <- FALSE  
     if ( missing(data) ) {
       missingData <- TRUE
+      data <- parent.frame()  # redundant?
 
-      tryCatch( return( eval(fun.call, envir=parent.frame()) ), 
-                error=function(e) {} ) # message(paste(e,"Old dog needs new tricks!"))} )
+      result <- tryCatch( eval(fun.call, envir=parent.frame()) , 
+                error=function(e) {e} ,
+                warning=function(w) {w} ) # message(paste(e,"Old dog needs new tricks!"))} )
+      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) 
+        return(result) 
     }
+    
     if (! .is.formula(x) ) {
       if (missingData) {
-        data <- parent.frame()  
+        data <- parent.frame()   # redundant?
       } else {
         fun.call[['data']] <- NULL
       }
