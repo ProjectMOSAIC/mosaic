@@ -18,7 +18,7 @@ symbolicInt<- function(form, ...){
   dots = list(...)
   #First check if it's a polynomial.  If it is, simplify it.
   params <- setdiff(all.vars(form), all.vars(rhs(form)))
-  if(length(params)==0)
+  if(length(params)==0) 
     params <- ""
 #   res <- try(.polyExp(lhs(form), all.vars(rhs(form)), params), silent=TRUE)
 #   if(!inherits(res, "try-error")){
