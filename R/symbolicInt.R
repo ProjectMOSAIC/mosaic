@@ -20,10 +20,10 @@ symbolicInt<- function(form, ...){
   params <- setdiff(all.vars(form), all.vars(rhs(form)))
   if(length(params)==0)
     params <- ""
-  res <- try(.polyExp(lhs(form), all.vars(rhs(form)), params), silent=TRUE)
-  if(!inherits(res, "try-error")){
-    form <- .makePoly(form, res)
-  }
+#   res <- try(.polyExp(lhs(form), all.vars(rhs(form)), params), silent=TRUE)
+#   if(!inherits(res, "try-error")){
+#     form <- .makePoly(form, res)
+#   }
   antiDeriv <- symbolicAntiD(form, ...)
   
   #determine which letter the constant will be

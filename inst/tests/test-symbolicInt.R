@@ -58,7 +58,7 @@ test_that('Everything works',{
     expect_that(do.call(ff, vars), equals(do.call(gg, vars), tol=0.00001))
   }
   
-  checkFun((r^2 - x^2)~x, r^2*x - x^3/3 ~x) # Issue 180
+  checkFun(r^2 - x^2)~x, r^2*x - x^3/3 ~x) # Issue 180
   checkFun(x^12+x^9-x^6+x^3-1~x, 1/13*x^13+1/10*x^10-1/7*x^7+1/4*x^4-x~x)
   checkFun((2+3)*x^5+(2+9)*x^2+(8*6+2)*x~x, (2+3)*1/(6)*x^6+(2+9)*1/(3)*x^3+(8*6+2)*1/(2)*x^2~x)
   checkFun((a+3)*y^7-a*4*y+a~y, (a+3)*1/(8)*y^8-a*4*1/(2)*y^2+a*y~y)
