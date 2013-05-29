@@ -21,6 +21,15 @@
 #'mosaic:::.polyExp(lhs((3+a*x)^2+a^2*(x+2)~x), "x", "a")
 #'mosaic:::.polyExp(lhs((a+b*x)^3~x), "x", c("a", "b"))
 .polyExp <- function(tree, .x., params, iterate=1){
+  # Reduce purely numerical coefficients to a number
+  # Aaron Mayerson May 29, 2013
+  .eval_coeffs <- function(coeffs){
+    for (i in 1:length(coeffs)){
+      val <- try(eval(coeffs[[i]]),silent=TRUE)
+      if( class(val)=="numeric") coeffs[[i]] <- val
+    }
+    return(coeffs)
+  }
   
   #A function the calls .polyExp() on each of the resultant coefficients in turn to further simplify them with
   #respect to the additional parameters.
@@ -168,6 +177,9 @@
           coeffs[[i]] <- parse(text = paste("-", deparse(coeffs[[i]]), sep=""))[[1]]
       }
       
+      # reduce expressions that result in numerical coefficients to numbers, added
+      coeffs <- .eval_coeffs(coeffs)
+      
       if(iterate==1){
         coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
       }
@@ -188,13 +200,15 @@
             coeffs[[i]] <- parse(text = paste("-", deparse(coeffs[[i]], width.cutoff=500), sep = ""))[[1]]
           else{
             if(coeffs[[i]] == 0)
-              coeffs[[i]] <- coeffs[[i]]
+              coeffs[[i]] <- lcoeffs[[i]]
             else
               coeffs[[i]] <- parse(text = paste(deparse(lcoeffs[[i]], width.cutoff=500), 
                                                 "-", deparse(coeffs[[i]], width.cutoff=500), sep = ""))[[1]]
           }
           
         }
+        # reduce expressions that result in numerical coefficients to numbers
+        coeffs <- .eval_coeffs(coeffs)
         
         if(iterate==1){
           coeffs <- suppressWarnings(.reduce_coeffs(coeffs, params))
