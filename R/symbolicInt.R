@@ -29,6 +29,7 @@ symbolicInt<- function(form, ...){
   #determine which letter the constant will be
   intc = LETTERS[!LETTERS[-(1:2)]%in%all.vars(form)][-(1:2)][1]
   
+  antiDeriv <- .makeNice(antiDeriv)
   #add the constant into the expression
   antiDeriv[[2]] <- parse(text = paste(deparse(lhs(antiDeriv), width.cutoff=500), "+", intc, sep=""))[[1]]
   
@@ -683,4 +684,50 @@ symbolicAntiD <- function(form, ...){
     }
   }
   return(list())
+}
+
+#' Simplifying expressions, e.g. pure numbers go to numbers
+#' Written by Aaron Mayerson, May 2013
+.makeNice <- function(form,params=all.vars(form)){
+  # See if the MASS package fraction simplifier is installed, if not 
+  # leave fractions in decimal form
+  if (!require(MASS,quietly=TRUE)) fractions <- I
+  # Functions where the contents are preserved, e.g. sqrt(2)
+  forbidden = c("exp","sin","cos","tan","acos", "asin", 
+                "atan","log","sqrt","log10","tanh","atanh",
+                "cosh","acosh","sinh","asinh")
+  # Can we get a number from it?
+  val <- try(eval(form),silent=TRUE)
+  if(is.numeric(val)){
+    vars <- all.vars(form)
+    if(length(vars) > 0){
+      if(prod(vars %in% params) == 0){
+        names <- all.names(form)
+        if(sum(names %in% forbidden) == 0){
+          if(!(charToRaw("\136") %in% charToRaw(toString(form)))){
+            val <- parse(text=paste("",fractions(val),""))[[1]]
+            return(val)
+          }
+        }
+      }
+    }
+    else{
+      names <- all.names(form)
+      if(sum(names %in% forbidden) == 0){
+        if(!(charToRaw("\136") %in% charToRaw(toString(form)))){
+          val <- parse(text=paste("",fractions(val),""))[[1]]
+          return(val)
+        }
+      }
+    }
+  }
+  if(length(form) == 1){
+    return(form)
+  }
+  else{
+    for(i in 1:length(form)){
+      form[[i]] <- .makeNice(form[[i]],params)
+    }
+    return(form)
+  }
 }
