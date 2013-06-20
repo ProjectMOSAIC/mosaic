@@ -85,6 +85,7 @@ setMethod(
 
 #' @rdname tally-methods
 #' @aliases tally,formula,ANY-method
+#' @aliases tally,formula-method
 #' 
 #' @usage
 #' \S4method{tally}{formula}( x, data=parent.frame(), 
