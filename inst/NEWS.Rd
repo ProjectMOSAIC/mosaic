@@ -4,6 +4,7 @@
 	\itemize{
 		\item Plan to deprecate Carnegie Melon University Online Learning Initiative Statistics Modules datasets in next release.
 		\item changes in format to \code{RailTrail} dataset.
+		\item minor changes in documentation.
 	}
 }
 \section{Changes in version 0.6}{

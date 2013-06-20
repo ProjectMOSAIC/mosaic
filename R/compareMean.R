@@ -1,6 +1,6 @@
 #' Compare means between 2 groups
 #' 
-#' A function to facilitate 2 group permutation tests for a continuous outcome variable
+#' A function to calculate the difference between the means two of groups for a continuous outcome variable
 #' 
 #' @rdname compareMean
 #' @param formula a formula 
