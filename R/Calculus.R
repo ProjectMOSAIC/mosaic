@@ -86,7 +86,7 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 # ============================
 #' @rdname Calculus
 #'
-#' @param lower.bound for numerical integraion, the lower bound used
+#' @param lower.bound for numerical integration only, the lower bound used
 #' 
 #' @param force.numeric If \code{TRUE}, a numerical integral is performed even when a 
 #' symbolic integral is available.
