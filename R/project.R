@@ -36,6 +36,7 @@ setGeneric(
 ##################
 #' @rdname project-methods
 #' @aliases project,formula,ANY-method
+#' @aliases project,formula-method
 #' @export
 #' @return \code{project} returns the projection of \code{x} onto \code{u} 
 #' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
@@ -79,6 +80,7 @@ setMethod(
 
 #' @rdname project-methods
 #' @aliases project,numeric,ANY-method
+#' @aliases project,numeric-method
 #' @usage
 #' \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector", "length"), ...) 
 setMethod(
@@ -93,6 +95,7 @@ setMethod(
 
 #' @rdname project-methods
 #' @aliases project,matrix,ANY-method
+#' @aliases project,matrix-method
 #' @usage
 #' \S4method{project}{matrix}(x, u, data=parent.frame())
 setMethod(
