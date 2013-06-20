@@ -1,3 +1,5 @@
+tryCatch(utils::globalVariables(c('model','result')), 
+		 error=function(e) message('Looks like you should update R.'))
 #' Create a function from a formula
 #' 
 #' Provides an easy mechanism for creating simple "mathematical" 
