@@ -688,6 +688,7 @@ symbolicAntiD <- function(form, ...){
 
 #' Simplifying expressions, e.g. pure numbers go to numbers
 #' Written by Aaron Mayerson, May 2013
+#' @rdname mosaic-internal
 .makeNice <- function(form,params=all.vars(form)){
   # See if the MASS package fraction simplifier is installed, if not 
   # leave fractions in decimal form
