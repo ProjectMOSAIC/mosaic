@@ -9,7 +9,8 @@ Depends:
     grid,
     methods,
     Hmisc,
-    utils
+    utils,
+    stats
 Suggests:
     MASS,
     reshape2,
