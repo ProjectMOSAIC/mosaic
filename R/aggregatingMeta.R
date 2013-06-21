@@ -151,6 +151,12 @@ min <- aggregatingFunction1( base::min)
 sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
+IQR <- aggregatingFunction1( stats::IQR )
+#' @rdname aggregating
+#' @export
+iqr <- aggregatingFunction1( stats::IQR )
+#' @rdname aggregating
+#' @export
 favstats <- aggregatingFunction1(fav_stats)
 #' @rdname aggregating
 #' @export
@@ -174,6 +180,9 @@ cor <- aggregatingFunction2( stats::cor )
 #' var( HELPrct$age )
 #' var( ~ age, data=HELPrct )
 #' var( age ~ sex + substance, data=HELPrct )
+#' IQR( width ~ sex, data=KidsFeet )
+#' iqr( width ~ sex, data=KidsFeet )
+#' favstats( width ~ sex, data=KidsFeet )
 #' 
 #' cor( length ~ width, data=KidsFeet )
 #' cov ( length ~ width, data=KidsFeet )
