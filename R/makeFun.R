@@ -36,8 +36,11 @@ setGeneric(
 #' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
+#' @param transform a function used to transform the response.
+#' This can be useful to invert a transformation used on the response
+#' when creating the model.
 #' @usage
-#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE ) 
+#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE) 
 setMethod(
   'makeFun',
   'formula',
@@ -92,11 +95,11 @@ setMethod(
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 #' @usage
-#' \S4method{makeFun}{lm} ( object, ...)
+#' \S4method{makeFun}{lm} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'lm',
-   function( object, ... ) {
+   function( object, ... , transform=identity) {
     dnames <- names(eval(object$call$data, parent.frame(1)))
 	  vars <- model.vars(object)
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
@@ -110,14 +113,14 @@ setMethod(
 			  } else {
 				  x <- 1
 			  }
-			  do.call(predict, c(list(model, newdata=data.frame(x=x)), dots))
+			  transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
 		  }
 	  } else {
 		  body(result) <- 
 			  parse( text=paste(
-								"return(predict(model, newdata=data.frame(",
+								"return(transform(predict(model, newdata=data.frame(",
 								paste(vars, "= ", vars, collapse=",", sep=""), 
-								"), ...))"
+								"), ...)))"
 								)
 		  )
 		  formals(result) <- 
@@ -131,7 +134,7 @@ setMethod(
 	  # myenv <- parent.frame()
 	  # myenv$model <- object
 	  # environment(result) <- myenv
-	  environment(result) <- list2env( list(model=object) )
+	  environment(result) <- list2env( list(model=object, transform=transform) )
 	  attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
@@ -148,11 +151,11 @@ setMethod(
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 #' @usage
-#' \S4method{makeFun}{glm} ( object, ..., type=c('response','link') )
+#' \S4method{makeFun}{glm} ( object, ..., type=c('response','link'), transform=identity )
 setMethod(
   'makeFun',
   'glm',
-   function( object, ..., type=c('response','link') ) {
+   function( object, ..., type=c('response','link'), transform=identity ) {
 	  type <- match.arg(type)
 	  vars <- model.vars(object)
 	  result <- function(){}
@@ -165,22 +168,22 @@ setMethod(
 			  } else {
 				  x <- 1
 			  }
-			  do.call(predict, c(list(model, newdata=data.frame(x=x)), dots))
+			  transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
 		  }
 	  } else {
 		  if (type == "link") {
 		    body(result) <- 
 			  parse( text=paste(
-								"return(predict(model, newdata=data.frame(",
+								"return(transform(predict(model, newdata=data.frame(",
 								paste(vars, "= ", vars, collapse=",", sep=""), 
-								"), ..., type='link'))"
+								"), ..., type='link')))"
 								) )
 		  } else {
 		    body(result) <- 
 			  parse( text=paste(
-								"return(predict(model, newdata=data.frame(",
+								"return(transform(predict(model, newdata=data.frame(",
 								paste(vars, "= ", vars, collapse=",", sep=""), 
-								"), ..., type='response'))"
+								"), ..., type='response')))"
 								) )
 		  }
 		  formals(result) <- 
@@ -194,7 +197,7 @@ setMethod(
 	  # myenv <- parent.frame()
 	  # myenv$model <- object
 	  # environment(result) <- myenv
-	  environment(result) <- list2env( list(model=object) )
+	  environment(result) <- list2env( list(model=object, transform=transform) )
 	  attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
@@ -209,11 +212,11 @@ setMethod(
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
 #' @usage
-#' \S4method{makeFun}{nls} ( object, ...)
+#' \S4method{makeFun}{nls} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'nls',
-   function( object, ... ) {
+   function( object, ... , transform=identity) {
     formula <- object$m$formula()
 	  justTheArguments <- setdiff(all.vars(rhs(formula)), names(coef(object)))
 	  result <- function(){}
@@ -222,9 +225,10 @@ setMethod(
 	    args <- eval(parse(text = args))
 	    args <- c(args,params)
 	    args['pi'] <- NULL
+      args <- c(args, list( transform=substitute(transform) ) )
 	    formals(result) <- args
-	    body(result) <- rhs(formula)  
-	    environment(result) <- list2env( list(model=object) )
+	    body(result) <- parse(text=paste('transform(', deparse(rhs(formula)), ")"))
+	    environment(result) <- list2env( list(model=object, transform=transform) )
 	    attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
