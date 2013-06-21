@@ -54,7 +54,10 @@ print.cointoss <- function(x, ...) {
 	heads <- as.numeric(x)
 	other <- attributes(x)
 	if (other$verbose) {
-		cat(paste('\nFlipping ', other$n, ' coins [ Prob(Heads) = ', other$prob, ' ] ...\n', sep=""))
+		cat(paste('\nFlipping ', 
+              other$n, 
+              ' coin', ifelse( other$n > 1, "s", ""), 
+              ' [ Prob(Heads) = ', other$prob, ' ] ...\n', sep=""))
 	}
 
 	if (attributes(x)$verbose) {
