@@ -1,6 +1,9 @@
 #' Some favorite statistical summaries
 #' 
-#' Computes mean, standard deviation, quartiles, sample size and number of missing values for a numeric vector.
+#' Likely you mean to be using \code{\link{favstats}}.  Each of these computes the 
+#' mean, standard deviation, quartiles, sample size and number of missing values for a numeric vector,
+#' but \code{\link{favstats}} can take a formula describing how these summary statistics 
+#' should be aggregated across various subsets of the data.
 #' @param x  numeric vector 
 #' @param na.rm  boolean indicating whether missing data should be ignored 
 #' @param ... additional arguments (currently ignored)
@@ -11,6 +14,7 @@
 #' @examples
 #' fav_stats(1:10)
 #' fav_stats(faithful$eruptions)
+#' favstats(length ~ sex, data=KidsFeet)  # Note: this is favstats() rather than fav_stats()
 #' 
 
 fav_stats <- function (x, ..., na.rm = TRUE) 
