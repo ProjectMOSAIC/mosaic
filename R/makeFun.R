@@ -96,7 +96,7 @@ setMethod(
       warning(paste("Some default values taken from current environment: ", 
                     paste(varsFromEnv, collapse=", ") ))
 	  if (length(varsDangerous) > 0)  
-	    warning(paste("Some variables will be defined by a future environment (dangerous!): ", 
+	    warning(paste("Implicit variables without default values (dangerous!): ", 
 	                  paste(varsDangerous, collapse=", ") ))
 
 	  result <- function(){}
