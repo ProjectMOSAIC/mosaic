@@ -39,6 +39,12 @@ setGeneric(
 #' @param transform a function used to transform the response.
 #' This can be useful to invert a transformation used on the response
 #' when creating the model.
+#' @examples
+#' model <- makeFun( log(length) ~ log(width), data=KidsFeet)
+#' f <- makeFun(model, transform=exp)
+#' f(8.4)
+#' head(KidsFeet,1)
+#' 
 #' @usage
 #' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE) 
 setMethod(
@@ -123,12 +129,11 @@ setMethod(
 								"), ...)))"
 								)
 		  )
-		  formals(result) <- 
-			  eval(parse( 
-						 text=paste( "as.pairlist(alist(", 
-									paste(vars, "= ",  collapse=",", sep=""), ", ...=))"
-		  )
-		  ))
+		  args <- paste("alist(", paste(vars, "=", collapse=",", sep=""),")")
+		  args <- eval(parse(text=args))
+		  args['pi'] <- NULL
+		  args <- c(args, alist('...'=), list(transform=substitute(transform)))
+		  formals(result) <- args
 	  }
 
 	  # myenv <- parent.frame()
@@ -186,12 +191,12 @@ setMethod(
 								"), ..., type='response')))"
 								) )
 		  }
-		  formals(result) <- 
-			  eval(parse( 
-						 text=paste( "as.pairlist(alist(", 
-									paste(vars, "= ",  collapse=",", sep=""), ", ...=))"
-		  )
-		  ))
+		  args <- paste("alist(", paste(vars, "=", collapse=",", sep=""),")")
+		  args <- eval(parse(text=args))
+		  args['pi'] <- NULL
+		  args <- c(args, alist('...'=), list(transform=substitute(transform)))		  
+		  formals(result) <- args
+		  
 	  }
 
 	  # myenv <- parent.frame()
@@ -216,23 +221,46 @@ setMethod(
 setMethod(
   'makeFun',
   'nls',
-   function( object, ... , transform=identity) {
-    formula <- object$m$formula()
-	  justTheArguments <- setdiff(all.vars(rhs(formula)), names(coef(object)))
-	  result <- function(){}
-	    params = as.list(coef(object))   
-	    args <- paste("alist( ", paste(justTheArguments, "=", collapse = ",", sep = ""),")")
-	    args <- eval(parse(text = args))
-	    args <- c(args,params)
-	    args['pi'] <- NULL
-      args <- c(args, list( transform=substitute(transform) ) )
-	    formals(result) <- args
-	    body(result) <- parse(text=paste('transform(', deparse(rhs(formula)), ")"))
-	    environment(result) <- list2env( list(model=object, transform=transform) )
-	    attr(result,"coefficients") <- coef(object)
-	  return(result)
+  function( object, ... , transform=identity) {
+    dnames <- names(eval(object$call$data, parent.frame(1)))
+    cvars <- names(coef(object))
+    vars <- setdiff(model.vars(object) , cvars) 
+    if (! is.null(dnames) ) vars <- intersect(vars, dnames)
+    result <- function(){}
+    if ( length( vars ) <  1 ) {
+      result <- function( ... ) {
+        dots <- list(...)
+        if (length(dots) > 0) {
+          x <- dots[[1]] 
+          dots[[1]] <- NULL
+        } else {
+          x <- 1
+        }
+        transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
+      }
+    } else {
+      body(result) <- 
+        parse( text=paste(
+          "return(transform(predict(model, newdata=data.frame(",
+          paste(vars, "= ", vars, collapse=",", sep=""), 
+          "), ...)))"
+        )
+        )
+      # params <- as.list(coef(object))  
+      args <- paste("alist(", paste(vars, "=", collapse=",", sep=""),")")
+      args <- eval(parse(text=args))
+      # args <- c(args,params)
+      args['pi'] <- NULL
+      args <- c(args, alist('...'=), list(transform=substitute(transform)))		  
+      formals(result) <- args
+    }
+
+    environment(result) <- list2env( list(model=object, transform=transform) )
+    attr(result,"coefficients") <- coef(object)
+    return(result)
   }
-  )
+)
+
 
 #' extract predictor variables from a model
 #' 
