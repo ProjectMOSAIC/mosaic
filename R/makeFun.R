@@ -74,13 +74,12 @@ setMethod(
 		  	stop(paste( "Default values provided for variables not in formula:",
 					   paste(unDeclaredVars, collapse=",")
 					 ))
-		  vars <- declaredVars
 	  }
     vars <- c(varsWithoutDefaults, varsWithDefaults)
 	  valVec <- rep("", length(vars))
 	  names(valVec) <- vars
 	  for( n in intersect(vars, names(vals)) ) valVec[n] <- as.character(vals[n]) 
-    for( n in varsWithoutDefaults ) {
+    for( n in setdiff(varsWithoutDefaults, rhsVars) ) {
       v <- tryCatch(get(n, parent.frame()), error=function(e) "")
       if (is.numeric(v)) {
         valVec[n] <- as.character(v)
@@ -90,7 +89,7 @@ setMethod(
     }
     varsDangerous <- intersect(lhsOnlyVars, varsWithoutDefaults)
     varsWithoutDefaults <- setdiff(varsWithoutDefaults, varsDangerous)
-    finalVars <- c(varsWithoutDefaults, varsWithDefaults, varsFromEnv)
+    finalVars <- c(varsWithoutDefaults, varsWithDefaults, varsFromEnv, varsDangerous)
     # finalVars <- c(finalVars, setdiff(vars,finalVars))
     w <- which (valVec=="")
     if (length(varsFromEnv) > 0)  

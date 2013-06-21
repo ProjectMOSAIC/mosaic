@@ -12,10 +12,10 @@ test_that("values are assigned correctly", {
 
 test_that("default arguments work", {
   f <- makeFun( sin(a*x + b*y) ~ x & y, a=1, b=2)
-  expect_equivalent( sin(1*3 + 2*4), f(3, 4) )
+  expect_equivalent( sin(1*3 + 2*4), f(x=3, y=4) )
   expect_equivalent( sin(1*3 + 2*4), f(y=4, x=3) )
-  expect_equivalent( sin(1*3 + 5*4), f(3, 4, b=5) )
-  expect_equivalent( sin(7*3 + 5*4), f(3, 4, b=5, a=7) )
+  expect_equivalent( sin(1*3 + 5*4), f(x=3, y=4, b=5) )
+  expect_equivalent( sin(7*3 + 5*4), f(x=3, y=4, b=5, a=7) )
 })
 
 
@@ -48,7 +48,7 @@ test_that('Argument list is correct',{
   f <- makeFun( a * sin(x) ~ x & a & y )
   expect_equivalent( names(formals(f)), c('x','a','y') )
   f <- makeFun( a * sin(x) ~ x & a & y, y=2, a=3 )
-  expect_equivalent( names(formals(f)), c('x','a','y') )
+  expect_equivalent( names(formals(f)), c('x','y','a') )
 })
 
 test_that('Can make functions from lm models', {
