@@ -40,7 +40,7 @@ setGeneric(
 #' This can be useful to invert a transformation used on the response
 #' when creating the model.
 #' @examples
-#' model <- makeFun( log(length) ~ log(width), data=KidsFeet)
+#' model <- lm( log(length) ~ log(width), data=KidsFeet)
 #' f <- makeFun(model, transform=exp)
 #' f(8.4)
 #' head(KidsFeet,1)
@@ -224,7 +224,8 @@ setMethod(
   function( object, ... , transform=identity) {
     dnames <- names(eval(object$call$data, parent.frame(1)))
     cvars <- names(coef(object))
-    vars <- setdiff(model.vars(object) , cvars) 
+    vars <- all.vars(rhs(eval(object$m$formula())))
+    vars <- setdiff(vars, cvars) 
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
     result <- function(){}
     if ( length( vars ) <  1 ) {
