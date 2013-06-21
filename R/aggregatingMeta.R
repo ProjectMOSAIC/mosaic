@@ -157,6 +157,12 @@ IQR <- aggregatingFunction1( stats::IQR )
 iqr <- aggregatingFunction1( stats::IQR )
 #' @rdname aggregating
 #' @export
+prod <- aggregatingFunction1( base::prod )
+#' @rdname aggregating
+#' @export
+sum <- aggregatingFunction1( base::sum)
+#' @rdname aggregating
+#' @export
 favstats <- aggregatingFunction1(fav_stats)
 #' @rdname aggregating
 #' @export
