@@ -65,29 +65,50 @@ setMethod(
 	  lhsOnlyVars <- setdiff(lhsOnlyVars,'pi')    # don't treat pi like a variable
 	  vars <- c(rhsVars, lhsOnlyVars)
 	  unDeclaredVars <- setdiff(names(vals), vars) 
+    varsWithDefaults <- names(vals)
+    varsWithoutDefaults <- setdiff(vars,varsWithDefaults)
+    varsFromEnv <- character(0)
 	  declaredVars <- setdiff(vars, unDeclaredVars)
 	  if (length( unDeclaredVars ) != 0) {
 		  if (strict.declaration) 
-		  	stop(paste( "Default values provided for undeclared variables:",
+		  	stop(paste( "Default values provided for variables not in formula:",
 					   paste(unDeclaredVars, collapse=",")
 					 ))
 		  vars <- declaredVars
 	  }
-
+    vars <- c(varsWithoutDefaults, varsWithDefaults)
 	  valVec <- rep("", length(vars))
 	  names(valVec) <- vars
 	  for( n in intersect(vars, names(vals)) ) valVec[n] <- as.character(vals[n]) 
+    for( n in varsWithoutDefaults ) {
+      v <- tryCatch(get(n, parent.frame()), error=function(e) "")
+      if (is.numeric(v)) {
+        valVec[n] <- as.character(v)
+        varsFromEnv <- c(varsFromEnv,n)
+        varsWithoutDefaults <- setdiff(varsWithoutDefaults, n)
+      }
+    }
+    varsDangerous <- intersect(lhsOnlyVars, varsWithoutDefaults)
+    varsWithoutDefaults <- setdiff(varsWithoutDefaults, varsDangerous)
+    finalVars <- c(varsWithoutDefaults, varsWithDefaults, varsFromEnv)
+    # finalVars <- c(finalVars, setdiff(vars,finalVars))
+    w <- which (valVec=="")
+    if (length(varsFromEnv) > 0)  
+      warning(paste("Some default values taken from current environment: ", 
+                    paste(varsFromEnv, collapse=", ") ))
+	  if (length(varsDangerous) > 0)  
+	    warning(paste("Some variables will be defined by a future environment (dangerous!): ", 
+	                  paste(varsDangerous, collapse=", ") ))
 
 	  result <- function(){}
 	  body(result) <- parse( text=deparse(lhs) ) 
 	  formals(result) <- 
 		 eval(parse( 
 			text=paste( "as.pairlist(alist(", 
-					paste(vars, "=", valVec, collapse=",", sep=""), "))"
+					paste(finalVars, "=", valVec[finalVars], collapse=",", sep=""), "))"
 	  			)
 	  ))
 	  environment(result) <- environment(object) # parent.frame()
-
 	  return(result)  
   }
 )
