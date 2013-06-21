@@ -176,7 +176,10 @@ rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 #' @param \dots additional arguments passed to \code{browseURL}
 #' @return a string containing a URL.  Optionally, as a side-effect, the URL is visited in a browser
 #' @examples
-#' \dontrun{googleMap(40.7566, -73.9863, radius=1)   # Times Square}
+#' \dontrun{
+#' googleMap(40.7566, -73.9863, radius=1)   # Times Square
+#' googleMap(position=rgeo(2), radius=1)    # 2 random locations
+#' }
 #' @export
 #' @seealso \code{\link{deg2rad}}, \code{\link{latlon2xyz}} and \code{\link{rgeo}}.
 
