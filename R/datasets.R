@@ -115,7 +115,7 @@ NA
 #' subset(Countries, maps=="Yugoslavia")  # Where has Yugoslavia gone?
 #' subset(Countries, is.na(gapminder))    # Things from maps with no GapMinder equivalent
 #' subset(Countries, is.na(maps))         # Things from GapMinder with no maps equivalent
-#' if ( require(ggplot2) ) { 
+#' if ( require(ggplot2) & require(maps)) { 
 #'   World <- map_data("world")
 #'   World2 <- merge(World, Countries, by.x="region", by.y="maps", all.y=FALSE)
 #' }
