@@ -94,7 +94,13 @@ NA
 #' #' @aliases Countries
 #' #' @docType data
 #' 
-#' @usage Countries
+#' @usage data(Countries)
+#' @format 
+#'   A data frame with 258 observations on the following 2 variables.
+#'   \itemize{
+#'     \item{\code{gapminder}} {country name in GapMinder data sets}
+#'     \item{\code{maps}} {region name in \code{maps} data sets}
+#'   }
 #' 
 #' @details
 #' The "countries" in the \code{maps} data include several other geographic regions (bodies
