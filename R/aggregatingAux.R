@@ -107,8 +107,10 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   #if ( ! is.null(evalF$condition) ) stop('Conditioning not allowed in this type of formula.')
   
   if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  {
+    if (ncol(evalF$left) > 1) message("Too many variables; ignoring all but first.")
     return( do.call(FUN, c(list(evalF$left[,1]), ...) ) )
   } else {
+    if (ncol(evalF$left) > 1) message("Too many variables; ignoring all but first.")
     res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
                    function(x) { do.call(FUN, c(list(x), ...) ) }
     )
@@ -116,6 +118,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   if (! multiple ) res <- unlist(res)
   
   if (! is.null(evalF$condition) ) {
+    if (ncol(evalF$left) > 1) message("Too many variables; ignoring all but first.")
     res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
                     function(x) { do.call(FUN, c(list(x), ...) ) }
     )
