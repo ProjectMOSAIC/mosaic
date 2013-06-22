@@ -85,6 +85,39 @@ NA
 
 NA 
 
+#' Countries
+#' 
+#' A data frame containing country names as used by GapMinder and the \code{maps}
+#' package to facilitate converstion between the two.
+#' 
+#' @name Countries
+#' #' @aliases Countries
+#' #' @docType data
+#' 
+#' @usage Countries
+#' 
+#' @details
+#' The "countries" in the \code{maps} data include several other geographic regions (bodies
+#' of water, islands belonging to other countries, Hawaii, etc.) that are not countries.
+#' Furthermore, the \code{maps} countries do not include many of the countries that
+#' have been created since ca. 2000.  The mapping is therefore many-to-many, and also
+#' includes some NAs when there is no appropriate mapping.  Bodies of water in the
+#' \code{maps} data, for example, are not assigned a country in the GapMinder.
+#' 
+#' @examples
+#' data(Countries)
+#' subset(Countries, maps=="Yugoslavia")  # Where has Yugoslavia gone?
+#' subset(Countries, is.na(gapminder))    # Things from maps with no GapMinder equivalent
+#' subset(Countries, is.na(maps))         # Things from GapMinder with no maps equivalent
+#' if ( require(ggplot2) ) { 
+#'   World <- map_data("world")
+#'   World2 <- merge(World, Countries, by.x="region", by.y="maps", all.y=FALSE)
+#' }
+#' 
+#' @keywords datasets
+
+NA 
+
 
 #' Data from the 1985 Current Population Survey (CPS85)
 #' 
