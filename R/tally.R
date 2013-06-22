@@ -65,7 +65,17 @@ logical2factor.data.frame  <- function( x, ... ) {
 setGeneric( 
 	"tally", 
 	function(x, ... )  {
-		standardGeneric('tally')
+    tryCatch( return(standardGeneric('tally')), 
+              error=function(e) 
+                message("First argument to tally() should be a formula, but I'll try to guess what you meant...") )  
+    formula <- ~ x
+    formula[[2]] <- substitute(x)
+    cc <- match.call()
+    cc[[2]] <- formula
+    names(cc)[2] <- ""
+    ccString <- capture.output(print(cc))
+    message(paste("   Trying", ccString)) 
+    return( eval(cc) )  #tally(formula, ...) )
 	}
 )
 
@@ -78,8 +88,15 @@ setMethod(
 	'tally',
 	'ANY',
     function(x, ...) {
-		dd <- data.frame(x=x)
-		tally(~ x, dd, ...)
+      dots <- list(...)
+      if ("data" %in% names(dots)) {
+        message("The preferred method for using tally() is with a formula.")
+        message("...But I'll try to guess what you mean...")
+        return( do.call( "tally", c( list( ~ substitute(x)), ... ) ) )
+      }
+      
+		  dd <- data.frame(x=x)
+		  return(tally(~ x, dd, ...))
 	}
 )
 
