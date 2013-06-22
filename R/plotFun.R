@@ -111,6 +111,8 @@ plotFun <- function(object, ...,
 	# not sure whether this precaution is necessary in current implementation
 
 	vars <- formals(..f..)
+  # print(formals(..f..))
+  # print(..f..)
 	rhsVars <- all.vars(rhs(object))
 	otherVars <- setdiff(names(vars), rhsVars)
 	ndims <- length(rhsVars)
@@ -120,11 +122,13 @@ plotFun <- function(object, ...,
 	}
 
   pgArgs <- list()
-  print(otherVars)
+  # print(otherVars)
   otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,".groups",sep="") else c()
-  if (length( setdiff( otherGroups, names(dots) ) ) > 0 ) 
-    stop(paste("Cannot plot with free paramters; try setting", 
+  if (length( setdiff( otherGroups, names(dots) ) ) > 0 ) {
+    # print(list(otherGroups=otherGroups, dots=names(dots)) )
+    stop(paste("Cannot plot with free parameters; try setting", 
                paste( setdiff(otherGroups, names(dots)), collapse=", " ) ))
+  }
   for (param in otherVars) pgArgs[[param]] <- dots[[paste(param,".groups",sep="")]]
   paramGrid <- do.call( "expand.grid", pgArgs )
   
@@ -154,7 +158,7 @@ plotFun <- function(object, ...,
 	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
 
 	if( ndims == 1 ){
-		message("One Dimension.")
+		# message("One Dimension.")
 
 		npts <- ifelse( is.null(npts), 200, npts)
 
@@ -230,7 +234,7 @@ plotFun <- function(object, ...,
 	}  # end ndims == 1
 
 	if (ndims == 2 ) {
-		message("Two Dimensions.")
+		# message("Two Dimensions.")
 		npts <- ifelse( is.null(npts), 40, npts)
 		if( length(ylab) == 0 ) ylab <- rhsVars[2]
 		if( length(xlab) == 0 ) xlab <- rhsVars[1]
