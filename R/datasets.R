@@ -91,8 +91,8 @@ NA
 #' package to facilitate converstion between the two.
 #' 
 #' @name Countries
-#' #' @aliases Countries
-#' #' @docType data
+#' @aliases Countries
+#' @docType data
 #' 
 #' @usage data(Countries)
 #' @format 
