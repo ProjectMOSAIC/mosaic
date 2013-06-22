@@ -36,6 +36,11 @@ setGeneric(
 #' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
+#' @param use.envionment if \code{TRUE}, then variables implicitly defined in the 
+#' \code{object} formula can take default values from the environment at the time 
+#' \code{makeFun} is called.  A warning message alerts the user to this situation, 
+#' unless \code{supress.warngings} is \code{TRUE}.
+#' @param supress.warnings A logical indicating whether warnings should be supressed.
 #' @param transform a function used to transform the response.
 #' This can be useful to invert a transformation used on the response
 #' when creating the model.
@@ -46,16 +51,16 @@ setGeneric(
 #' head(KidsFeet,1)
 #' 
 #' @usage
-#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE) 
+#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE) 
 setMethod(
   'makeFun',
   'formula',
-  function( object, ..., strict.declaration =TRUE ) {
+  function( object, ..., strict.declaration =TRUE, use.environment=TRUE, supress.warnings=FALSE) {
 	  sexpr <- object 
 	  if (! inherits( sexpr, "formula") || length(sexpr) != 3) 
 		  stop('First argument must be a formula with both left and right sides.')
 
-	  vals <- list(...)
+	  dots <- list(...)
 	  expr <- eval(sexpr)  # not sure if eval() is needed here or not.
 	  lhs <- lhs(expr) # expr[[2]]
 	  rhs <- rhs(expr)  # expr[[3]]
@@ -63,28 +68,33 @@ setMethod(
 	  rhsVars <- all.vars(rhs)
 	  lhsOnlyVars <- setdiff(all.vars(lhs), rhsVars)
 	  lhsOnlyVars <- setdiff(lhsOnlyVars,'pi')    # don't treat pi like a variable
-	  vars <- c(rhsVars, lhsOnlyVars)
-	  unDeclaredVars <- setdiff(names(vals), vars) 
-    varsWithDefaults <- names(vals)
-    varsWithoutDefaults <- setdiff(vars,varsWithDefaults)
+	  varsInFormula <- c(rhsVars, lhsOnlyVars)
+    varsWithDefaults <- intersect( names(dots), varsInFormula )
+    varsWithoutDefaults <- setdiff(varsInFormula, varsWithDefaults)
     varsFromEnv <- character(0)
-	  declaredVars <- setdiff(vars, unDeclaredVars)
-	  if (length( unDeclaredVars ) != 0) {
+	  # declaredVars <- union(varsInFormula, varsWithDefaults)  # unDeclaredVars)
+	  undeclaredVars <- setdiff(names(dots), varsInFormula) 
+	  if (length( undeclaredVars ) != 0) {
 		  if (strict.declaration) 
 		  	stop(paste( "Default values provided for variables not in formula:",
 					   paste(unDeclaredVars, collapse=",")
 					 ))
 	  }
+    # vars is just a permutation of varsInFormula
     vars <- c(varsWithoutDefaults, varsWithDefaults)
 	  valVec <- rep("", length(vars))
 	  names(valVec) <- vars
-	  for( n in intersect(vars, names(vals)) ) valVec[n] <- as.character(vals[n]) 
-    for( n in setdiff(varsWithoutDefaults, rhsVars) ) {
-      v <- tryCatch(get(n, parent.frame()), error=function(e) "")
-      if (is.numeric(v)) {
-        valVec[n] <- as.character(v)
-        varsFromEnv <- c(varsFromEnv,n)
-        varsWithoutDefaults <- setdiff(varsWithoutDefaults, n)
+    
+	  for( n in varsWithDefaults ) valVec[n] <- as.character(dots[[n]]) 
+  
+    if (use.environment) {
+      for( n in setdiff(varsWithoutDefaults, rhsVars) ) {
+        v <- tryCatch(get(n, parent.frame()), error=function(e) "")
+        if (is.numeric(v)) {
+          valVec[n] <- as.character(v)
+          varsFromEnv <- c(varsFromEnv,n)
+          varsWithoutDefaults <- setdiff(varsWithoutDefaults, n)
+        }
       }
     }
     varsDangerous <- intersect(lhsOnlyVars, varsWithoutDefaults)
@@ -92,10 +102,10 @@ setMethod(
     finalVars <- c(varsWithoutDefaults, varsWithDefaults, varsFromEnv, varsDangerous)
     # finalVars <- c(finalVars, setdiff(vars,finalVars))
     w <- which (valVec=="")
-    if (length(varsFromEnv) > 0)  
+    if (length(varsFromEnv) > 0 & !supress.warnings)  
       warning(paste("Some default values taken from current environment: ", 
                     paste(varsFromEnv, collapse=", ") ))
-	  if (length(varsDangerous) > 0)  
+	  if (length(varsDangerous) > 0 & !supress.warnings)  
 	    warning(paste("Implicit variables without default values (dangerous!): ", 
 	                  paste(varsDangerous, collapse=", ") ))
 
