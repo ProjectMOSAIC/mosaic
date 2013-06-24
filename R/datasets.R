@@ -147,11 +147,11 @@ NA
 #' if ( require(ggplot2) & require(maps)) { 
 #'   World <- map_data("world")
 #'   World2 <- merge(World, Countries, by.x="region", by.y="maps", all.y=FALSE)
-#'     mdata <- merge(Alcohol, World2, by.x="Country", by.y="gapminder", all.y=FALSE) 
-#' mdata <- mdata[order(mdata$order),]
-#' qplot( x=long, y=lat, fill=ntiles(Alcohol,5), data=subset(mdata, Year==2008), group = group, geom="polygon")
-#' ggplot( data=subset(mdata, Year==2008), aes(map_id="region")) +
-#'   geom_map( aes(fill=Alcohol), map=World2 ) +
+#'     Mdata <- merge(Alcohol, World2, by.x="country", by.y="gapminder", all.y=FALSE) 
+#' Mdata <- Mdata[order(Mdata$order),]
+#' qplot( x=long, y=lat, fill=ntiles(alcohol,5), data=subset(Mdata, year==2008), group = group, geom="polygon")
+#' ggplot( data=subset(Mdata, year==2008), aes(map_id="region")) +
+#'   geom_map( aes(fill=alcohol), map=World2 ) +
 #'   expand_limits(x = World2$long, y = World2$lat)
 #' mytheme <- theme(axis.title = element_blank(), 
 #'                  axis.line = element_blank(), 
@@ -163,11 +163,11 @@ NA
 #'                  panel.grid.minor = element_line(size = 0)
 #' )
 #' 
-#' ggplot(subset(mdata,Year==2008), aes(map_id = region)) + 
-#'   geom_map(aes(fill = Alcohol), map = World2) + 
-#'   geom_map(aes(fill = Alcohol), map = World2, data=subset(mdata, Year==2005)) + 
+#' ggplot(subset(Mdata,year==2008), aes(map_id = region)) + 
+#'   geom_map(aes(fill = alcohol), map = World2) + 
+#'   geom_map(aes(fill = alcohol), map = World2, data=subset(Mdata, year==2005)) + 
 #'   expand_limits(x = World2$long, y = World2$lat) +
-#'   facet_wrap(~Year) +
+#'   facet_wrap(~year) +
 #'   mytheme
 #'   
 #' }
