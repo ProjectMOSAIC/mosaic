@@ -102,3 +102,4 @@ Collate:
     'aggregatingMeta.R'
     'aggregatingAux.R'
     'plotFun.R'
+    't.test.R'
