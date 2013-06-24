@@ -54,13 +54,13 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param ... additional arguments passed to \code{\link{table}}
 #' @export
 #' @examples
-#' tally( ~ substance, HELPrct)
-#' tally( ~ substance & sex , HELPrct)
-#' tally( sex ~ substance, HELPrct)   # equivalent to tally( ~ sex | substance, ... )
-#' tally( ~ substance | sex , HELPrct)
-#' tally( ~ substance | sex , HELPrct, format='count')
-#' tally( ~ substance & sex , HELPrct, format='percent')
-#' tally( ~ link, HELPrct, useNA="always")
+#' tally( ~ substance, data=HELPrct)
+#' tally( ~ substance & sex , data=HELPrct)
+#' tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance, ... )
+#' tally( ~ substance | sex , data=HELPrct)
+#' tally( ~ substance | sex , data=HELPrct, format='count')
+#' tally( ~ substance & sex , data=HELPrct, format='percent')
+#' tally( ~ link, data=HELPrct, useNA="always")
 
 setGeneric( 
 	"tally", 
