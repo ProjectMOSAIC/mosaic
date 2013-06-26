@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.7-1
-Date: 2013-06-20
+Version: 0.7-2
+Date: 2013-06-25
 Depends:
     lattice,
     grid,
@@ -16,7 +16,7 @@ Suggests:
     reshape2,
     ggplot2,
     plyr,
-    maps,
+    maptools,
     manipulate,
     vcd,
     RCurl,
@@ -102,4 +102,6 @@ Collate:
     'aggregatingMeta.R'
     'aggregatingAux.R'
     'plotFun.R'
-    't.test.R'
+    'maps.R'
+    'ntiles.R'
+    'ttest.R'
