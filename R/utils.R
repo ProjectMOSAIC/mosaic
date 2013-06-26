@@ -20,3 +20,25 @@
 	do.call(what, args, quote, envir)
 }
 
+# patterned after similar function in ggplot2
+
+.try_require <-function(package) {
+  available <- suppressMessages(suppressWarnings(sapply(package, 
+                                                        require, quietly = TRUE, 
+                                                        character.only = TRUE, 
+                                                        warn.conflicts = FALSE)))
+  missing <- package[!available]
+  if (length(missing) > 0) 
+    stop("Missing packages.  Please retry after installing the following: ", 
+         paste(package, collapse = ", "), 
+         call. = FALSE)
+}
+
+.require_manipulate <-function() {
+  available <- suppressMessages(suppressWarnings(sapply(manipulate, 
+                                                        require, quietly = TRUE, 
+                                                        character.only = TRUE, 
+                                                        warn.conflicts = FALSE)))
+  if (! available) 
+    stop("The manipulate package (available only in RStudio) is required.") 
+}
