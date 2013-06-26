@@ -10,9 +10,7 @@ ntiles <-  function(x, n=3){
   # Figure out names
   qnames <- c("1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th")
   if (n > 10) qnames <- c(qnames, paste(11:n,"th",sep=""))
-  ebins <- equal.count( x, n, overlap=0 )
-  l <- levels(ebins)
-  brks <- sapply(l, function(x) x[1])
+  brks <- co.intervals( x, n, overlap=0 )[,1]
   brks[c(1,n+1)] <- c(-Inf, Inf)
   res <- cut(x, breaks=brks, labels=qnames[1:n], ordered_result=TRUE)
   return(res)
