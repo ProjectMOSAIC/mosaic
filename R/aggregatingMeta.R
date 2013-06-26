@@ -8,11 +8,6 @@
 #   * need to confirm scoping is correct when using programmatically and interactively.
 # 
  
-# require(mosaic)
-# require(pylr)
-# myaggregate <- function( formula, data, FUN ) {
-#   ddply( data, .(all.vars(rhs(formula))), summarise, val=FUN )
-# }
 
 #' 1-ary Aggregating functions
 #' 

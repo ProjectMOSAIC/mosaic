@@ -54,9 +54,9 @@
 
 
 fetchGoogle = function(URL,key=NULL){
-  if( !require("RCurl")) {
-    stop("Requires installation of RCurl package")
-  }
+
+  .try_require("RCurl")
+
   if (missing(URL) & !is.null(key))
     URL = paste("https://docs.google.com/spreadsheet/pub?key=",
                 key,"&single=TRUE&gid=0","&output=csv",sep="")
