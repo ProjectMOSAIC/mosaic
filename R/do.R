@@ -315,6 +315,7 @@ setMethod("*",
 			}
 			rownames(result) <- 1:nrow(result)
 			#names(result) <- nm
+      class(result) <- c('do.data.frame',class(result))
 			return(result)
 		}
 
@@ -327,6 +328,9 @@ setMethod("*",
 			}
 		}
 
-		if (dim(result)[2] == 1 & is.null(nm) ) return(data.frame(result=result[,1])) else return(result)
+		if (dim(result)[2] == 1 & is.null(nm) ) result <- data.frame(result=result[,1]) 
+
+    class(result) <- c("do.data.frame",class(result))
+    return(result)
 	}
 )

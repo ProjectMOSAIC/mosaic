@@ -13,7 +13,12 @@
 #' @param margin if true, report intervals as a center and margin of error.
 #'
 #' @return When applied to a data frame, returns a data frame giving the 
-#' confidence interval for each variable in the data frame.  When applied to 
+#' confidence interval for each variable in the data frame using 
+#' \code{t.test} or \code{binom.test}, unless the data frame was produced using \code{do}, in which case
+#' it is assumed that each variable contains resampled statistics that serve as an estimated sampling
+#' distribution from which a confidence interval can be computed using either a central proportion
+#' of this distribution or using the standard error as estimated by the standard deviation of the 
+#' estimated sampling distribution.  When applied to 
 #' a numerical vector, returns a vector.
 #' 
 #' @examples
@@ -32,8 +37,8 @@ confint.numeric = function(object, parm, level=0.95, ..., method=c("stderr", "qu
 }
 # =================
 #' @rdname confint
-#' @method confint data.frame
-confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", "quantile"), margin=FALSE) {
+#' @method confint do.data.frame
+confint.do.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", "quantile"), margin=FALSE) {
   method <- match.arg(method) # which method was selected
   nms <- names(object)
   n <- length(nms)
@@ -76,4 +81,29 @@ confint.data.frame = function(object, parm, level=0.95, ..., method=c("stderr", 
   # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
   else res = qdata( c((1-level)/2, 1-(1-level)/2), vals )
   return(res)
+}
+
+#' @rdname confint
+#' @method confint data.frame
+#' 
+confint.data.frame = function(object, parm, level=0.95, ... )  {
+  results <- list()
+  for (c in 1:ncol(object)) {
+    x <- object[,c]
+    if (is.numeric(x)) { 
+      newCI <- interval(t.test(x, ...))
+      newRow <- data.frame( method="t.test", estimate=newCI[1], lower=newCI[2], upper=newCI[3], level=newCI[4])
+      
+    } else if ( (is.factor(x) && nlevels(x) <= 2) || (is.character(x) && length(unique(x)) <= 2) || is.logical(x)) { 
+      newCI <- interval(binom.test(x, ...)) 
+      newRow <- data.frame( method="binom.test", estimate=newCI[1], lower=newCI[2], upper=newCI[3], level=newCI[4])
+    } else {
+      newRow <- data.frame(method="none", estimate=NA, lower=NA, upper=NA, level=NA)
+    }
+    results <- rbind(results,newRow)
+  }  
+  
+  row.names(results) <- names(object) 
+  
+  return(results)
 }
