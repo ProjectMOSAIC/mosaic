@@ -102,6 +102,6 @@ Collate:
     'aggregatingMeta.R'
     'aggregatingAux.R'
     'plotFun.R'
-    'maps.R'
     'ntiles.R'
     'ttest.R'
+    'maps.R'
