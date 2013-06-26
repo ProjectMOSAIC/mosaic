@@ -29,7 +29,8 @@
 #' t.test( age ~ sex, data=HELPrct)
 #' t.test( ~ age | sex, data=HELPrct)
 #' t.test( ~ mother + father, data=Galton)
-#' 
+#'
+#'  
 t.test <- function(x, ...) ttest(x, ...)
 
 #' rdname ttest
