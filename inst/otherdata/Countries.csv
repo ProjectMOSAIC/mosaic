@@ -1,259 +1,286 @@
-"gapminder","maps"
-"Afghanistan","Afghanistan"
-"Albania","Albania"
-"Algeria","Algeria"
-"Samoa","American Samoa"
-NA,"Andaman Islands"
-"Andorra","Andorra"
-"Angola","Angola"
-NA,"Anguilla"
-NA,"Antarctica"
-"Antigua and Barbuda","Antigua"
-NA,"Aral Sea"
-"Argentina","Argentina"
-"Armena",NA
-NA,"Aruba"
-"Australia","Australia"
-"Austria","Austria"
-"Azerbaijan",NA
-NA,"Azores"
-"Bahamas","Bahamas"
-"Bahrain","Bahrain"
-"Bangladesh","Bangladesh"
-"Barbados","Barbados"
-"Antigua and Barbuda","Barbuda"
-"Belarus"," "
-"Belgium","Belgium"
-"Belize","Belize"
-"Benin","Benin"
-"Bhutan","Bhutan"
-NA,"Black Sea"
-"Bolivia","Bolivia"
-NA,"Bonaire"
-"Bosnia and Herzegovina","Yugoslavia"
-"Botswana","Botswana"
-"Brazil","Brazil"
-"Brunei","Brunei"
-"Bulgaria","Bulgaria"
-"Burkina Faso","Burkina Faso"
-"Burundi","Burundi"
-"United States","California"
-"Cambodia","Cambodia"
-"Cameroon","Cameroon"
-"Canada","Canada"
-NA,"Canary Islands"
-"Cape Verde","Cape Verde"
-NA,"Caspian Sea"
-NA,"Cayman Islands"
-"Central African Republic","Central African Republic"
-"Chad","Chad"
-NA,"Chagos Archipelago"
-"Chile","Chile"
-"China","China"
-"Colombia","Colombia"
-"Comoros","Comoros"
-"Congo [Republic]","Congo"
-"Congo [DRC]","Zaire"
-"Cook Islands","Cook Islands"
-"Costa Rica","Costa Rica"
-"Croatia","Yugoslavia"
-"Cuba","Cuba"
-NA,"Curacao"
-"Cyprus","Cyprus"
-"Czech Republic","Czechoslovakia"
-"Denmark","Denmark"
-"Djibouti","Djibouti"
-"Dominica","Dominica"
-"Dominican Republic","Dominican Republic"
-"Ecuador","Ecuador"
-"Egypt","Egypt"
-"El Salvador","El Salvador"
-"Eritria",NA
-"Equatorial Guinea","Equatorial Guinea"
-"Estonia",NA
-"Ethiopia","Ethiopia"
-NA,"Falkland Islands"
-"Fiji","Fiji"
-"Finland","Finland"
-"France","France"
-NA,"French Guiana"
-NA,"French Polynesia"
-"Gabon","Gabon"
-"Gambia","Gambia"
-NA,"Gaza Strip"
-"Georgia",NA
-"Germany","Germany"
-"Ghana","Ghana"
-NA,"Great Bitter Lake"
-NA,"Great Lakes"
-"Greece","Greece"
-NA,"Greenland"
-"Grenada","Grenada"
-NA,"Guadeloupe"
-"Guatemala","Guatemala"
-"Guinea","Guinea"
-"Guinea-Bissau","Guinea-Bissau"
-"Guyana","Guyana"
-"Haiti","Haiti"
-"United States","Hawaii"
-"Honduras","Honduras"
-"Hungary","Hungary"
-"Iceland","Iceland"
-"India","India"
-"Indonesia","Indonesia"
-"Iran","Iran"
-"Iraq","Iraq"
-"Ireland","Ireland"
-NA,"Irian Jaya"
-NA,"Isle of Man"
-NA,"Isle of Wight"
-"Israel","Israel"
-"Italy","Italy"
-"Côte d'Ivoire","Ivory Coast"
-"Jamaica","Jamaica"
-"Japan","Japan"
-"Jordan","Jordan"
-"Kazakhstan",NA
-"Kenya","Kenya"
-"Kiribati","Kiribati"
-"Kyrgyzstan",NA
-"Kuwait","Kuwait"
-NA,"Lacul Greaca"
-NA,"Lake Albert"
-NA,"Lake Fjerritslev"
-NA,"Lake Kariba"
-NA,"Lake Malawi"
-NA,"Lake Pasvikelv"
-NA,"Lake Tanganyika"
-NA,"Lake Titicaca"
-NA,"Lake Victoria"
-"Laos","Laos"
-"Latvia",NA
-"Lebanon","Lebanon"
-"Lesotho","Lesotho"
-"Liberia","Liberia"
-"Libya","Libya"
-NA,"Liechtenstein"
-"Lithuania",NA
-"Luxembourg","Luxembourg"
-"Macedonia [FYROM]","Yogoslavia"
-"Madagascar","Madagascar"
-NA,"Madeira Islands"
-"Malawi","Malawi"
-"Malaysia","Malaysia"
-NA,"Maldives"
-"Maldova",NA
-"Mali","Mali"
-"Malta","Malta"
-NA,"Marshall Islands"
-NA,"Martinique"
-NA,"Maug Island"
-"Mauritania","Mauritania"
-"Mauritius","Mauritius"
-"Mexico","Mexico"
-"Micronesia","Micronesia"
-NA,"Monaco"
-"Mongolia","Mongolia"
-NA,"Montserrat"
-"Morocco","Morocco"
-"Mozambique","Mozambique"
-"Myanmar [Burma]","Myanmar"
-"Namibia","Namibia"
-"Nauru","Nauru"
-"Nepal","Nepal"
-"Netherlands","Netherlands"
-NA,"Neutral Zone"
-NA,"Nevis"
-NA,"New Caledonia"
-"New Zealand","New Zealand"
-"Nicaragua","Nicaragua"
-"Niger","Niger"
-"Nigeria","Nigeria"
-"Niue",NA
-"North Korea","North Korea"
-NA,"Northern Mariana Islands"
-"Norway","Norway"
-"Oman","Oman"
-"Pakistan","Pakistan"
-"Panama","Panama"
-"Palau",NA
-"Papua New Guinea","Papua New Guinea"
-NA,"Paracel Islands"
-"Paraguay","Paraguay"
-"Peru","Peru"
-"Philippines","Philippines"
-NA,"Pitcairn Islands"
-"Poland","Poland"
-"Portugal","Portugal"
-"Puerto Rico","Puerto Rico"
-"Qatar","Qatar"
-"Romania","Romania"
-"Rwanda","Rwanda"
-NA,"Saint Eustatius"
-"Saint Kitts and Nevis","Saint Kitts"
-"Saint Lucia","Saint Lucia"
-"Saint Vincent and the Grenadines","Saint Vincent"
-NA,"Saint-Barthelemy"
-NA,"Saint-Martin"
-"San Marino","San Marino"
-"São Tomé and Príncipe","Sao Tome and Principe"
-NA,"Sardinia"
-"Saudi Arabia","Saudi Arabia"
-"Senegal","Senegal"
-"Serbia","Yugoslavia"
-"Seychelles","Seychelles"
-NA,"Sicily"
-"Sierra Leone","Sierra Leone"
-NA,"Sin Cowe Island"
-"Singapore",NA
-"Slovakia","Czechoslovakia"
-"Slovenia","Yugoslavia"
-"Solomon Islands","Solomon Islands"
-"Somalia","Somalia"
-NA,"Sonsorol Island"
-"South Africa","South Africa"
-"South Korea","South Korea"
-NA,"South Sandwich Islands"
-"Spain","Spain"
-NA,"Spratly Island"
-"Sri Lanka","Sri Lanka"
-"Sudan","Sudan"
-"Suriname","Suriname"
-"Swaziland","Swaziland"
-"Sweden","Sweden"
-"Switzerland","Switzerland"
-"Syria","Syria"
-"Tajikistan",NA
-"Tanzania","Tanzania"
-"Thailand","Thailand"
-"Timor-Leste",NA
-"Trinidad and Tobago","Tobago"
-"Togo","Togo"
-NA,"Tokelau"
-"Tonga","Tonga"
-"Trinidad and Tobago","Trinidad"
-"Tunisia","Tunisia"
-"Turkey","Turkey"
-"Turkmenistan",NA
-NA,"Turks and Caicos"
-"Tuvalu","Tuvalu"
-"Uganda","Uganda"
-"United Kingdom","UK"
-"Ukraine",NA
-"United Arab Emirates","United Arab Emirates"
-"Uruguay","Uruguay"
-"United States","USA"
-"United States of America","USA"
-"Uzbekistan",NA
-"Russia","USSR"
-"Vanuatu","Vanuatu"
-"Venezuela","Venezuela"
-"Vietnam","Vietnam"
-NA,"Virgin Islands"
-NA,"Vislinskiy Zaliv"
-"United Kingdom","Wales"
-"West Bank","West Bank"
-NA,"Western Sahara"
-"Yemen","Yemen"
-"Zambia","Zambia"
-"Zimbabwe","Zimbabwe"
+maptools,maps,gapminder
+Afghanistan,Afghanistan,Afghanistan
+Åland Islands,NA,NA
+Albania,Albania,Albania
+Algeria,Algeria,Algeria
+American Samoa,American Samoa,Samoa
+NA,Andaman Islands,NA
+Andorra,Andorra,Andorra
+Angola,Angola,Angola
+Anguilla,Anguilla,NA
+Antarctica,Antarctica,NA
+Antigua and Barbuda,Antigua,Antigua and Barbuda
+NA,Aral Sea,NA
+Argentina,Argentina,Argentina
+Armenia,NA,Armenia
+Aruba,Aruba,NA
+Australia,Australia,Australia
+Austria,Austria,Austria
+Azerbaijan,NA,Azerbaijan
+NA,Azores,NA
+Bahamas,Bahamas,Bahamas
+Bahrain,Bahrain,Bahrain
+Bangladesh,Bangladesh,Bangladesh
+Barbados,Barbados,Barbados
+Antigua and Barbuda,Barbuda,Antigua and Barbuda
+Belarus, ,Belarus
+Belgium,Belgium,Belgium
+Belize,Belize,Belize
+Benin,Benin,Benin
+Bhutan,Bhutan,Bhutan
+NA,Black Sea,NA
+Bolivia,Bolivia,Bolivia
+NA,Bonaire,NA
+Bosnia and Herzegovina,Yugoslavia,Bosnia and Herzegovina
+Botswana,Botswana,Botswana
+Bouvet Island,NA,NA
+Brazil,Brazil,Brazil
+British Indian Ocean Territory,NA,NA
+Brunei Darussalam,Brunei,Brunei
+Bulgaria,Bulgaria,Bulgaria
+Burkina Faso,Burkina Faso,Burkina Faso
+Bermuda,NA,NA
+Burundi,Burundi,Burundi
+United States,California,United States
+Cambodia,Cambodia,Cambodia
+Cameroon,Cameroon,Cameroon
+Canada,Canada,Canada
+NA,Canary Islands,NA
+Cape Verde,Cape Verde,Cape Verde
+NA,Caspian Sea,NA
+Cayman Islands,Cayman Islands,NA
+Central African Republic,Central African Republic,Central African Republic
+Chad,Chad,Chad
+NA,Chagos Archipelago,NA
+Chile,Chile,Chile
+China,China,China
+Christmas Island,NA,NA
+Cocos (Keeling) Islands,NA,NA
+Colombia,Colombia,Colombia
+Comoros,Comoros,Comoros
+Congo,Congo,Congo [Republic]
+Democratic Republic of the Congo,Zaire,Congo [DRC]
+Cook Islands,Cook Islands,Cook Islands
+Costa Rica,Costa Rica,Costa Rica
+Croatia,Yugoslavia,Croatia
+Cuba,Cuba,Cuba
+NA,Curacao,NA
+Cyprus,Cyprus,Cyprus
+Czech Republic,Czechoslovakia,Czech Republic
+Denmark,Denmark,Denmark
+Djibouti,Djibouti,Djibouti
+Dominica,Dominica,Dominica
+Dominican Republic,Dominican Republic,Dominican Republic
+Ecuador,Ecuador,Ecuador
+Egypt,Egypt,Egypt
+El Salvador,El Salvador,El Salvador
+Eritrea,NA,Eritrea
+Equatorial Guinea,Equatorial Guinea,Equatorial Guinea
+Estonia,NA,Estonia
+Ethiopia,Ethiopia,Ethiopia
+Falkland Islands (Malvinas),Falkland Islands,NA
+Faroe Islands,NA,NA
+Fiji,Fiji,Fiji
+Finland,Finland,Finland
+France,France,France
+French Guiana,French Guiana,NA
+French Polynesia,French Polynesia,NA
+French Southern and Antarctic Lands,NA,NA
+Gabon,Gabon,Gabon
+Gambia,Gambia,Gambia
+NA,Gaza Strip,NA
+Georgia,NA,Georgia
+South Georgia South Sandwich Islands,NA,NA
+Germany,Germany,Germany
+Ghana,Ghana,Ghana
+Gibraltar,NA,NA
+NA,Great Bitter Lake,NA
+NA,Great Lakes,NA
+Greece,Greece,Greece
+Greenland,Greenland,NA
+Grenada,Grenada,Grenada
+Guadeloupe,Guadeloupe,NA
+Guam,NA,NA
+Guatemala,Guatemala,Guatemala
+Guinea,Guinea,Guinea
+Guinea-Bissau,Guinea-Bissau,Guinea-Bissau
+Guyana,Guyana,Guyana
+Haiti,Haiti,Haiti
+United States,Hawaii,United States
+Heard Island and McDonald Islands,NA,NA
+Honduras,Honduras,Honduras
+Holy See (Vatican City),NA,NA
+Hong Kong,NA,NA
+Hungary,Hungary,Hungary
+Iceland,Iceland,Iceland
+India,India,India
+Indonesia,Indonesia,Indonesia
+Iran (Islamic Republic of),Iran,Iran
+Iraq,Iraq,Iraq
+Ireland,Ireland,Ireland
+NA,Irian Jaya,NA
+Isle of Man,Isle of Man,NA
+NA,Isle of Wight,NA
+Israel,Israel,Israel
+Italy,Italy,Italy
+Cote d'Ivoire,Ivory Coast,Côte d'Ivoire
+Jamaica,Jamaica,Jamaica
+Japan,Japan,Japan
+Jordan,Jordan,Jordan
+Kazakhstan,NA,Kazakhstan
+Kenya,Kenya,Kenya
+Kiribati,Kiribati,Kiribati
+Kyrgyzstan,NA,Kyrgyzstan
+Kuwait,Kuwait,Kuwait
+NA,Lacul Greaca,NA
+NA,Lake Albert,NA
+NA,Lake Fjerritslev,NA
+NA,Lake Kariba,NA
+NA,Lake Malawi,NA
+NA,Lake Pasvikelv,NA
+NA,Lake Tanganyika,NA
+NA,Lake Titicaca,NA
+NA,Lake Victoria,NA
+Lao People's Democratic Republic,Laos,Laos
+Latvia,NA,Latvia
+Lebanon,Lebanon,Lebanon
+Lesotho,Lesotho,Lesotho
+Libyan Arab Jamahiriya,Liberia,Liberia
+Libya,Libya,Libya
+Liechtenstein,Liechtenstein,NA
+Lithuania,NA,Lithuania
+Luxembourg,Luxembourg,Luxembourg
+The former Yugoslav Republic of Macedonia,Yogoslavia,Macedonia [FYROM]
+Macau,NA,NA
+Madagascar,Madagascar,Madagascar
+NA,Madeira Islands,NA
+Malawi,Malawi,Malawi
+Malaysia,Malaysia,Malaysia
+Maldives,Maldives,NA
+Republic of Moldova,NA,Moldova
+Mali,Mali,Mali
+Malta,Malta,Malta
+Marshall Islands,Marshall Islands,NA
+Martinique,Martinique,NA
+NA,Maug Island,NA
+Mauritania,Mauritania,Mauritania
+Mauritius,Mauritius,Mauritius
+Mayotte,NA,NA
+Mexico,Mexico,Mexico
+Micronesia, Federated States of,Micronesia,Micronesia
+Monaco,Monaco,NA
+Mongolia,Mongolia,Mongolia
+Montenegro,NA,NA
+Montserrat,Montserrat,NA
+Morocco,Morocco,Morocco
+Mozambique,Mozambique,Mozambique
+Burma,Myanmar,Myanmar [Burma]
+Namibia,Namibia,Namibia
+Nauru,Nauru,Nauru
+Nepal,Nepal,Nepal
+Netherlands,Netherlands,Netherlands
+Netherlands Antilles,NA,NA
+NA,Neutral Zone,NA
+NA,Nevis,NA
+New Caledonia,New Caledonia,NA
+New Zealand,New Zealand,New Zealand
+Nicaragua,Nicaragua,Nicaragua
+Niger,Niger,Niger
+Nigeria,Nigeria,Nigeria
+Niue,NA,Niue
+Korea, Democratic People's Republic of,North Korea,North Korea
+Norfolk Island,NA,NA
+Northern Mariana Islands,Northern Mariana Islands,NA
+Norway,Norway,Norway
+Oman,Oman,Oman
+Pakistan,Pakistan,Pakistan
+Panama,Panama,Panama
+Palau,NA,Palau
+Palestine,NA,NA
+Papua New Guinea,Papua New Guinea,Papua New Guinea
+NA,Paracel Islands,NA
+Paraguay,Paraguay,Paraguay
+Peru,Peru,Peru
+Philippines,Philippines,Philippines
+Pitcairn Islands,Pitcairn Islands,NA
+Poland,Poland,Poland
+Portugal,Portugal,Portugal
+Puerto Rico,Puerto Rico,Puerto Rico
+Qatar,Qatar,Qatar
+Reunion,NA,NA
+Romania,Romania,Romania
+Rwanda,Rwanda,Rwanda
+NA,Saint Eustatius,NA
+Saint Helena,NA,NA
+Saint Kitts and Nevis,Saint Kitts,Saint Kitts and Nevis
+Saint Lucia,Saint Lucia,Saint Lucia
+Saint Vincent and the Grenadines,Saint Vincent,Saint Vincent and the Grenadines
+Saint Barthelemy,Saint-Barthelemy,NA
+Saint Pierre and Miquelon,NA,NA
+Saint Martin,Saint-Martin,NA
+San Marino,San Marino,San Marino
+Sao Tome and Principe,Sao Tome and Principe,São Tomé and Príncipe
+NA,Sardinia,NA
+Saudi Arabia,Saudi Arabia,Saudi Arabia
+Senegal,Senegal,Senegal
+Serbia,Yugoslavia,Serbia
+Seychelles,Seychelles,Seychelles
+NA,Sicily,NA
+Sierra Leone,Sierra Leone,Sierra Leone
+NA,Sin Cowe Island,NA
+Singapore,NA,Singapore
+Slovakia,Czechoslovakia,Slovakia
+Slovenia,Yugoslavia,Slovenia
+Solomon Islands,Solomon Islands,Solomon Islands
+Somalia,Somalia,Somalia
+NA,Sonsorol Island,NA
+South Africa,South Africa,South Africa
+Korea, Republic of,South Korea,South Korea
+NA,South Sandwich Islands,NA
+Spain,Spain,Spain
+NA,Spratly Island,NA
+Sri Lanka,Sri Lanka,Sri Lanka
+Sudan,Sudan,Sudan
+Suriname,Suriname,Suriname
+Svalbard,NA,NA
+Swaziland,Swaziland,Swaziland
+Sweden,Sweden,Sweden
+Switzerland,Switzerland,Switzerland
+Syrian Arab Republic,Syria,Syria
+Taiwan,NA,NA
+Tajikistan,NA,Tajikistan
+United Republic of Tanzania,Tanzania,Tanzania
+Thailand,Thailand,Thailand
+Timor-Leste,NA,Timor-Leste
+Trinidad and Tobago,Tobago,Trinidad and Tobago
+Togo,Togo,Togo
+Tokelau,Tokelau,NA
+Tonga,Tonga,Tonga
+Trinidad and Tobago,Trinidad,Trinidad and Tobago
+Tunisia,Tunisia,Tunisia
+Turkey,Turkey,Turkey
+Turkmenistan,NA,Turkmenistan
+Turks and Caicos Islands,Turks and Caicos,NA
+Tuvalu,Tuvalu,Tuvalu
+Uganda,Uganda,Uganda
+United Kingdom,UK,United Kingdom
+Ukraine,NA,Ukraine
+Untied Arab Emirates,United Arab Emirates,United Arab Emirates
+Uruguay,Uruguay,Uruguay
+United States,USA,United States
+United States Minor Outlying Islands,NA,NA
+Uzbekistan,NA,Uzbekistan
+Russia,USSR,Russia
+Vanuatu,Vanuatu,Vanuatu
+Venezuela,Venezuela,Venezuela
+Viet Nam,Vietnam,Vietnam
+British Virgin Islands,Virgin Islands,NA
+United States Virgin Islands,Virgin Islands,NA
+NA,Vislinskiy Zaliv,NA
+United Kingdom,Wales,United Kingdom
+Wallis and Futuna Islands,NA,NA
+NA,West Bank,West Bank
+Western Sahara,Western Sahara,NA
+Yemen,Yemen,Yemen
+Zambia,Zambia,Zambia
+Zimbabwe,Zimbabwe,Zimbabwe
