@@ -1,27 +1,64 @@
-#' T-tests
+#' Student's t-Test
 #' 
-#' This wrapper around \code{t.test} in the \code{stats} package adds the ability to describe
-#' one-sample t via a formula.
+#' Performs one and two sample t-tests.  
+#' The mosaic \code{t.test} provides wrapper functions around the function 
+#' of the same name in \pkg{stats}.
+#' These wrappers provide an extended interface that allows for a more systematic
+#' use of the formula interface.
 #' 
-#' @param x an object
-#' @param ... additional arguments, generally passed directly to \code{stats::t.test}. One 
-#' notable exception is the argument \code{data}, which specifies a data frame in which to
-#' interpret a formala \code{x} in the case of one-sample t.
+#' @rdname ttest
+#' 
+#' @param x an object (e.g., a formula or a numeric vector)
+#' @param data a data frame
+#' 
+#'
+#' @param \dots  additional arguments, see \code{\link[stats]{t.test}} in the
+#'    \pkg{stats} package.
+#' 
+#' @return an object of class \code{htest}
+#' 
+#' @details
+#' This is a wrapper around \code{\link{t.test}} from the \pkg{stats} package
+#' to extend the functionality of the formula interface.
+#'
+#' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{t.test}}
+#' 
 #' @export
 #' @examples
-#' t.test( ~ age, data=HELPrct )
+#' t.test( ~ age, data=HELPrct)
+#' t.test( age ~ sex, data=HELPrct)
+#' t.test( ~ age | sex, data=HELPrct)
+#' t.test( ~ mother + father, data=Galton)
 #' 
-t.test <- function(x, ...) {
-  tryCatch( return(stats::t.test(x, ...)), 
-            error=function(e) {})
-  if ( ! .is.formula(x) ) 
-    stop( "Try using a formula as the first argument." )
-  
-  formula <- x 
-  dots <- list(...)
-  if ( is.null( dots[["data"]] ) ) stop ("You must specify a data frame with data=")
+t.test <- function(x, ...) ttest(x, ...)
 
-  evalF <- evalFormula(formula,dots[['data']])
+#' rdname ttest
+#' @export
+ttest <- function (x, ...) {
+  UseMethod('ttest') 
+}
+
+#' @rdname ttest
+#' @method ttest default
+#' @export
+ttest.default <-  function (x, ...) {
+  stats:::t.test.default(x = x, ...)
+}
+
+#' @rdname ttest
+#' @method ttest formula
+#' @export
+ttest.formula <- function(x, data=parent.frame(), ...) {
+  tryCatch( 
+    return(stats:::t.test(x, data=data, ...)),
+    error=function(e) {message(paste("stats:::t.test says", e))})
+  
+  message('mosaic to the rescue')
+  dots <- list(...)
+  formula <- x
+#  if (is.null(data)) stop("data must be specified.")
+
+  evalF <- evalFormula(formula,data)
   if (ncol(evalF$right) < 1L) 
     stop("No data specified in rhs of formula.") 
   
@@ -32,9 +69,7 @@ t.test <- function(x, ...) {
   
   dataName <- paste("data$",vname,sep="")
   x <- evalF$right[,1]
-  dots[['data']] <- NULL
-  result <- do.call( stats::t.test, c(list(x=x), dots) ) 
+  result <- do.call( stats:::t.test.default, c(list(x=x), dots) ) 
   result$data.name <- dataName
   return(result)
-
 }
