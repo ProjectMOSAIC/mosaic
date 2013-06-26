@@ -33,7 +33,7 @@ function (x, qqmathline = !(fitline || idline), idline = FALSE,
     groups = NULL, ..., col.line = trellis.par.get("add.line")$col, 
     pch = 16, lwd = 2, lty = 2) 
 {
-    .try_require(lattice)
+    .try_require("lattice")
     if (!is.null(groups)) {
         panel.superpose(x, groups = groups, panel.groups = "panel.xqqmath", 
             qqmathline = qqmathline, idline = idline, fitline = fitline, 
