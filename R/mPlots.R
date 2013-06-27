@@ -1,6 +1,6 @@
 
 
-tryCatch(utils::globalVariables( c('varsByType','NAprepend','x','y','color','size','logx','logy')),
+tryCatch(utils::globalVariables( c('x','y','color','size','logx','logy')),
          error=function(e) message('Looks like you should update R.'))
 
 #' Extract data from a data frame using a formula interface
@@ -50,12 +50,13 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 
 mScatter <- function(data, system=c("ggplot2","lattice")) {
   .require_manipulate()
+  .try_require(c("ggplot2","lattice"))
   system <- match.arg(system)
   df <- substitute(data)
-  nm <- varsByType(head(data))
+  nm <- .varsByType(head(data))
   # nm$q is the quantitative variables.
-  snames <- NAprepend(nm$all)
-  cnames <- NAprepend(nm$c)
+  snames <- .NAprepend(nm$all)
+  cnames <- .NAprepend(nm$c)
   mnames <- list("none", linear="linear", "smoother")
   sysnames <- list("ggplot2","lattice")
   manipulate( { p<-.doScatter(df, show, system=system, x=x, y=y, color=color, size=size,
