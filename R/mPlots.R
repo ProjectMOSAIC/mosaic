@@ -167,7 +167,7 @@ mScatter <- function(data, system=c("ggplot2","lattice")) {
 	  if (s$model=="linear")
 		res <- paste(res, ', type=c("p","r")', sep ="")
 	  if (s$model=="smoother")
-		res <- paste(res, ', type=c("p","loess")', sep ="")
+		res <- paste(res, ', type=c("p","smooth")', sep ="")
 
 	  res <- paste(res, ")", sep="")
   }
