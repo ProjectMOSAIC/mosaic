@@ -105,3 +105,4 @@ Collate:
     'ntiles.R'
     'ttest.R'
     'maps.R'
+    'mPlots.R'
