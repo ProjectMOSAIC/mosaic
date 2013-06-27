@@ -1500,6 +1500,31 @@ NA
 
 NA
 
+#' Mites and Wilt Disease 
+#'
+#' Data from an experiment to test whether exposure to mites protects against Wilt Disease in
+#' cotton plants.
+#' 
+#' @name Mites
+#' @usage data(Mites)
+#' @docType data
+#' @format 
+#'   A data frame with 47 observations on the following variables.
+#'   \itemize{
+#'     \item{\code{mites}} {1 if treated with mites, 0 otherwise}
+#'     \item{\code{wilt}} {1 if plant developed Wilt Disease, 0 otherwise}
+#'     }
+#'     
+#' @source
+#' Statistics for the Life Sciences, Third Edition; Myra Samuels & Jeffrey Witmer (2003), p 409.
+#' 
+#' @examples 
+#' data(Mites)
+#' 
+#' @keywords datasets
+NA
+
+
 #' State by State SAT data 
 #' 
 #' 
