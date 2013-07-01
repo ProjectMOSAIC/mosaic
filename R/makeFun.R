@@ -36,11 +36,11 @@ setGeneric(
 #' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
-#' @param use.envionment if \code{TRUE}, then variables implicitly defined in the 
+#' @param use.environment if \code{TRUE}, then variables implicitly defined in the 
 #' \code{object} formula can take default values from the environment at the time 
 #' \code{makeFun} is called.  A warning message alerts the user to this situation, 
-#' unless \code{supress.warngings} is \code{TRUE}.
-#' @param supress.warnings A logical indicating whether warnings should be supressed.
+#' unless \code{suppress.warnings} is \code{TRUE}.
+#' @param suppress.warnings A logical indicating whether warnings should be suppressed.
 #' @param transform a function used to transform the response.
 #' This can be useful to invert a transformation used on the response
 #' when creating the model.
@@ -55,7 +55,7 @@ setGeneric(
 setMethod(
   'makeFun',
   'formula',
-  function( object, ..., strict.declaration =TRUE, use.environment=TRUE, supress.warnings=FALSE) {
+  function( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE) {
 	  sexpr <- object 
 	  if (! inherits( sexpr, "formula") || length(sexpr) != 3) 
 		  stop('First argument must be a formula with both left and right sides.')
@@ -102,10 +102,10 @@ setMethod(
     finalVars <- c(varsWithoutDefaults, varsWithDefaults, varsFromEnv, varsDangerous)
     # finalVars <- c(finalVars, setdiff(vars,finalVars))
     w <- which (valVec=="")
-    if (length(varsFromEnv) > 0 & !supress.warnings)  
+    if (length(varsFromEnv) > 0 & !suppress.warnings)  
       warning(paste("Some default values taken from current environment: ", 
                     paste(varsFromEnv, collapse=", ") ))
-	  if (length(varsDangerous) > 0 & !supress.warnings)  
+	  if (length(varsDangerous) > 0 & !suppress.warnings)  
 	    warning(paste("Implicit variables without default values (dangerous!): ", 
 	                  paste(varsDangerous, collapse=", ") ))
 
