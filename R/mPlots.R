@@ -45,6 +45,8 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @param data a data frame containing the variables that might be used in the plot.
 #' @param system which graphics system to use (initially) for plotting (\pkg{ggplot2} 
 #' or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
+#' @param show a logical, if \code{TRUE}, the code will be displayed each time the plot is 
+#' changed.
 #' @return Nothing.  Just for side effects.  
 #' @export
 
