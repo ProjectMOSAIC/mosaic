@@ -1511,17 +1511,23 @@ NA
 #' @format 
 #'   A data frame with 47 observations on the following variables.
 #'   \itemize{
-#'     \item{\code{mites}} {1 if treated with mites, 0 otherwise}
-#'     \item{\code{wilt}} {1 if plant developed Wilt Disease, 0 otherwise}
+#'     \item{\code{treatment}} {a factor with levels \code{mites} and \code{no mites}}
+#'     \item{\code{outcome}} {a factor with levels \code{wilt} and \code{no wilt}}
 #'     }
 #'     
+#' @details
+#' Researchers suspected that attack of a plant by one organism induced resistance to subsequent attack by a different organism.  Individually potted cotton plants were randomly allocated to two groups: infestation by spider mites or no infestation.  After two weeks the mites were dutifully removed by a conscientious research assistant, and both groups were inoculated with Verticillium, a fungus that causes Wilt disease.  More information can be found at \url{https://www.causeweb.org/webinar/activity/2010-01/}.
+#'
 #' @source
-#' Statistics for the Life Sciences, Third Edition; Myra Samuels & Jeffrey Witmer (2003), p 409.
+#' Statistics for the Life Sciences, Third Edition; Myra Samuels & Jeffrey Witmer (2003), page 409.
 #' 
 #' @examples 
 #' data(Mites)
+#' tally(~ treatment + outcome, data=Mites)
+#' tally(~ outcome | treatment, format="percent", data=Mites)
 #' 
 #' @keywords datasets
+
 NA
 
 

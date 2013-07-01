@@ -210,14 +210,11 @@ numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
   }
   val0 <- stats::integrate(newf, vi.from, vi.to[1],rel.tol=.tol)$value
   # work around a bug in integrate()
-  if( vi.to[1]==-Inf ) {
-    # When "upper" limit is -Inf, the sign is wrong!  This might
-    # change, so check that the bug still exists
-    if( stats::integrate(function(x){dnorm(x)},lower=0,upper=-Inf,rel.tol=.tol)$val > 0) {
-      # bug exists!
-      val0 <- -val0
-    }
-  } 
+  if( vi.to[1]==-Inf ) { # Aaron Meyerson fix June 2013
+    # A couple of bugs have popped up when upper limit is -Inf,
+    # so upper and lower are switched and we take the negative
+    val0 <- -1*stats::integrate(newf, vi.to[1], vi.from, rel.tol=.tol)$value
+  }
   # add initial condition
   val0 <- val0 + initVal
   if (length(vi.to) == 1) {

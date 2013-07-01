@@ -38,4 +38,5 @@
   tryCatch( require(manipulate), error=function(e) { 
     stop("The manipulate package (available only in RStudio) is required.") 
   }
+  )
 }
