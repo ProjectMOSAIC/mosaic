@@ -35,8 +35,7 @@
 }
 
 .require_manipulate <-function() {
-  available <- suppressMessages(suppressWarnings(
-    require("manipulate", quietly = TRUE, character.only = TRUE, warn.conflicts = FALSE)))
-  if (! available) 
+  tryCatch( require(manipulate), error=function(e) { 
     stop("The manipulate package (available only in RStudio) is required.") 
+  }
 }
