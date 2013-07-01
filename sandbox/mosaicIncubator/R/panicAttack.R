@@ -10,11 +10,21 @@
 #'  @param fix  Whether or not to remove the offending objects 
 #'  in the user's global environment.  The default (\code{FALSE}) behavior
 #'  is to display a list of conflicts.  The user, if desired, can then rename these by 
-#'  hand and \code{remove()} them by hand.
+#'  hand and \code{remove()} them by hand.  If \code{fix=TRUE}, the conflicting functions 
+#'  will be removed from the user's global environment.
 #'  
 #'  @author Aaron Mayerson and Daniel Kaplan  (\email{kaplan@@macalaster.edu})
 #'  
 #'  @seealso \code{\link{remove}}
+#'  
+#'  @examples
+#'  \dontrun{
+#'  require(mosaic)
+#'  c <- makeFun(x~x) # Trouble!
+#'  plotFun <- c # more trouble!
+#'  panicAttack() # identify the problems
+#'  panicAttack(fix=TRUE)  # removed offending problems automatically
+#'  }
 #'  
 #'  @export
 
