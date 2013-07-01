@@ -43,12 +43,13 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @rdname mPlots
 #' @aliases mPlots, mScatter 
 #' @param data a data frame containing the variables that might be used in the plot.
-#' @param system which graphics system to use for plotting (\pkg{ggplot2} or \pkg{lattice})
+#' @param system which graphics system to use (initially) for plotting (\pkg{ggplot2} 
+#' or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
 #' @return Nothing.  Just for side effects.  
 #' @export
 
 
-mScatter <- function(data, system=c("ggplot2","lattice")) {
+mScatter <- function(data, system=c("lattice", "ggplot2")) {
   .require_manipulate()
   .try_require(c("ggplot2","lattice"))
   system <- match.arg(system)
@@ -62,7 +63,7 @@ mScatter <- function(data, system=c("ggplot2","lattice")) {
   manipulate( { p<-.doScatter(df, show, system=system, x=x, y=y, color=color, size=size,
                              facet=facet, logx=logx, logy=logy, model=model) },
              show = button("Show Expression"),
-             system = picker(sysnames, initial="ggplot2", label="Graphics System"),
+             system = picker(sysnames, initial=system, label="Graphics System"),
              x = picker(nm$q, initial=nm$q[[1]], label="x axis"),
              y = picker(nm$q, initial=nm$q[[2]], label="y axis"),
              color = picker(snames, initial="none ", label="Color"),
@@ -73,8 +74,6 @@ mScatter <- function(data, system=c("ggplot2","lattice")) {
              model = picker(mnames, initial="none", label="Model")
   )
 }
-
-
 
 # Utilities
 # Pull out the names of the quantitative and categorical variables in a data frame
