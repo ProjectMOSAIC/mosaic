@@ -35,7 +35,7 @@ panicAttack <- function(fix=FALSE){
   problems <- NULL  #base::c()
   if (length(funs) == 0){
     message("There are no user-defined functions.")
-    return(base::invisible(0))
+    return(base::invisible(problems))
   }
   for (i in 1:base::length(funs)){
     name <- funs[i]

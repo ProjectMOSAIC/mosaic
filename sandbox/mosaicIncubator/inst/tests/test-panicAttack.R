@@ -10,6 +10,7 @@ test_that("masked base functions are identified",{
   conflicts <- panicAttack()
   expect_identical(conflicts,"c")
   panicAttack(fix=TRUE)
+  conflicts <- panicAttack()
   expect_that(length(conflicts),equals(0))
 })
 
