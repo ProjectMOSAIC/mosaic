@@ -1,5 +1,6 @@
 #' Check for accidental overwriting of critical functionality
 #' 
+#' @details
 #' Sometimes people will unintentially create a function whose name masks that of a
 #' function in R.  An example is a statement like \code{c<-makeFun(x^2~x)} 
 #' which will hide the all-important \code{c()} function.  This causes great consternation,
@@ -13,7 +14,7 @@
 #'  
 #'  @author Aaron Mayerson and Daniel Kaplan  (\email{kaplan@@macalaster.edu})
 #'  
-#'  @seealso \code{remove()}
+#'  @seealso \code{\link{remove}}
 #'  
 #'  @export
 

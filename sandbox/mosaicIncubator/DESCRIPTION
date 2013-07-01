@@ -1,9 +1,9 @@
 Package: mosaicIncubator
 Type: Package
-Title: What the package does (short line)
+Title: Testing proposed new functionality for mosaic package
 Version: 1.0
 Date: 2013-07-01
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Daniel Kaplan
+Maintainer: Daniel Kaplan <kaplan@macalester.edu>
+Description: A place for putting proposed new functionality to test for desirability and interoperatility with the mosaic package
+License: GPL (>=2)
