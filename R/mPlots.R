@@ -1,6 +1,6 @@
 
 
-tryCatch(utils::globalVariables( c('x','y','color','size','logx','logy')),
+tryCatch(utils::globalVariables( c('x','y','color','size','logx','logy','key')),
          error=function(e) message('Looks like you should update R.'))
 
 #' Extract data from a data frame using a formula interface
