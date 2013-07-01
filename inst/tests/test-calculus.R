@@ -198,3 +198,10 @@ test_that("symbolic derivative on simple function works",{
   expect_that(gprime(2), equals(cos(2)+1, tol=0.0000001))
 }) 
 
+test_that("integration bug with -Inf as lower bound is worked around",{
+  F <- antiD(dnorm(x)~x)
+  expect_that(F(-Inf), equals(-.5, tol=0.00001))
+  g <- makeFun( ifelse( x>0 & x<1, 1, 0) ~ x)
+  G <- antiD(g(x)~x)
+  expect_that(G(-Inf), equals(0, tol=0.00001))
+})
