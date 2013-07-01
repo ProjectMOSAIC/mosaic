@@ -49,19 +49,25 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @export
 
 
-mScatter <- function(data, system=c("lattice", "ggplot2")) {
+mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
   .require_manipulate()
   .try_require(c("ggplot2","lattice"))
   system <- match.arg(system)
+  keyDefault <- ifelse ( system == "lattice", "none", "right" )
   df <- substitute(data)
   nm <- .varsByType(head(data))
   # nm$q is the quantitative variables.
   snames <- .NAprepend(nm$all)
   cnames <- .NAprepend(nm$c)
   mnames <- list("none", linear="linear", "smoother")
+  lnames <- list("none","top","right","left",
+                 "N (lattice)" = "N", "NE (lattice)" = "NE", 
+                 "E (lattice)" = "E", "SE (lattice)" = "SE", 
+                 "S (lattice)" = "S", "SW (lattice)" = "SW", 
+                 "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
   manipulate( { p<-.doScatter(df, show, system=system, x=x, y=y, color=color, size=size,
-                             facet=facet, logx=logx, logy=logy, model=model) },
+                             facet=facet, logx=logx, logy=logy, model=model, key=key) },
              show = button("Show Expression"),
              system = picker(sysnames, initial=system, label="Graphics System"),
              x = picker(nm$q, initial=nm$q[[1]], label="x axis"),
@@ -71,6 +77,7 @@ mScatter <- function(data, system=c("lattice", "ggplot2")) {
              facet = picker(cnames, initial="none ", label="Facets"),
              logx = checkbox(label="log x-axis"),
              logy = checkbox(label="log y-axis"),
+             key = picker(lnames, label="key", initial=keyDefault),
              model = picker(mnames, initial="none", label="Model")
   )
 }
@@ -110,11 +117,11 @@ mScatter <- function(data, system=c("lattice", "ggplot2")) {
 					  system=c('ggplot2','lattice'), 
 					  x=NA, y=NA, color=NA, 
 					  size=NA, facet=NA, logx=FALSE, 
-					  logy=FALSE, model="")
+					  logy=FALSE, model="", key="right")
 {
   system <- match.arg(system)
   vals <- list(data=data, x=x, y=y, color=color, size=size, 
-			   facet=facet, logx=logx, logy=logy, model=model)
+			   facet=facet, logx=logx, logy=logy, model=model, key=key)
 
   s <- .scatterString(vals, system)
   if (show) cat(paste(s, "\n"))
@@ -146,8 +153,12 @@ mScatter <- function(data, system=c("lattice", "ggplot2")) {
 		res <- paste(res, "+ stat_smooth(method=lm)")
 	  if (s$model=="smoother")
 		res <- paste(res, "+ stat_smooth(method=loess)") 
+    if (s$key %in% c('none','top','bottom','left','right')) {
+      res <- paste(res, '+ theme(legend.position="', s$key, '")', sep="")
+    }  
+    
   } else {
-	  res <- paste( "xyplot( ", s$y , "~", s$x, sep="")
+	  res <- paste( "xyplot( ", s$y , " ~ ", s$x, sep="")
 	  if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
 		  res <- paste(res, " | ", s$facet)
 	  res <- paste(res, ", data=", s$data, sep="")
@@ -167,9 +178,26 @@ mScatter <- function(data, system=c("lattice", "ggplot2")) {
 		res <- paste(res, ', type=c("p","r")', sep ="")
 	  if (s$model=="smoother")
 		res <- paste(res, ', type=c("p","smooth")', sep ="")
+    if (s$key %in% c('top','bottom','left','right')) {
+      res <- paste(res, ', auto.key=list(space="', s$key, '")', sep="")
+    }
+    if (s$key %in% c('N','NE','E','SE','S','SW','W','NW')) {
+      dir2pos <- list(
+        'N'  = 'c(.5,1)', 
+        'NE' = 'c(1,1)', 
+        'E'  = 'c(1,.5)', 
+        'SE' = 'c(1,0)', 
+        'S'  = 'c(.5,0)', 
+        'SW' = 'c(0,0)', 
+        'W'  = 'c(0,.5)', 
+        'NW' = 'c(0,1)'
+        ) 
+      res <- paste(res, ', auto.key=list(corner=', dir2pos[[s$key]], ')', sep="")
+    }
 
 	  res <- paste(res, ")", sep="")
   }
+  cat(res)
   
   return(res)
 }
