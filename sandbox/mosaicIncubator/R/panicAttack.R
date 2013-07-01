@@ -17,6 +17,8 @@
 #'  
 #'  @seealso \code{\link{remove}}
 #'  
+#'  @return A character vector of the conflicting function names.
+#'  
 #'  @examples
 #'  \dontrun{
 #'  require(mosaic)
@@ -49,12 +51,13 @@ panicAttack <- function(fix=FALSE){
   nConflicts <- base::length(problems)
   if (nConflicts == 0){
     base::message("No built-in functions have been over-ridden.")
-    return(base::invisible(0))
+    return(base::invisible(problems))
   }
   conflictListing <- base::paste(base::paste("\t",problems,"()",sep=""),collapse="\n")
   if(fix){
     txt <- "The following user-defined functions were removed: \n"
     for (i in 1:nConflicts) base::remove(list = base::list(problems[i])[[1]], envir = .GlobalEnv)
+    problems <- NULL
   }
   else{
     txt <- "The following user-defined functions conflict with built-in functions: \n"
