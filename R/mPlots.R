@@ -61,15 +61,16 @@ mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
   # nm$q is the quantitative variables.
   snames <- .NAprepend(nm$all)
   cnames <- .NAprepend(nm$c)
-  mnames <- list("none", linear="linear", "smoother")
+  mnames <- list("none", linear="linear", "smooth")
   lnames <- list("none","top","right","left",
                  "N (lattice)" = "N", "NE (lattice)" = "NE", 
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate( { p<-.doScatter(df, show, system=system, x=x, y=y, color=color, size=size,
-                             facet=facet, logx=logx, logy=logy, model=model, key=key) },
+  manipulate( { .doScatter(df, show=show, system=system, x=x, y=y, 
+                           color=color, size=size, facet=facet, 
+                           logx=logx, logy=logy, model=model, key=key) },
              show = button("Show Expression"),
              system = picker(sysnames, initial=system, label="Graphics System"),
              x = picker(nm$q, initial=nm$q[[1]], label="x axis"),
@@ -126,10 +127,10 @@ mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
 			   facet=facet, logx=logx, logy=logy, model=model, key=key)
 
   s <- .scatterString(vals, system)
-  if (show) cat(paste(s, "\n"))
+  if (show) cat(paste("\n", s, "\n"))
   p <- eval(parse(text=s))
   print(p)
-  return(p)
+  return(invisible(p))
 }
 
 # Scatter plots
@@ -140,23 +141,23 @@ mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
   system=match.arg(system)
   if (system == "ggplot2") {
 	  res <- paste("ggplot(data=", s$data, ", aes(x=", s$x, ", y=", s$y, "))", sep="")
-	  res <- paste(res, "+geom_point()", sep="")
+	  res <- paste(res, " + geom_point()", sep="")
 	  if (!is.null(s$color) && !is.na(s$color))
-		res<-paste(res, "+aes(colour=", s$color, ")", sep="")
+		res<-paste(res, " + aes(colour=", s$color, ")", sep="")
 	  if (!is.null(s$size) && !is.na(s$size))
-		res<-paste(res, "+aes(size=", s$size, ")", sep="")
+		res<-paste(res, " + aes(size=", s$size, ")", sep="")
 	  if (s$logx)
-		res <- paste(res, "+scale_x_log10()", sep="")
+		res <- paste(res, " + scale_x_log10()", sep="")
 	  if (s$logy)
-		res <- paste(res, "+scale_y_log10()", sep="")
+		res <- paste(res, " + scale_y_log10()", sep="")
 	  if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
-		res<-paste(res, "+facet_wrap(~", s$facet, ", ncol=4)", sep="")
+		res<-paste(res, " + facet_wrap(~", s$facet, ", ncol=4)", sep="")
 	  if (s$model=="linear")
-		res <- paste(res, "+ stat_smooth(method=lm)")
-	  if (s$model=="smoother")
-		res <- paste(res, "+ stat_smooth(method=loess)") 
+		res <- paste(res, " + stat_smooth(method=lm)")
+	  if (s$model=="smooth")
+		res <- paste(res, " + stat_smooth(method=loess)") 
     if (s$key %in% c('none','top','bottom','left','right')) {
-      res <- paste(res, '+ theme(legend.position="', s$key, '")', sep="")
+      res <- paste(res, ' + theme(legend.position="', s$key, '")', sep="")
     }  
     
   } else {
@@ -178,7 +179,7 @@ mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
 	  }
 	  if (s$model=="linear")
 		res <- paste(res, ', type=c("p","r")', sep ="")
-	  if (s$model=="smoother")
+	  if (s$model=="smooth")
 		res <- paste(res, ', type=c("p","smooth")', sep ="")
     if (s$key %in% c('top','bottom','left','right')) {
       res <- paste(res, ', auto.key=list(space="', s$key, '")', sep="")
@@ -199,7 +200,6 @@ mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
 
 	  res <- paste(res, ")", sep="")
   }
-  cat(res)
   
   return(res)
 }
