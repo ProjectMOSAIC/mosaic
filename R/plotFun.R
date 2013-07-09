@@ -86,7 +86,7 @@ plotFun <- function(object, ...,
 					levels=NULL, nlevels=10,labels=TRUE,
 					surface=FALSE,
 					groups=NULL,
-          			col = trellis.par.get('superpose.line')$col,
+          col = trellis.par.get('superpose.line')$col,
 					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL ) { 
@@ -136,7 +136,7 @@ plotFun <- function(object, ...,
 	for (r in rows(paramGrid) ) {
     rowAsList <- as.list( paramGrid[r,])
     names(rowAsList) <- otherVars
-    print( c( object, c(dots, rowAsList, strict.declaration=FALSE) ) )
+    # print( c( object, c(dots, rowAsList, strict.declaration=FALSE) ) )
 	  fList <- c( fList, do.call ( "makeFun", 
 	                               c( object, c(dots, rowAsList,
 	                                           strict.declaration=FALSE, envir= parent.frame()) ) 
@@ -149,10 +149,10 @@ plotFun <- function(object, ...,
 			ladd( panel.plotFun1( fList, npts=npts, # lwd=lwd, #col=col, 
 								 filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
 								 col.regions=col.regions, type=type, alpha=alpha, col=col, ...))
-			return(invisible(NULL))
+			return((NULL))
 		}
 		message("2-D adding temporarily discontinued.")
-		return(invisible(NULL))
+		return((NULL))
 	} 
 	
 	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
@@ -230,7 +230,7 @@ plotFun <- function(object, ...,
 								cleanDots)
 								)
 		}
-		return(thePlot)
+		return((thePlot))
 	}  # end ndims == 1
 
 	if (ndims == 2 ) {
@@ -287,7 +287,7 @@ plotFun <- function(object, ...,
 						   dist=slider(min=0,max=1,step=.01,initial=.2,label="Distance")
 						   ))
 			} else {  # without manipulate
-				return(wireframe(height ~ Var1 + Var2, 
+				return((wireframe(height ~ Var1 + Var2, 
 								 xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
 								 data=grid,
 								 groups=eval(substitute(groups), localData),
@@ -296,7 +296,7 @@ plotFun <- function(object, ...,
 								 col.regions= zcolors,
 								 # col=rgb(1,1,1,0),
 								 at=zcuts
-								 ) )
+								 ) ) )
 			}
 
 		} else {  # i.e., surface==FALSE
@@ -314,7 +314,7 @@ plotFun <- function(object, ...,
                           retion=TRUE, filled=filled, ...)
         # kill off arguments we don't want going to levelplot:
         argsToPass[["k"]] <- NULL
-        return( do.call( levelplot, argsToPass))                                                            
+        return(( do.call( levelplot, argsToPass) ))                                                           
 # 				return(levelplot(z~x*y, at=at, 
 # 								 xlab=xlab, ylab=ylab, 
 # 								 panel=panel.levelcontourplot,
@@ -334,13 +334,13 @@ plotFun <- function(object, ...,
 					fillcolors <- col.regions (4, alpha=alpha)
 				  nlevels <- 2
 			}
-			return(funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
+			return((funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
 											 xlab=xlab, ylab=ylab, at=levels,
 											 filled=filled, labels=labels,
 											 groups=eval(substitute(groups),localData),
 											 col.regions = col.regions ,
 											 #col=col, 
-											 ...) )
+											 ...) ) )
 		}
 	}
 	stop("Bug alert: You should not get here.  Please report.")
@@ -409,7 +409,7 @@ panel.plotFun1 <- function( ..f.., ...,
   
   for ( .f. in ..f..) {  
     idx <- idx + 1
-    print(.f.)
+    # print(.f.)
     vars <- formals(.f.)
     #  rhsVars <- all.vars(rhs(object))
     #  ndims <- length(rhsVars)

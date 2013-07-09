@@ -154,7 +154,7 @@ sum <- aggregatingFunction1( base::sum)
 #' @export
 IQR <- aggregatingFunction1( stats::IQR )
 #' @rdname aggregating
-#' #' @export
+#' @export
 fivenum <- aggregatingFunction1( stats::fivenum)
 #' @rdname aggregating
 #' @export
