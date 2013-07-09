@@ -2,7 +2,10 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.7}{
 	\itemize{
-    \item Some support for producing maps, notably \code{sp2df} for converting SpatialPolygonDataFrames to regular data frames (which is useful for plotting with ggplot2, for example)
+    \item improvements and bug fixes to \code{D} and \code{anitD}
+    \item in RStudio, \code{mScatter} provides an interactive environment for
+    creating \pkg{lattice} and \pkg{ggplot2} scatter plots.
+    \item Some support for producing maps, notably \code{sp2df} for converting SpatialPolygonDataFrames to regular data frames (which is useful for plotting with \pkg{ggplot2}, for example)
     \item Data frames returned by \code{do} are now marked as such so that \code{confint}
     can behave differently for such data frames and for "regular" data frames.
     \item \code{t.test} can now do 1-sample t-test described using a formula.
