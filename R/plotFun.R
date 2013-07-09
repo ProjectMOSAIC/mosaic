@@ -53,7 +53,7 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
-#' plotFun( a*sin(x^2)~x, xlim=range(-5,5), a.groups=2 )  # setting parameter value
+#' plotFun( a*sin(x^2)~x, xlim=range(-5,5), a=2 )  # setting parameter value
 #' plotFun( u^2 ~ u, ulim=c(-4,4) )                # limits in terms of u
 #' # Note roles of ylim and y.lim in this example
 #' plotFun( y^2 ~ y, ylim=c(-2,20), y.lim=c(-4,4) )    
@@ -64,7 +64,7 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' plotFun( sin(x) ~ x, 
 #'    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
 #'    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
-#' ## plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t, k.groups=2, P.groups=.3)
+#' ## plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t, k=2, P=.3)
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
@@ -76,7 +76,7 @@ tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList'
 #' # Can also just give fit since it is a "function of one variable"
 #' plotFun(fit, add=TRUE, lwd=2, col='white')
 #' # Attempts to find sensible axis limits by default
-#' plotFun( sin(k*x)~x, k.groups=0.01 )
+#' plotFun( sin(k*x)~x, k=0.01 )
 
 plotFun <- function(object, ..., 
 					add=FALSE,
@@ -123,13 +123,13 @@ plotFun <- function(object, ...,
 
   pgArgs <- list()
   # print(otherVars)
-  otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,".groups",sep="") else c()
+  otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,"",sep="") else c()
   if (length( setdiff( otherGroups, names(dots) ) ) > 0 ) {
     # print(list(otherGroups=otherGroups, dots=names(dots)) )
     stop(paste("Cannot plot with free parameters; try setting", 
                paste( setdiff(otherGroups, names(dots)), collapse=", " ) ))
   }
-  for (param in otherVars) pgArgs[[param]] <- dots[[paste(param,".groups",sep="")]]
+  for (param in otherVars) pgArgs[[param]] <- dots[[paste(param,"",sep="")]]
   paramGrid <- do.call( "expand.grid", pgArgs )
   
 	fList <- if (nrow(paramGrid) < 1) list(..f..) else list()
