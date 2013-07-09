@@ -134,6 +134,12 @@ aggregatingFunction2 <- function( fun ) {
 mean <- aggregatingFunction1( base::mean )
 #' @rdname aggregating
 #' @export
+median <- aggregatingFunction1( stats::median )
+#' @rdname aggregating
+#' @export
+range <- aggregatingFunction1( base::range )
+#' @rdname aggregating
+#' @export
 sd <- aggregatingFunction1( stats::sd )
 #' @rdname aggregating
 #' @export
@@ -147,6 +153,9 @@ sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
 IQR <- aggregatingFunction1( stats::IQR )
+#' @rdname aggregating
+#' #' @export
+fivenum <- aggregatingFunction1( stats::fivenum)
 #' @rdname aggregating
 #' @export
 iqr <- aggregatingFunction1( stats::IQR )
