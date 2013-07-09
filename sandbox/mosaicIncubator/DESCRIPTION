@@ -1,0 +1,13 @@
+Package: mosaicIncubator
+Type: Package
+Title: Testing proposed new functionality for mosaic package
+Version: 1.0
+Date: 2013-07-01
+Depends: 
+    mosaic
+Suggests:
+    testthat
+Author: Daniel Kaplan
+Maintainer: Daniel Kaplan <kaplan@macalester.edu>
+Description: A place for putting proposed new functionality to test for desirability and interoperatility with the mosaic package
+License: GPL (>=2)
