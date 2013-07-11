@@ -5,7 +5,8 @@ Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
 Version: 0.7-8
 Date: 2013-07-09
 Depends:
-    lattice,
+    lattice
+Imports:
     grid,
     methods,
     Hmisc,
