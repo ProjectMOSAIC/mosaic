@@ -137,7 +137,7 @@ setMethod(
   'lm',
    function( object, ... , transform=identity) {
     dnames <- names(eval(object$call$data, parent.frame(1)))
-	  vars <- model.vars(object)
+	  vars <- modelVars(object)
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
 	  result <- function(){}
 	  if ( length( vars ) <  1 ) {
@@ -192,7 +192,7 @@ setMethod(
   'glm',
    function( object, ..., type=c('response','link'), transform=identity ) {
 	  type <- match.arg(type)
-	  vars <- model.vars(object)
+	  vars <- modelVars(object)
 	  result <- function(){}
 	  if ( length( vars ) <  1 ) {
 		  result <- function( ... ) {
@@ -299,8 +299,8 @@ setMethod(
 #' @return a vector of variable names
 #' @examples
 #' model <- lm( wage ~ poly(exper,degree=2), data=CPS85 )
-#' model.vars(model)
-model.vars <- function(model) {
+#' modelVars(model)
+modelVars <- function(model) {
   formula <- as.formula(model$call$formula)
   all.vars(rhs(formula))
 }
