@@ -56,17 +56,17 @@ fitSpline <- function( formula, data=parent.frame(),
 					)
     if (method == 'natural') {
 		if (is.null(knots)) {
-			model <- lm( y ~ ns(x, df=df, ...) )
+			model <- lm( y ~ splines::ns(x, df=df, ...) )
 		} else {
-			model <- lm( y ~ ns(x, df=df, knots=knots, ...) )
+			model <- lm( y ~ splines::ns(x, df=df, knots=knots, ...) )
 		}
     } else {
 		if (method == 'linear') degree=1
 		if (method == 'cubic') degree=3
 		if (is.null(knots)) {
-			model <- lm( y ~ bs(x, df=df, degre=degree, ...) )
+			model <- lm( y ~ splines::bs(x, df=df, degre=degree, ...) )
 		} else {
-			model <- lm( y ~ bs(x, df=df, knots=knots, degre=degree, ...) )
+			model <- lm( y ~ splines::bs(x, df=df, knots=knots, degre=degree, ...) )
 		}
     }
 
