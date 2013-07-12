@@ -70,12 +70,6 @@ summary.nlsfunction <- function(object, ...) {
   summary( model( object), ... )
 }
 
-#' @rdname fitModel
-#' @method coefficients nlsfunction
-#' @export
-coefficients.nlsfunction <- function(object, ...) {
-  coefficients( model(object), ... )
-}
 
 #' @rdname fitModel
 #' @method coef nlsfunction
