@@ -126,7 +126,7 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
               pt2 = points[[length(points)-i+1]][k,]
               
               m = cbind(t(pt2-pt1), junk)
-              norm = base::qr(m)$qr[,2]
+              norm = qr(m)$qr[,2]
               hyperplane = function(){}
               body(hyperplane) <- parse(text=paste("(c(",
                                                    toString(norm), ")%*%(c(", paste(rhsVars, collapse=","), ")-c(", toString(pt1), ")))[[1]]", sep=""
