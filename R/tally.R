@@ -117,6 +117,13 @@ setMethod(
 		if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
 		if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
 	}
+  
+  # provide warning for 3-slot formulas
+  
+	if (!is.null (evalF$left) && ! is.null(evalF$condition)) {
+    stop( "Unsupported formula type." )
+	}
+  
 
 	# shift things around if lhs exists and condition is empty
 	if (!is.null (evalF$left) && is.null(evalF$condition)) {
