@@ -65,40 +65,23 @@ logical2factor.data.frame  <- function( x, ... ) {
 setGeneric( 
 	"tally", 
 	function(x, ... )  {
-    tryCatch( return(standardGeneric('tally')), 
-              error=function(e) 
-                message("First argument to tally() should be a formula, but I'll try to guess what you meant...") )  
-    formula <- ~ x
-    formula[[2]] <- substitute(x)
-    cc <- match.call()
-    cc[[2]] <- formula
-    names(cc)[2] <- ""
-    ccString <- capture.output(print(cc))
-    message(paste("   Trying", ccString)) 
-    return( eval(cc) )  #tally(formula, ...) )
+	  if ( ! .is.formula( x ) ) {
+	    message("First argument to tally() should be a formula, but I'll try to guess what you meant...") 
+	    formula <- ~ x
+	    formula[[2]] <- substitute(x)
+	    cc <- match.call()
+	    cc[[2]] <- formula
+	    names(cc)[2] <- ""
+	    ccString <- capture.output(print(cc))
+	    message(paste("   Trying", ccString)) 
+      x <- formula
+	    # return( eval(cc) )  #tally(formula, ...) )
+	  }
+	return(standardGeneric('tally')) 
 	}
 )
 
-#' @rdname tally-methods
-#' @aliases tally,ANY-method
-#' @usage
-#' \S4method{tally}{ANY}( x, ...)
 
-setMethod(
-	'tally',
-	'ANY',
-    function(x, ...) {
-      dots <- list(...)
-      if ("data" %in% names(dots)) {
-        message("The preferred method for using tally() is with a formula.")
-        message("...But I'll try to guess what you mean...")
-        return( do.call( "tally", c( list( ~ substitute(x)), ... ) ) )
-      }
-      
-		  dd <- data.frame(x=x)
-		  return(tally(~ x, dd, ...))
-	}
-)
 
 #' @rdname tally-methods
 #' @aliases tally,formula,ANY-method
@@ -119,7 +102,7 @@ setMethod(
 setMethod(
 	'tally',
 	'formula',
-    function(x, data=parent.frame(), 
+    function(x, data=parent.frame(2), 
 				   format=c('default','count','proportion','percent'), 
 				   margins=TRUE,
 				   quiet=TRUE,
