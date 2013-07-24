@@ -14,7 +14,7 @@
 #'        \code{\link[lattice]{barchart}} set \code{origin} to \code{NULL}, but
 #'         0 is often a better default. If 0 is not good, perhaps you should use
 #'        a different kind of plot as the results may be misleading.
-#' @param ylab a character of length one used for the y-axis label
+#' @param ylab a character vector of length one used for the y-axis label
 #' @return a trellis object describing the plot
 #' @seealso \code{\link[lattice]{barchart}}
 #'
@@ -24,7 +24,10 @@
 #' bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
 #' bargraph( ~ substance | sex, groups=homeless, auto.key=TRUE, data=HELPrct)
 
-bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0, ylab="Frequency", ...) {
+bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0, 
+                     ylab=ifelse(horizontal,"","Frequency"), 
+                     xlab=ifelse(horizontal,"Frequency",""), 
+                                 ...) {
   sgroups <- substitute(groups)
   haveGroups <- !missing(groups)
   formula <- paste("~", deparse(rhs(x)))
@@ -49,7 +52,7 @@ bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0,
 	  }
   }
   if (haveGroups)
-    barchart( formula, data=xtab, groups=eval(sgroups), origin=origin, ylab=ylab, ... ) 
+    barchart( formula, data=xtab, groups=eval(sgroups), origin=origin, ylab=ylab, xlab=xlab, ... ) 
   else
-    barchart( formula, data=xtab, origin=origin, ylab=ylab, ... )   
+    barchart( formula, data=xtab, origin=origin, ylab=ylab, xlab=xlab, ... )   
 }
