@@ -75,7 +75,7 @@ setGeneric(
 	    ccString <- capture.output(print(cc))
 	    message(paste("   Trying", ccString)) 
       x <- formula
-	    # return( eval(cc) )  #tally(formula, ...) )
+	    return( eval(cc) )  #tally(formula, ...) )
 	  }
 	return(standardGeneric('tally')) 
 	}
