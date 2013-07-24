@@ -67,8 +67,13 @@ histogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 
 #' @rdname xhistogram
 #' @export
-#' xhistogram <- histogram
-#' 
+xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
+                                      center=NULL, width=NULL, ...) {
+   .Deprecated("histogram")
+   histogram(x, data=data, panel=panel, type=type, center=center, 
+             width=width, ...)
+ }
+
 #' @rdname xhistogram
 #' @return \code{xhistogramBreaks} returns a vector of break points
 #' @examples

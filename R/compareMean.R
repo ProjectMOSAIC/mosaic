@@ -20,7 +20,7 @@
 #' # calculate the permutation distribution
 #' nulldist <- do(100) * compareMean(age ~ shuffle(sex), 
 #'   data=HELPrct) 
-#' xhistogram(~ result, groups=(result >= obs), nulldist, 
+#' histogram(~ result, groups=(result >= obs), nulldist, 
 #'   xlab="difference in means")
 compareMean = function(formula, data=NULL, ...) {
   means = mean( formula, data=data, ... )

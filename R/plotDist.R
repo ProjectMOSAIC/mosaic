@@ -17,7 +17,7 @@
 #' 	  of any of these)
 #' @param xlab,ylab as per other lattice functions
 #' @param breaks  a vector of break points for bins of histograms,
-#'    as in \code{\link{xhistogram}} 
+#'    as in \code{\link{histogram}} 
 #' @param type  passed along to various lattice graphing functions 
 #' @param resolution  number of points to sample when generating the plots
 #' @param \dots  other arguments passed along to lattice graphing routines
@@ -115,7 +115,7 @@ plotDist <- function( dist, params=list(), kind=c('density','cdf','qq','histogra
 					y = do.call( ddist, c(list(x=values), params) ) ), 
 				type=type, xlab=xlab, ylab=ylab, ...),
 		histogram = 
-			xhistogram( ~ x,
+			histogram( ~ x,
 				data = data.frame( 
 					x = values, 
 					y = do.call( ddist, c(list(x=values), params) ) ), 
