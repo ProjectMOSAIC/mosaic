@@ -61,7 +61,7 @@ histogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 		breaks <- xhistogramBreaks(xvals, center=center, width=width, nint=nint)
 	}
 
-	histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
+	lattice::histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
 			  nint=substitute(nint), breaks=breaks, ...)
 }
 
