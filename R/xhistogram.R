@@ -66,6 +66,10 @@ histogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 }
 
 #' @rdname xhistogram
+#' @export
+#' xhistogram <- histogram
+#' 
+#' @rdname xhistogram
 #' @return \code{xhistogramBreaks} returns a vector of break points
 #' @examples
 #' xhistogramBreaks(1:10, center=5, width=1)
