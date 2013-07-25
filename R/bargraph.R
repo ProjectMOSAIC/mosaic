@@ -15,6 +15,7 @@
 #'         0 is often a better default. If 0 is not good, perhaps you should use
 #'        a different kind of plot as the results may be misleading.
 #' @param ylab a character vector of length one used for the y-axis label
+#' @param xlab a character vector of length one used for the x-axis label
 #' @return a trellis object describing the plot
 #' @seealso \code{\link[lattice]{barchart}}
 #'
