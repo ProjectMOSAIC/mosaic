@@ -37,8 +37,8 @@ logical2factor.data.frame  <- function( x, ... ) {
 #'
 #' Tabulate categorical data
 #'
-#' @rdname tally-methods
-#' @aliases tally,ANY-method
+#' @rdname tally
+#' @aliases tally
 #'
 #' @param x an object
 #' @param formula a formula describing the type of table desired
@@ -62,52 +62,22 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ substance & sex , data=HELPrct, format='percent')
 #' tally( ~ link, data=HELPrct, useNA="always")
 
-setGeneric( 
-	"tally", 
-	function(x, ... )  {
-	  if ( ! .is.formula( x ) ) {
-	    message("First argument to tally() should be a formula, but I'll try to guess what you meant...") 
-	    formula <- ~ x
-	    formula[[2]] <- substitute(x)
-	    cc <- match.call()
-	    cc[[2]] <- formula
-	    names(cc)[2] <- ""
-	    ccString <- capture.output(print(cc))
-	    message(paste("   Trying", ccString)) 
-      x <- formula
-	    return( eval(cc) )  #tally(formula, ...) )
-	  }
-	return(standardGeneric('tally')) 
-	}
-)
 
-
-
-#' @rdname tally-methods
-#' @aliases tally,formula,ANY-method
-#' @aliases tally,formula-method
-#' 
-#' @usage
-#' \S4method{tally}{formula}( x, data=parent.frame(), 
-#'				   format=c('default','count','proportion','percent'), 
-#'				   margins=TRUE,
-#'				   quiet=TRUE,
-#'				   subset, ...) 
-#' \S4method{tally}{formula,ANY}( x, data=parent.frame(), 
-#'				   format=c('default','count','proportion','percent'), 
-#'				   margins=TRUE,
-#'				   quiet=TRUE,
-#'				   subset, ...) 
-
-setMethod(
-	'tally',
-	'formula',
-    function(x, data=parent.frame(2), 
-				   format=c('default','count','proportion','percent'), 
-				   margins=TRUE,
-				   quiet=TRUE,
-				   subset, ...) {
+tally <- function(x, data=parent.frame(2), 
+                      format=c('default','count','proportion','percent'), 
+                      margins=TRUE,
+                      quiet=TRUE,
+                      subset, ...) {
 	format <- match.arg(format)
+  if (! .is.formula(x) ) {
+      formula <- ~ x
+      formula[[2]] <- substitute(x)
+      message( "First argument should be a formula... But I'll try to guess what you meant")
+      return(
+        do.call(tally, list(formula, data=data, format=format, margins=margins, quiet=quiet, ...))
+      )  
+  }
+  
 	formula <- x
 	evalF <- evalFormula(formula,data)
 
@@ -152,7 +122,6 @@ setMethod(
 	}
 	return(res)
 }
-)
 
 #' return a vector of row or column indices
 #'
