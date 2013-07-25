@@ -62,7 +62,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ link, data=HELPrct, useNA="always")
 
 
-tally <- function(x, data=parent.frame(2), 
+tally <- function(x, data=parent.frame(), 
                       format=c('default','count','proportion','percent'), 
                       margins=TRUE,
                       quiet=TRUE,
@@ -149,6 +149,8 @@ rows <- function(x, default=c()) {
 #' Compute proportions, percents, or counts for a single level
 #'
 #' @rdname prop
+#' @param x an R object, usually a formula
+#' @param data a data frame in which \code{x} is to be evaluated
 #' @param \dots arguments passed through to \code{\link{tally}}
 #' @param level the level for which counts, proportions or percents are 
 #'         calculated
@@ -165,8 +167,8 @@ rows <- function(x, default=c()) {
 #' prop( ~sex | substance, data=HELPrct)
 #' perc( ~sex | substance, data=HELPrct)
 
-prop <- function(...,level=NULL, long.names=TRUE, sep=":", format="proportion") {
-  T <- tally(..., format=format)
+prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=":", format="proportion") {
+  T <- tally(x, data=data, ..., format=format)
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   if (is.null(level)) {
 	  level <- dimnames(T)[[1]][1]
@@ -186,11 +188,11 @@ prop <- function(...,level=NULL, long.names=TRUE, sep=":", format="proportion") 
 }
 
 #' @rdname prop
-count <- function(..., format="count") {
-	prop(..., format=format)
+count <- function(x, data=parent.frame(), ..., format="count") {
+	prop(x, data=data, ..., format=format)
 }
 
 #' @rdname prop
-perc <- function(..., format="percent") {
-	prop(..., format=format)
+perc <- function(x, data=parent.frame(), ..., format="percent") {
+	prop(x, data=data, ..., format=format)
 }
