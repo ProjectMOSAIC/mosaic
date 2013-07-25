@@ -143,7 +143,7 @@ makeAntiDfun <- function(.function, .wrt, from, .tol=.Machine$double.eps^0.25) {
   }
   # Create the numerical integral
   res <- function(){
-    numerical.integration(.newf,.wrt,as.list(match.call())[-1],formals(),
+    numerical_integration(.newf,.wrt,as.list(match.call())[-1],formals(),
                           from,ciName=intC, .tol) 
   }
   
@@ -163,12 +163,12 @@ makeAntiDfun <- function(.function, .wrt, from, .tol=.Machine$double.eps^0.25) {
 #' @param ciName character string giving the name of the symbol for the constant of integration
 #' @param .tol Numerical tolerance.  See stats::integrate
 #' 
-#' @note This function is not intended for direct use.  It packages
+#' @note \code{numerical_integration} is not intended for direct use.  It packages
 #' up the numerical anti-differentiation process so that the contents
 #' of functions produced by \code{antiD} look nicer to human readers.
 #' @export
 #'
-numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
+numerical_integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
   # We are about to do the numerics.  At this point, every
   # variable should have a numerical binding.  Just in case some
   # are still expressions, go through the list and evaluate them
