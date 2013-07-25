@@ -41,7 +41,6 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @aliases tally
 #'
 #' @param x an object
-#' @param formula a formula describing the type of table desired
 #' @param data a data frame or environment in which evaluation occurs
 #' @param format a character string describing the desired format of the results.
 #'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
