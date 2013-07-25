@@ -1,7 +1,6 @@
 
 context('Tabulation')
 
-if(FALSE) { 
 test_that("dimensions are correct", {
   expect_equivalent( dim( tally( ~ sex & substance | homeless, HELPrct ) ), c( 3, 4, 2) )
   expect_equivalent( dim( tally( ~ sex & substance & homeless, HELPrct ) ), c( 3, 4, 3) )
@@ -54,11 +53,11 @@ test_that("count/perc/prop wrappers work", {
   expect_equivalent( perc(~sex, data=HELPrct), 100 * sum(HELPrct$sex == 'female') / nrow(HELPrct))
 })
 
+if(FALSE) { 
 test_that("... passes through to table()", {
 	x <- c(1,2,2,3,3,3,NA,NA)
 	expect_equivalent( length( tally(x) ), 4 )
 	expect_equivalent( length( tally(x, useNA='ifany') ), 5 )
 	expect_equivalent( length( tally(x[1:6], useNA='always') ), 5 )
 })
-
 }
