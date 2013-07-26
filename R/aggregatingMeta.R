@@ -94,6 +94,7 @@ aggregatingFunction2 <- function( fun ) {
     
     if ( ! .is.formula(eval(orig.call$x, parent.frame()) ) && "data" %in% names(orig.call) )  {  
       mosaic.call[[1]] <- fun
+      mosaic.call[["data"]] <- NULL  # in case original function didn't have ...
       return ( eval( mosaic.call , envir=list(...)[["data"]], enclos=parent.frame()) )
     }
     
