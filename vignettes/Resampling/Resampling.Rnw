@@ -17,15 +17,14 @@
 \title{Randomization-based inference using the {\tt mosaic} package}
 \author{Daniel Kaplan\thanks{dtkaplan@gmail.com} \\ \footnotesize Macalester College \\
 \footnotesize St. Paul, MN
-\and Nicholas J. Horton\thanks{nhorton@smith.edu} \\ \footnotesize Smith College \\
-\footnotesize Northampton, MA \and 
+\and Nicholas J. Horton\thanks{nhorton@amherst.edu} \\ \footnotesize Amherst College \\
+\footnotesize Amherst, MA \and 
 Randall Pruim\thanks{rpruim@calvin.edu}
 \\ \footnotesize Calvin College \\
 \footnotesize Grand Rapids, MI
 }
 \date{\today}
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 %\SweaveOpts{concordance=TRUE}
 
 \maketitle
@@ -177,7 +176,7 @@ standard \R{} tools can be used for this.  We advocate the use of \pkg{lattice}-
 \item They extend naturally to more complicated settings.
 \end{enumerate}
 <<dot>>=
-xhistogram(~Price, data=mustangs)
+histogram(~Price, data=mustangs)
 @
 
 The basic \pkg{lattice} syntax here --- operator, ``formula" involving \verb+~+, and the use of \texttt{data=} to specify the relevant data set --- will be used throughout \pkg{mosaic}.  For example, here is the sample mean 
@@ -243,7 +242,7 @@ trials <- do(1000) * mean(~Price, data=resample(mustangs))
 
 Plotting this resampling distribution is straightforward, e.g.:
 <<hist>>=
-xhistogram(~ result, data=trials, xlab="Mean Mustang Price (in thousand dollars)")
+histogram(~ result, data=trials, xlab="Mean Mustang Price (in thousand dollars)")
 @ 
 
 The simplest way to translate this distribution into a confidence interval is to apply the operator for that purpose:
@@ -341,7 +340,7 @@ trials <- do(1000) * rflip(428)
 prop(trials$heads >= 240)
 @
 <<flips>>=
-xhistogram(~ heads, groups=(heads >= 240), data=trials)
+histogram(~ heads, groups=(heads >= 240), data=trials)
 @ 
 
 The observed pattern of 240 wins is not a likely outcome under the null hypothesis.
@@ -406,7 +405,7 @@ quantiles <- qdata(c(.025, .975), trials$result); quantiles
 @
 
 <<cor>>=
-xhistogram(~ result, data=trials,
+histogram(~ result, data=trials,
   groups=cut(result, c(-Inf, quantiles, Inf)),
   nbin=30) 
 @ 
@@ -419,7 +418,7 @@ set.seed(134) #make sure the result below is "typical"
 
 <<sleep>>=
 trials <- do(1000) * diff(mean(Words ~ shuffle(Group), data=sleep))
-xhistogram(~ Sleep, groups=(Sleep >= obs),  data=trials,
+histogram(~ Sleep, groups=(Sleep >= obs),  data=trials,
   xlab="Distribution of difference in means\nunder the null hypothesis")
 @ 
 
@@ -659,7 +658,7 @@ Students often think that, under the null, p-values are just a bit
 bigger than 0.05.  They can be surprised to see that the distribution of p-values under the null hypothesis is uniform from 0 to 1, or that there is a roughly 5\% chance of rejecting the null (at $p < 0.05$) even when the null is true.
 <<>>=
 prop(~result < 0.05, data=trials)
-xhistogram( ~result, data=trials )
+histogram( ~result, data=trials )
 @
 
 Perhaps more important, with the simulation approach it's straightforward to seque into more advanced and appropriate models and tests.  So, rather than the esteemed $\chi^2$ test, perhaps something a bit more modern and flexible such as logistic regression with \texttt{age} as a covariate:
