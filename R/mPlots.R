@@ -237,7 +237,6 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
 
 	  res <- paste(res, ")", sep="")
   }
-  print(res)
   return(res)
 }
 
