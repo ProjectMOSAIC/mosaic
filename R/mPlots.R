@@ -68,6 +68,7 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @rdname mPlots
 #' @aliases mPlots, mScatter 
 #' @param data a data frame containing the variables that might be used in the plot.
+#' @param default default type of plot to create.
 #' @param system which graphics system to use (initially) for plotting (\pkg{ggplot2} 
 #' or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
 #' @param show a logical, if \code{TRUE}, the code will be displayed each time the plot is 
