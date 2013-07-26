@@ -2,7 +2,7 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.7-12
+Version: 0.7-13
 Date: 2013-07-25
 Depends:
     lattice,
@@ -10,98 +10,3 @@ Depends:
     Hmisc,
     methods,
     utils
-Suggests:
-    MASS,
-    reshape2,
-    ggplot2,
-    plyr,
-    maptools,
-    manipulate,
-    vcd,
-    RCurl,
-    testthat
-Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
-    <kaplan@macalester.edu>, Nicholas Horton <nhorton@smith.edu>
-Maintainer: Randall Pruim <rpruim@calvin.edu>
-Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
-    to teach mathematics, statistics, computation and modeling.  Funded by the
-    NSF, Project MOSAIC is a community of educators working to tie together
-    aspects of quantitative work that students in science, technology,
-    engineering and mathematics will need in their professional lives, but
-    which are usually taught in isolation, if at all.
-License: GPL (>=2)
-LazyLoad: yes
-LazyData: yes
-Collate:
-    'Tukey.R'
-    'favstats.R'
-    'CIsim.R'
-    'adapt_seq.R'
-    'binom.test.R'
-    'confint.R'
-    'cross.R'
-    'dfapply.R'
-    'do.R'
-    'dotPlot.R'
-    'fetchData.R'
-    'findZeros.R'
-    'interval.R'
-    'ladd.R'
-    'linear-algebra.R'
-    'logit.R'
-    'perctable.R'
-    'pqrdata.R'
-    'prop.test.R'
-    'rand.R'
-    'read.file.R'
-    'resample.R'
-    'rfun.R'
-    'rgeo.R'
-    'settings.R'
-    'smoothers.R'
-    'statTally.R'
-    'surround.R'
-    'utils.R'
-    'xchisq.test.R'
-    'xhistogram.R'
-    'xpnorm.R'
-    'xqqmath.R'
-    'zzz.R'
-    'Calculus.R'
-    'mosaic-package.R'
-    'datasets.R'
-    'themes.R'
-    'integrateODE.R'
-    'is.wholenumber.R'
-    'parseFormula.R'
-    'bargraph.R'
-    'as.xtabs.R'
-    'plotCumfreq.R'
-    'oddsRatio.R'
-    'plotDist.R'
-    'compareMean.R'
-    'compareProportion.R'
-    'numD.R'
-    'symbolicD.R'
-    'fetchGoogle.R'
-    'makeFun.R'
-    'tally.R'
-    'mm.R'
-    'expandFun.R'
-    'findZerosMult.R'
-    'project.R'
-    'fitModel.R'
-    'fitSpline.R'
-    'plotPoints.R'
-    'frequencyPolygon.R'
-    'panel.lmbands.R'
-    'simplify.R'
-    'symbolicInt.R'
-    'evalFormula.R'
-    'aggregatingMeta.R'
-    'aggregatingAux.R'
-    'plotFun.R'
-    'ntiles.R'
-    'ttest.R'
-    'maps.R'
-    'mPlots.R'
