@@ -10,6 +10,7 @@ Depends:
     Hmisc,
     methods,
     utils
+<<<<<<< HEAD
 Suggests:
     MASS,
     reshape2,
@@ -105,3 +106,5 @@ Collate:
     'xpnorm.R'
     'xqqmath.R'
     'zzz.R'
+=======
+>>>>>>> 71ea16fb06fd5d3f0344c981bb007e9b49a2d073
