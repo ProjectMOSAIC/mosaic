@@ -21,7 +21,7 @@ Suggests:
     RCurl,
     testthat
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
-    <kaplan@macalester.edu>, Nicholas Horton <nhorton@smith.edu>
+    <kaplan@macalester.edu>, Nicholas Horton <nhorton@amherst.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>
 Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     to teach mathematics, statistics, computation and modeling.  Funded by the
