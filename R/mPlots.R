@@ -74,9 +74,32 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' changed.
 #' @return Nothing.  Just for side effects.  
 #' @export
+#' 
+mPlot <- function(data, 
+                  default=c('scatter','boxplot','violin','histogram','density','frequency polygon','xyplot'),
+                  system=c('lattice','ggplot2'),
+                  show=FALSE) 
+{
+  default <- match.arg(default)
+  system <- match.arg(system )
+  dataName <- substitute(data)
+  if (default == 'xyplot') default <- 'scatter'
+  if (default %in% c('scatter','boxplot','violin')) {
+    return( 
+      eval(parse(text=paste("mScatter(", dataName, ", default=default, system=system, show=show)") ) ) 
+    )
+  }
+    return( 
+      eval(parse(text=paste("mUniplot(", dataName, ", default=default, system=system, show=show)") ) ) 
+    )
+}
+                  
 
+#' @export
 
-mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
+mScatter <- function(data, default = c('scatter','boxplot','violin'),
+                     system=c("lattice", "ggplot2"), show=FALSE) {
+
   .require_manipulate()
   .try_require(c("ggplot2","lattice"))
   system <- match.arg(system)
@@ -99,7 +122,7 @@ mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
                            logScales=logScales, model=model, key=key) },
              show = button("Show Expression"),
              system = picker(sysnames, initial=system, label="Graphics System"),
-             plotType = picker(plotnames, label="Type of plot      "),
+             plotType = picker(plotnames, initial=default, label="Type of plot      "),
              x = picker(variables$all, initial=variables$q[[1]], label="any variable (x)   "),
              y = picker(variables$q, initial=variables$q[[2]],   label="quant. variable (y)"),
              flipCoords = checkbox(label="Flip coordinates"),
@@ -213,19 +236,22 @@ mScatter <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
 
 	  res <- paste(res, ")", sep="")
   }
+  print(res)
   return(res)
 }
 
 #' @rdname mPlots  
 #' @export
 
-mUniplot <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
+mUniplot <- function(data, default=c('histogram','density', 'frequency polygon'),
+                     system=c("lattice", "ggplot2"), show=FALSE) {
   .require_manipulate()
   .try_require(c("ggplot2","lattice"))
   system <- match.arg(system)
+  default <- match.arg(default)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
   df <- substitute(data)
-  plotnames <- list("histogram", "densityplot", "frequency polygon")
+  plotnames <- list("histogram", "density", "frequency polygon")
   
   variables <- .varsByType(head(data))
   # variables$q is the quantitative variables.
@@ -243,7 +269,7 @@ mUniplot <- function(data, system=c("lattice", "ggplot2"), show=FALSE) {
                            model=model, key=key) },
               show = button("Show Expression"),
               system = picker(sysnames, initial=system, label="Graphics system"),
-              plotType = picker(plotnames, label="Plot type"),
+              plotType = picker(plotnames, initial = default, label="Plot type"),
               x = picker(variables$q, initial=variables$q[[1]], label="x axis"),
               # y = picker(variables$q, initial=variables$q[[2]], label="y axis"),
               nbins = slider(2, 100, initial=25, label="Number of bins"),
