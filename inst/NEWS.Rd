@@ -2,20 +2,20 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.7}{
 	\itemize{
-    \item improvements and bug fixes to \code{D} and \code{anitD}
-    \item in RStudio, \code{mScatter} provides an interactive environment for
+    \item Various improvements and bug fixes to \code{D} and \code{antiD}
+    \item In RStudio, \code{mScatter} provides an interactive environment for
     creating \pkg{lattice} and \pkg{ggplot2} scatter plots.
     \item Some support for producing maps, notably \code{sp2df} for converting SpatialPolygonDataFrames to regular data frames (which is useful for plotting with \pkg{ggplot2}, for example)
     \item Data frames returned by \code{do} are now marked as such so that \code{confint}
     can behave differently for such data frames and for "regular" data frames.
     \item \code{t.test} can now do 1-sample t-test described using a formula.
-    \item Aggregating funcitons (e.g. \code{mean}, \code{var}, etc. using a formula
+    \item Aggregating functions (e.g. \code{mean}, \code{var}, etc. using a formula
     interface) have been completely
     reimplemented and additional aggregating functions are provided.
-		\item Plan to deprecate Carnegie Melon University Online Learning Initiative Statistics Modules datasets in next release.
-		\item changes in format to \code{RailTrail} dataset.
-		\item minor changes in documentation.
+		\item Changes in format to \code{RailTrail} dataset.
+		\item Minor changes in documentation.
 		\item Added vignettes: Starting with R and A Compendium of Commands to Teach Statistics.
+		\item Plan to deprecate datasets from the Carnegie Melon University Online Learning Initiative Statistics Modules in next release.
 	}
 }
 \section{Changes in version 0.6}{
