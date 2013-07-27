@@ -97,11 +97,12 @@ aggregatingFunction2 <- function( fun ) {
       return ( eval( mosaic.call , data, enclos=parent.frame()) )
     }
     
-    message( "Using mosaic super powers!" )
-    formula <- eval(substitute(orig.call$x),parent.frame())
-    if (is.null( mosaic.call[['data']] ) ) mosaic.call[['data']] <- quote(parent.frame())
-    mosaic.call$x <- eval(rhs(formula), envir=eval(orig.call$data), enclos=parent.frame())
-    mosaic.call$y <- eval(lhs(formula), envir=eval(orig.call$data), enclos=parent.frame())
+    # message( "Using mosaic super powers!" )
+    formula <- eval(orig.call$x, parent.frame())
+    mosaic.call[['data']] <- NULL
+    # if (is.null( mosaic.call[['data']] ) ) mosaic.call[['data']] <- quote(parent.frame())
+    mosaic.call$x <- eval(lhs(formula), envir=data, enclos=parent.frame())
+    mosaic.call$y <- eval(rhs(formula), envir=data, enclos=parent.frame())
     if (! "..." %in% names(formals(orig.call))) {
       for (n in setdiff( names(mosaic.call), names(formals(fun))) ) {
         if (n != "") mosaic.call[[n]] <- NULL
