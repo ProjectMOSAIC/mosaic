@@ -1,4 +1,4 @@
-tryCatch(utils::globalVariables(c('panel.plotFun')), 
+tryCatch(utils::globalVariables(c('panel.plotFun1')), 
 		 error=function(e) message('Looks like you should update R.'))
 #' show confidence and preciction bands on plots
 #' 
@@ -50,7 +50,7 @@ function (x, y,
 	bandDots[['lwd']] <- NULL
 
 	if (band.show[2])
-	do.call( panel.plotFun, 
+	do.call( panel.plotFun1, 
 			c(list(Plower(x)~x, 
 				   col=band.col[2], 
 				   lty=band.lty[2], 
@@ -60,7 +60,7 @@ function (x, y,
 			  bandDots) )
 
 	if (band.show[2])
-	do.call( panel.plotFun, 
+	do.call( panel.plotFun1, 
 			c(list(Pupper(x)~x, 
 				   col=band.col[2], 
 				   lty=band.lty[2], 
@@ -70,7 +70,7 @@ function (x, y,
 			  bandDots) )
 
 	if (band.show[1])
-	do.call( panel.plotFun, 
+	do.call( panel.plotFun1, 
 			c(list(Clower(x)~x, 
 				   col=band.col[1], 
 				   lty=band.lty[1], 
@@ -80,7 +80,7 @@ function (x, y,
 			  bandDots) )
 
 	if (band.show[1])
-	do.call( panel.plotFun, 
+	do.call( panel.plotFun1, 
 			c(list(Cupper(x)~x, 
 				   col=band.col[1], 
 				   lty=band.lty[1], 
@@ -90,7 +90,7 @@ function (x, y,
 			  bandDots) )
 
 	if (fit.show)
-	panel.plotFun(fit(x) ~ x, ...)
+	panel.plotFun1(fit(x) ~ x, ...)
 
     panel.xyplot(x, y, ...)
 }
