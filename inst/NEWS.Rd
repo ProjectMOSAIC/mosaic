@@ -15,6 +15,7 @@
 		\item Plan to deprecate Carnegie Melon University Online Learning Initiative Statistics Modules datasets in next release.
 		\item changes in format to \code{RailTrail} dataset.
 		\item minor changes in documentation.
+		\item Added vignettes: Starting with R and A Compendium of Commands to Teach Statistics.
 	}
 }
 \section{Changes in version 0.6}{
