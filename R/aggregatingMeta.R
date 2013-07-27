@@ -84,27 +84,21 @@ aggregatingFunction1 <- function( fun ) {
 #' foo( length ~ width, data=KidsFeet )
 #' stats::cor( KidsFeet$length, KidsFeet$width )
 aggregatingFunction2 <- function( fun ) {
-  result <- function( x, y=NULL, ... ) {
+  result <- function( x, y=NULL, ..., data=parent.frame() ) { # , ..fun.. = fun) {
     orig.call <- match.call()
-    base.call <- orig.call
-    base.call[[1]] <- quote(fun)
-    if (! is.null(base.call[['data']]) ) base.call[['data']] <- NULL
     mosaic.call <- orig.call 
-    mosaic.call[[1]] <- quote(fun)
-    
-    if ( ! .is.formula(eval(orig.call$x, parent.frame()) ) && "data" %in% names(orig.call) )  {  
       mosaic.call[[1]] <- fun
-      mosaic.call[["data"]] <- NULL  # in case original function didn't have ...
-      return ( eval( mosaic.call , envir=list(...)[["data"]], enclos=parent.frame()) )
+    
+    if ( #"data" %in% names(orig.call) && 
+         ! .is.formula(eval(orig.call$x, parent.frame())) )  {  
+      if (!'data' %in% names(formals(fun)) && ! "..." %in% names(formals(fun)) ) {
+        if("data" %in% names(mosaic.call)) mosaic.call[["data"]] <- NULL  # in case original function didn't have ...
+      }
+      return ( eval( mosaic.call , data, enclos=parent.frame()) )
     }
     
-    if ( ! .is.formula(eval(orig.call$x,parent.frame()) ) ) {
-      tryCatch( return( eval(base.call)), error=function(e) {}) #  , warning= function(w) {} )
-    }
-    
-    # message( "Using mosaic super powers!" )
-    mosaic.call[[1]] <- fun
-    formula <- eval(orig.call$x,parent.frame())
+    message( "Using mosaic super powers!" )
+    formula <- eval(substitute(orig.call$x),parent.frame())
     if (is.null( mosaic.call[['data']] ) ) mosaic.call[['data']] <- quote(parent.frame())
     mosaic.call$x <- eval(rhs(formula), envir=eval(orig.call$data), enclos=parent.frame())
     mosaic.call$y <- eval(lhs(formula), envir=eval(orig.call$data), enclos=parent.frame())
