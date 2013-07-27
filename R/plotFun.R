@@ -149,10 +149,13 @@ plotFun <- function(object, ...,
 			ladd( panel.plotFun1( fList, npts=npts, # lwd=lwd, #col=col, 
 								 filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
 								 col.regions=col.regions, type=type, alpha=alpha, col=col, ...))
-			return((NULL))
+			return(invisible(NULL))
 		}
-		message("2-D adding temporarily discontinued.")
-		return((NULL))
+		message("2-D adding temporarily un-discontinued.")
+		ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
+		                     filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
+		                     col.regions=col.regions, type=type, alpha=alpha, ...))
+		return(invisible(NULL))
 	} 
 	
 	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
@@ -302,31 +305,21 @@ plotFun <- function(object, ...,
 		} else {  # i.e., surface==FALSE
 			# a convenience wrapper around levelplot when a contour plot
 			# is being drawn de novo
-			funPlot.draw.contour <- function(x,y,z,ncontours=6,at=NULL,
-											 filled=TRUE, col.regions=topo.colors,labels=TRUE,
-											 showlabels=TRUE, contours=TRUE, groups=NULL, label=TRUE,
-											 xlab="",ylab="", ...){
-        if (is.null(at)) at = pretty(z,ncontours)
-        argsToPass <- list(z~x*y,at=at, xlab=xlab,ylab=ylab,
-                          panel=panel.levelcontourplot,
-                          groups=substitute(groups),col.regions=col.regions(60),
-                          contour=contours, labels=labels, colorkey=FALSE,
-                          retion=TRUE, filled=filled, ...)
-        # kill off arguments we don't want going to levelplot:
-        argsToPass[["k"]] <- NULL
-        return(( do.call( levelplot, argsToPass) ))                                                           
-# 				return(levelplot(z~x*y, at=at, 
-# 								 xlab=xlab, ylab=ylab, 
-# 								 panel=panel.levelcontourplot,
-# 								 groups=substitute(groups),
-# 								 col.regions=col.regions(60),
-# 								 contour=contours, labels=labels,
-# 								 colorkey = FALSE, region = TRUE, filled=filled,
-# 								 #col=col, 
-# 								 ... ) 
-# 				)
-			}
-
+		  funPlot.draw.contour <- function(x,y,z,ncontours=6,at=NULL,
+		                                   filled=TRUE, col.regions=topo.colors,labels=TRUE,
+		                                   showlabels=TRUE, contours=TRUE, groups=NULL, label=TRUE,
+		                                   xlab="",ylab="", ...){
+		    if (is.null(at)) at = pretty(z,ncontours)
+		    argsToPass <- list(z~x*y,at=at, xlab=xlab,ylab=ylab,
+		                       panel=panel.levelcontourplot,
+		                       groups=substitute(groups),col.regions=col.regions(60),
+		                       contour=contours, labels=labels, colorkey=FALSE,
+		                       retion=TRUE, filled=filled, ...)
+		    # kill off arguments we don't want going to levelplot:
+		    argsToPass[["k"]] <- NULL
+		    return(( do.call( levelplot, argsToPass) ))                                                           
+		  }
+		  
 			if( is.null(alpha) ) alpha <- 1
 			fillcolors <- col.regions (length(levels)+2, alpha=alpha)
 
@@ -334,6 +327,18 @@ plotFun <- function(object, ...,
 					fillcolors <- col.regions (4, alpha=alpha)
 				  nlevels <- 2
 			}
+      if (add) {
+        ladd( 
+          panel.levelcontourplot(grid$Var1, grid$Var2, grid$height, subscripts=1, 
+                          at = levels, labels = labels, 
+                          filled=filled, 
+                          groups=eval(substitute(groups),localData),
+                          col.regions = col.regions ,
+                          contour = TRUE, 
+                          region = FALSE, 
+                          ...)
+          )
+      }
 			return((funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
 											 xlab=xlab, ylab=ylab, at=levels,
 											 filled=filled, labels=labels,
@@ -443,6 +448,140 @@ panel.plotFun1 <- function( ..f.., ...,
   }
 }
 
+#' Panel function for plotting functions
+#'
+#' @seealso plotFun
+#' @param object an object (e.g., a formula) describing a function
+#' @param npts an integer giving the number of points (in each dimension) to sample the function
+#' @param zlab label for z axis (when in surface-plot mode)
+#' @param filled fill with color between the contours (\code{TRUE} by default)
+#' @param levels levels at which to draw contours
+#' @param nlevels number of contours to draw (if \code{levels} not specified)
+#' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
+#' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
+#' @param type type of plot (\code{"l"} by default)
+#' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param \dots additional arguments, typically processed by \code{lattice} panel functions
+#'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
+#'        Frequently used arguments include
+#'        \describe{
+#'          \item{\code{lwd}}{line width}
+#'        	\item{\code{lty}}{line type}
+#'        	\item{\code{col}}{a color}
+#'        }
+#'
+#' @examples
+#' x <- runif(30,0,2*pi) 
+#' d <- data.frame( x = x,  y = sin(x) + rnorm(30,sd=.2) )
+#' xyplot( y ~ x, data=d )
+#' ladd(panel.plotFun( sin(x) ~ x, col='red' ) )
+#' xyplot( y ~ x | rbinom(30,1,.5), data=d )
+#' ladd(panel.plotFun( sin(x) ~ x, col='red', lty=2 ) )    # plots sin(x) in each panel
+
+
+panel.plotFun <- function( object, ..., 
+                           type="l", 
+                           npts=NULL,
+                           zlab=NULL, 
+                           filled=TRUE, 
+                           levels=NULL, 
+                           nlevels=10,
+                           surface=FALSE,
+                           col.regions =topo.colors, 
+                           alpha=NULL ) { 
+  dots <- list(...)
+  if ( is.function(object) ) { 
+    formula <- f(x) ~ x 
+    formula[[2]] <- as.call( list(substitute(object), quote(x)))
+    object <- formula
+  }
+  
+  if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
+  
+  plot.line <- trellis.par.get('plot.line')
+  superpose.line <- trellis.par.get('superpose.line')
+  
+  # funny names (like ..f..) are to avoid names that might be used by the user
+  # not sure whether this precaution is necessary in current implementation
+  
+  # perhaps use environment(object)?
+  ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+  
+  vars <- formals(..f..)
+  rhsVars <- all.vars(rhs(object))
+  ndims <- length(rhsVars)
+  
+  parent.xlim <- current.panel.limits()$xlim
+  parent.ylim <- current.panel.limits()$ylim
+  
+  if( ndims > 2 || ndims < 1 ) 
+    stop("Formula must provide 1 or 2 independent variables (right hand side).")
+  
+  if( ndims == 1 ){
+    npts <- ifelse( is.null(npts), 200, npts)
+    
+    # Evaluate the function on appropriate inputs.
+    .xvals <- 
+      if ('h' %in% type)  
+        seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+    else 
+      mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
+                        f=function(xxqq){ ..f..(xxqq) }, length=npts)
+    .yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
+    
+    # need to strip out any components of ... that are in the object so they
+    # don't get passed to the panel function.
+    cleandots = list(...)
+    cleandots[ names(cleandots) %in% all.vars(object) ] <- NULL
+    # use do.call to call the panel function so that the cleandots can be put back in
+    return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
+    #return(panel.xyplot(.xvals, .yvals, ...))
+  }
+  
+  if (ndims == 2 ) {
+    if( surface ) { 
+      stop('no add option for surface plots yet.')
+      return(NULL)
+    }
+    # if we get here, surface == FALSE & ndims=2
+    npts <- ifelse( is.null(npts), 40, npts)
+    # create a function of those two variables
+    
+    if( length(zlab) == 0 ) zlab <- deparse(lhs(object) )
+    
+    .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
+    .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
+    zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
+    grid <- expand.grid( .xvals, .yvals )
+    grid$height <- c(zvals)
+    
+    zcuts <- pretty(grid$height,50)
+    zcolors <- col.regions (length(zcuts),alpha=.5)
+    # print(zcolors)
+    if( is.null(alpha) ) alpha<-.4
+    
+    if( all(is.logical(zvals)) ) {  # it's a constraint function
+      #nlevels <- 2
+      levels <- c(0.0,Inf) 
+    }
+    fillcolors <- col.regions (length(levels) + 2, alpha=alpha)
+    if(is.null(levels)) levels=pretty(grid$height, nlevels)
+    
+    return( panel.levelcontourplot(x = grid$Var1, y = grid$Var2, z = grid$height,
+                                   subscripts = 1:nrow(grid),
+                                   at = levels,
+                                   col.regions = fillcolors,
+                                   filled=filled, 
+                                   ...
+                                   #col=col, lwd = lwd, lty = 1,
+    )
+    )
+  }
+  stop("Bug alert: You should not get here.  Please report.")
+}
+
+
+
 .getColor <- function( n=1, col=trellis.par.get('superpose.line')$col) {
   if (length(col) < n) col <- rep(col, length.out=n)
   col[n]
@@ -516,7 +655,7 @@ inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants
 #' @param filled whether to fill the contours with color
 #' @param alpha.regions transparency of regions
 
-panel.levelcontourplot <- function(x, y, z, subscripts, 
+panel.levelcontourplot <- function(x, y, z, subscripts=1, 
                                    at, shrink, labels = TRUE, 
                                    label.style = c("mixed","flat","align"), 
                                    contour = FALSE, 
