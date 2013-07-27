@@ -31,17 +31,6 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 
 \tableofcontents
 
-\SweaveOpts{
-	tidy=FALSE,
-	dev="pdf",
-	fig.path="figures/fig-",  
-	fig.width=3, fig.height=2,
-	out.width="0.48\\textwidth",
-	fig.align="center",
-	fig.show="hold",
-	comment=NA
-}
-
 
 <<setupRnw,echo=FALSE,results="hide",message=FALSE>>=
 source('../setup.R')
@@ -396,11 +385,11 @@ hypothesis, we carry out many trials:
  95\% confidence interval for the correlation between price and mileage.}
 \end{quotation}
 <<>>=
-with(mustangs, cor(Price, Miles))
+cor(Price, Miles, data=mustangs)
 @
 
 <<>>=
-trials <- do(1000) * with(resample(mustangs), stats::cor(Price, Miles))
+trials <- do(1000) * cor(Price, Miles, data=resample(mustangs))
 quantiles <- qdata(c(.025, .975), trials$result); quantiles
 @
 
