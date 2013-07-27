@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.7-14
-Date: 2013-07-26
+Version: 0.7-15
+Date: 2013-07-27
 Depends:
     lattice,
     grid,
