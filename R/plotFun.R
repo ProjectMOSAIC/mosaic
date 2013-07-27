@@ -151,7 +151,7 @@ plotFun <- function(object, ...,
 								 col.regions=col.regions, type=type, alpha=alpha, col=col, ...))
 			return(invisible(NULL))
 		}
-		message("2-D adding temporarily un-discontinued.")
+		# message("2-D adding temporarily un-discontinued.")
 		ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
 		                     filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
 		                     col.regions=col.regions, type=type, alpha=alpha, ...))
