@@ -17,6 +17,7 @@
 #' @aliases aggregatingFunction1 
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
 #' returning a numeric vector of length 1.
+#' @param multiple a boolean indicating whether \code{..fun..} returns multiple values
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @export
@@ -25,7 +26,7 @@
 #' foo( ~length, data=KidsFeet )
 #' base::mean(KidsFeet$length)
 #' foo( length ~ sex, data=KidsFeet )
-aggregatingFunction1 <- function( fun ) {
+aggregatingFunction1 <- function( fun, multiple=FALSE ) {
   result <- function( x, ..., data) {
     orig.call <- match.call()
     fun.call <- orig.call 
@@ -39,7 +40,7 @@ aggregatingFunction1 <- function( fun ) {
 
       result <- tryCatch( eval(fun.call, envir=parent.frame()) , 
                 error=function(e) {e} ,
-                warning=function(w) {w} ) # message(paste(e,"Old dog needs new tricks!"))} )
+                warning=function(w) {w} ) 
       if ( ! inherits(result, "warning") && ! inherits(result,"error") ) 
         return(result) 
     }
@@ -54,13 +55,13 @@ aggregatingFunction1 <- function( fun ) {
                 error = function(e) { stop(paste(e, "Did you perhaps omit data= ?")) } )
     }
 
-    # message( "Using mosaic super powers!" )
     maggregate.call <- orig.call
     maggregate.call[[1]] <- quote(maggregate)
     maggregate.call$formula <- x
     maggregate.call$data <- substitute(data) 
     maggregate.call$x <- NULL
     maggregate.call$FUN <- substitute(..fun..)
+    maggregate.call$multiple <- substitute(multiple)
     return( eval(maggregate.call) )
   }
   formals(result) <- c(formals(result), ..fun.. = substitute(fun))
@@ -163,7 +164,7 @@ prod <- aggregatingFunction1( base::prod )
 sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
-favstats <- aggregatingFunction1(fav_stats)
+favstats <- aggregatingFunction1(fav_stats, multiple=TRUE)
 #' @rdname aggregating
 #' @export
 var <- aggregatingFunction1( stats::var )
