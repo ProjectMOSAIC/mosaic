@@ -51,7 +51,7 @@ function (x, y,
 
 	if (band.show[2])
 	do.call( panel.plotFun1, 
-			c(list(Plower(x)~x, 
+			c(list(makeFun(Plower(x)~x), 
 				   col=band.col[2], 
 				   lty=band.lty[2], 
 				   npts=npts, 
@@ -61,7 +61,7 @@ function (x, y,
 
 	if (band.show[2])
 	do.call( panel.plotFun1, 
-			c(list(Pupper(x)~x, 
+			c(list(makeFun(Pupper(x)~x), 
 				   col=band.col[2], 
 				   lty=band.lty[2], 
 				   alpha=band.alpha[2], 
@@ -71,7 +71,7 @@ function (x, y,
 
 	if (band.show[1])
 	do.call( panel.plotFun1, 
-			c(list(Clower(x)~x, 
+			c(list(makeFun(Clower(x)~x), 
 				   col=band.col[1], 
 				   lty=band.lty[1], 
 				   alpha=band.alpha[1], 
@@ -81,7 +81,7 @@ function (x, y,
 
 	if (band.show[1])
 	do.call( panel.plotFun1, 
-			c(list(Cupper(x)~x, 
+			c(list(makeFun(Cupper(x)~x), 
 				   col=band.col[1], 
 				   lty=band.lty[1], 
 				   alpha=band.alpha[1], 
@@ -90,7 +90,7 @@ function (x, y,
 			  bandDots) )
 
 	if (fit.show)
-	panel.plotFun1(fit(x) ~ x, ...)
+	panel.plotFun1(makeFun(fit(x) ~ x), ...)
 
     panel.xyplot(x, y, ...)
 }

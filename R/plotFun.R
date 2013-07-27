@@ -392,7 +392,10 @@ panel.plotFun1 <- function( ..f.., ...,
   dots <- list(...)
 
   if (is.function(..f..) ) ..f.. <- list(..f..)
-  if (! is.list(..f..) || length(..f..) < 1) stop("Empty or malformed list of functions.")
+  if (! is.list(..f..) || length(..f..) < 1) {
+    print(str(..f..))
+    stop("Empty or malformed list of functions.")
+  }
   
   if (is.numeric(col)) {
     message('converting numerical color value into a color using lattice settings')
