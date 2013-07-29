@@ -164,7 +164,7 @@ standard \R{} tools can be used for this.  We advocate the use of \pkg{lattice}-
 \item They use a syntax that is consistent with the syntax used in \pkg{mosaic}.  
 \item They extend naturally to more complicated settings.
 \end{enumerate}
-<<dot>>=
+<<dot,fig.width=4, fig.height=3>>=
 histogram(~Price, data=mustangs)
 @
 
@@ -230,7 +230,7 @@ trials <- do(1000) * mean(~Price, data=resample(mustangs))
 
 
 Plotting this resampling distribution is straightforward, e.g.:
-<<hist>>=
+<<hist,fig.width=4, fig.height=3>>=
 histogram(~ result, data=trials, xlab="Mean Mustang Price (in thousand dollars)")
 @ 
 
@@ -328,7 +328,7 @@ coin toss winner (say, ``heads'') wins 240 or more of the 428 attempts:
 trials <- do(1000) * rflip(428)
 prop(~ trials$heads >= 240)
 @
-<<flips>>=
+<<flips,fig.width=4, fig.height=3>>=
 histogram(~ heads, groups=(heads >= 240), data=trials)
 @ 
 
@@ -360,7 +360,7 @@ obs <- diff(mean(Words ~ Group, data=sleep))
 obs
 @ 
 
-<<>>=
+<<fig.width=4, fig.height=3>>=
 bwplot(Words ~ Group, data=sleep)
 @
 
@@ -393,7 +393,7 @@ trials <- do(1000) * cor(Price, Miles, data=resample(mustangs))
 quantiles <- qdata(c(.025, .975), trials$result); quantiles
 @
 
-<<cor>>=
+<<cor,fig.width=4, fig.height=3>>=
 histogram(~ result, data=trials,
   groups=cut(result, c(-Inf, quantiles, Inf)),
   nbin=30) 
@@ -405,7 +405,7 @@ histogram(~ result, data=trials,
 set.seed(134) #make sure the result below is "typical"
 @
 
-<<sleep,tidy=FALSE>>=
+<<sleep,tidy=FALSE,fig.width=4, fig.height=3>>=
 trials <- do(1000) * diff(mean(Words ~ shuffle(Group), data=sleep))
 histogram(~ Sleep, groups=(Sleep >= obs),  data=trials,
   xlab="Distribution of difference in means\nunder the null hypothesis")
@@ -432,7 +432,7 @@ linear models.
 Usually, people think about linear models in the context of regression.  For instance, using the Lock Mustang price dataset, 
 there is presumably a relationship between the price of a car and its mileage.  Here's a graph:
 
-<<price-mileage-graph>>=
+<<price-mileage-graph,fig.width=4, fig.height=3>>=
 xyplot( Price ~ Miles, data=mustangs )
 @
 There's a pretty clear relationship here, which in the Lock problems was quantified with the correlation coefficient.
@@ -645,7 +645,7 @@ fits into the whole.
 
 Students often think that, under the null, p-values are just a bit 
 bigger than 0.05.  They can be surprised to see that the distribution of p-values under the null hypothesis is uniform from 0 to 1, or that there is a roughly 5\% chance of rejecting the null (at $p < 0.05$) even when the null is true.
-<<>>=
+<<fig.width=4, fig.height=3>>=
 prop(~result < 0.05, data=trials)
 histogram( ~result, data=trials )
 @
