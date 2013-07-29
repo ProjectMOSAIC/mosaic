@@ -173,13 +173,17 @@ plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k,
 @
 
 
-For functions of two variables, you can override the default with \option{surface=TRUE} to obtain a surface plot instead.
+For functions of two variables, you can override the default with \option{surface=TRUE} to obtain a surface plot instead. 
 
-<<surface1,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE,tidy=FALSE>>=
+<<surface1,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE,error=FALSE,tidy=FALSE,fig.keep="none">>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4,
           surface=TRUE)
 @
+
+\centerline{\includegraphics[width=3in]{3d-plot.pdf}}
+% The plot involves manipulate and so doesn't show up outside of RStudio
+
 \noindent
 Typically, surface plots are hard to interpret, but they are useful in teaching students how to interpret contour plots.
 
