@@ -66,8 +66,8 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
   }
   
   if( length(rhsVars) != 1 ){
-    if(within==Inf)
-      within=100
+    if(any(within==Inf))
+      within[within==Inf]=100
     return(unique(signif(findZerosMult(expr,..., npts=nearest, rad=within, near = near, sortBy = sortBy), 7)))
   }
   
