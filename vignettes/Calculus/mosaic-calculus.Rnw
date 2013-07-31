@@ -8,7 +8,7 @@
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
 \author{Daniel Kaplan, Cecylia Bocovich, \& Randall Pruim}
-\date{July 3, 2012}
+\date{July, 2013}
 
 \begin{document}
 \maketitle
