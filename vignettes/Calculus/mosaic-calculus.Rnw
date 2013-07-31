@@ -230,7 +230,7 @@ D(A*x + b~y, A=10,b=5)
 @
 The controlling rule here is that the derivative of a function should have the same arguments as the function being differentiated.
 
-Second- and higher-order derivatives can be handled using an obvious extention to the notation:
+Second- and higher-order derivatives can be handled using an obvious extension to the notation:
 <<message=FALSE,warning=FALSE>>=
 D( A*x^2*sin(y) ~ x+x )
 D( A*x^2*sin(y) ~ y+y )
