@@ -45,12 +45,12 @@ confint.htest <- function (object, parm, level, ...){
   verbose <- list(...)[['verbose']]
   if (is.null(verbose)) verbose <- FALSE
   if ( verbose ) {
-	  message('\nMethod: ')
-	  message(object$method)
-	  message('\nEstimate: ')
-	  message( format(object$estimate, getOption('digits',3)) )
-	  message( paste("\n", lev * 100, "% confidence interval: ", sep = "") )
-	  message( paste(format(as.vector(int), getOption('digits',3)), collapse=" ") )
+	  cat('\nMethod: ')
+	  cat(object$method)
+	  cat('\nEstimate: ')
+	  cat( format(object$estimate, getOption('digits',3)) )
+	  cat( paste("\n", lev * 100, "% confidence interval: ", sep = "") )
+	  cat( paste(format(as.vector(int), getOption('digits',3)), collapse=" ") )
   	  return(invisible(int))
   }
   interv <- as.vector(int) 
@@ -71,53 +71,58 @@ pval <- function(x, ...){UseMethod("pval", x)}
 
 pval.htest <- function (x, digits=4, verbose=FALSE, ...){
   pval <- x$p.value
+  if (!verbose) {
+    return( c(p.value=pval) )
+  }
+  # verbose stuff below
   stat <- x$statistic
   param <- x$parameter
-  alt <- x$alternative
   method <- x$method
-  null <- x$null.value
-  estimate <- x$estimate
-  direction <- switch(alt, 
-  	'less' = ' < ',
-  	'greater' = ' > ',
-  	'two.sided' = ' <> '
-	)
-  if (verbose) {
-	  cat('\n')
-	  cat(paste('Method: ', method,  sep=""))
-	  cat('\n\n')
-	  cat(paste(
-		'Null Hypothesis: ', 
-		names(null), 
-		" = ", 
-		null,
-		sep="") 
-	  )  
-	  cat('\n')
-	  cat(paste(
-		'Alt. Hypothesis: ', 
-		names(null), 
-		direction, 
-		null,
-		sep="") 
-	  )  
-	  cat('\n\n')
-	  cat(paste(names(stat), " = ", 
-		signif(stat,digits=digits),
-		sep="") )  
-	  cat('  (')
-	  cat( paste( 
-		names(param), " = ", 
-		signif(param,digits=digits), 
-		sep="",
-		collapse=', ') )  
-	  cat(')\n\n')
-	  cat( paste("p-value = ", signif(pval,digits), sep="") ) 
-	  cat('\n\n')
-	  return(invisible(pval))
-  }
-
-  return( c(p.value=pval) )
+  cat('\n')
+  cat( paste('Method: ', method, "\n", sep="") )
+  
+  tryCatch( {
+    alt <- x$alternative
+    direction <- switch(alt, 
+                        'less' = ' < ',
+                        'greater' = ' > ',
+                        'two.sided' = ' <> ',
+                        ' <> '
+    )
+    null <- x$null.value
+    cat('\n\n')
+    cat(paste(
+      'Null Hypothesis: ', 
+      names(null), 
+      " = ", 
+      null,
+      sep="") 
+    )  
+    cat('\n')
+    cat(paste(
+      'Alt. Hypothesis: ', 
+      names(null), 
+      direction, 
+      null,
+      sep="") 
+    )  
+    estimate <- x$estimate
+    cat('\n\n')
+    cat(paste(names(stat), " = ", 
+              signif(stat,digits=digits),
+              sep="") )  
+    cat('  (')
+    cat( paste( 
+      names(param), " = ", 
+      signif(param,digits=digits), 
+      sep="",
+      collapse=', ') )  
+    cat(')\n\n')
+  }, error=function(e) {}
+  )
+  cat( paste("p-value = ", signif(pval,digits), sep="") ) 
+  cat('\n\n')
+  return(invisible(c(p.value=pval)))
 }
 
 #' @rdname interval
