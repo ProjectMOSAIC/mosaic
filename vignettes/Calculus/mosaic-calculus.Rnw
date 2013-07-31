@@ -8,13 +8,13 @@
 
 \title{Plotting, Derivatives, and Integrals for Teaching Calculus in R}
 \author{Daniel Kaplan, Cecylia Bocovich, \& Randall Pruim}
-\date{July 3, 2012}
+\date{July, 2013}
 
 \begin{document}
 \maketitle
 
-\SweaveOpts{
-	fig.path="figures/fig-",
+<<include=FALSE>>=
+opts_chunk$set(	fig.path="figures/fig-",
 	fig.align="center",
 	fig.height=3, 
 	fig.width=5,
@@ -22,8 +22,8 @@
 	tidy=TRUE,
 	dev="pdf",
 	fig.show="hold",
-	comment=NA
-	}
+	comment=NA)
+@
 
 <<setup,echo=FALSE,message=FALSE>>=
 require(mosaic)
@@ -93,7 +93,7 @@ For many years I taught introductory calculus using the native function-creation
 In the \pkg{mosaic} package we provide a simple means to step around scoping
 issues while retaining the use of symbolic parameters. Here's an example using
 \function{makeFun()}.
-<<>>=
+<<message=FALSE,warning=FALSE>>=
 f <- makeFun(m*x + b ~ x)
 @
 One difference is that the input variable is identified using \R's formula syntax: 
@@ -119,58 +119,53 @@ This allows the function to be used as if the only input were \variable{x}, whil
 <<>>=
 f(x=2)
 @
-Functions can have more than one input.  The \pkg{mosaic} package handles
-this using an obvous extension to the notation:
-<<>>=
+Functions can have more than one input. To identify a symbolic quantities as input variables, list them to the right of the formula tilde, as here:
+
+<<message=FALSE,warning=FALSE>>=
 g <- makeFun(A*x*cos(pi*x*y)~x+y, A=3)
 g
 @
 
-In evaluating functions with multiple inputs, it's helpful to use the variable names to identify which input is which:
+Other symbolic quantities in the expression to the left of the tilde are treated as "parameters."  The only operational difference between an input variable and a parameter involves warning the user whenever a parameter with no default value is given.  For example, the following two functions are equivalent except for the warning generated in making the second one:
+
+<<>>=
+g1 <- makeFun(A*x*cos(pi*x*y)~x+y+A)
+g2 <- makeFun(A*x*cos(pi*x*y)~x+y)
+@
+
+Thus, it is entirely a matter of style whether you include a symbolic quantity such as \texttt{A} as a ``parameter'' or an ``input variable.'' By giving a warning message, we are encouraging you to adopt a style where parameters are assigned default values. The symbol \variable{pi} is handled specially; it's always treated as the number $\pi$ and never listed as a parameter. 
+
+When constructing a function, the order of the input variables and parameters is set more or less arbitrarily.  Quantities identified as input variables by being on the right of the tilde will appear first, listed in the same order.  Parameters will be listed after the variables in no particular order.  When you derive a new function --- for instance, by differentiation --- the order of variables in the derived function may be different than that in the parent function.
+
+
+In evaluating functions with multiple inputs, it's a good practice to use the variable names to identify which input is which:
 <<>>=
 g(x=1,y=2)
 @
 \noindent
-Notice that the 
-variable \variable{pi} is handled differently; it's always treated as the number $\pi$.
 
-Using \function{makeFun()} to define functions has the following advantages for 
-introdcutory calculus students:
+
+
+Using \function{makeFun()} to define functions has the following advantages for introdcutory calculus students:
 \begin{itemize}
 \item
 The notation highlights the distinction between parameters and inputs to functions.  
-\item Inputs are identified explicitly, but there is no artificial distinction
-between parameters and ``inputs."  
-Sometimes, you want to study what happens as
-you vary a parameter.
+\item Inputs are identified explicitly, but there is no artificial distinction between parameters and ``inputs."   Sometimes, you want to study what happens as you vary a parameter.
 \item
 \R's formula syntax is introduced early and in a fundamental way.  
 The \pkg{mosaic} package builds on this to enhance functionality while
-maintaining a common theme.  In addition, the notation sets students up for a
-natural transition to functions of multiple variables.
+maintaining a common theme.  In addition, the notation sets students up for a natural transition to functions of multiple variables.
 \end{itemize}
 
-You can, of course, use functions constructed using \function{function()} or in
-any other way as well.  Indeed, \pkg{mosaic} is designed to make it
-straightforward to employ calculus operations to construct and interpret
-functions that do not have a simple algebraic expression, for instance splines,
-smoothers, and fitted functions.  (See Section \ref{sec:functions-from-data}.)
+You can, of course, use functions constructed using \function{functio n()} or in any other way as well.  Indeed, \pkg{mosaic} is designed to make it straightforward to employ calculus operations to construct and interpret functions that do not have a simple algebraic expression, for instance splines, smoothers, and fitted functions.  (See Section \ref{sec:functions-from-data}.)
 
 \section{Graphs}
 
-The \pkg{mosaic} package provides \function{plotFun()} to simplify graphing functions of 
-one or two variables.  This one function handles three different formats of
-graph: the standard line graph of a function of one variable; a contour plot of
-a function of two variables; and a surface plot of a function of two variables.
+The \pkg{mosaic} package provides \function{plotFun()} to simplify graphing functions of one or two variables.  This one function handles three different formats of graph: the standard line graph of a function of one variable; a contour plot of a function of two variables; and a surface plot of a function of two variables.
 
-The \function{plotFun()} interface is similar to that of \function{makeFun()}.
-The variables to the right of \verb+~+ set the independent axes plotting
-variables.  The plotting domain can be specified by a \option{lim} argument
-whose name is constructed to be prefaced by the variable being set.  For
-example, here's are a conventional line plot of a function of $t$ and a
-contour plot of two variables:
+The \function{plotFun()} interface is similar to that of \function{makeFun()}. The variables to the right of \verb+~+ set the independent axes plotting variables.  The plotting domain can be specified by a \option{lim} argument whose name is constructed to be prefaced by the variable being set.  For example, here's are a conventional line plot of a function of $t$ and a contour plot of two variables:
 
-<<line1,fig.height=4>>=
+<<line1,fig.height=4,tidy=FALSE>>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t, 
           t.lim=range(0,10), k=-0.3, A=10, P=4)
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
@@ -178,40 +173,34 @@ plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k,
 @
 
 
-For functions of two variables, you can override the default with \option{surface=TRUE}
-to obtain a surface plot instead.
+For functions of two variables, you can override the default with \option{surface=TRUE} to obtain a surface plot instead. 
 
-<<surface1,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE>>=
+<<surface1,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE,error=FALSE,tidy=FALSE,fig.keep="none">>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4,
           surface=TRUE)
 @
-\noindent
-Typically, surface plots are hard to interpret, but they are useful in teaching
-students how to interpret contour plots.
 
-The resolution of the two-variable plots can be changed with the \option{npts} argument.  By default, it's set to be something that's rather chunky in order to enhance the speed of drawing.  A value of 
-\option{npts=300} is generally satisfactory for publication purposes.
+\centerline{\includegraphics[width=3in]{3d-plot.pdf}}
+% The plot involves manipulate and so doesn't show up outside of RStudio
+
+\noindent
+Typically, surface plots are hard to interpret, but they are useful in teaching students how to interpret contour plots.
+
+The resolution of the two-variable plots can be changed with the \option{npts} argument.  By default, it's set to be something that's rather chunky in order to enhance the speed of drawing.  A value of  \option{npts=300} is generally satisfactory for publication purposes.
 
 %The \pkg{lattice} graphics package is used to implement \function{plotFun}.  We hope eventually to use the \pkg{lattice} panel capabilities to provide support for displaying functions of three variables.
 
 \subsection{Overlaying Graphs}
 
-The standard \pkg{lattice} approach to overlaying graphs on a single plot 
-can be daunting for students.  
-To make the task of overlaying plots easier, \function{plotFun()}
-has an \option{add} argument to control whether to make a new plot or overlay
-an old one.  Here's an example of laying a constraint $t + 1/k \leq 0$ over
-the surface plot another function:
-<<constraint1,fig.height=4,out.width=".7\\textwidth">>=
+The standard \pkg{lattice} approach to overlaying graphs on a single plot can be daunting for students. To make the task of overlaying plots easier, \function{plotFun()} has an \option{add} argument to control whether to make a new plot or overlay an old one.  Here's an example of laying a constraint $t + 1/k \leq 0$ over the surface plot another function:
+<<constraint1,fig.height=4,out.width=".7\\textwidth",tidy=FALSE>>=
 plotFun(A*exp(k*t)*sin(2*pi*t/P) ~ t+k, 
           t.lim=range(0,10), k.lim=range(-0.3,0.0), A=10, P=4, auto.key=TRUE)
 plotFun( t + 1/k <= 0 ~ t+k, add=TRUE, npts=300, alpha=.2)
 @
 \noindent
-The lighter region shows where the constraint is satisfied.  Note also that a
-high resolution (\option{npts=300}) was used for plotting the constraint.  At
-the default resolution, such contraints are often distractingly chunky.
+The lighter region shows where the constraint is satisfied.  Note also that a high resolution (\option{npts=300}) was used for plotting the constraint.  At the default resolution, such contraints are often distractingly chunky.
 
 
 
@@ -223,37 +212,26 @@ plotFun( dt(t,df)~t+df,
 
 \section{Differentiation}
 
-Differentiation is an operation that takes a function as input and returns a
-function as an output.  In \pkg{mosaic}, differentiation is implemented by the
-\function{D()} function.\footnote{The \pkg{mosaic} \function{D()} masks the original
-\function{D()} function from the \pkg{stats} package. But since the two use
-different syntax, the old behavior is still available.}
-A function is not the only input to differentiation; one also needs to specify
-the variable with respect to which the derivative is taken.  Traditionally,
-this is represented as the variable in the denominator of the Leibniz quotient,
-e.g. $x$ in  $\partial / \partial x$.  
+Differentiation is an operation that takes a function as input and returns a function as an output.  In \pkg{mosaic}, differentiation is implemented by the \function{D()} function.\footnote{The \pkg{mosaic} \function{D()} masks the original \function{D()} function from the \pkg{stats} package. But since the two use different syntax, the old behavior is still available by using the original syntax.} A function is not the only input to differentiation; one also needs to specify the variable with respect to which the derivative is taken.  Traditionally, this is represented as the variable in the denominator of the Leibniz quotient, e.g. $x$ in  $\partial / \partial x$.  
 
-%To enable functions of multiple variables to be differentiated flexibly, 
-The first input to the \pkg{mosaic} \function{D()} function is a formula.  The left hand side 
-of the formula is an expression that applies the function to a variable or variables and the 
-right hand side provides the variable of differentiation.  For instance,
+The first input to the \pkg{mosaic} \function{D()} function is a formula.  The left hand side of the formula is an expression that applies the function to a variable or variables and the right hand side provides the variable of differentiation.  For instance,
 <<>>=
 D(sin(x)~x)
 @
 This use of formulas makes it straightforward to move on to functions of multiple variables and functions with symbolic parameters.  For example,
-<<>>=
+<<message=FALSE,warning=FALSE>>=
 D( A*x^2*sin(y) ~ x )
 D( A*x^2*sin(y) ~ y )
 @
 
 Notice that the object returned by \function{D()} is a function.  The function takes as arguments both the variables of differentiation and any other variables or symbolic paremeters in the expression being differentiated.  Default values for parameters will be retained in the return function.  Even parameters or variables that are eliminated in the process of differentiation will be retained in the function.  For example:
-<<>>=
+<<message=FALSE,warning=FALSE>>=
 D(A*x + b~y, A=10,b=5)
 @
 The controlling rule here is that the derivative of a function should have the same arguments as the function being differentiated.
 
-Second- and higher-order derivatives can be handled using an obvious extention to the notation:
-<<>>=
+Second- and higher-order derivatives can be handled using an obvious extension to the notation:
+<<message=FALSE,warning=FALSE>>=
 D( A*x^2*sin(y) ~ x+x )
 D( A*x^2*sin(y) ~ y+y )
 D( A*x^2*sin(y) ~ x+y ) #mixed partial
@@ -261,16 +239,8 @@ D( A*x^2*sin(y) ~ x+y ) #mixed partial
 
 The ability to carry out symbolic differentiation is inherited from the \function{stats::deriv()} function  This is valuable for two reasons. First, seeing R return something that matches the traditional form can be re-assuring for students and instructors.  Second, derivatives --- especially higher-order derivatives --- can have noticeable pathologies when evaluated through non-symbolic methods such as simple finite-differences.  Fortunately, \function{stats::deriv()} is capable of handling the large majority of sorts of expressions encountered in calculus courses.
 
-But not every function has an algebraic form that can be differentiated using
-the algebraic rules of differentiation.  In such cases, numerical
-differentiation can be used.  \function{D()} is designed to carry out numerical
-differentiation and to package up the results as a function that can be used
-like any other function.  To illustrate, consider the derivative of the density
-of the t-distribution.  The density is implemented in R with the
-\function{dt(t, df)} function, taking two parameters, t and the ``degrees of
-freedom" df.  Here's the derivative of density with respect to df constructed
-using \function{D()}:
-<<dfgraph,fig.height=4,out.width=".7\\textwidth">>=
+But not every function has an algebraic form that can be differentiated using the algebraic rules of differentiation.  In such cases, numerical differentiation can be used.  \function{D()} is designed to carry out numerical differentiation and to package up the results as a function that can be used like any other function.  To illustrate, consider the derivative of the density of the t-distribution.  The density is implemented in R with the \function{dt(t, df)} function, taking two parameters, t and the ``degrees of freedom" df.  Here's the derivative of density with respect to df constructed using \function{D()}:
+<<dfgraph,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE>>=
 f1 = D( dt(t,df) ~ df)
 f1(t=2,df=1)
 plotFun(f1(t=2,df=df)~df, df.lim=range(1,10))
@@ -278,10 +248,7 @@ plotFun(f1(t=2,df=df)~df, df.lim=range(1,10))
 
 
 Numerical differentiation, especially high-order differentiation, has
-problematic numerical properties.  For this reason, only second-order numerical
-differentiation is directly supported.  You can, of course, construct a
-higher-order numerical derivative by iterating \function{D()}, but don't expect
-very accurate results. 
+problematic numerical properties.  For this reason, only second-order numerical differentiation is directly supported.  You can, of course, construct a higher-order numerical derivative by iterating \function{D()}, but don't expect very accurate results. 
 
 \section{Anti-Differentiation}
 
@@ -303,7 +270,7 @@ F(x=3)-F(x=1) # Should be 9 - 1/3
 @
 
 \function{antiD} is capable of performing some simple integrals symbolically.  For instance
-<<>>=
+<<message=FALSE,warning=FALSE>>=
 antiD( 1/(a*x+b) ~ x)
 @
 
@@ -312,12 +279,11 @@ Not all mathematical functions have anti-derivatives that can be expressed in te
 P = antiD( exp(x^2)~x )
 P
 @
-integration being carried out is numerical but the result is in the same format: a function of the same arguments as the original, but including the constant of integration as a new argument.  The name of the constant of integration is generally \texttt{C}, but if this symbol is already in use in the function, \texttt{D} will be used instead and down the line to \texttt{Z}. 
+Integration being carried out is numerical but the result is in the same format: a function of the same arguments as the original, but including the constant of integration as a new argument.  The name of the constant of integration is generally \texttt{C}, but if this symbol is already in use in the function, \texttt{D} will be used instead and down the line to \texttt{Z}. 
 
 The symbolic anti-derivatives and the numerical anti-derivatives are used in the same ways.  The symbolic forms will typically be more precise and in general will be faster to calculate, although this is important only if you are doing many, many evaluations of the integral.
 
-\paragraph{Technical Point:} Unlike symbolic anti-differentiation, numerical anti-differentiation always requires an interval of integration. 
-By default, the lower bound of the interval is zero.  If you are anti-differentiating a function that has a singularity near zero (as does $1/x$), you will want to choose a lower bound to avoid the singularity.  Do this using the optional \texttt{lower.bound} argument.  If you will be using the anti-derivative to evaluate integrals that do not include zero, for better precision you may want to set \texttt{lower.bound} to a value closer to your interval of integration.  In particular, if the function you are integrating is non-zero over a small range, you will get better precision if \texttt{lower.bound} falls in an interval where the function is non-zero.  For instance, the function being integrated here is numerically non-zero only within $\pm 1$ of $x=6000$:
+\paragraph{Technical Point:} Unlike symbolic anti-differentiation, numerical anti-differentiation always requires an interval of integration.  By default, the lower bound of the interval is zero.  If you are anti-differentiating a function that has a singularity near zero (as does $1/x$), you will want to choose a lower bound to avoid the singularity.  Do this using the optional \texttt{lower.bound} argument.  If you will be using the anti-derivative to evaluate integrals that do not include zero, for better precision you may want to set \texttt{lower.bound} to a value closer to your interval of integration.  In particular, if the function you are integrating is non-zero over a small range, you will get better precision if \texttt{lower.bound} falls in an interval where the function is non-zero.  For instance, the function being integrated here is numerically non-zero only within $\pm 1$ of $x=6000$:
 <<>>=
 F = antiD( dnorm(x, mean=6000, sd=0.01)~x )
 @
@@ -338,21 +304,18 @@ F(x=Inf)
 @
 \noindent
 And here are some examples using exponential distributions.
-<<>>=
+<<message=FALSE,warning=FALSE>>=
 F = antiD(x*dexp(x,rate=rate)~x)
 F(x=Inf,rate=10) - F(x=0, rate=10)
 F(x=Inf,rate=100) - F(x=0, rate=100)
 @
+ 
 
-Because anti-differentiation will be done numerically when a symbolic 
-method is not available, you can compute the
-anti-derivative of any function that is numerically well behaved, even when
-there is no simple algebraic form.  
 
-It's also possible to  take the
-anti-derivative of a function that is itself an anti-derivative.  Here, for
-example, is a double integral $\int_{-1}^{1} \int_0^{\sqrt{1-y^2}} 1\ dx\ dy$ for the area of the top half of a circle of radius 1 (which is, of course $\pi/2$.)
-<<>>=
+Because anti-differentiation will be done numerically when a symbolic  method is not available, you can compute the anti-derivative of any function that is numerically well behaved, even when there is no simple algebraic form.  
+
+It's also possible to  take the anti-derivative of a function that is itself an anti-derivative.  Here, for example, is a double integral $\int_{-1}^{1} \int_0^{\sqrt{1-y^2}} 1\ dx\ dy$ for the area of the top half of a circle of radius 1 (which is, of course $\pi/2$.)
+<<message=FALSE,warning=FALSE>>=
 one = makeFun(1~x+y)
 by.x = antiD( one(x=x, y=y) ~x )
 by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
@@ -363,20 +326,19 @@ by.xy(y=1) - by.xy(y=-1)
 
 The \function{antiD()} function allows you to specify the ``constant of integration.''  
 
-As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.8$ m/s.  The velocity function is the 
-integral of acceleration due to gravity over time, plus the initial velocity:
+As an example, imagine jumping off a diving board.  Let the initial velocity be 1 m/s and the height of the board 5 m.  Acceleration due to gravity is $-9.8$ m/s.  The velocity function is the integral of acceleration due to gravity over time, plus the initial velocity:
 <<>>=
 vel <- antiD( -9.8~t )
 @ 
 The velocity function \function{vel} includes a constant of integration which, in this case, corresponds to the velocity at time zero.  
 
 The position is, of course, the integral of velocity:
-<<>>=
+<<message=FALSE,warning=FALSE>>=
 pos <- antiD( vel(t=t, C=v0)~t )
 @ 
 By assigning a symbolic value for the constant of integration in the velocity function, the value of the velocity at time zero can be specified.  The \function{pos} function has it's own constant of integration, which corresponds to initial position.  So, to plot the position of the diver with an initial position of 5 m and an initial velocity of 1 m/s:
 
-<<dive,fig.height=4,out.width=".7\\textwidth">>=
+<<dive,fig.height=4,out.width=".7\\textwidth",tidy=FALSE>>=
 plotFun(pos(t=t,v0=1,C=5)~t, t.lim=range(0,1.2), 
         xlab="Height (m)", ylab="Time (s)")
 @
@@ -456,8 +418,6 @@ s1 <- findZeros( x^2 + y^2 + z^2 - 10 ~ x&y&z,
 cloud( z ~ x+y, data=s1, pch=19)
 @
 
-% \input{multi-zeros}
-[Adding section on multiple simultaneous zeros. ]
 
 \section{Random-Example Functions}
 
@@ -502,7 +462,7 @@ one variable.
 
 To illustrate, here are some data from a classroom example intended to illustrate the measurement of flow using derivatives.  Water was poured out of a bottle into a cup set on a scale.  Every three seconds, a student read off the digital reading from the scale, in grams.  Thus, the data indicate the mass of the water in the cup.
 
-<<>>=
+<<tidy=FALSE>>=
 Water <- data.frame( 
   mass=c(57,76,105,147,181,207,227,231,231,231), 
   time=c(0,  3,  6,  9, 12, 15, 18, 21, 24, 27))
@@ -622,7 +582,7 @@ plotFun( g(age=age,educ=educ)~age+educ,
 @
 \noindent
 The graph suggests that people with a longer education see a steeper and more prolonged increase in wage with age.  To see this in a different way, here's the partial derivative of log wage with respect to age, holding education constant:
-<<wage3,fig.height=4,out.width=".7\\textwidth">>=
+<<wage3,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE>>=
 DgAge <- D( g(age=age,educ=educ)~age)
 plotFun( DgAge(age=age,educ=educ)~age+educ,
               age.lim=range(20,50), educ.lim=range(5,14))
@@ -632,7 +592,7 @@ plotFun( DgAge(age=age,educ=educ)~age+educ,
 
 For economists, perhaps worthwhile to think about the elasticity of wages with respect to age for different levels of education.
 
-<<wage4,fig.height=4,out.width=".7\\textwidth">>=
+<<wage4,fig.height=4,out.width=".7\\textwidth",message=FALSE,warning=FALSE>>=
 CPSclean$logage <- log(CPSclean$age)
 g2 <- smoother(log(wage)~logage+educ+1, span=1.0,data=CPSclean)
 elasticity <- D( g2(logage=logage,educ=educ)~logage)
@@ -645,7 +605,7 @@ Elasticity seems to fall off with age at pretty much the same rate for different
 \subsection{Fitted Functions}
 Statisticians will be familiar with parametric functions fitted to data.  The \function{lm()} function returns information about the fitted model. The \pkg{mosaic} functon \function{makeFun()} takes the output of \function{lm()}, \function{glm()} (generalized linear models), 
 or \function{nls()} (nonlinear least squares) and packages it up into a model function.
-<<>>=
+<<message=FALSE,warning=FALSE>>=
 model <- lm(log(wage)~age*educ+1,data=CPS85)
 g <- makeFun(model)
 g(age=40,educ=12)
@@ -721,7 +681,7 @@ The solution gives the state as a function of time, $x(t)$, whereas the differen
 The logistic equation is much beloved because of this algebraic solution.  Equations that are very closely related in their phenomenology, do not have analytic solutions.
 
 The \function{integrateODE()} function takes the differential equation as an input, together with the initial value of the state.  Numerical values for all parameters must be specified, as they would in any case to draw a graph of the solution.  In addition, must specify the range of time for which you want the function $x(t)$.  For example, here's the solution for time running from 0 to 20.
-<<>>=
+<<tidy=FALSE>>=
 soln <- integrateODE( dx ~ r*x*(1-x/K), 
                       x=1, K=10, r=.5, 
                       tdur=list(from=0,to=20))

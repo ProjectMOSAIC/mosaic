@@ -32,6 +32,7 @@
 #' plotFun(g, add=TRUE, col='navy')
 #' plotFun(h, add=TRUE, col='red')
 
+
 fitSpline <- function( formula, data=parent.frame(), 
 			df = NULL,
 			knots = NULL,

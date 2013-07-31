@@ -86,7 +86,7 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 # ============================
 #' @rdname Calculus
 #'
-#' @param lower.bound for numerical integraion, the lower bound used
+#' @param lower.bound for numerical integration only, the lower bound used
 #' 
 #' @param force.numeric If \code{TRUE}, a numerical integral is performed even when a 
 #' symbolic integral is available.
@@ -143,7 +143,7 @@ makeAntiDfun <- function(.function, .wrt, from, .tol=.Machine$double.eps^0.25) {
   }
   # Create the numerical integral
   res <- function(){
-    numerical.integration(.newf,.wrt,as.list(match.call())[-1],formals(),
+    numerical_integration(.newf,.wrt,as.list(match.call())[-1],formals(),
                           from,ciName=intC, .tol) 
   }
   
@@ -163,12 +163,12 @@ makeAntiDfun <- function(.function, .wrt, from, .tol=.Machine$double.eps^0.25) {
 #' @param ciName character string giving the name of the symbol for the constant of integration
 #' @param .tol Numerical tolerance.  See stats::integrate
 #' 
-#' @note This function is not intended for direct use.  It packages
+#' @note \code{numerical_integration} is not intended for direct use.  It packages
 #' up the numerical anti-differentiation process so that the contents
 #' of functions produced by \code{antiD} look nicer to human readers.
 #' @export
 #'
-numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
+numerical_integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
   # We are about to do the numerics.  At this point, every
   # variable should have a numerical binding.  Just in case some
   # are still expressions, go through the list and evaluate them
@@ -210,14 +210,11 @@ numerical.integration <- function(f,wrt,av,args,vi.from, ciName="C",.tol) {
   }
   val0 <- stats::integrate(newf, vi.from, vi.to[1],rel.tol=.tol)$value
   # work around a bug in integrate()
-  if( vi.to[1]==-Inf ) {
-    # When "upper" limit is -Inf, the sign is wrong!  This might
-    # change, so check that the bug still exists
-    if( stats::integrate(function(x){dnorm(x)},lower=0,upper=-Inf,rel.tol=.tol)$val > 0) {
-      # bug exists!
-      val0 <- -val0
-    }
-  } 
+  if( vi.to[1]==-Inf ) { # Aaron Meyerson fix June 2013
+    # A couple of bugs have popped up when upper limit is -Inf,
+    # so upper and lower are switched and we take the negative
+    val0 <- -1*stats::integrate(newf, vi.to[1], vi.from, rel.tol=.tol)$value
+  }
   # add initial condition
   val0 <- val0 + initVal
   if (length(vi.to) == 1) {

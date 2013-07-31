@@ -2,24 +2,26 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.6-2
-Date: 2012-09-03
+Version: 0.7-19
+Date: 2013-07-30
 Depends:
     lattice,
     grid,
-    methods,
-    survival,
     Hmisc,
+    methods,
     utils
 Suggests:
     MASS,
     reshape2,
+    ggplot2,
+    plyr,
+    maptools,
     manipulate,
     vcd,
     RCurl,
     testthat
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
-    <kaplan@macalester.edu>, Nicholas Horton <nhorton@smith.edu>
+    <kaplan@macalester.edu>, Nicholas Horton <nhorton@amherst.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>
 Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     to teach mathematics, statistics, computation and modeling.  Funded by the
@@ -31,24 +33,55 @@ License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
 Collate:
-    'favstats.R'
-    'CIsim.R'
     'adapt_seq.R'
-    'aggregating.R'
+    'aggregatingAux.R'
+    'aggregatingMeta.R'
+    'as.xtabs.R'
+    'bargraph.R'
     'binom.test.R'
+    'Calculus.R'
+    'CIsim.R'
+    'compareMean.R'
+    'compareProportion.R'
     'confint.R'
     'cross.R'
+    'datasets.R'
     'dfapply.R'
     'do.R'
     'dotPlot.R'
+    'evalFormula.R'
+    'expandFun.R'
+    'favstats.R'
     'fetchData.R'
+    'fetchGoogle.R'
     'findZeros.R'
+    'findZerosMult.R'
+    'fitModel.R'
+    'fitSpline.R'
+    'frequencyPolygon.R'
+    'integrateODE.R'
     'interval.R'
+    'is.wholenumber.R'
     'ladd.R'
     'linear-algebra.R'
     'logit.R'
+    'makeFun.R'
+    'maps.R'
+    'mm.R'
+    'mosaic-package.R'
+    'mPlots.R'
+    'ntiles.R'
+    'numD.R'
+    'oddsRatio.R'
+    'panel.lmbands.R'
+    'parseFormula.R'
     'perctable.R'
+    'plotCumfreq.R'
+    'plotDist.R'
+    'plotFun.R'
+    'plotPoints.R'
     'pqrdata.R'
+    'project.R'
     'prop.test.R'
     'rand.R'
     'read.file.R'
@@ -56,46 +89,19 @@ Collate:
     'rfun.R'
     'rgeo.R'
     'settings.R'
+    'simplify.R'
     'smoothers.R'
     'statTally.R'
     'surround.R'
+    'symbolicD.R'
+    'symbolicInt.R'
+    'tally.R'
+    'themes.R'
+    'ttest.R'
+    'Tukey.R'
     'utils.R'
     'xchisq.test.R'
     'xhistogram.R'
     'xpnorm.R'
     'xqqmath.R'
     'zzz.R'
-    'Calculus.R'
-    'mosaic-package.R'
-    'datasets.R'
-    'themes.R'
-    'integrateODE.R'
-    'is.wholenumber.R'
-    'parseFormula.R'
-    'plotFun.R'
-    'bargraph.R'
-    'as.xtabs.R'
-    'plotCumfreq.R'
-    'oddsRatio.R'
-    'plotDist.R'
-    'compareMean.R'
-    'compareProportion.R'
-    'numD.R'
-    'symbolicD.R'
-    'fetchGoogle.R'
-    'makeFun.R'
-    'tally.R'
-    'mm.R'
-    'expandFun.R'
-    'findZerosMult.R'
-    'project.R'
-    'fitModel.R'
-    'fitSpline.R'
-    'plotPoints.R'
-    'datasetsOLI.R'
-    'frequencyPolygon.R'
-    'panel.lmbands.R'
-    'simplify.R'
-    'symbolicInt.R'
-    'Tukey.R'
-    'evalFormula.R'

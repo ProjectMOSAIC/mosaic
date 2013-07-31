@@ -17,35 +17,43 @@
 \title{Randomization-based inference using the {\tt mosaic} package}
 \author{Daniel Kaplan\thanks{dtkaplan@gmail.com} \\ \footnotesize Macalester College \\
 \footnotesize St. Paul, MN
-\and Nicholas J. Horton\thanks{nhorton@smith.edu} \\ \footnotesize Smith College \\
-\footnotesize Northampton, MA \and 
+\and Nicholas J. Horton\thanks{nhorton@amherst.edu} \\ \footnotesize Amherst College \\
+\footnotesize Amherst, MA \and 
 Randall Pruim\thanks{rpruim@calvin.edu}
 \\ \footnotesize Calvin College \\
 \footnotesize Grand Rapids, MI
 }
 \date{\today}
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 %\SweaveOpts{concordance=TRUE}
 
 \maketitle
 
 \tableofcontents
 
-\SweaveOpts{
-	tidy=FALSE,
-	dev="pdf",
-	fig.path="figures/fig-",  
-	fig.width=3, fig.height=2,
-	out.width="0.48\\textwidth",
-	fig.align="center",
-	fig.show="hold",
-	comment=NA
-}
-
 
 <<setupRnw,echo=FALSE,results="hide",message=FALSE>>=
-source('../setup.R')
+# source('../setup.R')
+## @knitr setup
+#setCacheDir("cache")
+require(grDevices) 
+require(datasets) 
+require(stats) 
+require(lattice)
+require(grid) 
+require(mosaic) 
+require(fastR)
+trellis.par.set(theme=col.mosaic(bw=FALSE))
+trellis.par.set(fontsize=list(text=9))
+options(keep.blank.line=FALSE) 
+options(width=70)
+require(vcd)
+require(knitr)
+
+opts_chunk$set( 
+  fig.align="center",
+  fig.show="hold"
+)
 @
 
 
@@ -176,8 +184,8 @@ standard \R{} tools can be used for this.  We advocate the use of \pkg{lattice}-
 \item They use a syntax that is consistent with the syntax used in \pkg{mosaic}.  
 \item They extend naturally to more complicated settings.
 \end{enumerate}
-<<dot>>=
-xhistogram(~Price, data=mustangs)
+<<dot,fig.width=4, fig.height=2>>=
+histogram(~Price, data=mustangs)
 @
 
 The basic \pkg{lattice} syntax here --- operator, ``formula" involving \verb+~+, and the use of \texttt{data=} to specify the relevant data set --- will be used throughout \pkg{mosaic}.  For example, here is the sample mean 
@@ -242,8 +250,8 @@ trials <- do(1000) * mean(~Price, data=resample(mustangs))
 
 
 Plotting this resampling distribution is straightforward, e.g.:
-<<hist>>=
-xhistogram(~ result, data=trials, xlab="Mean Mustang Price (in thousand dollars)")
+<<hist,fig.width=4, fig.height=2>>=
+histogram(~ result, data=trials, xlab="Mean Mustang Price (in thousand dollars)")
 @ 
 
 The simplest way to translate this distribution into a confidence interval is to apply the operator for that purpose:
@@ -305,7 +313,7 @@ games from a world in which the null hypothesis holds true and see what proporti
 trials give a result as or more extreme as the observed 240.  Here, 100,000 trials are being done:
 
 <<proptable>>=
-prop(rbinom(100000, prob=0.5, size=428) >= 240)
+prop(~ rbinom(100000, prob=0.5, size=428) >= 240)
 @
 
 The result indicates that it's very unlikely, if the null were true, that the coin flip winner would win 240 or more times.
@@ -313,7 +321,7 @@ The result indicates that it's very unlikely, if the null were true, that the co
 The exact result differs slightly from one simulation to the next, but that variation can be made small by making the number of trials large.
 
 <<proptable2>>=
-prop(rbinom(100000, prob=0.5, size=428) >= 240)
+prop(~ rbinom(100000, prob=0.5, size=428) >= 240)
 @
 
 It's tempting entirely to avoid the variation due to simulation by doing a deterministic
@@ -334,14 +342,14 @@ tabulation for you.  Here is one trial involving flipping 428 coins:
 do(1) * rflip(428)
 @ 
 
-We'll do \Sexpr{1000} trials, and count what fraction of the trials the
+We'll do 1,000 trials, and count what fraction of the trials the
 coin toss winner (say, ``heads'') wins 240 or more of the 428 attempts:
 <<flips1,fig.width=4, fig.height=3>>=
 trials <- do(1000) * rflip(428)
-prop(trials$heads >= 240)
+prop(~ heads >= 240, data=trials)
 @
-<<flips>>=
-xhistogram(~ heads, groups=(heads >= 240), data=trials)
+<<flips,fig.width=4, fig.height=2>>=
+histogram(~ heads, groups=(heads >= 240), data=trials)
 @ 
 
 The observed pattern of 240 wins is not a likely outcome under the null hypothesis.
@@ -372,8 +380,8 @@ obs <- diff(mean(Words ~ Group, data=sleep))
 obs
 @ 
 
-<<>>=
-bwplot(Words ~ Group, data=sleep)
+<<fig.width=4, fig.height=2>>=
+bwplot(Group ~ Words, data=sleep)
 @
 
 To implement the null hypothesis, scramble the Group with respect to the
@@ -397,16 +405,16 @@ hypothesis, we carry out many trials:
  95\% confidence interval for the correlation between price and mileage.}
 \end{quotation}
 <<>>=
-with(mustangs, cor(Price, Miles))
+cor(Price, Miles, data=mustangs)
 @
 
 <<>>=
-trials <- do(1000) * with(resample(mustangs), cor(Price, Miles))
-quantiles <- qdata(c(.025, .975), trials$result); quantiles
+trials <- do(1000) * cor(Price, Miles, data=resample(mustangs))
+quantiles <- qdata(c(.025, .975), result, data=trials); quantiles
 @
 
-<<cor>>=
-xhistogram(~ result, data=trials,
+<<cor,fig.width=4, fig.height=2>>=
+histogram(~ result, data=trials,
   groups=cut(result, c(-Inf, quantiles, Inf)),
   nbin=30) 
 @ 
@@ -417,9 +425,9 @@ xhistogram(~ result, data=trials,
 set.seed(134) #make sure the result below is "typical"
 @
 
-<<sleep>>=
+<<sleep,tidy=FALSE,fig.width=4, fig.height=2>>=
 trials <- do(1000) * diff(mean(Words ~ shuffle(Group), data=sleep))
-xhistogram(~ Sleep, groups=(Sleep >= obs),  data=trials,
+histogram(~ Sleep, groups=(Sleep >= obs),  data=trials,
   xlab="Distribution of difference in means\nunder the null hypothesis")
 @ 
 
@@ -427,7 +435,7 @@ The one-sided p-value for this test is the proportion of
 trials which yielded a result as extreme or more extreme as the observed difference.
 We can calculate the one-sided p-value for this test by summing up the number of 
 trials which yielded a result as extreme or more extreme as the observed difference.
-Here only \Sexpr{sum(trials$Sleep >= obs)} of the 1000 trials gave a result that large, so the p-value is equal to \Sexpr{prop(trials$Sleep >= obs)}.  We conclude that
+Here only \Sexpr{sum(trials$Sleep >= obs)} of the 1000 trials gave a result that large, so the p-value is equal to \Sexpr{prop(~ trials$Sleep >= obs)}.  We conclude that
 it's unlikely that the two groups have the same mean word recall back in their respective populations.
 
 
@@ -444,12 +452,12 @@ linear models.
 Usually, people think about linear models in the context of regression.  For instance, using the Lock Mustang price dataset, 
 there is presumably a relationship between the price of a car and its mileage.  Here's a graph:
 
-<<price-mileage-graph>>=
+<<price-mileage-graph,fig.width=4, fig.height=3>>=
 xyplot( Price ~ Miles, data=mustangs )
 @
 There's a pretty clear relationship here, which in the Lock problems was quantified with the correlation coefficient.
 
-In regression, one finds a straight-line functional relationship between the variables
+In regression, one finds a straight-line functional relationship between the two variables.
 The built-in \R{} \function{lm} function does the calculations:
 <<mustangregression>>=
 lm(Price ~ Miles, data=mustangs)
@@ -635,20 +643,20 @@ chisq.test( tally( ~ homeless + sex,
 
 \item Modify the statement to extract the statistic of interest.  In this case, the p-value:
 <<>>=
-chisq.test( tally( ~ homeless + sex, 
-                   data=HELPrct, margins=FALSE))$p.value
+pval( chisq.test( tally( ~ homeless + sex, 
+                   data=HELPrct, margins=FALSE)) )
 @
 
 \item Insert randomization to implement the null hypothesis:
 <<>>=
-chisq.test( tally( ~ shuffle(homeless) + sex, 
-                   data=HELPrct, margins=FALSE))$p.value
+pval( chisq.test( tally( ~ shuffle(homeless) + sex, 
+                         data=HELPrct, margins=FALSE)))
 @
 
 \item Iterate to get the distribution under the null:
 <<>>=
-trials = do(1000)* chisq.test( tally( ~ shuffle(homeless) + sex, 
-                     data=HELPrct, margins=FALSE))$p.value
+trials = do(1000)* pval( chisq.test( tally( ~ shuffle(homeless) + sex, 
+                         data=HELPrct, margins=FALSE)))
 @
 \end{enumerate}
 Strictly speaking, only the last step is needed.  The others are merely to 
@@ -657,12 +665,12 @@ fits into the whole.
 
 Students often think that, under the null, p-values are just a bit 
 bigger than 0.05.  They can be surprised to see that the distribution of p-values under the null hypothesis is uniform from 0 to 1, or that there is a roughly 5\% chance of rejecting the null (at $p < 0.05$) even when the null is true.
-<<>>=
-prop(~result < 0.05, data=trials)
-xhistogram( ~result, data=trials )
+<<fig.width=4, fig.height=2>>=
+prop( ~(p.value < 0.05), data=trials)
+histogram( ~p.value, data=trials, width=0.05 )
 @
 
-Perhaps more important, with the simulation approach it's straightforward to seque into more advanced and appropriate models and tests.  So, rather than the esteemed $\chi^2$ test, perhaps something a bit more modern and flexible such as logistic regression with \texttt{age} as a covariate:
+Perhaps more important, with the simulation approach it's straightforward to segue into more advanced and appropriate models and tests.  So, rather than the esteemed $\chi^2$ test, perhaps something a bit more modern and flexible such as logistic regression with \texttt{age} as a covariate:
 <<>>=
 trials = do(1000) * 
    glm( homeless=="homeless" ~ age + sex, 
@@ -674,7 +682,7 @@ confint(trials)
 
 Thanks to Sarah Anoke for comments on a draft, as well as to Robin
 Lock of St. Lawrence University for organizing the resampling demonstration
-session at USCOTS.
+session at USCOTS 2011.
 
 Project MOSAIC is supported by the US National Science Foundation (DUE-0920350).
 More information about the package and this initiative can be 

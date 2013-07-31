@@ -12,6 +12,7 @@
 #' @param start passed as \code{start} to \code{\link{nls}}.  If and empty list,
 #' a simple starting point is used (thus avoiding the usual warning message).
 #' @param \dots additional arguments passed to \code{\link{nls}}
+#' @param object an R object (typically a the result of fitModel)
 #' 
 #' @details
 #' Fits a nonlinear least squares model to data.  In contrast
@@ -30,6 +31,9 @@
 #' @examples
 #' f <- fitModel(temp ~ A+B*exp(-k*time), data=CoolingWater, start=list(A=50,B=50,k=1/20))
 #' f(time=50)
+#' coef(f)
+#' summary(f)
+#' model(f)
 #'
 fitModel <- function(formula, data=parent.frame(), start=list(), ...) {
   argsAndParams <- all.vars(rhs(formula))    # [-1]
@@ -41,6 +45,35 @@ fitModel <- function(formula, data=parent.frame(), start=list(), ...) {
   }
 
   model <- nls(formula, data=data, start=start, ... )
-  return(makeFun(model))
+  result <- makeFun(model)
+  class(result) <- c("nlsfunction", class(result))
+  return(result)
+}
 
+#' @rdname fitModel
+#' @export
+model <- function(object, ...) {
+  UseMethod('model')
+}
+
+#' @rdname fitModel
+#' @method model nlsfunction
+#' @export
+model.nlsfunction <- function(object, ...) {
+  as.list(environment(object))$model
+}
+
+#' @rdname fitModel
+#' @method summary nlsfunction
+#' @export
+summary.nlsfunction <- function(object, ...) {
+  summary( model( object), ... )
+}
+
+
+#' @rdname fitModel
+#' @method coef nlsfunction
+#' @export
+coef.nlsfunction <- function(object, ...) {
+  coef( model(object), ... )
 }

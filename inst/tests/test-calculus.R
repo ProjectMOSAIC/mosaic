@@ -190,11 +190,18 @@ test_that("add.h.control works",{
 })
 
 test_that("symbolic derivative on simple function works",{
-  f = makeFun(x^2~x)
-  g = makeFun(sin(x)+x~x)
-  df = D(f(z)~z)
-  dg = D(g(y)~y)
-  expect_that(df(5), equals(2*5, tol=0.0000001))
-  expect_that(dg(2), equals(cos(2)+1, tol=0.0000001))
+  f <- makeFun(x^2~x)
+  g <- makeFun(sin(x)+x~x)
+  fprime <- D(f(z)~z)
+  gprime <- D(g(y)~y)
+  expect_that(fprime(5), equals(2*5, tol=0.0000001))
+  expect_that(gprime(2), equals(cos(2)+1, tol=0.0000001))
 }) 
 
+test_that("integration bug with -Inf as lower bound is worked around",{
+  F <- antiD(dnorm(x)~x)
+  expect_that(F(-Inf), equals(-.5, tol=0.00001))
+  g <- makeFun( ifelse( x>0 & x<1, 1, 0) ~ x)
+  G <- antiD(g(x)~x)
+  expect_that(G(-Inf), equals(0, tol=0.00001))
+})

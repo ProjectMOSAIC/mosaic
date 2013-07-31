@@ -37,11 +37,10 @@ logical2factor.data.frame  <- function( x, ... ) {
 #'
 #' Tabulate categorical data
 #'
-#' @rdname tally-methods
-#' @aliases tally,ANY-method
+#' @rdname tally
+#' @aliases tally
 #'
 #' @param x an object
-#' @param formula a formula describing the type of table desired
 #' @param data a data frame or environment in which evaluation occurs
 #' @param format a character string describing the desired format of the results.
 #'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
@@ -54,53 +53,30 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param ... additional arguments passed to \code{\link{table}}
 #' @export
 #' @examples
-#' tally( ~ substance, HELPrct)
-#' tally( ~ substance & sex , HELPrct)
-#' tally( sex ~ substance, HELPrct)   # equivalent to tally( ~ sex | substance, ... )
-#' tally( ~ substance | sex , HELPrct)
-#' tally( ~ substance | sex , HELPrct, format='count')
-#' tally( ~ substance & sex , HELPrct, format='percent')
-#' tally( ~ link, HELPrct, useNA="always")
+#' tally( ~ substance, data=HELPrct)
+#' tally( ~ substance & sex , data=HELPrct)
+#' tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance, ... )
+#' tally( ~ substance | sex , data=HELPrct)
+#' tally( ~ substance | sex , data=HELPrct, format='count')
+#' tally( ~ substance & sex , data=HELPrct, format='percent')
+#' tally( ~ link, data=HELPrct, useNA="always")
 
-setGeneric( 
-	"tally", 
-	function(x, ... )  {
-		standardGeneric('tally')
-	}
-)
 
-#' @rdname tally-methods
-#' @aliases tally,ANY-method
-
-setMethod(
-	'tally',
-	'ANY',
-    function(x, ...) {
-		dd <- data.frame(x=x)
-		tally(~ x, dd, ...)
-	}
-)
-
-#' @rdname tally-methods
-### @aliases tally,formula-method
-#' 
-#' @export
-#' @usage
-#' \S4method{tally}{formula}( x, data=parent.frame(), 
-#'				   format=c('default','count','proportion','percent'), 
-#'				   margins=TRUE,
-#'				   quiet=TRUE,
-#'				   subset, ...) 
-
-setMethod(
-	'tally',
-	'formula',
-    function(x, data=parent.frame(), 
-				   format=c('default','count','proportion','percent'), 
-				   margins=TRUE,
-				   quiet=TRUE,
-				   subset, ...) {
+tally <- function(x, data=parent.frame(), 
+                      format=c('default','count','proportion','percent'), 
+                      margins=TRUE,
+                      quiet=TRUE,
+                      subset, ...) {
 	format <- match.arg(format)
+  if (! .is.formula(x) ) {
+      formula <- ~ x
+      formula[[2]] <- substitute(x)
+      message( "First argument should be a formula... But I'll try to guess what you meant")
+      return(
+        do.call(tally, list(formula, data=data, format=format, margins=margins, quiet=quiet, ...))
+      )  
+  }
+  
 	formula <- x
 	evalF <- evalFormula(formula,data)
 
@@ -110,6 +86,13 @@ setMethod(
 		if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
 		if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
 	}
+  
+  # provide warning for 3-slot formulas
+  
+	if (!is.null (evalF$left) && ! is.null(evalF$condition)) {
+    stop( "Unsupported formula type." )
+	}
+  
 
 	# shift things around if lhs exists and condition is empty
 	if (!is.null (evalF$left) && is.null(evalF$condition)) {
@@ -138,7 +121,6 @@ setMethod(
 	}
 	return(res)
 }
-)
 
 #' return a vector of row or column indices
 #'
@@ -161,12 +143,14 @@ columns <- function(x, default=c()) {
 #' @rdname columns
 rows <- function(x, default=c()) {
 	hi <- nrow(x)
-	if (is.null(hi)) return(default) else  return( 1:hi )
+	if (is.null(hi) || hi < 1) return(default) else  return( 1:hi )
 }
 
 #' Compute proportions, percents, or counts for a single level
 #'
 #' @rdname prop
+#' @param x an R object, usually a formula
+#' @param data a data frame in which \code{x} is to be evaluated
 #' @param \dots arguments passed through to \code{\link{tally}}
 #' @param level the level for which counts, proportions or percents are 
 #'         calculated
@@ -183,8 +167,8 @@ rows <- function(x, default=c()) {
 #' prop( ~sex | substance, data=HELPrct)
 #' perc( ~sex | substance, data=HELPrct)
 
-prop <- function(...,level=NULL, long.names=TRUE, sep=":", format="proportion") {
-  T <- tally(..., format=format)
+prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=":", format="proportion") {
+  T <- tally(x, data=data, ..., format=format)
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   if (is.null(level)) {
 	  level <- dimnames(T)[[1]][1]
@@ -204,11 +188,11 @@ prop <- function(...,level=NULL, long.names=TRUE, sep=":", format="proportion") 
 }
 
 #' @rdname prop
-count <- function(..., format="count") {
-	prop(..., format=format)
+count <- function(x, data=parent.frame(), ..., format="count") {
+	prop(x, data=data, ..., format=format)
 }
 
 #' @rdname prop
-perc <- function(..., format="percent") {
-	prop(..., format=format)
+perc <- function(x, data=parent.frame(), ..., format="percent") {
+	prop(x, data=data, ..., format=format)
 }

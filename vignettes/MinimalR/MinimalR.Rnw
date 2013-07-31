@@ -1,6 +1,10 @@
 
 
-\documentclass{report}
+\documentclass[10pt]{report}
+%\usepackage{times}
+\usepackage{textcomp}
+\newcommand{\twiddle}{\raisebox{0.5ex}{\texttildelow}}
+
 \usepackage{mparhack}
 \usepackage{xstring}
 
@@ -13,17 +17,17 @@
 \usepackage{probstat}
 \usepackage{hyperref}
 %\usepackage[shownotes]{authNote}
-\usepackage[hidenotes]{authNote}
-\usepackage[answerdelayed,exercisedelayed,lastexercise,chapter]{problems}
+%\usepackage[hidenotes]{authNote}
+%\usepackage[answerdelayed,exercisedelayed,lastexercise,chapter]{problems}
 \usepackage{longtable}
 
-\usepackage{tikz}
-\usetikzlibrary{shadows}
-\usetikzlibrary{decorations}
-\usetikzlibrary{shapes.multipart}
-\usetikzlibrary{shapes.symbols}
-\usetikzlibrary{shapes.misc}
-\usetikzlibrary{shapes.geometric}
+%\usepackage{tikz}
+%\usetikzlibrary{shadows}
+%\usetikzlibrary{decorations}
+%\usetikzlibrary{shapes.multipart}
+%\usetikzlibrary{shapes.symbols}
+%\usetikzlibrary{shapes.misc}
+%\usetikzlibrary{shapes.geometric}
 
 \newcommand{\mymarginpar}[1]{%
 \vadjust{\smash{\llap{\parbox[t]{\marginparwidth}{#1}\kern\marginparsep}}}}
@@ -70,15 +74,6 @@
 
 \usepackage{sfsect}
 \usepackage{relsize}
-%\usepackage{listings}
-
-\def\myRuleColor{\color{black!50!white}}
-
-
-\definecolor{GrayBoxGray}{rgb}{0.94,0.95,0.95}
-\definecolor{GrayBoxGray}{rgb}{0.97,0.98,0.95}
-\colorlet{GrayBoxGray}{blue!10!black!10}
-\colorlet{GrayBoxGray}{blue!7}
 
 \newlength{\tempfmlength}
 \newsavebox{\fmbox}
@@ -147,28 +142,7 @@
 \newcommand{\rterm}[1]{\textbf{#1}}
 
 
-% Looking for a consistent typography for variable names.
-% for consistency, we need to match all the verbatim uses elsewhere 
-% unless someone wants to recode all that.
-\newcommand{\VN}[1]{{\color{green!50!black}\texttt{#1}}}
-\newcommand{\vn}[1]{{\color{green!50!black}\texttt{#1}}}
-\newcommand{\variable}[1]{{\color{green!50!black}\texttt{#1}}}
-\newcommand{\DFN}[1]{{\color{blue!80!black}\texttt{#1}}}
-\newcommand{\dfn}[1]{{\color{blue!80!black}\texttt{#1}}}
-\newcommand{\dataframe}[1]{{\color{blue!80!black}\texttt{#1}}}
-\newcommand{\function}[1]{{\color{purple!75!blue}\texttt{\StrSubstitute{#1}{()}{}()}}}
-\newcommand{\option}[1]{{\color{brown!80!black}\texttt{#1}}}
-\newcommand{\pkg}[1]{{\color{red!80!black}\texttt{#1}}}
-\renewcommand{\code}[1]{{\color{blue!80!black}\texttt{#1}}}
-% and for models
-\newcommand{\model}[2]{{$\,$\hbox{#1}\ \ensuremath{\sim}\ \hbox{#2}}}
-
-\newenvironment{comment}{%
-\begin{quote}
-\em
-}{%
-\end{quote}
-}
+\usepackage{language}
 
 
 \title{Minimal R for Intro Stats}
@@ -184,32 +158,35 @@ Randall Pruim
 \parindent=0pt
 
 \chead{\sf \bfseries \Large Enough R for Intro Stats}
-\rhead{September, 2012}
+\rhead{July, 2013}
 \lhead{R. Pruim}
 
 
 
-\SweaveOpts{
-	dev="pdf",
-	fig.path="figures"
-	}
+
 
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
-source('setup.R')
+#source('setup.R')
 require(mosaic)
 trellis.par.set(theme=col.mosaic())
 set.seed(123)
-knit_hooks$set(inline = function(x) {
-if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
-x = as.character(x)
-h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
-h = gsub("([_#$%&])", "\\\\\\1", h)
-h = gsub('(["\'])', '\\1{}', h)
-gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
-})
+#knit_hooks$set(inline = function(x) {
+#	if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+#	x = as.character(x)
+#	h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+#	h = gsub("([_#$%&])", "\\\\\\1", h)
+#	h = gsub('(["\'])', '\\1{}', h)
+#	gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+#})
+opts_chunk$set(
+	dev="pdf",
+	fig.path='figures/fig-',  
+	eval=FALSE,
+	tidy=FALSE,
+	fig.align='center',
+	fig.show='hold'
+	)
 @ 
-
-\SweaveOpts{eval=FALSE, tidy=FALSE}
 
 
 \let\oldchapter=\chapter
@@ -376,9 +353,9 @@ For plots
 	\item
 		\texttt{groups}: conditioning variable (overlaid graphs)
 \end{itemize}
-For other things \Sexpr{'y ~ x | z'} can usually be
-read \Sexpr{'y'} is modeled by (or depends on) \Sexpr{'x'} 
-separately for each \Sexpr{'z'}.
+For other things \code{'y \twiddle{} x | z'} can usually be
+read \code{'y'} is modeled by (or depends on) \code{'x'} 
+differently for each \code{'z'}.
 
 See the sampler for examples.
 
@@ -389,7 +366,8 @@ pbinom(); pnorm();
 pchisq(); pt()
 qbinom(); qnorm(); 
 qchisq(); qt()
-plotDist();     # mosaic
+xpnorm()    # mosaic
+plotDist()  # mosaic
 @
 \vfill
 
@@ -398,19 +376,22 @@ These functions have
 a formula interface to match plotting.
 %
 <<>>=
-mean()      # mosaic augmented
-median()    # mosaic augmented
-sd()        # mosaic augmented
-var()       # mosaic augmented
-quantile()  # mosaic augmented
-favstats()  # mosaic
-tally()     # mosaic
+mean()       # mosaic augmented
+median()     # mosaic augmented
+sd()         # mosaic augmented
+var()        # mosaic augmented
+quantile()   # mosaic augmented
+favstats()   # mosaic
+tally()      # mosaic
 @
-\iffalse
+\iftrue
 \squeeze
 <<highlight=FALSE>>=
+prop()       # mosaic
+perc()       # mosaic
 rank()
-IQR()
+IQR()        # mosaic augmented
+min(); max() # mosaic augmented
 @
 \fi
 \vfill
@@ -419,18 +400,18 @@ IQR()
 
 %\medskip
 
-\texttt{lattice} is not the only option,
-but I find it works well because (a) it allows
-for easy multi-variable plots with good default settings,
-and (b) \texttt{lattice} uses the formula interface.
+%\texttt{lattice} is not the only option,
+%but it works well because (a) it allows
+%for easy multi-variable plots with good default settings,
+%and (b) \texttt{lattice} uses the formula interface.
 %
 <<>>=
 bwplot()
 xyplot()
-histogram()    # mosaic 
+histogram() # mosaic augmented
 qqmath()
 densityplot()
-plotFun()      # mosaic
+plotFun()   # mosaic
 @
 \squeeze
 <<highlight=FALSE>>=
@@ -438,10 +419,15 @@ ladd()         # mosaic
 dotPlot()      # mosaic
 bargraph()     # mosaic
 mosaic()       # in vcd package
-xhistogram()   # mosaic 
 xqqmath()      # mosaic
 @
 
+\subsection*{Interactive Graphics (RStudio)}
+<<eval=FALSE>>=
+mPlot(data=HELPrct, 'scatter')
+mPlot(data=HELPrct, 'boxplot')
+mPlot(data=HELPrct, 'histogram')
+@
 \columnbreak
 \subsection*{Inference}
 %
@@ -449,7 +435,7 @@ xqqmath()      # mosaic
 binom.test()  # mosaic augmented
 prop.test()   # mosaic augmented
 chisq.test()
-t.test()
+t.test()      # mosaic augmented
 lm()          # linear models
 anova( lm() )
 summary( lm() )
@@ -472,7 +458,7 @@ wilcox.test()
 
 \subsection*{Data}
 <<>>=
-read.csv()
+read.file()    # mosaic
 summary()
 names()
 head()
@@ -517,30 +503,34 @@ rownames()
 %\hfill
 %``Less volume, more creativity" (Mike McCarthy, head coach, Green Bay Packers)
 
-\begin{multicols}{3}
-
-\SweaveOpts{
+<<more-hooks,eval=TRUE,echo=FALSE>>=
+opts_chunk$set(
 	eval=TRUE, 
-	fig.path='figures',
+	fig.path='figures/fig-',
 	fig.width=4,
 	fig.height=2,
 	fig.align="center",
 	out.width=".25\\textwidth",
+	out.height=".125\\textwidth",
 	tidy=TRUE,
 	comment=NA
-	}
+)
+@
+
+\begin{multicols}{3}
 
 <<echo=FALSE>>=
 options(width=40)
 options(show.signif.stars=FALSE)
 @
+
 <<coins,fig.keep="last">>=
 rflip(10)
 do(2) * rflip(10)
 results <- do(1000)* rflip(10)
 tally( ~heads, data=results )
-xhistogram( ~heads ,data=results, width=1 )
 tally( ~ (heads>8 | heads<2) , data=results )
+histogram( ~heads ,data=results, width=1 )
 @
 
 \columnbreak
@@ -550,14 +540,16 @@ tally( ~ substance + sex, data=HELPrct )
 mean( age ~ substance, data=HELPrct )
 sd( age ~ substance, data=HELPrct )
 @
-<<densityplot,height=2.4>>=
-densityplot( ~ age | sex, groups=substance, data=HELPrct, auto.key=TRUE )
+<<densityplot,fig.height=2.4>>=
+densityplot( ~ age | sex, groups=substance, 
+               data=HELPrct, auto.key=TRUE )
 @
 <<bwplot>>=
 bwplot( age ~ substance | sex, data=HELPrct )
 @
 \columnbreak
-<<>>=
+<<message=FALSE>>=
+pval( binom.test( ~sex, data=HELPrct ) )
 confint( t.test( ~age, data=HELPrct ) )
 @
 <<>>=
@@ -566,7 +558,8 @@ anova( lm(age ~ sex + substance, data=HELPrct ) )
 
 
 <<>>=
-xyplot( Sepal.Length ~ Sepal.Width, data=iris, groups=Species )
+xyplot( Sepal.Length ~ Sepal.Width, data=iris, 
+	    groups=Species )
 @
 
 <<include=FALSE>>=

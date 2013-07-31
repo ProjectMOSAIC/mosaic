@@ -11,11 +11,11 @@ test_that("favstats works for vectors ", {
 })
 
 test_that("data interface works", {
-  expect_equivalent( favstats(HELPrct$age), favstats(age, HELPrct) )
+  expect_equivalent( favstats(HELPrct$age), favstats(age, data=HELPrct) )
 })
 
 test_that("formula interface works", {
-  expect_equivalent( favstats(HELPrct$age), favstats(~age, HELPrct) )
+  expect_equivalent( favstats(HELPrct$age), favstats(~age, data=HELPrct) )
 })
 
 test_that("formulas work without data", {

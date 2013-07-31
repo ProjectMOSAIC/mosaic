@@ -11,8 +11,10 @@
 
 #' Augmented histograms
 #' 
-#' \code{xhistogram} adds some additional functionality to \code{\link[lattice]{histogram}} making 
-#' it simpler to obtain certain common histogram adornments.
+#' The \pkg{mosaic} \code{histogram} adds some additional functionality to 
+#' \code{\link[lattice]{histogram}} making it simpler to obtain certain common 
+#' histogram adornments.
+#' @rdname xhistogram
 #'
 #' @param x a formula or a numeric vector
 #' @param data a data frame in which to evaluate \code{x}
@@ -21,23 +23,30 @@
 #' @param nint approximate number of bins
 #' @param breaks break points for histogram bins, a function for computing such,
 #'        or a method \code{\link{hist}} knows about given as a character string.
-#'        If missing, \code{\link[mosaic]{xhistogramBreaks}} is used.
+#'        By default, \code{\link[mosaic]{xhistogramBreaks}} is used.
 #'        
-#' @param \dots additional arguments passed to \code{\link[lattice]{histogram}} and on to
-#' 	\code{\link{panel.xhistogram}}
+#' @param \dots additional arguments passed to \code{\link[lattice]{histogram}} and (by
+#' default when the \pkg{mosaic} package has been loaded) on to 
+#' \code{\link{panel.xhistogram}}
 #'
 #' @return a trellis object
+#' @seealso \code{\link[lattice]{histogram}}, \code{xhistogramBreaks}
 #' 
 #' @export
 #' @examples
-#' xhistogram(~age | substance, HELPrct, v=35, fit='normal')
-#' xhistogram(~age, HELPrct, labels=TRUE, type='count')
-#' xhistogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
-#' xhistogram(~age, HELPrct, groups=sex, stripes='horizontal')
-#' xhistogram(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
+#' histogram(~age | substance, HELPrct, v=35, fit='normal')
+#' histogram(~age, HELPrct, labels=TRUE, type='count')
+#' histogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
+#' histogram(~age, HELPrct, groups=sex, stripes='horizontal')
+#' histogram(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
 
+#histogram <- function( x, data, panel=lattice.getOption('panel.histogram'), 
+#                       breaks=xhistogramBreaks, ... ) {
+#  lattice::histogram( x, data, panel=panel, breaks=breaks, ...)
+#}
 
-xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
+#' @export
+histogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
 						center=NULL, width=NULL, breaks, nint, ...) {
 	if ( missing(breaks) ) {
 		if (inherits(x,"formula")) {
@@ -52,9 +61,18 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 		breaks <- xhistogramBreaks(xvals, center=center, width=width, nint=nint)
 	}
 
-	histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
+	lattice::histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
 			  nint=substitute(nint), breaks=breaks, ...)
 }
+
+#' @rdname xhistogram
+#' @export
+xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
+                                      center=NULL, width=NULL, ...) {
+   .Deprecated("histogram")
+   histogram(x, data=data, panel=panel, type=type, center=center, 
+             width=width, ...)
+ }
 
 #' @rdname xhistogram
 #' @return \code{xhistogramBreaks} returns a vector of break points
@@ -65,7 +83,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' xhistogramBreaks(1:100, center=50, width=3)
 #' xhistogramBreaks(0:10, center=5, nint=5)
 
-xhistogramBreaks <- function(x, center=NULL, width=NULL, nint) {
+xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
   x <- x[!is.na(x)]
   if (is.factor(x)) return(seq_len(1 + nlevels(x)) - 0.5)
   if (length(x) < 2) return (x)

@@ -87,9 +87,10 @@ fetchData <- function(name=NULL,show.path=FALSE,
   
   ## Check the data sets in packages
   if( !file.found ) {
-    suppressWarnings( data(name) )
-    if (exists(name)) {
-      val = get(name)
+    dataEnv <- new.env()
+    suppressWarnings( data(name, envir=dataEnv) )
+    if (exists(name, envir=dataEnv)) {
+      val = get(name,envir=dataEnv)
       if(verbose) message(paste("Data",name,"found in package."))
       file.found <- TRUE
     }

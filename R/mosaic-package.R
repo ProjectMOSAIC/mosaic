@@ -17,5 +17,6 @@
 #'
 #' @keywords package
 #' @importFrom utils head modifyList
+#' @importFrom stats TukeyHSD nls
 #' @exportPattern "^[^\\.]"
 NA

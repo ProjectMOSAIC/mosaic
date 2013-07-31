@@ -38,7 +38,7 @@ adapt_seq <-function(from, to,
 		y <- do.call(f, args=c(list(s), args))
 		dy <- abs(diff(y))
 		o <- rev(order(dy))
-		m <- sum( dy > quantile(dy,.75, na.rm=TRUE), na.rm=TRUE )
+		m <- base::sum( dy > quantile(dy,.75, na.rm=TRUE), na.rm=TRUE )
 		new.s <- mid.s[ o[ 1:m ] ]
 		s <- sort( c(s, new.s) )
 	}

@@ -30,7 +30,7 @@
 #' 
 #' @param sig.level  significance threshold for \code{wilcox.test} used to detect lack of symmetry
 #' 
-#' @param \dots additional arguments passed to \code{\link{xhistogram}}
+#' @param \dots additional arguments passed to \code{\link{histogram}}
 #' 
 #' @return A lattice plot showing the sampling distribution. 
 #' 
@@ -46,8 +46,8 @@
 #' statTally(x, rdata, fun=max)  # unusual test statistic
 #' statTally(x, rdata, fun=var)  # equivalent to chi-squared test
 #' # Can also be used with test stats that are precomputed.
-#' D <- diff(mean( age ~ sex, HELPrct)); D
-#' nullDist <- do(1000) * diff( mean( age ~ shuffle(sex), HELPrct))
+#' D <- diff(mean( age ~ sex, data=HELPrct)); D
+#' nullDist <- do(1000) * diff( mean( age ~ shuffle(sex), data=HELPrct))
 #' statTally( D, nullDist)
 #' 
 #' @keywords inference 
@@ -104,10 +104,10 @@ function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sid
 	if (alternative == 'greater') lo <- -Inf
 	if (alternative == 'less')    hi <-  Inf
 
-    plot1 <- tryCatch( xhistogram(~stat, data=results,  #groups=stat >= dstat, 
+    plot1 <- tryCatch( histogram(~stat, data=results,  #groups=stat >= dstat, 
 						xlim = xlim, ...,
 						panel = function(x,...){
-							panel.xhistogram(x,...)
+							panel.histogram(x,...)
 							grid.rect( x=unit(lo,'native'), y=0.5, hjust=1,
 									  gp=gpar(fill='navy',col='navy', alpha=.05))
 							grid.rect( x=unit(hi,'native'), y=0.5, hjust=0,

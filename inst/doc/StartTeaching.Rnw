@@ -1,0 +1,9 @@
+%\VignetteIndexEntry{Start Teaching Statistics using R}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, teaching, starting}
+
+\documentclass{article}
+%\usepackage{pdfpages}
+\begin{document}
+%\includepdf[pages=-, fitpaper=true]{StartTeaching-src.pdf}
+\end{document}
