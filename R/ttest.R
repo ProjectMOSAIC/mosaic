@@ -52,9 +52,7 @@ ttest.default <-  function (x, ...) {
 ttest.formula <- function(x, data=parent.frame(), ...) {
   tryCatch( 
     return(stats:::t.test(x, data=data, ...)),
-    error=function(e) {message(paste("stats:::t.test says", e))})
-  
-  message('mosaic to the rescue')
+    error=function(e) {})
   dots <- list(...)
   formula <- x
 #  if (is.null(data)) stop("data must be specified.")
