@@ -65,6 +65,20 @@ histogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 			  nint=substitute(nint), breaks=breaks, ...)
 }
 
+#prepanel.mosaic.histogram <- function (x, breaks, ...) 
+#{
+#  if (length(x) < 1) 
+#    return(prepanel.null())
+#  
+#	if ( missing(breaks) ) {
+#		  breaks <- xhistogramBreaks(x, ...)
+#	} else {
+#    print (breaks)
+#	}
+#  lattice::prepanel.default.histogram( x, breaks, ... )
+#}
+
+
 #' @rdname xhistogram
 #' @export
 xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
