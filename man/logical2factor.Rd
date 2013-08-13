@@ -1,0 +1,28 @@
+\name{logical2factor}
+\alias{logical2factor}
+\alias{logical2factor.data.frame}
+\alias{logical2factor.default}
+\title{Turn logicals into factors; leave other things alone}
+\usage{
+  logical2factor(x, ...)
+
+  \method{logical2factor}{default} (x, ...)
+
+  \method{logical2factor}{data.frame} (x, ...)
+}
+\arguments{
+  \item{x}{a vector or data frame}
+
+  \item{\dots}{additional arguments (currently ignored)}
+}
+\value{
+  If \code{x} is a vector either \code{x} or the result of
+  converting \code{x} into a factor with levels \code{TRUE}
+  and \code{FALSE} (in that order); if \code{x} is a data
+  frame, a data frame with all logicals converted to
+  factors in this manner.
+}
+\description{
+  Turn logicals into factors; leave other things alone
+}
+

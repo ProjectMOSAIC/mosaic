@@ -1,0 +1,31 @@
+\name{is.wholenumber}
+\alias{is.wholenumber}
+\title{Check for whole number values}
+\usage{
+  is.wholenumber(x, tol = .Machine$double.eps^0.5)
+}
+\arguments{
+  \item{x}{a vector}
+
+  \item{tol}{a numeric tolerance}
+}
+\value{
+  a logical vector indicating whether \code{x} has a whole
+  number value
+}
+\description{
+  Unlike \code{\link{is.integer}}, which checks the type of
+  argument is \code{integer}, this function checks whether
+  the value of the argument is an integer (within a
+  specified tolerance).
+}
+\details{
+  This function is borrowed from the examples for
+  \code{\link{is.integer}}
+}
+\examples{
+is.wholenumber(1)
+all(is.wholenumber(rbinom(100,10,.5)))
+is.wholenumber((1:10)/2)
+}
+

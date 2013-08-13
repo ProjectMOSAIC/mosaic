@@ -1,0 +1,27 @@
+\name{deg2rad}
+\alias{deg2rad}
+\alias{rad2deg}
+\title{Convert between degrees and radians}
+\usage{
+  deg2rad(x)
+
+  rad2deg(x)
+}
+\arguments{
+  \item{x}{a numeric vector}
+}
+\value{
+  a numeric vector
+}
+\description{
+  Facilitates conversion between degrees and radians.
+}
+\examples{
+deg2rad(180)
+rad2deg(2*pi)
+}
+\seealso{
+  \code{\link{latlon2xyz}}, \code{\link{googleMap}}, and
+  \code{\link{rgeo}}.
+}
+

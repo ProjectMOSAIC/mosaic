@@ -1,0 +1,23 @@
+\name{makeColorscheme}
+\alias{makeColorscheme}
+\title{Create a color generating function from a vector of colors}
+\usage{
+  makeColorscheme(col)
+}
+\arguments{
+  \item{col}{a vector of colors}
+}
+\value{
+  a function that generates a vector of colors interpolated
+  among the colors in \code{col}
+}
+\description{
+  Create a color generating function from a vector of
+  colors
+}
+\examples{
+cs <- makeColorscheme( c('red','white','blue') )
+cs(10)
+cs(10, alpha=.5)
+}
+

@@ -1,0 +1,83 @@
+\name{FunctionsFromData}
+\alias{connector}
+\alias{FunctionsFromData}
+\alias{linearModel}
+\alias{smoother}
+\alias{spliner}
+\title{Create function from data}
+\usage{
+  spliner(formula, data = NULL, method = "fmm",
+    monotonic = FALSE)
+
+  connector(formula, data = NULL, method = "linear")
+
+  smoother(formula, data, span = 0.5, degree = 2, ...)
+
+  linearModel(formula, data, ...)
+}
+\arguments{
+  \item{formula}{a formula.  Only one quantity is allowed
+  on the left-hand side, the output quantity}
+
+  \item{data}{a data frame}
+
+  \item{method}{a method for splining.  See
+  \code{\link{spline}}.}
+
+  \item{monotonic}{a \code{TRUE/FALSE} flag specifying
+  whether the spline should respect monotonicity in the
+  data}
+
+  \item{span}{parameter to smoother.  How smooth it should
+  be.}
+
+  \item{degree}{parameter to smoother. 1 is locally linear,
+  2 is locally quadratic.}
+
+  \item{\dots}{additional arguments to
+  \code{\link[stats]{loess}} or \code{\link[stats]{lm}}}
+}
+\description{
+  These functions create mathematical functions from data,
+  by smoothing, splining, or linear combination (fitting).
+  Each of them takes a formula and a data frame as an
+  argument
+}
+\details{
+  These functions use data to create a mathematical,
+  single-valued function of the inputs. All return a
+  function whose arguments are the variables used on the
+  right-hand side of the formula. If the formula involves a
+  transformation, e.g. \code{sqrt(age)} or
+  \code{log(income)}, only the variable itself, e.g.
+  \code{age} or \code{income}, is an argument to the
+  function. \code{linearModel} takes a linear combination
+  of the vectors specified on the right-hand side. It
+  differs from \code{project} in that \code{linearModel}
+  returns a function whereas \code{project} returns the
+  coefficients.  NOTE: An intercept term is not included
+  unless that is explicitly part of the formula with
+  \code{+1}.  This conflicts with the standard usage of
+  formulas as found in \code{lm}.  \code{spliner} and
+  \code{connector} currently work for only one input
+  variable.
+}
+\examples{
+data(CPS85)
+f <- smoother(wage ~ age, span=.9, data=CPS85)
+f(40)
+df <- D(f(age) ~ age)
+df(40)
+g <- linearModel(log(wage) ~ age+educ+1, data=CPS85)
+g(age=40, educ=12)
+dgdeduc <- D(g(age=age, educ=educ) ~ educ)
+dgdeduc(age=40, educ=12)
+x<-1:5; y=c(1, 2, 4, 8, 8.2)
+f1 <- spliner(y ~ x)
+f1(x=8:10)
+f2 <- connector(x~y)
+}
+\seealso{
+  \code{\link{project}} method for formulas
+}
+

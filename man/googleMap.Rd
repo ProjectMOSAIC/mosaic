@@ -1,0 +1,53 @@
+\name{googleMap}
+\alias{googleMap}
+\title{Display a point on earth on a Google Map}
+\usage{
+  googleMap(latitude, longitude, position = NULL,
+    zoom = 12,
+    maptype = c("roadmap", "satellite", "terrain", "hybrid"),
+    mark = FALSE, radius = 0, browse = TRUE, ...)
+}
+\arguments{
+  \item{latitude,longitude}{vectors of latitude and
+  longitude values}
+
+  \item{position}{a data frame containing latitude and
+  longitude positions}
+
+  \item{zoom}{zoom level for initial map (1-20)}
+
+  \item{maptype}{one of \code{'roadmap'},
+  \code{'satellite'}, \code{'terrain'}, and
+  \code{'hybrid'}}
+
+  \item{mark}{a logical indicating whether the location
+  should be marked with a pin}
+
+  \item{radius}{a vector of radii of circles centered at
+  position that are displayed on the map}
+
+  \item{browse}{a logical indicating whether the URL should
+  be browsed (else only returned as a string)}
+
+  \item{\dots}{additional arguments passed to
+  \code{browseURL}}
+}
+\value{
+  a string containing a URL.  Optionally, as a side-effect,
+  the URL is visited in a browser
+}
+\description{
+  Creates a URL for Google Maps for a particular latitude
+  and longitude position.
+}
+\examples{
+\dontrun{
+googleMap(40.7566, -73.9863, radius=1)   # Times Square
+googleMap(position=rgeo(2), radius=1)    # 2 random locations
+}
+}
+\seealso{
+  \code{\link{deg2rad}}, \code{\link{latlon2xyz}} and
+  \code{\link{rgeo}}.
+}
+
