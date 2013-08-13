@@ -77,12 +77,15 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @export
 #' 
 mPlot <- function(data, 
-                  default=c('scatter','boxplot','violin','histogram','density','frequency polygon','xyplot'),
-                  system=c('lattice','ggplot2'),
-                  show=FALSE) 
+  default=plotType,
+  system=c('lattice','ggplot2'),
+  show=FALSE) 
 {
-  default <- match.arg(default)
-  system <- match.arg(system )
+  if (missing(default))  default <- 'scatter' 
+  plotTypes <- c('scatter', 'boxplot', 'violin', 'histogram', 
+                'density', 'frequency polygon', 'xyplot')
+  default <- match.arg(default, plotTypes)
+  system <- match.arg(system)
   dataName <- substitute(data)
   if (default == 'xyplot') default <- 'scatter'
   if (default %in% c('scatter','boxplot','violin')) {

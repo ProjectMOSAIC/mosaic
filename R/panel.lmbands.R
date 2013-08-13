@@ -22,10 +22,8 @@ function (x, y,
 		  interval = "confidence", 
 		  level = 0.95, 
 		  model = lm(y ~ x), 
-		  band.col = c(conf = trellis.par.get("superpose.line")$col[3], 
-					   pred = trellis.par.get("superpose.line")$col[2]), 
-		  band.lty = c( conf = trellis.par.get("superpose.line")$lty[3], 
-		  				pred = trellis.par.get("superpose.line")$lty[2]),
+		  band.col = c(conf = slcol[3], pred=slcol[2]),
+		  band.lty = c(conf = slty[3], pred=slty[2]),
 		  band.show = TRUE,
 		  fit.show = TRUE,
 		  band.alpha = .6,
@@ -33,6 +31,9 @@ function (x, y,
 		  npts = 100,
 		  ...) 
 {
+  slcol <- trellis.par.get("superpose.line")$col
+  slty  <- trellis.par.get("superpose.line")$lty
+  
 	band.alpha <- rep(band.alpha, length.out=2)
 	band.lwd <- rep(band.lwd, length.out=2)
 	band.show <- rep(band.show, length.out=2)

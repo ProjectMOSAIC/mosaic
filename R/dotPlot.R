@@ -43,14 +43,26 @@ function (x,
 #' @rdname dotPlot
 
 panel.dotPlot <-
-function (x, breaks, equal.widths = TRUE, groups = NULL, 
-	nint = if (is.factor(x)) nlevels(x) else round(1.3* log2(length(x)) + 4),
-	pch = if (is.null(groups)) trellis.par.get("dot.symbol")$pch else trellis.par.get("superpose.symbol")$pch, 
-    col = if (is.null(groups)) trellis.par.get("dot.symbol")$col else trellis.par.get("superpose.symbol")$col, 
-    lty = trellis.par.get("dot.line")$lty, lwd = trellis.par.get("dot.line")$lwd, 
-    col.line = trellis.par.get("dot.line")$col, alpha = trellis.par.get("dot.symbol")$alpha, cex=1, 
-    type = "count", ...) 
+  function (x, breaks, equal.widths = TRUE, groups = NULL, 
+            nint = if (is.factor(x)) nlevels(x) else round(1.3* log2(length(x)) + 4),
+            pch,
+            col,
+            lty = trellis.par.get("dot.line")$lty, 
+            lwd = trellis.par.get("dot.line")$lwd, 
+            col.line = trellis.par.get("dot.line")$col, 
+            alpha = trellis.par.get("dot.symbol")$alpha, 
+            cex=1, 
+            type = "count", ...) 
 {
+  if (missing(pch)) {
+    pch <-  if (is.null(groups)) trellis.par.get("dot.symbol")$pch 
+              else trellis.par.get("superpose.symbol")$pch 
+  }
+  if (missing(col)) {
+    col <- if (is.null(groups)) trellis.par.get("dot.symbol")$col 
+            else trellis.par.get("superpose.symbol")$col 
+  }
+    
 	if (is.null(nint)) nint <- if (is.factor(x)) nlevels(x) else round(1.3* log2(length(x)) + 4)
     dot.line <- trellis.par.get("dot.line")
     dot.symbol <- trellis.par.get("dot.symbol")
