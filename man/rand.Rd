@@ -1,0 +1,39 @@
+\name{rand}
+\alias{rand}
+\title{Random Regressors}
+\usage{
+  rand(df = 1, rdist = rnorm, args = list(), nrow,
+    seed = NULL)
+}
+\arguments{
+  \item{df}{degrees of freedom, i.e., number of random
+  regressors}
+
+  \item{rdist}{random distribution function for sampling}
+
+  \item{args}{arguments for \code{rdist}}
+
+  \item{nrow}{number of rows in resulting matrix.  This can
+  often be omitted in the context of functions like
+  \code{lm} where it is inferred from the data frame, if
+  one is provided.}
+
+  \item{seed}{seed for random number generation}
+}
+\value{
+  A matrix of random variates with \code{df} columns. In
+  its intended use, the number of rows will be selected to
+  match the size of the data frame supplied to \code{lm}
+}
+\description{
+  A utility function for producing random regressors with a
+  specified number of degrees of freedom.
+}
+\examples{
+rand(2,nrow=4)
+rand(2,rdist=rpois, args=list(lambda=3), nrow=4)
+summary(lm( waiting ~ eruptions + rand(1), faithful))
+}
+\keyword{distribution}
+\keyword{regression}
+

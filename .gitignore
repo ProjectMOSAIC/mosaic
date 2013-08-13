@@ -15,9 +15,7 @@ TeachingStatsWithR/figures
 TeachingStatsWithR/Chap-*.R
 builds/*gz
 *.Rcheck
-man/*.Rd
 data/*.csv.bz2
-NAMESPACE
 .Rd2dvi*
 vignettes/*/*.tex
 vignettes/Plotting/Figures/plt-explain*.pdf

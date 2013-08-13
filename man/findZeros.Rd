@@ -1,0 +1,115 @@
+\name{findZeros}
+\alias{findZeros}
+\alias{solve.formula}
+\title{Find zeros of functions}
+\usage{
+  findZeros(expr, ...,
+    xlim = c(near - within, near + within), near = 0,
+    within = Inf, nearest = 10, npts = 1000, iterate = 1,
+    sortBy = c("byx", "byy", "radial"))
+
+  \method{solve}{formula} (form, ..., near = 0,
+    within = Inf, nearest = 10, npts = 1000, iterate = 1,
+    sortBy = c("byx", "byy", "radial"))
+}
+\arguments{
+  \item{expr}{A formula.  The right side names the variable
+  with respect to which the zeros should be found. The left
+  side is an expression, e.g. \code{sin(x) ~ x}. All free
+  variables (all but the variable on the right side) named
+  in the expression must be assigned a value via
+  \code{\ldots}}
+
+  \item{\dots}{Formulas corresponding to additional
+  functions to use in simultaneous zero finding and/or
+  specific numerical values for the free variables in the
+  expression.}
+
+  \item{xlim}{The range of the dependent variable to search
+  for zeros. \code{Inf} is a legitimate value, but is
+  interpreted in the numerical sense as the non-Inf largest
+  floating point number.  This can also be specified
+  replacing \code{x} with the name of the variable.  See
+  the examples.}
+
+  \item{near}{a value near which zeros are desired}
+
+  \item{within}{only look for zeros at least this close to
+  near.  \code{near} and \code{within} provide an
+  alternative to using \code{xlim} to specify the search
+  space.}
+
+  \item{nearest}{the number of nearest zeros to return.
+  Fewer are returned if fewer are found.}
+
+  \item{iterate}{maximum number of times to iterate the
+  search. Subsequent searches take place with the range of
+  previously found zeros.  Choosing a large number here is
+  likely to kill performance without improving results, but
+  a value of 1 (the default) or 2 works well when searching
+  in \code{c(-Inf,Inf)} for a modest number of zeros near
+  \code{near}.}
+
+  \item{npts}{How many sub-intervals to divide the
+  \code{xlim} into when looking for candidates for zeros.
+  The default is usually good enough. If \code{Inf} is
+  involved, the intervals are logarithmically spaced up to
+  the largest finite floating point number. There is no
+  guarantee that all the roots will be found.}
+
+  \item{sortBy}{specifies how the zeros found will be
+  sorted. Options are 'byx', 'byy', or 'radial'.}
+
+  \item{form}{Expression to be solved}
+}
+\value{
+  A dataframe of zero or more numerical values.  Plugging
+  these into the expression on the left side of the formula
+  should result in values near zero.
+
+  a dataframe with solutions to the expression.
+}
+\description{
+  Compute numerically zeros of a function or simultaneous
+  zeros of multiple functions.
+
+  Solve an equation
+}
+\details{
+  Searches numerically using \code{uniroot}.
+
+  Uses findZerosMult of findZeros to solve the given
+  expression
+}
+\examples{
+findZeros( sin(t) ~ t, xlim=c(-10,10) )
+# Can use tlim or t.lim instead of xlim if we prefer
+findZeros( sin(t) ~ t, tlim=c(-10,10) )
+findZeros( sin(theta) ~ theta, near=0, nearest=20)
+findZeros( A*sin(2*pi*t/P) ~ t, xlim=c(0,100), P=50, A=2)
+# Interval of a normal at half its maximum height.
+findZeros( dnorm(x,mean=0,sd=10) - 0.5*dnorm(0,mean=0,sd=10) ~ x )
+# A pathological example
+# There are no "neareset" zeros for this function.  Each iteration finds new zeros.
+f <- function(x) { if (x==0) 0 else sin(1/x) }
+findZeros( f(x) ~ x, near=0 )
+# Better to look nearer to 0
+findZeros( f(x) ~ x, near=0, within=100 )
+findZeros( f(x) ~ x, near=0, within=100, iterate=0 )
+findZeros( f(x) ~ x, near=0, within=100, iterate=3 )
+# Zeros in multiple dimensions (not run: these take a long time)
+# findZeros(x^2+y^2+z^2-5~x&y&z, nearest=3000, within = 5)
+# findZeros(x*y+z^2~z&y&z, z+y~x&y&z, npts=10)
+solve(3*x==3~x)
+
+# plot out sphere (not run)
+# sphere = solve(x^2+y^2+z^2==5~x&y&z, within=5, nearest=1000)
+# cloud(z~x+y, data=sphere)
+}
+\author{
+  Daniel Kaplan (\email{kaplan@macalester.edu})
+
+  Cecylia Bocovich
+}
+\keyword{calculus}
+

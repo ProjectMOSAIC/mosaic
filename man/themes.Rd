@@ -1,0 +1,40 @@
+\name{theme.mosaic}
+\alias{col.mosaic}
+\alias{theme.mosaic}
+\title{Lattice Theme}
+\usage{
+  theme.mosaic(bw = FALSE, lty = 1:7)
+
+  col.mosaic(bw = FALSE, lty = 1:7)
+}
+\arguments{
+  \item{bw}{whether color scheme should be "black and
+  white"}
+
+  \item{lty}{vector of line type codes}
+}
+\value{
+  Returns a list that can be supplied as the \code{theme}
+  to \code{\link{trellis.par.set}()}.
+}
+\description{
+  A theme for use with lattice graphics.
+}
+\note{
+  These two functions are identical.  \code{col.mosaic} is
+  named similarly to \code{\link[lattice]{col.whitebg}},
+  but since more than just colors are set,
+  \code{theme.mosaic} is a preferable name.
+}
+\examples{
+trellis.par.set(theme=theme.mosaic())
+show.settings()
+trellis.par.set(theme=theme.mosaic(bw=TRUE))
+show.settings()
+}
+\seealso{
+  \code{\link{trellis.par.set}},
+  \code{\link{show.settings}}
+}
+\keyword{graphics}
+

@@ -1,0 +1,49 @@
+\name{panel.lmbands}
+\alias{panel.lmbands}
+\title{show confidence and preciction bands on plots}
+\usage{
+  panel.lmbands(x, y, interval = "confidence",
+    level = 0.95, model = lm(y ~ x),
+    band.col = c(conf = slcol[3], pred = slcol[2]),
+    band.lty = c(conf = slty[3], pred = slty[2]),
+    band.show = TRUE, fit.show = TRUE, band.alpha = 0.6,
+    band.lwd = 1, npts = 100, ...)
+}
+\arguments{
+  \item{x,y}{numeric vectors}
+
+  \item{interval}{a vector subset of \code{'confidence'}
+  and \code{'prediction'}}
+
+  \item{level}{conficence level}
+
+  \item{model}{model to be used for generating bands}
+
+  \item{band.col}{a vector of length 1 or 2 giving the
+  color of bands}
+
+  \item{band.lty}{a vector of length 1 or 2 giving the line
+  type for bands}
+
+  \item{band.show}{logical vector of length 1 or 2
+  indicating whether confidence and prediction bands should
+  be shown}
+
+  \item{fit.show}{logical indicating whether the model fit
+  should be shown}
+
+  \item{band.alpha}{a vector of length 1 or 2 alpha level
+  for bands}
+
+  \item{band.lwd}{a vector of length 1 or 2 giving line
+  width for bands}
+
+  \item{npts}{resolution parameter for bands (increase to
+  get better resolution)}
+
+  \item{\dots}{additional arguments}
+}
+\description{
+  show confidence and preciction bands on plots
+}
+

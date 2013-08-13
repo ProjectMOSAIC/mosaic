@@ -1,0 +1,40 @@
+\name{inferArgs}
+\alias{inferArgs}
+\title{Infer arguments}
+\usage{
+  inferArgs(vars, dots,
+    defaults = alist(xlim = , ylim = , zlim = ),
+    variants = c(".lim", "lim"))
+}
+\arguments{
+  \item{vars}{a vector of variable names to look for}
+
+  \item{dots}{a named list of argument values}
+
+  \item{defaults}{named list or alist of default values for
+  limits}
+
+  \item{variants}{a vector of optional postfixes for
+  limit-specifying variable names}
+}
+\value{
+  a named list or alist of limits.  The names are
+  determined by the names in \code{defaults}.
+
+  If multiple \code{variants} are matched, the first is
+  used.
+}
+\description{
+  The primary purpose is for inferring argument settings
+  from names derived from variables occurring in a formula.
+  For example, the default use is to infer limits for
+  variables without having to call them \code{xlim} and
+  \code{ylim} when the variables in the formula have other
+  names.  Other uses could easily be devised by specifying
+  different \code{variants}.
+}
+\examples{
+inferArgs(c('x','u','t'), list(t=c(1,3), x.lim=c(1,10), u=c(1,3), u.lim=c(2,4)))
+inferArgs(c('x','u'), list(u=c(1,3)), defaults=list(xlim=c(0,1), ylim=NULL))
+}
+

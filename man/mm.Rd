@@ -1,0 +1,101 @@
+\name{mm}
+\alias{coef.groupwiseModel}
+\alias{confint.groupwiseModel}
+\alias{fitted.groupwiseModel}
+\alias{mm}
+\alias{print.groupwiseModel}
+\alias{print.summary.groupwiseModel}
+\alias{residuals.groupwiseModel}
+\alias{summary.groupwiseModel}
+\title{Construct a model based on groupwise means}
+\usage{
+  mm(formula, data = parent.frame(), fun = mean,
+    drop = TRUE, ...)
+
+  \method{confint}{groupwiseModel} (object, parm,
+    level = 0.95, ..., pooled = TRUE, margin = FALSE)
+
+  \method{coef}{groupwiseModel} (object, ...)
+
+  \method{print}{groupwiseModel} (x, ...)
+
+  \method{residuals}{groupwiseModel} (object, ...)
+
+  \method{fitted}{groupwiseModel} (object, ...)
+
+  \method{summary}{groupwiseModel} (object, ...)
+
+  \method{print}{summary.groupwiseModel} (x, ...)
+}
+\arguments{
+  \item{formula}{A formula.  The left-hand side specifies
+  the variable over which the mean will be taken.  The
+  right-hand side gives the grouping variables, separated
+  by \code{&}.}
+
+  \item{data}{A data frame to which the formula variables
+  refer.  If not specified, variables will be taken from
+  the current environment.}
+
+  \item{fun}{The function used to calculate the means.
+  Default: \code{mean}.}
+
+  \item{drop}{Logical flag indicating whether to drop
+  unoccupied groups.  Default \code{TRUE}. NOT YET
+  IMPLEMENTED.}
+
+  \item{\dots}{Additional arguments to be passed to the
+  \code{fun} doing the calculation.}
+
+  \item{parm}{Not used}
+
+  \item{level}{The confidence level (e.g., 0.95)}
+
+  \item{pooled}{Whether to use a pooled variance of
+  residuals to compute the standard error. (This is what
+  \code{lm} does.)}
+
+  \item{margin}{Whether to present the margin of error
+  rather than the lower and upper bounds}
+
+  \item{x}{Object to be printed}
+
+  \item{object}{groupwiseMean object from which to extract
+  the residuals}
+}
+\value{
+  \code{mm} returns an object of class
+  \code{groupwiseModel}.  The functions
+  \code{fitted.values}, \code{residuals},
+  \code{coefficients}, and \code{summary} are useful for
+  extracting various features of the value returned by
+  \code{mm}
+}
+\description{
+  Calculate groupwise means, presenting the result as a
+  model in the style of \code{lm}.
+}
+\details{
+  \code{mm} is a sort of training function for \code{lm},
+  meant to provide a basis for discussing inference and
+  introducing resampling in a simple, intuitive setting of
+  groupwise means.  \code{lm} provides a better, more
+  general facility. When using \code{lm} to recreate the
+  results of \code{mm}, include all the interaction terms,
+  that is, use \code{*} instead of \code{&}.  See the
+  examples.
+}
+\examples{
+mm( wage ~ sex, data=CPS85 )
+mm( wage ~ sex & married, data=CPS85 )
+lm( wage ~ sex*married-1, data=CPS85)
+do(5) * mm( wage ~ sex & married, data=resample(CPS85))
+mod <- mm( width ~ domhand, data=KidsFeet)
+summary(mod)
+resid(mod)
+fitted(mod)
+}
+\seealso{
+  \code{\link{lm}}, \code{\link{do}}
+}
+

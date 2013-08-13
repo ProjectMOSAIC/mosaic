@@ -1,0 +1,21 @@
+\name{modelVars}
+\alias{modelVars}
+\title{extract predictor variables from a model}
+\usage{
+  modelVars(model)
+}
+\arguments{
+  \item{model}{a model, typically of class \code{lm} or
+  \code{glm}}
+}
+\value{
+  a vector of variable names
+}
+\description{
+  extract predictor variables from a model
+}
+\examples{
+model <- lm( wage ~ poly(exper,degree=2), data=CPS85 )
+modelVars(model)
+}
+

@@ -1,0 +1,70 @@
+\name{statTally}
+\alias{statTally}
+\title{Tally test statistics}
+\usage{
+  statTally(sample, rdata, FUN, direction = NULL,
+    alternative = c("default", "two.sided", "less", "greater"),
+    sig.level = 0.1, center = NULL,
+    stemplot = dim(rdata)[direction] < 201,
+    q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim,
+    ...)
+}
+\arguments{
+  \item{sample}{sample data}
+
+  \item{rdata}{a matrix of randomly generated data under
+  null hypothesis.}
+
+  \item{FUN}{a function that computes the test statistic
+  from a data set.  The default value does nothing, making
+  it easy to use this to tabulate precomputed statistics
+  into a null distribution.  See the examples.}
+
+  \item{direction}{1 or 2 indicating whether samples in
+  \code{rdata} are in rows (1) or columns (2).}
+
+  \item{stemplot}{indicates whether a stem plot should be
+  displayed}
+
+  \item{q}{quantiles of sampling distribution to display}
+
+  \item{fun}{same as \code{FUN} so you don't have to
+  remember if it should be capitalized}
+
+  \item{xlim}{limits for the horizontal axis of the plot.}
+
+  \item{center}{center of null distribution}
+
+  \item{alternative}{one of \code{default},
+  \code{two.sided}, \code{less}, or \code{greater}}
+
+  \item{sig.level}{significance threshold for
+  \code{wilcox.test} used to detect lack of symmetry}
+
+  \item{\dots}{additional arguments passed to
+  \code{\link{histogram}}}
+}
+\value{
+  A lattice plot showing the sampling distribution.
+
+  As side effects, information about the empirical sampling
+  distribution and (optionally) a stem plot are printed to
+  the screen.
+}
+\description{
+  Tally test statistics from data and from multiple draws
+  from a simulated null distribution
+}
+\examples{
+# is my spinner fair?
+x <- c(10, 18, 9, 15)   # counts in four cells
+rdata <- rmultinom(1000, sum(x), prob=rep(.25, 4))
+statTally(x, rdata, fun=max)  # unusual test statistic
+statTally(x, rdata, fun=var)  # equivalent to chi-squared test
+# Can also be used with test stats that are precomputed.
+D <- diff(mean( age ~ sex, data=HELPrct)); D
+nullDist <- do(1000) * diff( mean( age ~ shuffle(sex), data=HELPrct))
+statTally( D, nullDist)
+}
+\keyword{inference}
+

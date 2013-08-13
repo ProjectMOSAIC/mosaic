@@ -1,0 +1,32 @@
+\name{fav_stats}
+\alias{fav_stats}
+\title{Some favorite statistical summaries}
+\usage{
+  fav_stats(x, ..., na.rm = TRUE)
+}
+\arguments{
+  \item{x}{numeric vector}
+
+  \item{na.rm}{boolean indicating whether missing data
+  should be ignored}
+
+  \item{...}{additional arguments (currently ignored)}
+}
+\value{
+  A vector of statistical summaries
+}
+\description{
+  Likely you mean to be using \code{\link{favstats}}.  Each
+  of these computes the mean, standard deviation,
+  quartiles, sample size and number of missing values for a
+  numeric vector, but \code{\link{favstats}} can take a
+  formula describing how these summary statistics should be
+  aggregated across various subsets of the data.
+}
+\examples{
+fav_stats(1:10)
+fav_stats(faithful$eruptions)
+favstats(length ~ sex, data=KidsFeet)  # Note: this is favstats() rather than fav_stats()
+}
+\keyword{stats}
+
