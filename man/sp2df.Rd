@@ -14,7 +14,7 @@
   Some utilities for working with map data
 }
 \examples{
-dontrun(
+\dontrun{
 if(require(maptools)) {
   data(wrld_simpl)
   worldmap <- sp2df(wrld_simpl)
@@ -30,6 +30,6 @@ if ( require(ggplot2) && require(maptools) && require(plyr) ) {
          data=subset(Mdata, year==2008), group = group,
                      geom="polygon")
 }
-)
+}
 }
 

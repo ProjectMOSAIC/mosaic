@@ -1,9 +1,7 @@
-\docType{data}
 \name{.is.formula}
 \alias{.clean_names}
 \alias{.cull_for_do}
 \alias{.do.safe.call}
-\alias{.fetchEnvironment}
 \alias{.is.formula}
 \alias{.is.simple.formula}
 \alias{.make.data.frame}
@@ -15,7 +13,6 @@
 \alias{fetchDynamics}
 \alias{rkFunction}
 \title{Check if formula}
-\format{<environment: 0x7fc94e8e85b8>}
 \usage{
   .is.formula(x)
 
@@ -32,8 +29,6 @@
   .squash_names(object, sep = ":")
 
   .cull_for_do(object)
-
-  .fetchEnvironment
 
   fetchDynamics(x)
 
@@ -153,8 +148,5 @@
 \seealso{
   \code{\link{do.call}}
 }
-\keyword{datasets}
 \keyword{internal}
-\keyword{internel}
-\keyword{mosaic}
 
