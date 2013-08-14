@@ -1,12 +1,12 @@
 \docType{methods}
 \name{project}
 \alias{project}
-\alias{project,formula,ANY-method}
 \alias{project,formula-method}
-\alias{project,matrix,ANY-method}
+\alias{project,formula,ANY-method}
 \alias{project,matrix-method}
-\alias{project,numeric,ANY-method}
+\alias{project,matrix,ANY-method}
 \alias{project,numeric-method}
+\alias{project,numeric,ANY-method}
 \title{Projections}
 \arguments{
   \item{x}{a vector or formula.  Left-hand sides of
