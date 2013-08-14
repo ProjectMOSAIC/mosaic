@@ -6,7 +6,8 @@
 #' @param ... other arguments, currently ignored
 #' @export
 #' @examples
-#' 
+#'
+#' \dontrun{ 
 #' if(require(maptools)) {
 #'   data(wrld_simpl)
 #'   worldmap <- sp2df(wrld_simpl)
@@ -21,6 +22,7 @@
 #'   qplot( x=long, y=lat, fill=ntiles(alcohol,5), 
 #'          data=subset(Mdata, year==2008), group = group, 
 #'                      geom="polygon")
+#' }
 #' }
 sp2df <- function (map, ...) 
 {

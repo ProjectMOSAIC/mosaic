@@ -15,7 +15,7 @@
 \alias{fetchDynamics}
 \alias{rkFunction}
 \title{Check if formula}
-\format{<environment: 0x7fc94de176d8>}
+\format{<environment: 0x7fc94e8e85b8>}
 \usage{
   .is.formula(x)
 
