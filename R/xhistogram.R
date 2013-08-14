@@ -40,43 +40,9 @@
 #' histogram(~age, HELPrct, groups=sex, stripes='horizontal')
 #' histogram(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
 
-#histogram <- function( x, data, panel=lattice.getOption('panel.histogram'), 
-#                       breaks=xhistogramBreaks, ... ) {
-#  lattice::histogram( x, data, panel=panel, breaks=breaks, ...)
-#}
-
-#' @export
-histogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
-						center=NULL, width=NULL, breaks, nint, ...) {
-	if ( missing(breaks) ) {
-		if (inherits(x,"formula")) {
-			if (is.null(data)) {
-				xvals <- eval(rhs(x), parent.frame())
-			} else {
-				xvals <- eval(rhs(x), data)
-			}
-		} else {
-			xvals <- x
-		}
-		breaks <- xhistogramBreaks(xvals, center=center, width=width, nint=nint)
-	}
-
-	lattice::histogram(x, data=data, panel=panel, type=type, center=center, width=width, 
-			  nint=substitute(nint), breaks=breaks, ...)
+histogram <- function(x, data, breaks=lattice.getOption('histogram.breaks'), ...) {
+  lattice::histogram(x, data, breaks=breaks, ...)  
 }
-
-#prepanel.mosaic.histogram <- function (x, breaks, ...) 
-#{
-#  if (length(x) < 1) 
-#    return(prepanel.null())
-#  
-#	if ( missing(breaks) ) {
-#		  breaks <- xhistogramBreaks(x, ...)
-#	} else {
-#    print (breaks)
-#	}
-#  lattice::prepanel.default.histogram( x, breaks, ... )
-#}
 
 
 #' @rdname xhistogram
@@ -116,6 +82,22 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
 }
 
 #' @rdname xhistogram
+#' @export
+prepanel.xhistogram <- 
+  function (x, breaks=xhistogramBreaks, ...) 
+  {
+#    message("in prepanel.xhistogram")
+#    print(breaks)
+    if (is.function(breaks))  {
+      breaks <- breaks(x, ...)
+#      message("applying breaks function in prepanel")
+    }
+    lattice::prepanel.default.histogram(x, breaks = breaks, ...)
+  }
+
+
+
+#' @rdname xhistogram
 #' @param dcol color of density curve
 #' @param gcol color of guidelines
 #' @param fcol fill color for histogram rectangles
@@ -150,9 +132,14 @@ function (x,
     nint = round(1.5 * log2(length(x)) + 1),
 	stripes=c('vertical','horizontal','none'), alpha=1, ...) 
 {
-	if (missing(breaks) || is.null(breaks)) {
+  if (missing(breaks) || is.null(breaks)) {
     breaks <- xhistogramBreaks(x, center=center, width=width, nint=nint)
-	} 
+  } 
+  if (is.function(breaks))   {
+    breaks <- breaks(x, center = center, width = width, nint = nint, ...)
+#      message("applying breaks function in panel")
+  }
+  
   stripes <- match.arg(stripes)
 	if (!is.null(groups)) {
     	hist.master <- hist(as.numeric(x), plot = FALSE, breaks=breaks, warn.unused=FALSE, ...)
