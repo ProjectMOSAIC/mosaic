@@ -24,7 +24,7 @@
 #'@examples
 #' findZerosMult(a*x^2-8~a&x, npts = 50)
 #' findZerosMult(a^2+x^2-8~a&x, npts = 100, sortBy='radial')
-#' \dontruni{findZerosMult(a^2+x^2-8~a&x, npts = 1000, sortBy='radial')}
+#' \dontrun{findZerosMult(a^2+x^2-8~a&x, npts = 1000, sortBy='radial')}
 #'
 findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
   dots = list(...)
