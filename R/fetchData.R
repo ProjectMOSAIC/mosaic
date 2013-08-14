@@ -156,9 +156,6 @@ fetchData <- function(name=NULL,show.path=FALSE,
   return(val)
 }
 
-#' @rdname mosaic-internal
-#' @keywords mosaic 
-#' @keywords internel 
 
 .fetchEnvironment <- new.env()
 # initialize the storage environment
