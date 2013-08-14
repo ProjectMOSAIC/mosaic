@@ -3,7 +3,7 @@
 \alias{.fetchEnvironment}
 \alias{fetchData}
 \title{A Web and Library Data-Loading Facility}
-\format{<environment: 0x1049331c8>}
+\format{<environment: 0x1049e38a8>}
 \usage{
   fetchData(name = NULL, show.path = FALSE,
     add.to.path = NULL, drop.from.path = NULL,
