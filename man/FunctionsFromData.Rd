@@ -1,6 +1,6 @@
 \name{FunctionsFromData}
-\alias{connector}
 \alias{FunctionsFromData}
+\alias{connector}
 \alias{linearModel}
 \alias{smoother}
 \alias{spliner}

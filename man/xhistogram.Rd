@@ -1,19 +1,21 @@
 \name{histogram}
 \alias{histogram}
 \alias{panel.xhistogram}
+\alias{prepanel.xhistogram}
 \alias{xhistogram}
 \alias{xhistogramBreaks}
 \title{Augmented histograms}
 \usage{
-  histogram(x, data = NULL, panel = panel.xhistogram,
-    type = "density", center = NULL, width = NULL, breaks,
-    nint, ...)
+  histogram(x, data,
+    breaks = lattice.getOption("histogram.breaks"), ...)
 
   xhistogram(x, data = NULL, panel = panel.xhistogram,
     type = "density", center = NULL, width = NULL, ...)
 
   xhistogramBreaks(x, center = NULL, width = NULL, nint,
     ...)
+
+  prepanel.xhistogram(x, breaks = xhistogramBreaks, ...)
 
   panel.xhistogram(x,
     dcol = trellis.par.get("plot.line")$col, dlwd = 2,

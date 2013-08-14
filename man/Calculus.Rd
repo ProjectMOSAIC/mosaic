@@ -1,6 +1,6 @@
 \name{D}
-\alias{antiD}
 \alias{D}
+\alias{antiD}
 \alias{makeAntiDfun}
 \alias{numerical_integration}
 \title{Derivative and Anti-derivative operators}

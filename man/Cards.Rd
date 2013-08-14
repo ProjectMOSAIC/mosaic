@@ -1,7 +1,7 @@
 \docType{data}
 \name{Cards}
-\alias{card}
 \alias{Cards}
+\alias{card}
 \title{Standard Deck of Cards}
 \description{
   A character vector with two or three character

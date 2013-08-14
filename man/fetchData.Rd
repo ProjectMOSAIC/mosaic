@@ -1,15 +1,10 @@
-\docType{data}
 \name{fetchData}
-\alias{.fetchEnvironment}
 \alias{fetchData}
 \title{A Web and Library Data-Loading Facility}
-\format{<environment: 0x1049e38a8>}
 \usage{
   fetchData(name = NULL, show.path = FALSE,
     add.to.path = NULL, drop.from.path = NULL,
     cache = FALSE, verbose = TRUE)
-
-  .fetchEnvironment
 }
 \arguments{
   \item{name}{a character string naming a data set.  This
@@ -84,8 +79,5 @@
 \dontrun{fetchData(drop.from.path="http://www.macalester.edu/~kaplan/ISM/datasets/") }
 \dontrun{dome <- fetchData("Dome.csv", cache=TRUE)}
 }
-\keyword{datasets}
-\keyword{internel}
-\keyword{mosaic}
 \keyword{util}
 

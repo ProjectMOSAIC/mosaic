@@ -1,10 +1,10 @@
 \name{mean}
+\alias{IQR}
 \alias{cor}
 \alias{cov}
 \alias{favstats}
 \alias{fivenum}
 \alias{iqr}
-\alias{IQR}
 \alias{max}
 \alias{mean}
 \alias{median}
