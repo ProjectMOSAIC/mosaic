@@ -1,0 +1,79 @@
+%\VignetteIndexEntry{Randomization-based inference}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, references}
+\documentclass[11pt]{article}
+\usepackage{graphicx, amsmath, amsfonts, amssymb, epstopdf, color, url, hyperref} 
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\definecolor{green}{RGB}{0,127,0}
+\hypersetup{pdftitle={Resources Related to the mosaic Package}, colorlinks=true, linkcolor=black, citecolor=black}
+\usepackage[bottom]{footmisc}
+\usepackage[round]{natbib}
+\bibliographystyle{abbrvnat}
+
+\frenchspacing{}
+
+\title{Resources Related to the \texttt{mosaic} Package}
+\author{Daniel Kaplan\thanks{dtkaplan@gmail.com} \\ \footnotesize Macalester College \\
+\footnotesize St. Paul, MN
+\and Nicholas J. Horton\thanks{nhorton@amherst.edu} \\ \footnotesize Amherst College \\
+\footnotesize Amherst, MA \and 
+Randall Pruim\thanks{rpruim@calvin.edu}
+\\ \footnotesize Calvin College \\
+\footnotesize Grand Rapids, MI
+}
+\date{\today}
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+\tableofcontents
+
+
+<<setupRnw,echo=FALSE,results="hide",message=FALSE>>=
+# source('../setup.R')
+## @knitr setup
+#setCacheDir("cache")
+require(grDevices) 
+require(datasets) 
+require(stats) 
+require(lattice)
+require(grid) 
+require(mosaic) 
+require(fastR)
+trellis.par.set(theme=col.mosaic(bw=FALSE))
+trellis.par.set(fontsize=list(text=9))
+options(keep.blank.line=FALSE) 
+options(width=70)
+require(vcd)
+require(knitr)
+
+opts_chunk$set( 
+  fig.align="center",
+  fig.show="hold"
+)
+@
+
+
+\section{Introduction}
+
+\section{Textbook Related}
+\begin{itemize}
+	\item Slueth
+	\item IPS
+	\item Lock 5
+\end{itemize}
+
+\section{Books}
+\begin{itemize}
+\item D.T. Kaplan, {\em Statistical Modeling: A Fresh Approach}, 2nd edition, \url{http://www.mosaic-web.org/StatisticalModeling}.
+\end{itemize}
+
+\section{Articles}
+\begin{itemize}
+\item G. W. Cobb, The introductory statistics course: a Ptolemaic curriculum?, 
+   \emph{Technology Innovations in Statistics Education}, 2007, 1(1).
+\end{itemize}
+
+\end{document}
