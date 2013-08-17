@@ -6,6 +6,7 @@
 #' and prepanel functions used by histogram.
 #' 
 #' @rdname xhistogram
+#' @aliases histogram
 #' @param x a formula or a numeric vector
 #' @param data a data frame in which to evaluate \code{x}
 #' @param panel a panel function
@@ -20,6 +21,11 @@
 #' \code{\link{panel.xhistogram}}.
 #'
 #' @seealso \code{\link[lattice]{histogram}}
+#' @note The use of \code{xhistogram} has been deprecated.  Versions of 
+#' \pkg{lattice} since 0.20-21 support setting custom defaults 
+#' for \code{breaks}, \code{panel}, and \code{prepanel} used by 
+#' \code{histogram}, so \code{xhistogram} is no longer needed.  \code{xhistogram} will
+#' be retained temporarily to support users with older versions of \pkg{lattice}.
 #'
 #' @export
 
