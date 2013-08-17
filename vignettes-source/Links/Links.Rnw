@@ -5,6 +5,7 @@
 \usepackage{graphicx, amsmath, amsfonts, amssymb, epstopdf, color, url, hyperref} 
 \usepackage[margin=1in]{geometry}
 \usepackage[parfill]{parskip}
+\usepackage{language}
 \definecolor{green}{RGB}{0,127,0}
 \hypersetup{pdftitle={Resources Related to the mosaic Package}, colorlinks=true, linkcolor=black, citecolor=black}
 \usepackage[bottom]{footmisc}
@@ -75,28 +76,28 @@ The \pkg{mosaic} package includes a number of vignettes including vignettes disc
 
 \section{Textbook Related}
 \begin{description} 
-\item [\em Statistical Modeling: A Fresh Approach}, 2nd edition (D T Kaplan)]
+\item [\emph{Statistical Modeling: A Fresh Approach}, 2nd edition (D T Kaplan)]
 	is an introduction to statistics embracing a modeling approach and employing 
 	resampling methods.  The \pkg{mosaic} package is used throughout.
 	\url{http://www.mosaic-web.org/StatisticalModeling}.
-\item [{\em Foundations and Applications of Statistics: An Introduction Using R} (R Pruim)] 
+\item [\emph{Foundations and Applications of Statistics: An Introduction Using R} (R Pruim)] 
 	is an R-infused probability and mathematical statistics text that emphasizes 
 	connections between probability and statistics.  The book predates the \pkg{mosaic} package, much of
 	the code originally in the \pkg{fastR} package has been moved into the \pkg{mosaic} package.
 	\url{http://www.ams.org/publications/authors/books/postpub/amstext-13}.
-	\item[The Statistical Sleuth in R (N Horton)]
+\item[\emph{The Statistical Sleuth in R} (N Horton)]
 		available at \url{http://www.math.smith.edu/~nhorton/sleuth3} 
 		is describes how to undertake analyses in R for the
-		examples in the first 13 chapters of the Second Edition of the
-		\emph{Statistical Sleuth: A Course in Methods of Data Analysis} (2002),
+		examples in the first 13 chapters of the Third Edition of the
+		\emph{Statistical Sleuth: A Course in Methods of Data Analysis} (2013),
 		the excellent text by Fred Ramsey and Dan Schafer.
-	\item[Introduction to the Practice of Statistics in R (N Horton)]
+	\item[\emph{Introduction to the Practice of Statistics in R} (N Horton)]
 		available at \url{http://www.math.smith.edu/~nhorton/ips6e}, describes how
 		to undertake analyses in R that are introduced as examples in the first
 		chapters of the Sixth Edition of \emph{Introduction to the Practice of
 		Statistics} (2007), the excellent text by David Moore, George McCabe
 		and Bruce Craig.  
-	\item[Statistics: Unlocking the Power of Data (Lock, Lock, Lock, Lock, and Lock)] 
+	\item[\emph{Statistics: Unlocking the Power of Data} (Lock, Lock, Lock, Lock, and Lock)] 
 		is a recent introductory statistics textbook that embraces a
 			resampling approach.  The \pkg{Lock5Data} package contains all of
 			the data in the book.  Additional information about the book and
