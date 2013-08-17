@@ -58,22 +58,35 @@ opts_chunk$set(
 
 \section{Introduction}
 
+This vignette describes related resources and materials useful for teaching
+statistics with a focus on modeling and computation.
+
+\section{Other Vignettes?}
+
+XX worth adding a plug for them here?
+
 \section{Textbook Related}
-\begin{itemize}
-	\item Slueth
-	\item IPS
-	\item Lock 5
-\end{itemize}
+\begin{description}
+	\item[The Statistical Sleuth in R] \url{http://www.math.smith.edu/~nhorton/sleuth3}
+These files are intended to help describe how to undertake analyses in R for the examples in the first 13 chapters of the Second Edition of the Statistical Sleuth: A Course in Methods of Data Analysis (2002), the excellent text by Fred Ramsey and Dan Schafer.
+	\item[Introduction to the Practice of Statistics in R] \url{http://www.math.smith.edu/~nhorton/ips6e}
+These files describe how to undertake analyses in R that are introduced as examples in the first chapters of the Sixth Edition of Introduction to the Practice of Statistics (2007), the excellent text by David Moore, George McCabe and Bruce Craig.
+	\item[Statistics: Unlocking the Power of Data (Lock 5)] XX
+\end{description}
 
 \section{Books}
 \begin{itemize}
 \item D.T. Kaplan, {\em Statistical Modeling: A Fresh Approach}, 2nd edition, \url{http://www.mosaic-web.org/StatisticalModeling}.
+\item R. Pruim, {\em Foundations and Applications of Statistics: An Introduction Using R}, 
+\url{http://www.ams.org/publications/authors/books/postpub/amstext-13}.
 \end{itemize}
 
 \section{Articles}
 \begin{itemize}
 \item G. W. Cobb, The introductory statistics course: a Ptolemaic curriculum?, 
-   \emph{Technology Innovations in Statistics Education}, 2007, 1(1).
+   \emph{Technology Innovations in Statistics Education}, 2007, 1(1), \url{www.escholarship.org/uc/item/6hb3k0nz}.
+\item D. Nolan and D. Temple Lang, Computing in the statistics curricula, 
+   \emph{The American Statistician}, 2010, 64(2), \url{www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf}.
 \end{itemize}
 
 \end{document}
