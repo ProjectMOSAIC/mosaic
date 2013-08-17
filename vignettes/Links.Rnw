@@ -1,0 +1,7 @@
+%\VignetteIndexEntry{Other Resources}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, resources}
+
+\documentclass{article}
+\begin{document}
+\end{document}

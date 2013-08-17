@@ -3,7 +3,5 @@
 %\VignetteKeywords{mosaic, teaching, starting}
 
 \documentclass{article}
-%\usepackage{pdfpages}
 \begin{document}
-%\includepdf[pages=-, fitpaper=true]{Commands-src.pdf}
 \end{document}

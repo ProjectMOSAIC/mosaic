@@ -1,9 +1,7 @@
-%\VignetteIndexEntry{Starting Modeling with R}
+%\VignetteIndexEntry{Start Teaching Modeling with R}
 %\VignettePackage{mosaic}
 %\VignetteKeywords{mosaic, modeling, resampling, bootstrapping, permutation}
 
 \documentclass{article}
-%\usepackage{pdfpages}
 \begin{document}
-%\includepdf[pages=-, fitpaper=true]{Modeling-src.pdf}
 \end{document}
