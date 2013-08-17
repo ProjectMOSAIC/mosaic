@@ -1,21 +1,11 @@
-#
-# this appears to be unused
-#
-#.drop_from_list <- function( l, names ) {
-#	for (n in names) {
-#		if (n %in% names(l) ) {
-#			dots[[n]] <- NULL
-#		}
-#	}
-#}
-
 #' Augmented histograms
 #' 
-#' The \pkg{mosaic} \code{histogram} adds some additional functionality to 
-#' \code{\link[lattice]{histogram}} making it simpler to obtain certain common 
-#' histogram adornments.
+#' The \pkg{mosaic} package adds some additional functionality to 
+#' \code{\link[lattice]{histogram}}, making it simpler to obtain certain common 
+#' histogram adornments.  This is done be resetting the default panel
+#' and prepanel functions used by histogram.
+#' 
 #' @rdname xhistogram
-#'
 #' @param x a formula or a numeric vector
 #' @param data a data frame in which to evaluate \code{x}
 #' @param panel a panel function
@@ -23,40 +13,31 @@
 #' @param nint approximate number of bins
 #' @param breaks break points for histogram bins, a function for computing such,
 #'        or a method \code{\link{hist}} knows about given as a character string.
-#'        By default, \code{\link[mosaic]{xhistogramBreaks}} is used.
-#'        
-#' @param \dots additional arguments passed to \code{\link[lattice]{histogram}} and (by
-#' default when the \pkg{mosaic} package has been loaded) on to 
-#' \code{\link{panel.xhistogram}}
+#'        When using the \pkg{mosaic} package defaults, 
+#'        \code{\link[mosaic]{xhistogramBreaks}} is used.
+#' @param \dots additional arguments passed to \code{\link[lattice]{histogram}} 
+#' and (by default when the \pkg{mosaic} package has been loaded) on to 
+#' \code{\link{panel.xhistogram}}.
 #'
-#' @return a trellis object
-#' @seealso \code{\link[lattice]{histogram}}, \code{xhistogramBreaks}
-#' 
+#' @seealso \code{\link[lattice]{histogram}}
+#'
 #' @export
+
+xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
+                                      center=NULL, width=NULL, ...) {
+   .Deprecated("histogram")
+   histogram(x, data=data, panel=panel, type=type, center=center, 
+             width=width, ...)
+}
+
+#' @rdname xhistogram
+#' @return \code{xhistogramBreaks} returns a vector of break points
 #' @examples
 #' histogram(~age | substance, HELPrct, v=35, fit='normal')
 #' histogram(~age, HELPrct, labels=TRUE, type='count')
 #' histogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
 #' histogram(~age, HELPrct, groups=sex, stripes='horizontal')
 #' histogram(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
-
-histogram <- function(x, data, breaks=lattice.getOption('histogram.breaks'), ...) {
-  lattice::histogram(x, data, breaks=breaks, ...)  
-}
-
-
-#' @rdname xhistogram
-#' @export
-xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
-                                      center=NULL, width=NULL, ...) {
-   .Deprecated("histogram")
-   histogram(x, data=data, panel=panel, type=type, center=center, 
-             width=width, ...)
- }
-
-#' @rdname xhistogram
-#' @return \code{xhistogramBreaks} returns a vector of break points
-#' @examples
 #' xhistogramBreaks(1:10, center=5, width=1)
 #' xhistogramBreaks(1:10, center=5, width=2)
 #' xhistogramBreaks(0:10, center=15, width=3)
@@ -86,16 +67,11 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
 prepanel.xhistogram <- 
   function (x, breaks=xhistogramBreaks, ...) 
   {
-#    message("in prepanel.xhistogram")
-#    print(breaks)
     if (is.function(breaks))  {
       breaks <- breaks(x, ...)
-#      message("applying breaks function in prepanel")
     }
     lattice::prepanel.default.histogram(x, breaks = breaks, ...)
   }
-
-
 
 #' @rdname xhistogram
 #' @param dcol color of density curve
@@ -137,7 +113,6 @@ function (x,
   } 
   if (is.function(breaks))   {
     breaks <- breaks(x, center = center, width = width, nint = nint, ...)
-#      message("applying breaks function in panel")
   }
   
   stripes <- match.arg(stripes)

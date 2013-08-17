@@ -1,14 +1,10 @@
-\name{histogram}
-\alias{histogram}
+\name{xhistogram}
 \alias{panel.xhistogram}
 \alias{prepanel.xhistogram}
 \alias{xhistogram}
 \alias{xhistogramBreaks}
 \title{Augmented histograms}
 \usage{
-  histogram(x, data,
-    breaks = lattice.getOption("histogram.breaks"), ...)
-
   xhistogram(x, data = NULL, panel = panel.xhistogram,
     type = "density", center = NULL, width = NULL, ...)
 
@@ -43,13 +39,14 @@
 
   \item{breaks}{break points for histogram bins, a function
   for computing such, or a method \code{\link{hist}} knows
-  about given as a character string.  By default,
+  about given as a character string.  When using the
+  \pkg{mosaic} package defaults,
   \code{\link[mosaic]{xhistogramBreaks}} is used.}
 
   \item{\dots}{additional arguments passed to
   \code{\link[lattice]{histogram}} and (by default when the
   \pkg{mosaic} package has been loaded) on to
-  \code{\link{panel.xhistogram}}}
+  \code{\link{panel.xhistogram}}.}
 
   \item{dcol}{color of density curve}
 
@@ -101,14 +98,14 @@
   \item{alpha}{transparency level}
 }
 \value{
-  a trellis object
-
   \code{xhistogramBreaks} returns a vector of break points
 }
 \description{
-  The \pkg{mosaic} \code{histogram} adds some additional
-  functionality to \code{\link[lattice]{histogram}} making
+  The \pkg{mosaic} package adds some additional
+  functionality to \code{\link[lattice]{histogram}}, making
   it simpler to obtain certain common histogram adornments.
+  This is done be resetting the default panel and prepanel
+  functions used by histogram.
 }
 \examples{
 histogram(~age | substance, HELPrct, v=35, fit='normal')
@@ -123,6 +120,6 @@ xhistogramBreaks(1:100, center=50, width=3)
 xhistogramBreaks(0:10, center=5, nint=5)
 }
 \seealso{
-  \code{\link[lattice]{histogram}}, \code{xhistogramBreaks}
+  \code{\link[lattice]{histogram}}
 }
 
