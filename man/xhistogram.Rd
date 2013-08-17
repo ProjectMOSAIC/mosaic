@@ -1,4 +1,5 @@
 \name{xhistogram}
+\alias{histogram}
 \alias{panel.xhistogram}
 \alias{prepanel.xhistogram}
 \alias{xhistogram}
@@ -106,6 +107,15 @@
   it simpler to obtain certain common histogram adornments.
   This is done be resetting the default panel and prepanel
   functions used by histogram.
+}
+\note{
+  The use of \code{xhistogram} has been deprecated.
+  Versions of \pkg{lattice} since 0.20-21 support setting
+  custom defaults for \code{breaks}, \code{panel}, and
+  \code{prepanel} used by \code{histogram}, so
+  \code{xhistogram} is no longer needed.  \code{xhistogram}
+  will be retained temporarily to support users with older
+  versions of \pkg{lattice}.
 }
 \examples{
 histogram(~age | substance, HELPrct, v=35, fit='normal')
