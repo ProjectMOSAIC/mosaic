@@ -2,8 +2,8 @@
 export _R_CHECK_FORCE_SUGGESTS_=false
 bin/roxy -p "." --clean
 mv *_*.tar.gz builds/
-\cp vignettes-source/Resampling/Resampling.pdf vignettes/Resampling.pdf
-\cp vignettes-source/Calculus/mosaic-calculus.pdf vignettes/Calculus.pdf
-\cp vignettes-source/MinimalR/MinimalR.pdf vignettes/MinimalR.pdf
-\cp vignettes-source/Links/Links.pdf vignettes/Links.pdf
+#\cp sandbox/Vignettes/Resampling/Resampling.pdf inst/doc/Resampling.pdf
+#\cp sandbox/Vignettes/Calculus/mosaic-calculus.pdf inst/doc/Calculus.pdf
+#\cp sandbox/Vignettes/MinimalR/MinimalR.pdf inst/doc/MinimalR.pdf
+#\cp sandbox/Vignettes/Links/Links.pdf inst/doc/Links.pdf
 R CMD build --resave-data .
