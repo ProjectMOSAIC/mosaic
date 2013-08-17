@@ -61,25 +61,49 @@ opts_chunk$set(
 This vignette describes related resources and materials useful for teaching
 statistics with a focus on modeling and computation.
 
-\section{Other Vignettes?}
+\section{Package Vignettes}
 
-XX worth adding a plug for them here?
+The \pkg{mosaic} package includes a number of vignettes including vignettes discussing
+\begin{itemize}
+	\item a minimal set of R commands for use in Introductory Statistics and which it is important
+		to keep the set of commands small;
+	\item the R commands needed for all the basic statistical procedures in an Intro Stats course;
+	\item strategies for teaching statistics using R;
+	\item resampling methods in R; and 
+	\item using R in calculus
+\end{itemize}
 
 \section{Textbook Related}
-\begin{description}
-	\item[The Statistical Sleuth in R] \url{http://www.math.smith.edu/~nhorton/sleuth3}
-These files are intended to help describe how to undertake analyses in R for the examples in the first 13 chapters of the Second Edition of the \emph{Statistical Sleuth: A Course in Methods of Data Analysis} (2002), the excellent text by Fred Ramsey and Dan Schafer.
-	\item[Introduction to the Practice of Statistics in R] \url{http://www.math.smith.edu/~nhorton/ips6e}
-These files describe how to undertake analyses in R that are introduced as examples in the first chapters of the Sixth Edition of \emph{Introduction to the Practice of Statistics} (2007), the excellent text by David Moore, George McCabe and Bruce Craig.
-	\item[Statistics: Unlocking the Power of Data (Lock 5)] XX
+\begin{description} 
+\item [\em Statistical Modeling: A Fresh Approach}, 2nd edition (D T Kaplan)]
+	is an introduction to statistics embracing a modeling approach and employing 
+	resampling methods.  The \pkg{mosaic} package is used throughout.
+	\url{http://www.mosaic-web.org/StatisticalModeling}.
+\item [{\em Foundations and Applications of Statistics: An Introduction Using R} (R Pruim)] 
+	is an R-infused probability and mathematical statistics text that emphasizes 
+	connections between probability and statistics.  The book predates the \pkg{mosaic} package, much of
+	the code originally in the \pkg{fastR} package has been moved into the \pkg{mosaic} package.
+	\url{http://www.ams.org/publications/authors/books/postpub/amstext-13}.
+	\item[The Statistical Sleuth in R (N Horton)]
+		available at \url{http://www.math.smith.edu/~nhorton/sleuth3} 
+		is describes how to undertake analyses in R for the
+		examples in the first 13 chapters of the Second Edition of the
+		\emph{Statistical Sleuth: A Course in Methods of Data Analysis} (2002),
+		the excellent text by Fred Ramsey and Dan Schafer.
+	\item[Introduction to the Practice of Statistics in R (N Horton)]
+		available at \url{http://www.math.smith.edu/~nhorton/ips6e}, describes how
+		to undertake analyses in R that are introduced as examples in the first
+		chapters of the Sixth Edition of \emph{Introduction to the Practice of
+		Statistics} (2007), the excellent text by David Moore, George McCabe
+		and Bruce Craig.  
+	\item[Statistics: Unlocking the Power of Data (Lock, Lock, Lock, Lock, and Lock)] 
+		is a recent introductory statistics textbook that embraces a
+			resampling approach.  The \pkg{Lock5Data} package contains all of
+			the data in the book.  Additional information about the book and
+			the approached used there can be found at
+			\url{http://lock5stat.com}
 \end{description}
 
-\section{Books}
-\begin{itemize}
-\item D.T. Kaplan, {\em Statistical Modeling: A Fresh Approach}, 2nd edition, \url{http://www.mosaic-web.org/StatisticalModeling}.
-\item R. Pruim, {\em Foundations and Applications of Statistics: An Introduction Using R}, 
-\url{http://www.ams.org/publications/authors/books/postpub/amstext-13}.
-\end{itemize}
 
 \section{Articles}
 \begin{itemize}
