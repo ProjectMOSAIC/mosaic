@@ -316,7 +316,7 @@ setMethod("*",
 			rownames(result) <- 1:nrow(result)
 			# names(result) <- nm
       # mark result as having originated with do()
-      class(result) <- c(paste('do', class(result)[1], sep="."))
+      class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
 			return(result)
 		}
 
@@ -331,7 +331,7 @@ setMethod("*",
 
 		if (dim(result)[2] == 1 & is.null(nm) ) result <- data.frame(result=result[,1]) 
 
-    class(result) <- c(paste("do",class(result)[1], sep="."))
+    class(result) <- c(paste("do",class(result)[1], sep="."), class(result))
     return(result)
 	}
 )
