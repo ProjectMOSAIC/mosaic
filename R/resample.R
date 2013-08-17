@@ -96,10 +96,24 @@ nflip <- function(n=1, prob=.5, ...) {
 #' @export
 #' @examples
 #' # 100 Bernoulli trials -- no need for replace=TRUE
-#' resample(c(0,1), 100)
+#' resample(0:1, 100)
+#' tally(resample(0:1, 100))
+#' Small <- sample(KidsFeet, 10)
+#' resample(Small)
+#' tally(~ sex, data=resample(Small))
+#' tally(~ sex, data=resample(Small))
+#' # fixed marginals for sex
+#' tally(~ sex, data=Small)
+#' tally(~ sex, data=resample(Small, groups=sex)) 
+#' # shuffled can be used to reshuffle some variables within groups
+#' # orig.ids shows where the values were in original data frame.
+#' Small <- transform(Small, 
+#'    id1 = paste(sex,1:10, sep=":"),  
+#'    id2 = paste(sex,1:10, sep=":"))
+#' resample(Small, groups=sex, shuffled=c("id1","id2"))
 
-resample <- function(x, size, replace=TRUE, prob=NULL, groups=NULL, orig.ids=FALSE, ...) {
-	sample(x, size=size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids, ...)
+resample <- function(..., replace=TRUE) {
+  sample(..., replace=replace)
 }
 
 #' @rdname resample
@@ -107,8 +121,8 @@ resample <- function(x, size, replace=TRUE, prob=NULL, groups=NULL, orig.ids=FAL
 #' @examples
 #' deal(Cards, 13)    # A Bridge hand
  
-deal    <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE) {
-	sample(x, size, replace=replace, prob=prob, groups=groups, orig.ids=orig.ids )
+deal <- function(...) {
+  sample(...)
 }
 
 #' @rdname resample
@@ -121,7 +135,7 @@ shuffle <- function(x, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE)
 	if (!is.null(groups)){
 		return( .shuffle_within(x, groups=groups, replace=replace) )
 	}
-	return( sample(x, replace=replace, prob=prob) )
+	return( sample(x, replace=replace, prob=prob, groups=groups) )
 }
 
 
@@ -173,65 +187,84 @@ sample <- function (x, size, replace=FALSE, ...) {
 #' @method sample default
 #' @rdname resample
 
-sample.default <- function(x, size, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE, ...) { 
-	if (! is.null(groups) ) {
-		if (! missing(size) ) warning("'size' is ignored when groups is non-null")
-		return(.shuffle_within(x, replace=replace, prob=prob, groups=groups, 
-			orig.ids=orig.ids))
+sample.default <- function(x, size, replace=FALSE, prob=NULL, 
+                           groups=NULL, orig.ids=FALSE, ...) { 
+  missingSize <- missing(size)
+  haveGroups <- ! is.null(groups)
+  if (length(x) == 1L && is.numeric(x) && x >= 1) {
+    n <- x
+    x <- 1:n
+    if (missingSize)  size <- n
+  } else {
+    n <- length(x)
+    if (missingSize) size <- length(x)
+  }
+  if (haveGroups && size != n) {
+    warning("'size' is ignored when using groups.")
+    size <- n
+  } 
+  ids <- 1:n
+  
+  if (haveGroups) {
+    groups <- rep( groups, length.out=size)  # recycle as needed
+    result <- aggregate( ids, by=list(groups), FUN=base::sample, 
+                         simplify=FALSE,
+                         replace=replace, prob=prob)
+    result <- unlist(result$x)
+    if (orig.ids) { nms <- ids[result] }
+    result <- x[result]
+    if (orig.ids) { names(result) <- nms }
+    return(result)
 	}
-
 	result <- base::sample(x, size, replace=replace, prob=prob) 
 	return(result)
 }
 
 #' @method sample data.frame
 #' @rdname resample
-#' @param groups  groups to sample within (works much like \code{groups} in lattice plots)
+#' @param groups a vector (or variable in a data frame) specifying
+#' groups to sample within. This will be recycled if necessary.
 #' @param orig.ids  a logical; should origianal ids be included in returned data frame?
-#' @param \dots additional arguments passed to \code{\link[base]{sample}}
-#' @param fixed a vector of column names
-#' @param shuffled a vector of column names
+#' @param \dots additional arguments passed to 
+#' \code{\link[base]{sample}}
+#' or \code{\link[mosaic]{sample}}.
+#' @param shuffled a vector of column names.  
+#' these variables are reshuffled individually (within groups if \code{groups} is
+#' specified), breaking associations among these columns.
+#' examples.
+#' @param fixed a vector of column names.  These variables are shuffled en masse,
+#' preserving associations among these columns.
 #' @param invisibly.return a logical, should return be invisible?
 #' @param drop.unused.levels a logical, should unused levels be dropped?
 
 
 sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, 
-      orig.ids=TRUE, fixed=names(x), shuffled=c(),
-      invisibly.return = NULL, ...) {
-        if( missing(size) ) size = nrow(x)
-        if( is.null(invisibly.return) ) invisibly.return = size>50 
-	shuffled <- intersect(shuffled, names(x))
-	fixed <- setdiff(intersect(fixed, names(x)), shuffled)
-	n <- nrow(x)
-	ids <- base::sample(n, size, replace=replace, prob=prob, ...)
-
-	groups <- eval( substitute(groups), x )
-	if (! is.null(groups) ) {
-		ids <- base::sample(n, size, replace=replace, prob=prob, ...)
-		groups <- groups[ids]
-		idsString <- as.character(ids)
-		xsub <- x[ids,]
-		result <- x[ids,fixed]
-		for (column in shuffled) {
-			cids <- sample(ids, groups=groups)
-			result[,column] <- x[cids,column]
-			idsString <- paste(idsString, ".", cids, sep="")
-		}
-		if (orig.ids) result$orig.ids <- idsString
-		return(result)
-	}
-
-	idsString <- as.character(ids)
-	result <-  x [ ids, union(fixed,shuffled), drop=FALSE ] 
-	for (column in shuffled) {
-		cids <- sample(ids)
-		result[,column] <- x[cids,column]
-		idsString <- paste(idsString, ".", cids, sep="")
-	}
-	if (orig.ids) {
-		result$orig.ids <- idsString
-	}
-	if (invisibly.return) { return(invisible(result)) } else {return(result)}
+                              orig.ids=TRUE, fixed=names(x), shuffled=c(),
+                              invisibly.return = NULL, ...) {
+  if( missing(size) ) size = nrow(x)
+  if( is.null(invisibly.return) ) invisibly.return = size>50 
+  shuffled <- intersect(shuffled, names(x))
+  fixed <- setdiff(intersect(fixed, names(x)), shuffled)
+  n <- nrow(x)
+  ids <- 1:n
+  groups <- eval( substitute(groups), x )
+  newids <- sample(n, size, replace=replace, prob=prob, groups=groups, ...)
+  origids <- ids[newids]
+  result <- x[newids, , drop=FALSE]
+  
+  idsString <- as.character(origids)
+  
+  for (column in shuffled) {
+    cids <- sample(newids, groups=groups[newids])
+    result[,column] <- x[cids,column]
+    idsString <- paste(idsString, ".", cids, sep="")
+  }
+  
+  result <-  result[ , union(fixed,shuffled), drop=FALSE]
+  if (orig.ids) result$orig.ids <- idsString
+  
+  
+  if (invisibly.return) { return(invisible(result)) } else {return(result)}
 }
 
 #' @method sample matrix

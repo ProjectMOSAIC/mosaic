@@ -9,11 +9,9 @@
 \alias{shuffle}
 \title{More Random Samples}
 \usage{
-  resample(x, size, replace = TRUE, prob = NULL,
-    groups = NULL, orig.ids = FALSE, ...)
+  resample(..., replace = TRUE)
 
-  deal(x, size, replace = FALSE, prob = NULL,
-    groups = NULL, orig.ids = FALSE)
+  deal(...)
 
   shuffle(x, replace = FALSE, prob = NULL, groups = NULL,
     orig.ids = FALSE)
@@ -47,18 +45,25 @@
   \item{prob}{A vector of probability weights for obtaining
   the elements of the vector being sampled.}
 
-  \item{groups}{groups to sample within (works much like
-  \code{groups} in lattice plots)}
+  \item{groups}{a vector (or variable in a data frame)
+  specifying groups to sample within. This will be recycled
+  if necessary.}
 
   \item{orig.ids}{a logical; should origianal ids be
   included in returned data frame?}
 
   \item{\dots}{additional arguments passed to
-  \code{\link[base]{sample}}}
+  \code{\link[base]{sample}} or
+  \code{\link[mosaic]{sample}}.}
 
-  \item{fixed}{a vector of column names}
+  \item{shuffled}{a vector of column names. these variables
+  are reshuffled individually (within groups if
+  \code{groups} is specified), breaking associations among
+  these columns. examples.}
 
-  \item{shuffled}{a vector of column names}
+  \item{fixed}{a vector of column names.  These variables
+  are shuffled en masse, preserving associations among
+  these columns.}
 
   \item{invisibly.return}{a logical, should return be
   invisible?}
@@ -76,7 +81,21 @@
 }
 \examples{
 # 100 Bernoulli trials -- no need for replace=TRUE
-resample(c(0,1), 100)
+resample(0:1, 100)
+tally(resample(0:1, 100))
+Small <- sample(KidsFeet, 10)
+resample(Small)
+tally(~ sex, data=resample(Small))
+tally(~ sex, data=resample(Small))
+# fixed marginals for sex
+tally(~ sex, data=Small)
+tally(~ sex, data=resample(Small, groups=sex))
+# shuffled can be used to reshuffle some variables within groups
+# orig.ids shows where the values were in original data frame.
+Small <- transform(Small,
+   id1 = paste(sex,1:10, sep=":"),
+   id2 = paste(sex,1:10, sep=":"))
+resample(Small, groups=sex, shuffled=c("id1","id2"))
 deal(Cards, 13)    # A Bridge hand
 shuffle(Cards)
 }
