@@ -1,6 +1,6 @@
 
 
-tryCatch(utils::globalVariables( c('x','y','color','size','logScales','key','nbins', 'plotType', 'flipCoords')),
+tryCatch(utils::globalVariables( c('x','y','color','size','logScales','key','nbins', 'plotType', 'flipCoords', 'group', 'projection')),
          error=function(e) message('Looks like you should update R.'))
 
 #' Extract data from a data frame using a formula interface
@@ -58,51 +58,246 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
   return(res)
 }
 
-#' Interactive plotting interfaces 
+#' Interactive plotting 
 #'
 #' These functions provide a menu selection system (via \pkg{manipulate}) so that 
-#' different aspects of a plot can be selected interactively.  The \code{ggplot2}
-#' command for generating the plot currently being displayed can be copied to the console,
-#' whence it can be copied to a document for later direct, non-interactive use.
+#' different aspects of a plot can be selected interactively.  
+#' The \pkg{ggplot2} or \pkg{lattice}
+#' command for generating the plot currently being displayed can be copied to the 
+#' console, whence it can be copied to a document for later direct, non-interactive 
+#' use.
 #' 
-#' @rdname mPlots
-#' @aliases mPlots, mScatter 
+#' Only \code{mPlot} is required by end users.  The other plotting functions 
+#' are dispatched based on the value of \code{default}.
+#' 
+#' @details
+#' Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
+#' 
+#' @rdname mPlot
+#' @aliases mPlot
 #' @param data a data frame containing the variables that might be used in the plot.
-#' @param default default type of plot to create.
+#' Note that for maps, the data frame must contain coordinates of the polygons 
+#' comprising the map and a variable for determining which corodiantes are part
+#' of the same region.  See \code{\link{sp2df}} for one way to create such
+#' a data frame.  Typically \code{\link{merge}} will be used to combine the map
+#' data with some auxilliary data to be displayed as fill color on the map, although
+#' this is not necessary if all one wants is a map.
+#' @param default default type of plot to create; one of 
+#' \code{"scatter"},
+#' \code{"boxplot"},
+#' \code{"violin"},
+#' \code{"histogram"},
+#' \code{"density"},
+#' \code{"frequency polygon"},
+#' \code{"xyplot"}, 
+#' or
+#' \code{"map"}.  Unique prefixes suffice.
 #' @param system which graphics system to use (initially) for plotting (\pkg{ggplot2} 
 #' or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
 #' @param show a logical, if \code{TRUE}, the code will be displayed each time the plot is 
 #' changed.
+#' @param title a title for the plot
+#' @param \dots additional arguments 
 #' @return Nothing.  Just for side effects.  
 #' @export
+#' @examples
+#' \dontrun{
+#' mPlot(HELPrct, "scatter")
+#' mPlot(HELPrct, "density")
+#' }
 #' 
 mPlot <- function(data, 
   default=plotType,
   system=c('lattice','ggplot2'),
-  show=FALSE) 
+  show=FALSE, 
+  title="",
+  ...) 
 {
   if (missing(default))  default <- 'scatter' 
   plotTypes <- c('scatter', 'boxplot', 'violin', 'histogram', 
-                'density', 'frequency polygon', 'xyplot')
+                'density', 'frequency polygon', 'xyplot', 'map')
   default <- match.arg(default, plotTypes)
   system <- match.arg(system)
   dataName <- substitute(data)
   if (default == 'xyplot') default <- 'scatter'
   if (default %in% c('scatter','boxplot','violin')) {
     return( 
-      eval(parse(text=paste("mScatter(", dataName, ", default=default, system=system, show=show)") ) ) 
+      eval(parse(text=paste("mScatter(", dataName, 
+                            ", default=default, system=system, show=show, title=title)") ) ) 
     )
   }
-    return( 
-      eval(parse(text=paste("mUniplot(", dataName, ", default=default, system=system, show=show)") ) ) 
+  if (default == "map") {
+    return(
+      eval(parse(text=paste("mMap(", dataName, 
+                            ", default=default, system=system, show=show, title=title)") ) ) 
     )
+  }
+  return( 
+      eval(parse(text=paste("mUniplot(", dataName, 
+                            ", default=default, system=system, show=show, title=title)") ) ) 
+  )
 }
-                  
 
+#' @rdname mPlot
+#' @export
+mMap <- function(data, default = 'map',
+        system="ggplot2", 
+        show=FALSE, title=title, ...) {
+  
+  .require_manipulate()
+  .try_require(c("ggplot2","lattice"))
+  system <- "ggplot2" # only handling ggplot2 for now.
+  # system <- match.arg(system)
+  keyDefault <- ifelse ( system == "lattice", "none", "right" )
+  df <- substitute(data)
+  variables <- .varsByType(head(data))
+  latid <- min(c(grep("lat", names(variables$q)), length(variables$q)))
+  longid <- min(c(grep("lon", names(variables$q)), length(variables$q)))
+  groupid <- min(c(grep("group", names(variables$all)), length(variables$all)))
+  
+  snames <- .NAprepend(variables$all)
+  cnames <- .NAprepend(variables$c)
+  pnames <- list("mercator", 
+                 "sinusoidal", 
+                 "cylequalarea, lat0=0", 
+                 "cylindrical", 
+                 "rectangular, lat0=0", 
+                 "gall, lat0=0", 
+                 "mollweide", 
+                 "gilbert", 
+                 "azequidistant", 
+                 "azequalarea", 
+                 "gnomonic", 
+                 "perspective, dist=5", 
+                 "orthographic", 
+                 "stereographic", 
+                 "laue", 
+                 "fisheye, n=5", 
+                 "newyorker, r=5", 
+                 "conic, lat0=0", 
+                 "simpleconic, lat0=-20, lat1=20", 
+                 "lambert, lat=-20, lat1=20",
+                 "albers, lat=-20, lat1=20", 
+                 "bonne, lat0=0", 
+                 "polyconic", 
+                 "aitoff", 
+                 "lagrange", 
+                 "bicentric, lon0=30",
+                 "elliptic, lon0=-90", 
+                 "globular", 
+                 "vandergrinten", 
+                 # "eisenlohr", 
+                 "guyou", 
+                 "square",
+                 "tetra", 
+                 "hex", 
+                 "harrison, dist=5, angle=0", 
+                 "trapezoidal, lat0=-50, lat1=50", 
+                 "lune, lat=60, angle=30", 
+                 "mecca, lat0=0",
+                 "homing, lat0=0", 
+                 "sp_mercator", 
+                 "sp_albers, lat0=-50, lat1=50")
+  lnames <- list("none","top","right","left",
+                 "N (lattice)" = "N", "NE (lattice)" = "NE", 
+                 "E (lattice)" = "E", "SE (lattice)" = "SE", 
+                 "S (lattice)" = "S", "SW (lattice)" = "SW", 
+                 "W (lattice)" = "W", "NW (lattice)" = "NW")
+  sysnames <- list("ggplot2","lattice")
+  manipulate( { .doMap(df, variables, show=show, system=system, 
+                       x=x, y=y, 
+                       color=color, 
+                       group=group,
+                       projection=projection,
+                       facet=facet, 
+                       key=key,
+                       title=title) },
+              show = button("Show Expression"),
+              # system = picker(sysnames, initial=system, label="Graphics System"),
+              x = picker(variables$q, initial=variables$q[[longid]], label="longitude (x)"),
+              y = picker(variables$q, initial=variables$q[[latid]], label="lattitude (y)"),
+              group = picker(variables$all, initial=variables$all[[groupid]], label="region"),
+              color = picker(snames, initial="none ", label="Color"),
+              facet = picker(cnames, initial="none ", label="Facets"),
+              projection = picker(pnames, initial="mercator", label="Projection"),
+              key = picker(lnames, label="key", initial=keyDefault)
+  )
+}
+
+
+.doMap<- function(dataName, variables, show=FALSE, 
+                  system=c('ggplot2'), 
+                  x=NA, y=NA, 
+                  color=NA, 
+                  group=group,
+                  projection=projection,
+                  facet=NA,
+                  key="right",
+                  title="")
+{
+  system <- match.arg(system)
+  if (regexpr(",", projection) > 0) {
+    projection <- sub(",", '", ', projection)
+  } else {
+    projection <- paste(projection, '"', sep="")
+  }
+  projection <- paste('"',projection, sep="")
+  vals <- list(dataName=dataName, 
+               x=x, y=y, 
+               color=color, 
+               group=group,
+               facet=facet, 
+               projection=projection,
+               key=key,
+               title=title)
+  
+  s <- .mapString(vals, system, variables=variables)
+  if (show) cat(paste("\n", s, "\n"))
+  p <- eval(parse(text=s))
+  print(p)
+  return(invisible(p))
+}
+
+# maps 
+.mapString <- function(s, system=c('ggplot2', 'lattice'), variables)
+{
+  #  res <- paste("ggplot(data=", s$data, ")", sep="")
+  #    res<-paste(res, "+geom_point(aes(x=", s$x, ", y=", s$y, "))", sep="")
+  geom <- "geom_polygon()"
+  system=match.arg(system)
+  if (system == "ggplot2" || TRUE) {
+    res <- paste("ggplot(data=", s$dataName, 
+                 ",  aes(x=", s$x, ", y=", s$y, 
+                 ", group=",  s$group, "))", sep="")
+    res <- paste(res, " + ", geom, " ", sep="")
+    if (!is.null(s$color) && !is.na(s$color))
+      res<-paste(res, " + aes(fill=", s$color, ")", sep="")
+    if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
+      res<-paste(res, " + facet_wrap(~", s$facet, ", ncol=4)", sep="")
+    res <- paste( res, '+ coord_map(', s$projection, ')', sep="" )
+    if (s$key %in% c('none','top','bottom','left','right')) {
+      res <- paste(res, ' + theme(legend.position="', s$key, '")', sep="")
+    }  
+    res <- paste( res, '+ labs(title="', s$title, '")', sep="")
+    res <- paste( res, '+ theme(',
+                  'panel.background = element_rect("transparent"),',
+                  'plot.background = element_rect("transparent"),',
+                  'panel.grid.major = element_line(size = 0),',
+                  'panel.grid.minor = element_line(size = 0),',
+                  'axis.title = element_blank(),',
+                  'axis.line = element_blank(),', 
+                  'axis.text = element_blank(),',
+                  'axis.ticks = element_blank() )'
+                  )
+  } 
+  return(res)
+}
+
+#' @rdname mPlot
 #' @export
 
 mScatter <- function(data, default = c('scatter','boxplot','violin'),
-                     system=c("lattice", "ggplot2"), show=FALSE) {
+                     system=c("lattice", "ggplot2"), show=FALSE, title="") {
 
   .require_manipulate()
   .try_require(c("ggplot2","lattice"))
@@ -123,7 +318,7 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
   sysnames <- list("ggplot2","lattice")
   manipulate( { .doScatter(df, variables, show=show, system=system, x=x, y=y, plotType=plotType, 
                            flipCoords = flipCoords, color=color, size=size, facet=facet, 
-                           logScales=logScales, model=model, key=key) },
+                           logScales=logScales, model=model, key=key, title=title) },
              show = button("Show Expression"),
              system = picker(sysnames, initial=system, label="Graphics System"),
              plotType = picker(plotnames, initial=default, label="Type of plot      "),
@@ -146,12 +341,12 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
             plotType=c('scatter','boxplot','violin'),
 					  x=NA, y=NA, color=NA, 
 					  size=NA, facet=NA, logScales='none', flipCoords=FALSE,
-					  model="", key="right")
+					  model="", key="right", title=title)
 {
   system <- match.arg(system)
   plotType <- match.arg(plotType)
   vals <- list(dataName=dataName, x=x, y=y, color=color, size=size, plotType=plotType, 
-               flipCoords=flipCoords, facet=facet, logScales=logScales , model=model, key=key)
+               flipCoords=flipCoords, facet=facet, logScales=logScales , model=model, key=key, title=title)
   
   s <- .scatterString(vals, system, variables=variables)
   if (show) cat(paste("\n", s, "\n"))
@@ -188,6 +383,7 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
     if (s$key %in% c('none','top','bottom','left','right')) {
       res <- paste(res, ' + theme(legend.position="', s$key, '")', sep="")
     }  
+    res <- paste(res, ' + labs(title="', s$title, '")', sep="")
     if ( s$flipCoords) {
       res <- paste(res, ' + coord_flip()', sep="")
     }
@@ -207,6 +403,7 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
     
     if (!is.null(s$color) && !is.na(s$color))
       res<-paste(res, ", groups=", s$color, sep="")
+    res <- paste(res, ', main="', s$title, '"', sep="")
     scales <- character(0)
     if (s$logx)
       scales <- "x=list(log=TRUE)"
@@ -243,11 +440,11 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
   return(res)
 }
 
-#' @rdname mPlots  
+#' @rdname mPlot  
 #' @export
 
 mUniplot <- function(data, default=c('histogram','density', 'frequency polygon'),
-                     system=c("lattice", "ggplot2"), show=FALSE) {
+                     system=c("lattice", "ggplot2"), show=FALSE, title="") {
   .require_manipulate()
   .try_require(c("ggplot2","lattice"))
   system <- match.arg(system)
@@ -269,7 +466,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
   manipulate( { .doUniplot(df, variables=variables, show=show, system=system, plotType=plotType, x=x, 
                            nbins=nbins, color=color, 
                            facet=facet, 
-                           model=model, key=key) },
+                           model=model, key=key, title=title) },
               show = button("Show Expression"),
               system = picker(sysnames, initial=system, label="Graphics system"),
               plotType = picker(plotnames, initial = default, label="Plot type"),
@@ -294,7 +491,8 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
                        # size=NA, 
                        facet=NA, 
                        # logx=FALSE, logy=FALSE, 
-                       model="", key="right")
+                       model="", key="right",
+                       title="")
 {
   system <- match.arg(system)
   plotType <- match.arg(plotType)
@@ -303,7 +501,8 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
                # size=size, 
                facet=facet, 
                # logx=logx, logy=logy, 
-               key=key)
+               key=key,
+               title=title)
   
   s <- .uniplotString(vals, system, variables)
   if (show) cat(paste("\n", s, "\n"))
@@ -340,6 +539,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
 #      res <- paste(res, " + scale_y_log10()", sep="")
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
       res<-paste(res, " + facet_wrap(~", s$facet, ", ncol=4)", sep="")
+    res <- paste(res, ' + labs(title="', s$title, '")', sep="")
     if (s$key %in% c('none','top','bottom','left','right')) {
       res <- paste(res, ' + theme(legend.position="', s$key, '")', sep="")
     }  
@@ -352,6 +552,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
     res <- paste(res, ", data=", s$dataName, sep="")
     if (!is.null(s$color) && !is.na(s$color))
       res<-paste(res, ", groups=", s$color, sep="")
+    res <- paste(res, ', main="', s$title, '"', sep="")
     if (s$plotType %in% c('histogram', 'frequency polygon')) {
       res <- paste(res, ", width =", signif(binwidth,2), sep="")
     } else {
