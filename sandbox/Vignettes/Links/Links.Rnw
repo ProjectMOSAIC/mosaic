@@ -66,12 +66,12 @@ statistics with a focus on modeling and computation.
 
 The \pkg{mosaic} package includes a number of vignettes including vignettes discussing
 \begin{itemize}
-	\item a minimal set of R commands for use in Introductory Statistics and which it is important
+	\item a minimal set of R commands for use in Introductory Statistics and why it is important
 		to keep the set of commands small;
 	\item the R commands needed for all the basic statistical procedures in an Intro Stats course;
 	\item strategies for teaching statistics using R;
 	\item resampling methods in R; and 
-	\item using R in calculus
+	\item using R in calculus.
 \end{itemize}
 
 \section{Textbook Related}
