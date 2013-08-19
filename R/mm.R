@@ -72,9 +72,10 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
     coefs$value <- coefvals
     df <- sum(!dups)
   }
-  res <- list( coefs=coefs, resids=resids, fitted=fitted, 
-               ncases=ncases, groupsd=groupsd,call=formula, df=df)
-  class(res) <- c("groupwiseModel")
+  res <- structure( list(coefs=coefs, resids=resids, fitted=fitted, 
+                         ncases=ncases, groupsd=groupsd, call=formula, df=df),
+                    class = c("groupwiseModel")
+  )
   return(res)
 }
 #' @rdname mm
@@ -128,9 +129,18 @@ coef.groupwiseModel <- function(object, ...) {
 #' @param x Object to be printed
 #' @param digits number of digits to display
 print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) ) {
-  # digits = max(3, getOption("digits")-3)
-  cat("Groupwise Model.")
-  NextMethod("print", x, ..., digits=digits )
+  # directly copied from print.lm, but since this isn't an lm object, it
+  # doesn't make sense to call print.lm on it.
+  cat("\nGroupwise Model Call:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
+      "\n\n", sep = "")
+  if (length(coef(x))) {
+    cat("Coefficients:\n")
+    print(format(coef(x), digits = digits), print.gap = 2L, 
+                  quote = FALSE)
+  }
+  else cat("No coefficients\n")
+  cat("\n")
+  invisible(x)
 }
 #' @rdname mm
 #' @method residuals groupwiseModel
@@ -146,9 +156,10 @@ summary.groupwiseModel <- function(object, ... ){
   sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
   r2 <- var(resids)/var(resids+fitted(object))
   ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
-  res <- list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
-              df=object$df,coefs=confint(object))
-  class(res) <- "summary.groupwiseModel"
+  res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
+                         df=object$df,coefs=confint(object)), 
+                         class= "summary.groupwiseModel"
+  )
   return(res)
 }
 #' @rdname mm
