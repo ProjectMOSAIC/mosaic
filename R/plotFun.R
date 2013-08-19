@@ -1,5 +1,5 @@
 
-tryCatch(utils::globalVariables(c('rot','elev','slider','manipulate','colorList')), 
+tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','elev','slider','manipulate','colorList')), 
 		 error=function(e) message('Looks like you should update R.'))
 
 #' Plotting mathematical expressions
