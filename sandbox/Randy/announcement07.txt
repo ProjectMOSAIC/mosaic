@@ -1,0 +1,43 @@
+
+With apologies for cross-posts, the Project MOSAIC team is pleased to announce that an updated version of our mosaic package is available on CRAN or via github).  Some of the new features are enumerated below.
+
+As always, we welcome feedback, feature requests, and suggestions for improvement.
+
+Changes in version 0.7
+
+ * resample() now correctly uses the groups argument to do resampling with fixed margins.
+
+ * Various improvements and bug fixes to D and antiD
+
+ * In RStudio, mPlot provides an interactive environment for creating lattice
+   and ggplot2 plots.
+
+ * Some support for producing maps has been instroduced, notably sp2df for
+   converting SpatialPolygonDataFrames to regular data frames (which is useful
+   for plotting with ggplot2, for example). Also the Countries data frame
+   facilitates mapping country names among different sources of map data.
+
+ * Data frames returned by do are now marked as such so that confint can behave
+   differently for such data frames and for "regular" data frames.
+
+ * t.test can now do 1-sample t-test described using a formula.
+
+ * Aggregating functions (e.g. mean, var, etc. using a formula interface) have
+   been completely reimplemented and additional aggregating functions are
+   provided.
+
+ * An ntiles function has been added to facilitate creating factors based on
+   quantile ranges.
+
+ * Changes in format to RailTrail dataset.
+
+ * Minor changes in documentation.
+
+ * Added several vignettes on a range of topics from getting started teaching with R, 
+   to resampling in R, to using R for Calculus.
+
+ * Plan to deprecate datasets from the Carnegie Melon University Online
+   Learning Initiative Statistics Modules in next release.
+
+ * xhistogram is now deprecated. Use histogram instead.
+
