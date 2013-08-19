@@ -126,10 +126,11 @@ coef.groupwiseModel <- function(object, ...) {
 #' @rdname mm
 #' @method print groupwiseModel
 #' @param x Object to be printed
-print.groupwiseModel <- function(x, ... ) {
-  digits = max(3, getOption("digits")-3)
+#' @param digits number of digits to display
+print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) ) {
+  # digits = max(3, getOption("digits")-3)
   cat("Groupwise Model.")
-  print.lm(x, ..., digits=digits )
+  NextMethod("print", x, ..., digits=digits )
 }
 #' @rdname mm
 #' @method residuals groupwiseModel

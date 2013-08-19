@@ -11,7 +11,7 @@
 #' @method TukeyHSD lm
 #' @export
 TukeyHSD.lm <- function(x, which, ordered = FALSE, conf.level=0.95, ...) {
-	stats::TukeyHSD.aov( aov(x), which = which, ordered = ordered, conf.level = conf.level, ...)
+	stats::TukeyHSD( aov(x), which = which, ordered = ordered, conf.level = conf.level, ...)
 }
 
 #' @rdname TukeyHSD.lm
@@ -24,7 +24,7 @@ TukeyHSD.lm <- function(x, which, ordered = FALSE, conf.level=0.95, ...) {
 #' TukeyHSD( age ~ substance, data=HELPrct)
 #' TukeyHSD(aov(age ~ substance, data=HELPrct))
 TukeyHSD.formula <- function(x, which, ordered = FALSE, conf.level=0.95, data=parent.frame(), ...) {
-  TukeyHSD.lm( lm(x, data=data, ...), which = which, ordered = ordered, conf.level=conf.level, ...)
+  TukeyHSD( lm(x, data=data, ...), which = which, ordered = ordered, conf.level=conf.level, ...)
 }
 
 
