@@ -43,7 +43,7 @@ ttest <- function (x, ...) {
 #' @method ttest default
 #' @export
 ttest.default <-  function (x, ...) {
-  stats:::t.test.default(x = x, ...)
+  stats::t.test(x = x, ...)
 }
 
 #' @rdname ttest
