@@ -84,6 +84,7 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' this is not necessary if all one wants is a map.
 #' @param default default type of plot to create; one of 
 #' \code{"scatter"},
+#' \code{"jitter"},
 #' \code{"boxplot"},
 #' \code{"violin"},
 #' \code{"histogram"},
@@ -114,13 +115,13 @@ mPlot <- function(data,
   ...) 
 {
   if (missing(default))  default <- 'scatter' 
-  plotTypes <- c('scatter', 'boxplot', 'violin', 'histogram', 
+  plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
                 'density', 'frequency polygon', 'xyplot', 'map')
   default <- match.arg(default, plotTypes)
   system <- match.arg(system)
   dataName <- substitute(data)
   if (default == 'xyplot') default <- 'scatter'
-  if (default %in% c('scatter','boxplot','violin')) {
+  if (default %in% c('scatter','jitter','boxplot','violin')) {
     return( 
       eval(parse(text=paste("mScatter(", dataName, 
                             ", default=default, system=system, show=show, title=title)") ) ) 
@@ -296,7 +297,7 @@ mMap <- function(data, default = 'map',
 #' @rdname mPlot
 #' @export
 
-mScatter <- function(data, default = c('scatter','boxplot','violin'),
+mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="") {
 
   .require_manipulate()
@@ -306,7 +307,7 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
   df <- substitute(data)
   variables <- .varsByType(head(data))
   # variables$q is the quantitative variables.
-  plotnames <- list("scatter", "boxplot", "violin")
+  plotnames <- list("scatter", "jitter","boxplot", "violin")
   snames <- .NAprepend(variables$all)
   cnames <- .NAprepend(variables$c)
   mnames <- list("none", linear="linear", "smooth")
@@ -338,7 +339,7 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
 
 .doScatter <- function(dataName, variables, show=FALSE, 
 					  system=c('ggplot2','lattice'), 
-            plotType=c('scatter','boxplot','violin'),
+            plotType=c('scatter','jitter','boxplot','violin'),
 					  x=NA, y=NA, color=NA, 
 					  size=NA, facet=NA, logScales='none', flipCoords=FALSE,
 					  model="", key="right", title=title)
@@ -360,7 +361,7 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
 {
   #  res <- paste("ggplot(data=", s$data, ")", sep="")
   #    res<-paste(res, "+geom_point(aes(x=", s$x, ", y=", s$y, "))", sep="")
-  geom <- c(scatter="geom_point()", boxplot="geom_boxplot()", violin="geom_violin()")
+  geom <- c(scatter="geom_point()", jitter="geom_jitter()", boxplot="geom_boxplot()", violin="geom_violin()")
   system=match.arg(system)
   s$logx <- s$logScales %in% c('both','x')
   s$logy <- s$logScales %in% c('both','y')
@@ -389,7 +390,7 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
     }
     
   } else {
-    plotname <- c(scatter='xyplot', boxplot='bwplot', violin='bwplot')
+    plotname <- c(scatter='xyplot', jitter='xyplot', boxplot='bwplot', violin='bwplot')
     if (s$flipCoords) {
 	    res <- paste( plotname[s$plotType], "( ", s$x , " ~ ", s$y, sep="")
     } else {
@@ -404,6 +405,9 @@ mScatter <- function(data, default = c('scatter','boxplot','violin'),
     if (!is.null(s$color) && !is.na(s$color))
       res<-paste(res, ", groups=", s$color, sep="")
     res <- paste(res, ', main="', s$title, '"', sep="")
+    if (s$plotType == "jitter") {
+      res <- paste(res, ', jitter.x=TRUE, jitter.y=TRUE', sep="")
+    }
     scales <- character(0)
     if (s$logx)
       scales <- "x=list(log=TRUE)"

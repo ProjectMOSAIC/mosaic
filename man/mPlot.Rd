@@ -13,7 +13,7 @@
     show = FALSE, title = title, ...)
 
   mScatter(data,
-    default = c("scatter", "boxplot", "violin"),
+    default = c("scatter", "jitter", "boxplot", "violin"),
     system = c("lattice", "ggplot2"), show = FALSE,
     title = "")
 
@@ -35,10 +35,10 @@
   wants is a map.}
 
   \item{default}{default type of plot to create; one of
-  \code{"scatter"}, \code{"boxplot"}, \code{"violin"},
-  \code{"histogram"}, \code{"density"}, \code{"frequency
-  polygon"}, \code{"xyplot"}, or \code{"map"}.  Unique
-  prefixes suffice.}
+  \code{"scatter"}, \code{"jitter"}, \code{"boxplot"},
+  \code{"violin"}, \code{"histogram"}, \code{"density"},
+  \code{"frequency polygon"}, \code{"xyplot"}, or
+  \code{"map"}.  Unique prefixes suffice.}
 
   \item{system}{which graphics system to use (initially)
   for plotting (\pkg{ggplot2} or \pkg{lattice}).  A check
