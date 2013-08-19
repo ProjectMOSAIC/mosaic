@@ -26,7 +26,8 @@
 
   \method{summary}{groupwiseModel} (object, ...)
 
-  \method{print}{summary.groupwiseModel} (x, ...)
+  \method{print}{summary.groupwiseModel} (x,
+    digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
   \item{formula}{A formula.  The left-hand side specifies
