@@ -164,8 +164,7 @@ summary.groupwiseModel <- function(object, ... ){
 }
 #' @rdname mm
 #' @method print summary.groupwiseModel
-print.summary.groupwiseModel <- function(x, ...) {
-  digits = max(3, getOption("digits")-3)
+print.summary.groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {
   cat("Groupwise Model\n")
   cat(paste("Call: ", deparse(x$call), "\n"))
   cat("\n"); print(x$coefs); cat("\n")
