@@ -18,5 +18,11 @@
 #' @keywords package
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
+#' @import Hmisc   
+#' @import grid    
+#' @import lattice
+#' @import splines 
+#' @import Hmisc
+#' @import methods
 #' @exportPattern "^[^\\.]"
 NA
