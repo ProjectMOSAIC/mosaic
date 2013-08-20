@@ -1,5 +1,5 @@
 
-With apologies for cross-posts, the Project MOSAIC team is pleased to announce that an updated version of our mosaic package is available on CRAN or via github).  Some of the new features are enumerated below.
+With apologies for cross-posts, the Project MOSAIC team is pleased to announce that an updated version of our mosaic package is available on CRAN (or via github).  Some of the new features are enumerated below.
 
 As always, we welcome feedback, feature requests, and suggestions for improvement.
 
