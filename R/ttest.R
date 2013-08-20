@@ -51,7 +51,7 @@ ttest.default <-  function (x, ...) {
 #' @export
 ttest.formula <- function(x, data=parent.frame(), ...) {
   tryCatch( 
-    return(stats:::t.test(x, data=data, ...)),
+    return(stats::t.test(x, data=data, ...)),
     error=function(e) {})
   dots <- list(...)
   formula <- x
@@ -68,7 +68,7 @@ ttest.formula <- function(x, data=parent.frame(), ...) {
   
   dataName <- paste("data$",vname,sep="")
   x <- evalF$right[,1]
-  result <- do.call( stats:::t.test.default, c(list(x=x), dots) ) 
+  result <- do.call( stats::t.test, c(list(x=x), dots) ) 
   result$data.name <- dataName
   return(result)
 }
