@@ -59,7 +59,7 @@ fetchGoogle = function(URL,key=NULL){
   if (missing(URL) & !is.null(key))
     URL = paste("https://docs.google.com/spreadsheet/pub?key=",
                 key,"&single=TRUE&gid=0","&output=csv",sep="")
-  s = getURLContent(URL)
+  s = RCurl::getURLContent(URL)
   foo = textConnection(s)
   b = read.csv(foo)
   close(foo)
