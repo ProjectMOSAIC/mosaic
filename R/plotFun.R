@@ -193,8 +193,8 @@ plotFun <- function(object, ...,
 			if ('h' %in% type)  
 				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
 			else 
-				mosaic::adapt_seq(min(limits$xlim), max(limits$xlim), 
-										   f=function(xxqq){ .f.(xxqq) }, length=npts)
+				adapt_seq(min(limits$xlim), max(limits$xlim), 
+										   f=function(xxqq){ .f.(xxqq) }, length.out=npts)
 	
     .yvals <- c()
     for ( .f. in fList ) .yvals <- c( .yvals, sapply( .xvals, .f. ) )
@@ -431,8 +431,8 @@ panel.plotFun1 <- function( ..f.., ...,
     .xvals <-  if ('h' %in% type)  
       seq(min(parent.xlim), max(parent.xlim), length.out=npts)
     else 
-      mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ .f.(xxqq) }, length=npts)
+      adapt_seq(min(parent.xlim), max(parent.xlim), 
+                        f=function(xxqq){ .f.(xxqq) }, length.out=npts)
     
     .yvals <- sapply( .xvals, .f. ) 
     
@@ -525,8 +525,8 @@ panel.plotFun <- function( object, ...,
       if ('h' %in% type)  
         seq(min(parent.xlim), max(parent.xlim), length.out=npts)
     else 
-      mosaic::adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ ..f..(xxqq) }, length=npts)
+      adapt_seq(min(parent.xlim), max(parent.xlim), 
+                        f=function(xxqq){ ..f..(xxqq) }, length.out=npts)
     .yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
     
     # need to strip out any components of ... that are in the object so they
