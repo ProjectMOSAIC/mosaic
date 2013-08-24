@@ -3,6 +3,7 @@
 %\VignetteKeywords{mosaic, resources}
 
 \documentclass{article}
+\usepackage{pdfpages}
 \begin{document}
-This page intentionally left blank.
+\includepdf{Links-src.pdf}
 \end{document}

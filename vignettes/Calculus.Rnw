@@ -1,8 +1,0 @@
-%\VignetteIndexEntry{Teaching Calculus in R}
-%\VignettePackage{mosaic}
-%\VignetteKeywords{mosaic, functions, formulas, calculus}
-
-\documentclass{article}
-\begin{document}
-This page intentionally left blank.
-\end{document}

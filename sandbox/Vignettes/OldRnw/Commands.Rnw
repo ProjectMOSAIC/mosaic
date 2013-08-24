@@ -4,5 +4,6 @@
 
 \documentclass{article}
 \begin{document}
-This page intentionally left blank.
+\usepackage[pdfpages]
+\includepdf{Commands-src.pdf}
 \end{document}

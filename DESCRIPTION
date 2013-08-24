@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.7-30
-Date: 2013-08-20
+Version: 0.7-31
+Date: 2013-08-21
 Depends:
     grid,
     lattice (>= 0.20-21)
@@ -21,7 +21,10 @@ Suggests:
     manipulate,
     vcd,
     RCurl,
-    testthat
+    testthat,
+    knitr,
+    tools
+VignetteBuilder: knitr
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@amherst.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>

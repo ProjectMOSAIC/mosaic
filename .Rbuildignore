@@ -2,6 +2,13 @@
 ^bin$
 ^builds$
 ^vignettes-source$
+^vignettes/.*\.pdf$
+^vignettes/.*\.tex$
+^vignettes/.*\.log$
+^vignettes/.*\.aux$
+^vignettes/.*\.gz$
+^vignettes/.*\.toc$
+vignettes-source$
 ^\.Rproj\.user$
 ^\.Rd2dvi.*$
 ^.*\.csv\.bz2.*$
