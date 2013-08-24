@@ -33,7 +33,7 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 pdfpath <- function(name) {
   return( 
     paste('http://github.com/rpruim/mosaic/blob/master/inst/PDFs/',
-          name,'.pdf', sep="")
+          name, sep="")
     )
                 
 	paths <- find.package("mosaic", lib.loc, verbose = verbose)
@@ -58,10 +58,10 @@ pdfpath <- function(name) {
 
 anitem <- function(name, text) {
 	path <- pdfpath(name)
-	tryCath(
-		paste("\\item[\\href{run:",path,"}{",text,"}]", sep=""),
+	tryCatch(
+		paste("\\item[\\href{",path,"}{",text,"}]", sep=""),
 		error=function(e) {
-			paste("\\item[\\href{run:../inst/PDFs/",name,"}{",text,"}]", sep="")
+			paste("\\item[\\href{",name,"}{",text,"}]", sep="")
 		})
 }
 @
@@ -75,24 +75,28 @@ statistics with a focus on modeling and computation.
 The \texttt{mosaic} package includes a number of additional vignettes, including
 
 \begin{description}
-<<result='asis'>>=
-anitem("MinimalR-src", "Minimal R")
+
+<<results='asis', echo=FALSE>>=
+cat( anitem("MinimalR-vignette.pdf", "Minimal R") )
 @
-%	\item[\href{run:\Sexpr{pdfpath{MinimalR-src}}{Minimal R}]
 		provides a minimal set of R commands for use in Intro Stats and disucusses why it is important
 		to keep the set of commands small
-
-	\item[\href{run:../PDFs/Commands-src.pdf}{A Compendium of Commands to Teach Statistics using R}]
+<<results='asis', echo=FALSE>>=
+cat( anitem("Commands-vignette.pdf", "A Compendium of Commands to Teach Statistics using R") )
+@
 		describes the R commands needed for all the basic statistical procedures in an Intro Stats course;
-
-	\item[\href{run:../PDFs/StartTeaching-src.pdf}{Start Teaching Statistics Using R}]
+<<results='asis', echo=FALSE>>=
+cat( anitem("StartTeaching-vignette.pdf", "Start Teaching Statistics Using R") )
+@
 		provides an introduction to R targeted at instructors of statistics courses and
 		also discusses strategies for teaching statistics using R
-
-	\item[\href{run:../PDFs/Resampling-src.pdf}{Resampling in R}]
+<<results='asis', echo=FALSE>>=
+cat( anitem("Resampling-vignette.pdf", "Resampling in R") )
+@
 		discusses how to use R for resampling and bootstrapping in lower level statistics courses.
-
-	\item[\href{run:../PDFs/Calculus-src.pdf}{Start R in Calculus}]
+<<results='asis', echo=FALSE>>=
+cat( anitem("Calculus-vignette.pdf", "Start R in Calculus") )
+@
 		describes how R can be used in calculus courses
 \end{description}
 
