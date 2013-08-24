@@ -33,36 +33,12 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 pdfpath <- function(name) {
   return( 
     paste('http://github.com/rpruim/mosaic/blob/master/inst/PDFs/',
-          name, sep="")
+          name, "?raw=TRUE",sep="")
     )
-                
-	paths <- find.package("mosaic", lib.loc, verbose = verbose)
-	paths <- paths[file_test("-d", file.path(paths, "PDFs"))]
-
-	available <- c()
-	for (p in paths) {
-		files <- basename(tools::list_files_with_exts(p, c('pdf', "PDF")))
-		files <- files[name == tools::file_path_sans_ext(files)]
-		if (length(files)) 
-			available <- c(available, file.path(p, files))
-	}
-	if (length(available) == 0L) 
-		stop(gettextf("No PDF named '%s'", name), domain = NA)
-	if (length(available) > 1L) {
-		available <- available[1L]
-		warning(gettextf("Snippet  '%s' found more than once,\nusing the one found in '%s'", 
-						 name, dirname(available[1L])), domain = NA)
-	}
-	return(available)
 }
 
 anitem <- function(name, text) {
-	path <- pdfpath(name)
-	tryCatch(
-		paste("\\item[\\href{",path,"}{",text,"}]", sep=""),
-		error=function(e) {
-			paste("\\item[\\href{",name,"}{",text,"}]", sep="")
-		})
+	paste("\\item[\\href{",pdfpath(name),"}{",text,"}]", sep="")
 }
 @
 
