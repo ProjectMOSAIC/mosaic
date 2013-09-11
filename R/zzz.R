@@ -10,10 +10,11 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
 
 .onAttach <- function(libname, pkgname) {
 	# have histogram use xhistogram stuff by default
-  lattice::lattice.options(
+  origLatticeOptions <- lattice::lattice.options(
     histogram.breaks = xhistogramBreaks,
     prepanel.default.histogram = prepanel.xhistogram,
     panel.histogram = panel.xhistogram)
+  assign("original.lattice.options", origLatticeOptions, envir = .mosaicEnv)
 }
 
 .noGenerics <- FALSE
