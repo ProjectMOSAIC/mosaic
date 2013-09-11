@@ -1,4 +1,4 @@
-tryCatch(utils::globalVariables(c('.LatticeEnv')),
+tryCatch(utils::globalVariables(c('.mosaicEnv')),
 		 error=function(e) message('Looks like you should update R.'))
 
 #' Setting options for mosaic package functions
@@ -7,7 +7,7 @@ tryCatch(utils::globalVariables(c('.LatticeEnv')),
 #'
 #' @rdname mosaic.options
 #' @name mosaic.options
-#' @aliases mosaicGetOption mosaic.par.set
+#' @aliases mosaicGetOption mosaic.par.set 
 #'
 #' @param name the name of the option being set
 #' @param value the value to which to set the option
@@ -37,7 +37,7 @@ mosaic.options <- function (...)
 #' @rdname mosaic.options
 mosaic.getOption <- function (name) 
 {
-    get("lattice.options", envir = .LatticeEnv)[[name]]
+    get("mosaic.options", envir = .mosaicEnv)[[name]]
 }
 #' @rdname mosaic.options
 #' @param theme a list appropriate for a mosaic theme
@@ -104,3 +104,22 @@ mosaic.par.get <- function (name = NULL)
        aggregate.overall=FALSE,
        graphics='lattice'
        )
+#' @rdname mosaic.options
+#' @details \code{restoreLatticeOptions} returns any lattice
+#' options that were changed when the mosiac package was loaded
+#' back to their pre-mosaic state.
+#' @export
+restoreLatticeOptions <- function() {
+  do.call(lattice::lattice.options, .mosaicEnv$original.lattice.options)
+}
+
+#' @rdname mosaic.options
+#' @details \code{mosaicLatticeOptions} sets a number 
+#' of defaults for lattice graphics.
+#' @export
+mosaicLatticeOptions <- function() {
+  lattice::lattice.options(
+    histogram.breaks = xhistogramBreaks,
+    prepanel.default.histogram = prepanel.xhistogram,
+    panel.histogram = panel.xhistogram)
+}
