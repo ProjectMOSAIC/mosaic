@@ -65,8 +65,15 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
     width <- diff(range(x)) / nint
   }
 
-  shift <- -.5 + ( (floor( (min(x) - center)/width) ):(1 + ceiling( (max(x) - center)/width)) )
-  breaks <-  center + shift * width
+  shift <- ( (floor( (min(x) - center)/width) ):(1 + ceiling( (max(x) - center)/width)) )
+  breaks <-  -.5 * width + center + shift * width
+  digits <- 15
+  while ( digits > 2 && diff(range(diff(breaks))) > 0) {
+    digits <- digits - 1 
+    width <- round(width,digits)
+    breaks <-  -.5 * width + center + shift * width
+  }
+  
   if (breaks[2] < min(x)) breaks <- tail(breaks,-1)
   if (breaks[length(breaks)-1] > max(x)) breaks <- head(breaks,-1)
   
