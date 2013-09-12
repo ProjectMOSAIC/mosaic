@@ -36,7 +36,7 @@
 dotPlot <-
 function (x, breaks, ..., panel = panel.dotPlot) 
 {
-    histogram(x, type = "count", panel = panel, breaks = breaks, ...)
+  histogram(x, type = "count", panel = panel, breaks = breaks, ...)
 }
 
 #' @rdname dotPlot
@@ -54,9 +54,9 @@ panel.dotPlot <-
             type = "count", ...) 
 {
   if (is.function(breaks)) {
-    breaks <- do.call(breaks, c(list(x=x, nint=nint), list(...)))
+      breaks <- do.call(breaks, c(list(x=x, nint=nint), list(...)))
   }
-
+      
   if (missing(pch)) {
     pch <-  if (is.null(groups)) trellis.par.get("dot.symbol")$pch 
               else trellis.par.get("superpose.symbol")$pch 
