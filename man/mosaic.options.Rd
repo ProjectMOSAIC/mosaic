@@ -4,6 +4,8 @@
 \alias{mosaic.par.get}
 \alias{mosaic.par.set}
 \alias{mosaicGetOption}
+\alias{mosaicLatticeOptions}
+\alias{restoreLatticeOptions}
 \title{Setting options for mosaic package functions}
 \usage{
   mosaic.options(...)
@@ -14,6 +16,10 @@
     strict = FALSE)
 
   mosaic.par.get(name = NULL)
+
+  restoreLatticeOptions()
+
+  mosaicLatticeOptions()
 }
 \arguments{
   \item{name}{the name of the option being set}
@@ -32,5 +38,13 @@
 }
 \description{
   A mechanism for setting options in the mosaic package.
+}
+\details{
+  \code{restoreLatticeOptions} returns any lattice options
+  that were changed when the mosiac package was loaded back
+  to their pre-mosaic state.
+
+  \code{mosaicLatticeOptions} sets a number of defaults for
+  lattice graphics.
 }
 
