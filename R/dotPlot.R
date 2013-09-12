@@ -34,8 +34,7 @@
 #' 
 
 dotPlot <-
-function (x, 
-	breaks, ..., panel = panel.dotPlot) 
+function (x, breaks, ..., panel = panel.dotPlot) 
 {
     histogram(x, type = "count", panel = panel, breaks = breaks, ...)
 }
@@ -54,6 +53,11 @@ panel.dotPlot <-
             cex=1, 
             type = "count", ...) 
 {
+  if (is.function(breaks)) {
+    message("converting breaks to numeric vector")
+    breaks <- do.call(breaks, c(list(x=x, nint=nint), list(...)))
+  }
+
   if (missing(pch)) {
     pch <-  if (is.null(groups)) trellis.par.get("dot.symbol")$pch 
               else trellis.par.get("superpose.symbol")$pch 
@@ -90,8 +94,10 @@ panel.dotPlot <-
         h <- hist(x, breaks = breaks, plot = FALSE, warn.unused=FALSE, ...)
         y <- h$counts
         nb <- length(breaks)
-        if (length(y) != nb - 1) 
-            warning("problem with hist computations")
+
+        if (length(y) != nb - 1) {
+            stop("problem with hist computations")
+        }
         if (nb > 1) {
             for (bin in 1:(nb - 1)) {
                 if (y[bin] <= 0) {
@@ -99,11 +105,12 @@ panel.dotPlot <-
                 }
                 xvals <- rep( (breaks[bin] + breaks[bin + 1])/2, y[bin] )
                 yvals <- 1:y[bin]
-                grid.points( size= cex * unit(1,"char"), 
-				  pch = pch,
-				  gp = gpar(fill = col, alpha = alpha, col = col, lty = lty, lwd = lwd), 
-				  		x = xvals, 
-                  		y = yvals, 
+                grid.points( 
+                  size= cex * unit( 0.8 / max(y),"npc"),  
+                  pch = pch, 
+                  gp = gpar(fill = col, alpha = alpha, col = col, lty = lty, lwd = lwd), 
+				  		    x = xvals, 
+                  y = yvals, 
 						default.units = "native")
 				pch <- pch[ -(1:y[bin]) ]
 				col <- col[ -(1:y[bin]) ]
