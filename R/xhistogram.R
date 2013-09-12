@@ -59,6 +59,7 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
   if (missing(nint) || is.null(nint)) { 
     nint <- round(1.5 *log2(length(x)) + 1) 
   }
+  
   if (is.null(width)) { 
     nint <- max(nint -1, 1)
     width <- diff(range(x)) / nint
@@ -68,6 +69,7 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
   breaks <-  center + shift * width
   if (breaks[2] < min(x)) breaks <- tail(breaks,-1)
   if (breaks[length(breaks)-1] > max(x)) breaks <- head(breaks,-1)
+  
   if (min(breaks) > min(x) || max(breaks) < max(x)) 
 	  stop("Bug alert: break points don't cover data.")
   return(breaks)
