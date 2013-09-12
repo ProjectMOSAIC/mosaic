@@ -54,7 +54,6 @@ panel.dotPlot <-
             type = "count", ...) 
 {
   if (is.function(breaks)) {
-    message("converting breaks to numeric vector")
     breaks <- do.call(breaks, c(list(x=x, nint=nint), list(...)))
   }
 
