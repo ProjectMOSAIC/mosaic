@@ -65,7 +65,7 @@ print.cointoss <- function(x, ...) {
 			#print(other$sequence)
 			cat(strwrap( paste(other$sequence, sep=" ")))
 			cat('\n')
-			cat(paste('\nResult: ', heads, ' heads.\n\n', sep=""))
+			cat(paste('\nNumber of Heads: ', heads, ' [Proportion Heads: ', heads/other$n, ']\n\n', sep=""))
 	}
 }
 

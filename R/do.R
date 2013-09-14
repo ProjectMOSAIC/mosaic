@@ -226,7 +226,8 @@ if(FALSE) {
 	if (any(class(object)=='cointoss')) {
 		return( c(n=attr(object,'n'), 
 				heads=sum(attr(object,'sequence')=='H'),
-				tails=sum(attr(object,'sequence')=='T')
+				tails=sum(attr(object,'sequence')=='T'),
+        prop=sum(attr(object,'sequence')=="H") / attr(object,'n')
 				) )
 	}
 	if (is.matrix(object) && ncol(object) == 1) {
