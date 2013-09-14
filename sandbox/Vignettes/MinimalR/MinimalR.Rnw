@@ -338,8 +338,8 @@ graphical summaries, numerical summaries,
 and inference procedures.
 
 <<>>=
-fname( y ~ x | z, data=..., 
-                  groups=... )
+goal( y ~ x | z, data=..., 
+                 groups=... )
 @
 
 For plots
@@ -436,19 +436,20 @@ binom.test()  # mosaic augmented
 prop.test()   # mosaic augmented
 chisq.test()
 t.test()      # mosaic augmented
-lm()          # linear models
-anova( lm() )
-summary( lm() )
-makeFun( lm() )   # mosaic 
-resid( lm() )
-plot( lm() )
-TukeyHSD( lm () ) # mosaic aug
-plot( TukeyHSD( lm() ) )
+model <- lm() # linear models
+anova( model )
+summary( model )
+makeFun( model )   # mosaic 
+resid( model )
+plot( model )
+TukeyHSD( model )  # mosaic aug
+plot( TukeyHSD( model ) )
 @
 \squeeze
 <<highlight=FALSE>>=
 confint()      # mosaic augmented
 pval()         # mosaic
+confint()      # mosaic augmented
 fisher.test()
 xchisq.test()  # mosaic
 power.t.test()
@@ -552,8 +553,10 @@ bwplot( age ~ substance | sex, data=HELPrct )
 pval( binom.test( ~sex, data=HELPrct ) )
 confint( t.test( ~age, data=HELPrct ) )
 @
-<<>>=
-anova( lm(age ~ sex + substance, data=HELPrct ) )
+<<tidy=FALSE>>=
+model <- lm(age ~ sex + substance, 
+			data=HELPrct ) 
+anova( model )
 @
 
 
