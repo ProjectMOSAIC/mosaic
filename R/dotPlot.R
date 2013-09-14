@@ -51,7 +51,8 @@ panel.dotPlot <-
             col.line = trellis.par.get("dot.line")$col, 
             alpha = trellis.par.get("dot.symbol")$alpha, 
             cex=1, 
-            type = "count", ...) 
+            type = "count", 
+            ...) 
 {
   if (is.function(breaks)) {
       breaks <- do.call(breaks, c(list(x=x, nint=nint), list(...)))
@@ -91,28 +92,28 @@ panel.dotPlot <-
             else quantile(x, (0:nint)/nint, na.rm = TRUE)
         }
         h <- hist(x, breaks = breaks, plot = FALSE, warn.unused=FALSE, ...)
-        y <- h$counts
+        cumcounts <- c(0,cumsum(h$counts))
         nb <- length(breaks)
 
-        if (length(y) != nb - 1) {
+        if (length(h$counts) != nb - 1) {
             stop("problem with hist computations")
         }
         if (nb > 1) {
             for (bin in 1:(nb - 1)) {
-                if (y[bin] <= 0) {
+                if (h$counts[bin] <= 0) {
                   next
                 }
-                xvals <- rep( (breaks[bin] + breaks[bin + 1])/2, y[bin] )
-                yvals <- 1:y[bin]
+                yvals <- 1:(h$counts[bin])
+                xvals <- rep( h$mids[bin], h$counts[bin] )
                 grid.points( 
-                  size= cex * unit( 0.8 / max(y),"npc"),  
+                  size= cex * unit( 0.8 / max(h$counts),"npc"),  
                   pch = pch, 
                   gp = gpar(fill = col, alpha = alpha, col = col, lty = lty, lwd = lwd), 
-				  		    x = xvals, 
+				  		    x = xvals,
                   y = yvals, 
 						default.units = "native")
-				pch <- pch[ -(1:y[bin]) ]
-				col <- col[ -(1:y[bin]) ]
+				pch <- pch[ -(1:h$counts[bin]) ]
+				col <- col[ -(1:h$counts[bin]) ]
             }
         }
     }
