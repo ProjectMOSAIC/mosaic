@@ -61,7 +61,7 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
   }
   
   if (is.null(width)) { 
-    nint <- max(nint -1, 1)
+    nint <- max(nint - 1, 1)
     width <- diff(range(x)) / nint
   }
 
