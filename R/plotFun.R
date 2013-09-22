@@ -268,7 +268,7 @@ plotFun <- function(object, ...,
 			}
 			zcuts = pretty(grid$height,50)
 			zcolors = col.regions (length(zcuts),alpha=.5*alpha)
-			if( require(manipulate) ) {
+			if( .manipulate_is_available() ) {
 				return(manipulate(
 						   wireframe(height ~ Var1 + Var2, 
 											xlab=xlab,ylab=ylab,

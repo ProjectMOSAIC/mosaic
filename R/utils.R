@@ -40,3 +40,10 @@
   }
   )
 }
+
+.manipulate_is_available <- function() {
+  if (! exists("RStudioGD") ) return (FALSE)
+  if (! is.function(RStudioGD) ) return (FALSE)
+  return(TRUE)
+}
+
