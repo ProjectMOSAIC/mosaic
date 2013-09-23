@@ -50,6 +50,29 @@ qdata <- function(p, vals, data=NULL, ... ) {
 }
 
 
+#' \code{cdata} is a wrapper around \code{qdata} and determines endpoints of 
+#' central probabilities rather than tail probabilities.
+
+#' @rdname pqrdata
+#' @export
+#' @examples
+#' data(iris)
+#' cdata(.5, iris$Sepal.Length)
+#' cdata(.5, Sepal.Length, data=iris)
+
+cdata <- function( p, vals, data=NULL, ...) {
+  if( !is.null(data) ) { # handle data= style of passing values
+    vals = eval( substitute(vals), data, enclos=parent.frame())
+  }
+  lo_p <- (1-p)/2
+  hi_p <- 1 - (1-p)/2
+  lo <- qdata( lo_p, vals, data=data, ...)
+  hi <- qdata( hi_p, vals, data=data, ...)
+  result <- cbind(low=lo, hi=hi)
+  row.names(result) <- paste( 100*p, "%", sep="" )
+  return(result)
+}
+
 #' \code{pdata} computes cumulative probabilities from data.
 #'
 #' @param q a vector of quantiles

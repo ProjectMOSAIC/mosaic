@@ -1,4 +1,5 @@
 \name{qdata}
+\alias{cdata}
 \alias{ddata}
 \alias{pdata}
 \alias{qdata}
@@ -6,6 +7,8 @@
 \title{The Data Distribution}
 \usage{
   qdata(p, vals, data = NULL, ...)
+
+  cdata(p, vals, data = NULL, ...)
 
   pdata(q, vals, data = NULL, lower.tail = TRUE, ...)
 
@@ -53,6 +56,10 @@
   Density, distribution function, quantile function, and
   random generation from data.
 
+  \code{cdata} is a wrapper around \code{qdata} and
+  determines endpoints of central probabilities rather than
+  tail probabilities.
+
   \code{pdata} computes cumulative probabilities from data.
 
   \code{rdata} randomly samples from data. It is a wrapper
@@ -72,6 +79,9 @@
 data(iris)
 qdata(.5, iris$Sepal.Length)
 qdata(.5, Sepal.Length, data=iris)
+data(iris)
+cdata(.5, iris$Sepal.Length)
+cdata(.5, Sepal.Length, data=iris)
 data(iris)
 pdata(3:6, iris$Sepal.Length)
 pdata(3:6, Sepal.Length, data=iris)
