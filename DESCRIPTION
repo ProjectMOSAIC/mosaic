@@ -2,8 +2,8 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
-Version: 0.7-37
-Date: 2013-09-22
+Version: 0.7-38
+Date: 2013-09-24
 Depends:
     grid,
     lattice (>= 0.20-21)
@@ -111,3 +111,4 @@ Collate:
     'xqqmath.R'
     'zzz.R'
     'ediff.R'
+    'fetchGapminder.R'

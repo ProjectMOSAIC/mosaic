@@ -5,7 +5,7 @@
 \title{Compute proportions, percents, or counts for a single level}
 \usage{
   prop(x, data = parent.frame(), ..., level = NULL,
-    long.names = TRUE, sep = ":", format = "proportion")
+    long.names = TRUE, sep = ".", format = "proportion")
 
   count(x, data = parent.frame(), ..., format = "count")
 

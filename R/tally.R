@@ -167,7 +167,7 @@ rows <- function(x, default=c()) {
 #' prop( ~sex | substance, data=HELPrct)
 #' perc( ~sex | substance, data=HELPrct)
 
-prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=":", format="proportion") {
+prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=".", format="proportion") {
   T <- tally(x, data=data, ..., format=format)
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   if (is.null(level)) {

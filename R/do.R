@@ -74,6 +74,7 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 	x <- gsub('shuffle\\(','', x)
 	x <- gsub('\\(','.', x)
 	x <- gsub('-','.', x)
+	x <- gsub(':','.', x)
 	x <- gsub('\\)','', x)
 	return(x)
 }
