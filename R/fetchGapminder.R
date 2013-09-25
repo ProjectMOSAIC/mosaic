@@ -1,3 +1,7 @@
+tryCatch(utils::globalVariables( c('Var') ),
+         error=function(e) message('Looks like you should update R.'))
+
+
 #' Fetch Gapminder data
 #'
 #' Fetch data originally obtained from Gapminder.
