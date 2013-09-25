@@ -3,12 +3,12 @@
 #'
 #' Fetch data originally obtained from Gapminder.
 #' 
-#' @param name a chracter vector of length 1
+#' @param name a character vector of length 1
 #' @param \dots character strings naming desired variables
 #' @return A data frame
 #' @export
 
-fetchGapminderSimple <- function(name,value.name=NULL){
+fetchGapminder1 <- function(name,value.name=NULL){
   if (! require(reshape2) ) { stop("plyr required for this function") }
   if( is.null(value.name) ) # Just the base name of the file --- no extension.
     value.name <- sub("\\.[^.]+$","",basename(name))
@@ -27,7 +27,49 @@ fetchGapminderSimple <- function(name,value.name=NULL){
 #' @param all.cases a logical indicating whether all cases should be included.  
 #' If FALSE, only cases with complete data are included.
 #' @param all.vars a logical indicating whether all available data should be 
-#' downloaded.
+#' downloaded, in which case \dots is ignored.
+#' @details There is little reason for the end user to use \code{fetchGapminder1};
+#' \code{fetchGapminder} provides a simpler user interface in which 
+#' the user can specify the desired variables to be included in the 
+#' data frame returned.
+#' 
+#' The following variables are currently available
+#'    \code{'AidReceived'}, 
+#'    \code{'Alcohol'},
+#'    \code{'Armsimports'}, 
+#'    \code{'CellPhoneTotal'}, 
+#'    \code{'CO2emissions'}, 
+#'    \code{'ContraceptiveUse'}, 
+#'    \code{'DemocracyScore'}, 
+#'    \code{'EconomicGrowth'}, 
+#'    \code{'FemaleBMI'}, 
+#'    \code{'Fertility'}, 
+#'    \code{'HIVprevalence'}, 
+#'    \code{'ImprovedSanitation'}, 
+#'    \code{'IncomePerCapitaPPP'}, 
+#'    \code{'LandArea'}, 
+#'    \code{'LiverCancerIncidenceFemale'}, 
+#'    \code{'LiverCancerIncidenceMale'}, 
+#'    \code{'LowWeightForAgePercent'},
+#'    \code{'MaleBMI'},
+#'    \code{'MarriageAgeFemale'}, 
+#'    \code{'PavedRoads'}, 
+#'    \code{'PrimaryEdCompletionFemale'}, 
+#'    \code{'PrimaryEdCompletionMale'}, 
+#'    \code{'PrimaryEdCompletionTotal'}, 
+#'    \code{'PrimaryEdSpending'},  
+#'    \code{'TCfemale'}, 
+#'    \code{'TCmale'}, 
+#'    \code{'TobaccoUseFemale'}, 
+#'    \code{'TobaccoUseMale'}, 
+#'    \code{'TotalPopulation'}, 
+#'    \code{'TrafficDeathRate'}, 
+#'    \code{'Under5mortality'}, 
+#'    and 
+#'    \code{'UrbanPopulationPercent'}
+#'    
+#' @source The data sets are generated from snapshots of the data available
+#' at \url{http://www.gapminder.org/}.
 #' @export
 #' 
 fetchGapminder <- function(..., all.cases=TRUE, all.vars=FALSE) {
@@ -56,7 +98,7 @@ fetchGapminder <- function(..., all.cases=TRUE, all.vars=FALSE) {
   if (length(requestedNames) != length( vars )) 
     warning("Omitting some variables because they are not uniquely determined by your request.")
   for ( v in vars ) {
-    datasets[[1 + length(datasets)]] <- fetchGapminderSimple(paste("Gapminder/", v,".csv", sep="")) 
+    datasets[[1 + length(datasets)]] <- fetchGapminder1(paste("Gapminder/", v,".csv", sep="")) 
   }
   if (length(datasets) < 1) return (NULL)
   result <- datasets[[1]]
