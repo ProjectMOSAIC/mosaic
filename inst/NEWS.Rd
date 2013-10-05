@@ -5,7 +5,7 @@
 \item Fixed bug in vignette generation.
 \item Added \code{fetchGapminder} for fetching data sets originally from
 Gapminder.
-\item Added \code{cdata} for finding and points of a central portion of a variable.
+\item Added \code{cdata} for finding end points of a central portion of a variable.
 \item Name changes in functions like \code{prop} to avoid internal \code{:} which makes downstream processing messier.
 \item Improved detection of the availability of \code{manipulate} (RStudio)
 \item Surface plots produced by \code{plotFun} can be used without 
