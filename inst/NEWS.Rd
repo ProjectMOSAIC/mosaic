@@ -1,8 +1,29 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+\section{Changes in version 0.8}{
+\itemize{
+\item Fixed bug in vignette generation.
+\item Added \code{fetchGapminder} for fetching data sets originally from
+Gapminder.
+\item Added \code{cdata} for finding a central proportion of a variable.
+\item Name changes in functions like \code{prop} to avoid internal \code{:} which makes downstream processing messier.
+\item Improved detection of the availability of \code{manipulate} (RStudio)
+\item Surface plots produced by \code{plotFun} can be used without 
+\code{manipulate}.  This makes it possible to put surface plots into RMarkdown or Rnw files or to generate them outside of RStudio.
+\item \code{do() * rflip()} now records proportion heads as well
+as counts of heads and tails.
+\item Added functions \code{mosaicLatticeOptions} and \code{restoreLatticeOptions} to switch back and forth between \code{lattice} defaults and 
+\code{mosaic} defaults.
+\item \code{dotPlot} uses a different algorithm to determine dot sizes.
+(Still not perfect, but \code{cex} can be used to further scale the dots.)
+\item adjustments to \code{histogram} so that \code{nint} matches the number of bins used more accuaretly.
+\item Various minor bug fixes and internal improvements. 
+}
+}
+
 \section{Changes in version 0.7}{
 	\itemize{
-    \item Various improvements and bug fixes to \code{D} and \code{antiD}
+    \item Various improvements and bug fixes to \code{D} and \code{antiD}.
     \item In RStudio, \code{mPlot} provides an interactive environment for
     creating \pkg{lattice} and \pkg{ggplot2} plots.
     \item Some support for producing maps has been instroduced, notably \code{sp2df} for converting SpatialPolygonDataFrames to regular data frames (which is useful for plotting with \pkg{ggplot2}, for example).  Also the \code{Countries} data frame facilitates
