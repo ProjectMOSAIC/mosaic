@@ -70,6 +70,12 @@ cat( anitem("StartTeaching-vignette.pdf", "Start Teaching Statistics Using R") )
 cat( anitem("Resampling-vignette.pdf", "Resampling in R") )
 @
 		discusses how to use R for resampling and bootstrapping in lower level statistics courses.
+    <<results='asis', echo=FALSE>>=
+cat( anitem("Modeling-vignette.pdf", "Start Modeling with R") )
+@
+presents a strategy for teaching statistical modeling as a way of 
+making sense of the world by building a representation that is 
+easy to explore and manipulate.
 <<results='asis', echo=FALSE>>=
 cat( anitem("Calculus-vignette.pdf", "Start R in Calculus") )
 @
