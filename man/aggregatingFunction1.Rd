@@ -2,7 +2,8 @@
 \alias{aggregatingFunction1}
 \title{1-ary Aggregating functions}
 \usage{
-  aggregatingFunction1(fun, multiple = FALSE)
+  aggregatingFunction1(fun, multiple = FALSE,
+    envir = parent.frame())
 }
 \arguments{
   \item{fun}{a function that takes a numeric vector and
@@ -11,6 +12,9 @@
 
   \item{multiple}{a boolean indicating whether
   \code{..fun..} returns multiple values}
+
+  \item{envir}{an environment in which evaluation takes
+  place.}
 }
 \value{
   a function that generalizes \code{fun} to handle a
