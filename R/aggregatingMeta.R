@@ -61,7 +61,7 @@ aggregatingFunction1 <- function( fun, multiple=FALSE, envir=parent.frame() ) {
     maggregate.call$formula <- x
     maggregate.call$data <- data 
     maggregate.call$x <- NULL
-    maggregate.call$FUN <- substitute(..fun..)
+    maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
     maggregate.call$multiple <- multiple
     return( eval(maggregate.call, envir=envir) )
   }
