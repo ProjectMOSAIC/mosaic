@@ -18,6 +18,7 @@
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
 #' returning a numeric vector of length 1.
 #' @param multiple a boolean indicating whether \code{..fun..} returns multiple values
+#' @param envir an environment in which evaluation takes place.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @export
@@ -26,7 +27,7 @@
 #' foo( ~length, data=KidsFeet )
 #' base::mean(KidsFeet$length)
 #' foo( length ~ sex, data=KidsFeet )
-aggregatingFunction1 <- function( fun, multiple=FALSE ) {
+aggregatingFunction1 <- function( fun, multiple=FALSE, envir=parent.frame() ) {
   result <- function( x, ..., data) {
     orig.call <- match.call()
     fun.call <- orig.call 
@@ -58,11 +59,11 @@ aggregatingFunction1 <- function( fun, multiple=FALSE ) {
     maggregate.call <- orig.call
     maggregate.call[[1]] <- quote(maggregate)
     maggregate.call$formula <- x
-    maggregate.call$data <- substitute(data) 
+    maggregate.call$data <- data 
     maggregate.call$x <- NULL
     maggregate.call$FUN <- substitute(..fun..)
-    maggregate.call$multiple <- substitute(multiple)
-    return( eval(maggregate.call) )
+    maggregate.call$multiple <- multiple
+    return( eval(maggregate.call, envir=envir) )
   }
   formals(result) <- c(formals(result), ..fun.. = substitute(fun))
   return(result)
