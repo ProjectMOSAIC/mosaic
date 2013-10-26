@@ -6,11 +6,11 @@
 \usage{
   \method{confint}{numeric} (object, parm, level = 0.95,
     ..., method = "stderr",
-    margin = "stderr" \%in\% method == "stderr")
+    margin.of.error = "stderr" \%in\% method == "stderr")
 
   \method{confint}{do.data.frame} (object, parm,
     level = 0.95, ..., method = "stderr",
-    margin = "stderr" \%in\% method)
+    margin.of.error = "stderr" \%in\% method)
 
   \method{confint}{data.frame} (object, parm, level = 0.95,
     ...)
@@ -29,8 +29,8 @@
   ("se" and "percentile" are allowed as aliases) or a
   vector containing both.}
 
-  \item{margin}{if true, report intervals as a center and
-  margin of error.}
+  \item{margin.of.error}{if true, report intervals as a
+  center and margin of error.}
 }
 \value{
   When applied to a data frame, returns a data frame giving
@@ -55,8 +55,8 @@
 s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
 confint(s)
 confint(s, method="quantile")
-confint(s, margin=TRUE)
-confint(s, margin=TRUE, level=0.99 )
+confint(s, margin.of.error=TRUE)
+confint(s, margin.of.error=TRUE, level=0.99 )
 s2 <- do(500)*mean( resample(1:10) )
 confint(s2)
 }
