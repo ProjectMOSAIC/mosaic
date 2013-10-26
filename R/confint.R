@@ -11,7 +11,7 @@
 #' @param \dots additional arguments (currently ignored)
 #' @param method either "stderr" (default) or "quantile".  ("se" and "percentile" are 
 #' allowed as aliases) or a vector containing both.
-#' @param margin if true, report intervals as a center and margin of error.
+#' @param margin.of.error if true, report intervals as a center and margin of error.
 #'
 #' @return When applied to a data frame, returns a data frame giving the 
 #' confidence interval for each variable in the data frame using 
@@ -26,18 +26,18 @@
 #' s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
 #' confint(s)
 #' confint(s, method="quantile")
-#' confint(s, margin=TRUE)
-#' confint(s, margin=TRUE, level=0.99 )
+#' confint(s, margin.of.error=TRUE)
+#' confint(s, margin.of.error=TRUE, level=0.99 )
 #' s2 <- do(500)*mean( resample(1:10) ) 
 #' confint(s2)
 # ==================
 confint.numeric = function(object, parm, level=0.95, ..., method="stderr", 
-                           margin="stderr" %in% method=="stderr") {
+                           margin.of.error="stderr" %in% method=="stderr") {
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok=TRUE)
   result <- list()
   for (m in method) {
     vals <- .mosaic.get.ci( object, level, m )
-    result[[m]] <-  if( margin )  
+    result[[m]] <-  if( margin.of.error )  
       c(center=mean(vals), margin.of.error=diff(vals)/2, method=m, level=level)  else 
         vals
   }
@@ -48,7 +48,7 @@ confint.numeric = function(object, parm, level=0.95, ..., method="stderr",
 #' @rdname confint
 #' @method confint do.data.frame
 confint.do.data.frame = function(object, parm, level=0.95, ..., 
-                                 method="stderr", margin="stderr" %in% method) {
+                                 method="stderr", margin.of.error="stderr" %in% method) {
   method <- match.arg(method, c("se","stderr","percentile","quantile"), several.ok=TRUE) # which method was selected
   method[method=="percentile"] <- "quantile"
   method[method=='se'] <- 'stderr'
@@ -77,7 +77,7 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
     }
   }
 #  res <- subset(res, !is.na(res$name) ) # get rid of non-quantitative variables
-  if( margin ) {
+  if( margin.of.error ) {
 #     res[, "estimate"] <- with( res, (upper+lower)/2 )
     res[, "margin.of.error"] <- with( res,  (res$upper-res$lower)/2 )
     res[ res$method!="stderr", "estimate"] <- NA
@@ -92,7 +92,7 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
 #      c("name", paste(c((1-level)/2, 1-(1-level)/2)*100, "%" ))
 #    else c("name", "lower", "upper")
   
-#  if (margin)  # Report as a center and margin of error
+#  if (margin.of.error)  # Report as a center and margin of error
 #    res = .turn.to.margin(res)
 
   return( res )
