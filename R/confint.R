@@ -9,7 +9,8 @@
 #' @param parm not used -- for compatibility with other confint methods
 #' @param level confidence level (default 0.95)
 #' @param \dots additional arguments (currently ignored)
-#' @param method either "stderr" (default) or "quantile"
+#' @param method either "stderr" (default) or "quantile".  ("se" and "percentile" are 
+#' allowed as aliases) or a vector containing both.
 #' @param margin if true, report intervals as a center and margin of error.
 #'
 #' @return When applied to a data frame, returns a data frame giving the 
@@ -30,7 +31,8 @@
 #' s2 <- do(500)*mean( resample(1:10) ) 
 #' confint(s2)
 # ==================
-confint.numeric = function(object, parm, level=0.95, ..., method=c("stderr", "quantile"), margin=FALSE) {
+confint.numeric = function(object, parm, level=0.95, ..., method="stderr", 
+                           margin="stderr" %in% method=="stderr") {
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok=TRUE)
   result <- list()
   for (m in method) {
@@ -46,7 +48,7 @@ confint.numeric = function(object, parm, level=0.95, ..., method=c("stderr", "qu
 #' @rdname confint
 #' @method confint do.data.frame
 confint.do.data.frame = function(object, parm, level=0.95, ..., 
-                                 method=c("stderr", "quantile"), margin=FALSE) {
+                                 method="stderr", margin="stderr" %in% method) {
   method <- match.arg(method, c("se","stderr","percentile","quantile"), several.ok=TRUE) # which method was selected
   method[method=="percentile"] <- "quantile"
   method[method=='se'] <- 'stderr'
@@ -69,17 +71,19 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
           res[row,"upper"] <- vals[2]
           res[row,"level"] <- l
           res[row,"method"] <- m
-          res[row,"point"] <- if(m == "stderr") mean(vals) else mean(object[[nms[k]]], na.rm=TRUE)
+          res[row,"estimate"] <- if(m == "stderr") mean(vals) else mean(object[[nms[k]]], na.rm=TRUE)
         }
       }
     }
   }
 #  res <- subset(res, !is.na(res$name) ) # get rid of non-quantitative variables
   if( margin ) {
-#     res[, "point"] <- with( res, (upper+lower)/2 )
+#     res[, "estimate"] <- with( res, (upper+lower)/2 )
     res[, "margin.of.error"] <- with( res,  (res$upper-res$lower)/2 )
-    res[ res$method!="stderr", "point"] <- NA
+    res[ res$method!="stderr", "estimate"] <- NA
     res[ res$method!="stderr", "margin.of.error"] <- NA
+  } else {
+    res <- subset(res, select=-estimate)
   }
 
   # Change the names to those given by confint.default
@@ -117,7 +121,8 @@ confint.data.frame = function(object, parm, level=0.95, ... )  {
     x <- object[,c]
     if (is.numeric(x)) { 
       newCI <- interval(t.test(x, ...))
-      newRow <- data.frame( method="t.test", estimate=newCI[1], lower=newCI[2], upper=newCI[3], level=newCI[4])
+      newRow <- data.frame( method="t.test", estimate=newCI[1], lower=newCI[2], 
+                            upper=newCI[3], level=newCI[4])
       
     } else if ( (is.factor(x) && nlevels(x) <= 2) || (is.character(x) && length(unique(x)) <= 2) || is.logical(x)) { 
       newCI <- interval(binom.test(x, ...)) 

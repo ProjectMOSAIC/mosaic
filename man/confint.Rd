@@ -5,11 +5,12 @@
 \title{Confidence interval methods for output of resampling}
 \usage{
   \method{confint}{numeric} (object, parm, level = 0.95,
-    ..., method = c("stderr", "quantile"), margin = FALSE)
+    ..., method = "stderr",
+    margin = "stderr" \%in\% method == "stderr")
 
   \method{confint}{do.data.frame} (object, parm,
-    level = 0.95, ..., method = c("stderr", "quantile"),
-    margin = FALSE)
+    level = 0.95, ..., method = "stderr",
+    margin = "stderr" \%in\% method)
 
   \method{confint}{data.frame} (object, parm, level = 0.95,
     ...)
@@ -24,7 +25,9 @@
 
   \item{\dots}{additional arguments (currently ignored)}
 
-  \item{method}{either "stderr" (default) or "quantile"}
+  \item{method}{either "stderr" (default) or "quantile".
+  ("se" and "percentile" are allowed as aliases) or a
+  vector containing both.}
 
   \item{margin}{if true, report intervals as a center and
   margin of error.}
