@@ -83,7 +83,7 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
     res[ res$method!="stderr", "estimate"] <- NA
     res[ res$method!="stderr", "margin.of.error"] <- NA
   } else {
-    res <- subset(res, select=-estimate)
+    res <- res[ , setdiff(names(res), "estimate") ]
   }
 
   # Change the names to those given by confint.default
