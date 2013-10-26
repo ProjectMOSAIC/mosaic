@@ -42,7 +42,7 @@
 #' @details
 #' This is a wrapper around \code{\link{prop.test}} to simplify its use
 #' when the raw data are available, in which case 
-#' an extended syntax for \code{prop.test} is provided.
+#' an extended syntax for \code{prop.test} is provided.  
 #' 
 #' @seealso \code{\link[mosaic]{binom.test}}, \code{\link[stats]{prop.test}}
 #' 
@@ -55,6 +55,8 @@
 #' faithful$long <- faithful$eruptions > 3
 #' prop.test( faithful$long )
 #' prop.test( ~long , faithful )
+#' prop.test( homeless ~ sex, data=HELPrct )
+#' prop.test( ~ homeless | sex, data=HELPrct )
 #' 
 #' @keywords stats
 #' 
@@ -133,6 +135,15 @@ setMethod(
 			  subscr <- form$subscr
 			  cond <- form$condition
 			  x <- form$right
+      
+        if (! is.null(form$left) && !is.null(form$condition) )
+          stop("Formulas may not have both lhs and condition for prop.test.")
+        
+        if (! is.null(form$left) || !is.null(form$condition) ) {
+          table_from_formula <-  tally( formula, data=data, margin=FALSE, format="count" )
+          return( prop.test( t(table_from_formula), ...) ) 
+        }
+        
 			  if (length(cond) == 0) {
 				  cond <- list(gl(1, length(x)))
 			  }
