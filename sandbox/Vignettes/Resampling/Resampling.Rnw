@@ -265,6 +265,9 @@ The \function{confint} function is a black box.  In introducing it, an instructo
 \item Calculation of the 90\% confidence interval using quantiles
 <<qdata>>=
 qdata(c(.05, .95), result, data=trials)
+# alternative
+cdata(.90, result, data=trials)
+
 @ 
 
 \item Using normal theory and the standard error.
@@ -688,6 +691,9 @@ Project MOSAIC is supported by the US National Science Foundation (DUE-0920350).
 More information about the package and this initiative can be 
 found at the Project MOSAIC website: \url{www.mosaic-web.org}.
 
+\section{Technical Information}
+This document was produced using \Sexpr{sessionInfo()$R.version$version.string} and version
+\Sexpr{sessionInfo()$otherPkgs$mosaic$Version} of the \pkg{mosaic} package.
 
 \section{References}
 \begin{itemize}
