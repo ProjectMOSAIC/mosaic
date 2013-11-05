@@ -60,7 +60,7 @@
 #' )
 #' tally( ~drinkstat, data=modHELP )
 #' 
-#' Method 3: use TRUE to catch any fall through slots
+#' # Method 3: use TRUE to catch any fall through slots
 #' modHELP <- transform(HELPrct, drinkstat = derivedFactor( 
 #'   abstinent = i1 == 0,
 #'   moderate = (i1<=1 & i2<=3 & sex=='female') |
