@@ -93,9 +93,9 @@ derivedFactor <- function(...,
   noApplicableRule <- apply( rulesM, 1, function(x) all(!x) )
   undefined <- any( noApplicableRule )
   
-  if (undefined && !is.null(.default)) {
+  if (undefined) {
     defaultRule <- list( noApplicableRule )
-    names(defaultRule) <- .default
+    names(defaultRule) <- if (is.null(.default)) "other" else .default
     rules <- c(rules, defaultRule)
     rulesM <- do.call(cbind, rules)
   }
@@ -104,6 +104,8 @@ derivedFactor <- function(...,
                                 function(x) max(which(x), na.rm=TRUE) )
   firstApplicableRule <- apply( rulesM, 1, 
                                 function(x) min(which(x), na.rm=TRUE) )
+  firstApplicableRule[firstApplicableRule == Inf] <- NA
+  lastApplicableRule[lastApplicableRule == -Inf] <- NA
   
   multipleDefs <- any( lastApplicableRule != firstApplicableRule )
   troubles <- (multipleDefs && .method == "unique") || ( undefined && is.null(.default) )
@@ -117,12 +119,22 @@ derivedFactor <- function(...,
   debug <- (.debug == "always") || (troubles && .debug=="default")
   
   if (debug) {
-    cat("Rules applied: ")
-    print(tally(~ruleApplied, useNA="always"))
+    cat("\n")
+    if (multipleDefs) {
+      print(tally(~ firstApplicableRule + lastApplicableRule, useNA="if") )
+    } else {
+      cat("Rules applied: ")
+      print(tally(~ruleApplied, useNA="if"))
+    }
+    cat("\n")
   }
   
   if (.method == "unique" && any(firstApplicableRule != lastApplicableRule) ) {
-    stop('Conflicting or missing rules.  Do you want to use .method="first" or .method="last"?')
+    stop('Conflicting rules.  Do you want to use .method="first" or .method="last"?')
+  }
+  
+  if (undefined && is.null(.default)) {
+    stop("There are items with no TRUE rules and no default.")
   }
   
   levels <- names(rules)
