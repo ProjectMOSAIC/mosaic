@@ -173,6 +173,23 @@ if(FALSE) {
 #' @return an object reflecting some of the information contained in \code{object}
 
 .cull_for_do = function(object) {
+  if (inherits(object, "aov")) {
+    object <- anova(object)
+  }
+  if (inherits(object, "anova")) {
+    return( data.frame(
+      SSTotal= sum(object$`Sum Sq`),
+      SSModel= object$`Sum Sq`[1],
+      SSError= object$`Sum Sq`[2],
+      MSTotal= sum(object$`Sum Sq`),
+      MSModel= object$`Mean Sq`[1],
+      MSError= object$`Mean Sq`[2],
+      F=object$`F value`[1],
+      dfModel=object$Df[1],
+      dfError=object$Df[2],
+      dfTotal=sum(object$Df)
+    ) )
+  }
   if (any(class(object)=='table')){
     result <- data.frame(object)
     res <- result[[ncol(result)]]
