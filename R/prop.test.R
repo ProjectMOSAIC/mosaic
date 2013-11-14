@@ -166,18 +166,20 @@ setMethod(
 				   alternative = c("two.sided", "less", "greater"), 
 				   conf.level = 0.95, success=NULL, data.name, ...) 
 		  {
-			  if ( length(x) == 1 ) {
+		    if ( FALSE ) {  # no longer allowing this since it masks some stats::prop.test() behavior
+		      result <-  stats::prop.test(x=x[1], n=sum(x), p=p, alternative=alternative,
+		                                  conf.level=conf.level,...) 
+		      result$data.name <- deparse(substitute(x))
+		      return(result)
+		    }
+			  if ( !missing(n) ) {  # doing this if there is an n
 				  result <-  stats::prop.test(x=x, n=n, p=p, alternative=alternative,
 											  conf.level=conf.level,...) 
 				  result$data.name <- paste( deparse(substitute(x)), "and", deparse(substitute(n)) )
 				  return(result)
 			  }
-			  if ( length(x) == 2 ) {
-				  result <-  stats::prop.test(x=x[1], n=sum(x), p=p, alternative=alternative,
-											  conf.level=conf.level,...) 
-				  result$data.name <- deparse(substitute(x))
-				  return(result)
-			  }
+        
+        # when n is missing, treat the numbers as raw data rather than counts
 
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
