@@ -3,9 +3,9 @@ Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
 Version: 0.8-5
-Date: 2013-11-10
+Date: 2013-11-16
 Depends:
-    R (>= 3.0.0),
+    R (< 3.0.0),
     grid,
     lattice (>= 0.20-21)
 Imports:
@@ -34,7 +34,8 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     NSF, Project MOSAIC is a community of educators working to tie together
     aspects of quantitative work that students in science, technology,
     engineering and mathematics will need in their professional lives, but
-    which are usually taught in isolation, if at all.
+    which are usually taught in isolation, if at all.  This version is for R 2.x, 
+	but really you should update to a newer version of R.
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
