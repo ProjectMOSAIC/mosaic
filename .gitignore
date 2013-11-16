@@ -13,6 +13,7 @@
 TeachingStatsWithR/cache
 TeachingStatsWithR/figures
 TeachingStatsWithR/Chap-*.R
+sandbox/*
 builds/*gz
 *.Rcheck
 data/*.csv.bz2
