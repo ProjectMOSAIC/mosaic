@@ -1,0 +1,98 @@
+\name{derivedFactor}
+\alias{derivedFactor}
+\title{Create factors from logicals}
+\usage{
+  derivedFactor(..., .ordered = FALSE,
+    .method = c("unique", "first", "last"),
+    .debug = c("default", "always", "never"),
+    .sort = c("given", "alpha"), .default = NULL)
+}
+\arguments{
+  \item{\dots}{named logical "rules" defining the levels of
+  the factor.}
+
+  \item{.ordered}{a logical indicating whether the
+  resulting factored should be ordered}
+
+  \item{.method}{one of \code{"unique"}, \code{"first"},
+  and \code{"last"}. If \code{"unique"}, exactly one rule
+  must be \code{TRUE} for each position. If \code{"first"},
+  the first \code{TRUE} rule defines the level. If
+  \code{"last"}, the last \code{TRUE} rule defines the
+  level.}
+
+  \item{.debug}{one of \code{"default"}, \code{"always"},
+  and \code{"never"}, indicating whehter debugging
+  information should be printed.  If \code{"default"},
+  debugging information is printed only when multiple rules
+  give conflicting definitions for some positions.}
+
+  \item{.sort}{One of \code{"given"} (the default) or
+  \code{"alpha"} or a vector of integers the same length as
+  the number of levels indicating the order in which the
+  levels should appear in the resulting factor.}
+
+  \item{.default}{character vector of length 1 giving name
+  of default level or \code{NULL} for no default.}
+}
+\description{
+  A utility function for creating new factors from logicals
+  describing the levels
+}
+\details{
+  Each logical "rule" corresponds to a level in the
+  resulting factor. If \code{.default} is defined, an
+  implicit rule is added that is \code{TRUE} whenever all
+  other rules are \code{FALSE}. When there are multiple
+  \code{TRUE} rules for a slot, the first or last such is
+  used or an error is generated, depending on the value of
+  \code{method}.
+
+  \code{derivedFactor} is designed to be used with
+  \code{transform} to add new factor variables to a data
+  frame.  See the examples.
+}
+\examples{
+Kf <- transform(KidsFeet, biggerfoot2=derivedFactor(
+                   dom = biggerfoot == domhand,
+                   nondom = biggerfoot != domhand)
+                   )
+tally( ~biggerfoot + biggerfoot2, data=Kf)
+tally( ~biggerfoot + domhand, data=Kf)
+
+# Three equivalent ways to define a new variable
+# Method 1: explicitly define all levels
+modHELP <- transform(HELPrct, drinkstat = derivedFactor(
+  abstinent = i1 == 0,
+  moderate = (i1>0 & i1<=1 & i2<=3 & sex=='female') |
+     (i1>0 & i1<=2 & i2<=4 & sex=='male'),
+  highrisk = ((i1>1 | i2>3) & sex=='female') |
+      ((i1>2 | i2>4) & sex=='male'),
+  .ordered = TRUE)
+)
+tally( ~drinkstat, data=modHELP )
+
+# Method 2: Use .default for last level
+modHELP <- transform(HELPrct, drinkstat = derivedFactor(
+  abstinent = i1 == 0,
+  moderate = (i1<=1 & i2<=3 & sex=='female') |
+     (i1<=2 & i2<=4 & sex=='male'),
+  .ordered = TRUE,
+  .method = "first",
+  .default = "highrisk")
+)
+tally( ~drinkstat, data=modHELP )
+
+# Method 3: use TRUE to catch any fall through slots
+modHELP <- transform(HELPrct, drinkstat = derivedFactor(
+  abstinent = i1 == 0,
+  moderate = (i1<=1 & i2<=3 & sex=='female') |
+     (i1<=2 & i2<=4 & sex=='male'),
+  highrisk=TRUE,
+  .ordered = TRUE,
+  .method = "first"
+  )
+)
+tally( ~drinkstat, data=modHELP )
+}
+
