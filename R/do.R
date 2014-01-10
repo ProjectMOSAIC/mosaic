@@ -177,6 +177,16 @@ if(FALSE) {
     object <- anova(object)
   }
   if (inherits(object, "anova")) {
+    res <- as.data.frame(object)
+    res <- cbind (data.frame(source=row.names(res)), res)
+    names(res)[names(res) == "Df"] <- "df"
+    names(res)[names(res) == "Sum Sq"] <- "SS"
+    names(res)[names(res) == "Mean Sq"] <- "MS"
+    names(res)[names(res) == "F value"] <- "F"
+    names(res)[names(res) == "Pr(>F)"] <- "pval"
+    names(res)[names(res) == "Sum of Sq"] <- "diff.SS"
+    names(res)[names(res) == "Res.Df"] <- "res.df"
+    return(res)
     return( data.frame(
       SSTotal= sum(object$`Sum Sq`),
       SSModel= object$`Sum Sq`[1],
@@ -324,17 +334,23 @@ setMethod("*",
 
 		if (out.mode == 'data.frame') {
 			result <- .make.data.frame(res1)
+      result$do.ind <- 1
+      result$do.row <- 1:nrow(result)
 			if (n>1) {
 			  for (k in 2:n) {
-			  	res2 <- cull(e2())
+			  	res2 <- .make.data.frame(cull(e2()))
+          res2$do.ind <- k
+          res2$do.row <- 1:nrow(res2)
 				# print(res2)
 				# result <- rbind( result, cull(e2()) ) 
-				result <- .merge_data_frames( result, res2)
+				  result <- .merge_data_frames( result, res2)
 			  }
 			}
-			rownames(result) <- 1:nrow(result)
+			# rownames(result) <- 1:nrow(result)
 			# names(result) <- nm
       # mark result as having originated with do()
+      if (all(result$do.row == 1)) { result[["do.row"]] <- NULL }
+      
       class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
 			return(result)
 		}
