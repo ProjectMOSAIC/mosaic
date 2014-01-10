@@ -11,6 +11,10 @@
 #' 
 #' @param x  count of successes, length 2 vector of success and failure counts, a formula,
 #'   			or a character, numeric, or factor vector containing raw data.
+#'     		
+#' @param groups when \code{x} is a formula, \code{groups} can be used to 
+#' compare groups.  (This can also be done using by placing both variables into
+#' the formula.)  See the examples.
 #' 
 #' @param n  sample size (successes + failures) or a data frame 
 #'   (for the formula interface) 
@@ -57,6 +61,7 @@
 #' prop.test( ~long , faithful )
 #' prop.test( homeless ~ sex, data=HELPrct )
 #' prop.test( ~ homeless | sex, data=HELPrct )
+#' prop.test( ~ homeless, groups= sex, data=HELPrct )
 #' 
 #' @keywords stats
 #' 
@@ -105,9 +110,9 @@ setMethod(
 		  function(
 				   x, n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, data, ...) 
+				   conf.level = 0.95, success=NULL, data.name, data, groups=NULL, ...) 
 		  {
-			  formula <- x
+			  formula <- mosaic_formula_q(x, groups=groups, max.slots=2)
 			  missing.n <- missing(n)
 			  missing.data <- missing(data)
 			  dots <- list(...)
