@@ -57,10 +57,12 @@ qdata <- function(p, vals, data=NULL, ... ) {
 #' @export
 #' @examples
 #' data(iris)
-#' cdata(.5, iris$Sepal.Length)
-#' cdata(.5, Sepal.Length, data=iris)
+#' cdata_old(.5, iris$Sepal.Length)
+#' cdata_old(.5, Sepal.Length, data=iris)
+#' cdata(~Sepal.Length, data=iris, p=.5)
+#' cdata(~Sepal.Length | Species, data=iris, p=.5)
 
-cdata <- function( p, vals, data=NULL, ...) {
+cdata_old <- function( p, vals, data=NULL, ...) {
   if( !is.null(data) ) { # handle data= style of passing values
     vals = eval( substitute(vals), data, enclos=parent.frame())
   }
@@ -72,6 +74,21 @@ cdata <- function( p, vals, data=NULL, ...) {
   row.names(result) <- paste( 100*p, "%", sep="" )
   return(result)
 }
+
+
+#' @rdname pqrdata
+cdata_vec <- function( x, p=.95, ... ) {
+  lo_p <- (1-p)/2
+  hi_p <- 1 - lo_p
+  lo <- quantile( x, lo_p, ... )
+  hi <- quantile( x, hi_p, ... )
+  result <- cbind(low=lo, hi=hi, central.p=p, ...)
+  # row.names(result) <- paste( 100*p, "%", sep="" )
+  return(result)
+}
+
+#' @rdname pqrdata
+cdata <- aggregatingFunction1( cdata_vec, multiple=TRUE )
 
 #' \code{pdata} computes cumulative probabilities from data.
 #'
