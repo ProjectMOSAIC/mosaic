@@ -142,10 +142,20 @@ stat.htest <- function(x,...) {
 #' Attempts to extract an r-squared value from a model or model-like object.
 #' @param x an object
 #' @param \dots additional arguments
-r.squared <- function(x, ...) {
+rsquared <- function(x, ...) {
   NULLFUN <- function(e) NULL 
   result <- tryCatch( x$r.squared, error=NULLFUN)
   if (is.null(result)) 
     result <- tryCatch( summary(x, ...)$r.squared, error=NULLFUN )
   return(result)
+}
+
+#' Extract r-squared value
+#' 
+#' Attempts to extract an r-squared value from a model or model-like object.
+#' @param x an object
+#' @param \dots additional arguments
+r.squared <- function(x, ...) {
+  .Deprecated("rsquared")
+  rsquared(x, ...)
 }
