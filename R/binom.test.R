@@ -55,7 +55,7 @@ setGeneric(
 		   "binom.test",
 		   function( x, n, p = 0.5, 
 					alternative = c("two.sided", "less", "greater"), 
-					conf.level = 0.95,...) 
+					conf.level = 0.95, ...) 
 		   {
 			   standardGeneric('binom.test')
 		   }
@@ -94,7 +94,7 @@ setMethod(
 				   alternative = c("two.sided", "less", "greater"), 
 				   conf.level = 0.95, success=NULL, data.name, data, ...) 
 		  {
-			  formula <- x
+			  formula <- mosaic_formula(x, groups=NULL, max.slots=1)
 			  missing.n <- missing(n)
 			  missing.data <- missing(data)
 			  dots <- list(...)
