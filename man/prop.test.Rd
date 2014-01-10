@@ -12,6 +12,11 @@
   and failure counts, a formula, or a character, numeric,
   or factor vector containing raw data.}
 
+  \item{groups}{when \code{x} is a formula, \code{groups}
+  can be used to compare groups.  (This can also be done
+  using by placing both variables into the formula.)  See
+  the examples.}
+
   \item{n}{sample size (successes + failures) or a data
   frame (for the formula interface)}
 
@@ -73,6 +78,7 @@ prop.test( faithful$long )
 prop.test( ~long , faithful )
 prop.test( homeless ~ sex, data=HELPrct )
 prop.test( ~ homeless | sex, data=HELPrct )
+prop.test( ~ homeless, groups= sex, data=HELPrct )
 }
 \seealso{
   \code{\link[mosaic]{binom.test}},

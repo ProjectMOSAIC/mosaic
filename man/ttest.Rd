@@ -11,12 +11,16 @@
 
   \method{ttest}{default} (x, ...)
 
-  \method{ttest}{formula} (x, data = parent.frame(), ...)
+  \method{ttest}{formula} (x, data = parent.frame(),
+    groups = NULL, ...)
 }
 \arguments{
   \item{x}{an object (e.g., a formula or a numeric vector)}
 
   \item{data}{a data frame}
+
+  \item{groups}{\code{x = ~ var, groups=g} is equivalent to
+  \code{ x = var ~ g }.}
 
   \item{\dots}{additional arguments, see
   \code{\link[stats]{t.test}} in the \pkg{stats} package.}
@@ -42,7 +46,7 @@
 t.test( ~ age, data=HELPrct)
 t.test( age ~ sex, data=HELPrct)
 t.test( ~ age | sex, data=HELPrct)
-t.test( ~ mother + father, data=Galton)
+t.test( ~ age, groups=sex, data=HELPrct)
 }
 \seealso{
   \code{\link[mosaic]{prop.test}},
