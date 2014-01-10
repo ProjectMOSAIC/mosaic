@@ -10,6 +10,7 @@
 #' 
 #' @param x an object (e.g., a formula or a numeric vector)
 #' @param data a data frame
+#' @param groups \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
 #' 
 #'
 #' @param \dots  additional arguments, see \code{\link[stats]{t.test}} in the
@@ -28,8 +29,7 @@
 #' t.test( ~ age, data=HELPrct)
 #' t.test( age ~ sex, data=HELPrct)
 #' t.test( ~ age | sex, data=HELPrct)
-#' t.test( ~ mother + father, data=Galton)
-#'
+#' t.test( ~ age, groups=sex, data=HELPrct)
 #'  
 t.test <- function(x, ...) ttest(x, ...)
 
@@ -49,12 +49,15 @@ ttest.default <-  function (x, ...) {
 #' @rdname ttest
 #' @method ttest formula
 #' @export
-ttest.formula <- function(x, data=parent.frame(), ...) {
+ttest.formula <- function(x, data=parent.frame(), groups=NULL, ...) {
+  x <- mosaic_formula_q(x, groups=groups, max.slots=2)
+  # if (is.null(x)) stop("Invalid formula specification.")
   tryCatch( 
     return(stats::t.test(x, data=data, ...)),
     error=function(e) {})
   dots <- list(...)
   formula <- x
+
 #  if (is.null(data)) stop("data must be specified.")
 
   evalF <- evalFormula(formula,data)
@@ -63,7 +66,7 @@ ttest.formula <- function(x, data=parent.frame(), ...) {
   
   vname <- names(evalF$right)[1L]
   if (ncol(evalF$right) > 1L) {  
-    warning(paste("Multiple variables specified in rhs of formula.  I'm only using ", vname, ".", sep=""))
+    stop("Multiple variables specified in rhs of formula.")
   }
   
   dataName <- paste("data$",vname,sep="")
