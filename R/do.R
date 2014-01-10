@@ -349,7 +349,7 @@ setMethod("*",
 			# rownames(result) <- 1:nrow(result)
 			# names(result) <- nm
       # mark result as having originated with do()
-      if (all(result$do.row == 1)) { result[["do.row"]] <- NULL }
+      if (all(result$do.row == 1)) { result[["do.row"]] <- NULL; result[["do.ind"]] <- NULL }
       
       class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
 			return(result)
