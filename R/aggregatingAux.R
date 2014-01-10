@@ -199,11 +199,11 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   
   if ( is.null(evalF$right) || ncol(evalF$right) < 1 )  {
     if (ncol(evalF$left) > 1) message("Too many variables; ignoring all but first.")
-    return( do.call(FUN, c(list(evalF$left[,1]), ...) ) )
+    return( do.call(FUN, alist(evalF$left[,1], ...) ) )
   } else {
     if (ncol(evalF$left) > 1) message("Too many variables; ignoring all but first.")
     res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
-                   function(x) { do.call(FUN, c(list(x), ...) ) }
+                   function(x) { do.call(FUN, alist(x, ...) ) }
     )
   }
   if (! multiple ) res <- unlist(res)
@@ -211,11 +211,13 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   if (! is.null(evalF$condition) ) {
     if (ncol(evalF$left) > 1) message("Too many variables; ignoring all but first.")
     res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
-                    function(x) { do.call(FUN, c(list(x), ...) ) }
+                    function(x) { do.call(FUN, alist(x, ...) ) }
     )
     if (!multiple) {
       res <- c( res , unlist(res2) )
     } else {
+      print(res)
+      print(res2)
       res <- c(res, res2)
     }
   }
@@ -225,7 +227,11 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     for (item in result[-1]) {
       res <- rbind(res,item)
     }
-    rownames(res) <- names(result)
+    if ( nrow(res) == length(names(result)) ) {
+      rownames(res) <- names(result)
+    } else {
+      rownames(res) <- rep( names(result), each= nrow(res) / length(names(result)) )
+    }
   }
   return( res )
 }
