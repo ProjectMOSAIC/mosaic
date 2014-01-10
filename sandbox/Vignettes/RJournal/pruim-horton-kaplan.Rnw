@@ -1,4 +1,17 @@
 % !TeX root = RJwrapper.tex
+
+\Sexpr{set_parent("RJwrapper.Rnw")}
+
+<<setup, include=FALSE>>=
+require(knitr)
+require(mosaic)
+opts_chunk$set( 
+  highlight=FALSE,
+  prompt=FALSE,
+  comment=NA,
+  tidy=TRUE
+  )
+@
 \title{The mosaic Package}
 \author{by Randall Pruim, Nicholas J. Horton and Daniel T. Kaplan}
 
@@ -11,17 +24,172 @@ An abstract of less than 150 words.
 Introductory section which may include references in parentheses
 \citep{R}, or cite a reference such as \citet{R} in the text.
 
-\section{Section title in sentence case}
+\section{Project MOSAIC}
+
+Project MOSAIC is an NSF-funded initiative to provide a broader approach to
+quantitative studies that provides better support for work in science and
+technology. The focus of the project has been to tie together better diverse aspects
+of quantitative work that students in science, technology, and engineering will
+need in their professional lives, but which are usually taught in isolation, if at all.
+
+The name MOSAIC reflects a vision of 
+quantitative education where the basic components come together to form a complete 
+and compelling picture.
+The name also loosely reflects the first letters -- M, S, C, C -- of four important
+components of a quantitative education:
+\begin{description}
+\item{Modeling.} The ability to create, manipulate and investigate useful and informative mathematical representations of a real-world situations.
+\item{Statistics.}
+	The analysis of variability that draws on our ability to quantify uncertainty and to draw logical inferences from observations and experiment.
+\item{Computation.} The capacity to think algorithmically, to manage data on large scales, to visualize and interact with models, and to automate tasks for efficiency, accuracy, and reproducibility.
+\item{Calculus.}
+The traditional mathematical entry point for college and university students and a subject that still has the potential to provide important insights to today’s students.
+\end{description}
+
+The \pkg{mosaic} package originated in early attempts by each of the authors to 
+ease new users (student, primarily) into using R, primarily in the context of 
+other scientific disciplines.  
+
+\section{Expanding the formula interface}
+
+\subsection{Less volume, more creativity}
+
+One of the guiding principles behind the development of the \CRANpkg{mosaic} package
+has been ``Less volume, more creativity".  Beginners are easily overwhelmed by the 
+scope of R and its many packages:  Often there are multiple ways to accomplish the 
+same task, and authors of the many packages are not required to follow any particular
+style guidelines.  Early on in the development of \CRANpkg{mosaic}, we decided to
+reduce the number of code templates that users would need to know to as few as possible,
+while still providing them with substantial power to be creative within the templates provided.
+
+Our most important template makes use what we call the ``formula-interface'' and is modeled
+after \code{lm()} and the plotting functions in \CRANpkg{lattice}.  We present the template as
+
+<<eval=FALSE>>=
+goal( y ~ x | z, data=mydata )
+@
+or even more simply as
+<<eval=FALSE>>=
+goal( formula, data=mydata )
+@
+This emphasizes that functions in R are typically named after the object they produce (the goal) and
+that a wide variety of goals can be achieved using a single template.  Having learned the formula
+interface to make \CRANpkg{lattice} plots, new users are well prepared for modeling with
+\code{lm()} and \code{glm()} when the time comes. 
+
+\subsection{Adding the formula interface to existing functions}
+
+Although this formula interface works well for graphical summaries of data, the
+same is not true of the standard numerical summary functions (e.g.,
+\code{mean()}, \code{median()}, \code{sd()}, etc.).  One of our initial
+difficult decisions was whether to add such a formula interface to these
+standard functions (by masking them) or create new functions.  We decided on the former 
+option since the standard names are natural and familiar and having two sets of functions for 
+essentially the same task would be unnecessarily complicated for new users.  The \CRANpkg{mosaic} 
+versions of these functions can still be used as in \CRANpkg{stats} and \CRANpkg{base} so that
+existing code should not be affected.
+
+<<>>=
+mean( HELPrct$age )
+mean( ~age, data=HELPrct )      # same result as above 
+mean( age ~ sex, data=HELPrct ) # additional features are possible
+@
+There are, of course, other ways to achieve this last result, including the use of 
+\code{aggregate()}, or \code{summary()} from \CRANpkg{Hmisc}, or the functions in 
+\CRANpkg{plyr}.   But each of these solutions would require learning additional coding 
+templates.  In our approach, the following (and many more) are all identical except for 
+the specification of the desired result via the function name.
+<<tidy=FALSE, eval=FALSE>>=
+   bwplot( age ~ sex, data=HELPrct )
+     mean( age ~ sex, data=HELPrct )
+       sd( age ~ sex, data=HELPrct )
+       lm( age ~ sex, data=HELPrct )
+   t.test( age ~ sex, data=HELPrct )   # formula interface exists in stats
+@
+Similarly, for one-variable situations we have 
+<<tidy=FALSE, eval=FALSE>>=
+      mean( ~ age, data=HELPrct )
+        sd( ~ age, data=HELPrct )
+ histogram( ~ age, data=HELPrct )
+    t.test( ~ age, data=HELPrct )       # formula interface added in mosaic
+binom.test( ~ sex, data=HELPrct )       # formula interface added in mosaic
+ prop.test( ~ sex, data=HELPrct )       # formula interface added in mosaic
+@
+And for plots and numerical summaries, we can add covariates into the mix as well:
+<<tidy=FALSE, eval=FALSE>>=
+     mean( ~ age | sex, data=HELPrct )
+       sd( ~ age | sex, data=HELPrct )
+histogram( ~ age | sex, data=HELPrct )
+   t.test( ~ age | sex, data=HELPrct ) # formula interface added in mosaic (TO DO!!)
+@
+
+\section{Some things that we didn't change}
+
+The formula interface is powerful and flexible.  Nevertheless, there are some sticky issues that we 
+have chosen not to address.
+
+		\subsection{The geometry of \CRANpkg{lattice} formlas}
+
+		In \code{lm()}, \code{glm()} and the numerical summary functions, \code{y ~ x} can
+		typically be read as 
+		``\code{y} depends on \code{x}'' or
+		``\code{y} is modeled by \code{x}''.  From this perspective,
+<<eval=FALSE>>=
+histogram(age ~ sex, data=HELPrct)
+@
+would be perfectly reasonable.  But \CRANpkg{lattice}, for the most part, 
+uses the \code{y} and \code{x} slots to indicate which axis of the plot is used 
+for which variable. So the correct \CRANpkg{lattice} command for the desired
+pair of histograms is 
+<<eval=FALSE>>=
+histogram(~ age  |sex, data=HELPrct)
+@
+and for overlaid density plots it is 
+<<eval=FALSE>>=
+histogram(~ age, groups=sex, data=HELPrct)
+@
+While this can produce some initial challenges for users, clearly explaining the roles 
+of the components of the variables for plotting, for numerical summaries, and for model 
+fitting helps demystify the situation.  Furthermore, in several functions we promote formulas
+of the form \code{~ x | z} to \code{x ~ z} to allow either format.  Similarly, the \code{groups}
+argument can often be used, for example
+<<>>=
+mean( ~ age, groups = sex, data=HELPrct )  
+@
+
+\subsection{Handling missing data}
 
 
-\section{Another section}
+\subsection{Other stuff as we think of it}
 
-There will likely be several sections, perhaps including code snippets, such as:
 
-\begin{example}
-  x <- 1:10
-  result <- myFunction(x)
-\end{example}
+\section{Extracting information}
+
+Modeled on functions like \code{resid()}, a number of additional functions have
+been added to \CRANpkg{mosaic} to facilitate extracting information from more
+complicated objects.  Some examples include
+<<extractors>>=
+confint(t.test(~age, data=HELPrct))       # works for "htest" objects
+pval( t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
+stat( t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
+r.squared( lm( age ~ sex, data=HELPrct))
+@
+
+\section{Simplifying randomization}
+
+\subsection{Using do() for repetition}
+
+\subsection{sample(), resample(), and shuffle()}
+
+\subsection{do() and confint()}
+
+\subsection{statTally()}
+
+
+\section{Calculus in R}
+
+\section{Some additional bells and whistles}
+
 
 \section{Summary}
 
