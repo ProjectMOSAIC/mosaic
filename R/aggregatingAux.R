@@ -49,11 +49,24 @@ mosaic_formula_q <- function( formula,
                                 max.slots = 3
                                 ) {
   
-  slots <- list()
-  slots <- c(slots, lhs(formula), rhs(formula), condition(formula), substitute(groups, parent.frame()))
+  formula_name <- eval(substitute( 
+    substitute(formula), parent.frame()
+    ))
+  
+  if ( ! .is.formula(formula)) {
+    res <-  substitute ( 
+      y ~ g, list( y = formula_name, g=substitute(groups,parent.frame()) ) 
+    ) 
+    slots <- eval( substitute( 
+      alist(y, g), env= list( y = formula_name, g=substitute(groups,parent.frame()) ) 
+    ))
+  } else { 
+    slots <- alist()
+    slots <- c(slots, lhs(formula), rhs(formula), condition(formula), 
+               substitute(groups, parent.frame()))
+  }
   
   if (length(slots) > max.slots) {
-    print(slots)
     stop("Invalid formula specification.  Too many slots (",  
             length(slots), ">", max.slots, ").")
     return(NULL)
