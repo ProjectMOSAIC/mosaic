@@ -25,6 +25,8 @@
 #' @param p a vector of probabilities
 #' @param vals a vector containing the data
 #' @param data a data frame in which to evaluate vals
+#' @param groups a grouping variable, typically the name of a variable in \code{data}
+#' @param ..fun.. a function.  Most users will not need to change the default value.
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
 #' @return For \code{qdata}, a vector of quantiles
 #' @export
@@ -57,12 +59,12 @@ qdata <- function(p, vals, data=NULL, ... ) {
 #' @export
 #' @examples
 #' data(iris)
-#' cdata_old(.5, iris$Sepal.Length)
-#' cdata_old(.5, Sepal.Length, data=iris)
-#' cdata(~Sepal.Length, data=iris, p=.5)
-#' cdata(~Sepal.Length | Species, data=iris, p=.5)
+#' cdata(.5, iris$Sepal.Length)
+#' cdata(.5, Sepal.Length, data=iris)
+#' cdata_f(~Sepal.Length, data=iris, p=.5)
+#' cdata_f(~Sepal.Length | Species, data=iris, p=.5)
 
-cdata_old <- function( p, vals, data=NULL, ...) {
+.cdata_old <- function( p, vals, data=NULL, ...) {
   if( !is.null(data) ) { # handle data= style of passing values
     vals = eval( substitute(vals), data, enclos=parent.frame())
   }
@@ -77,19 +79,33 @@ cdata_old <- function( p, vals, data=NULL, ...) {
 
 
 #' @rdname pqrdata
-cdata_vec <- function( x, p=.95, ... ) {
+cdata_v <- function( x, p=.95, ... ) {
   lo_p <- (1-p)/2
   hi_p <- 1 - lo_p
   lo <- quantile( x, lo_p, ... )
   hi <- quantile( x, hi_p, ... )
-  result <- cbind(low=lo, hi=hi, central.p=p, ...)
+  if (length(p) == 1) {
+    result <- setNames( c(lo, hi, p), c("low", "hi", "central.p") )
+  } else {
+    result <- data.frame(low=lo, hi=hi, central.p=p)
+  }
   # row.names(result) <- paste( 100*p, "%", sep="" )
   return(result)
 }
 
 #' @rdname pqrdata
-cdata <- aggregatingFunction1( cdata_vec, multiple=TRUE )
+cdata_f <- aggregatingFunction1( cdata_v, multiple=TRUE )
 
+
+#' @rdname pqrdata
+cdata <- function( p, vals, data=NULL, ...) { 
+  vals_call <- substitute(vals)
+  args <- eval(substitute(alist(vals_call, ...)))
+  args [["p"]] <- p # substitute(p, parent.frame())
+  args [["data"]] <- data
+  do.call( "cdata_f", args )
+}
+  
 #' \code{pdata} computes cumulative probabilities from data.
 #'
 #' @param q a vector of quantiles
