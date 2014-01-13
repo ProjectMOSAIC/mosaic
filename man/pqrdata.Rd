@@ -1,5 +1,8 @@
 \name{qdata}
+\alias{.cdata_old}
 \alias{cdata}
+\alias{cdata_f}
+\alias{cdata_v}
 \alias{ddata}
 \alias{pdata}
 \alias{qdata}
@@ -7,6 +10,12 @@
 \title{The Data Distribution}
 \usage{
   qdata(p, vals, data = NULL, ...)
+
+  .cdata_old(p, vals, data = NULL, ...)
+
+  cdata_v(x, p = 0.95, ...)
+
+  cdata_f(x, ..., data, groups = NULL, ..fun.. = cdata_v)
 
   cdata(p, vals, data = NULL, ...)
 
@@ -22,6 +31,12 @@
   \item{vals}{a vector containing the data}
 
   \item{data}{a data frame in which to evaluate vals}
+
+  \item{groups}{a grouping variable, typically the name of
+  a variable in \code{data}}
+
+  \item{..fun..}{a function.  Most users will not need to
+  change the default value.}
 
   \item{\dots}{additional arguments passed to
   \code{quantile} or \code{sample}}
@@ -82,6 +97,8 @@ qdata(.5, Sepal.Length, data=iris)
 data(iris)
 cdata(.5, iris$Sepal.Length)
 cdata(.5, Sepal.Length, data=iris)
+cdata_f(~Sepal.Length, data=iris, p=.5)
+cdata_f(~Sepal.Length | Species, data=iris, p=.5)
 data(iris)
 pdata(3:6, iris$Sepal.Length)
 pdata(3:6, Sepal.Length, data=iris)
