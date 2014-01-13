@@ -28,41 +28,58 @@
 #' base::mean(KidsFeet$length)
 #' foo( length ~ sex, data=KidsFeet )
 aggregatingFunction1 <- function( fun, multiple=FALSE, envir=parent.frame() ) {
-  result <- function( x, ..., data) {
+  result <- function( x, ..., data, groups=NULL) {
     orig.call <- match.call()
     fun.call <- orig.call 
     fun.call[[1]] <- substitute(..fun..)
     fun.call[[2]] <- substitute(x)
-    
+
+    # if data is not given, we will try to evaluate fun()
     missingData <- FALSE  
     if ( missing(data) ) {
       missingData <- TRUE
-      data <- parent.frame()  # redundant?
+      data=parent.frame()
 
       result <- tryCatch( eval(fun.call, envir=parent.frame()) , 
                 error=function(e) {e} ,
                 warning=function(w) {w} ) 
-      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) 
+      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
         return(result) 
-    }
-    
-    if (! .is.formula(x) ) {
-      if (missingData) {
-        data <- parent.frame()   # redundant?
-      } else {
-        fun.call[['data']] <- NULL
       }
-      tryCatch( return( eval(fun.call, envir=data, enclos=parent.frame())  ) ,
-                error = function(e) { stop(paste(e, "Did you perhaps omit data= ?")) } )
     }
-
-    maggregate.call <- orig.call
+    # either data was specified or fun() generated an error.
+    # so we will generate a new call.
+    maggregate.call <- orig.call  
+    
+    x_name <- substitute(x)
+    if (! .is.formula(x) ) {
+      if ( !missingData) {
+         fun.call[['data']] <- NULL
+      }
+      result <- tryCatch( eval(fun.call, envir=data, enclos=parent.frame()),
+                error = function(e) { e  },
+                warning = function(w) {w} ) 
+      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
+        return(result) 
+      }
+      
+      x <- eval( substitute( 
+        mosaic_formula_q( .x, groups=quote(groups)), 
+        list(.x=substitute(x) , .g=substitute(groups))
+      ) )
+      
+      if ("groups" %in% names(maggregate.call)) maggregate.call[['groups']] <- NULL
+    
+    }
+    # now x is a formula
+    
     maggregate.call[[1]] <- quote(maggregate)
     maggregate.call$formula <- x
     maggregate.call$data <- data 
     maggregate.call$x <- NULL
     maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
     maggregate.call$multiple <- multiple
+    # print(maggregate.call)
     return( eval(maggregate.call, envir=envir) )
   }
   formals(result) <- c(formals(result), ..fun.. = substitute(fun))
@@ -126,6 +143,7 @@ aggregatingFunction2 <- function( fun ) {
 #' @param x an object, often a formula
 #' @param y an object, often a numeric vector 
 #' @param ..fun.. the underlyin function used in the computation
+#' @param groups a grouping variable, typically a name of a variable in \code{data}
 #' @param data a data frame in which to evaluate formulas (or bare names)
 #' @param \dots additional arguments
 #' @export
