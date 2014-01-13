@@ -101,7 +101,7 @@ cat( anitem("Calculus-vignette.pdf", "Start R in Calculus") )
 		\emph{Statistical Sleuth: A Course in Methods of Data Analysis} (2002),
 		the excellent text by Fred Ramsey and Dan Schafer.
 	\item[\emph{Introduction to the Practice of Statistics in R} (N Horton)]
-		available at \url{http://www.math.smith.edu/~nhorton/ips6e}, describes how
+		available at \url{http://www.amherst.edu/~nhorton/ips6e}, describes how
 		to undertake analyses in R that are introduced as examples in the first
 		chapters of the Sixth Edition of \emph{Introduction to the Practice of
 		Statistics} (2007), the excellent text by David Moore, George McCabe
