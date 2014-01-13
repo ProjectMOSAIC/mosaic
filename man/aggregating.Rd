@@ -16,33 +16,36 @@
 \alias{var}
 \title{Aggregating functions}
 \usage{
-  mean(x, ..., data, ..fun.. = base::mean)
+  mean(x, ..., data, groups = NULL, ..fun.. = base::mean)
 
-  median(x, ..., data, ..fun.. = stats::median)
+  median(x, ..., data, groups = NULL,
+    ..fun.. = stats::median)
 
-  range(x, ..., data, ..fun.. = base::range)
+  range(x, ..., data, groups = NULL, ..fun.. = base::range)
 
-  sd(x, ..., data, ..fun.. = stats::sd)
+  sd(x, ..., data, groups = NULL, ..fun.. = stats::sd)
 
-  max(x, ..., data, ..fun.. = base::max)
+  max(x, ..., data, groups = NULL, ..fun.. = base::max)
 
-  min(x, ..., data, ..fun.. = base::min)
+  min(x, ..., data, groups = NULL, ..fun.. = base::min)
 
-  sum(x, ..., data, ..fun.. = base::sum)
+  sum(x, ..., data, groups = NULL, ..fun.. = base::sum)
 
-  IQR(x, ..., data, ..fun.. = stats::IQR)
+  IQR(x, ..., data, groups = NULL, ..fun.. = stats::IQR)
 
-  fivenum(x, ..., data, ..fun.. = stats::fivenum)
+  fivenum(x, ..., data, groups = NULL,
+    ..fun.. = stats::fivenum)
 
-  iqr(x, ..., data, ..fun.. = stats::IQR)
+  iqr(x, ..., data, groups = NULL, ..fun.. = stats::IQR)
 
-  prod(x, ..., data, ..fun.. = base::prod)
+  prod(x, ..., data, groups = NULL, ..fun.. = base::prod)
 
-  sum(x, ..., data, ..fun.. = base::sum)
+  sum(x, ..., data, groups = NULL, ..fun.. = base::sum)
 
-  favstats(x, ..., data, ..fun.. = fav_stats)
+  favstats(x, ..., data, groups = NULL,
+    ..fun.. = fav_stats)
 
-  var(x, ..., data, ..fun.. = stats::var)
+  var(x, ..., data, groups = NULL, ..fun.. = stats::var)
 
   cor(x, y = NULL, ..., data = parent.frame())
 
@@ -55,6 +58,9 @@
 
   \item{..fun..}{the underlyin function used in the
   computation}
+
+  \item{groups}{a grouping variable, typically a name of a
+  variable in \code{data}}
 
   \item{data}{a data frame in which to evaluate formulas
   (or bare names)}
