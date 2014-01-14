@@ -17,7 +17,8 @@
 #' @aliases aggregatingFunction1 
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
 #' returning a numeric vector of length 1.
-#' @param multiple a boolean indicating whether \code{..fun..} returns multiple values
+#' @param output.multiple a boolean indicating whether \code{..fun..} returns multiple values
+#' @param input.multiple a boolean indicating whether \code{..fun..} can accept 2 vectors (e.g., \code{var})
 #' @param envir an environment in which evaluation takes place.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
@@ -27,7 +28,7 @@
 #' foo( ~length, data=KidsFeet )
 #' base::mean(KidsFeet$length)
 #' foo( length ~ sex, data=KidsFeet )
-aggregatingFunction1 <- function( fun, multiple=FALSE, envir=parent.frame() ) {
+aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, envir=parent.frame() ) {
   result <- function( x, ..., data, groups=NULL) {
     orig.call <- match.call()
     fun.call <- orig.call 
@@ -56,11 +57,13 @@ aggregatingFunction1 <- function( fun, multiple=FALSE, envir=parent.frame() ) {
       if ( !missingData) {
          fun.call[['data']] <- NULL
       }
-      result <- tryCatch( eval(fun.call, envir=data, enclos=parent.frame()),
-                error = function(e) { e  },
-                warning = function(w) {w} ) 
-      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
-        return(result) 
+      if (input.multiple) {
+        result <- tryCatch( eval(fun.call, envir=data, enclos=parent.frame()),
+                            error = function(e) {e},
+                            warning = function(w) {w} ) 
+        if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
+          return(result) 
+        }
       }
       
       x <- eval( substitute( 
@@ -78,7 +81,7 @@ aggregatingFunction1 <- function( fun, multiple=FALSE, envir=parent.frame() ) {
     maggregate.call$data <- data 
     maggregate.call$x <- NULL
     maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
-    maggregate.call$multiple <- multiple
+    maggregate.call$multiple <- output.multiple
     # print(maggregate.call)
     return( eval(maggregate.call, envir=envir) )
   }
@@ -183,10 +186,10 @@ prod <- aggregatingFunction1( base::prod )
 sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
-favstats <- aggregatingFunction1(fav_stats, multiple=TRUE)
+favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE)
 #' @rdname aggregating
 #' @export
-var <- aggregatingFunction1( stats::var )
+var <- aggregatingFunction1( stats::var, input.multiple=TRUE )
 #' @rdname aggregating
 #' @export
 cor <- aggregatingFunction2( stats::cor )
