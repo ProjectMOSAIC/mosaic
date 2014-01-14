@@ -7,4 +7,4 @@ mv *_*.tar.gz builds/
 #\cp sandbox/Vignettes/MinimalR/MinimalR.pdf inst/doc/MinimalR.pdf
 #\cp sandbox/Vignettes/Links/Links.pdf inst/doc/Links.pdf
 R CMD build --resave-data .
-bin/do2all "R-devel CMD check --as-cran %p" *_*.tar.gz
+bin/do2all "R CMD check --as-cran %p" *_*.tar.gz
