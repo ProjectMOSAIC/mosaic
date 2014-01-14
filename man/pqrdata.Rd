@@ -1,14 +1,26 @@
-\name{qdata}
+\name{.qdata_old}
 \alias{.cdata_old}
+\alias{.pdata_old}
+\alias{.qdata_old}
 \alias{cdata}
 \alias{cdata_f}
 \alias{cdata_v}
 \alias{ddata}
 \alias{pdata}
+\alias{pdata_f}
+\alias{pdata_v}
 \alias{qdata}
+\alias{qdata_f}
+\alias{qdata_v}
 \alias{rdata}
 \title{The Data Distribution}
 \usage{
+  .qdata_old(p, vals, data = NULL, ...)
+
+  qdata_v(x, p = seq(0, 1, 0.25), ...)
+
+  qdata_f(x, ..., data, groups = NULL, ..fun.. = qdata_v)
+
   qdata(p, vals, data = NULL, ...)
 
   .cdata_old(p, vals, data = NULL, ...)
@@ -19,7 +31,13 @@
 
   cdata(p, vals, data = NULL, ...)
 
-  pdata(q, vals, data = NULL, lower.tail = TRUE, ...)
+  pdata_v(x, q, lower.tail = TRUE, ...)
+
+  pdata_f(x, ..., data, groups = NULL, ..fun.. = pdata_v)
+
+  pdata(q, vals, data = NULL, ...)
+
+  .pdata_old(q, vals, data = NULL, lower.tail = TRUE, ...)
 
   rdata(n, vals, data = NULL, replace = TRUE, ...)
 
@@ -92,8 +110,11 @@
 }
 \examples{
 data(iris)
+qdata(.5, Sepal.Length ~ Species, data=iris)
+qdata(.5, ~Sepal.Length, groups=Species, data=iris)
 qdata(.5, iris$Sepal.Length)
 qdata(.5, Sepal.Length, data=iris)
+qdata(.5, Sepal.Length, groups=Species, data=iris)
 data(iris)
 cdata(.5, iris$Sepal.Length)
 cdata(.5, Sepal.Length, data=iris)

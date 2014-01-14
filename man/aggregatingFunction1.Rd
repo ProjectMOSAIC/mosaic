@@ -2,16 +2,19 @@
 \alias{aggregatingFunction1}
 \title{1-ary Aggregating functions}
 \usage{
-  aggregatingFunction1(fun, multiple = FALSE,
-    envir = parent.frame())
+  aggregatingFunction1(fun, input.multiple = FALSE,
+    output.multiple = FALSE, envir = parent.frame())
 }
 \arguments{
   \item{fun}{a function that takes a numeric vector and
   computes a summary statistic, returning a numeric vector
   of length 1.}
 
-  \item{multiple}{a boolean indicating whether
+  \item{output.multiple}{a boolean indicating whether
   \code{..fun..} returns multiple values}
+
+  \item{input.multiple}{a boolean indicating whether
+  \code{..fun..} can accept 2 vectors (e.g., \code{var})}
 
   \item{envir}{an environment in which evaluation takes
   place.}

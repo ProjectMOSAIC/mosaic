@@ -4,8 +4,9 @@
 \usage{
   maggregate(formula, data = parent.frame(), FUN, subset,
     overall = mosaic.par.get("aggregate.overall"),
-    format = c("default"), drop = FALSE, multiple = FALSE,
-    groups = NULL, ...)
+    method = c("default", "ddply"), drop = FALSE,
+    multiple = FALSE, groups = NULL,
+    .name = deparse(substitute(FUN)), ...)
 }
 \arguments{
   \item{formula}{a formula.  Left side provides variable to
@@ -23,13 +24,18 @@
   \item{drop}{a logical indicating whether unused levels
   should be dropped.}
 
-  \item{format,overall}{currently unused}
+  \item{method}{used for aggregation.  Choosing
+  \code{"ddply"} requires that \pkg{plry} is installed.}
+
+  \item{overall}{currently unused}
+
+  \item{.name}{a name used for the resulting object}
 
   \item{groups}{grouping variable that will be folded into
   the formula (if there is room for it). This offers some
   additional flexibility in how formulas can be specified.}
 
-  \item{multiple}{logical indicating whether FUN returns
+  \item{multiple}{a logical indicating whether FUN returns
   multiple values}
 
   \item{\dots}{additional arguments passed to \code{FUN}}
