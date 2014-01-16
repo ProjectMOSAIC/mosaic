@@ -2,7 +2,20 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.8}{
 \itemize{
-\item Fixed bug in vignette generation.
+\item Added \code{rsquared} for extracting r-squared from models and model-like objects.
+\code{r.squared} has been depricated.
+\item \code{do} now handles ANOVA-like objects better
+\item \code{maggregate} is now built on some improved behind the scenes functions.  Among
+other features, the \code{groups} argument is now encorporated as an alternative method
+of specifiying the goups to aggregate over and the \code{method} argument can be set to 
+\code{"ddply"} to use \code{ddply} from the \pkg{plyr} package for aggregation.  This results
+in a different output format that may be desired in some applications.
+\item
+The \code{cdata}, \code{pdata}, \code{qdata} functions have been largely rewritten.  In addition,
+\code{cdata_f}, \code{pdata_f} and \code{qdata_f} are provided which produce similar results
+but have a formula in the first arguemnt slot.
+\item Fixed bug in vignette generation.  Static PDFs are now installed in \code{doc/} and so
+are available from within the package as well as via links to external files.
 \item Added \code{fetchGapminder} for fetching data sets originally from
 Gapminder.
 \item Added \code{cdata} for finding end points of a central portion of a variable.
