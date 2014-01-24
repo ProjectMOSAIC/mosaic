@@ -2,16 +2,15 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.8}{
 \itemize{
-\item Added \code{rsquared} for extracting r-squared from models and model-like objects.
-\code{r.squared} has been depricated.
+\item Added \code{rsquared} for extracting r-squared from models and model-like objects (\code{r.squared} has been deprecated).
 \item \code{do} now handles ANOVA-like objects better
 \item \code{maggregate} is now built on some improved behind the scenes functions.  Among
-other features, the \code{groups} argument is now encorporated as an alternative method
-of specifiying the goups to aggregate over and the \code{method} argument can be set to 
+other features, the \code{groups} argument is now incorporated as an alternative method
+of specifying the goups to aggregate over and the \code{method} argument can be set to 
 \code{"ddply"} to use \code{ddply} from the \pkg{plyr} package for aggregation.  This results
 in a different output format that may be desired in some applications.
 \item
-The \code{cdata}, \code{pdata}, \code{qdata} functions have been largely rewritten.  In addition,
+The \code{cdata}, \code{pdata} and \code{qdata} functions have been largely rewritten.  In addition,
 \code{cdata_f}, \code{pdata_f} and \code{qdata_f} are provided which produce similar results
 but have a formula in the first arguemnt slot.
 \item Fixed bug in vignette generation.  Static PDFs are now installed in \code{doc/} and so
@@ -39,7 +38,7 @@ as counts of heads and tails.
     \item Various improvements and bug fixes to \code{D} and \code{antiD}.
     \item In RStudio, \code{mPlot} provides an interactive environment for
     creating \pkg{lattice} and \pkg{ggplot2} plots.
-    \item Some support for producing maps has been instroduced, notably \code{sp2df} for converting SpatialPolygonDataFrames to regular data frames (which is useful for plotting with \pkg{ggplot2}, for example).  Also the \code{Countries} data frame facilitates
+    \item Some support for producing maps has been introduced, notably \code{sp2df} for converting SpatialPolygonDataFrames to regular data frames (which is useful for plotting with \pkg{ggplot2}, for example).  Also the \code{Countries} data frame facilitates
     mapping country names among different sources of map data.
     \item Data frames returned by \code{do} are now marked as such so that \code{confint}
     can behave differently for such data frames and for "regular" data frames.
