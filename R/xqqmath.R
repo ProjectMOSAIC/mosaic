@@ -51,10 +51,10 @@ function (x, qqmathline = !(fitline || idline), idline = FALSE,
         }
         if (fitline) {
             if (is.null(slope)) {
-                slope = sd(x)
+                slope = sd(x, na.rm=TRUE)
             }
             if (is.null(intercept)) {
-                intercept = mean(x)
+                intercept = mean(x, na.rm=TRUE)
             }
             panel.abline(intercept, slope, col.line = col.line, 
                 lty = lty[2], lwd = lwd)
