@@ -82,9 +82,9 @@ tally <- function(x, data=parent.frame(),
 
 	if (!missing(subset)) {
 		subset <- eval(substitute(subset), data, environment(formula))
-		if (!is.null(evalF$left))           evalF$left <- evalF$left[subset,]
-		if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
-		if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
+		if (!is.null(evalF$left))           evalF$left <- evalF$left[subset, , drop=FALSE]
+		if (!is.null(evalF$right))         evalF$right <- evalF$right[subset, , drop=FALSE]
+		if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset, , drop=FALSE]
 	}
   
   # provide warning for 3-slot formulas
@@ -117,7 +117,8 @@ tally <- function(x, data=parent.frame(),
 		   		100 * prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) )
 		   )
 	if (margins) {  # add margins for the non-condition dimensions of the table
-		res <- addmargins(res, 1:ncol(evalF$right), FUN=list(Total=sum), quiet=quiet )
+    if ( !is.null(evalF$right) & ncol(evalF$right) > 0 )
+		  res <- addmargins(res, 1:ncol(evalF$right), FUN=list(Total=sum), quiet=quiet )
 	}
 	return(res)
 }
