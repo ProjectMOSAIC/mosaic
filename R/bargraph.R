@@ -14,6 +14,8 @@
 #'        \code{\link[lattice]{barchart}} set \code{origin} to \code{NULL}, but
 #'         0 is often a better default. If 0 is not good, perhaps you should use
 #'        a different kind of plot as the results may be misleading.
+#' @param subset a vector used to subset \code{data}.  This may be an expression that
+#' will be evaluated within \code{data}.
 #' @param ylab a character vector of length one used for the y-axis label
 #' @param xlab a character vector of length one used for the x-axis label
 #' @return a trellis object describing the plot
@@ -24,18 +26,29 @@
 #' bargraph( ~ substance, data=HELPrct)
 #' bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
 #' bargraph( ~ substance | sex, groups=homeless, auto.key=TRUE, data=HELPrct)
+#' bargraph( ~ substance, groups=homeless, auto.key=TRUE, data=HELPrct, subset=sex=="male")
 
 bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0, 
                      ylab=ifelse(horizontal,"","Frequency"), 
                      xlab=ifelse(horizontal,"Frequency",""), 
-                                 ...) {
-  sgroups <- substitute(groups)
+                     subset,
+                     ...) {
   haveGroups <- !missing(groups)
+  sgroups <- substitute(groups)
+  
+  # if ( .is.formula(x) ) formula <- x else formula <- paste("~", deparse(rhs(x)))
   formula <- paste("~", deparse(rhs(x)))
   if (!is.null (condition(x)) ) formula <- paste(formula, "+" , deparse(condition(x)) )
   if (haveGroups ) formula <- paste(formula, "+" , sgroups )
   formula <- as.formula(formula)
-  xtab <- as.data.frame(xtabs( formula, data=data))
+  
+  if (missing(subset)) {
+    xtab <- as.data.frame(xtabs( formula, data=data) )
+  } else {
+    xtab <- as.data.frame(
+      do.call(xtabs, list( formula, data=data, subset=substitute(subset) ) )
+      )
+  }
   # grab the last variable name, to handle the case that 
   # there is a variable called "Freq"
   lastvar = names(xtab)[ncol(xtab)]

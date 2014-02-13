@@ -5,7 +5,7 @@
   bargraph(x, data = parent.frame(), groups,
     horizontal = FALSE, origin = 0,
     ylab = ifelse(horizontal, "", "Frequency"),
-    xlab = ifelse(horizontal, "Frequency", ""), ...)
+    xlab = ifelse(horizontal, "Frequency", ""), subset, ...)
 }
 \arguments{
   \item{x}{a formula describing the plot}
@@ -15,6 +15,9 @@
 
   \item{groups}{a variable or expression used for grouping.
   See \code{\link[lattice]{barchart}}.}
+
+  \item{subset}{a vector describing a subset of \code{data}.  May be 
+	  an expression which will be evaluated in \code{data}.}
 
   \item{horizontal}{a logical indicating whether bars
   should be horizontal}
