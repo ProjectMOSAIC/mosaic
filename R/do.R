@@ -29,7 +29,7 @@
 #' do(3) * rnorm(1)
 #' do(3) * "hello"
 #' do(3) * lm(shuffle(height) ~ sex + mother, Galton)
-#' do(3) * summary(lm(shuffle(height) ~ sex + mother, Galton))
+#' do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
 #' do(3) * 1:4
 #' do(3) * mean(rnorm(25))
 #' do(3) * c(mean = mean(rnorm(25)))
@@ -38,8 +38,8 @@
 #' @keywords iteration 
 #' 
 
-do <- function(n=1L, cull=NULL, mode=NULL) {
-	new( 'repeater', n=n, cull=cull, mode=mode )
+do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0) {
+	new( 'repeater', n=n, cull=cull, mode=mode, algorithm=algorithm )
 }
 
 #' @rdname mosaic-internal
@@ -93,12 +93,15 @@ do <- function(n=1L, cull=NULL, mode=NULL) {
 #' \describe{
 #'   \item{\code{n}:}{Object of class \code{"numeric"} indicating how many times to repeat something.}
 #'   \item{\code{cull}:}{Object of class \code{"function"} that culls the ouput from each repetition.}
-#'   \item{\code{mode}:}{Object of class \code{"character"} indicating the output mode (NULL or 'data.frame' or 'list').}
+#'   \item{\code{mode}:}{Object of class \code{"character"} indicating the output mode 
+#'   ('default', 'data.frame', 'matrix', 'vector', or 'list').  For most purposes 'default' (the default)
+#'   should suffice.}
+#'   \item{\code{algorithm}:}{an algorithm number.}
 #' }
 
 setClass('repeater', 
-	representation = representation(n='numeric', cull='ANY', mode='ANY'),
-	prototype = prototype(n=1, cull=NULL, mode=NULL)
+	representation = representation(n='numeric', cull='ANY', mode='character', algorithm='numeric'),
+	prototype = prototype(n=1, cull=NULL, mode="default", algorithm=1)
 )
 
 
@@ -283,6 +286,45 @@ setMethod("print",
     }
 )
 
+.list2tidy.data.frame <- function (l) {
+  
+  # see if we really just have a vector
+  ul <- unlist( l )
+  if ( length(ul) == length(l) ) {
+    result <- data.frame(result=ul)
+    row.names(result) <- NULL
+    return(result)
+  }
+  
+  # if each element is a data frame with the same variables, combine them
+  if ( all( sapply( l, is.data.frame ) ) ) {
+    tryCatch( 
+      return ( 
+        transform( 
+          do.call( rbind, lapply ( l, function(x) { transform(x, .row= 1:nrow(x)) }) ),
+          .index = c(1, 1 + cumsum( diff(.row) != 1 )) 
+        )
+      ), error=function(e) {} 
+    )
+  }
+  
+  # If rbind() works, do it
+  tryCatch(
+    return ( as.data.frame( do.call( rbind, l) ) ),
+    error=function(e) {} 
+  )
+  
+  if (all (sapply(l, length) ) == length(l[[1]]) ) {
+    result <-  as.data.frame( matrix( ul, nr=length(l) ) )
+    names(result) <- names(l[[1]])
+    return(result)
+  }
+  
+  # nothing worked.  Just return the list as is.
+  return( l )
+}
+
+
 #' @rdname do
 #' @aliases *,repeater,ANY-method
 #' @usage
@@ -292,9 +334,9 @@ setMethod("*",
     signature(e1 = "repeater", e2="ANY"),
     function (e1, e2) 
     {
-		fthing = substitute(e2)
+		e2unevaluated = substitute(e2)
 		if ( ! is.function(e2) ) {
-			e2 = function(){eval.parent(fthing, n=2) }   
+			e2 = function(){eval.parent(e2unevaluated, n=2) }   
 		}
 		n = e1@n
 
@@ -302,9 +344,28 @@ setMethod("*",
 		if (is.null(cull)) {
 			cull <- .cull_for_do
 		}
+    
+		out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
 
+    if (e1@algorithm >= 1) {
+      resultsList <- lapply( integer(n), function(...) { cull(e2()) } )
+      if (out.mode=='default') {  # is there any reason to be fancier?
+        out.mode = 'data.frame'
+      }
+      
+      result <- switch(out.mode, 
+                    "list" = resultsList,
+                    "data.frame" = .list2tidy.data.frame( resultsList ),
+                    "matrix" = as.matrix( do.call( rbind, resultsList) ),
+                    "vector" = unlist(resultsList)  
+      ) 
+      class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
+      return(result)
+    }
+  
+    ## pre 1.0 algorithm...
+    
 		res1 = cull(e2())  # was (...)
-
 		nm = names(res1)
 
 		if (!is.null(e1@mode)) { 
