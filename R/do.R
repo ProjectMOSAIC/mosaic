@@ -1,3 +1,6 @@
+tryCatch(utils::globalVariables(c('.row')), 
+         error=function(e) message('Looks like you should update R.'))
+
 #' Do Things Repeatedly
 #' 
 #' \code{do()} provides a natural syntax for repetition tuned to assist 
@@ -293,7 +296,7 @@ setMethod("print",
   if ( length(ul) == length(l) ) {
     result <- data.frame(result=as.vector(ul))
     row.names(result) <- NULL
-    names(result) <- names(l[[1]])
+    if( !is.null(names(l[[1]])) ) names(result) <- names(l[[1]])
     return(result)
   }
   
