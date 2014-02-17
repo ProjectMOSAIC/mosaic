@@ -291,8 +291,9 @@ setMethod("print",
   # see if we really just have a vector
   ul <- unlist( l )
   if ( length(ul) == length(l) ) {
-    result <- data.frame(result=ul)
+    result <- data.frame(result=as.vector(ul))
     row.names(result) <- NULL
+    names(result) <- names(l[[1]])
     return(result)
   }
   
@@ -315,7 +316,7 @@ setMethod("print",
   )
   
   if (all (sapply(l, length) ) == length(l[[1]]) ) {
-    result <-  as.data.frame( matrix( ul, nr=length(l) ) )
+    result <-  as.data.frame( matrix( ul, nrow=length(l) ) )
     names(result) <- names(l[[1]])
     return(result)
   }
@@ -336,7 +337,7 @@ setMethod("*",
     {
 		e2unevaluated = substitute(e2)
 		if ( ! is.function(e2) ) {
-			e2 = function(){eval.parent(e2unevaluated, n=2) }   
+			e2 = function(){eval.parent(e2unevaluated, n=1) }   
 		}
 		n = e1@n
 
