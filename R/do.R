@@ -32,7 +32,7 @@
 #' do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
 #' do(3) * 1:4
 #' do(3) * mean(rnorm(25))
-#' do(3) * c(mean = mean(rnorm(25)))
+#' do(3) * c(sample.mean = mean(rnorm(25)))
 #' do(3) * tally( ~sex|treat, data=resample(HELPrct))
 #' 
 #' @keywords iteration 
