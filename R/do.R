@@ -48,8 +48,8 @@ tryCatch(utils::globalVariables(c('.row')),
 #' @keywords iteration 
 #' 
 
-do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0) {
-	new( 'repeater', n=n, cull=cull, mode=mode, algorithm=algorithm )
+do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
+	new( 'repeater', n=n, cull=cull, mode=mode, algorithm=algorithm, parallel=parallel)
 }
 
 #' @rdname mosaic-internal
@@ -107,11 +107,13 @@ do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0) {
 #'   ('default', 'data.frame', 'matrix', 'vector', or 'list').  For most purposes 'default' (the default)
 #'   should suffice.}
 #'   \item{\code{algorithm}:}{an algorithm number.}
+#'   \item{\code{parallel}:}{a logical indicating whether to attempt parallel execution.}
 #' }
 
 setClass('repeater', 
-	representation = representation(n='numeric', cull='ANY', mode='character', algorithm='numeric'),
-	prototype = prototype(n=1, cull=NULL, mode="default", algorithm=1)
+	representation = representation(n='numeric', cull='ANY', mode='character', 
+                                  algorithm='numeric', parallel='logical'),
+	prototype = prototype(n=1, cull=NULL, mode="default", algorithm=1, parallel=TRUE)
 )
 
 
@@ -359,7 +361,11 @@ setMethod("*",
 		out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
 
     if (e1@algorithm >= 1) {
-      resultsList <- lapply( integer(n), function(...) { cull(e2()) } )
+      resultsList <- if( e1@parallel && require(parallel) )
+        mclapply( integer(n), function(...) { cull(e2()) } )
+      else 
+        lapply( integer(n), function(...) { cull(e2()) } )
+          
       if (out.mode=='default') {  # is there any reason to be fancier?
         out.mode = 'data.frame'
       }
@@ -375,6 +381,7 @@ setMethod("*",
     }
   
     ## pre 1.0 algorithm...
+    message("Using older algorithm for do()")
     
 		res1 = cull(e2())  # was (...)
 		nm = names(res1)
