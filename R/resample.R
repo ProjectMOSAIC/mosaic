@@ -45,7 +45,6 @@ rflip <- function(n=1, prob=.5, quiet=FALSE, verbose = !quiet) {
 }
 
 
-#' @method print cointoss
 #' @rdname rflip
 #' @param x an object 
 #' @param \dots additional arguments
@@ -184,7 +183,6 @@ sample <- function (x, size, replace=FALSE, ...) {
 }
 
 
-#' @method sample default
 #' @rdname resample
 
 sample.default <- function(x, size, replace=FALSE, prob=NULL, 
@@ -220,7 +218,6 @@ sample.default <- function(x, size, replace=FALSE, prob=NULL,
 	return(result)
 }
 
-#' @method sample data.frame
 #' @rdname resample
 #' @param groups a vector (or variable in a data frame) specifying
 #' groups to sample within. This will be recycled if necessary.
@@ -267,7 +264,6 @@ sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL
   if (invisibly.return) { return(invisible(result)) } else {return(result)}
 }
 
-#' @method sample matrix
 #' @rdname resample
 sample.matrix <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, orig.ids=FALSE, ...) {
 	if (! is.null(groups) ) {
@@ -285,7 +281,6 @@ sample.matrix <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 		if (length(ids) < 50) { return(data) } else {return(invisible(data))}
 }
 
-#' @method sample factor
 #' @rdname resample
 sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, orig.ids=FALSE, 
 					drop.unused.levels = FALSE, ...) {

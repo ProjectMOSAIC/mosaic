@@ -35,7 +35,6 @@ interval <- confint
 # interval <- (x, ...){UseMethod("interval", x)}
 #
 #' @rdname interval
-#' @method confint htest
 #' @param verbose a logical
 
 confint.htest <- function (object, parm, level, ...){
@@ -66,7 +65,6 @@ confint.htest <- function (object, parm, level, ...){
 pval <- function(x, ...){UseMethod("pval", x)}
 
 #' @rdname interval
-#' @method pval htest
 #' @param digits number of digits to display in verbose output
 
 pval.htest <- function (x, digits=4, verbose=FALSE, ...){
@@ -131,7 +129,6 @@ pval.htest <- function (x, digits=4, verbose=FALSE, ...){
 stat <- function(x,...) { UseMethod("stat", x)}
 
 #' @rdname interval
-#' @method stat htest
 
 stat.htest <- function(x,...) {
 	x $ statistic

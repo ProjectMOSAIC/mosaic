@@ -22,7 +22,6 @@
 as.xtabs <- function(x, ...) { UseMethod('as.xtabs') }
 
 #' @rdname as-xtabs
-#' @method as.xtabs data.frame
 #' @param rowvar name of the row variable as character string
 #' @param colvar name of the column variable as character string
 #' @param labels column of data frame that contains the labels of the row
@@ -51,7 +50,6 @@ as.xtabs.data.frame <- function(x, rowvar=NULL, colvar=NULL, labels=1, ...) {
 }
 
 #' @rdname as-xtabs
-#' @method as.xtabs matrix
 #' @export
 as.xtabs.matrix <- function(x, rowvar=NULL, colvar=NULL, ...)  {
   rnames <- rownames(x)

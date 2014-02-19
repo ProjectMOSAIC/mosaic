@@ -149,7 +149,6 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 #' Solve an equation
 #' @rdname findZeros
 #'
-#' @method solve formula
 #'
 #'@param form Expression to be solved
 #'

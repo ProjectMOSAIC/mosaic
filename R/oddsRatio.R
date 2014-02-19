@@ -62,7 +62,6 @@ oddsRatio <- function(x, conf.level = 0.95){
 }
 
 #' @rdname oddsRatio
-#' @method print oddsRatio
 #' @param digits number of digits to display
 #' @param \dots additional arguments
 #' @export

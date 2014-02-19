@@ -4,7 +4,6 @@
 #' on numerical vectors and numerical components of data frames.
 #' @rdname confint
 #'
-#' @method confint numeric
 #' @param object The data frame or numerical vector.
 #' @param parm not used -- for compatibility with other confint methods
 #' @param level confidence level (default 0.95)
@@ -46,7 +45,6 @@ confint.numeric = function(object, parm, level=0.95, ..., method="stderr",
 }
 # =================
 #' @rdname confint
-#' @method confint do.data.frame
 confint.do.data.frame = function(object, parm, level=0.95, ..., 
                                  method="stderr", margin.of.error="stderr" %in% method) {
   method <- match.arg(method, c("se","stderr","percentile","quantile"), several.ok=TRUE) # which method was selected
@@ -113,7 +111,6 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
 }
 
 #' @rdname confint
-#' @method confint data.frame
 #' 
 confint.data.frame = function(object, parm, level=0.95, ... )  {
   results <- list()

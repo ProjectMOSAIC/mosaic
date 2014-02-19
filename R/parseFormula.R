@@ -53,29 +53,21 @@ operator <- function(x, ...) {
 }
 
 #' @rdname parseFormula
-#' @method rhs formula
 rhs.formula <- function(x,...) rhs( parse.formula(x, ...) )
 #' @rdname parseFormula
-#' @method lhs formula
 lhs.formula <- function(x,...) lhs( parse.formula(x, ...) )
 #' @rdname parseFormula
-#' @method lhs formula
 condition.formula <- function(x,...) condition( parse.formula(x, ...) )
 #' @rdname parseFormula
-#' @method lhs formula
 operator.formula <- function(x,...) operator( parse.formula(x, ...) )
 
 #' @rdname parseFormula
-#' @method rhs parsedFormula
 rhs.parsedFormula <- function(x,...) x$rhs
 #' @rdname parseFormula
-#' @method lhs parsedFormula
 lhs.parsedFormula <- function(x,...) x$lhs
 #' @rdname parseFormula
-#' @method operator  parsedFormula
 operator.parsedFormula <- function(x,...) x$operator
 #' @rdname parseFormula
-#' @method condition  parsedFormula
 condition.parsedFormula <- function(x,...) x$condition
 
 

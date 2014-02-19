@@ -51,7 +51,7 @@ setGeneric(
 #' head(KidsFeet,1)
 #' 
 #' @usage
-#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE) 
+#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE) 
 setMethod(
   'makeFun',
   'formula',
@@ -319,7 +319,6 @@ modelVars <- function(model) {
 #' @param object a function
 #' @param \dots ignored
 #'
-#' @method coef function
 #' @export
 #' @examples
 #' model <- lm( width ~ length, data=KidsFeet)

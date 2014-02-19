@@ -40,14 +40,12 @@ ttest <- function (x, ...) {
 }
 
 #' @rdname ttest
-#' @method ttest default
 #' @export
 ttest.default <-  function (x, ...) {
   stats::t.test(x = x, ...)
 }
 
 #' @rdname ttest
-#' @method ttest formula
 #' @export
 ttest.formula <- function(x, data=parent.frame(), groups=NULL, ...) {
   x <- mosaic_formula_q(x, groups=groups, max.slots=2)

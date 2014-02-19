@@ -8,14 +8,12 @@
 #' @param data a data frame.  NB: This does not come second in the argument list.
 #' @param which,ordered,conf.level,\dots just as in \code{\link{TukeyHSD}} from the \code{base} package
 #' 
-#' @method TukeyHSD lm
 #' @export
 TukeyHSD.lm <- function(x, which, ordered = FALSE, conf.level=0.95, ...) {
 	stats::TukeyHSD( aov(x), which = which, ordered = ordered, conf.level = conf.level, ...)
 }
 
 #' @rdname TukeyHSD.lm
-#' @method TukeyHSD formula
 #' @export
 #' @examples
 #' ## These should all give the same results

@@ -57,14 +57,12 @@ model <- function(object, ...) {
 }
 
 #' @rdname fitModel
-#' @method model nlsfunction
 #' @export
 model.nlsfunction <- function(object, ...) {
   as.list(environment(object))$model
 }
 
 #' @rdname fitModel
-#' @method summary nlsfunction
 #' @export
 summary.nlsfunction <- function(object, ...) {
   summary( model( object), ... )
@@ -72,7 +70,6 @@ summary.nlsfunction <- function(object, ...) {
 
 
 #' @rdname fitModel
-#' @method coef nlsfunction
 #' @export
 coef.nlsfunction <- function(object, ...) {
   coef( model(object), ... )

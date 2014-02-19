@@ -13,7 +13,6 @@
 logical2factor  <- function(x, ...) { UseMethod('logical2factor') }
 
 #' @rdname logical2factor
-#' @method logical2factor default
 logical2factor.default  <- function( x, ... ) {
 	if (is.logical(x)) {
 		x <- factor(x, levels=c(TRUE,FALSE), labels=c("TRUE","FALSE"))
@@ -22,7 +21,6 @@ logical2factor.default  <- function( x, ... ) {
 }
 
 #' @rdname logical2factor
-#' @method logical2factor data.frame
 logical2factor.data.frame  <- function( x, ... ) {
 	for (var in names(x)) {
 		if (is.logical(x[,var])) {

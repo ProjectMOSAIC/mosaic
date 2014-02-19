@@ -19,7 +19,6 @@ plotCumfreq <- function(x, data, ...) { UseMethod('plotCumfreq') }
 
 #' @rdname plotCumfreq
 #' @export
-#' @method plotCumfreq formula
 #' @param subscripts as in lattice plots
 plotCumfreq.formula <- function(x, data=NULL, subscripts,
 	...) {
@@ -33,7 +32,6 @@ plotCumfreq.formula <- function(x, data=NULL, subscripts,
 
 #' @rdname plotCumfreq
 #' @export
-#' @method plotCumfreq default
 plotCumfreq.default <- function(x, ...) {
 	plotCumfreq.formula( ~ x, ...)
 }
