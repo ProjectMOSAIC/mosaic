@@ -10,13 +10,14 @@
 \alias{project,numeric-method}
 \title{Projections}
 \usage{
-project(x, u, data, ...)
+project(x, u, data = parent.env(), ...)
 
-\S4method{project}{formula}( x, u=NULL, data=parent.frame(), ...)
+\S4method{project}{formula}(x, u = NULL, data = parent.frame(), ...)
 
-\S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector", "length"), ...)
+\S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector",
+  "length"), ...)
 
-\S4method{project}{matrix}(x, u, data=parent.frame())
+\S4method{project}{matrix}(x, u, data = parent.frame())
 }
 \arguments{
   \item{x}{a vector or formula.  Left-hand sides of
@@ -29,7 +30,7 @@ project(x, u, data, ...)
   \item{type}{one of \code{length} or \code{vector}
   determining the type of the returned value}
 
-  \item{\dots}{additional arguments}
+  \item{...}{additional arguments}
 }
 \value{
 \code{project} returns the projection of \code{x} onto \code{u}

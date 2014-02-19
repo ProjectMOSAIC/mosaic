@@ -7,7 +7,7 @@
 \usage{
 rflip(n = 1, prob = 0.5, quiet = FALSE, verbose = !quiet)
 
-print.cointoss(x, ...)
+\method{print}{cointoss}(x, ...)
 
 nflip(n = 1, prob = 0.5, ...)
 }

@@ -9,7 +9,7 @@
 \arguments{
   \item{object}{a function}
 
-  \item{\dots}{ignored}
+  \item{...}{ignored}
 }
 \description{
 \code{coef}  will extract the coefficients attribute from a function.

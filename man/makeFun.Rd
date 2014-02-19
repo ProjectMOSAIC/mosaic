@@ -10,19 +10,21 @@
 \usage{
 makeFun(object, ...)
 
-\S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE)
+\S4method{makeFun}{formula}(object, ..., strict.declaration = TRUE,
+  use.environment = TRUE, suppress.warnings = FALSE)
 
-\S4method{makeFun}{lm} ( object, ..., transform=identity)
+\S4method{makeFun}{lm}(object, ..., transform = identity)
 
-\S4method{makeFun}{glm} ( object, ..., type=c('response','link'), transform=identity )
+\S4method{makeFun}{glm}(object, ..., type = c("response", "link"),
+  transform = identity)
 
-\S4method{makeFun}{nls} ( object, ..., transform=identity)
+\S4method{makeFun}{nls}(object, ..., transform = identity)
 }
 \arguments{
   \item{object}{an object from which to create a function.
   This should generally be specified without naming.}
 
-  \item{\dots}{additional arguments in the form \code{var =
+  \item{...}{additional arguments in the form \code{var =
   val} that set default values for the inputs to the
   function.}
 

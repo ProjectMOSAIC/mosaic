@@ -33,7 +33,7 @@ numerical.mixed.partial(f, var1, var2, h, av)
   \item{formula}{a mathematical expression (see examples
   and \code{\link{plotFun}})}
 
-  \item{\dots}{additional parameters, typically default
+  \item{...}{additional parameters, typically default
   values for mathematical parameters}
 
   \item{.hstep}{numerical finite-difference step (default
@@ -74,9 +74,6 @@ numerical.mixed.partial(f, var1, var2, h, av)
   \item{f}{function to differentiate}
 
   \item{av}{arguments to the function calling this}
-
-  \item{...}{additional parameters, typically default
-  values for mathematical parameters}
 }
 \value{
 a function implementing the derivative as a finite-difference approximation

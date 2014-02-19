@@ -56,8 +56,8 @@ plotFun(object, ..., add = FALSE, xlim = NULL, ylim = NULL, npts = NULL,
 
   \item{groups}{grouping argument ala lattice graphics}
 
-  \item{\dots}{additional parameters, typically processed
-  by \code{lattice} functions such as
+  \item{...}{additional parameters, typically processed by
+  \code{lattice} functions such as
   \code{\link[lattice]{xyplot}},
   \code{\link[lattice]{levelplot}} or their panel
   functions. Frequently used parameters include \describe{

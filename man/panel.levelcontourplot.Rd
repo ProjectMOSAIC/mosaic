@@ -38,7 +38,7 @@ panel.levelcontourplot(x, y, z, subscripts = 1, at, shrink, labels = TRUE,
 
   \item{border}{type of border}
 
-  \item{\dots}{additional arguments}
+  \item{...}{dots additional arguments}
 
   \item{col.regions}{a vector of colors or a function
   (\code{topo.colors} by default) for generating such}

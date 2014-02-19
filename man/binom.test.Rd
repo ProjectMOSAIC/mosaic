@@ -10,25 +10,27 @@
 \alias{binom.test,numeric-method}
 \title{Exact Tests for Proportions}
 \usage{
-binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...)
+binom.test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95, ...)
 
-\S4method{binom.test}{ANY}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, ...)
+\S4method{binom.test}{ANY}(x, n, p = 0.5, alternative = c("two.sided",
+  "less", "greater"), conf.level = 0.95, ...)
 
-\S4method{binom.test}{formula}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, data, ...)
+\S4method{binom.test}{formula}(x, n, p = 0.5, alternative = c("two.sided",
+  "less", "greater"), conf.level = 0.95, success = NULL, data.name, data,
+  ...)
 
-\S4method{binom.test}{numeric}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+\S4method{binom.test}{numeric}(x, n, p = 0.5, alternative = c("two.sided",
+  "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 
-\S4method{binom.test}{character}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+\S4method{binom.test}{character}(x, n, p = 0.5, alternative = c("two.sided",
+  "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 
-\S4method{binom.test}{logical}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+\S4method{binom.test}{logical}(x, n, p = 0.5, alternative = c("two.sided",
+  "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 
-\S4method{binom.test}{factor}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+\S4method{binom.test}{factor}(x, n, p = 0.5, alternative = c("two.sided",
+  "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 }
 \arguments{
   \item{x}{count of successes, length 2 vector of success
@@ -54,7 +56,7 @@ binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf
   \item{data}{a data frame (if missing, \code{n} may be a
   data frame)}
 
-  \item{\dots}{additional arguments (often ignored)}
+  \item{...}{additional arguments (often ignored)}
 }
 \value{
 an object of class \code{htest}

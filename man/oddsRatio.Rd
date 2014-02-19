@@ -6,7 +6,7 @@
 \usage{
 oddsRatio(x, conf.level = 0.95)
 
-print.oddsRatio(x, digits = 4, ...)
+\method{print}{oddsRatio}(x, digits = 4, ...)
 }
 \arguments{
   \item{x}{a 2 X 2 matrix, data frame or table of counts}

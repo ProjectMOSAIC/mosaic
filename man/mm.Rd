@@ -5,7 +5,7 @@
 \alias{fitted.groupwiseModel}
 \alias{mm}
 \alias{print.groupwiseModel}
-\alias{print.summary.groupwiseModel}
+\alias{print.summary_groupwiseModel}
 \alias{residuals.groupwiseModel}
 \alias{summary.groupwiseModel}
 \title{Construct a model based on groupwise means}
@@ -17,7 +17,8 @@ mm(formula, data = parent.frame(), fun = mean, drop = TRUE, ...)
 
 \method{coef}{groupwiseModel}(object, ...)
 
-print.groupwiseModel(x, ..., digits = max(3, getOption("digits") - 3))
+\method{print}{groupwiseModel}(x, ..., digits = max(3, getOption("digits") -
+  3))
 
 \method{residuals}{groupwiseModel}(object, ...)
 
@@ -25,7 +26,8 @@ print.groupwiseModel(x, ..., digits = max(3, getOption("digits") - 3))
 
 \method{summary}{groupwiseModel}(object, ...)
 
-print.summary.groupwiseModel(x, digits = max(3, getOption("digits") - 3), ...)
+\method{print}{summary_groupwiseModel}(x, digits = max(3, getOption("digits")
+  - 3), ...)
 }
 \arguments{
   \item{formula}{A formula.  The left-hand side specifies

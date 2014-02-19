@@ -35,7 +35,7 @@ panel.plotFun(object, ..., type = "l", npts = NULL, zlab = NULL,
   \item{alpha}{number from 0 (transparent) to 1 (opaque)
   for the fill colors}
 
-  \item{\dots}{additional arguments, typically processed by
+  \item{...}{additional arguments, typically processed by
   \code{lattice} panel functions such as
   \code{\link[lattice]{panel.xyplot}} or
   \code{\link[lattice]{panel.levelplot}}.  Frequently used
