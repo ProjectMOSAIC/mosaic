@@ -13,23 +13,17 @@
 prop.test( x, n, p = NULL, alternative = c("two.sided", "less", "greater"),
 					conf.level = 0.95, ...)
 
-\S4method{prop.test}{ANY}(x, n, p=NULL, alternative = c("two.sided", "less", "greater"),
- conf.level = 0.95,...)
+conf.level = 0.95,...)
 
-\S4method{prop.test}{formula}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, data, ...)
+conf.level = 0.95, success=NULL, data.name, data, groups=NULL, ...)
 
-\S4method{prop.test}{numeric}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+conf.level = 0.95, success=NULL, data.name, ...)
 
-\S4method{prop.test}{character}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+conf.level = 0.95, success=NULL, data.name, ...)
 
-\S4method{prop.test}{logical}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+conf.level = 0.95, success=NULL, data.name, ...)
 
-\S4method{prop.test}{factor}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"),
-				   conf.level = 0.95, success=NULL, data.name, ...)
+conf.level = 0.95, success=NULL, data.name, ...)
 }
 \arguments{
   \item{x}{count of successes, length 2 vector of success

@@ -29,9 +29,9 @@ operator(x, ...)
 
 \method{lhs}{formula}(x, ...)
 
-\method{lhs}{formula}(x, ...)
+\method{condition}{formula}(x, ...)
 
-\method{lhs}{formula}(x, ...)
+\method{operator}{formula}(x, ...)
 
 \method{rhs}{parsedFormula}(x, ...)
 

@@ -10,7 +10,7 @@
 \usage{
 makeFun(object, ...)
 
-\S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE)
+\S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE)
 
 \S4method{makeFun}{lm} ( object, ..., transform=identity)
 

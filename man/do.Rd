@@ -23,6 +23,17 @@ do(n = 1L, cull = NULL, mode = "default", algorithm = 1)
 
   \item{mode}{target mode for value returned}
 
+  \item{algorithm}{a number usd to select the algorithm
+  used.  Currently numbers below 1 use an older algorithm
+  and numbers >=1 use a newer algorithm which is faster in
+  some situations.}
+
+  \item{e1}{an object (in cases documented here, the result
+  of running \code{do})}
+
+  \item{e2}{an object (in cases documented here, an
+  expression to be repeated)}
+
   \item{x}{an object used to select a method.}
 
   \item{...}{further arguments passed to or from other
@@ -43,7 +54,7 @@ do(3) * lm(shuffle(height) ~ sex + mother, Galton)
 do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
 do(3) * 1:4
 do(3) * mean(rnorm(25))
-do(3) * c(mean = mean(rnorm(25)))
+do(3) * c(sample.mean = mean(rnorm(25)))
 do(3) * tally( ~sex|treat, data=resample(HELPrct))
 }
 \author{
