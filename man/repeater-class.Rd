@@ -17,7 +17,9 @@ format from that used by, for example, \code{\link{replicate}}.
   \code{"character"} indicating the output mode ('default',
   'data.frame', 'matrix', 'vector', or 'list').  For most
   purposes 'default' (the default) should suffice.}
-  \item{\code{algorithm}:}{an algorithm number.} }
+  \item{\code{algorithm}:}{an algorithm number.}
+  \item{\code{parallel}:}{a logical indicating whether to
+  attempt parallel execution.} }
 }
 \seealso{
 \code{\link{do}}

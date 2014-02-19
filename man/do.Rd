@@ -6,7 +6,8 @@
 \alias{print,repeater-method}
 \title{Do Things Repeatedly}
 \usage{
-do(n = 1L, cull = NULL, mode = "default", algorithm = 1)
+do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
+  parallel = TRUE)
 
 \S4method{print}{repeater}(x, ...)
 
