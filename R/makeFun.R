@@ -7,7 +7,7 @@ tryCatch(utils::globalVariables(c('model','result')),
 #' 
 #' @param object an object from which to create a function.  This should generally
 #'         be specified without naming.
-#' @param \dots additional arguments in the form \code{var = val} that
+#' @param ... additional arguments in the form \code{var = val} that
 #' set default values for the inputs to the function.
 #' @return a function
 #' 
@@ -50,8 +50,8 @@ setGeneric(
 #' f(8.4)
 #' head(KidsFeet,1)
 #' 
-#' @usage
-#' \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE) 
+# @usage
+# \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE) 
 setMethod(
   'makeFun',
   'formula',
@@ -130,8 +130,8 @@ setMethod(
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
-#' @usage
-#' \S4method{makeFun}{lm} ( object, ..., transform=identity)
+# @usage
+# \S4method{makeFun}{lm} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'lm',
@@ -185,8 +185,8 @@ setMethod(
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
-#' @usage
-#' \S4method{makeFun}{glm} ( object, ..., type=c('response','link'), transform=identity )
+# @usage
+# \S4method{makeFun}{glm} ( object, ..., type=c('response','link'), transform=identity )
 setMethod(
   'makeFun',
   'glm',
@@ -246,8 +246,8 @@ setMethod(
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
 
-#' @usage
-#' \S4method{makeFun}{nls} ( object, ..., transform=identity)
+# @usage
+# \S4method{makeFun}{nls} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'nls',
@@ -317,7 +317,7 @@ modelVars <- function(model) {
 #' @aliases coef coef.function 
 #'
 #' @param object a function
-#' @param \dots ignored
+#' @param ... ignored
 #'
 #' @export
 #' @examples

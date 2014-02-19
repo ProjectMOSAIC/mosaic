@@ -6,7 +6,7 @@
 #' probability of success in a Bernoulli or multinomial experiment
 #' from summarized data or from raw data.
 #' 
-#' @usage prop.test( x, n, p = NULL, alternative = c("two.sided", "less", "greater"), 
+# @usage prop.test( x, n, p = NULL, alternative = c("two.sided", "less", "greater"), 
 #' 					conf.level = 0.95, ...) 
 #' 
 #' @param x  count of successes, length 2 vector of success and failure counts, a formula,
@@ -39,7 +39,7 @@
 #' 
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' 
-#' @param \dots  additional arguments (often ignored) 
+#' @param ... additional arguments (often ignored) 
 #'
 #' @return an \code{htest} object
 #' 
@@ -82,7 +82,7 @@ setGeneric(
 
 #' @rdname prop.test
 #' @aliases prop.test,ANY-method
-#' @usage
+# @usage
 # \S4method{prop.test}{ANY}(x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
 #'  conf.level = 0.95,...) 
 setMethod(
@@ -101,7 +101,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,formula-method
-#' @usage
+#  @usage
 # \S4method{prop.test}{formula}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
 #'				   conf.level = 0.95, success=NULL, data.name, data, groups=NULL, ...) 
 setMethod(
@@ -160,7 +160,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,numeric-method
-#' @usage
+#  @usage
 # \S4method{prop.test}{numeric}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
 #'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
@@ -199,7 +199,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,character-method
-#' @usage
+#  @usage
 # \S4method{prop.test}{character}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
 #'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
@@ -222,7 +222,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,logical-method
-#' @usage
+#  @usage
 # \S4method{prop.test}{logical}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
 #'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
@@ -245,7 +245,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,factor-method
-#' @usage
+#  @usage
 # \S4method{prop.test}{factor}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
 #'				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(

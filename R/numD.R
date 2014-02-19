@@ -8,7 +8,7 @@
 #' @aliases numD
 #'
 #' @param formula a mathematical expression (see examples and \code{\link{plotFun}})
-#' @param \dots additional parameters, typically default values for mathematical parameters
+#' @param ... additional parameters, typically default values for mathematical parameters
 #' @param .hstep numerical finite-difference step (default is 1e-6 or 1e-4 for first and second-order derivatives, respectively)
 #' @param add.h.control arranges the returned function to have a \code{.hstep} argument that cann be used to demonstrate convergence and error
 #'
@@ -49,7 +49,7 @@
 # and grabs the arguments, adding and subtracting the finite-difference step h
 # as appropriate, then evaluating f at the new points to find the finite difference.
 
-numD <- function(formula, ..., .hstep=NULL,add.h.control=FALSE) {
+numD <- function(formula, ..., .hstep=NULL, add.h.control=FALSE) {
   formulaEnv = environment(formula) # where did the formula come from?
   # translate the formula into a function
   f <- makeFun(formula, ...)

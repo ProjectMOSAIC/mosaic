@@ -29,7 +29,7 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param groups grouping argument ala lattice graphics
-#' @param \dots additional parameters, typically processed by \code{lattice} functions such as 
+#' @param ... additional parameters, typically processed by \code{lattice} functions such as 
 #' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
 #' Frequently used parameters include 
 #' \describe{ 
@@ -366,7 +366,7 @@ plotFun <- function(object, ...,
 #' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
-#' @param \dots additional arguments, typically processed by \code{lattice} panel functions
+#' @param ... additional arguments, typically processed by \code{lattice} panel functions
 #'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
 #'        Frequently used arguments include
 #'        \describe{
@@ -461,7 +461,7 @@ panel.plotFun1 <- function( ..f.., ...,
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
-#' @param \dots additional arguments, typically processed by \code{lattice} panel functions
+#' @param ... additional arguments, typically processed by \code{lattice} panel functions
 #'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
 #'        Frequently used arguments include
 #'        \describe{
@@ -650,7 +650,7 @@ inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants
 #' @param lty type for contours
 #' @param lwd width for contour
 #' @param border type of border
-#' @param \dots additional arguments
+#' @param ... dots additional arguments
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param filled whether to fill the contours with color
 #' @param alpha.regions transparency of regions

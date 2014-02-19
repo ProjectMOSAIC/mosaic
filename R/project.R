@@ -5,13 +5,13 @@
 #' @rdname project-methods
 #' @docType methods
 #' @export
-#' @usage project(x, u, data, ...) 
+# @usage project(x, u, data, ...) 
 #' @param x a vector or formula.  Left-hand sides of formulas should be a 
 #' single quantity
 #' @param u a vector 
 #' @param data a data frame.
 #' @param type  one of \code{length} or \code{vector} determining the type of the returned value
-#' @param \dots  additional arguments
+#' @param ... additional arguments
 
 #' @details
 #' \code{project} (preferably pronounced "pro-JECT" as in "projection") 
@@ -51,8 +51,8 @@ setGeneric(
 #' project(a~b)
 #' project(width~length+sex, data=KidsFeet)
 #' project(log(width) ~ I(length^2)+sin(length)+sex, data=KidsFeet)
-#' @usage
-#' \S4method{project}{formula}( x, u=NULL, data=parent.frame(), ...) 
+# @usage
+# \S4method{project}{formula}( x, u=NULL, data=parent.frame(), ...) 
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -81,8 +81,8 @@ setMethod(
 #' @rdname project-methods
 #' @aliases project,numeric,ANY-method
 #' @aliases project,numeric-method
-#' @usage
-#' \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector", "length"), ...) 
+# @usage
+# \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector", "length"), ...) 
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -96,8 +96,8 @@ setMethod(
 #' @rdname project-methods
 #' @aliases project,matrix,ANY-method
 #' @aliases project,matrix-method
-#' @usage
-#' \S4method{project}{matrix}(x, u, data=parent.frame())
+# @usage
+# \S4method{project}{matrix}(x, u, data=parent.frame())
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),
