@@ -6,7 +6,7 @@
 #' The mosaic \code{binom.test} provides wrapper functions around the function of the same name in \pkg{stats}.
 #' These wrappers provide an extended interface (including formulas).  
 #' 
-#' @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
+# @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
 #'
 #' @param x  count of successes, length 2 vector of success and failure counts, a formula,
 #'   			or a character, numeric, or factor vector containing raw data.
@@ -20,7 +20,7 @@
 #'   	considered failure.
 #' @param data.name name for data.  If missing, this is inferred from variable names.
 #' @param data a data frame (if missing, \code{n} may be a data frame)
-#' @param \dots  additional arguments (often ignored) 
+#' @param ... additional arguments (often ignored) 
 #' 
 #' @return an object of class \code{htest}
 #' 
@@ -48,7 +48,7 @@
 #' @keywords stats
 
 #' @rdname binom.test
-#' @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
+# @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
 #' @export
 #'
 setGeneric(
@@ -63,9 +63,9 @@ setGeneric(
 
 #' @rdname binom.test
 #' @aliases binom.test,ANY-method
-#' @usage
-#' \S4method{binom.test}{ANY}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, ...) 
+# @usage
+# \S4method{binom.test}{ANY}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#				   conf.level = 0.95, ...) 
 setMethod(
 		  'binom.test',
 		  'ANY',
@@ -82,9 +82,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,formula-method
-#' @usage
-#' \S4method{binom.test}{formula}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, data, ...) 
+# @usage
+# \S4method{binom.test}{formula}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#				   conf.level = 0.95, success=NULL, data.name, data, ...) 
 
 setMethod(
 		  'binom.test',
@@ -131,9 +131,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,numeric-method
-#' @usage
-#' \S4method{binom.test}{numeric}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+# @usage
+# \S4method{binom.test}{numeric}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'numeric',
@@ -168,9 +168,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,character-method
-#' @usage
-#' \S4method{binom.test}{character}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+# @usage
+# \S4method{binom.test}{character}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'character',
@@ -191,9 +191,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,logical-method
-#' @usage
-#' \S4method{binom.test}{logical}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+# @usage
+# \S4method{binom.test}{logical}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'logical',
@@ -214,9 +214,9 @@ setMethod(
 
 #' @rdname binom.test
 #' @aliases binom.test,factor-method
-#' @usage
-#' \S4method{binom.test}{factor}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+# @usage
+# \S4method{binom.test}{factor}( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), 
+#				   conf.level = 0.95, success=NULL, data.name, ...) 
 setMethod(
 		  'binom.test',
 		  'factor',
