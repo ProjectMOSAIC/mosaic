@@ -4,7 +4,7 @@
 \title{Tabulate categorical data}
 \usage{
 tally(x, data = parent.frame(), format = c("default", "count", "proportion",
-  "percent"), margins = TRUE, quiet = TRUE, subset, ...)
+  "percent"), margins = FALSE, quiet = TRUE, subset, ...)
 }
 \arguments{
   \item{x}{an object}

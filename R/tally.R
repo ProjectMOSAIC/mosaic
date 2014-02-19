@@ -62,7 +62,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 
 tally <- function(x, data=parent.frame(), 
                       format=c('default','count','proportion','percent'), 
-                      margins=TRUE,
+                      margins=FALSE,
                       quiet=TRUE,
                       subset, ...) {
 	format <- match.arg(format)
