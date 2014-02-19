@@ -29,6 +29,10 @@ do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
   and numbers >=1 use a newer algorithm which is faster in
   some situations.}
 
+  \item{parallel}{a logical indicating whether parallel
+  computation should be attempted using the \pkg{parallel}
+  package (if it is installed).}
+
   \item{e1}{an object (in cases documented here, the result
   of running \code{do})}
 
