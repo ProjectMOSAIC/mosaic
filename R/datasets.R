@@ -1835,13 +1835,13 @@ NA
 #'  @usage data(Heightweight)
 #'  @format
 #'      A data frame with 81 observations on the following variables.
-#'    
-#'    \itemize{
-#'     \item{\code{female}} {0 = male, 1 = female}
-#'     \item{\code{gender}} {a factor with levels \code{male} or \code{female}}
-#'     \item{\code{height}} {subject height (in inches)}
-#'     \item{\code{weight}} {subject weight (in pounds)}
-#'   }
+#'   
+#'  \itemize{
+#'    \item{\code{female}} {0 = male, 1 = female}
+#'    \item{\code{gender}} {a factor with levels \code{male} or \code{female}}
+#'    \item{\code{height}} {subject height (in inches)}
+#'    \item{\code{weight}} {subject weight (in pounds)}
+#'  }
 #' 
 #' @references
 #' Part of the Carnegie Mellon University Online Learning Initiative datasets.
