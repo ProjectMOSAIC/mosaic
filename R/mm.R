@@ -125,6 +125,7 @@ coef.groupwiseModel <- function(object, ...) {
 #' @rdname mm
 #' @param x Object to be printed
 #' @param digits number of digits to display
+#' @method print groupwiseModel
 print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) ) {
   # directly copied from print.lm, but since this isn't an lm object, it
   # doesn't make sense to call print.lm on it.
@@ -152,12 +153,13 @@ summary.groupwiseModel <- function(object, ... ){
   ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
   res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
                          df=object$df,coefs=confint(object)), 
-                         class= "summary.groupwiseModel"
+                         class= "summary_groupwiseModel"
   )
   return(res)
 }
 #' @rdname mm
-print.summary.groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {
+#' @method print summary_groupwiseModel
+print.summary_groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {
   cat("Groupwise Model\n")
   cat(paste("Call: ", deparse(x$call), "\n"))
   cat("\n"); print(x$coefs); cat("\n")
