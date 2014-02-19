@@ -285,8 +285,8 @@ if(FALSE) {
 
 #' @rdname do
 #' @aliases print,repeater-method
-#' @usage
-#' \S4method{print}{repeater}(x, ...) 
+# @usage
+# \S4method{print}{repeater}(x, ...) 
 setMethod("print",
     signature(x = "repeater"),
     function (x, ...) 
@@ -338,8 +338,8 @@ setMethod("print",
 
 #' @rdname do
 #' @aliases *,repeater,ANY-method
-#' @usage
-#' \S4method{*}{repeater,ANY}(e1, e2) 
+# @usage
+# \S4method{*}{repeater,ANY}(e1, e2) 
 
 setMethod("*",
     signature(e1 = "repeater", e2="ANY"),
