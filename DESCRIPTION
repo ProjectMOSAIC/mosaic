@@ -10,6 +10,7 @@ Depends:
     lattice (>= 0.20-21)
 Imports:
     Hmisc,
+    car,
     methods,
     utils,
     splines
