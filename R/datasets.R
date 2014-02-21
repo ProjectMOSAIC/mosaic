@@ -242,6 +242,40 @@ NA
 #' 
 
 NA
+#' Data from a heat exchanger laboratory
+#'
+#' These data were collected by engineering students at Calvin College.
+#' The apparatus consists of concentric pipes insulated from the environment so that
+#' as nearly as can be managed the only heat exchange is between the hot and cold water.
+#'
+#' @docType data
+#' @keywords datasets
+#' @name HeatX
+#' @usage data(HeatX)
+#' @format 
+#'   A data frame with 6 observations on the following variables.
+#'   \itemize{
+#'     \item{\code{trial}} {trial number}
+#'     \item{\code{T.cold.in}} {temperature (C) of the cold water as it enters the apparatus}
+#'     \item{\code{T.cold.out}} {temperature (C) of the cold water as it leaves the apparatus}
+#'     \item{\code{m.cold}} {flow rate (L/min) of the cold water}
+#'     \item{\code{T.hot.in}} {temperature (C) of the hot water as it enters the apparatus}
+#'     \item{\code{T.hot.out}} {temperature (C) of the hot water as it leaves the apparatus}
+#'     \item{\code{m.hot}} {flow rate (L/min) of the hot water}
+#'   }
+#' @examples
+#' # We can test for heat exchange with the environment by check to see if the 
+#' # heat gained by the cold water matches the heat lost by the hot water.
+#' C_p <- 4.182 / 60  # / 60 because measureing m in L/min
+#' HeatX2 <- transform(HeatX, 
+#'                 Q.cold = m.cold * C_p * (T.cold.out - T.cold.in),
+#'                 Q.hot= m.hot * C_p * (T.hot.out- T.hot.in)
+#')
+#' HeatX2 <- transform(HeatX2, Q.env = Q.cold + Q.hot)
+#' stripplot( ~ Q.env, data=HeatX2, alpha=.6, cex=2, jitter.data=TRUE, factor=4)
+#' t.test( ~Q.env, data = HeatX2 )
+
+NA
 
 #' Data from the Child Health and Development Studies
 #' 
