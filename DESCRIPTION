@@ -10,12 +10,12 @@ Depends:
     lattice (>= 0.20-21)
 Imports:
     Hmisc,
-    car,
     methods,
     utils,
     splines
 Suggests:
     MASS,
+    car,
     reshape2,
     ggplot2,
     plyr,
