@@ -53,7 +53,7 @@ deltaMethod <- function(object, ...) {
  
 deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measurements, func=g, constants=c(), 
                                    measurements=NULL, ...) {
-  if (! require(car) ) stop( "You must install the car package to use deltaMethod()." )
+#  if (! require(car) ) stop( "You must install the car package to use deltaMethod()." )
   if (! require(plyr) ) stop( "You must install the plyr package to use deltaMethod() on a data frame." )
 
   

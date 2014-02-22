@@ -9,13 +9,13 @@ Depends:
     grid,
     lattice (>= 0.20-21)
 Imports:
+    car,
     Hmisc,
     methods,
     utils,
     splines
 Suggests:
     MASS,
-    car,
     reshape2,
     ggplot2,
     plyr,
