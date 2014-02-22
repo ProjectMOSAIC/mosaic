@@ -58,7 +58,8 @@ mosaic_formula_q <- function( formula,
       y ~ g, list( y = formula_name, g=substitute(groups,parent.frame()) ) 
     ) 
     slots <- eval( substitute( 
-      alist(y, g), env= list( y = formula_name, g=substitute(groups,parent.frame()) ) 
+      alist(y, g), env= list( y = substitute( (.z) , list(.z=formula_name) ), 
+                              g=substitute(groups,parent.frame()) ) 
     ))
   } else { 
     slots <- alist()
