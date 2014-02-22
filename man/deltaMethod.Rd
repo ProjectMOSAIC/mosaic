@@ -66,6 +66,10 @@ HeatX3 <- transform(HeatX,
                     u.m.cold=0.5, u.m.hot=0.5)
 deltaMethod( HeatX3[, c("T.cold.in","T.cold.out","m.cold")], exprforQ,
              HeatX3[, c("u.cold.in", "u.cold.out", "u.m.cold")])
+# Rather than specifying two data frames, we can use subsetting instead
+deltaMethod( HeatX3,  exprforQ,
+   estimates=c("T.cold.in","T.cold.out","m.cold"),
+   uncertainties=c("u.cold.in", "u.cold.out", "u.m.cold"))
 }
 \seealso{
 \code{deltaMethod} in the \pkg{car} package.

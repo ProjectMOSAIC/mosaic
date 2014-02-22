@@ -18,7 +18,11 @@
 #'                     u.m.cold=0.5, u.m.hot=0.5)
 #' deltaMethod( HeatX3[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
 #'              HeatX3[, c("u.cold.in", "u.cold.out", "u.m.cold")])
-#' 
+#' # Rather than specifying two data frames, we can use subsetting instead
+#' deltaMethod( HeatX3,  exprforQ, 
+#'    estimates=c("T.cold.in","T.cold.out","m.cold"), 
+#'    uncertainties=c("u.cold.in", "u.cold.out", "u.m.cold"))
+#'    
 #' @param object a data frame containing measured quantities
 #' @param g a quoted string that is describes the function of the parameter estimates to be 
 #' evaluated; see \code{\link[car]{deltaMethod}} for details.
@@ -53,7 +57,7 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
   
   if (!is.null (estimates)) {
     estimateData <- subset(object, select=estimates)
-    if (is.vector(estimates) && (is.integer(estimates) || is.character(estimates) ) ) {
+    if (is.vector(estimates) && (is.integer(estimates(uncertainties)) || is.character(uncertainties) ) ) {
       uncertainties <- subset(object, select=estimates)
     }
   } else {
