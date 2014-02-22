@@ -57,7 +57,7 @@ An expansion of the capabilities of \code{\link{deltaMethod}} from the
 \examples{
 C_p <- 4.182 / 60 # / 60 because measureing m in L/min
 exprforQ <- "(T.cold.out - T.cold.in) * C_p * m.cold"
-deltaMethod( HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, c(.1,.1,.2) )
+deltaMethod( HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, c(1,1,.5) )
 # This is just wordier in this example, but would allow the uncertainties to vary
 # from row to row.
 
