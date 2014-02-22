@@ -5,6 +5,8 @@
 
 #' @rdname deltaMethod
 #' @name deltaMethod
+#' @aliases deltaMethod.data.frame
+#' @importFrom car deltaMethod
 #' @export
 #' @examples
 #' C_p <- 4.182 / 60 # / 60 because measureing m in L/min
@@ -54,7 +56,6 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
 #  if (! require(car) ) stop( "You must install the car package to use deltaMethod()." )
   if (! require(plyr) ) stop( "You must install the plyr package to use deltaMethod() on a data frame." )
 
-  
   if (!is.null (estimates)) {
     estimateData <- subset(object, select=estimates)
     if (is.vector(estimates) && (is.integer(uncertainties) || is.character(uncertainties) ) ) {
@@ -63,7 +64,6 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
   } else {
     estimateData <- object
   }
-  
   
   if (is.data.frame(uncertainties)) {
     if (ncol(estimateData) != ncol(uncertainties) ) stop( "Data frames are not of equal width")
