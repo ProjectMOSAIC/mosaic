@@ -2,15 +2,9 @@
 #'
 #' An expansion of the capabilities of \code{\link{deltaMethod}} from the 
 #' \pkg{car} package.  
-#'
-#'
-#' @export
-#' @rdname deltaMethod
-deltaMethod <- function(object, ...) {
-  UseMethod("deltaMethod")
-}
 
 #' @rdname deltaMethod
+#' @name deltaMethod
 #' @export
 #' @examples
 #' C_p <- 4.182 / 60 # / 60 because measureing m in L/min
