@@ -74,7 +74,7 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
   } else {
     estimateData <- subset(object, select=intersect(all.vars(parse(text=g)), names(object)))
   }
-  if (is.integer(uncertainties) || is.character(uncertainties) ) {
+  if (! missingArgs['u'] && (is.integer(uncertainties) || is.character(uncertainties) ) ) {
       uncertainties <- subset(object, select=estimates)
   }
   
