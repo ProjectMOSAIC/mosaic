@@ -71,11 +71,11 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
 
   if (!is.null (estimates)) {
     estimateData <- subset(object, select=estimates)
-    if (is.vector(estimates) && (is.integer(uncertainties) || is.character(uncertainties) ) ) {
-      uncertainties <- subset(object, select=estimates)
-    }
   } else {
-    estimateData <- object
+    estimateData <- subset(object, select=intersect(all.vars(parse(text=g)), names(object)))
+  }
+  if (is.integer(uncertainties) || is.character(uncertainties) ) {
+      uncertainties <- subset(object, select=estimates)
   }
   
   if (! missingArgs['v']) {
