@@ -24,6 +24,11 @@
 #' deltaMethod( HeatX3,  exprforQ, 
 #'    estimates=c("T.cold.in","T.cold.out","m.cold"), 
 #'    uncertainties=c("u.cold.in", "u.cold.out", "u.m.cold"))
+#' # Can also specify vcov. as a matrix or list of matrices:
+#' deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
+#'   vcov. = diag(c(1,1,.5)^2) )
+#' deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
+#'   vcov. = list( diag(c(1,1,.5)^2), diag(c(1,2,.8)^2) ) )
 #'    
 #' @param object a data frame containing measured quantities
 #' @param g a quoted string that is describes the function of the parameter estimates to be 
@@ -33,12 +38,15 @@
 #' in \code{object} or a matrix providing a variance-covariance matrix for the uncertainties.  
 #' Alternatvely, if \code{estimates} is not \code{NULL}, then uncertainties may be a vector
 #' of names or integers used to select columns from \code{object}.  There is one potentially ambiguous 
-#' case. It is not possible to specify the uncertainties as a vector of integers if \code{estimates}
+#' case: It is not possible to specify the uncertainties as a vector of integers if \code{estimates}
 #' is not \code{NULL} -- such integers will be treated as column numbers for subsetting.
 #' If \code{uncertaintites} is not a matrix, independece is assumed and the 
 #' variance-covariance matrix is created under that assumption.
 #' Matching of uncertainties to measured values is by position, so 
 #' names are irrelevant.
+#' Uncertainties will be converted into a covariance matrix assuming independence.
+#' @param vcov. a covariance matrix or a list of covariance matrices.  Only one of 
+#' \code{vcov.} and \code{uncertainties} may be defined.
 #' @param func a quoted string used to annotate output. 
 #' The default of func = g is usually appropriate.
 #' @param constants This argument is a named vector whose elements are constants that are 
@@ -52,9 +60,14 @@
 #' @seealso \code{deltaMethod} in the \pkg{car} package.
  
 deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measurements, func=g, constants=c(), 
-                                   measurements=NULL, ...) {
+                                   measurements=NULL, vcov., ...) {
 #  if (! require(car) ) stop( "You must install the car package to use deltaMethod()." )
-  if (! require(plyr) ) stop( "You must install the plyr package to use deltaMethod() on a data frame." )
+
+  missingArgs <- c(u=missing(uncertainties), v= missing(vcov.))
+  if (! sum(missingArgs) == 1 ) {
+    stop("Exactly one of uncertainty and vcov. must be specified.")
+  }
+  
 
   if (!is.null (estimates)) {
     estimateData <- subset(object, select=estimates)
@@ -65,25 +78,59 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
     estimateData <- object
   }
   
+  if (! missingArgs['v']) {
+    if (! is.list(vcov.) ) { 
+      vcov. <- lapply(seq_len(nrow(estimateData)), function(...) { vcov. } ) 
+    }
+    if (length(vcov.) != nrow(estimateData)) {
+      vcov. <- lapply( rep( (1:length(vcov.)), length.out = nrow(estimateData) ),
+                       function(i) vcov.[[i]] )
+      warning("Recycling vcov. -- Is that what you wanted?")
+    }
+    
+    res <- 
+      do.call(
+        "rbind",
+        lapply( seq_len(nrow(estimateData)), 
+                function(r) { cbind( estimateData[r,], 
+                                     car::deltaMethod( unlist(estimateData[r,]), g=g, 
+                                                       vcov.=vcov.[[r]], 
+                                                       func=func, constants=constants, ...)
+                )
+                }
+        ) ) 
+    attr(res,"vcov") <- vcov.
+    return(res)
+  } 
+  
   if (is.data.frame(uncertainties)) {
     if (ncol(estimateData) != ncol(uncertainties) ) stop( "Data frames are not of equal width")
     combined <- cbind( estimateData, uncertainties)
     w <- ncol(estimateData)
-    return( ddply( combined, names(combined), 
-         function(d) { car::deltaMethod( unlist(d[1,1:w]), g=g, vcov.=diag(unlist(d[1, (w+1):(2*w)])^2), 
-                                    func=func, constants=constants, ...) }
-  ) )
+    return( 
+      do.call(
+        "rbind",
+        lapply( seq_len(nrow(combined)), 
+                function(r) { cbind( combined[r,], 
+                                     car::deltaMethod( unlist(combined[r,1:w]), g=g, 
+                                                       vcov.=diag(unlist(combined[r, (w+1):(2*w)])^2), 
+                                                       func=func, constants=constants, ...)
+                )
+                }
+        ) ) )
   } 
 
-  if (! is.numeric(uncertainties) ) stop("I don't know what to do with that kind of .vcov")
+  if (! is.numeric(uncertainties) ) stop("I don't know what to do with that kind of uncertainties")
   
   if (!is.matrix(uncertainties)) {
     uncertainties <- diag(uncertainties^2)
     message("Converting uncertainties to a var-covar matrix assuming independence ...")
   }
   
-  ddply( estimateData, names(estimateData), 
-         function(x) { car::deltaMethod( unlist(x[1,]), g=g, vcov.=uncertainties, func=func, constants=constants, ...) }
-  )
+  do.call( "rbind", lapply( seq_len(nrow(estimateData)), 
+         function(r) { cbind( estimateData[r,], 
+                              car::deltaMethod( unlist(estimateData[r,]), g=g, vcov.=uncertainties, 
+                                                func=func, constants=constants, ...)) }
+  ))
 }
 

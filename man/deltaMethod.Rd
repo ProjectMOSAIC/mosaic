@@ -6,7 +6,7 @@
 \usage{
 \method{deltaMethod}{data.frame}(object, g, uncertainties,
   estimates = measurements, func = g, constants = c(),
-  measurements = NULL, ...)
+  measurements = NULL, vcov., ...)
 }
 \arguments{
   \item{object}{a data frame containing measured
@@ -24,14 +24,20 @@
   Alternatvely, if \code{estimates} is not \code{NULL},
   then uncertainties may be a vector of names or integers
   used to select columns from \code{object}.  There is one
-  potentially ambiguous case. It is not possible to specify
+  potentially ambiguous case: It is not possible to specify
   the uncertainties as a vector of integers if
   \code{estimates} is not \code{NULL} -- such integers will
   be treated as column numbers for subsetting. If
   \code{uncertaintites} is not a matrix, independece is
   assumed and the variance-covariance matrix is created
   under that assumption. Matching of uncertainties to
-  measured values is by position, so names are irrelevant.}
+  measured values is by position, so names are irrelevant.
+  Uncertainties will be converted into a covariance matrix
+  assuming independence.}
+
+  \item{vcov.}{a covariance matrix or a list of covariance
+  matrices.  Only one of \code{vcov.} and
+  \code{uncertainties} may be defined.}
 
   \item{func}{a quoted string used to annotate output. The
   default of func = g is usually appropriate.}
@@ -71,6 +77,11 @@ deltaMethod( HeatX3[, c("T.cold.in","T.cold.out","m.cold")], exprforQ,
 deltaMethod( HeatX3,  exprforQ,
    estimates=c("T.cold.in","T.cold.out","m.cold"),
    uncertainties=c("u.cold.in", "u.cold.out", "u.m.cold"))
+# Can also specify vcov. as a matrix or list of matrices:
+deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ,
+  vcov. = diag(c(1,1,.5)^2) )
+deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ,
+  vcov. = list( diag(c(1,1,.5)^2), diag(c(1,2,.8)^2) ) )
 }
 \seealso{
 \code{deltaMethod} in the \pkg{car} package.
