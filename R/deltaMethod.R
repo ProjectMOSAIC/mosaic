@@ -106,7 +106,7 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
   if (is.data.frame(uncertainties)) {
     if (ncol(estimateData) != ncol(uncertainties) ) 
       stop( "estimates and uncertainties are not of equal width")
-    message("Converting uncertainties to a var-covar matrix assuming independence ...")
+    message("Converting uncertainties to a covariance matrix assuming independence ...")
     combined <- cbind( estimateData, uncertainties)
     w <- ncol(estimateData)
     return( 
@@ -126,7 +126,7 @@ deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measureme
   
   if (!is.matrix(uncertainties)) {
     uncertainties <- diag(uncertainties^2)
-    message("Converting uncertainties to a var-covar matrix assuming independence ...")
+    message("Converting uncertainties to a covariance matrix assuming independence ...")
   }
   
   do.call( "rbind", lapply( seq_len(nrow(estimateData)), 
