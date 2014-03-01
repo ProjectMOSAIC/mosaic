@@ -15,6 +15,8 @@
 #' the lower or upper critical value is returned.  
 #' @param warn a logical indicating whether a warning should be given when
 #' using a distribution that is not symmetric.
+#' @note This function is still experimental and changes the input or output
+#' formats are possible in future versions of the package.
 #' 
 #' @export
 #' @examples
