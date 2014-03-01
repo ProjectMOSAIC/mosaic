@@ -2,6 +2,18 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.8}{
 \itemize{
+\item \code{do} has been largely rewritten with an eye toward improved 
+efficiency.  In particular, \code{do} will take advantage of multiple cores
+if the \pkg{parallel} package is availalbe. At this point, sluggishness in applications of \code{do} are 
+mostly likely due to the sluggishness of what is being done, not to \code{do} itself.
+\item Added an additional method to \code{deltaMethod} from the \pkg{car} package to make it easier to do propagation of uncertainty is some situations
+that arrise commonly in the physical sciences and engineering.
+\item Added \code{cdist} to compute critical values for the central portion
+of a distribution.}A
+\item Some changes to the API for \code{qdata}.  For interactive use, this 
+not cause any problem, but old programmatic uses of \code{qdata} should be 
+checked as the object returned is now different.
+\item Fixed a bug that caused aggregating functions (\code{sum}, \code{mean}, \code{sd}, etc.) to produce counter-intuititve results (but with a warning).  The results are now what one would expect (and the warning is removed).
 \item Added \code{rsquared} for extracting r-squared from models and model-like objects (\code{r.squared} has been deprecated).
 \item \code{do} now handles ANOVA-like objects better
 \item \code{maggregate} is now built on some improved behind the scenes functions.  Among
