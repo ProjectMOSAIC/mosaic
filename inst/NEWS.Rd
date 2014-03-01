@@ -9,7 +9,7 @@ mostly likely due to the sluggishness of what is being done, not to \code{do} it
 \item Added an additional method to \code{deltaMethod} from the \pkg{car} package to make it easier to do propagation of uncertainty is some situations
 that arrise commonly in the physical sciences and engineering.
 \item Added \code{cdist} to compute critical values for the central portion
-of a distribution.}A
+of a distribution.
 \item Some changes to the API for \code{qdata}.  For interactive use, this 
 not cause any problem, but old programmatic uses of \code{qdata} should be 
 checked as the object returned is now different.
