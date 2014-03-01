@@ -3,7 +3,7 @@
 \alias{cdist}
 \title{Central portion of a distribution}
 \usage{
-cdist(dist, p, ..., tail = c("upper", "lower"))
+cdist(dist, p, ..., tail = c("upper", "lower"), warn = TRUE)
 }
 \arguments{
   \item{dist}{a character string naming a distribution
@@ -21,6 +21,10 @@ cdist(dist, p, ..., tail = c("upper", "lower"))
   \item{tail}{one of \code{"upper"} or \code{"lower"}
   specifying whether the lower or upper critical value is
   returned.}
+
+  \item{warn}{a logical indicating whether a warning should
+  be given when using a distribution that is not
+  symmetric.}
 }
 \description{
 This function determines the critial values for isolating
@@ -30,9 +34,11 @@ but it can be used with any distribution.
 }
 \examples{
 cdist( "norm", .95)
-cdist( "t", .95, df=5)
-cdist( "t", .95, df=50)
+cdist( "t", c(.90, .95, .99), df=5)
+cdist( "t", c(.90, .95, .99), df=50)
+cdist( "t", .95, df=c(3,5,10,20) )
 cdist( "norm", .95, mean=500, sd=100 )
-cdist( "chisq", .95, df=3 )
+cdist( "chisq", c(.90, .95), df=3 )
+cdist( "chisq", c(.90, .95), df=3, tail="lower" )
 }
 

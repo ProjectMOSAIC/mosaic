@@ -13,25 +13,29 @@
 #' these specify the parameters of the particular distribution desired.  See the examples.
 #' @param tail one of \code{"upper"} or \code{"lower"} specifying whether 
 #' the lower or upper critical value is returned.  
+#' @param warn a logical indicating whether a warning should be given when
+#' using a distribution that is not symmetric.
 #' 
 #' @export
 #' @examples
 #' cdist( "norm", .95)
-#' cdist( "t", .95, df=5)
-#' cdist( "t", .95, df=50)
+#' cdist( "t", c(.90, .95, .99), df=5)
+#' cdist( "t", c(.90, .95, .99), df=50)
+#' cdist( "t", .95, df=c(3,5,10,20) )
 #' cdist( "norm", .95, mean=500, sd=100 )
-#' cdist( "chisq", .95, df=3 )
+#' cdist( "chisq", c(.90, .95), df=3 )
+#' cdist( "chisq", c(.90, .95), df=3, tail="lower" )
 
-cdist <- function( dist, p, ... , tail=c("upper","lower")) {
+cdist <- function( dist, p, ... , tail=c("upper","lower"), warn=TRUE) {
   tail = match.arg(tail)
   alpha <- (1-p)/2
   lo <- alpha
   hi <- 1 - alpha
   qdist <- paste0("q", dist)
-  loT <- do.call( qdist, c(list(lo), ... ) ) 
-  hiT <- do.call( qdist, c(list(hi), ... ) ) 
+  loT <- do.call( qdist, c(list(lo), list(...) ) ) 
+  hiT <- do.call( qdist, c(list(hi), list(...) ) ) 
   if ( any( abs(hiT) - abs(loT) > 1e-5 ) ) {
-    warning(paste0("It looks like your distribution is not symmetric.  I'm providing ", tail, " tails.") )
+    if (warn) warning(paste0("It looks like your distribution is not symmetric.  I'm providing ", tail, " tails.") )
   }
   
   return(
