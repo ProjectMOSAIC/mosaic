@@ -57,3 +57,15 @@ test_that("na.rm works", {
   expect_equivalent( max( x, na.rm=TRUE ), max(y))
 })
 
+test_that("sum( a + x ) works, etc.", {
+  x <- 1:6; a <- 11:16
+  expect_equivalent( sum( a + x) , base::sum( a + x) )
+  expect_equivalent( mean( a + x) , base::mean( a + x) )
+  expect_equivalent( median( a + x) , stats::median( a + x) )
+})
+
+
+
+
+
+
