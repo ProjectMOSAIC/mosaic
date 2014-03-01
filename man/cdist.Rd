@@ -32,6 +32,10 @@ a central portion of a distribution with a specified probability.
 This is designed to work especially well for symmteric distributions,
 but it can be used with any distribution.
 }
+\note{
+This function is still experimental and changes the input or output
+formats are possible in future versions of the package.
+}
 \examples{
 cdist( "norm", .95)
 cdist( "t", c(.90, .95, .99), df=5)
