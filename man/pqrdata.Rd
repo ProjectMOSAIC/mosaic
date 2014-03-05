@@ -20,8 +20,7 @@
 
 qdata_v(x, p = seq(0, 1, 0.25), ...)
 
-qdata_f(x, ..., data, groups = NULL, ..fun.. = qdata_v,
-  na.rm = getOption("na.rm", FALSE))
+qdata_f(x, ..., data, groups = NULL, ..fun.. = qdata_v, na.rm = TRUE)
 
 qdata(p, vals, data = NULL, ...)
 
@@ -29,15 +28,13 @@ qdata(p, vals, data = NULL, ...)
 
 cdata_v(x, p = 0.95, ...)
 
-cdata_f(x, ..., data, groups = NULL, ..fun.. = cdata_v,
-  na.rm = getOption("na.rm", FALSE))
+cdata_f(x, ..., data, groups = NULL, ..fun.. = cdata_v, na.rm = TRUE)
 
 cdata(p, vals, data = NULL, ...)
 
 pdata_v(x, q, lower.tail = TRUE, ...)
 
-pdata_f(x, ..., data, groups = NULL, ..fun.. = pdata_v,
-  na.rm = getOption("na.rm", FALSE))
+pdata_f(x, ..., data, groups = NULL, ..fun.. = pdata_v, na.rm = TRUE)
 
 pdata(q, vals, data = NULL, ...)
 

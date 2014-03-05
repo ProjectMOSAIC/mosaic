@@ -71,7 +71,7 @@ qdata_v <- function( x, p=seq(0, 1, 0.25), ... ) {
 }
 
 #' @rdname pqrdata
-qdata_f <- aggregatingFunction1(qdata_v, output.multiple=TRUE)
+qdata_f <- aggregatingFunction1(qdata_v, output.multiple=TRUE, na.rm=TRUE)
 
 #' @rdname pqrdata
 qdata <- function( p, vals, data=NULL, ...) { 
@@ -124,7 +124,7 @@ cdata_v <- function( x, p=.95, ... ) {
 }
 
 #' @rdname pqrdata
-cdata_f <- aggregatingFunction1( cdata_v, output.multiple=TRUE )
+cdata_f <- aggregatingFunction1( cdata_v, output.multiple=TRUE, na.rm=TRUE )
 
 
 #' @rdname pqrdata
@@ -175,7 +175,7 @@ pdata_v = function(x, q, lower.tail=TRUE, ... ) {
 }
 
 #' @rdname pqrdata
-pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE )
+pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' 
 #' @rdname pqrdata
 pdata <- function (q, vals, data = NULL, ...) 
