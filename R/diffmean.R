@@ -2,7 +2,7 @@
 #' 
 #' A wrapper around \code{diff(mean(...))} that facilitates better naming of the result
 #' 
-#' @param ... arguments passed to \code{\mean}
+#' @param ... arguments passed to \code{mean}
 #' @export
 #' @examples
 #' diffmean( age ~ substance, data=HELPrct)

@@ -6,7 +6,7 @@
 diffmean(...)
 }
 \arguments{
-  \item{...}{arguments passed to \code{\mean}}
+  \item{...}{arguments passed to \code{mean}}
 }
 \description{
 A wrapper around \code{diff(mean(...))} that facilitates better naming of the result
