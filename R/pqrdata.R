@@ -34,16 +34,16 @@
 #' @rdname pqrdata
 #' @keywords distribution 
 
-.qdata_old <- function(p, vals, data=NULL, ... ) {
-        if( !is.null(data) ) { # handle data= style of passing values
-            vals = eval( substitute(vals), data, enclos=parent.frame())
-        }
-	.check_for_quant_input(vals)
-	if (any(p > 1) | any(p < 0) ) {
-		stop("Prob outside of range 0 to 1.  Do you perhaps want pdata?")
-	}
-	quantile(vals, probs=p, na.rm=TRUE, ... )
-}
+# .qdata_old <- function(p, vals, data=NULL, ... ) {
+#         if( !is.null(data) ) { # handle data= style of passing values
+#             vals = eval( substitute(vals), data, enclos=parent.frame())
+#         }
+# 	.check_for_quant_input(vals)
+# 	if (any(p > 1) | any(p < 0) ) {
+# 		stop("Prob outside of range 0 to 1.  Do you perhaps want pdata?")
+# 	}
+# 	quantile(vals, probs=p, na.rm=TRUE, ... )
+# }
 
 #' @rdname pqrdata
 #'
@@ -95,19 +95,19 @@ qdata <- function( p, vals, data=NULL, ...) {
 #' cdata_f(~Sepal.Length, data=iris, p=.5)
 #' cdata_f(~Sepal.Length | Species, data=iris, p=.5)
 
-.cdata_old <- function( p, vals, data=NULL, ...) {
-  if( !is.null(data) ) { # handle data= style of passing values
-    vals = eval( substitute(vals), data, enclos=parent.frame())
-  }
-  lo_p <- (1-p)/2
-  hi_p <- 1 - (1-p)/2
-  lo <- qdata( lo_p, vals, data=data, ...)
-  hi <- qdata( hi_p, vals, data=data, ...)
-  result <- cbind(low=lo, hi=hi)
-  row.names(result) <- paste( 100*p, "%", sep="" )
-  return(result)
-}
-
+# .cdata_old <- function( p, vals, data=NULL, ...) {
+#   if( !is.null(data) ) { # handle data= style of passing values
+#     vals = eval( substitute(vals), data, enclos=parent.frame())
+#   }
+#   lo_p <- (1-p)/2
+#   hi_p <- 1 - (1-p)/2
+#   lo <- qdata( lo_p, vals, data=data, ...)
+#   hi <- qdata( hi_p, vals, data=data, ...)
+#   result <- cbind(low=lo, hi=hi)
+#   row.names(result) <- paste( 100*p, "%", sep="" )
+#   return(result)
+# }
+# 
 
 #' @rdname pqrdata
 cdata_v <- function( x, p=.95, na.rm=TRUE, ... ) {
@@ -137,21 +137,21 @@ cdata <- function( p, vals, data=NULL, ...) {
   do.call( "cdata_f", args )
 }
   
-.pdata = function(q, vals, data=NULL, lower.tail=TRUE, ... ) {
-   if( !is.null(data) ) {
-         vals = eval( substitute(vals), data, enclos=parent.frame())
-   }
-  .check_for_quant_input(vals)
-#  L = length(q)
-#  res = rep(0,L)
-  n <- sum( ! is.na(vals) )
-  probs <- sapply( q, function(q) { sum( vals <= q , na.rm=TRUE ) } ) / n
-  if (lower.tail) { 
-  	return(probs)
-  } else {
-	return( 1 - probs )
-  }
-}
+# .pdata = function(q, vals, data=NULL, lower.tail=TRUE, ... ) {
+#    if( !is.null(data) ) {
+#          vals = eval( substitute(vals), data, enclos=parent.frame())
+#    }
+#   .check_for_quant_input(vals)
+# #  L = length(q)
+# #  res = rep(0,L)
+#   n <- sum( ! is.na(vals) )
+#   probs <- sapply( q, function(q) { sum( vals <= q , na.rm=TRUE ) } ) / n
+#   if (lower.tail) { 
+#   	return(probs)
+#   } else {
+# 	return( 1 - probs )
+#   }
+# }
 
 #' \code{pdata} computes cumulative probabilities from data.
 #'
@@ -188,23 +188,23 @@ pdata <- function (q, vals, data = NULL, ...)
   do.call("pdata_f", args)
 }
 
-#'
-#' @rdname pqrdata
-.pdata_old = function(q, vals, data=NULL, lower.tail=TRUE, ... ) {
-   if( !is.null(data) ) {
-         vals = eval( substitute(vals), data, enclos=parent.frame())
-   }
-  .check_for_quant_input(vals)
-#  L = length(q)
-#  res = rep(0,L)
-  n <- sum( ! is.na(vals) )
-  probs <- sapply( q, function(q) { sum( vals <= q , na.rm=TRUE ) } ) / n
-  if (lower.tail) { 
-  	return(probs)
-  } else {
-	return( 1 - probs )
-  }
-}
+# #'
+# #' @rdname pqrdata
+# .pdata_old = function(q, vals, data=NULL, lower.tail=TRUE, ... ) {
+#    if( !is.null(data) ) {
+#          vals = eval( substitute(vals), data, enclos=parent.frame())
+#    }
+#   .check_for_quant_input(vals)
+# #  L = length(q)
+# #  res = rep(0,L)
+#   n <- sum( ! is.na(vals) )
+#   probs <- sapply( q, function(q) { sum( vals <= q , na.rm=TRUE ) } ) / n
+#   if (lower.tail) { 
+#   	return(probs)
+#   } else {
+# 	return( 1 - probs )
+#   }
+# }
 
 #' \code{rdata} randomly samples from data. It is a wrapper around \code{sample} that unifies syntax.
 #'
