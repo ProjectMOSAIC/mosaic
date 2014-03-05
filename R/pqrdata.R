@@ -28,6 +28,7 @@
 #' @param groups a grouping variable, typically the name of a variable in \code{data}
 #' @param ..fun.. a function.  Most users will not need to change the default value.
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
+#' @param na.rm a logical indicating whether \code{NA}s should be removed before computing.
 #' @return For \code{qdata}, a vector of quantiles
 #' @export
 #' @rdname pqrdata
@@ -57,11 +58,11 @@
 
 #' @rdname pqrdata
 #' 
-qdata_v <- function( x, p=seq(0, 1, 0.25), ... ) {
+qdata_v <- function( x, p=seq(0, 1, 0.25), na.rm=TRUE, ... ) {
   .check_for_quant_input(x)
   if ( any(p > 1) | any(p < 0) ) 
     stop("Prob outside of range 0 to 1.  Do you perhaps want pdata?")
-  qs <- quantile(x, probs=p, na.rm=TRUE, ... )
+  qs <- quantile(x, probs=p, na.rm=na.rm, ... )
   if (length(p) == 1) {
     result <- setNames( c(p, qs), c("p","quantile") )
   } else {

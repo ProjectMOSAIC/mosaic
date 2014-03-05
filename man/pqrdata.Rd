@@ -18,7 +18,7 @@
 \usage{
 .qdata_old(p, vals, data = NULL, ...)
 
-qdata_v(x, p = seq(0, 1, 0.25), ...)
+qdata_v(x, p = seq(0, 1, 0.25), na.rm = TRUE, ...)
 
 qdata_f(x, ..., data, groups = NULL, ..fun.. = qdata_v, na.rm = TRUE)
 
@@ -59,6 +59,9 @@ ddata(x, vals, data = NULL, log = FALSE, ...)
 
   \item{\dots}{additional arguments passed to
   \code{quantile} or \code{sample}}
+
+  \item{na.rm}{a logical indicating whether \code{NA}s
+  should be removed before computing.}
 
   \item{q}{a vector of quantiles}
 
