@@ -110,11 +110,11 @@ qdata <- function( p, vals, data=NULL, ...) {
 
 
 #' @rdname pqrdata
-cdata_v <- function( x, p=.95, ... ) {
+cdata_v <- function( x, p=.95, na.rm=TRUE, ... ) {
   lo_p <- (1-p)/2
   hi_p <- 1 - lo_p
-  lo <- quantile( x, lo_p, ... )
-  hi <- quantile( x, hi_p, ... )
+  lo <- quantile( x, lo_p, na.rm=na.rm, ... )
+  hi <- quantile( x, hi_p, na.rm=na.rm, ... )
   if (length(p) == 1) {
     result <- setNames( c(lo, hi, p), c("low", "hi", "central.p") )
   } else {

@@ -26,7 +26,7 @@ qdata(p, vals, data = NULL, ...)
 
 .cdata_old(p, vals, data = NULL, ...)
 
-cdata_v(x, p = 0.95, ...)
+cdata_v(x, p = 0.95, na.rm = TRUE, ...)
 
 cdata_f(x, ..., data, groups = NULL, ..fun.. = cdata_v, na.rm = TRUE)
 
