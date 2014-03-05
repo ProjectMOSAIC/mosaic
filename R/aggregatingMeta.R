@@ -28,7 +28,8 @@
 #' foo( ~length, data=KidsFeet )
 #' base::mean(KidsFeet$length)
 #' foo( length ~ sex, data=KidsFeet )
-aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, envir=parent.frame() ) {
+aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
+                                  envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
   result <- function( x, ..., data, groups=NULL) {
     orig.call <- match.call()
     fun.call <- orig.call 
@@ -51,7 +52,6 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
     # either data was specified or fun() generated an error.
     # so we will generate a new call.
     maggregate.call <- orig.call  
-    
     x_name <- substitute(x)
     if (! .is.formula(x) ) {
       if ( !missingData) {
@@ -85,7 +85,7 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
     # print(maggregate.call)
     return( eval(maggregate.call, envir=envir) )
   }
-  formals(result) <- c(formals(result), ..fun.. = substitute(fun))
+  formals(result) <- c(formals(result), ..fun.. = substitute(fun), na.rm=substitute(na.rm))
   return(result)
 }
 
@@ -149,6 +149,7 @@ aggregatingFunction2 <- function( fun ) {
 #' @param groups a grouping variable, typically a name of a variable in \code{data}
 #' @param data a data frame in which to evaluate formulas (or bare names)
 #' @param \dots additional arguments
+#' @param na.rm a logical indicating whether \code{NA}s should be removed before computing
 #' @export
 mean <- aggregatingFunction1( base::mean )
 #' @rdname aggregating
@@ -186,7 +187,7 @@ prod <- aggregatingFunction1( base::prod )
 sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
-favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE)
+favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE, na.rm=TRUE)
 #' @rdname aggregating
 #' @export
 var <- aggregatingFunction1( stats::var, input.multiple=TRUE )

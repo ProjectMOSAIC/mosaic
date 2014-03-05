@@ -4,7 +4,7 @@
 \title{1-ary Aggregating functions}
 \usage{
 aggregatingFunction1(fun, input.multiple = FALSE, output.multiple = FALSE,
-  envir = parent.frame())
+  envir = parent.frame(), na.rm = getOption("na.rm", FALSE))
 }
 \arguments{
   \item{fun}{a function that takes a numeric vector and
