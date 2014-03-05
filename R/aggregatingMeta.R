@@ -20,6 +20,7 @@
 #' @param output.multiple a boolean indicating whether \code{..fun..} returns multiple values
 #' @param input.multiple a boolean indicating whether \code{..fun..} can accept 2 vectors (e.g., \code{var})
 #' @param envir an environment in which evaluation takes place.
+#' @param na.rm the default value for na.rm in the resulting function.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @export

@@ -19,6 +19,9 @@ aggregatingFunction1(fun, input.multiple = FALSE, output.multiple = FALSE,
 
   \item{envir}{an environment in which evaluation takes
   place.}
+
+  \item{na.rm}{the default value for na.rm in the resulting
+  function.}
 }
 \value{
 a function that generalizes \code{fun} to handle a formula/data frame interface.
