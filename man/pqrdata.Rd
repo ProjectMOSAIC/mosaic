@@ -4,12 +4,17 @@
 \alias{cdata_f}
 \alias{cdata_v}
 \alias{ddata}
+\alias{ddata_f}
+\alias{ddata_v}
 \alias{pdata}
 \alias{pdata_f}
 \alias{pdata_v}
 \alias{qdata}
 \alias{qdata_f}
 \alias{qdata_v}
+\alias{rdata}
+\alias{rdata_f}
+\alias{rdata_v}
 \title{The Data Distribution}
 \usage{
 qdata_v(x, p = seq(0, 1, 0.25), na.rm = TRUE, ...)
@@ -30,7 +35,17 @@ pdata_f(x, ..., data, groups = NULL, ..fun.. = pdata_v, na.rm = TRUE)
 
 pdata(q, vals, data = NULL, ...)
 
-ddata(x, vals, data = NULL, log = FALSE, ...)
+rdata_v(vals, n, replace = TRUE, ...)
+
+rdata_f(x, ..., data, groups = NULL, ..fun.. = rdata_v, na.rm = TRUE)
+
+rdata(n, vals, data = NULL, ...)
+
+ddata_v(vals, v, ..., data = NULL, log = FALSE, na.rm = TRUE)
+
+ddata_f(x, ..., data, groups = NULL, ..fun.. = ddata_v, na.rm = TRUE)
+
+ddata(v, vals, data = NULL, ...)
 }
 \arguments{
   \item{p}{a vector of probabilities}
@@ -56,7 +71,12 @@ ddata(x, vals, data = NULL, log = FALSE, ...)
   \item{lower.tail}{a logical indicating whether to use the
   lower or upper tail probability}
 
-  \item{x}{a vector of quantiles}
+  \item{n}{number of values to sample}
+
+  \item{replace}{a logical indicating whether to sample
+  with replacement}
+
+  \item{v}{a vector of quantiles}
 
   \item{log}{a logical indicating whether the result should
   be log transformed}
@@ -66,24 +86,18 @@ For \code{qdata}, a vector of quantiles
 
 For \code{pdata}, a vector of probabilities
 
+For \code{rdata}, a vector of values sampled from \code{vals}
+
 For \code{ddata}, a vector of probabilities (empirical densities)
 }
 \description{
 Density, distribution function, quantile function, and random generation
 from data.
 
-\code{cdata} is a wrapper around \code{qdata} and determines endpoints of
-central probabilities rather than tail probabilities.
-
-\code{pdata} computes cumulative probabilities from data.
-
-
-
-\code{ddata} computes a probability mass function from data.
+#
+#
 }
 \details{
-
-
 \code{qdata} is a wrapper around \code{\link{quantile}} that makes the syntax more like
 the syntax for quantiles from theoretical distributions
 }
@@ -102,9 +116,16 @@ cdata_f(~Sepal.Length | Species, data=iris, p=.5)
 data(iris)
 pdata(3:6, iris$Sepal.Length)
 pdata(3:6, Sepal.Length, data=iris)
+pdata(3:6, ~Sepal.Length, data=iris)
+data(iris)
+rdata(10,iris$Species)
+rdata(10, Species, data=iris)
+rdata(10, ~Species, data=iris)
+rdata(5, Sepal.Length~Species, data=iris)
 data(iris)
 ddata('setosa', iris$Species)
 ddata('setosa', Species, data=iris)
+ddata('setosa', ~Species, data=iris)
 }
 \keyword{distribution}
 

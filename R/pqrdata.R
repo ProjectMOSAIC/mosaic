@@ -16,8 +16,6 @@
 #' Density, distribution function, quantile function, and random generation
 #' from data.
 #'
-#' 
-#'
 #' \code{qdata} is a wrapper around \code{\link{quantile}} that makes the syntax more like 
 #' the syntax for quantiles from theoretical distributions
 
@@ -46,7 +44,6 @@
 # }
 
 #' @rdname pqrdata
-#'
 #' @examples
 #' data(iris)
 #' qdata(.5, Sepal.Length ~ Species, data=iris)
@@ -83,17 +80,6 @@ qdata <- function( p, vals, data=NULL, ...) {
   do.call( "qdata_f", args )
 }
 
-#' \code{cdata} is a wrapper around \code{qdata} and determines endpoints of 
-#' central probabilities rather than tail probabilities.
-
-#' @rdname pqrdata
-#' @export
-#' @examples
-#' data(iris)
-#' cdata(.5, iris$Sepal.Length)
-#' cdata(.5, Sepal.Length, data=iris)
-#' cdata_f(~Sepal.Length, data=iris, p=.5)
-#' cdata_f(~Sepal.Length | Species, data=iris, p=.5)
 
 # .cdata_old <- function( p, vals, data=NULL, ...) {
 #   if( !is.null(data) ) { # handle data= style of passing values
@@ -110,6 +96,14 @@ qdata <- function( p, vals, data=NULL, ...) {
 # 
 
 #' @rdname pqrdata
+#' @export
+#' @examples
+#' data(iris)
+#' cdata(.5, iris$Sepal.Length)
+#' cdata(.5, Sepal.Length, data=iris)
+#' cdata_f(~Sepal.Length, data=iris, p=.5)
+#' cdata_f(~Sepal.Length | Species, data=iris, p=.5)
+ 
 cdata_v <- function( x, p=.95, na.rm=TRUE, ... ) {
   lo_p <- (1-p)/2
   hi_p <- 1 - lo_p
@@ -153,8 +147,7 @@ cdata <- function( p, vals, data=NULL, ...) {
 #   }
 # }
 
-#' \code{pdata} computes cumulative probabilities from data.
-#'
+
 #' @param q a vector of quantiles
 #' @param lower.tail a logical indicating whether to use the lower or upper tail probability
 #' @return For \code{pdata}, a vector of probabilities
@@ -163,8 +156,9 @@ cdata <- function( p, vals, data=NULL, ...) {
 #' data(iris)
 #' pdata(3:6, iris$Sepal.Length)
 #' pdata(3:6, Sepal.Length, data=iris)
+#' pdata(3:6, ~Sepal.Length, data=iris)
 #'
-pdata_v = function(x, q, lower.tail=TRUE, ... ) {
+pdata_v <- function(x, q, lower.tail=TRUE, ... ) {
   .check_for_quant_input(x)
   n <- sum( ! is.na(x) )
   probs <- sapply( q, function(q) { sum( x <= q , na.rm=TRUE ) } ) / n
@@ -177,7 +171,7 @@ pdata_v = function(x, q, lower.tail=TRUE, ... ) {
 
 #' @rdname pqrdata
 pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
-#' 
+
 #' @rdname pqrdata
 pdata <- function (q, vals, data = NULL, ...) 
 {
@@ -206,30 +200,46 @@ pdata <- function (q, vals, data = NULL, ...)
 #   }
 # }
 
-#' \code{rdata} randomly samples from data. It is a wrapper around \code{sample} that unifies syntax.
-#'
+
+#' @rdname pqrdata
+#' 
 #' @param n number of values to sample
 #' @param replace  a logical indicating whether to sample with replacement
 #' @return For \code{rdata}, a vector of values sampled from \code{vals} 
-#' @rdname pqrdata
-#'
+#' @rdname pqrdata'
 #' @examples
 #' data(iris)
 #' rdata(10,iris$Species)
 #' rdata(10, Species, data=iris)
+#' rdata(10, ~Species, data=iris)
+#' rdata(5, Sepal.Length~Species, data=iris)
 #'
 
-rdata = function(n, vals, data=NULL, replace=TRUE, ... ) {
-   if( !is.null(data) ) {
-         vals = eval( substitute(vals), data, enclos=parent.frame())
-   }
+rdata_v <- function(vals, n, replace=TRUE, ... ) {
   sample( vals, n, replace=replace, ...)
 }
 
+#' @rdname pqrdata
+rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 
-#' \code{ddata} computes a probability mass function from data.
-#'
-#' @param x a vector of quantiles
+#' @rdname pqrdata
+rdata <- function (n, vals, data = NULL, ...) 
+{
+  vals_call <- substitute(vals)
+  args <- eval(substitute(alist(vals_call, ...)))
+  args[["n"]] <- n
+  args[["data"]] <- data
+  do.call("rdata_f", args)
+}
+
+#rdata <- function(n, vals, data=NULL, replace=TRUE, ... ) {
+#   if( !is.null(data) ) {
+#         vals = eval( substitute(vals), data, enclos=parent.frame())
+#   }
+#  sample( vals, n, replace=replace, ...)
+#}
+
+#' @param v a vector of quantiles
 #' @param log  a logical indicating whether the result should be log transformed
 #' @return For \code{ddata}, a vector of probabilities (empirical densities)
 #' @rdname pqrdata
@@ -237,15 +247,28 @@ rdata = function(n, vals, data=NULL, replace=TRUE, ... ) {
 #' data(iris)
 #' ddata('setosa', iris$Species)
 #' ddata('setosa', Species, data=iris)
-#'
+#' ddata('setosa', ~Species, data=iris)
 
-ddata = function(x, vals, data=NULL, log=FALSE, ...) {
+ddata_v <- function(vals, v, ..., data=NULL, log=FALSE, na.rm=TRUE) {
         if( !is.null(data) ) {
          vals = eval( substitute(vals), data, enclos=parent.frame())
         }
 	n <- sum( ! is.na(vals) )
-	probs <- sapply(x, function(x) { sum( vals == x, na.rm=TRUE ) / n } )
+	probs <- sapply(v, function(x) { sum( vals == x, na.rm=na.rm) / n } )
 	if (log) { probs <- log(probs) }
 	return (probs)
+}
+
+#' @rdname pqrdata
+ddata_f <- aggregatingFunction1( ddata_v, output.multiple=TRUE, na.rm=TRUE )
+
+#' @rdname pqrdata
+ddata <- function (v, vals, data = NULL, ...) 
+{
+  vals_call <- substitute(vals)
+  args <- eval(substitute(alist(vals_call, ...)))
+  args[["v"]] <- v
+  args[["data"]] <- data
+  do.call("ddata_f", args)
 }
 
