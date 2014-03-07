@@ -83,7 +83,8 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
     maggregate.call$x <- NULL
     maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
     maggregate.call$multiple <- output.multiple
-    # print(maggregate.call)
+    maggregate.call$na.rm <- substitute(na.rm)
+#    print(maggregate.call)
     return( eval(maggregate.call, envir=envir) )
   }
   formals(result) <- c(formals(result), ..fun.. = substitute(fun), na.rm=substitute(na.rm))
