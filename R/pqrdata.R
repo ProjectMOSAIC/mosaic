@@ -8,6 +8,7 @@
 #' @keywords distribution 
 #' @param p a vector of probabilities
 #' @param q a vector of quantiles
+#' @param v a vector of quantiles
 #' @param vals a vector containing the data
 #' @param data a data frame in which to evaluate vals
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
@@ -124,7 +125,6 @@ pdata <- function (q, vals, data = NULL, ...)
 
 
 #' @param x an object
-#' @param q a vector of quantiles
 #' @param lower.tail a logical indicating whether to use the lower or upper tail probability
 #' @rdname pqrdata2
 

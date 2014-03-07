@@ -63,8 +63,6 @@ ddata_f(x, ..., data, groups = NULL, ..fun.. = ddata_v, na.rm = TRUE)
 
   \item{x}{an object}
 
-  \item{q}{a vector of quantiles}
-
   \item{lower.tail}{a logical indicating whether to use the
   lower or upper tail probability}
 }
