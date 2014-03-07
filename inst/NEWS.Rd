@@ -2,6 +2,9 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.8}{
 \itemize{
+\item aggregating functions (\code{mean}, \code{sd}, \code{var}, et al) now use \code{getOptions("na.rm")} to determine the default value of \code{na.rm}.  Use \code{options(na.rm=TRUE)} to
+change the default behavior to remove \code{NA}s and options(na.rm=NULL) to restore 
+defaults.
 \item \code{do} has been largely rewritten with an eye toward improved 
 efficiency.  In particular, \code{do} will take advantage of multiple cores
 if the \pkg{parallel} package is availalbe. At this point, sluggishness in applications of \code{do} are 
