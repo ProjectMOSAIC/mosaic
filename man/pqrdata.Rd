@@ -22,8 +22,6 @@ ddata(q, vals, data = NULL, ...)
 
   \item{q}{a vector of quantiles}
 
-  \item{v}{a vector of quantiles}
-
   \item{vals}{a vector containing the data}
 
   \item{data}{a data frame in which to evaluate vals}
