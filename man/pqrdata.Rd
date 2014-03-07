@@ -32,8 +32,6 @@ ddata(q, vals, data = NULL, ...)
   \code{quantile} or \code{sample}}
 
   \item{n}{number of values to sample}
-
-  \item{v}{a vector of quantiles}
 }
 \value{
 For \code{qdata}, a vector of quantiles

@@ -170,9 +170,8 @@ rdata_v <- function(vals, n, replace=TRUE, ... ) {
 #' @rdname pqrdata2
 rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 
-#' @param v a vector of quantiles
-#' @return For \code{ddata}, a vector of probabilities (empirical densities)
 #' @rdname pqrdata
+#' @return For \code{ddata}, a vector of probabilities (empirical densities)
 #' @examples
 #' data(iris)
 #' ddata('setosa', iris$Species)
