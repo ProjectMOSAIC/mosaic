@@ -3,9 +3,9 @@
 \alias{plotDist}
 \title{Plots of Discrete and Continuous Distributions}
 \usage{
-plotDist(dist, params = list(), kind = c("density", "cdf", "qq",
-  "histogram"), xlab = "", ylab = "", breaks = NULL, type,
-  resolution = 5000, ...)
+plotDist(dist, ..., kind = c("density", "cdf", "qq", "histogram"),
+  xlab = "", ylab = "", breaks = NULL, type, resolution = 5000,
+  params = NULL)
 }
 \arguments{
   \item{dist}{A string identifying the distribution.  This
@@ -17,7 +17,10 @@ plotDist(dist, params = list(), kind = c("density", "cdf", "qq",
   removed.}
 
   \item{params}{a list containing parameters for the
-  distribution}
+  distribution.  If \code{NULL} (the default), this list is
+  created from elements of \code{\dots} that are either
+  unnamed or have names among the formals of the
+  appropriate distribution function.  See the examples.}
 
   \item{kind}{one of "density", "cdf", "qq", or "histogram"
   (or prefix of any of these)}
@@ -56,10 +59,11 @@ with the \code{groups} argument.  See the examples.
 plotDist('norm')
 plotDist('norm', type='h')
 plotDist('norm', kind='cdf')
-plotDist('norm', params=list(mean=100, sd=10), kind='cdf')
-plotDist('exp', kind='histogram')
-plotDist('binom', params=list( 25, .25))
-plotDist('binom', params=list( 25, .25), xlim=c(-1,26) )
+plotDist('exp',  kind='histogram')
+plotDist('binom', params=list( 25, .25))       # explicit params
+plotDist('binom', 25, .25)                     # params inferred
+plotDist('norm', mean=100, sd=10, kind='cdf')  # params inferred
+plotDist('binom', 25, .25, xlim=c(-1,26) )     # params inferred
 plotDist('binom', params=list( 25, .25), kind='cdf')
 plotDist('beta', params=list( 3, 10), kind='density')
 plotDist('beta', params=list( 3, 10), kind='cdf')

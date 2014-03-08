@@ -12,7 +12,9 @@
 #' 	  \code{\link{pnorm}}, and 
 #' 	  \code{\link{qnorm}}).  \code{dist} should match the name of the 
 #' 	  distribution with the initial 'd', 'p', or 'q' removed.
-#' @param params a list containing parameters for the distribution
+#' @param params a list containing parameters for the distribution.  If \code{NULL} (the default), 
+#' this list is created from elements of \code{\dots} that are either unnamed or have names among
+#' the formals of the appropriate distribution function.  See the examples.
 #' @param kind one of "density", "cdf", "qq", or "histogram" (or prefix 
 #' 	  of any of these)
 #' @param xlab,ylab as per other lattice functions
@@ -38,10 +40,11 @@
 #' plotDist('norm')
 #' plotDist('norm', type='h')
 #' plotDist('norm', kind='cdf')
-#' plotDist('norm', params=list(mean=100, sd=10), kind='cdf')
-#' plotDist('exp', kind='histogram')
-#' plotDist('binom', params=list( 25, .25))
-#' plotDist('binom', params=list( 25, .25), xlim=c(-1,26) )
+#' plotDist('exp',  kind='histogram')
+#' plotDist('binom', params=list( 25, .25))       # explicit params
+#' plotDist('binom', 25, .25)                     # params inferred
+#' plotDist('norm', mean=100, sd=10, kind='cdf')  # params inferred
+#' plotDist('binom', 25, .25, xlim=c(-1,26) )     # params inferred
 #' plotDist('binom', params=list( 25, .25), kind='cdf')
 #' plotDist('beta', params=list( 3, 10), kind='density')
 #' plotDist('beta', params=list( 3, 10), kind='cdf')
@@ -58,17 +61,31 @@
 # utility for various graphical representations of distributions.
 
 plotDist <- function( 
-  dist, params=list(), 
+  dist, ...,
   kind=c('density','cdf','qq','histogram'), 
 	xlab="", ylab="", breaks=NULL, type, 
-	resolution=5000, ... ) {
+	resolution=5000,  params=NULL ) {
   
 	kind = match.arg(kind)
 	ddist = paste('d', dist, sep='')
 	qdist = paste('q', dist, sep='')
 	pdist = paste('p', dist, sep='')
+  
+  unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
+  named_as <- function(l, n)  l [ intersect( names(l), n ) ]
+  
+  if (is.null(params)) {
+    params <- list(...)
+    dparams <- c(unnamed(params) , named_as( params, names(formals(ddist))) )
+    pparams <- c(unnamed(params) , named_as( params, names(formals(pdist))) )
+    qparams <- c(unnamed(params) , named_as( params, names(formals(qdist))) )
+  } else {
+    dparams <- params
+    pparams <- params
+    qparams <- params
+  }
 
-	values = do.call(qdist, c(p=list(ppoints(resolution)), params)) 
+	values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
 	fewerValues = unique(values)
 	discrete = length(fewerValues) < length(values) 
 	if ( is.null(breaks) && discrete ){
@@ -80,11 +97,11 @@ plotDist <- function(
 			step = min(diff(fewerValues))
 			cdfx <- seq( min(fewerValues) -1.5 * step , max(fewerValues) + 1.5*step, length.out=resolution)
 			cdfx <- sort(unique( c(fewerValues, cdfx) ) )
-			cdfy <- approxfun( fewerValues, do.call(pdist, c(list(q=fewerValues),params)), method='constant', 
+			cdfy <- approxfun( fewerValues, do.call(pdist, c(list(q=fewerValues),pparams)), method='constant', 
 							  f=0, yleft=0, yright=1 ) (cdfx)
 		} else {
 			cdfx <- values
-			cdfy <- do.call( pdist, c(list(q=values), params) ) 
+			cdfy <- do.call( pdist, c(list(q=values), pparams) ) 
 		}
 	}
 	if (missing(type)) {
@@ -107,7 +124,7 @@ plotDist <- function(
 		density = 
 			lattice::xyplot( y ~ x, 
 				data=data.frame( 
-					y = do.call( ddist, c(list(x=fewerValues), params) ), 
+					y = do.call( ddist, c(list(x=fewerValues), dparams) ), 
 					x = fewerValues), 
 				type=type, xlab=xlab, ylab=ylab, ...),
 	  	cdf = 
@@ -118,13 +135,13 @@ plotDist <- function(
 			lattice::qqmath( ~ x, 
 				data = data.frame( 
 					x = values, 
-					y = do.call( ddist, c(list(x=values), params) ) ), 
+					y = do.call( ddist, c(list(x=values), dparams) ) ), 
 				type=type, xlab=xlab, ylab=ylab, ...),
 		histogram = 
 			histogram( ~ x,
 				data = data.frame( 
 					x = values, 
-					y = do.call( ddist, c(list(x=values), params) ) ), 
+					y = do.call( ddist, c(list(x=values), dparams) ) ), 
 				type=type, xlab=xlab, breaks=breaks, ...)
 		   )
 }
