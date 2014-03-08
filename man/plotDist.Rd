@@ -20,8 +20,8 @@ plotDist(dist, ..., add, under = FALSE, kind = c("density", "cdf", "qq",
   be added to the previous lattice plot. If missing, it
   will be set to match \code{under}.}
 
-  \item{a}{logical indicating whether adding should be done
-  in a layer under or over the existing layers when
+  \item{under}{a logical indicating whether adding should
+  be done in a layer under or over the existing layers when
   \code{add = TRUE}.}
 
   \item{params}{a list containing parameters for the
