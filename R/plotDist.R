@@ -14,7 +14,7 @@
 #' 	  distribution with the initial 'd', 'p', or 'q' removed.
 #' @param add a logical indicating whether the plot should be added to the previous lattice plot. 
 #' If missing, it will be set to match \code{under}.
-#' @param a logical indicating whether adding should be done in a layer under or over the existing 
+#' @param under a logical indicating whether adding should be done in a layer under or over the existing 
 #' layers when \code{add = TRUE}.
 #' @param params a list containing parameters for the distribution.  If \code{NULL} (the default), 
 #' this list is created from elements of \code{\dots} that are either unnamed or have names among
