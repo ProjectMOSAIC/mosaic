@@ -13,7 +13,8 @@ Imports:
     Hmisc,
     methods,
     utils,
-    splines
+    splines,
+    latticeExtra
 Suggests:
     MASS,
     reshape2,
