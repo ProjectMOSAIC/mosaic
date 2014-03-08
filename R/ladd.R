@@ -3,12 +3,16 @@
 #' Simplified lattice plotting by adding additional elements to existing plots.
 #'
 #' @param x  callable graphical element to be added to a panel or panels in a lattice plot 
+#' @param data a list containing objects that can be referred to in \code{x}.  Panel functions also 
+#' have access to the data already used in the panel by the underlying lattice plot.  See 
+#' \code{link[latticeExtra]{layer}} for details.
 #' @param ... additional arguments passed to \code{\link[latticeExtra]{layer}}.
 #' @param plot a lattice plot to add to.  Defaults to previous lattice plot.
 #' 
 #' 
 #' @details
-#' \code{ladd} is simply a wrapper around \code{\link[latticeExtra]{layer}}.
+#' \code{ladd} is a wrapper around \code{\link[latticeExtra]{layer}} that simplifies 
+#' certain common plotting additions.
 #' 
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
@@ -35,7 +39,7 @@
 
 ladd <- function (x, data=NULL, ..., plot=trellis.last.object()) 
 {
-  return( plot + eval( substitute( layer(foo, data=data, ...),
+  return( plot + eval( substitute( latticeExtra::layer(foo, data=data, ...),
                                    list(foo=substitute(x) ) )
   ) )
 }
