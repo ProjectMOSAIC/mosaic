@@ -9,6 +9,12 @@ ladd(x, data = NULL, ..., plot = trellis.last.object())
   \item{x}{callable graphical element to be added to a
   panel or panels in a lattice plot}
 
+  \item{data}{a list containing objects that can be
+  referred to in \code{x}.  Panel functions also have
+  access to the data already used in the panel by the
+  underlying lattice plot.  See
+  \code{link[latticeExtra]{layer}} for details.}
+
   \item{...}{additional arguments passed to
   \code{\link[latticeExtra]{layer}}.}
 
@@ -19,7 +25,8 @@ ladd(x, data = NULL, ..., plot = trellis.last.object())
 Simplified lattice plotting by adding additional elements to existing plots.
 }
 \details{
-\code{ladd} is simply a wrapper around \code{\link[latticeExtra]{layer}}.
+\code{ladd} is a wrapper around \code{\link[latticeExtra]{layer}} that simplifies
+certain common plotting additions.
 }
 \examples{
 p <- xyplot(rnorm(100) ~rnorm(100))
