@@ -3,9 +3,9 @@
 \alias{plotDist}
 \title{Plots of Discrete and Continuous Distributions}
 \usage{
-plotDist(dist, ..., kind = c("density", "cdf", "qq", "histogram"),
-  xlab = "", ylab = "", breaks = NULL, type, resolution = 5000,
-  params = NULL)
+plotDist(dist, ..., add, under = FALSE, kind = c("density", "cdf", "qq",
+  "histogram"), xlab = "", ylab = "", breaks = NULL, type,
+  resolution = 5000, params = NULL)
 }
 \arguments{
   \item{dist}{A string identifying the distribution.  This
@@ -15,6 +15,14 @@ plotDist(dist, ..., kind = c("density", "cdf", "qq", "histogram"),
   \code{\link{qnorm}}).  \code{dist} should match the name
   of the distribution with the initial 'd', 'p', or 'q'
   removed.}
+
+  \item{add}{a logical indicating whether the plot should
+  be added to the previous lattice plot. If missing, it
+  will be set to match \code{under}.}
+
+  \item{a}{logical indicating whether adding should be done
+  in a layer under or over the existing layers when
+  \code{add = TRUE}.}
 
   \item{params}{a list containing parameters for the
   distribution.  If \code{NULL} (the default), this list is
@@ -52,7 +60,7 @@ known to R.
 
 The plots are done referencing a data frame with variables
 \code{x} and \code{y} giving points on the graph of the
-pdf or pmf for the distribution.  This can be useful in conjuction
+pdf, pmf, or cdf for the distribution.  This can be useful in conjuction
 with the \code{groups} argument.  See the examples.
 }
 \examples{

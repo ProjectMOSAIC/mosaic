@@ -12,6 +12,10 @@
 #' 	  \code{\link{pnorm}}, and 
 #' 	  \code{\link{qnorm}}).  \code{dist} should match the name of the 
 #' 	  distribution with the initial 'd', 'p', or 'q' removed.
+#' @param add a logical indicating whether the plot should be added to the previous lattice plot. 
+#' If missing, it will be set to match \code{under}.
+#' @param a logical indicating whether adding should be done in a layer under or over the existing 
+#' layers when \code{add = TRUE}.
 #' @param params a list containing parameters for the distribution.  If \code{NULL} (the default), 
 #' this list is created from elements of \code{\dots} that are either unnamed or have names among
 #' the formals of the appropriate distribution function.  See the examples.
@@ -32,7 +36,7 @@
 #' 
 #' The plots are done referencing a data frame with variables
 #' \code{x} and \code{y} giving points on the graph of the 
-#' pdf or pmf for the distribution.  This can be useful in conjuction
+#' pdf, pmf, or cdf for the distribution.  This can be useful in conjuction
 #' with the \code{groups} argument.  See the examples.
 #' 
 #' @export
@@ -62,11 +66,14 @@
 
 plotDist <- function( 
   dist, ...,
-  kind=c('density','cdf','qq','histogram'), 
-	xlab="", ylab="", breaks=NULL, type, 
-	resolution=5000,  params=NULL ) {
+  add,
+  under = FALSE,
+  kind = c('density','cdf','qq','histogram'), 
+	xlab = "", ylab = "", breaks = NULL, type, 
+	resolution = 5000,  params = NULL ) {
   
 	kind = match.arg(kind)
+  if (missing(add)) add <- under
 	ddist = paste('d', dist, sep='')
 	qdist = paste('q', dist, sep='')
 	pdist = paste('p', dist, sep='')
@@ -120,29 +127,59 @@ plotDist <- function(
 		}
 	}
 
-	switch(kind, 
-		density = 
-			lattice::xyplot( y ~ x, 
-				data=data.frame( 
-					y = do.call( ddist, c(list(x=fewerValues), dparams) ), 
-					x = fewerValues), 
-				type=type, xlab=xlab, ylab=ylab, ...),
-	  	cdf = 
-		   lattice::xyplot( y ~ x, 
-				data=data.frame( y = cdfy, x = cdfx ), 
-				type=type, xlab=xlab, ylab=ylab, ...),
-		qq = 
-			lattice::qqmath( ~ x, 
-				data = data.frame( 
-					x = values, 
-					y = do.call( ddist, c(list(x=values), dparams) ) ), 
-				type=type, xlab=xlab, ylab=ylab, ...),
-		histogram = 
-			histogram( ~ x,
-				data = data.frame( 
-					x = values, 
-					y = do.call( ddist, c(list(x=values), dparams) ) ), 
-				type=type, xlab=xlab, breaks=breaks, ...)
-		   )
+	if (add) {
+	  switch(kind, 
+	         density = 
+	           trellis.last.object() + latticeExtra::layer( under=under,
+	             do.call( lattice::panel.xyplot, 
+                        c(list(x=densx, y=densy, type=type), dots)),
+	             data = list(densx=fewerValues, 
+	                         densy = do.call( ddist, c(list(x=fewerValues), dparams) ), 
+	                         type=type, dots=list(...) )  ),
+	         cdf = trellis.last.object() + latticeExtra::layer( under=under,
+	           do.call( lattice::panel.xyplot,  
+                      c(list( x = cdfx, y = cdfy,  type=type), dots) ),
+             data = list( cdfx=cdfx, cdfy=cdfy,  
+                          type=type, dots=list(...) )  ),
+	         qq = 
+	           trellis.last.object() + latticeExtra::layer( under=under,
+               do.call( lattice::panel.qqmath,  
+                        c(list(  x = values, type=type), dots) ),
+               data= list(  values=values, type=type, dots=list(...) ) 
+               ),
+	         histogram = 
+	           trellis.last.object() + latticeExtra::layer( under=under,
+               do.call( panel.xhistogram,  
+                        c(list(x=values, type=type, breaks=breaks), dots)), 
+               data = list(  values=values, 
+                             breaks=breaks, type=type,
+                             dots=list(...) ) )
+	  )
+	} else {
+	  switch(kind, 
+	         density = 
+	           lattice::xyplot( y ~ x, 
+	                            data=data.frame( 
+	                              y = do.call( ddist, c(list(x=fewerValues), dparams) ), 
+	                              x = fewerValues), 
+	                            type=type, xlab=xlab, ylab=ylab, ...),
+	         cdf = 
+	           lattice::xyplot( y ~ x, 
+	                            data=data.frame( y = cdfy, x = cdfx ), 
+	                            type=type, xlab=xlab, ylab=ylab, ...),
+	         qq = 
+	           lattice::qqmath( ~ x, 
+	                            data = data.frame( 
+	                              x = values, 
+	                              y = do.call( ddist, c(list(x=values), dparams) ) ), 
+	                            type=type, xlab=xlab, ylab=ylab, ...),
+	         histogram = 
+	           histogram( ~ x,
+	                      data = data.frame( 
+	                        x = values, 
+	                        y = do.call( ddist, c(list(x=values), dparams) ) ), 
+	                      type=type, xlab=xlab, breaks=breaks, ...)
+	  )
+	}
 }
 
