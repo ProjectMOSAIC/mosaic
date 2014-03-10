@@ -3,8 +3,9 @@
 \alias{plotFun}
 \title{Plotting mathematical expressions}
 \usage{
-plotFun(object, ..., add = FALSE, xlim = NULL, ylim = NULL, npts = NULL,
-  ylab = NULL, xlab = NULL, zlab = NULL, filled = TRUE, levels = NULL,
+plotFun(object, ..., plot = trellis.last.object(), add = NULL,
+  under = FALSE, xlim = NULL, ylim = NULL, npts = NULL, ylab = NULL,
+  xlab = NULL, zlab = NULL, filled = TRUE, levels = NULL,
   nlevels = 10, labels = TRUE, surface = FALSE, groups = NULL,
   col = trellis.par.get("superpose.line")$col, col.regions = topo.colors,
   type = "l", alpha = NULL)
@@ -15,7 +16,18 @@ plotFun(object, ..., add = FALSE, xlim = NULL, ylim = NULL, npts = NULL,
   intuitively equivalent to \code{object(x) ~ x}. (See
   examples)}
 
-  \item{add}{if TRUE, then overlay an existing plot}
+  \item{plot}{a trellis object; by default, the most
+  recently created trellis plot. When \code{add} is
+  \code{TRUE}, the new function will be plotted into a
+  layer added to this object.}
+
+  \item{add}{if \code{TRUE}, then add a layer to an
+  existing plot rather than creating a new plot. If
+  \code{NULL}, this will be determined by the value of
+  \code{under}.}
+
+  \item{under}{if \code{TRUE}, then new layer is added
+  beneath existing layers}
 
   \item{xlim}{limits for x axis (or use variable names, see
   examples)}
