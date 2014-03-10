@@ -1,3 +1,7 @@
+
+tryCatch(utils::globalVariables(c('densy','densx','dots')), 
+         error=function(e) message('Looks like you should update R.'))
+
 #' Plots of Discrete and Continuous Distributions
 #' 
 #' Provides a simple way to generate plots of pdfs, probability mass functions,
