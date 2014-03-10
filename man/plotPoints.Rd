@@ -3,8 +3,9 @@
 \alias{plotPoints}
 \title{Scatter plot of points}
 \usage{
-plotPoints(x, data = parent.frame(), add = FALSE, panelfun = panel.xyplot,
-  plotfun = xyplot, ...)
+plotPoints(x, data = parent.frame(), add = NULL, under = FALSE,
+  panelfun = panel.xyplot, plotfun = xyplot, ...,
+  plot = trellis.last.object())
 }
 \arguments{
   \item{x}{A formula specifying y ~ x or z ~ x&y}
@@ -13,8 +14,12 @@ plotPoints(x, data = parent.frame(), add = FALSE, panelfun = panel.xyplot,
   plotted.  If not specified, the variables will be looked
   up in the local environment}
 
-  \item{add}{If \code{TRUE}, overlay the scatter plot on
-  the current plot.}
+  \item{add}{If \code{TRUE}, add points as a new layer to
+  an existing plot. If \code{NULL}, the value of
+  \code{under} will be used.}
+
+  \item{under}{If \code{TRUE}, the new layer will be
+  underneat existing layers.}
 
   \item{panelfun}{Lattice panel function to be used for
   adding.  Set only if you want something other than a
@@ -27,9 +32,13 @@ plotPoints(x, data = parent.frame(), add = FALSE, panelfun = panel.xyplot,
   functionality through other functions.}
 
   \item{\dots}{additional arguments}
+
+  \item{plot}{a trellis plot, by default the most recently
+  created one.  If \code{add} is \code{TRUE}, new points
+  will be added as a new layer to \code{plot}.}
 }
 \value{
-A lattice graphics object (if \code{add=FALSE})
+A trellis graphics object
 }
 \description{
 Make or add a scatter plot in a manner coordinated with \code{plotFun}.
