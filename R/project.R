@@ -129,4 +129,13 @@ setMethod(
 			  n$v%*%diag(recip)%*%t(n$u)%*%b
 		  }
 		  )
-
+#' Vector Length
+#' 
+#' Compute the length of a numeric vector in the usual mathematica sense of vector length
+#' 
+#' @param x a vector
+#' @param \dots ignored for now
+#' @return the length of the vector (i.e., the square root of the sum of the squares of the components)
+vlength <- function(x, ...) {
+   sqrt(sum(x^2))
+}
