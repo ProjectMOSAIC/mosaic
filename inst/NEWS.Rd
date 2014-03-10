@@ -2,6 +2,13 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.8}{
 \itemize{
+\item \code{plotDist} now accepts \code{add=TRUE} and \code{under=TRUE}, making it easy to add
+plots of distributions over (or under) plots of data (e.g., histograms, densityplots, etc.)
+or other distributions.
+\item Plotting funcitons with with the option \code{add=TRUE} have been reimplemented using
+\code{layer} from \pkg{latticeExtra}.  See documentaiton of these functions for details.
+\item \code{ladd} has been completely reimplemented using \code{layer()} from \pkg{latticeExtra}.  See 
+documentation of \code{ladd()} for details, including some behavior changes.
 \item aggregating functions (\code{mean}, \code{sd}, \code{var}, et al) now use \code{getOptions("na.rm")} to determine the default value of \code{na.rm}.  Use \code{options(na.rm=TRUE)} to
 change the default behavior to remove \code{NA}s and options(na.rm=NULL) to restore 
 defaults.
