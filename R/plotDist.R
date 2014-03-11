@@ -61,6 +61,10 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' plotDist( "binom", params=list(35,.25), 
 #'            groups= y < dbinom(qbinom(0.05, 35, .25), 35,.25), 
 #'            kind='hist')
+#' plotDist("norm", 10, 2, col="blue", type="h")
+#' plotDist("norm", 12, 2, col="red", type="h", under=TRUE)
+#' histogram( ~age|sex, data=HELPrct)
+#' plotDist( "norm", mean=mean(~age, data=HELPrct), sd=sd(~age, data=HELPrct), add=TRUE)
 #' 
 #' @keywords graphics 
 #' @keywords stats 
@@ -83,6 +87,7 @@ plotDist <- function(
 	pdist = paste('p', dist, sep='')
   
   unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
+  named <-function(l)  if (is.null(names(l))) list() else l [ names(l) != "" ]
   named_as <- function(l, n)  l [ intersect( names(l), n ) ]
   
   if (is.null(params)) {
@@ -95,7 +100,6 @@ plotDist <- function(
     pparams <- params
     qparams <- params
   }
-
 	values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
 	fewerValues = unique(values)
 	discrete = length(fewerValues) < length(values) 
@@ -132,29 +136,34 @@ plotDist <- function(
 	}
 
 	if (add) {
+    dots <- list(...)
+    densx <- fewerValues
+	  densy = do.call( ddist, c(list(x=fewerValues), dparams) ) 
+#    print(names(as.list(environment())))
+#    print(names(dots))
+    
 	  switch(kind, 
 	         density = 
-	           trellis.last.object() + latticeExtra::layer( under=under,
+	           return( trellis.last.object() + latticeExtra::layer(
 	             do.call( lattice::panel.xyplot, 
-                        c(list(x=densx, y=densy, type=type), dots)),
-	             data = list(densx=fewerValues, 
-	                         densy = do.call( ddist, c(list(x=fewerValues), dparams) ), 
-	                         type=type, dots=list(...) )  ),
+	                      c(list(x=densx, y=densy, type=type), named(dots)) ),
+	             data = as.list(environment()),
+	             under=under) ),
 	         cdf = trellis.last.object() + latticeExtra::layer( under=under,
 	           do.call( lattice::panel.xyplot,  
-                      c(list( x = cdfx, y = cdfy,  type=type), dots) ),
+                      c(list( x = cdfx, y = cdfy,  type=type), named(dots)) ),
              data = list( cdfx=cdfx, cdfy=cdfy,  
                           type=type, dots=list(...) )  ),
 	         qq = 
 	           trellis.last.object() + latticeExtra::layer( under=under,
                do.call( lattice::panel.qqmath,  
-                        c(list(  x = values, type=type), dots) ),
+                        c(list(  x = values, type=type), named(dots)) ),
                data= list(  values=values, type=type, dots=list(...) ) 
                ),
 	         histogram = 
 	           trellis.last.object() + latticeExtra::layer( under=under,
                do.call( panel.xhistogram,  
-                        c(list(x=values, type=type, breaks=breaks), dots)), 
+                        c(list(x=values, type=type, breaks=breaks), named(dots))), 
                data = list(  values=values, 
                              breaks=breaks, type=type,
                              dots=list(...) ) )
