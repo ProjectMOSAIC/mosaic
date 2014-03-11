@@ -3,9 +3,10 @@
 \alias{plotDist}
 \title{Plots of Discrete and Continuous Distributions}
 \usage{
-plotDist(dist, ..., add, under = FALSE, kind = c("density", "cdf", "qq",
-  "histogram"), xlab = "", ylab = "", breaks = NULL, type,
-  resolution = 5000, params = NULL)
+plotDist(dist, ..., add, under = FALSE, packets = NULL, rows = NULL,
+  columns = NULL, kind = c("density", "cdf", "qq", "histogram"),
+  xlab = "", ylab = "", breaks = NULL, type, resolution = 5000,
+  params = NULL)
 }
 \arguments{
   \item{dist}{A string identifying the distribution.  This
@@ -23,6 +24,10 @@ plotDist(dist, ..., add, under = FALSE, kind = c("density", "cdf", "qq",
   \item{under}{a logical indicating whether adding should
   be done in a layer under or over the existing layers when
   \code{add = TRUE}.}
+
+  \item{packets,rows,columns}{specification of which panels
+  will be added to when \code{add} is \code{TRUE}.  See
+  \code{\link[latticeExtra]{layer}}.}
 
   \item{params}{a list containing parameters for the
   distribution.  If \code{NULL} (the default), this list is
@@ -83,7 +88,10 @@ plotDist( "binom", params=list(35,.25),
 plotDist("norm", 10, 2, col="blue", type="h")
 plotDist("norm", 12, 2, col="red", type="h", under=TRUE)
 histogram( ~age|sex, data=HELPrct)
-plotDist( "norm", mean=mean(~age, data=HELPrct), sd=sd(~age, data=HELPrct), add=TRUE)
+m <- mean( ~age|sex, data=HELPrct)
+s <- sd(~age|sex, data=HELPrct)
+plotDist( "norm", mean=m[1], sd=s[1], add=TRUE, packets=1)
+plotDist( "norm", mean=m[2], sd=s[2], add=TRUE, packets=2)
 }
 \keyword{graphics}
 \keyword{stats}

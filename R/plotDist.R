@@ -20,6 +20,8 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' If missing, it will be set to match \code{under}.
 #' @param under a logical indicating whether adding should be done in a layer under or over the existing 
 #' layers when \code{add = TRUE}.
+#' @param packets,rows,columns specification of which panels will be added to when 
+#' \code{add} is \code{TRUE}.  See \code{\link[latticeExtra]{layer}}.
 #' @param params a list containing parameters for the distribution.  If \code{NULL} (the default), 
 #' this list is created from elements of \code{\dots} that are either unnamed or have names among
 #' the formals of the appropriate distribution function.  See the examples.
@@ -64,7 +66,10 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' plotDist("norm", 10, 2, col="blue", type="h")
 #' plotDist("norm", 12, 2, col="red", type="h", under=TRUE)
 #' histogram( ~age|sex, data=HELPrct)
-#' plotDist( "norm", mean=mean(~age, data=HELPrct), sd=sd(~age, data=HELPrct), add=TRUE)
+#' m <- mean( ~age|sex, data=HELPrct)
+#' s <- sd(~age|sex, data=HELPrct)
+#' plotDist( "norm", mean=m[1], sd=s[1], add=TRUE, packets=1)
+#' plotDist( "norm", mean=m[2], sd=s[2], add=TRUE, packets=2)
 #' 
 #' @keywords graphics 
 #' @keywords stats 
@@ -76,6 +81,9 @@ plotDist <- function(
   dist, ...,
   add,
   under = FALSE,
+  packets=NULL,
+  rows=NULL,
+  columns=NULL,
   kind = c('density','cdf','qq','histogram'), 
 	xlab = "", ylab = "", breaks = NULL, type, 
 	resolution = 5000,  params = NULL ) {
@@ -86,20 +94,18 @@ plotDist <- function(
 	qdist = paste('q', dist, sep='')
 	pdist = paste('p', dist, sep='')
   
-  unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
-  named <-function(l)  if (is.null(names(l))) list() else l [ names(l) != "" ]
-  named_as <- function(l, n)  l [ intersect( names(l), n ) ]
   
   if (is.null(params)) {
     params <- list(...)
-    dparams <- c(unnamed(params) , named_as( params, names(formals(ddist))) )
-    pparams <- c(unnamed(params) , named_as( params, names(formals(pdist))) )
-    qparams <- c(unnamed(params) , named_as( params, names(formals(qdist))) )
+    dparams <- c(unnamed(params) , named_among( params, names(formals(ddist))) )
+    pparams <- c(unnamed(params) , named_among( params, names(formals(pdist))) )
+    qparams <- c(unnamed(params) , named_among( params, names(formals(qdist))) )
   } else {
     dparams <- params
     pparams <- params
     qparams <- params
   }
+  
 	values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
 	fewerValues = unique(values)
 	discrete = length(fewerValues) < length(values) 
@@ -136,38 +142,52 @@ plotDist <- function(
 	}
 
 	if (add) {
-    dots <- list(...)
+    dots <- named(list(...))
     densx <- fewerValues
 	  densy = do.call( ddist, c(list(x=fewerValues), dparams) ) 
 #    print(names(as.list(environment())))
 #    print(names(dots))
     
-	  switch(kind, 
-	         density = 
-	           return( trellis.last.object() + latticeExtra::layer(
-	             do.call( lattice::panel.xyplot, 
-	                      c(list(x=densx, y=densy, type=type), named(dots)) ),
-	             data = as.list(environment()),
-	             under=under) ),
-	         cdf = trellis.last.object() + latticeExtra::layer( under=under,
-	           do.call( lattice::panel.xyplot,  
-                      c(list( x = cdfx, y = cdfy,  type=type), named(dots)) ),
-             data = list( cdfx=cdfx, cdfy=cdfy,  
-                          type=type, dots=list(...) )  ),
-	         qq = 
-	           trellis.last.object() + latticeExtra::layer( under=under,
-               do.call( lattice::panel.qqmath,  
-                        c(list(  x = values, type=type), named(dots)) ),
-               data= list(  values=values, type=type, dots=list(...) ) 
-               ),
-	         histogram = 
-	           trellis.last.object() + latticeExtra::layer( under=under,
-               do.call( panel.xhistogram,  
-                        c(list(x=values, type=type, breaks=breaks), named(dots))), 
-               data = list(  values=values, 
-                             breaks=breaks, type=type,
-                             dots=list(...) ) )
-	  )
+switch(kind, 
+       density = 
+         return( trellis.last.object() + latticeExtra::layer(
+           do.call( lattice::panel.xyplot, 
+                    c(list(x=densx, y=densy, type=type), dots) ),
+           data = as.list(environment()),
+           under=under,
+           packets=packets,
+           rows=rows,
+           columns=columns) ),
+       cdf = trellis.last.object() + latticeExtra::layer(
+         do.call( lattice::panel.xyplot,  
+                  c(list( x = cdfx, y = cdfy,  type=type), dots) ),
+         data = list( cdfx=cdfx, cdfy=cdfy,  
+                      type=type, dots=list(...) ),
+         under=under,
+         packets=packets,
+         rows=rows,
+         columns=columns),
+       qq = 
+         trellis.last.object() + latticeExtra::layer( 
+           do.call( lattice::panel.qqmath,  
+                    c(list(  x = values, type=type), dots) ),
+           data= list(  values=values, type=type, dots=list(...) ), 
+           under=under,
+           packets=packets,
+           rows=rows,
+           columns=columns),
+       histogram = 
+         trellis.last.object() + latticeExtra::layer(  
+           do.call( panel.xhistogram,  
+                    c(list(x=values, type=type, breaks=breaks), dots)), 
+           data = list(  values=values, 
+                         breaks=breaks, type=type,
+                         dots=list(...) ),
+           under=under,
+           packets=packets,
+           rows=rows,
+           columns=columns),
+)
 	} else {
 	  switch(kind, 
 	         density = 
@@ -195,4 +215,8 @@ plotDist <- function(
 	  )
 	}
 }
+
+unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
+named <-function(l)  if (is.null(names(l))) list() else l [ names(l) != "" ]
+named_among <- function(l, n)  l [ intersect( names(l), n ) ]
 
