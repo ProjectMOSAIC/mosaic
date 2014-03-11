@@ -68,8 +68,8 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' histogram( ~age|sex, data=HELPrct)
 #' m <- mean( ~age|sex, data=HELPrct)
 #' s <- sd(~age|sex, data=HELPrct)
-#' plotDist( "norm", mean=m[1], sd=s[1], add=TRUE, packets=1)
-#' plotDist( "norm", mean=m[2], sd=s[2], add=TRUE, packets=2)
+#' plotDist( "norm", mean=m[1], sd=s[1], col="red", add=TRUE, packets=1)
+#' plotDist( "norm", mean=m[2], sd=s[2], col="blue", add=TRUE, packets=2)
 #' 
 #' @keywords graphics 
 #' @keywords stats 
@@ -216,7 +216,17 @@ switch(kind,
 	}
 }
 
-unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
+#' List extraction
+#' 
+#' These functions create subsets of lists based on their names
+#'
+#'  
+#' @param l a list
+#' @param n a vector of character strings (potential names)
+#' @return a sublist of \code{l} determined by \code{names(l)}
 named <-function(l)  if (is.null(names(l))) list() else l [ names(l) != "" ]
+#' @rdname named
+unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
+#' @rdname named
 named_among <- function(l, n)  l [ intersect( names(l), n ) ]
 
