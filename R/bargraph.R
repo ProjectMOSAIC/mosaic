@@ -20,6 +20,13 @@
 #' @param xlab a character vector of length one used for the x-axis label
 #' @return a trellis object describing the plot
 #' @seealso \code{\link[lattice]{barchart}}
+#' @details \code{bargraph(formula, data=data, ...)} works by creating a new data frame from \code{xtabs(formula, data=data)}
+#' and then calling \code{\link[lattice]{barchart}} using modified version of the formula and this
+#' new data frame as inputs.  This has implications on, for example, conditional plots where 
+#' one desires to condition on some expression that will be evaluated in \code{data}.  This typically
+#' does not work becuase the required variables do not exist in the output of \code{xtabs}.  One solution
+#' is to first add a new variable to \code{data} first and then to condition using this new variable.
+#' See the examples.
 #'
 #' @examples
 #' data(HELPrct)
@@ -27,6 +34,8 @@
 #' bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
 #' bargraph( ~ substance | sex, groups=homeless, auto.key=TRUE, data=HELPrct)
 #' bargraph( ~ substance, groups=homeless, auto.key=TRUE, data=HELPrct, subset=sex=="male")
+#' HELPrct2 <- transform( HELPrct, older = age > 40 )
+#' bargraph( ~ substance | older, data = HELPrct2 )
 
 bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0, 
                      ylab=ifelse(horizontal,"","Frequency"), 
