@@ -37,7 +37,7 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     NSF, Project MOSAIC is a community of educators working to tie together
     aspects of quantitative work that students in science, technology,
     engineering and mathematics will need in their professional lives, but
-    which are usually taught in isolation, if at all.  A few features take 
+    which are usually taught in isolation, if at all.  A few features take
     advantage of the manipulate package when working in RStudio.
 License: GPL (>=2)
 LazyLoad: yes

@@ -2,6 +2,8 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.8}{
 \itemize{
+\item The \code{HELP} data set has been removed from the package.  
+It was deprecated in version 0.5.  Use \code{HELPrct} instead.
 \item \code{plotDist} now accepts \code{add=TRUE} and \code{under=TRUE}, making it easy to add
 plots of distributions over (or under) plots of data (e.g., histograms, densityplots, etc.)
 or other distributions.
