@@ -50,7 +50,9 @@ as counts of heads and tails.
 \code{mosaic} defaults.
 \item \code{dotPlot} uses a different algorithm to determine dot sizes.
 (Still not perfect, but \code{cex} can be used to further scale the dots.)
-\item adjustments to \code{histogram} so that \code{nint} matches the number of bins used more accuaretly.
+\item adjustments to \code{histogram} so that \code{nint} matches the number of bins used more accurately.
+\item fixed coding error in the HELP datasets so that \code{i2}: max number of drinks is at least as large as \code{i1}: the average number of drinks.
+\item removed the deprecated HELP dataset (now called HELPrct)
 \item Various minor bug fixes and internal improvements. 
 }
 }
