@@ -96,6 +96,7 @@ prepanel.xhistogram <-
 
 #' @rdname xhistogram
 #' @param dcol color of density curve
+#' @param dalpha alpha for density curve
 #' @param gcol color of guidelines
 #' @param fcol fill color for histogram rectangles
 #' @param dmath density function for density curve overlay
@@ -104,7 +105,9 @@ prepanel.xhistogram <-
 #' @param dlwd,glwd like \code{lwd} but affecting the density line and guide lines, respectively
 #' @param args a list of additional arguments for \code{dmath}
 #' @param labels should counts/densities/precents be displayed or each bin?
-#' @param density overlay density?
+#' @param density a logical indicating whether to overlay a density curve
+#' @param under a logical indicating whether the density layers should be under or 
+#' over other layers of the plot.
 #' @param fit a character string describing the distribution to fit.  Known distributions include
 #'      \code{"exponential"}, \code{"normal"}, \code{"lognormal" }, \code{"poisson"}, \code{"beta"}, \code{"geometric"},
 #'      \code{"t"}, \code{"weibull"}, \code{"cauchy"}, \code{"gamma"}, \code{"chisq"}, and \code{"chi-squared"}
@@ -119,25 +122,73 @@ prepanel.xhistogram <-
 #' @param alpha transparency level
 panel.xhistogram <-
 function (x, 
-	dcol = trellis.par.get("plot.line")$col, dlwd = 2, 
-    gcol = trellis.par.get("add.line")$col, glwd = 2, 
+	dcol = trellis.par.get("plot.line")$col, dalpha=1, dlwd = 2, 
+  gcol = trellis.par.get("add.line")$col, glwd = 2, 
 	fcol = trellis.par.get("superpose.polygon")$col,
 	dmath = dnorm, 
 	verbose = FALSE,
-    dn = 100, args = NULL, labels = FALSE, density = FALSE, fit = NULL, 
+    dn = 100, args = NULL, labels = FALSE, density = NULL, under=FALSE, fit = NULL, 
     start = NULL, type = "density", v, h, groups=NULL, center=NULL, width=NULL, breaks,
     nint = round(1.5 * log2(length(x)) + 1),
 	stripes=c('vertical','horizontal','none'), alpha=1, ...) 
 {
+  if (is.null(density)) density <- under
   if (missing(breaks) || is.null(breaks)) {
     breaks <- xhistogramBreaks(x, center=center, width=width, nint=nint)
   } 
   if (is.function(breaks))   {
     breaks <- breaks(x, center = center, width = width, nint = nint, ...)
   }
-  
   stripes <- match.arg(stripes)
-	if (!is.null(groups)) {
+  
+  if (!is.null(fit)) {
+    dmath = switch( tolower(fit), 
+                    "exponential" = dexp,
+                    "normal"      = dnorm,
+                    "lognormal"   = dlnorm,
+                    "log-normal"  = dlnorm,
+                    "poisson"     = dpois,
+                    "beta"        = dbeta,
+                    "t"           = dt,
+                    "weibull"     = dweibull,
+                    "cauchy"      = dcauchy,
+                    "gamma"       = dgamma,
+                    "chisq"       = dchisq,
+                    "chi-squared" = dchisq
+    )
+    x = x[!is.na(x)]
+    density <- TRUE
+    if (is.null(args)) {
+      if (! require(MASS) ){
+        stop("The MASS package must be loaded to auto-fit distributions.")
+      }
+      if (is.null(start)) {
+        args = fitdistr(x, fit)$estimate
+      }
+      else {
+        args = fitdistr(x, fit, start = start)$estimate
+      }
+    }
+  } 
+  if (is.null(args)) {
+    args = list(mean = mean(x, na.rm = T), sd = sd(x, na.rm = T))
+  }
+  
+  ###  done cleaining up args; away we go
+  if (density && type != 'density') {
+    warning("Use type='density' when adding density overlays.")
+  }
+  if (density && verbose) {
+    cat("args for density function:\n")
+    print(args)
+  }
+  if ( density && under ) {  # else do this near the end
+    panel.mathdensity(dmath = dmath, args = args, n = dn, 
+                      col = dcol, alpha=dalpha,lwd = dlwd)
+  }
+
+  ## plotting main part of histogram 
+  if (!is.null(groups)) {
     	hist.master <- hist(as.numeric(x), plot = FALSE, breaks=breaks, warn.unused=FALSE, ...)
 		hist.master$height <- switch(type,
 			'density' = hist.master$density,
@@ -233,52 +284,13 @@ function (x,
                   "bottom"), default.units = "native")
         }
     }
-    if (!is.null(fit)) {
-        x = x[!is.na(x)]
-        density <- TRUE
-        if (is.null(args)) {
-			if (! require(MASS) ){
-				stop("The MASS package must be loaded to auto-fit distributions.")
-			}
-            if (is.null(start)) {
-                args = fitdistr(x, fit)$estimate
-            }
-            else {
-                args = fitdistr(x, fit, start = start)$estimate
-            }
-        }
-
-		dmath = switch( tolower(fit), 
-					   "exponential" = dexp,
-					   "normal"      = dnorm,
-					   "lognormal"   = dlnorm,
-					   "log-normal"  = dlnorm,
-       				   "poisson"     = dpois,
-					   "beta"        = dbeta,
-					   "t"           = dt,
-					   "weibull"     = dweibull,
-					   "cauchy"      = dcauchy,
-					   "gamma"       = dgamma,
-					   "chisq"       = dchisq,
-					   "chi-squared" = dchisq
-					   )
-        } 
-
-    if (is.null(args)) {
-        args = list(mean = mean(x, na.rm = T), sd = sd(x, na.rm = T))
-    }
-    if (density) {
-		if (type != 'density') {
-			warning("Use type='density' when adding density overlays.")
-		}
-		if (verbose) {
-        	cat("args for density function:\n")
-        	print(args)
-		}
-        panel.mathdensity(dmath = dmath, args = args, n = dn, 
-            col = dcol, lwd = dlwd)
-    }
-    if (!missing(v)) {
+  ## additional adornments
+  
+  if ( density && !under ) {
+    panel.mathdensity(dmath = dmath, args = args, n = dn, 
+                      col = dcol, alpha=dalpha,lwd = dlwd)
+  }
+  if (!missing(v)) {
         for (x in v) {
             panel.abline(v = x, col = gcol, lwd = glwd)
         }
