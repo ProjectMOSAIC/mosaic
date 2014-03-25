@@ -16,4 +16,17 @@ the length of the vector (i.e., the square root of the sum of the squares of the
 \description{
 Compute the length of a numeric vector in the usual mathematica sense of vector length
 }
+\examples{
+vlength(rep(1,4))
+m <- lm( length ~ width, data=KidsFeet )
+# These should be the same
+vlength( m$effects )
+vlength( KidsFeet$length)
+# So should these
+vlength( tail(m$effects, -2) )
+sqrt(sum(resid(m)^2))
+}
+\seealso{
+\code{link{project}}
+}
 

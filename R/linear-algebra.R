@@ -8,7 +8,7 @@
 #'
 #' @rdname linear.algebra
 #' @name linear.algebra
-#' @aliases mat singvals dot
+# @aliases mat singvals dot
 #'
 #' @param A a formula.  In \code{mat} and \code{singvals},
 #' only the right-hand side is used.
@@ -35,7 +35,6 @@
 #' @seealso \code{\link{linearModel}}, which returns a function.
 #' @examples
 #' a <- c(1,0,0); b <- c(1,2,3); c <- c(4,5,6); x <- rnorm(3)
-#' dot(b,c)   # dot product
 #' # Formula interface
 #' mat(~a+b)
 #' mat(~a+b+1)
@@ -70,14 +69,6 @@ singvals <- function(A, data=parent.frame()){
 ##################
 
 
-#' @rdname linear.algebra
-#  @param u a numeric vector
-#' @param v a numeric vector
-#' @return \code{dot} returns the dot product of \code{u} and \code{v}
-
-dot <- function(u, v){
-	return( sum(u*v) )
-}
 
 
 
