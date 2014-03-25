@@ -30,8 +30,10 @@ Simplified lattice plotting by adding additional elements to existing plots.
 \details{
 \code{ladd} is a wrapper around \code{\link[latticeExtra]{layer}} that simplifies
 certain common plotting additions.  The same caveats that apply to that function
-apply here as well.  In particular, \code{ladd} uses non-standard evaluation and the use
-of \code{data} may be required.
+apply here as well.  In particular, \code{ladd} uses non-standard evaluation.
+For this reason care must be taken if trying to use \code{ladd} within other functions
+and the use of \code{data} may be required to pass information into the environment
+in which \code{x} will be evaluated.
 }
 \examples{
 p <- xyplot(rnorm(100) ~rnorm(100))
