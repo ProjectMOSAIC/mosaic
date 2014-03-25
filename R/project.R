@@ -14,6 +14,8 @@
 #' @param data a data frame.
 #' @param type one of \code{"length"} or \code{"vector"} determining the type of the 
 #' returned value
+#' @param coefficients For \code{project(y ~ x)} indicates whether the projection
+#' coeffients should be returned or the projection vector.
 #' @param ... additional arguments
 
 #' @details
@@ -56,6 +58,7 @@ setGeneric(
 #' project(y1 ~ x1 + x2) -> pr; pr
 #' # recover the projected vector 
 #' cbind(x1,x2) %*% pr -> v; v
+#' project( y1 ~ x1 + x2, coefficients=FALSE )
 #' dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
 #' project(width~length+sex, data=KidsFeet)
 # @usage
@@ -63,7 +66,7 @@ setGeneric(
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
-		  function( x, u=NULL, data=parent.frame(),...) {
+		  function( x, u=NULL, data=parent.frame(), coefficients=TRUE, ...) {
 			  # x is the formula
 			  # u is just a placeholder
 			  foo <- model.frame( x, data=data )
@@ -80,7 +83,12 @@ setMethod(
         # convert to a vector
         vcoefs <- as.vector(coefs)
         names(vcoefs) <- colnames(M)
-			  return(vcoefs)
+        if (coefficients) 
+          return(vcoefs)
+        else {
+          return(as.vector( M %*% vcoefs ) )
+        }
+    
 		  }
 		  )
 ##################

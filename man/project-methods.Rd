@@ -11,7 +11,8 @@
 \usage{
 project(x, u, data = parent.env(), ...)
 
-\S4method{project}{formula}(x, u = NULL, data = parent.frame(), ...)
+\S4method{project}{formula}(x, u = NULL, data = parent.frame(),
+  coefficients = TRUE, ...)
 
 \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector",
   "length"), ...)
@@ -35,6 +36,10 @@ dot(u, v)
 
   \item{type}{one of \code{"length"} or \code{"vector"}
   determining the type of the returned value}
+
+  \item{coefficients}{For \code{project(y ~ x)} indicates
+  whether the projection coeffients should be returned or
+  the projection vector.}
 
   \item{...}{additional arguments}
 }
@@ -77,6 +82,7 @@ project(y2, 1, type='length')
 project(y1 ~ x1 + x2) -> pr; pr
 # recover the projected vector
 cbind(x1,x2) \%*\% pr -> v; v
+project( y1 ~ x1 + x2, coefficients=FALSE )
 dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
 project(width~length+sex, data=KidsFeet)
 vlength(rep(1,4))
