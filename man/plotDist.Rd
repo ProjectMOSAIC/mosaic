@@ -91,7 +91,7 @@ histogram( ~age|sex, data=HELPrct)
 m <- mean( ~age|sex, data=HELPrct)
 s <- sd(~age|sex, data=HELPrct)
 plotDist( "norm", mean=m[1], sd=s[1], col="red", add=TRUE, packets=1)
-plotDist( "norm", mean=m[2], sd=s[2], col="blue", add=TRUE, packets=2)
+plotDist( "norm", mean=m[2], sd=s[2], col="blue", add=TRUE, packets=2, under=TRUE)
 }
 \keyword{graphics}
 \keyword{stats}
