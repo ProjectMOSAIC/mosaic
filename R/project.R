@@ -47,16 +47,16 @@ setGeneric(
 #' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
 #'
 #' @examples
-#' a <- c(1,0,0); b <- c(1,2,3); c <- c(3,4,5); x <- rnorm(3)
+#' x1 <- c(1,0,0); x2 <- c(1,2,3); y1 <- c(3,4,5); y2 <- rnorm(3)
 #' # projection onto the 1 vector gives the mean vector
-#' mean(x)            
-#' project(x, 1)
+#' mean(y2)            
+#' project(y2, 1)
 #' # return the length of the vector, rather than the vector itself
-#' project(x, 1, type='length')
-#' project(c ~ a + b) -> pr; pr
-#' # recover the actual vector
-#' cbind(a,b) %*% pr -> v; v
-#' dot( c-v, v ) # left over should be orthogonal to projection, so this should be ~ 0
+#' project(y2, 1, type='length')
+#' project(y1 ~ x1 + x2) -> pr; pr
+#' # recover the projected vector 
+#' cbind(x1,x2) %*% pr -> v; v
+#' dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
 #' project(width~length+sex, data=KidsFeet)
 # @usage
 # \S4method{project}{formula}( x, u=NULL, data=parent.frame(), ...) 
@@ -77,7 +77,10 @@ setMethod(
 			  else recip = diag(recip)
 			  coefs <- n$v %*% recip %*% t(n$u) %*% u
 			  rownames(coefs) <- colnames(M)
-			  return(coefs)
+        # convert to a vector
+        vcoefs <- as.vector(coefs)
+        names(vcoefs) <- colnames(M)
+			  return(vcoefs)
 		  }
 		  )
 ##################
