@@ -6,11 +6,11 @@
 #' @return a vector.  The type of vector will depend on \code{format}.
 #' @export
 #' @examples
-#' ntiles(1:50, 4)
-#' ntiles(1:50, 4, format="center")
-#' ntiles(1:50, 4, format="interval")
-#' ntiles(1:50, 4, format="left")
-#' ntiles(1:50, 4, format="right")
+#' tally( ~ ntiles(1:50, 4) )
+#' tally( ~ ntiles(1:50, 4, format="center") )
+#' tally( ~ ntiles(1:50, 4, format="interval") )
+#' tally( ~ ntiles(1:50, 4, format="left") )
+#' tally( ~ ntiles(1:50, 4, format="right") )
 #' 
 ntiles <-  function(x, n=3, format=c("rank", "interval", "center", "left", "right")){
   format <- match.arg(format)
