@@ -1,7 +1,7 @@
 #' Create vector based on roughly equally sized groups
 #'
 #' @param x a numeric vector
-#' @param n number of quantiles
+#' @param n (approximate) number of quantiles
 #' @param format a specification of desired output format.
 #' @return a vector.  The type of vector will depend on \code{format}.
 #' @export

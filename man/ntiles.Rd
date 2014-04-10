@@ -8,7 +8,7 @@ ntiles(x, n = 3, format = c("rank", "interval", "center", "left", "right"))
 \arguments{
   \item{x}{a numeric vector}
 
-  \item{n}{number of quantiles}
+  \item{n}{(approximate) number of quantiles}
 
   \item{format}{a specification of desired output format.}
 }
