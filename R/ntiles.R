@@ -20,13 +20,15 @@ ntiles <-  function(x, n=3, format=c("rank", "interval", "center", "left", "righ
   brks <- co.intervals( x, n, overlap=0 )
   left <- brks[,1]
   right <- brks[,2]
-  center <- ( left + right ) / 2
   edge <- c( -Inf, ( tail(left,-1) + head(right,-1) ) / 2, Inf)
+  brks <- unique(edge)
   left <- head(edge, -1)
   right <- tail(edge, -1)
+  center <- ( left + right ) / 2
   left[1] <- min(x, na.rm=TRUE)
   right[length(right)] <- max(x, na.rm=TRUE)
-  brks <- edge
+  center[1] <- left[1]
+  center[length(center)] <- right[length(right)]
   res <- switch(format, 
                 "rank" =  cut(x, breaks=brks, labels=qnames[1:n], ordered_result=TRUE),
                 "interval" =  cut(x, breaks=brks, ordered_result=TRUE),
