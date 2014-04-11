@@ -3,7 +3,8 @@
 \alias{ntiles}
 \title{Create vector based on roughly equally sized groups}
 \usage{
-ntiles(x, n = 3, format = c("rank", "interval", "center", "left", "right"))
+ntiles(x, n = 3, format = c("rank", "interval", "center", "left", "right"),
+  digits = 3)
 }
 \arguments{
   \item{x}{a numeric vector}
@@ -11,6 +12,9 @@ ntiles(x, n = 3, format = c("rank", "interval", "center", "left", "right"))
   \item{n}{(approximate) number of quantiles}
 
   \item{format}{a specification of desired output format.}
+
+  \item{digits}{desired number of digits for labeling of
+  factors.}
 }
 \value{
 a vector.  The type of vector will depend on \code{format}.
