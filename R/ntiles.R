@@ -7,13 +7,18 @@
 #' @return a vector.  The type of vector will depend on \code{format}.
 #' @export
 #' @examples
-#' tally( ~ ntiles(1:50, 4) )
-#' tally( ~ ntiles(1:50, 4, format="center") )
-#' tally( ~ ntiles(1:50, 4, format="interval") )
-#' tally( ~ ntiles(1:50, 4, format="left") )
-#' tally( ~ ntiles(1:50, 4, format="right") )
+#' tally( ~ ntiles(age, 4), data=HELPrct)
+#' tally( ~ ntiles(age, 4, format="center"), data=HELPrct)
+#' tally( ~ ntiles(age, 4, format="interval"), data=HELPrct)
+#' tally( ~ ntiles(age, 4, format="left"), data=HELPrct)
+#' tally( ~ ntiles(age, 4, format="right"), data=HELPrct)
+#' tally( ~ ntiles(age, 4, format="mean"), data=HELPrct)
+#' tally( ~ ntiles(age, 4, format="median"), data=HELPrct)
+#' bwplot( i2 ~ ntiles(age, n=5, format="interval"), data=HELPrct)
 #' 
-ntiles <-  function(x, n=3, format=c("rank", "interval", "center", "left", "right"), digits=3){
+ntiles <-  function(x, n=3, 
+                    format=c("rank", "interval", "mean", "median", "center", "left", "right"), 
+                    digits=3){
   format <- match.arg(format)
   
   # Figure out names
@@ -28,6 +33,8 @@ ntiles <-  function(x, n=3, format=c("rank", "interval", "center", "left", "righ
   
   left <- min( x ~ bin, na.rm=TRUE )
   right <- max( x ~ bin, na.rm=TRUE )
+  md <- median( x ~ bin, na.rm=TRUE )
+  mn <- mean( x ~ bin, na.rm=TRUE )
   center <- signif( ( left + right ) / 2, digits )
   
   res <- switch(format,
@@ -37,6 +44,8 @@ ntiles <-  function(x, n=3, format=c("rank", "interval", "center", "left", "righ
                   labels=paste0("[",signif(left,digits=digits),",", signif(right,digits=digits),"]"), 
                   ordered=TRUE),
                 "center" = center[bin],
+                "mean" = mn[bin],
+                "median" = md[bin],
                 "left" = left[bin],
                 "right" = right[bin]
   )                

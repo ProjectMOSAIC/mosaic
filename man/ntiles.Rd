@@ -3,8 +3,8 @@
 \alias{ntiles}
 \title{Create vector based on roughly equally sized groups}
 \usage{
-ntiles(x, n = 3, format = c("rank", "interval", "center", "left", "right"),
-  digits = 3)
+ntiles(x, n = 3, format = c("rank", "interval", "mean", "median", "center",
+  "left", "right"), digits = 3)
 }
 \arguments{
   \item{x}{a numeric vector}
@@ -23,10 +23,13 @@ a vector.  The type of vector will depend on \code{format}.
 Create vector based on roughly equally sized groups
 }
 \examples{
-tally( ~ ntiles(1:50, 4) )
-tally( ~ ntiles(1:50, 4, format="center") )
-tally( ~ ntiles(1:50, 4, format="interval") )
-tally( ~ ntiles(1:50, 4, format="left") )
-tally( ~ ntiles(1:50, 4, format="right") )
+tally( ~ ntiles(age, 4), data=HELPrct)
+tally( ~ ntiles(age, 4, format="center"), data=HELPrct)
+tally( ~ ntiles(age, 4, format="interval"), data=HELPrct)
+tally( ~ ntiles(age, 4, format="left"), data=HELPrct)
+tally( ~ ntiles(age, 4, format="right"), data=HELPrct)
+tally( ~ ntiles(age, 4, format="mean"), data=HELPrct)
+tally( ~ ntiles(age, 4, format="median"), data=HELPrct)
+bwplot( i2 ~ ntiles(age, n=5, format="interval"), data=HELPrct)
 }
 
