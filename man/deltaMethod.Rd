@@ -17,23 +17,26 @@
   \code{\link[car]{deltaMethod}} for details.}
 
   \item{uncertainties}{a data frame with the same dimension
-  as \code{object} or numeric vector of length
-  \code{ncol(object)} containing the uncertainties on each
-  measured value in \code{object} or a matrix providing a
-  variance-covariance matrix for the uncertainties.
-  Alternatvely, if \code{estimates} is not \code{NULL},
-  then uncertainties may be a vector of names or integers
-  used to select columns from \code{object}.  There is one
-  potentially ambiguous case: It is not possible to specify
-  the uncertainties as a vector of integers if
-  \code{estimates} is not \code{NULL} -- such integers will
-  be treated as column numbers for subsetting. If
-  \code{uncertaintites} is not a matrix, independece is
-  assumed and the variance-covariance matrix is created
-  under that assumption. Matching of uncertainties to
-  measured values is by position, so names are irrelevant.
-  Uncertainties will be converted into a covariance matrix
-  assuming independence.}
+  as \code{object} or a numeric vector containing the
+  uncertainties on each measured value in \code{object} or
+  a matrix providing a variance-covariance matrix for the
+  uncertainties. If a named vector, and \code{estimates} is
+  \code{NULL}, the names of the vector will be used for
+  \code{estimates}.  This makes it possible to specify only
+  \code{object}, \code{g}, and \code{uncertainties} to
+  handle many situations. Alternatvely, if \code{estimates}
+  is not \code{NULL}, then uncertainties may be a vector of
+  names or integers used to select columns from
+  \code{object}.  There is one potentially ambiguous case:
+  It is not possible to specify the uncertainties as a
+  vector of integers if \code{estimates} is not \code{NULL}
+  -- such integers will be treated as column numbers for
+  subsetting. If \code{uncertaintites} is not a matrix,
+  independece is assumed and the variance-covariance matrix
+  is created under that assumption. Matching of
+  uncertainties to measured values is by position, so names
+  are irrelevant. Uncertainties will be converted into a
+  covariance matrix assuming independence.}
 
   \item{vcov.}{a covariance matrix or a list of covariance
   matrices.  Only one of \code{vcov.} and
