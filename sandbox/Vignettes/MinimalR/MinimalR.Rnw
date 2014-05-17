@@ -13,7 +13,7 @@
 \usepackage{xcolor}
 
 
-\usepackage[landscape,margin=.5in,bottom=.35in,includehead,includefoot]{geometry}
+\usepackage[landscape,margin=.40in,top=.30in,bottom=.30in,includehead,includefoot]{geometry}
 \usepackage{probstat}
 \usepackage{hyperref}
 %\usepackage[shownotes]{authNote}
@@ -158,7 +158,7 @@ Randall Pruim
 \parindent=0pt
 
 \chead{\sf \bfseries \Large Enough R for Intro Stats}
-\rhead{July, 2013}
+\rhead{May, 2014}
 \lhead{R. Pruim}
 
 
@@ -168,6 +168,7 @@ Randall Pruim
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
 #source('setup.R')
 require(mosaic)
+require(parallel)
 trellis.par.set(theme=col.mosaic())
 set.seed(123)
 #knit_hooks$set(inline = function(x) {
@@ -265,10 +266,12 @@ as possible into a small number of paradigms.  In particular,
 	\item 
 		We use \pkg{lattice} graphics.
 
-		\R\ has three separate high level plotting libraries (base, \pkg{lattice}, and \pkg{ggplot2}).
-		Each has its advantages, but we choose \pkg{lattice} because it uses the same formula interface
-		use elsewhere and because it encourages students to things about disaggregating data according to
-		the values of covariates by making this very easy to do.
+		\R\ has three separate high level plotting libraries (base,
+		\pkg{lattice}, and \pkg{ggplot2}).  Each has its advantages, but we
+		choose \pkg{lattice} because it uses the same formula interface used
+		elsewhere and because it encourages students to things about
+		disaggregating data according to the values of covariates by making
+		this very easy to do.
 \end{enumerate}
 
 
@@ -297,8 +300,8 @@ example()
 @
 \fi
 
-\subsection*{Arithmetic}
-Basic arithmetic is very similar to a calculator.
+\subsection*{Basic Calculations}
+Basic calculation is very similar to a calculator.
 <<>>=
 # basic ops: + - * / ^ ( )
 log()
@@ -309,9 +312,8 @@ sqrt()
 log10()
 abs()
 choose()
-factorial()
-uniroot()   # root finder
 @
+% uniroot()   # root finder
 
 \subsection*{Randomization/Simulation}
 %
@@ -342,20 +344,28 @@ goal( y ~ x | z, data=...,
                  groups=... )
 @
 
-For plots
+For plots:
 \begin{itemize}
 	\item
 		\texttt{y}: is y-axis variable
 	\item
 		\texttt{x}: is x-axis variable
 	\item
-		\texttt{z}: conditioning variable (separate panels)
+		\texttt{z}: conditioning variable 
+		
+		(separate panels)
 	\item
-		\texttt{groups}: conditioning variable (overlaid graphs)
+		\texttt{groups}: conditioning variable 
+		
+		(overlaid graphs)
 \end{itemize}
-For other things \code{'y \twiddle{} x | z'} can usually be
-read \code{'y'} is modeled by (or depends on) \code{'x'} 
-differently for each \code{'z'}.
+For other things:
+\medskip
+
+`\code{y \twiddle{} x | z}' can usually be
+read `\code{y} is modeled by (or depends on) \code{x} 
+differently for each \code{z}'.
+\medskip
 
 See the sampler for examples.
 
@@ -363,10 +373,10 @@ See the sampler for examples.
 %
 <<>>=
 pbinom(); pnorm();   
+xpnorm()    # mosaic
 pchisq(); pt()
 qbinom(); qnorm(); 
 qchisq(); qt()
-xpnorm()    # mosaic
 plotDist()  # mosaic
 @
 \vfill
@@ -376,17 +386,17 @@ These functions have
 a formula interface to match plotting.
 %
 <<>>=
+favstats()   # mosaic
+tally()      # mosaic
 mean()       # mosaic augmented
 median()     # mosaic augmented
 sd()         # mosaic augmented
 var()        # mosaic augmented
-quantile()   # mosaic augmented
-favstats()   # mosaic
-tally()      # mosaic
 @
 \iftrue
 \squeeze
 <<highlight=FALSE>>=
+quantile()   # mosaic augmented
 prop()       # mosaic
 perc()       # mosaic
 rank()
@@ -409,17 +419,17 @@ min(); max() # mosaic augmented
 bwplot()
 xyplot()
 histogram() # mosaic augmented
-qqmath()
 densityplot()
+qqmath()
+makeFun()   # mosaic
 plotFun()   # mosaic
 @
 \squeeze
 <<highlight=FALSE>>=
-ladd()         # mosaic 
-dotPlot()      # mosaic
-bargraph()     # mosaic
-mosaic()       # in vcd package
-xqqmath()      # mosaic
+ladd()      # mosaic 
+dotPlot()   # mosaic
+bargraph()  # mosaic
+xqqmath()   # mosaic
 @
 
 \subsection*{Interactive Graphics (RStudio)}
@@ -449,29 +459,34 @@ plot( TukeyHSD( model ) )
 <<highlight=FALSE>>=
 confint()      # mosaic augmented
 pval()         # mosaic
-confint()      # mosaic augmented
 fisher.test()
 xchisq.test()  # mosaic
-power.t.test()
-power.prop.test()
-wilcox.test()
+model <- glm() # logistic regression
 @
+% wilcox.test()
+% power.t.test()
+% power.prop.test()
 
 \subsection*{Data}
 <<>>=
 read.file()    # mosaic
+nrow(); ncol() 
 summary()
+str()
 names()
 head()
 subset()
 factor()
 c()
-cbind() 
-rbind()
+cbind(); rbind()
+transform()
 @
 \squeeze
 <<highlight=FALSE>>=
 merge()
+relevel()
+ntiles()      # mosaic
+cut()
 @
 \iffalse
 \squeeze
@@ -482,7 +497,6 @@ table()
 perctable()    # mosaic
 proptable()    # mosaic
 with()
-merge()
 rep()
 seq()
 sort()
@@ -509,7 +523,7 @@ opts_chunk$set(
 	eval=TRUE, 
 	fig.path='figures/fig-',
 	fig.width=4,
-	fig.height=2,
+	fig.height=1.9,
 	fig.align="center",
 	out.width=".25\\textwidth",
 	out.height=".125\\textwidth",
@@ -526,25 +540,28 @@ options(show.signif.stars=FALSE)
 @
 
 <<coins,fig.keep="last">>=
-rflip(10)
-do(2) * rflip(10)
-results <- do(1000)* rflip(10)
-tally( ~heads, data=results )
-tally( ~ (heads>8 | heads<2) , data=results )
-histogram( ~heads ,data=results, width=1 )
+rflip(6)
+do(2) * rflip(6)
+coins <- do(1000)* rflip(6)
+tally( ~heads, data=coins )
+tally( ~heads, data=coins, format="perc" )
+tally( ~ (heads>=5 | heads<=1) , data=coins )
+histogram( ~heads, data=coins, width=1,
+            groups = (heads>=5 | heads<=1))
 @
-
-\columnbreak
-
+%\columnbreak
 <<tally>>=
-tally( ~ substance + sex, data=HELPrct )
-mean( age ~ substance, data=HELPrct )
-sd( age ~ substance, data=HELPrct )
+tally( ~ sex + substance, data=HELPrct )
+mean( age ~ sex, data=HELPrct )
+diffmean( age ~ sex, data=HELPrct )
+favstats( age ~ sex, data=HELPrct )
 @
+\vspace*{-.15in}
 <<densityplot,fig.height=2.4>>=
 densityplot( ~ age | sex, groups=substance, 
                data=HELPrct, auto.key=TRUE )
 @
+\vspace*{-.25in}
 <<bwplot>>=
 bwplot( age ~ substance | sex, data=HELPrct )
 @
@@ -553,23 +570,43 @@ bwplot( age ~ substance | sex, data=HELPrct )
 pval( binom.test( ~sex, data=HELPrct ) )
 confint( t.test( ~age, data=HELPrct ) )
 @
+\iffalse
 <<tidy=FALSE>>=
 model <- lm(age ~ sex + substance, 
 			data=HELPrct ) 
 anova( model )
 @
-
-
-<<>>=
-xyplot( Sepal.Length ~ Sepal.Width, data=iris, 
-	    groups=Species )
+\fi
+\iffalse
+<<tidy=FALSE>>=
+xyplot( Sepal.Length ~ Sepal.Width, 
+        groups=Species, data=iris) 
+@
+\fi
+\vspace{-.2in}
+<<fig.keep="last", tidy=FALSE, fig.height=2.3>>=
+model <- lm(weight ~ height + gender, 
+            data=Heightweight)
+wt <- makeFun(model)
+wt( height=72, gender="male")
+xyplot(weight ~ height, groups=gender, 
+       data=Heightweight)
+plotFun(wt(h,gender="male") ~ h, add=TRUE, 
+		col="skyblue")
+plotFun(wt(h,gender="female") ~ h, add=TRUE, 
+		col="navy")
+@
+\vspace{-.2in}
+<<fig.height=1.75>>=
+plotDist("chisq", df=4)
 @
 
 <<include=FALSE>>=
 tally( ~ homeless | sex, data=HELPrct)
 @
 <<include=FALSE>>=
-binom.test( ~ homeless | sex, data=HELPrct)
+chisq.test( tally(~ homeless + sex, data=HELPrct) )
+prop.test( homeless ~ sex, data=HELPrct)
 @
 
 \iffalse
