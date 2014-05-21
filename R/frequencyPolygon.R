@@ -5,10 +5,14 @@
 #' distributions.
 #'
 #' @param x a formula or a numeric vector
-#' @param \dots additional arguments passed on to \code{\link{histogram}} and \code{panel}.
+#' @param \dots additional arguments passed on to \code{\link{histogram}} 
+#' and \code{panel}.
 #' @param panel a panel function
 #'
 #' @return a trellis object
+#' @note This function make use of \code{histogram} to determine overall layout.  Often 
+#' this works reasonably well but sometimes it does not.  In the latter cases, it may be i
+#' necessary to use \code{ylim} to determine an approprate viewing rectangle for the plot.
 #' 
 #' @export
 #' @examples
@@ -21,7 +25,9 @@
 #' histogram(~eruptions, faithful, type='density', width=.5)
 #' ladd( panel.freqpolygon(faithful$eruptions, width=.5 ))
 
-freqpolygon <- function(x, ..., panel=panel.freqpolygon) {
+freqpolygon <- function(x, 
+                        ..., 
+                        panel="panel.freqpolygon") {
   histogram(x, ..., panel=panel)
 }
 
@@ -39,6 +45,8 @@ freqpolygon <- function(x, ..., panel=panel.freqpolygon) {
 #' @param nint an approximate number of bins for the frequency polygon
 #' @param center center of one of the bins
 #' @param width width of the bins
+#' @param wdth alternative to \code{width} to avoid conflict with \code{densityplot} argument
+#' names 
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param ref a logical indicating whether a horizontal reference line should be 
 #' added (roughly equivalent to \code{h=0})
@@ -49,8 +57,10 @@ panel.freqpolygon <- function (x, plot.points = "jitter", ref = FALSE,
           jitter.amount = 0.01 * diff(current.panel.limits()$ylim), 
           type='density', 
           breaks=NULL, 
-          nint= 1.5 * log2(length(x)+1), 
-          center=NULL, width=NULL,
+          nint= NULL,
+          center=NULL, 
+          wdth=NULL,
+          width=wdth,
           gcol=trellis.par.get('reference.line')$col,
           glwd=trellis.par.get('reference.line')$lwd,
           h, v, 
