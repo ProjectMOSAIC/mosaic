@@ -5,7 +5,7 @@
 \usage{
 maggregate(formula, data = parent.frame(), FUN, subset,
   overall = mosaic.par.get("aggregate.overall"), method = c("default",
-  "ddply"), drop = FALSE, multiple = FALSE, groups = NULL,
+  "ddply", "grid", "flat"), drop = FALSE, multiple = FALSE, groups = NULL,
   .name = deparse(substitute(FUN)), ...)
 }
 \arguments{
@@ -25,7 +25,9 @@ maggregate(formula, data = parent.frame(), FUN, subset,
   should be dropped.}
 
   \item{method}{used for aggregation.  Choosing
-  \code{"ddply"} requires that \pkg{plry} is installed.}
+  \code{"ddply"} (or \code{"grid"}, which is equivalent)
+  requires that \pkg{plry} is installed. \code{"default"}
+  and \code{"flat"} are equivalent.}
 
   \item{overall}{currently unused}
 

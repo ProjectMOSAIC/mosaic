@@ -168,8 +168,9 @@ mosaic_formula_q <- function( formula,
 #' @param FUN a function to apply to each subset 
 #' @param subset a logical indicating a subset of \code{data} to be processed.
 #' @param drop a logical indicating whether unused levels should be dropped.
-#' @param method used for aggregation.  Choosing \code{"ddply"} requires that
-#' \pkg{plry} is installed.
+#' @param method used for aggregation.  Choosing \code{"ddply"} 
+#' (or \code{"grid"}, which is equivalent) 
+#' requires that \pkg{plry} is installed. \code{"default"} and \code{"flat"} are equivalent.  
 #' @param overall currently unused
 #' @param .name a name used for the resulting object
 #' @param groups grouping variable that will be folded into the formula (if there is room for it).  
@@ -192,7 +193,7 @@ mosaic_formula_q <- function( formula,
 #'
 maggregate <- function(formula, data=parent.frame(), FUN, subset, 
                        overall=mosaic.par.get("aggregate.overall"), 
-                       method=c('default', 'ddply'), drop=FALSE, 
+                       method=c('default', 'ddply', 'grid', 'flat'), drop=FALSE, 
                        multiple=FALSE, 
                        groups=NULL, 
                        .name = deparse(substitute(FUN)), 
@@ -202,7 +203,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
 
   method <- match.arg(method)
   
-  if (method == "ddply" && !require(plyr)) stop("plyr package is unavailable.")
+  if (method %in% c("ddply","grid") && !require(plyr)) stop("plyr package is unavailable.")
 
   evalF <- evalFormula(formula, data=data)
   
@@ -233,7 +234,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     if (method=='ddply') {
       res <-  ddply( joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
                      union(names(evalF$right), names(evalF$condition)),
-                     function(x) do.call(FUN, list(evalF$left[,1], ...))
+                     function(x) do.call(FUN, list(x[,1], ...))
       )
       
     } else {
