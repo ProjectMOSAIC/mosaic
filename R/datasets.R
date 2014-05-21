@@ -349,7 +349,90 @@ NA
 
 NA
 
+#' Health Evaluation and Linkage to Primary Care
+#' 
+#' The HELP study was a clinical trial for adult inpatients recruited from a
+#' detoxification unit.  Patients with no primary care physician were randomized
+#' to receive a multidisciplinary assessment and a brief motivational intervention
+#' or usual care, with the goal of linking them to primary medical care.
+#' 
+#' @keywords datasets
+#' @name HELP
+#' @usage data(HELP)
+#' @docType data
+#' 
+#' @format 
+#'   Data frame with 453 observations on the following variables.  
+#'   
+#'   \itemize{
+#'     \item{\code{age}} {subject age at baseline (in years)}
+#'     \item{\code{anysub}} {use of any substance post-detox: a factor with levels \code{no} \code{yes}} 
+#'     \item{\code{cesd}} {Center for Epidemiologic Studies Depression measure of depressive symptoms at baseline (higher scores indicate more symptoms)}
+#'     \item{\code{d1}} {lifetime number of hospitalizations for medical problems (measured at baseline)}
+#'     \item{\code{daysanysub}} {time (in days) to first use of any substance post-detox}
+#'     \item{\code{dayslink}} {time (in days) to linkage to primary care}
+#'     \item{\code{drugrisk}} {Risk Assessment Battery drug risk scale at baseline}
+#'     \item{\code{e2b}} {number of times in past 6 months entered a detox program (measured at baseline)}
+#'     \item{\code{female}} {0 for male, 1 for female} 
+#'     \item{\code{sex}} {a factor with levels \code{male} \code{female}} 
+#'     \item{\code{g1b}} {experienced serious thoughts of suicide in last 30 days (measured at baseline): a factor with levels \code{no} \code{yes}}
+#'     \item{\code{homeless}} {housing status: a factor with levels \code{housed} \code{homeless}}
+#'     \item{\code{i1}} {average number of drinks (standard units) consumed per day, in the 
+#' past 30 days (measured at baseline)}
+#'     \item{\code{i2}} {maximum number of drinks (standard units) consumed per day, in the 
+#' past 30 days (measured at baseline)}
+#'     \item{\code{id}} {subject identifier}
+#'     \item{\code{indtot}} {Inventory of Drug Use Consequences (InDUC) total score (measured at baseline)}
+#'     \item{\code{linkstatus}} {post-detox linkage to primary care (0 = no, 1 = yes)}
+#'     \item{\code{link}} {post-detox linkage to primary care: \code{no} \code{yes}} 
+#'     \item{\code{mcs}} {SF-36 Mental Component Score (measured at baseline), higher scores are better}
+#'     \item{\code{pcs}} {SF-36 Physical Component Score (measured at baseline), higher scores are better}
+#'     \item{\code{pss_fr}} {perceived social support by friends (measured at baseline)}
+#'     \item{\code{racegrp}} {race/ethnicity: levels \code{black} \code{hispanic} \code{other} \code{white}}
+#'     \item{\code{satreat}} {any BSAS substance abuse treatment at baseline: \code{no} \code{yes}}
+#'     \item{\code{sexrisk}} {Risk Assessment Battery sex risk score (measured at baseline)}
+#'     \item{\code{substance}} {primary substance of abuse: \code{alcohol} \code{cocaine} \code{heroin}}
+#'     \item{\code{treat}} {randomized to HELP clinic: \code{no} \code{yes}}
+#'   }
+#' 
+#' 
+#' @details 
+#' Eligible subjects were adults, who spoke Spanish or English, reported alcohol,
+#' heroin or cocaine as their first or second drug of choice, resided in proximity
+#' to the primary care clinic to which they would be referred or were homeless.
+#' Patients with established primary care relationships they planned to continue,
+#' significant dementia, specific plans to leave the Boston area that would
+#' prevent research participation, failure to provide contact information for
+#' tracking purposes, or pregnancy were excluded.
+#' 
+#' Subjects were interviewed at baseline during their detoxification
+#' stay and follow-up interviews were undertaken every 6 months for 2
+#' years.  A variety of continuous, count, discrete, and survival time
+#' predictors and outcomes were collected at each of these five
+#' occasions.
+#' 
+#' This dataset is equivalent to the less confusingly named \code{\link{HELPrct}}
+#' dataset.
+#' 
+#' @source 
+#' \url{http://www.math.smith.edu/help}
+#' 
+#' @references 
+#' Samet JH, Larson MJ, Horton NJ, Doyle K, Winter M, and Saitz R.  Linking alcohol and 
+#' drug-dependent adults to primary medical care: 
+#' A randomized controlled trial of 
+#' a multi-disciplinary health intervention in a detoxification unit.  
+#' \emph{Addiction}, 2003; 98(4):509-516.
+#' 
+#' @seealso \code{\link{HELPrct}}.
+#' 
+#' 
+#' @examples 
+#' data(HELP)
+#' 
+#' 
 
+NA
 
 #' Health Evaluation and Linkage to Primary Care
 #' 
@@ -1479,85 +1562,6 @@ NA
 #' 
 #' @keywords datasets
 
-NA
-
-#' Body Shape and related measurements from NHANES 1999-2004
-#' 
-#' These data were collected as part of the NHANES 1999-2004 study.
-#' 
-#' @name NHANES
-#' @docType data
-#' @format A data frame with 31126 observations on the following 53 variables.
-#' \itemize{
-#'\item{\code{seqn} matching code for NHANES mortality data}
-#'\item{\code{sex} \code{"male"} or \code{"female"}}
-#'\item{\code{age} in years}
-#'\item{\code{pregnant} \code{"yes"} or \code{"no"}}
-#'\item{\code{ethnicity} Mexican American, 
-#'Other Hispanic, Non-Hispanic White, Non-Hispanic Black, or Other/Multi 
-#'}
-#'\item{\code{death} \code{"alive"},  \code{"cardiovascular death"} or \code{"other death"}}
-#'\item{\code{followup} months of follow up (for mortality data)}
-#'\item{\code{smoker} 
-#'\code{"yes"} or \code{"no"}}
-#'\item{\code{diabetic} 
-#'\code{"yes"} or \code{"no"}}
-#'\item{\code{height} height (meters)}
-#'\item{\code{weight} weight (kilograms)}
-#'\item{\code{waist} waist circumference (meters)}
-#'\item{\code{wci} the proposed body shape index}
-#'\item{\code{bmi} body mass index}
-#'\item{\code{ptfat} percent trunk fat}
-#'\item{\code{tfat} mass of trunk fat}
-#'\item{\code{lfat} limb fat}
-#'\item{\code{llean} limb lean tissue}
-#'\item{\code{lean_bmi} lean-tissue only BMI}
-#'\item{\code{fat_bmi} fat-only BMI}
-#'\item{\code{bone_bmi} bone BMI}
-#'\item{\code{pct_fat} percent fat}
-#'\item{\code{bmd} bone mineral density}
-#'\item{\code{fmhm_other} Framingham risk score}
-#'\item{\code{hdl} HDL cholesterol}
-#'\item{\code{chol} cholesterol (LDL?)}
-#'\item{\code{bps} systolic blood pressure, mmHg}
-#'\item{\code{bpd} diastolic blood pressure, mmHg}
-#'\item{\code{income} ratio of family income to poverty threshold. 5 is ratio greater than or equal to 5}
-#'\item{\code{zheight} z-score stratified by age and sex}
-#'\item{\code{zweight} z-score stratified by age and sex}
-#'\item{\code{zwaist} z-score stratified by age and sex}
-#'\item{\code{zwci} z-score stratified by age and sex}
-#'\item{\code{zbmi} z-score stratified by age and sex}
-#'\item{\code{zptfat} z-score stratified by age and sex}
-#'\item{\code{ztfat} z-score stratified by age and sex}
-#'\item{\code{zlfat} z-score stratified by age and sex}
-#'\item{\code{zllean} z-score stratified by age and sex}
-#'\item{\code{zlbmi} z-score stratified by age and sex}
-#'\item{\code{zfbmi} z-score stratified by age and sex}
-#'\item{\code{zbbmi} z-score stratified by age and sex}
-#'\item{\code{zpf} z-score stratified by age and sex}
-#'\item{\code{zbmd} z-score stratified by age and sex}
-#'\item{\code{zfmhm_other} z-score stratified by age and sex}
-#'\item{\code{zhdl} z-score stratified by age and sex}
-#'\item{\code{zchol} z-score stratified by age and sex}
-#'\item{\code{zbps} z-score stratified by age and sex}
-#'\item{\code{zbpd} z-score stratified by age and sex}
-#'\item{\code{zincome} z-score stratified by age and sex}
-#'\item{\code{pop_weight} population weight, for adding up over the US population }
-#'\item{\code{psu} primary sampling unit}
-#'\item{\code{stratum} sampling stratum}
-#'\item{\code{zwh} z-score of waist/height ratio}
-#'}
-#' @references Nir Y. Krakauer, Jesse C. Krakauer, "A New Body Shape Index
-#' Predicts Mortality Hazard Independently of Body Mass Index" PloS one, 7 (7)
-#' PMID: 22815707, 2012.
-#' \url{http://www.plosone.org/article/info:doi/10.1371/journal.pone.0039504}
-#' @source These data were assempled from NHANES 1999-2004 sources by Dr. Nir
-#' Krakauer at City College of New York.
-#' @keywords datasets
-#' @examples
-#' 
-#' data(NHANES)
- 
 NA
 
 

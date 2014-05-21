@@ -33,12 +33,9 @@
 #' @param object a data frame containing measured quantities
 #' @param g a quoted string that is describes the function of the parameter estimates to be 
 #' evaluated; see \code{\link[car]{deltaMethod}} for details.
-#' @param uncertainties a data frame with the same dimension as \code{object} or a numeric 
-#' vector containing the uncertainties on each measured value
-#' in \code{object} or a matrix providing a variance-covariance matrix for the uncertainties.
-#' If a named vector, and \code{estimates} is \code{NULL}, the names of the vector will
-#' be used for \code{estimates}.  This makes it possible to specify only 
-#' \code{object}, \code{g}, and \code{uncertainties} to handle many situations.  
+#' @param uncertainties a data frame with the same dimension as \code{object} or numeric vector 
+#' of length \code{ncol(object)} containing the uncertainties on each measured value
+#' in \code{object} or a matrix providing a variance-covariance matrix for the uncertainties.  
 #' Alternatvely, if \code{estimates} is not \code{NULL}, then uncertainties may be a vector
 #' of names or integers used to select columns from \code{object}.  There is one potentially ambiguous 
 #' case: It is not possible to specify the uncertainties as a vector of integers if \code{estimates}
@@ -64,26 +61,21 @@
  
 deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measurements, func=g, constants=c(), 
                                    measurements=NULL, vcov., ...) {
+#  if (! require(car) ) stop( "You must install the car package to use deltaMethod()." )
 
   missingArgs <- c(u=missing(uncertainties), v= missing(vcov.))
   if (! sum(missingArgs) == 1 ) {
     stop("Exactly one of uncertainty and vcov. must be specified.")
   }
   
-  if (! missingArgs['u'] && is.vector(uncertainties) ) {
-    if ( is.null(names(uncertainties)) ) {
-      if (is.integer(uncertainties) || is.character(uncertainties) ) {
-        uncertainties <- subset(object, select=estimates)
-      }
-    } else {
-      if (is.null(estimates))  estimates <- names(uncertainties)
-    }
-  }
 
   if (!is.null (estimates)) {
     estimateData <- subset(object, select=estimates)
   } else {
     estimateData <- subset(object, select=intersect(all.vars(parse(text=g)), names(object)))
+  }
+  if (! missingArgs['u'] && (is.integer(uncertainties) || is.character(uncertainties) ) ) {
+      uncertainties <- subset(object, select=estimates)
   }
   
   if (! missingArgs['v']) {

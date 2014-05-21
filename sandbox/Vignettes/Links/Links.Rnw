@@ -101,7 +101,7 @@ The \pkg{mosaic} package includes a number of vignettes including vignettes disc
 		is a recent introductory statistics textbook that embraces a
 			resampling approach.  The \pkg{Lock5Data} package contains all of
 			the data in the book.  Additional information about the book and
-			the approach used there can be found at
+			the approached used there can be found at
 			\url{http://lock5stat.com}
 \end{description}
 

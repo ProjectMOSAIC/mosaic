@@ -5,31 +5,23 @@
 #' distributions.
 #'
 #' @param x a formula or a numeric vector
-#' @param \dots additional arguments passed on to \code{\link{histogram}} 
-#' and \code{panel}.
+#' @param \dots additional arguments passed on to \code{\link{histogram}} and \code{panel}.
 #' @param panel a panel function
 #'
 #' @return a trellis object
-#' @note This function make use of \code{histogram} to determine overall layout.  Often 
-#' this works reasonably well but sometimes it does not. In particular, when \code{groups} is
-#' used to overlay multiple frequency polygons, there is often too little head room.  
-#' In the latter cases, it may be 
-#' necessary to use \code{ylim} to determine an approprate viewing rectangle for the 
-#' plot.
 #' 
 #' @export
 #' @examples
-#' freqpolygon(~age | substance, data=HELPrct, v=35)
-#' freqpolygon(~age, data=HELPrct, labels=TRUE, type='count')
-#' freqpolygon(~age | substance, data=HELPrct, groups=sex)
-#' freqpolygon(~age | substance, data=HELPrct, groups=sex, ylim=c(0,0.11))
+#' freqpolygon(~age | substance, HELPrct, v=35, fit='normal')
+#' freqpolygon(~age, HELPrct, labels=TRUE, type='count')
+#' freqpolygon(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
+#' freqpolygon(~age, HELPrct, groups=sex, stripes='horizontal')
+#' freqpolygon(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
 #' ## comparison of histogram and frequency polygon
 #' histogram(~eruptions, faithful, type='density', width=.5)
 #' ladd( panel.freqpolygon(faithful$eruptions, width=.5 ))
 
-freqpolygon <- function(x, 
-                        ..., 
-                        panel="panel.freqpolygon") {
+freqpolygon <- function(x, ..., panel=panel.freqpolygon) {
   histogram(x, ..., panel=panel)
 }
 
@@ -47,8 +39,6 @@ freqpolygon <- function(x,
 #' @param nint an approximate number of bins for the frequency polygon
 #' @param center center of one of the bins
 #' @param width width of the bins
-#' @param wdth alternative to \code{width} to avoid conflict with \code{densityplot} argument
-#' names 
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param ref a logical indicating whether a horizontal reference line should be 
 #' added (roughly equivalent to \code{h=0})
@@ -59,10 +49,8 @@ panel.freqpolygon <- function (x, plot.points = "jitter", ref = FALSE,
           jitter.amount = 0.01 * diff(current.panel.limits()$ylim), 
           type='density', 
           breaks=NULL, 
-          nint= NULL,
-          center=NULL, 
-          wdth=NULL,
-          width=wdth,
+          nint= 1.5 * log2(length(x)+1), 
+          center=NULL, width=NULL,
           gcol=trellis.par.get('reference.line')$col,
           glwd=trellis.par.get('reference.line')$lwd,
           h, v, 

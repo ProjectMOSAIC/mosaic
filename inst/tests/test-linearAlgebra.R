@@ -31,11 +31,11 @@ test_that("1 vector works", {
 test_that("formula interface to project works in present environment",{
   x <- c(1,2,3)
   b <- c(5,4,3)
-  expect_that( round(project(b~x)[1],4), is_equivalent_to(1.5714))
-  expect_that( project(b~x+1)[1], is_equivalent_to(6))
+  expect_that( project(b~x)[1], equals(1.571429, tol=0.00001))
+  expect_that( project(b~x+1)[1], equals(6))
 })
 
 test_that("formula interface works with data frame",{
-  expect_that( round(project( wage ~ educ, data=CPS85)[1],3), is_equivalent_to( 0.695))
-  expect_that( round(project( wage ~ educ+1, data=CPS85)[1],3), is_equivalent_to( -0.746) )
+  expect_that( project( wage ~ educ, data=CPS85)[1], equals( 0.6954, tol=0.0001))
+  expect_that( project( wage ~ educ+1, data=CPS85)[1], equals( -0.7460, tol=0.0001))
 })

@@ -91,7 +91,7 @@ derivedFactor <- function(...,
   rulesM <- do.call(cbind, rules)
   
   noApplicableRule <- apply( rulesM, 1, function(x) all(!x) )
-  undefined <- any( noApplicableRule, na.rm=TRUE )
+  undefined <- any( noApplicableRule )
   
   if (undefined) {
     defaultRule <- list( noApplicableRule )
@@ -107,7 +107,7 @@ derivedFactor <- function(...,
   firstApplicableRule[firstApplicableRule == Inf] <- NA
   lastApplicableRule[lastApplicableRule == -Inf] <- NA
   
-  multipleDefs <- any( lastApplicableRule != firstApplicableRule, na.rm=TRUE )
+  multipleDefs <- any( lastApplicableRule != firstApplicableRule )
   troubles <- (multipleDefs && .method == "unique") || ( undefined && is.null(.default) )
   
   ruleApplied <- switch(.method,
@@ -129,7 +129,7 @@ derivedFactor <- function(...,
     cat("\n")
   }
   
-  if (.method == "unique" && any(firstApplicableRule != lastApplicableRule, na.rm=TRUE) ) {
+  if (.method == "unique" && any(firstApplicableRule != lastApplicableRule) ) {
     stop('Conflicting rules.  Do you want to use .method="first" or .method="last"?')
   }
   

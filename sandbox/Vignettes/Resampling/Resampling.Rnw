@@ -416,10 +416,10 @@ trials <- do(1000) * cor(Price, Miles, data=resample(mustangs))
 quantiles <- qdata(c(.025, .975), result, data=trials); quantiles
 @
 
-<<cor,fig.width=4, fig.height=2, tidy=FALSE>>=
+<<cor,fig.width=4, fig.height=2>>=
 histogram(~ result, data=trials,
-  groups=cut(result, c(-Inf, quantiles$quantile, Inf)),
-  n=30) 
+  groups=cut(result, c(-Inf, quantiles, Inf)),
+  nbin=30) 
 @ 
 
 
@@ -430,7 +430,7 @@ set.seed(134) #make sure the result below is "typical"
 
 <<sleep,tidy=FALSE,fig.width=4, fig.height=2>>=
 trials <- do(1000) * diff(mean(Words ~ shuffle(Group), data=sleep))
-histogram(~ Sleep, groups=(Sleep >= obs),  data=trials, width=0.4,
+histogram(~ Sleep, groups=(Sleep >= obs),  data=trials,
   xlab="Distribution of difference in means\nunder the null hypothesis")
 @ 
 

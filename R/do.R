@@ -72,20 +72,14 @@ do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 	return(as.data.frame(x))
 	}
 
-#' Nice names
-#'
-#' Convert a character vector into a similar character vector that would 
-#' work better as names in a data frame by avoiding certain awkward characters
-#'
-#' @rdname nicenames
+#' @rdname mosaic-internal
+#' @keywords internal
+#' @details
+#' \code{.clean_names} removes unwanted characters from character vector
 #' @param x a character vector
 #' @return a character vector
-#' @export
-#' @examples
-#' nice_names( c("bad name", "name (crazy)", "a:b", "two-way") )
-
  
-nice_names <- function(x) {
+.clean_names <- function(x) {
 	x <- gsub('\\(Intercept\\)','Intercept', x)
 	x <- gsub('resample\\(','', x)
 	x <- gsub('sample\\(','', x)
@@ -94,7 +88,6 @@ nice_names <- function(x) {
 	x <- gsub('-','.', x)
 	x <- gsub(':','.', x)
 	x <- gsub('\\)','', x)
-	x <- gsub(' ','.', x)
 	return(x)
 }
 
@@ -245,13 +238,13 @@ if(FALSE) {
 	} #
 	if (any(class(object)=='lme')){ # for mixed effects models
 		result <- object
-		names(result) <- nice_names(names(result))
+		names(result) <- .clean_names(names(result))
 		return( object$coef$fixed )
 	}
 	if (inherits(object,c('lm','groupwiseModel')) ) {
 		sobject <- summary(object)
 		result <-  c( coef(object), sigma=sobject$sigma, r.squared = sobject$r.squared ) 
-		names(result) <- nice_names(names(result))
+		names(result) <- .clean_names(names(result))
 		return(result)
 	}
 	if (any(class(object)=='htest') ) {
@@ -386,9 +379,6 @@ setMethod("*",
                     "vector" = unlist(resultsList)  
       ) 
       class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
-	  if (inherits( result, "data.frame")) {
-		  names(result) <- nice_names(names(result))
-	  }
       return(result)
     }
   
@@ -458,9 +448,6 @@ setMethod("*",
 		if (dim(result)[2] == 1 & is.null(nm) ) result <- data.frame(result=result[,1]) 
 
     class(result) <- c(paste("do",class(result)[1], sep="."), class(result))
-	if (inherits( result, "data.frame")) { 
-		names(result) <- nice_names(names(result))
-	}
     return(result)
 	}
 )

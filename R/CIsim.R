@@ -38,10 +38,6 @@
 #'     data=CIsim(10,100, rdist=rexp, estimand=1),
 #'     par.settings=col.mosaic(), groups=cover)
 #'   ladd(panel.abline(h=1))
-#'   xYplot( Cbind(estimate,lower,upper) ~ sample, 
-#'   data=CIsim(10, 100, rdist=rbinom, args=list(size=1,prob=.5), 
-#'        estimand = .5, method = prop.test),
-#'     par.settings=col.mosaic(), groups=cover)
 #' }
 #' 
 #' @keywords inference 
