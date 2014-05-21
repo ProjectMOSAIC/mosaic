@@ -1,6 +1,7 @@
 #' Compare means between 2 groups
 #' 
-#' A function to calculate the difference between the means two of groups for a continuous outcome variable
+#' A function to calculate the difference between the means of a continuous
+#' variable for two groups.
 #' 
 #' @rdname compareMean
 #' @param formula a formula 
