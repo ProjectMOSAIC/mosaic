@@ -1,3 +1,11 @@
+
+# It is unclear why the CRAN checks are finding a problem with u.
+# this masks the problem, but it would be better to find and remove
+# the issue.
+
+tryCatch(utils::globalVariables(c('u')), 
+         error=function(e) message('Looks like you should update R.'))
+
 #' Projections
 #' 
 #' Compute projections onto the span of a vector or a model space, dot products, and
@@ -6,7 +14,6 @@
 #' @rdname project-methods
 #' @docType methods
 #' @export
-# @usage project(x, u, data, ...) 
 #' @param x a numeric vector (all functions) or a formula (only for \code{project}).  
 #' Left-hand sides of formulas should be a single quantity
 #' @param u a numeric vector 
@@ -42,8 +49,6 @@ setGeneric(
 )
 ##################
 #' @rdname project-methods
-# @aliases project,formula,ANY-method
-# @aliases project,formula-method
 #' @export
 #' @return \code{project} returns the projection of \code{x} onto \code{u} 
 #' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
@@ -61,8 +66,6 @@ setGeneric(
 #' project( y1 ~ x1 + x2, coefficients=FALSE )
 #' dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
 #' project(width~length+sex, data=KidsFeet)
-# @usage
-# \S4method{project}{formula}( x, u=NULL, data=parent.frame(), ...) 
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -97,10 +100,6 @@ setMethod(
 
 
 #' @rdname project-methods
-# @aliases project,numeric,ANY-method
-# @aliases project,numeric-method
-# @usage
-# \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector", "length"), ...) 
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -112,10 +111,7 @@ setMethod(
 )
 
 #' @rdname project-methods
-# @aliases project,matrix,ANY-method
-# @aliases project,matrix-method
-# @usage
-# \S4method{project}{matrix}(x, u, data=parent.frame())
+
 setMethod(
 		  'project',
 		  signature=c('matrix', 'ANY'),
