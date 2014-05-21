@@ -12,7 +12,12 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #'
 #' @param object a mathematical expression or a function "of one variable" which will
 #' converted to something intuitively equivalent to \code{object(x) ~ x}. (See examples)
-#' @param add if TRUE, then overlay an existing plot
+#' @param plot a trellis object; by default, the most recently created trellis plot.  
+#' When \code{add} is \code{TRUE}, the new function will
+#' be plotted into a layer added to this object.
+#' @param add if \code{TRUE}, then add a layer to an existing plot rather than creating a new plot.  
+#' If \code{NULL}, this will be determined by the value of \code{under}.
+#' @param under if \code{TRUE}, then new layer is added beneath existing layers
 #' @param xlim limits for x axis (or use variable names, see examples)
 #' @param ylim limits for y axis (or use variable names, see examples)
 #' @param npts number of points for plotting. 
@@ -79,7 +84,9 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' plotFun( sin(k*x)~x, k=0.01 )
 
 plotFun <- function(object, ..., 
-					add=FALSE,
+          plot=trellis.last.object(),
+					add=NULL,
+          under=FALSE,
 					xlim=NULL, ylim=NULL, npts=NULL,
 					ylab=NULL, xlab=NULL, zlab=NULL, 
 					filled=TRUE, 
@@ -96,6 +103,8 @@ plotFun <- function(object, ...,
 		formula[[2]] <- as.call( list(substitute(object), quote(x)))
 		object <- formula
 	}
+  
+  if(is.null(add)) add <- under
   
 	dots <- list(...)
 	# dots[['type']] <- type
@@ -145,18 +154,38 @@ plotFun <- function(object, ...,
 
 
 	if (add) { 
-		if (ndims==1) {
-			ladd( panel.plotFun1( fList, npts=npts, # lwd=lwd, #col=col, 
-								 filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
-								 col.regions=col.regions, type=type, alpha=alpha, col=col, ...))
-			return(invisible(NULL))
-		}
-		# message("2-D adding temporarily un-discontinued.")
-		ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
-		                     filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
-		                     col.regions=col.regions, type=type, alpha=alpha, ...))
-		return(invisible(NULL))
-	} 
+	  if (ndims==1) {
+	    return( 
+	      plot + 
+	        latticeExtra::layer( 
+	          do.call(panel.plotFun1, 
+	                  c( list(..f..=fList,  
+	                          npts=npts, 
+	                          filled=filled, levels=levels, 
+	                          nlevels=nlevels, surface=surface, 
+	                          col.regions=col.regions, 
+	                          type=type, alpha=alpha, col=col), 
+	                     dots )), 
+	          data=as.list(environment()), 
+	          under=under )
+	    ) 
+	  }
+	  # message("2-D adding temporarily un-discontinued.")
+	  return( plot + latticeExtra::layer(
+	    do.call( panel.plotFun,
+	             c(list( object=object, npts=npts,
+	                     filled=filled, levels=levels, nlevels=nlevels, suface=surface,
+	                     col.regions=col.regions, type=type, alpha=alpha),
+	               dots) ),
+	             data=as.list(environment()),
+	             under=under )
+	  )
+    
+# 		return( ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
+# 		                     filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
+# 		                     col.regions=col.regions, type=type, alpha=alpha, ...)) )
+# 		# return(invisible(NULL))
+	}   # end if(add)
 	
 	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
 
@@ -328,7 +357,7 @@ plotFun <- function(object, ...,
 				  nlevels <- 2
 			}
       if (add) {
-        ladd( 
+        return( ladd( 
           panel.levelcontourplot(grid$Var1, grid$Var2, grid$height, subscripts=1, 
                           at = levels, labels = labels, 
                           filled=filled, 
@@ -337,7 +366,7 @@ plotFun <- function(object, ...,
                           contour = TRUE, 
                           region = FALSE, 
                           ...)
-          )
+          ) )
       }
 			return((funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
 											 xlab=xlab, ylab=ylab, at=levels,

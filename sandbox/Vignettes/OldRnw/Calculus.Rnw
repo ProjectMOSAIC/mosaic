@@ -1,0 +1,9 @@
+%\VignetteIndexEntry{Teaching Calculus in R}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, functions, formulas, calculus}
+
+\documentclass{article}
+\usepackage[pdfpages]
+\begin{document}
+\includepdf{Calculus-src.pdf}
+\end{document}

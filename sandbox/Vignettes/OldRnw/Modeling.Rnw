@@ -1,0 +1,8 @@
+%\VignetteIndexEntry{Start Teaching Modeling with R}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, modeling, resampling, bootstrapping, permutation}
+
+\documentclass{article}
+\begin{document}
+This page intentionally left blank.
+\end{document}

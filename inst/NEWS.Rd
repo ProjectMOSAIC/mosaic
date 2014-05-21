@@ -2,6 +2,18 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.8}{
 \itemize{
+\item The \code{HELP} data set has been removed from the package.  
+It was deprecated in version 0.5.  Use \code{HELPrct} instead.
+\item \code{plotDist} now accepts \code{add=TRUE} and \code{under=TRUE}, making it easy to add
+plots of distributions over (or under) plots of data (e.g., histograms, densityplots, etc.)
+or other distributions.
+\item Plotting funcitons with with the option \code{add=TRUE} have been reimplemented using
+\code{layer} from \pkg{latticeExtra}.  See documentaiton of these functions for details.
+\item \code{ladd} has been completely reimplemented using \code{layer()} from \pkg{latticeExtra}.  See 
+documentation of \code{ladd()} for details, including some behavior changes.
+\item aggregating functions (\code{mean}, \code{sd}, \code{var}, et al) now use \code{getOptions("na.rm")} to determine the default value of \code{na.rm}.  Use \code{options(na.rm=TRUE)} to
+change the default behavior to remove \code{NA}s and options(na.rm=NULL) to restore 
+defaults.
 \item \code{do} has been largely rewritten with an eye toward improved 
 efficiency.  In particular, \code{do} will take advantage of multiple cores
 if the \pkg{parallel} package is availalbe. At this point, sluggishness in applications of \code{do} are 
@@ -40,7 +52,9 @@ as counts of heads and tails.
 \code{mosaic} defaults.
 \item \code{dotPlot} uses a different algorithm to determine dot sizes.
 (Still not perfect, but \code{cex} can be used to further scale the dots.)
-\item adjustments to \code{histogram} so that \code{nint} matches the number of bins used more accuaretly.
+\item adjustments to \code{histogram} so that \code{nint} matches the number of bins used more accurately.
+\item fixed coding error in the HELP datasets so that \code{i2}: max number of drinks is at least as large as \code{i1}: the average number of drinks.
+\item removed the deprecated HELP dataset (now called HELPrct)
 \item Various minor bug fixes and internal improvements. 
 }
 }
