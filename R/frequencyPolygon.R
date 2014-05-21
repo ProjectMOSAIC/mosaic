@@ -11,16 +11,18 @@
 #'
 #' @return a trellis object
 #' @note This function make use of \code{histogram} to determine overall layout.  Often 
-#' this works reasonably well but sometimes it does not.  In the latter cases, it may be i
-#' necessary to use \code{ylim} to determine an approprate viewing rectangle for the plot.
+#' this works reasonably well but sometimes it does not. In particular, when \code{groups} is
+#' used to overlay multiple frequency polygons, there is often too little head room.  
+#' In the latter cases, it may be 
+#' necessary to use \code{ylim} to determine an approprate viewing rectangle for the 
+#' plot.
 #' 
 #' @export
 #' @examples
-#' freqpolygon(~age | substance, HELPrct, v=35, fit='normal')
-#' freqpolygon(~age, HELPrct, labels=TRUE, type='count')
-#' freqpolygon(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
-#' freqpolygon(~age, HELPrct, groups=sex, stripes='horizontal')
-#' freqpolygon(~racegrp, HELPrct, groups=substance,auto.key=TRUE)
+#' freqpolygon(~age | substance, data=HELPrct, v=35)
+#' freqpolygon(~age, data=HELPrct, labels=TRUE, type='count')
+#' freqpolygon(~age | substance, data=HELPrct, groups=sex)
+#' freqpolygon(~age | substance, data=HELPrct, groups=sex, ylim=c(0,0.11))
 #' ## comparison of histogram and frequency polygon
 #' histogram(~eruptions, faithful, type='density', width=.5)
 #' ladd( panel.freqpolygon(faithful$eruptions, width=.5 ))
