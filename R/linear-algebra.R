@@ -12,10 +12,6 @@
 #'
 #' @param A a formula.  In \code{mat} and \code{singvals},
 #' only the right-hand side is used.
-#'
-# @param x a numeric vector, formula, or matrix
-#' 
-#' @param u a numeric vector
 #' 
 #' @param data a data frame from which to pull out numerical values
 #' for the variables in the formula

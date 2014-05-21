@@ -25,7 +25,7 @@ ntiles <-  function(x, n=3,
   qnames <- c("1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th")
   if (n > 10) qnames <- c(qnames, paste(11:n,"th",sep=""))
   
-  xrank <- rank(x, na.last=TRUE, ties.metho='first')
+  xrank <- rank(x, na.last=TRUE, ties.method='first')
   xrank[is.na(x)] <- NA
   size <- max(xrank, na.rm=TRUE)
   cts <- round( seq(1, size, length.out = (n+1) ) )

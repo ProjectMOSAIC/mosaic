@@ -13,8 +13,6 @@ singvals(A, data = parent.frame())
 \item{A}{a formula.  In \code{mat} and \code{singvals},
 only the right-hand side is used.}
 
-\item{u}{a numeric vector}
-
 \item{data}{a data frame from which to pull out numerical values
 for the variables in the formula}
 
