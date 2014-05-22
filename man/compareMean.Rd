@@ -17,7 +17,8 @@ formula.}
 the difference in means between the second and first group
 }
 \description{
-A function to calculate the difference between the means two of groups for a continuous outcome variable
+A function to calculate the difference between the means of a continuous
+variable for two groups.
 }
 \examples{
 data(HELPrct)
