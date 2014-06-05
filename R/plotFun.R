@@ -82,6 +82,7 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' plotFun(fit, add=TRUE, lwd=2, col='white')
 #' # Attempts to find sensible axis limits by default
 #' plotFun( sin(k*x)~x, k=0.01 )
+#' @export
 
 plotFun <- function(object, ..., 
           plot=trellis.last.object(),
@@ -411,6 +412,7 @@ plotFun <- function(object, ...,
 #' ladd(panel.plotFun1( sin, col='red' ) )
 #' xyplot( y ~ x | rbinom(30,1,.5), data=d )
 #' ladd(panel.plotFun1( sin, col='red', lty=2 ) )    # plots sin(x) in each panel
+#' @export
 
 panel.plotFun1 <- function( ..f.., ...,
                            x, y,
@@ -506,6 +508,7 @@ panel.plotFun1 <- function( ..f.., ...,
 #' ladd(panel.plotFun( sin(x) ~ x, col='red' ) )
 #' xyplot( y ~ x | rbinom(30,1,.5), data=d )
 #' ladd(panel.plotFun( sin(x) ~ x, col='red', lty=2 ) )    # plots sin(x) in each panel
+#' @export
 
 
 panel.plotFun <- function( object, ..., 
@@ -683,6 +686,7 @@ inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param filled whether to fill the contours with color
 #' @param alpha.regions transparency of regions
+#' @export
 
 panel.levelcontourplot <- function(x, y, z, subscripts=1, 
                                    at, shrink, labels = TRUE, 
@@ -734,6 +738,7 @@ panel.levelcontourplot <- function(x, y, z, subscripts=1,
 #' cs <- makeColorscheme( c('red','white','blue') )
 #' cs(10)
 #' cs(10, alpha=.5)
+#' @export
 
 makeColorscheme <- function(col) {
 	result <- function(n, alpha=1, ...)  {

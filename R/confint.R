@@ -21,6 +21,7 @@
 #' estimated sampling distribution.  When applied to 
 #' a numerical vector, returns a vector.
 #' 
+#' @export
 #' @examples
 #' s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
 #' confint(s)
@@ -45,6 +46,7 @@ confint.numeric = function(object, parm, level=0.95, ..., method="stderr",
 }
 # =================
 #' @rdname confint
+#' @export
 confint.do.data.frame = function(object, parm, level=0.95, ..., 
                                  method="stderr", margin.of.error="stderr" %in% method) {
   method <- match.arg(method, c("se","stderr","percentile","quantile"), several.ok=TRUE) # which method was selected
@@ -111,6 +113,7 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
 }
 
 #' @rdname confint
+#' @export
 #' 
 confint.data.frame = function(object, parm, level=0.95, ... )  {
   results <- list()

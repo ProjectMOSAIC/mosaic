@@ -82,9 +82,7 @@ setGeneric(
 
 #' @rdname prop.test
 #' @aliases prop.test,ANY-method
-# @usage
-# \S4method{prop.test}{ANY}(x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
-#'  conf.level = 0.95,...) 
+#' @export
 setMethod(
 		  'prop.test',
 		  'ANY',
@@ -101,9 +99,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,formula-method
-#  @usage
-# \S4method{prop.test}{formula}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, data, groups=NULL, ...) 
+#' @export
 setMethod(
 		  'prop.test',
 		  'formula',
@@ -160,9 +156,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,numeric-method
-#  @usage
-# \S4method{prop.test}{numeric}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+#' @export
 setMethod(
 		  'prop.test',
 		  'numeric',
@@ -199,9 +193,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,character-method
-#  @usage
-# \S4method{prop.test}{character}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+#' @export
 setMethod(
 		  'prop.test',
 		  'character',
@@ -222,9 +214,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,logical-method
-#  @usage
-# \S4method{prop.test}{logical}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+#' @export
 setMethod(
 		  'prop.test',
 		  'logical',
@@ -245,9 +235,7 @@ setMethod(
 
 #' @rdname prop.test
 #' @aliases prop.test,factor-method
-#  @usage
-# \S4method{prop.test}{factor}( x, n, p=NULL, alternative = c("two.sided", "less", "greater"), 
-#'				   conf.level = 0.95, success=NULL, data.name, ...) 
+#' @export
 setMethod(
 		  'prop.test',
 		  'factor',

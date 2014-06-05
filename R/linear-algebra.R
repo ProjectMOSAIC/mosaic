@@ -36,6 +36,7 @@
 #' mat(~a+b+1)
 #' mat(~length+sex, data=KidsFeet)
 #' singvals(~length*sex*width, data=KidsFeet)
+#' @export
 
 mat <- function(A, data=parent.frame()) {
   if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")

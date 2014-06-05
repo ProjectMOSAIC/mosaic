@@ -36,6 +36,7 @@ interval <- confint
 #
 #' @rdname interval
 #' @param verbose a logical
+#' @export
 
 confint.htest <- function (object, parm, level, ...){
   if (! missing( parm ) || !missing( level ) ) { warning("parm and level are ignored.") }
@@ -62,10 +63,12 @@ confint.htest <- function (object, parm, level, ...){
 #' @rdname interval
 #' @keywords stats 
 #' @keywords inference 
+#' @export
 pval <- function(x, ...){UseMethod("pval", x)}
 
 #' @rdname interval
 #' @param digits number of digits to display in verbose output
+#' @export
 
 pval.htest <- function (x, digits=4, verbose=FALSE, ...){
   pval <- x$p.value
@@ -126,9 +129,11 @@ pval.htest <- function (x, digits=4, verbose=FALSE, ...){
 #' @rdname interval
 #' @keywords stats 
 #' @keywords inference 
+#' @export
 stat <- function(x,...) { UseMethod("stat", x)}
 
 #' @rdname interval
+#' @export
 
 stat.htest <- function(x,...) {
 	x $ statistic
@@ -139,6 +144,7 @@ stat.htest <- function(x,...) {
 #' Attempts to extract an r-squared value from a model or model-like object.
 #' @param x an object
 #' @param \dots additional arguments
+#' @export
 rsquared <- function(x, ...) {
   NULLFUN <- function(e) NULL 
   result <- tryCatch( x$r.squared, error=NULLFUN)
@@ -152,6 +158,7 @@ rsquared <- function(x, ...) {
 #' Attempts to extract an r-squared value from a model or model-like object.
 #' @param x an object
 #' @param \dots additional arguments
+#' @export
 r.squared <- function(x, ...) {
   .Deprecated("rsquared")
   rsquared(x, ...)

@@ -145,6 +145,7 @@ shuffle <- function(x, replace=FALSE, prob=NULL, groups=NULL, orig.ids=FALSE)
 #
 
 #' @rdname resample
+#' @export
 sample <- function (x, size, replace=FALSE, ...) {
 	UseMethod('sample') 
 }
@@ -185,6 +186,7 @@ sample <- function (x, size, replace=FALSE, ...) {
 
 
 #' @rdname resample
+#' @export
 
 sample.default <- function(x, size, replace=FALSE, prob=NULL, 
                            groups=NULL, orig.ids=FALSE, ...) { 
@@ -234,7 +236,7 @@ sample.default <- function(x, size, replace=FALSE, prob=NULL,
 #' preserving associations among these columns.
 #' @param invisibly.return a logical, should return be invisible?
 #' @param drop.unused.levels a logical, should unused levels be dropped?
-
+#' @export
 
 sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, 
                               orig.ids=TRUE, fixed=names(x), shuffled=c(),
@@ -266,6 +268,8 @@ sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL
 }
 
 #' @rdname resample
+#' @export
+
 sample.matrix <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, orig.ids=FALSE, ...) {
 	if (! is.null(groups) ) {
 		return(
@@ -283,6 +287,7 @@ sample.matrix <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 }
 
 #' @rdname resample
+#' @export
 sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, orig.ids=FALSE, 
 					drop.unused.levels = FALSE, ...) {
 	if (! is.null(groups) ) {

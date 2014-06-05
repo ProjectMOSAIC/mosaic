@@ -87,6 +87,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
 }
 
 #' @rdname xpnorm
+#' @export
 
 xqnorm <-
 function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4, 

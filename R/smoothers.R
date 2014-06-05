@@ -46,6 +46,7 @@ tryCatch(utils::globalVariables(c('.latticeEnv')),
 #' f1 <- spliner(y ~ x)
 #' f1(x=8:10)
 #' f2 <- connector(x~y)
+#' @export
 
 # ==============
 spliner <- function(formula, data=NULL,method="fmm",monotonic=FALSE) {

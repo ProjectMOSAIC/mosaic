@@ -28,6 +28,7 @@
 #' is to first add a new variable to \code{data} first and then to condition using this new variable.
 #' See the examples.
 #'
+#' @export
 #' @examples
 #' data(HELPrct)
 #' bargraph( ~ substance, data=HELPrct)

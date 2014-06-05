@@ -19,6 +19,7 @@ tryCatch(utils::globalVariables(c('model','result')),
 #' occur in the order specified.  Those not appearing in the right side will
 #' appear in an unspecified order.
 #' 
+#' @export
 #' @examples
 #' f <- makeFun( sin(x^2 * b) ~ x & y & a); f
 #' g <- makeFun( sin(x^2 * b) ~ x & y & a, a=2 ); g
@@ -50,8 +51,7 @@ setGeneric(
 #' f(8.4)
 #' head(KidsFeet,1)
 #' 
-# @usage
-# \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE) 
+#' @export
 setMethod(
   'makeFun',
   'formula',
@@ -129,9 +129,8 @@ setMethod(
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' @export
 
-# @usage
-# \S4method{makeFun}{lm} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'lm',
@@ -184,9 +183,8 @@ setMethod(
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' @export
 
-# @usage
-# \S4method{makeFun}{glm} ( object, ..., type=c('response','link'), transform=identity )
 setMethod(
   'makeFun',
   'glm',
@@ -245,9 +243,8 @@ setMethod(
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' @export
 
-# @usage
-# \S4method{makeFun}{nls} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'nls',
@@ -300,6 +297,7 @@ setMethod(
 #' @examples
 #' model <- lm( wage ~ poly(exper,degree=2), data=CPS85 )
 #' modelVars(model)
+
 modelVars <- function(model) {
   formula <- as.formula(model$call$formula)
   all.vars(rhs(formula))

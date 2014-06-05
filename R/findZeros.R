@@ -158,6 +158,7 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 #'
 #'@author Cecylia Bocovich
 #'
+#'@export
 #'@examples
 #'solve(3*x==3~x)
 #'

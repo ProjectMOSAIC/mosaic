@@ -5,10 +5,10 @@
 #'
 #' @return a trellis object
 #'
-#' @export
 #' @examples
 #' xqqmath(rnorm(100))
-#' 
+#' @export
+ 
 xqqmath <-
 function (x, data = NULL, panel = "panel.xqqmath", ...) 
 {

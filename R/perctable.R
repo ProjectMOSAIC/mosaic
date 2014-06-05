@@ -27,6 +27,7 @@ perctable <- function(...)
 }
 
 #' @rdname perctable
+#' @export
 proptable <- function(...) 
 {
 	t <- table(...)

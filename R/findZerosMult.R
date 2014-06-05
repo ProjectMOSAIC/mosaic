@@ -269,6 +269,7 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
 #'
 #'@param maxiters maximum number of iterations.
 #'
+#'@export
 Broyden <- function(system, vars, x=0, tol = .Machine$double.eps^0.4, maxiters=1e4){
   n = length(system)
   if(is.null(x)) x = rep(1,length(system))#Add in something that makes sure this is valid.

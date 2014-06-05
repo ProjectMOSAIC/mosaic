@@ -6,7 +6,11 @@ tryCatch(utils::globalVariables(c('.row')),
 #' \code{do()} provides a natural syntax for repetition tuned to assist 
 #' with replication and resampling methods.
 #'
+#' @rdname do
+#' @name do
 #' @param n  number of times to repeat 
+#' 
+#' @param object an object
 #'
 #' @param cull  function for culling output of objects being repeated.  If NULL,
 #'   a default culling function is used.  The default culling function is 
@@ -21,18 +25,20 @@ tryCatch(utils::globalVariables(c('.row')),
 #' @param mode  target mode for value returned
 #' 
 #' @param algorithm a number usd to select the algorithm used.  Currently numbers below 1 
-#' use an older algorithm and numbers >=1 use a newer algorithm which is faster in some 
-#' situations.
+#'   use an older algorithm and numbers >=1 use a newer algorithm which is faster in some 
+#'   situations.
 #' @param parallel a logical indicating whether parallel computation should be attempted
-#' using the \pkg{parallel} package (if it is installed).
+#'   using the \pkg{parallel} package (if it is installed).
 #' 
 #' @param e1 an object (in cases documented here, the result of running \code{do})
 #' @param e2 an object (in cases documented here, an expression to be repeated)
 #' 
+#' @note \code{do} is a thin wrapper around \code{Do} to avoid collision with
+#'   \code{\link[dplyr]{do}} from the \pkg{dplyr} package.
 #' @return \code{do} returns an object of class \code{repeater} which is only useful in
-#' the context of the operator \code{*}.  See the examples.
+#'   the context of the operator \code{*}.  See the examples.
 #' @author Daniel Kaplan (\email{kaplan@@macalaster.edu})
-#' and Randall Pruim (\email{rpruim@@calvin.edu})
+#'   and Randall Pruim (\email{rpruim@@calvin.edu})
 #'
 #' @seealso \code{\link{replicate}}
 #' 
@@ -48,9 +54,26 @@ tryCatch(utils::globalVariables(c('.row')),
 #' do(3) * tally( ~sex|treat, data=resample(HELPrct))
 #' 
 #' @keywords iteration 
-#' 
 
-do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
+do <- function(object, ...) {
+  UseMethod("do")
+}
+
+#' @rdname do
+#' @export
+do.numeric <- function(object, ...) {
+  Do(n=object, ...)
+}
+
+#' @rdname do
+#' @export
+do.default <- function(object, ...) {
+  dplyr::do(object, ...)
+}
+
+#' @rdname do
+#' @export
+Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 	new( 'repeater', n=n, cull=cull, mode=mode, algorithm=algorithm, parallel=parallel)
 }
 
@@ -296,8 +319,7 @@ if(FALSE) {
 
 #' @rdname do
 #' @aliases print,repeater-method
-# @usage
-# \S4method{print}{repeater}(x, ...) 
+#' @export
 setMethod("print",
     signature(x = "repeater"),
     function (x, ...) 
@@ -349,8 +371,7 @@ setMethod("print",
 
 #' @rdname do
 #' @aliases *,repeater,ANY-method
-# @usage
-# \S4method{*}{repeater,ANY}(e1, e2) 
+#' @export
 
 setMethod("*",
     signature(e1 = "repeater", e2="ANY"),

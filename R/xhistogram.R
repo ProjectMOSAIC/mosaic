@@ -49,6 +49,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' xhistogramBreaks(0:10, center=15, width=3)
 #' xhistogramBreaks(1:100, center=50, width=3)
 #' xhistogramBreaks(0:10, center=5, nint=5)
+#' @export
 
 xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
   x <- x[!is.na(x)]

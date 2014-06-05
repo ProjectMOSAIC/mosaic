@@ -14,6 +14,7 @@
 #' @return symbolicInt returns a function whose body is the symbolic antiderivative of
 #'the formula.  If this method does not recognize the formula, it will return an error.
 #'
+#' @export
 symbolicInt<- function(form, ...){
   dots = list(...)
   #First check if it's a polynomial.  If it is, simplify it.
@@ -45,6 +46,7 @@ symbolicInt<- function(form, ...){
 #' @return a formula implementing giving symbolic anti-derivative.  If the formula
 #' isn't found by the algorithm, an error is thrown.  
 #' 
+#' @export
 symbolicAntiD <- function(form, ...){
   rhsVar = all.vars(rhs(form))
   if(length(rhsVar)!=1) stop("Can only integrate with respect to one variable.")

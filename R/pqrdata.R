@@ -152,6 +152,7 @@ pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' rdata(10, Species, data=iris)
 #' rdata(10, ~Species, data=iris)
 #' rdata(5, Sepal.Length~Species, data=iris)
+#' @export
 rdata <- function (n, vals, data = NULL, ...) 
 {
   vals_call <- substitute(vals)
@@ -176,6 +177,7 @@ rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' ddata('setosa', iris$Species)
 #' ddata('setosa', Species, data=iris)
 #' ddata('setosa', ~Species, data=iris)
+#' @export
 ddata <- function (q, vals, data = NULL, ...) 
 {
   vals_call <- substitute(vals)

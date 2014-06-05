@@ -53,7 +53,8 @@ freqpolygon <- function(x,
 #' @param ref a logical indicating whether a horizontal reference line should be 
 #' added (roughly equivalent to \code{h=0})
 #' @details These functions are still under development.  Future improvements may be forthcoming.
-#' 
+#' @export
+
 panel.freqpolygon <- function (x, plot.points = "jitter", ref = FALSE, 
           groups = NULL, weights = NULL, 
           jitter.amount = 0.01 * diff(current.panel.limits()$ylim), 

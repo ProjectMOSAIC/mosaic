@@ -13,7 +13,6 @@ tryCatch(utils::globalVariables(c('u')),
 #'
 #' @rdname project-methods
 #' @docType methods
-#' @export
 #' @param x a numeric vector (all functions) or a formula (only for \code{project}).  
 #' Left-hand sides of formulas should be a single quantity
 #' @param u a numeric vector 
@@ -40,6 +39,7 @@ tryCatch(utils::globalVariables(c('u')),
 #' on each of the vectors in the model matrix.
 #' UNLIKE \code{lm()}, the intercept vector is NOT included by default.  If 
 #' you want an intercept vector, include \code{+1} in your formula.
+#' @export
 
 setGeneric( 
 	"project", 
@@ -49,7 +49,6 @@ setGeneric(
 )
 ##################
 #' @rdname project-methods
-#' @export
 #' @return \code{project} returns the projection of \code{x} onto \code{u} 
 #' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
 #'
@@ -66,6 +65,7 @@ setGeneric(
 #' project( y1 ~ x1 + x2, coefficients=FALSE )
 #' dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
 #' project(width~length+sex, data=KidsFeet)
+#' @export
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -100,6 +100,7 @@ setMethod(
 
 
 #' @rdname project-methods
+#' @export
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -111,6 +112,7 @@ setMethod(
 )
 
 #' @rdname project-methods
+#' @export
 
 setMethod(
 		  'project',
@@ -148,7 +150,6 @@ setMethod(
 #' @return \code{vlength} returns the length of the vector 
 #' (i.e., the square root of the sum of the squares of the components)
 #' @seealso \code{link{project}}
-#' @export
 #' @examples
 #' vlength(rep(1,4))
 #' m <- lm( length ~ width, data=KidsFeet )
@@ -165,6 +166,7 @@ setMethod(
 #' vlength( project( w, u) )
 #' vlength( project( w, v) )
 #' project( w, v, type='length' )
+#' @export
 
 vlength <- function(x, ...) {
    sqrt(sum(x^2))

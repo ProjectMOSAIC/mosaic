@@ -87,6 +87,7 @@ rkFunction <- function(DE, additionalArguments=list() ) {
 #'
 #' @return a list with splined function of time for each dynamical variable
 #'
+#' @export
 #' @examples
 #' soln = integrateODE(dx~r*x*(1-x/k), k=10, r=.5, tdur=20, x=1)
 #' soln$x(10)
@@ -148,6 +149,7 @@ integrateODE = function(dyn,...,tdur) {
 #'
 #' @details
 #' This is mainly for internal use by integrateODE.
+#' @export
 
 # Runge-Kutta integration
 rkintegrate <- function(fun,x0,tstart=0,tend=1,dt=NULL) {

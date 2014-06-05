@@ -9,6 +9,7 @@
 #' a data frame with all logicals converted to factors in this manner.
 #'
 #' @rdname logical2factor
+#' @export
 
 logical2factor  <- function(x, ...) { UseMethod('logical2factor') }
 
@@ -21,6 +22,7 @@ logical2factor.default  <- function( x, ... ) {
 }
 
 #' @rdname logical2factor
+#' @export
 logical2factor.data.frame  <- function( x, ... ) {
 	for (var in names(x)) {
 		if (is.logical(x[,var])) {
@@ -50,7 +52,6 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
 #' @param ... additional arguments passed to \code{\link{table}}
-#' @export
 #' @examples
 #' tally( ~ substance, data=HELPrct)
 #' tally( ~ substance & sex , data=HELPrct)
@@ -59,9 +60,22 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ substance | sex , data=HELPrct, format='count')
 #' tally( ~ substance & sex , data=HELPrct, format='percent')
 #' tally( ~ link, data=HELPrct, useNA="always")
+#' @export
 
 
-tally <- function(x, data=parent.frame(), 
+tally <- function(x, ...) {
+  UseMethod("tally")
+}
+
+#' @rdname tally
+#' @export
+tally.tbl <- function(x, wt, sort=FALSE, ...) {
+  dplyr::tally(x, wt, sort=sort)
+}
+
+#' @rdname tally
+#' @export
+tally.default <- function(x, data=parent.frame(), 
                       format=c('default','count','proportion','percent'), 
                       margins=FALSE,
                       quiet=TRUE,
@@ -135,6 +149,7 @@ tally <- function(x, data=parent.frame(),
 #' rows(HELPrct)
 #' columns(NULL)
 #' columns("this doesn't have columns")
+#' @export
 
 columns <- function(x, default=c()) {
 	hi <- ncol(x)
@@ -142,6 +157,7 @@ columns <- function(x, default=c()) {
 }
 
 #' @rdname columns
+#' @export
 rows <- function(x, default=c()) {
 	hi <- nrow(x)
 	if (is.null(hi) || hi < 1) return(default) else  return( 1:hi )
@@ -189,11 +205,13 @@ prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep="
 }
 
 #' @rdname prop
+#' @export
 count <- function(x, data=parent.frame(), ..., format="count") {
 	prop(x, data=data, ..., format=format)
 }
 
 #' @rdname prop
+#' @export
 perc <- function(x, data=parent.frame(), ..., format="percent") {
 	prop(x, data=data, ..., format=format)
 }
