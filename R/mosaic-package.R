@@ -15,14 +15,15 @@
 #' @references
 #' \url{http://mosaic-web.org}
 #'
+# #' @exportPattern "^[^\\.]"
 #' @keywords package
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
-#' @import Hmisc   
+#' @importFrom plyr ddply summarise summarize
+#' @importFrom Hmisc xYplot
 #' @import grid    
 #' @import lattice
 #' @import splines 
-#' @import Hmisc
 #' @import methods
-#' @exportPattern "^[^\\.]"
+#' @import dplyr
 NA
