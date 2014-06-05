@@ -16,7 +16,6 @@ Imports:
     utils,
     splines,
     latticeExtra,
-    plyr,
     dplyr,
     magrittr
 Suggests:

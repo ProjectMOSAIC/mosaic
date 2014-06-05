@@ -18,7 +18,6 @@
 #' @keywords package
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
-#' @importFrom plyr ddply summarise summarize
 #' @importFrom Hmisc xYplot
 #' @import grid    
 #' @import lattice
