@@ -6,7 +6,10 @@
 #'
 #' @param method either "stderr" (default) or "quantile".  ("se" and "percentile" are 
 #' allowed as aliases) or a vector containing both.
+#'
 #' @param margin.of.error if true, report intervals as a center and margin of error.
+#' 
+#' @param ... additional arguments
 #'
 #' @return When applied to a data frame, returns a data frame giving the 
 #' confidence interval for each variable in the data frame using 
@@ -27,7 +30,7 @@
 #' confint(s2)
 #' @export
 
-confint.numeric = function(object, parm, level=0.95, ..., method="stderr", 
+confint.numeric <- function(object, parm, level=0.95, ..., method="stderr", 
                            margin.of.error="stderr" %in% method=="stderr") {
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok=TRUE)
   result <- list()
@@ -40,10 +43,10 @@ confint.numeric = function(object, parm, level=0.95, ..., method="stderr",
   
   
 }
-# =================
+
 #' @rdname confint
 #' @export
-confint.do.data.frame = function(object, parm, level=0.95, ..., 
+confint.do.data.frame <- function(object, parm, level=0.95, ..., 
                                  method="stderr", margin.of.error="stderr" %in% method) {
   method <- match.arg(method, c("se","stderr","percentile","quantile"), several.ok=TRUE) # which method was selected
   method[method=="percentile"] <- "quantile"
@@ -94,12 +97,12 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
   return( res )
 }
 
-.turn.to.margin = function(res) {
+.turn.to.margin <- function(res) {
   data.frame( name=res$name, center=(res[[2]]+res[[3]])/2,
               margin.of.error=(res[[3]]-res[[2]])/2)
 }
 
-.mosaic.get.ci = function( vals, level, method ) {
+.mosaic.get.ci <- function( vals, level, method ) {
   alpha <- (1-level)/2
   if( method == "stderr" ) res = mean(vals, na.rm=TRUE) + 
     c(-1,1) * sd(vals, na.rm=TRUE) * qt(1-alpha, sum(!is.na(vals))-1)
@@ -111,7 +114,7 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
 #' @rdname confint
 #' @export
  
-confint.data.frame = function(object, parm, level=0.95, ... )  {
+confint.data.frame <- function(object, parm, level=0.95, ... )  {
   results <- list()
   for (c in 1:ncol(object)) {
     x <- object[,c]

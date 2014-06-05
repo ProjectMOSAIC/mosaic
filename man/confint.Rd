@@ -22,6 +22,8 @@ allowed as aliases) or a vector containing both.}
 
 \item{margin.of.error}{if true, report intervals as a center and margin of error.}
 
+\item{...}{additional arguments}
+
 \item{object}{and R object}
 
 \item{parm}{a vector of parameters}
