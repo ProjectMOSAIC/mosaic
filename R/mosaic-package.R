@@ -19,7 +19,7 @@
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
 #' @importFrom Hmisc xYplot
-#' @importFrom gridExtra grid.arrange
+#' @importFrom gridExtra grid.arrange arrangeGrob
 #' @import grid    
 #' @import lattice
 #' @import splines 
