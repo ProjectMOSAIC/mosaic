@@ -45,7 +45,6 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' pdf, pmf, or cdf for the distribution.  This can be useful in conjuction
 #' with the \code{groups} argument.  See the examples.
 #' 
-#' @export
 #' @examples
 #' plotDist('norm')
 #' plotDist('norm', type='h')
@@ -73,9 +72,7 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' 
 #' @keywords graphics 
 #' @keywords stats 
-#' 
-
-# utility for various graphical representations of distributions.
+#' @export
 
 plotDist <- function( 
   dist, ...,
@@ -225,11 +222,16 @@ switch(kind,
 #' @param n a vector of character strings (potential names)
 #' @return a sublist of \code{l} determined by \code{names(l)}
 #' @export
+
 named <-function(l)  if (is.null(names(l))) list() else l [ names(l) != "" ]
+
 #' @rdname named
 #' @export
+
 unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
+
 #' @rdname named
 #' @export
+
 named_among <- function(l, n)  l [ intersect( names(l), n ) ]
 

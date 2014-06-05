@@ -23,6 +23,7 @@ logical2factor.default  <- function( x, ... ) {
 
 #' @rdname logical2factor
 #' @export
+
 logical2factor.data.frame  <- function( x, ... ) {
 	for (var in names(x)) {
 		if (is.logical(x[,var])) {
@@ -62,7 +63,6 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ link, data=HELPrct, useNA="always")
 #' @export
 
-
 tally <- function(x, ...) {
   UseMethod("tally")
 }
@@ -73,12 +73,14 @@ tally <- function(x, ...) {
 #' @param sort a logical, 
 #'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
 #' @export
+
 tally.tbl <- function(x, wt, sort=FALSE, ...) {
   dplyr::tally(x, wt, sort=sort)
 }
 
 #' @rdname tally
 #' @export
+
 tally.default <- function(x, data=parent.frame(), 
                       format=c('default','count','proportion','percent'), 
                       margins=FALSE,
@@ -162,6 +164,7 @@ columns <- function(x, default=c()) {
 
 #' @rdname columns
 #' @export
+
 rows <- function(x, default=c()) {
 	hi <- nrow(x)
 	if (is.null(hi) || hi < 1) return(default) else  return( 1:hi )
@@ -180,13 +183,13 @@ rows <- function(x, default=c()) {
 #' @param sep a character used to separate portions of long names
 #' @param format one of \code{proportion}, \code{percent}, or \code{count},
 #'        possibly abbrevaited
-#' @export
 #' @examples
 #' prop( ~sex, data=HELPrct)
 #' prop( ~sex, data=HELPrct, level='male')
 #' count( ~sex | substance, data=HELPrct)
 #' prop( ~sex | substance, data=HELPrct)
 #' perc( ~sex | substance, data=HELPrct)
+#' @export
 
 prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=".", format="proportion") {
   T <- tally(x, data=data, ..., format=format)
@@ -210,12 +213,14 @@ prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep="
 
 #' @rdname prop
 #' @export
+
 count <- function(x, data=parent.frame(), ..., format="count") {
 	prop(x, data=data, ..., format=format)
 }
 
 #' @rdname prop
 #' @export
+
 perc <- function(x, data=parent.frame(), ..., format="percent") {
 	prop(x, data=data, ..., format=format)
 }

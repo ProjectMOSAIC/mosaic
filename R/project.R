@@ -66,6 +66,7 @@ setGeneric(
 #' dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
 #' project(width~length+sex, data=KidsFeet)
 #' @export
+
 setMethod(
 		  'project',
 		  signature=c('formula', 'ANY'),
@@ -101,6 +102,7 @@ setMethod(
 
 #' @rdname project-methods
 #' @export
+
 setMethod(
 	'project',
 	signature=c('numeric','ANY'),
@@ -175,7 +177,6 @@ vlength <- function(x, ...) {
 #' @rdname project-methods
 #' @return \code{dot} returns the dot product of \code{u} and \code{v}
 #' @export
-
 
 dot <- function(u, v){
   return( sum(u*v) )

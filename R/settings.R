@@ -37,6 +37,7 @@ mosaic.options <- function (...)
 }
 #' @rdname mosaic.options
 #' @export
+
 mosaic.getOption <- function (name) 
 {
     get("mosaic.options", envir = .mosaicEnv)[[name]]
@@ -83,6 +84,7 @@ mosaic.par.set <- function (name, value, ..., theme, warn = TRUE, strict = FALSE
 }
 #' @rdname mosaic.options
 #' @export
+
 mosaic.par.get <- function (name = NULL) 
 {
     mosaic.theme <- get("mosaic.theme", envir = .mosaicEnv)
@@ -113,6 +115,7 @@ mosaic.par.get <- function (name = NULL)
 #' options that were changed when the mosiac package was loaded
 #' back to their pre-mosaic state.
 #' @export
+
 restoreLatticeOptions <- function() {
   do.call(lattice::lattice.options, .mosaicEnv$original.lattice.options)
 }
@@ -121,6 +124,7 @@ restoreLatticeOptions <- function() {
 #' @details \code{mosaicLatticeOptions} sets a number 
 #' of defaults for lattice graphics.
 #' @export
+
 mosaicLatticeOptions <- function() {
   lattice::lattice.options(
     histogram.breaks = xhistogramBreaks,

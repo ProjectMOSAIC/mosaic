@@ -69,7 +69,7 @@
 #'
 #' @rdname prop.test
 #' @export
-#'
+
 setGeneric(
 		   "prop.test",
 		   function( x, n, p = NULL, 
@@ -83,6 +83,7 @@ setGeneric(
 #' @rdname prop.test
 #' @aliases prop.test,ANY-method
 #' @export
+
 setMethod(
 		  'prop.test',
 		  'ANY',
@@ -100,6 +101,7 @@ setMethod(
 #' @rdname prop.test
 #' @aliases prop.test,formula-method
 #' @export
+
 setMethod(
 		  'prop.test',
 		  'formula',
@@ -157,6 +159,7 @@ setMethod(
 #' @rdname prop.test
 #' @aliases prop.test,numeric-method
 #' @export
+
 setMethod(
 		  'prop.test',
 		  'numeric',
@@ -194,6 +197,7 @@ setMethod(
 #' @rdname prop.test
 #' @aliases prop.test,character-method
 #' @export
+
 setMethod(
 		  'prop.test',
 		  'character',
@@ -215,6 +219,7 @@ setMethod(
 #' @rdname prop.test
 #' @aliases prop.test,logical-method
 #' @export
+
 setMethod(
 		  'prop.test',
 		  'logical',
@@ -236,6 +241,7 @@ setMethod(
 #' @rdname prop.test
 #' @aliases prop.test,factor-method
 #' @export
+
 setMethod(
 		  'prop.test',
 		  'factor',

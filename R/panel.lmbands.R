@@ -17,6 +17,7 @@ tryCatch(utils::globalVariables(c('panel.plotFun1')),
 #' @param \dots additional arguments
 #' 
 #' @export
+
 panel.lmbands <-
 function (x, y, 
 		  interval = "confidence", 

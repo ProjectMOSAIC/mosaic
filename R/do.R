@@ -42,7 +42,6 @@ tryCatch(utils::globalVariables(c('.row')),
 #'
 #' @seealso \code{\link{replicate}}
 #' 
-#' @export
 #' @examples
 #' do(3) * rnorm(1)
 #' do(3) * "hello"
@@ -52,8 +51,8 @@ tryCatch(utils::globalVariables(c('.row')),
 #' do(3) * mean(rnorm(25))
 #' do(3) * c(sample.mean = mean(rnorm(25)))
 #' do(3) * tally( ~sex|treat, data=resample(HELPrct))
-#' 
 #' @keywords iteration 
+#' @export
 
 do <- function(object, ...) {
   UseMethod("do")
@@ -103,9 +102,9 @@ Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 #' @rdname nicenames
 #' @param x a character vector
 #' @return a character vector
-#' @export
 #' @examples
 #' nice_names( c("bad name", "name (crazy)", "a:b", "two-way") )
+#' @export
 
  
 nice_names <- function(x) {
@@ -129,7 +128,6 @@ nice_names <- function(x) {
 #'
 #' @rdname repeater-class
 #' @name repeater-class
-#' @exportClass repeater
 #' @seealso \code{\link{do}}
 #' @section Slots:
 #' \describe{
@@ -141,6 +139,7 @@ nice_names <- function(x) {
 #'   \item{\code{algorithm}:}{an algorithm number.}
 #'   \item{\code{parallel}:}{a logical indicating whether to attempt parallel execution.}
 #' }
+#' @exportClass repeater
 
 setClass('repeater', 
 	representation = representation(n='numeric', cull='ANY', mode='character', 

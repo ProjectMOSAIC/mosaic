@@ -19,11 +19,11 @@ tryCatch(utils::globalVariables(c('model','result')),
 #' occur in the order specified.  Those not appearing in the right side will
 #' appear in an unspecified order.
 #' 
-#' @export
 #' @examples
 #' f <- makeFun( sin(x^2 * b) ~ x & y & a); f
 #' g <- makeFun( sin(x^2 * b) ~ x & y & a, a=2 ); g
 #' h <- makeFun( a * sin(x^2 * b) ~ b & y, a=2, y=3); h
+#' @export
 
 setGeneric(
 		   "makeFun",
@@ -52,6 +52,7 @@ setGeneric(
 #' head(KidsFeet,1)
 #' 
 #' @export
+
 setMethod(
   'makeFun',
   'formula',
@@ -297,6 +298,7 @@ setMethod(
 #' @examples
 #' model <- lm( wage ~ poly(exper,degree=2), data=CPS85 )
 #' modelVars(model)
+#' @export
 
 modelVars <- function(model) {
   formula <- as.formula(model$call$formula)
@@ -317,11 +319,11 @@ modelVars <- function(model) {
 #' @param object a function
 #' @param ... ignored
 #'
-#' @export
 #' @examples
 #' model <- lm( width ~ length, data=KidsFeet)
 #' f <- makeFun( model )
 #' coef(f)
+#' @export
 
 coef.function <- function(object,...) { attr(object,"coefficients") }
 

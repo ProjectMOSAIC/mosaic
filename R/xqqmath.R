@@ -27,6 +27,7 @@ function (x, data = NULL, panel = "panel.xqqmath", ...)
 #' @param col.line color to use for added lines
 #'
 #' @export
+
 panel.xqqmath <-
 function (x, qqmathline = !(fitline || idline), idline = FALSE, 
     fitline = FALSE, slope = NULL, intercept = NULL, overlines = FALSE, 

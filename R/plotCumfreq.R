@@ -11,15 +11,16 @@
 #' @param \dots other lattice arguments
 #' @seealso \code{\link{histogram}}, \code{\link{densityplot}}
 #' @keywords graphics
-#' @export
 #' @examples
 #' plotCumfreq(~eruptions, faithful, xlab = 'duration of eruptions')
-#' 
+#' @export
+
 plotCumfreq <- function(x, data, ...) { UseMethod('plotCumfreq') }
 
 #' @rdname plotCumfreq
-#' @export
 #' @param subscripts as in lattice plots
+#' @export
+
 plotCumfreq.formula <- function(x, data=NULL, subscripts,
 	...) {
 	.try_require("lattice")
@@ -32,6 +33,7 @@ plotCumfreq.formula <- function(x, data=NULL, subscripts,
 
 #' @rdname plotCumfreq
 #' @export
+
 plotCumfreq.default <- function(x, ...) {
 	plotCumfreq.formula( ~ x, ...)
 }
@@ -39,6 +41,7 @@ plotCumfreq.default <- function(x, ...) {
 #' @rdname plotCumfreq
 #' @aliases prepanel.cumfreq
 #' @export
+
 prepanel.cumfreq <- function(x, ...) {
 	list( xlim=range(x), ylim=c(0,1), dx=1, dy=1 )
 }
@@ -48,6 +51,7 @@ prepanel.cumfreq <- function(x, ...) {
 #' @param type smooth or step-function?
 #' @param groups grouping variable 
 #' @export
+
 panel.cumfreq <- function(x, type=c('smooth','step'), groups=NULL, ...) {
     if (!is.null(groups)) {
         panel.superpose(x, 

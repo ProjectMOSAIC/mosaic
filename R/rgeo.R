@@ -4,21 +4,19 @@
 #' @rdname deg2rad
 #' @return a numeric vector
 #' @param x a numeric vector
-#' @export
 #' @examples
 #' deg2rad(180)
-#' 
+#' @export
 
 deg2rad <- function(x) {
 	x/180 * base::pi
 }
 
 #' @rdname deg2rad
-#' @export
 #' @examples
 #' rad2deg(2*pi)
 #' @seealso \code{\link{latlon2xyz}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
-
+#' @export
 
 rad2deg <- function(x) {
 	x / base::pi * 180
@@ -29,10 +27,10 @@ rad2deg <- function(x) {
 #' @rdname latlon2xyz
 #' @return a matrix each row of which describes the latitudes and longitudes
 #' @param x,y,z numeric vectors
-#' @export
 #' @examples
 #' xyz2latlon(1, 1, 1)     # point may be on sphere of any radius
 #' xyz2latlon(0, 0, 0)     # this produces a NaN for latitude
+#' @export
 
 xyz2latlon <- function(x,y,z) {
 	# rescale to unit sphere
@@ -52,10 +50,10 @@ xyz2latlon <- function(x,y,z) {
 #' @param latitude,longitude vectors of latitude and longitude values
 #' @return a matrix each row of which contains the x, y, and z coordinates of a point on a unit sphere
 #' 
-#' @export
 #' @examples
 #' latlon2xyz(45, 45)
 #' @seealso \code{\link{deg2rad}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
+#' @export
 
 latlon2xyz <- function(latitude,longitude) {
 	z <- sin(deg2rad(latitude))
@@ -83,7 +81,6 @@ latlon2xyz <- function(latitude,longitude) {
 #'
 #' @return a data frame with variables \code{long} and \code{lat}.  If \code{verbose} is
 #' TRUE, then x, y, and z coordinates are also included in the data frame.
-#' @export
 #' @examples
 #' rgeo(4)
 #' # sample from a region that contains the continental US
@@ -105,7 +102,7 @@ latlon2xyz <- function(latitude,longitude) {
 #' @keywords random 
 #' @keywords geometry 
 #' @keywords map 
-#' 
+#' @export
 
 rgeo <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 
@@ -129,9 +126,10 @@ rgeo <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 }
 
 #' @rdname rgeo
-#' @export
 #' @examples
 #' rgeo2(4)
+#' @export
+
 rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 
 	# oversample pts in a cube
@@ -180,8 +178,8 @@ rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 #' googleMap(40.7566, -73.9863, radius=1)   # Times Square
 #' googleMap(position=rgeo(2), radius=1)    # 2 random locations
 #' }
-#' @export
 #' @seealso \code{\link{deg2rad}}, \code{\link{latlon2xyz}} and \code{\link{rgeo}}.
+#' @export
 
 googleMap <- function(latitude, longitude, position=NULL,
 	zoom=12, 

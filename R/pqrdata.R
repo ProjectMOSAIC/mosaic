@@ -12,7 +12,6 @@
 #' @param data a data frame in which to evaluate vals
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
 #' @return For \code{qdata}, a vector of quantiles
-#' @export
 #' @examples
 #' data(iris)
 #' qdata(.5, Sepal.Length ~ Species, data=iris)
@@ -20,6 +19,8 @@
 #' qdata(.5, iris$Sepal.Length)
 #' qdata(.5, Sepal.Length, data=iris)
 #' qdata(.5, Sepal.Length, groups=Species, data=iris)
+#' @export
+
 qdata <- function( p, vals, data=NULL, ...) { 
   vals_call <- substitute(vals)
   args <- eval(substitute(alist(vals_call, ...)))
@@ -65,10 +66,10 @@ qdata_v <- function( x, p=seq(0, 1, 0.25), na.rm=TRUE, ... ) {
 
 #' @rdname pqrdata2
 #' @export
+
 qdata_f <- aggregatingFunction1(qdata_v, output.multiple=TRUE, na.rm=TRUE)
 
 #' @rdname pqrdata
-#' @export
 #' @return for \code{cdata}, a named numerical vector or a data frame giving
 #' upper and lower limits and the central proportion requested
 #' @examples
@@ -77,6 +78,8 @@ qdata_f <- aggregatingFunction1(qdata_v, output.multiple=TRUE, na.rm=TRUE)
 #' cdata(.5, Sepal.Length, data=iris)
 #' cdata_f(~Sepal.Length, data=iris, p=.5)
 #' cdata_f(~Sepal.Length | Species, data=iris, p=.5)
+#' @export
+
 cdata <- function( p, vals, data=NULL, ...) { 
   vals_call <- substitute(vals)
   args <- eval(substitute(alist(vals_call, ...)))
@@ -86,6 +89,7 @@ cdata <- function( p, vals, data=NULL, ...) {
 }
 #' @rdname pqrdata2
 #' @export
+
 cdata_v <- function( x, p=.95, na.rm=TRUE, ... ) {
   lo_p <- (1-p)/2
   hi_p <- 1 - lo_p
@@ -101,6 +105,7 @@ cdata_v <- function( x, p=.95, na.rm=TRUE, ... ) {
 
 #' @rdname pqrdata2
 #' @export
+
 cdata_f <- aggregatingFunction1( cdata_v, output.multiple=TRUE, na.rm=TRUE )
 
   
@@ -153,6 +158,7 @@ pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' rdata(10, ~Species, data=iris)
 #' rdata(5, Sepal.Length~Species, data=iris)
 #' @export
+
 rdata <- function (n, vals, data = NULL, ...) 
 {
   vals_call <- substitute(vals)
@@ -178,6 +184,7 @@ rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' ddata('setosa', Species, data=iris)
 #' ddata('setosa', ~Species, data=iris)
 #' @export
+
 ddata <- function (q, vals, data = NULL, ...) 
 {
   vals_call <- substitute(vals)
@@ -200,7 +207,6 @@ ddata_v <- function(vals, q, ..., data=NULL, log=FALSE, na.rm=TRUE) {
 
 #' @rdname pqrdata2
 ddata_f <- aggregatingFunction1( ddata_v, output.multiple=TRUE, na.rm=TRUE )
-
 
 .check_for_quant_input <- function(x) {
   if (is.data.frame(x) ) {

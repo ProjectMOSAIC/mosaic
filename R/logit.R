@@ -11,13 +11,13 @@
 #' \deqn{exp(x)/(1 + exp(x))}
 #' 
 #' 
-#' @export
 #' @examples
 #' p <- seq(.1, .9, by=.10)
 #' l <- logit(p); l
 #' ilogit(l)
 #' ilogit(l) == p
-#' 
+#' @export
+
 logit <- function(x) 
 {
 	log(x/(1 - x))

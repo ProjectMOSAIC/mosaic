@@ -27,6 +27,7 @@
 #' symbolicD( a*sin(x)~x, .order=4)
 #' symbolicD( a*x^2*y+b*y ~ x, a=10, b=100 )
 #' @export
+
 symbolicD <- function(formula, ..., .order=NULL ) {
   formulaEnv = environment(formula) # where was the formula created?
   # Find the expression and the variables "with respect to" which differentiation 

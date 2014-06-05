@@ -510,7 +510,6 @@ panel.plotFun1 <- function( ..f.., ...,
 #' ladd(panel.plotFun( sin(x) ~ x, col='red', lty=2 ) )    # plots sin(x) in each panel
 #' @export
 
-
 panel.plotFun <- function( object, ..., 
                            type="l", 
                            npts=NULL,
@@ -635,7 +634,7 @@ panel.plotFun <- function( object, ...,
 #' @examples
 #' inferArgs(c('x','u','t'), list(t=c(1,3), x.lim=c(1,10), u=c(1,3), u.lim=c(2,4)))
 #' inferArgs(c('x','u'), list(u=c(1,3)), defaults=list(xlim=c(0,1), ylim=NULL)) 
-
+#' @export
 
 inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants=c('.lim','lim') ) {
 	limNames <- names(defaults)
@@ -733,7 +732,6 @@ panel.levelcontourplot <- function(x, y, z, subscripts=1,
 #' @param col a vector of colors
 #' @return a function that generates a vector of colors interpolated among the colors in \code{col}
 #'
-#' @export
 #' @examples
 #' cs <- makeColorscheme( c('red','white','blue') )
 #' cs(10)

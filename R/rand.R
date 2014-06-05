@@ -19,10 +19,8 @@
 #' rand(2,nrow=4)
 #' rand(2,rdist=rpois, args=list(lambda=3), nrow=4)
 #' summary(lm( waiting ~ eruptions + rand(1), faithful))
-#' 
 #' @keywords distribution 
 #' @keywords regression 
-#' 
 #' @export
 
 rand = function(df=1, rdist=rnorm, args=list(), nrow, seed=NULL ){

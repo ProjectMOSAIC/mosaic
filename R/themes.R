@@ -17,7 +17,6 @@
 #' 
 #' @rdname themes
 #'
-#' @export
 #' @examples
 #' trellis.par.set(theme=theme.mosaic())
 #' show.settings()
@@ -25,7 +24,8 @@
 #' show.settings()
 #' 
 #' @keywords graphics 
-#' 
+#' @export
+ 
 theme.mosaic <-
 function (bw = FALSE, lty = 1:7) 
 {
@@ -89,5 +89,6 @@ function (bw = FALSE, lty = 1:7)
 
 #' @rdname themes
 #' @export
+
 col.mosaic <- theme.mosaic
 

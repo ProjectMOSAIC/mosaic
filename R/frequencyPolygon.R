@@ -17,7 +17,6 @@
 #' necessary to use \code{ylim} to determine an approprate viewing rectangle for the 
 #' plot.
 #' 
-#' @export
 #' @examples
 #' freqpolygon(~age | substance, data=HELPrct, v=35)
 #' freqpolygon(~age, data=HELPrct, labels=TRUE, type='count')
@@ -26,6 +25,7 @@
 #' ## comparison of histogram and frequency polygon
 #' histogram(~eruptions, faithful, type='density', width=.5)
 #' ladd( panel.freqpolygon(faithful$eruptions, width=.5 ))
+#' @export
 
 freqpolygon <- function(x, 
                         ..., 

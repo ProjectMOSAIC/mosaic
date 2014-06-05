@@ -6,10 +6,10 @@
 #' @param width desired width of string
 #' @param \dots additional arguments passed to \code{\link{format}}
 #' @return a vector of strings padded to the desired width
-#' @export
 #' @examples
 #' surround(rbinom(10,20,.5), " ", " ", width=4)
 #' surround(rnorm(10), " ", " ", width=8, digits = 2, nsmall = 2)
+#' @export
 
 surround <- function (x, pre = " ", post = " ", width = 8, ...) 
 {

@@ -12,6 +12,7 @@
 #' side (minus any condition) and the condition. Improvements/extensions may come in the future.
 #' 
 #' @export
+
 parse.formula <- function(formula, ...) {
   op <- formula[[1]]
   condition <- NULL
@@ -35,52 +36,70 @@ parse.formula <- function(formula, ...) {
 
 #' @rdname parseFormula
 #' @export
+
 rhs <- function(x, ...) {
   UseMethod('rhs')
 }
 
 #' @rdname parseFormula
 #' @export
+
 lhs <- function(x, ...) {
   UseMethod('lhs')
 }
 
 #' @rdname parseFormula
 #' @export
+
 condition <- function(x, ...) {
   UseMethod('condition')
 }
 
 #' @rdname parseFormula
 #' @export
+
 operator <- function(x, ...) {
   UseMethod('operator')
 }
 
 #' @rdname parseFormula
 #' @export
+
 rhs.formula <- function(x,...) rhs( parse.formula(x, ...) )
+
 #' @rdname parseFormula
 #' @export
+
 lhs.formula <- function(x,...) lhs( parse.formula(x, ...) )
+
 #' @rdname parseFormula
 #' @export
+
 condition.formula <- function(x,...) condition( parse.formula(x, ...) )
+
 #' @rdname parseFormula
 #' @export
+
 operator.formula <- function(x,...) operator( parse.formula(x, ...) )
 
 #' @rdname parseFormula
 #' @export
+
 rhs.parsedFormula <- function(x,...) x$rhs
+
 #' @rdname parseFormula
 #' @export
+
 lhs.parsedFormula <- function(x,...) x$lhs
+
 #' @rdname parseFormula
 #' @export
+
 operator.parsedFormula <- function(x,...) x$operator
+
 #' @rdname parseFormula
 #' @export
+
 condition.parsedFormula <- function(x,...) x$condition
 
 

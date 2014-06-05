@@ -14,7 +14,6 @@
 #' \code{mosaic_formula_q} uses nonstandard evaluation of \code{groups} that may be
 #' necessary for use within other functions.  \code{mosaic_formula} is a wrapper
 #' around \code{mosaic_formula_q} and quotes \code{groups} before passing it along. 
-#' @export
 #' @examples
 #' mosaic_formula( ~ x | z )
 #' mosaic_formula( ~ x, groups=g ) 
@@ -26,6 +25,7 @@
 #'     mosaic_formula_q(x, groups=groups, envir=parent.frame())
 #' }
 #' foo( y ~ x , groups = g)
+#' @export
 
 mosaic_formula <- function( 
   formula, 
@@ -176,7 +176,6 @@ mosaic_formula_q <- function( formula,
 #' @param .multiple a logical indicating whether FUN returns multiple values
 #' @param \dots additional arguments passed to \code{FUN}
 #'
-#' @export
 #' @examples
 #' maggregate( cesd ~ sex, HELPrct, FUN=mean )
 #' # using groups instead
@@ -189,6 +188,7 @@ mosaic_formula_q <- function( formula,
 #' # this is unusual, but also works.
 #' maggregate( cesd ~ NULL , groups = sex, HELPrct, FUN=sd )
 #'
+#' @export
 maggregate <- function(formula, data=parent.frame(), FUN, subset, 
                        overall=mosaic.par.get("aggregate.overall"), 
                        .format=c('default', 'table', 'flat'), drop=FALSE, 

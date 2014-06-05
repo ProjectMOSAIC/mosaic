@@ -1,34 +1,29 @@
 #' Extract summary statistics
 #' 
 #' Extract confidence intervals, test statistics or p-values from an 
-#' \code{htest} object.
+#'   \code{htest} object.
+#' @rdname interval
+#' @param object a fitted model object or an htest object.
+#' @param parm a specification of which parameters are to be given confidence intervals, 
+#'   either a vector of numbers or a vector of names. If missing, all parameters are considered.
+#' @param level the confidence level required.
 #' @param x An object of class \code{htest}.
 #' @param \dots Additional arguments.
 #' @return the extracted p-value, confidence interval, or test statistic
 #' 
-#' 
-#' @export
 #' @examples
 #' confint(t.test(rnorm(100)))
 #' pval(t.test(rnorm(100)))
 #' stat(t.test(rnorm(100)))
 #' confint(var.test(rnorm(10,sd=1), rnorm(20, sd=2)))
 #' pval(var.test(rnorm(10,sd=1), rnorm(20, sd=2)))
-#' 
 #' data(HELPrct)
 #' stat(t.test (age ~ shuffle(sex), HELPrct))
 #' # Compare to test statistic computed with permuted values of sex.
 #' do(10) * stat(t.test (age ~ shuffle(sex), HELPrct))
-#' 
 #' @keywords stats 
 #' @keywords inference 
-#' 
-
-#' @rdname interval
-#' @param object a fitted model object or an htest object.
-#' @param parm a specification of which parameters are to be given confidence intervals, 
-#' either a vector of numbers or a vector of names. If missing, all parameters are considered.
-#' @param level the confidence level required.
+#' @export
 
 interval <- confint
 
@@ -64,6 +59,7 @@ confint.htest <- function (object, parm, level, ...){
 #' @keywords stats 
 #' @keywords inference 
 #' @export
+
 pval <- function(x, ...){UseMethod("pval", x)}
 
 #' @rdname interval
@@ -130,6 +126,7 @@ pval.htest <- function (x, digits=4, verbose=FALSE, ...){
 #' @keywords stats 
 #' @keywords inference 
 #' @export
+
 stat <- function(x,...) { UseMethod("stat", x)}
 
 #' @rdname interval
@@ -145,6 +142,7 @@ stat.htest <- function(x,...) {
 #' @param x an object
 #' @param \dots additional arguments
 #' @export
+
 rsquared <- function(x, ...) {
   NULLFUN <- function(e) NULL 
   result <- tryCatch( x$r.squared, error=NULLFUN)
@@ -159,6 +157,7 @@ rsquared <- function(x, ...) {
 #' @param x an object
 #' @param \dots additional arguments
 #' @export
+
 r.squared <- function(x, ...) {
   .Deprecated("rsquared")
   rsquared(x, ...)

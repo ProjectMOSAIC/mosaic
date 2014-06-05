@@ -33,7 +33,6 @@
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
 #' 
 #' 
-#' @export
 #' @examples
 #' # Several ways to get a confidence interval for the proportion of Old Faithful
 #' # eruptions lasting more than 3 minutes.
@@ -50,7 +49,6 @@
 #' @rdname binom.test
 # @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
 #' @export
-#'
 setGeneric(
 		   "binom.test",
 		   function( x, n, p = 0.5, 

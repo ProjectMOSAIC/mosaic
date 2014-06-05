@@ -9,12 +9,12 @@
 #' @param subset an optional vector describing a subset of the observations to be used.  
 #' Currently only implemented when data is a data frame.
 #'
-#' @export
 #' @examples
 #' data(CPS85)
 #' cps <- CPS85[1:6,]
 #' cps
 #' evalFormula(wage ~ sex & married & age | sector & race, data=cps)
+#' @export
 
 evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
 	# could make this an S4 object instead
@@ -50,12 +50,12 @@ evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
 #' @param ops a vector of operators that are not evaluated as operators but
 #'      instead used to further split \code{x}
 #' @return a data frame containing the terms of the evaluated subformula
-#' @export
 #' @examples
 #' data(CPS85)
 #' cps <- CPS85[1:6,]
 #' cps
 #' evalSubFormula( rhs( ~ married & sector), data=cps )
+#' @export
 
 evalSubFormula <- function(x, data=parent.frame(), ops=c('+','&') ){
   if (is.null(x)) return(NULL)

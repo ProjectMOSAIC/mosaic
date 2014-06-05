@@ -8,7 +8,6 @@
 #' 
 #' @return a factor
 #' 
-#' @export
 #' @examples
 #' x <- letters[1:3]
 #' y <- c(1,2,1,1,3,1,3)
@@ -16,7 +15,7 @@
 #' cross(x, y, drop.unused.levels=TRUE)
 #' 
 #' @keywords manipulate 
-#' 
+#' @export
 
 cross <- function(..., sep=":", drop.unused.levels=FALSE) {
 	factors <- list(...)

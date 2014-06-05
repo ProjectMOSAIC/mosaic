@@ -12,12 +12,12 @@
 #' @return An \code{xtabs} object.
 #' @keywords manipulate
 #' @rdname as-xtabs
-#' @export
 #' @examples
 #' # example from example(fisher.test)
 #' df <- data.frame( X=c('Tea','Milk'), Tea=c(3,1), Milk=c(1,3) )
 #' xt <- as.xtabs(df, rowvar="Guess", colvar="Truth"); xt
 #' if (require(vcd)) { mosaic(xt) }
+#' @export
 
 as.xtabs <- function(x, ...) { UseMethod('as.xtabs') }
 

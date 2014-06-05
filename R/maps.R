@@ -10,7 +10,6 @@ tryCatch(utils::globalVariables(c('coordinates')),
 #'
 #' @param map a map object of class \code{SpatialPolygonsDataFrame}
 #' @param ... other arguments, currently ignored
-#' @export
 #' @examples
 #'
 #' \dontrun{ 
@@ -30,6 +29,8 @@ tryCatch(utils::globalVariables(c('coordinates')),
 #'                      geom="polygon")
 #' }
 #' }
+#' @export
+
 sp2df <- function (map, ...) 
 {
   .try_require(c("ggplot2", "maptools"))

@@ -86,6 +86,7 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
 
 #' @rdname xhistogram
 #' @export
+
 prepanel.xhistogram <- 
   function (x, breaks=xhistogramBreaks, ...) 
   {

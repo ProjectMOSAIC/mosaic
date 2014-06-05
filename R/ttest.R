@@ -24,29 +24,32 @@
 #'
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{t.test}}
 #' 
-#' @export t.test
 #' @examples
 #' t.test( ~ age, data=HELPrct)
 #' t.test( age ~ sex, data=HELPrct)
 #' t.test( ~ age | sex, data=HELPrct)
 #' t.test( ~ age, groups=sex, data=HELPrct)
-#'  
+#' @export t.test
+  
 t.test <- function(x, ...) ttest(x, ...)
 
 #' rdname ttest
 #' @export
+
 ttest <- function (x, ...) {
   UseMethod('ttest') 
 }
 
 #' @rdname ttest
 #' @export
+
 ttest.default <-  function (x, ...) {
   stats::t.test(x = x, ...)
 }
 
 #' @rdname ttest
 #' @export
+
 ttest.formula <- function(x, data=parent.frame(), groups=NULL, ...) {
   x <- mosaic_formula_q(x, groups=groups, max.slots=2)
   # if (is.null(x)) stop("Invalid formula specification.")

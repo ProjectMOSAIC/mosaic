@@ -29,7 +29,6 @@
 #' 	graphically.
 #'
 #' 
-#' @export
 #' @examples
 #' CIsim(10,1000)    # 1000 95% intervals using t.test; population is N(0,1)
 #' CIsim(10,1000, rdist=rexp, estimand=1)    # this time population is Exp(1)
@@ -47,6 +46,7 @@
 #' @keywords inference 
 #' @keywords simulation 
 #' 
+#' @export
 
 
 # this is borrowed from fastR.  If it stays in mosaic, it should be removed from fastR

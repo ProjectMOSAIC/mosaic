@@ -50,11 +50,12 @@ mplot <- function(object, ...) {
 #' are passed to \code{grid.arrange};
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
-#' @export
 #' @examples
 #' mplot( lm( width ~ length + sex, data=KidsFeet), w=1:6, nrow=3 )
 #' mplot( lm( width ~ length + sex, data=KidsFeet), w=1:6, nrow=3, 
 #' system="ggplot2" )
+#' @export
+
 mplot.lm <- function(object, which=c(1:3, 5), 
                      system=c("lattice","ggplot2","base"),
                      ask=FALSE, 
@@ -267,6 +268,7 @@ mplot.data.frame <- function (object, default = plotTypes, system = c("lattice",
 #' @rdname fortify
 #' @param level confidence level
 #' @export
+
 fortify.summary.lm <- function(model, data=NULL, level=0.95, ...) {
   E <- as.data.frame(coef(model, level=level))
   # grab only part of the third name that comes before space
@@ -286,9 +288,9 @@ fortify.summary.lm <- function(model, data=NULL, level=0.95, ...) {
 #' @param parm a vector of parameters
 #' @param level a confidence level
 #' @param ... additional arguments
-#' @export
 #' @examples
 #' confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
+#' @export
 
 confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
   cf <- coef(object)[, 1]
@@ -361,9 +363,9 @@ mplot.summary.lm <- function(object,
 #' @param model an R object
 #' @param data original data set, if needed
 #' @param ... additional arguments
-#' @export
 #' @examples
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+#' @export
  
 fortify.TukeyHSD <- function(model, data, ...) {
   nms <- names(model)
@@ -384,10 +386,11 @@ fortify.TukeyHSD <- function(model, data, ...) {
 #' @param xlab label for x-axis
 #' @param ylab label for y-axis
 #' @param title title for plot
-#' @export
 #' @examples
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
+#' @export
+
 mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 
                            ylab="", xlab="difference in means", 
                            title="Tukey's Honest Significant Differences",

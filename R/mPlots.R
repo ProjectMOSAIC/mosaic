@@ -100,13 +100,13 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @param title a title for the plot
 #' @param \dots additional arguments 
 #' @return Nothing.  Just for side effects.  
-#' @export
 #' @examples
 #' \dontrun{
 #' mPlot(HELPrct, "scatter")
 #' mPlot(HELPrct, "density")
 #' }
-#' 
+#' @export
+
 mPlot <- function(data, 
   default=plotTypes,
   system=c('lattice','ggplot2'),
@@ -142,6 +142,7 @@ mPlot <- function(data,
 
 #' @rdname mPlotting
 #' @export
+
 mMap <- function(data, default = 'map',
         system="ggplot2", 
         show=FALSE, title=title, ...) {

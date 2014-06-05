@@ -13,12 +13,11 @@
 #' \code{\link{tapply}},
 #' \code{\link{lapply}}
 #' 
-#' @export
 #' @examples
 #' dfapply(iris, favstats)
 #' dfapply(HELPrct, table, select=is.factor)
-#' 
-#' 
+#' @export
+
 dfapply <-
 function (data, FUN, select = is.numeric, ...) 
 {

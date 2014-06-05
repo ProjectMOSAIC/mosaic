@@ -3,13 +3,13 @@
 #' A wrapper around \code{diff(mean(...))} that facilitates better naming of the result
 #' 
 #' @param ... arguments passed to \code{mean}
-#' @export
 #' @examples
 #' diffmean( age ~ substance, data=HELPrct)
 #' do(3) * diffmean(age ~ substance, data=HELPrct)
 #' diffmean( age ~ sex, data=HELPrct)
 #' do(3) * diffmean(age ~ sex, data=HELPrct)
  
+#' @export
 diffmean <- function( ... ) {
   m <- mean(...)
   nms <- names(m)

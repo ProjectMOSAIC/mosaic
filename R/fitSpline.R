@@ -20,7 +20,6 @@
 #'
 #' @seealso \code{\link{bs}}  and \code{\link{ns}} for the bases used to generate the splines.
 #'
-#' @export
 #' @examples
 #' f <- fitSpline( weight ~ height, data=women, df=5 )
 #' xyplot( weight ~ height, data=women )
@@ -31,7 +30,7 @@
 #' xyplot( height ~ weight, Heightweight, col='gray70', pch=16)
 #' plotFun(g, add=TRUE, col='navy')
 #' plotFun(h, add=TRUE, col='red')
-
+#' @export
 
 fitSpline <- function( formula, data=parent.frame(), 
 			df = NULL,

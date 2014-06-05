@@ -21,7 +21,6 @@
 #' 
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 
-#' @export
 #' @examples
 #' p <- xyplot(rnorm(100) ~rnorm(100))
 #' print(p)
@@ -42,6 +41,7 @@
 #' ladd(panel.densityplot(faithful$eruptions, lwd=4), under=TRUE) 
 #'
 #' @keywords graphics 
+#' @export
 
 ladd <- function (x, data=NULL, ..., plot=trellis.last.object()) 
 {

@@ -15,5 +15,6 @@
 #' all(is.wholenumber(rbinom(100,10,.5)))
 #' is.wholenumber((1:10)/2)
 #' @export
+
 is.wholenumber <-
   function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol

@@ -16,11 +16,11 @@
 #' @param quiet a logical.  If \code{TRUE}, less verbose output is used.
 #' @param verbose  a logical.  If \code{TRUE}, more verbose output is used.
 #' 
-#' @export
 #' @examples
 #' rflip(10)
 #' rflip(10, prob=1/6, quiet=TRUE)
 #' do(5) * rflip(10)
+#' @export
 
 rflip <- function(n=1, prob=.5, quiet=FALSE, verbose = !quiet) {
 	if ( ( prob > 1 && is.integer(prob) ) ) {  
@@ -71,10 +71,11 @@ print.cointoss <- function(x, ...) {
 
 #' @rdname rflip
 #' @return  for \code{nflip}, a numeric vector
-#' @export
 #' @examples
 #' as.numeric(rflip(10))
 #' nflip(10)
+#' @export
+
 nflip <- function(n=1, prob=.5, ...) {
 	as.numeric( rflip(n=n, prob=prob, ...) )
 }
@@ -93,7 +94,6 @@ nflip <- function(n=1, prob=.5, ...) {
 #'
 #' @details These functions are wrappers around \code{\link{sample}} providing different defaults and 
 #' natural names.
-#' @export
 #' @examples
 #' # 100 Bernoulli trials -- no need for replace=TRUE
 #' resample(0:1, 100)
@@ -111,6 +111,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #'    id1 = paste(sex,1:10, sep=":"),  
 #'    id2 = paste(sex,1:10, sep=":"))
 #' resample(Small, groups=sex, shuffled=c("id1","id2"))
+#' @export
 
 resample <- function(..., replace=TRUE) {
   sample(..., replace=replace)

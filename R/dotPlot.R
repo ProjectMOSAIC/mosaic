@@ -22,7 +22,6 @@
 #' @seealso \code{\link{histogram}}
 #' 
 #' 
-#' @export
 #' @examples
 #' dotPlot( ~ age, data = HELPrct)
 #' dotPlot( ~ age, nint=42, data = HELPrct)
@@ -31,7 +30,7 @@
 #'           xlab = "Height (inches)")
 #' 
 #' @keywords graphics 
-#' 
+#' @export
 
 dotPlot <-
 function (x, breaks, ..., panel = panel.dotPlot) 

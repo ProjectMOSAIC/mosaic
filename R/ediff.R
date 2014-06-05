@@ -13,7 +13,6 @@
 #' @param frontPad logical indicating whether padding is on the front (default) or 
 #' back end.
 #' @param \dots further arguments to be passed to or from methods
-#' @export
 #' @examples
 #' ediff(1:10)
 #' ediff(1:10, 2)
@@ -25,7 +24,8 @@
 #' Men <- subset(SwimRecords, sex=="M")
 #' Men <- transform(Men, change=ediff(time), interval=ediff(year))
 #' head(Men) 
-#' 
+#' @export
+
 ediff <- function(x, lag=1, differences=1, frontPad = TRUE, ...) {
   res <- diff(x, lag=lag, difference=differences, ...)
   if (is.matrix(res)) {
