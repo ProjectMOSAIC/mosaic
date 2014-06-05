@@ -173,7 +173,7 @@ mosaic_formula_q <- function( formula,
 #' @param .name a name used for the resulting object
 #' @param groups grouping variable that will be folded into the formula (if there is room for it).  
 #' This offers some additional flexibility in how formulas can be specified.
-#' @param multiple a logical indicating whether FUN returns multiple values
+#' @param .multiple a logical indicating whether FUN returns multiple values
 #' @param \dots additional arguments passed to \code{FUN}
 #'
 #' @export
@@ -191,8 +191,8 @@ mosaic_formula_q <- function( formula,
 #'
 maggregate <- function(formula, data=parent.frame(), FUN, subset, 
                        overall=mosaic.par.get("aggregate.overall"), 
-                       .format=c('default', 'grid', 'flat'), drop=FALSE, 
-                       multiple=FALSE, 
+                       .format=c('default', 'table', 'flat'), drop=FALSE, 
+                       .multiple=FALSE, 
                        groups=NULL, 
                        .name = deparse(substitute(FUN)), 
                        ...) {
@@ -200,10 +200,6 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   formula <- mosaic_formula_q(formula, groups=groups, as.environment(data))
 
   .format <- match.arg(.format)
- 
-#   if (.format == "grid") stop("grid temporarily disabled in prep for conversion to dplyr")
-
-#   if (.format %in% c("grid") && !require(dplyr)) stop("dplyr package is unavailable.")
 
   evalF <- evalFormula(formula, data=data)
   
@@ -222,7 +218,12 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     
   if ( is.null(evalF$left) || ncol(evalF$left) < 1 )  {
     if (ncol(evalF$right) > 1) warning("Too many variables in rhs; ignoring all but first.")
-    if (.format=="grid") {
+    if (.format=="table") {
+      return(evalF$right[,1,drop=FALSE] %>% 
+               group_by(names(NULL)) %>%
+               dplyr::do( do.call(FUN, list(evalF$right[,1], ...)) ) %>%
+               as.data.frame()
+      )
       return(plyr::ddply(evalF$right[,1,drop=FALSE], names(NULL),
                    function(x) do.call(FUN, list(evalF$right[,1], ...)) 
       )[,-1])  # remove the .id column since it is uninteresting here.
@@ -230,7 +231,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     return( do.call(FUN, alist(evalF$right[,1], ...) ) )
   } else {
     if (ncol(evalF$left) > 1) warning("Too many variables in lhs; ignoring all but first.")
-    if (.format=='grid') {
+    if (.format=='table') {
       res <-  plyr::ddply( 
         joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
         union(names(evalF$right), names(evalF$condition)),
@@ -244,20 +245,20 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
                      function(x) { do.call(FUN, alist(x, ...) ) }
       )
       
-      if (! multiple ) res <- unlist(res)
+      if (! .multiple ) res <- unlist(res)
       
       if (! is.null(evalF$condition) ) {
         if (ncol(evalF$left) > 1) message("Too many variables in lhs; ignoring all but first.")
         res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
                         function(x) { do.call(FUN, alist(x, ...) ) }
         )
-        if (!multiple) {
+        if (!.multiple) {
           res <- c( res , unlist(res2) )
         } else {
           res <- c(res, res2)
         }
       }
-      if (multiple) {
+      if (.multiple) {
         result <- res
         res <- result[[1]]
         for (item in result[-1]) {
