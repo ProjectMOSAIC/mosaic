@@ -24,7 +24,7 @@
 #'
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{t.test}}
 #' 
-#' @export
+#' @export t.test
 #' @examples
 #' t.test( ~ age, data=HELPrct)
 #' t.test( age ~ sex, data=HELPrct)
