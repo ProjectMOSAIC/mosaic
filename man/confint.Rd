@@ -3,6 +3,7 @@
 \alias{confint.data.frame}
 \alias{confint.do.data.frame}
 \alias{confint.numeric}
+\alias{confint.summary.lm}
 \title{Confidence interval methods for output of resampling}
 \usage{
 \method{confint}{numeric}(object, parm, level = 0.95, ...,
@@ -12,6 +13,8 @@
   method = "stderr", margin.of.error = "stderr" \%in\% method)
 
 \method{confint}{data.frame}(object, parm, level = 0.95, ...)
+
+\method{confint}{summary.lm}(object, parm, level = 0.95, ...)
 }
 \arguments{
 \item{object}{The data frame or numerical vector.}
@@ -26,6 +29,14 @@
 allowed as aliases) or a vector containing both.}
 
 \item{margin.of.error}{if true, report intervals as a center and margin of error.}
+
+\item{object}{and R object}
+
+\item{parm}{a vector of parameters}
+
+\item{level}{a confidence level}
+
+\item{...}{additional arguments}
 }
 \value{
 When applied to a data frame, returns a data frame giving the
@@ -49,5 +60,6 @@ confint(s, margin.of.error=TRUE)
 confint(s, margin.of.error=TRUE, level=0.99 )
 s2 <- do(500)*mean( resample(1:10) )
 confint(s2)
+confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
 }
 
