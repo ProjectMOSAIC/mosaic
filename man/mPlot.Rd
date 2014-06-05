@@ -9,18 +9,26 @@
 \usage{
 mplot(object, ...)
 
-\method{mplot}{lm}(object, which = c(1:3, 5), system = c("lattice",
-  "ggplot2", "base"), ask = FALSE, multiplot = TRUE, ...)
+\method{mplot}{lm}(object, which = c(1:3, 7), system = c("lattice",
+  "ggplot2", "base"), ask = FALSE, multiplot = TRUE,
+  par.settings = theme.mosaic(), level = 0.95, title = paste("model: ",
+  deparse(object$call), "\\n"), ...)
 
 \method{mplot}{data.frame}(object, default = plotTypes,
   system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
 
 \method{mplot}{summary.lm}(object, system = c("lattice", "ggplot2"),
-  level = 0.95, ...)
+  level = 0.95, par.settings = trellis.par.get(), ...)
 
 \method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
   ylab = "", xlab = "difference in means",
-  title = "Tukey's Honest Significant Differences", ...)
+  title = "Tukey's Honest Significant Differences",
+  par.settings = trellis.par.get(), ...)
+
+\method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
+  ylab = "", xlab = "difference in means",
+  title = "Tukey's Honest Significant Differences",
+  par.settings = trellis.par.get(), ...)
 }
 \arguments{
 \item{object}{an R object from which a plot will be constructed.}
@@ -59,12 +67,22 @@ responds to a prompt.}
 \item{multiplot}{if TRUE and \code{ask == FALSE}, all plots will be
 displayed together.}
 
+\item{title}{title used for multi-plots}
+
 \item{...}{additional arguments.  If \code{object} is an \code{lm}, these
 are passed to \code{grid.arrange};
 \code{nrow} and \code{ncol} can be used to control the number of rows
 and columns used.}
 
 \item{level}{a confidence level}
+
+\item{par.settings}{\pkg{lattice} theme settings}
+
+\item{xlab}{label for x-axis}
+
+\item{ylab}{label for y-axis}
+
+\item{title}{title for plot}
 
 \item{xlab}{label for x-axis}
 
@@ -80,12 +98,14 @@ Generic function plotting for R objects.  Currently plots exist for
 \code{data.frame}s, \code{lm}s, (including \code{glm}s).
 }
 \examples{
-mplot( lm( width ~ length + sex, data=KidsFeet), w=1:6, nrow=3 )
-mplot( lm( width ~ length + sex, data=KidsFeet), w=1:6, nrow=3,
-system="ggplot2" )
+mplot( lm( width ~ length + sex, data=KidsFeet) )
+\dontrun{
 mplot( HELPrct )
 mplot( HELPrct, "histogram" )
+}
 mplot(summary(lm(width ~ length * sex, data=KidsFeet)))
+mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
+mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
 }
