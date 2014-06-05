@@ -48,6 +48,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param quiet a logical indicating whether messages about order in which marginal distributions
 #'        are calculated should be surpressed.  See \code{\link{addmargins}}.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
+#' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
 #' @param ... additional arguments passed to \code{\link{table}}
 #' @export
 #' @examples
@@ -64,7 +65,8 @@ tally <- function(x, data=parent.frame(),
                       format=c('default','count','proportion','percent'), 
                       margins=FALSE,
                       quiet=TRUE,
-                      subset, ...) {
+                      subset, 
+                      useNA = "ifany", ...) {
 	format <- match.arg(format)
   if (! .is.formula(x) ) {
       formula <- ~ x
@@ -104,7 +106,7 @@ tally <- function(x, data=parent.frame(),
 		else format <- 'proportion'
 	}
 
-	res <- table( logical2factor( joinFrames(evalF$right,evalF$condition) ), ... )
+	res <- table( logical2factor( joinFrames(evalF$right,evalF$condition) ), useNA=useNA, ... )
 
 	res <- switch(format,
 		   'count' = 

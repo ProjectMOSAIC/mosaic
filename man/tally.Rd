@@ -4,7 +4,7 @@
 \title{Tabulate categorical data}
 \usage{
 tally(x, data = parent.frame(), format = c("default", "count", "proportion",
-  "percent"), margins = FALSE, quiet = TRUE, subset, ...)
+  "percent"), margins = FALSE, quiet = TRUE, subset, useNA = "ifany", ...)
 }
 \arguments{
 \item{x}{an object}
@@ -22,6 +22,8 @@ which case proportions are used instead.}
 are calculated should be surpressed.  See \code{\link{addmargins}}.}
 
 \item{margins}{a logical indicating whether marginal distributions should be displayed.}
+
+\item{useNA}{as in \code{\link{table}}, but the default here is \code{"ifany"}.}
 
 \item{...}{additional arguments passed to \code{\link{table}}}
 }
