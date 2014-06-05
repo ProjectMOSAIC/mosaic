@@ -16,7 +16,8 @@ Imports:
     methods,
     utils,
     splines,
-    latticeExtra
+    latticeExtra,
+    gridExtra
 Suggests:
     MASS,
     reshape2,
