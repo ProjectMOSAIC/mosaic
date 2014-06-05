@@ -16,10 +16,6 @@
 \arguments{
 \item{level}{confidence level}
 
-\item{model}{an R object}
-
-\item{data}{original data set, if needed}
-
 \item{...}{additional arguments}
 
 \item{model}{an R object}

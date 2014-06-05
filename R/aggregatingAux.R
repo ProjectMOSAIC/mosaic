@@ -131,6 +131,10 @@ mosaic_formula_q <- function( formula,
 
 # This could use a better name and a better desription
 
+
+tryCatch(utils::globalVariables(c('.')),
+         error=function(e) message('Looks like you should update R.'))
+
 #' Extract simple part from formula
 #'
 #' @param x a formula

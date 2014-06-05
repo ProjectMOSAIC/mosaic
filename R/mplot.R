@@ -1,6 +1,7 @@
 
 tryCatch(utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
                                   '.stdresid', '.cooksd', '.fitted', 
+                                  'lower', 'uppper',
                                   '.hat', 'grid.arrange',  'estimate','se')), 
          error=function(e) message('Looks like you should update R.'))
 
@@ -46,7 +47,7 @@ mplot <- function(object, ...) {
 #' responds to a prompt.
 #' @param multiplot if TRUE and \code{ask == FALSE}, all plots will be 
 #' displayed together.
-#' @param title title used for multi-plots
+#' @param title title for plot
 #' @param ... additional arguments.  If \code{object} is an \code{lm}, these
 #' are passed to \code{grid.arrange};
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
@@ -389,8 +390,6 @@ mplot.summary.lm <- function(object,
 mplot.summary.glm <- mplot.summary.lm
 
 #' @rdname fortify
-#' @param model an R object
-#' @param data original data set, if needed
 #' @param ... additional arguments
 #' @examples
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
@@ -412,9 +411,6 @@ fortify.TukeyHSD <- function(model, data, ...) {
 }  
 
 #' @rdname mplot
-#' @param xlab label for x-axis
-#' @param ylab label for y-axis
-#' @param title title for plot
 #' @examples
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
@@ -490,7 +486,6 @@ fortify.TukeyHSD <- function(model, data, ...) {
 #' @rdname mplot
 #' @param xlab label for x-axis
 #' @param ylab label for y-axis
-#' @param title title for plot
 #' @examples
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )

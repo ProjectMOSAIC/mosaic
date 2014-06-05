@@ -67,7 +67,7 @@ responds to a prompt.}
 \item{multiplot}{if TRUE and \code{ask == FALSE}, all plots will be
 displayed together.}
 
-\item{title}{title used for multi-plots}
+\item{title}{title for plot}
 
 \item{...}{additional arguments.  If \code{object} is an \code{lm}, these
 are passed to \code{grid.arrange};
@@ -81,14 +81,6 @@ and columns used.}
 \item{xlab}{label for x-axis}
 
 \item{ylab}{label for y-axis}
-
-\item{title}{title for plot}
-
-\item{xlab}{label for x-axis}
-
-\item{ylab}{label for y-axis}
-
-\item{title}{title for plot}
 }
 \value{
 Nothing.  Just for side effects.
