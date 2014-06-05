@@ -15,7 +15,6 @@
 #' @references
 #' \url{http://mosaic-web.org}
 #'
-# #' @exportPattern "^[^\\.]"
 #' @keywords package
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
