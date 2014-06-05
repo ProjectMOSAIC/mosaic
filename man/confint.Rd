@@ -27,8 +27,6 @@ allowed as aliases) or a vector containing both.}
 \item{parm}{a vector of parameters}
 
 \item{level}{a confidence level}
-
-\item{...}{additional arguments}
 }
 \value{
 When applied to a data frame, returns a data frame giving the

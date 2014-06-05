@@ -21,8 +21,6 @@
 \item{model}{an R object}
 
 \item{data}{original data set, if needed}
-
-\item{...}{additional arguments}
 }
 \description{
 Extract data from R objects

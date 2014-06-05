@@ -274,6 +274,7 @@ mplot.data.frame <- function (object, default = plotTypes, system = c("lattice",
 #' 
 #' @rdname fortify
 #' @param level confidence level
+#' @param ... additional arguments
 #' @export
 
 fortify.summary.lm <- function(model, data=NULL, level=0.95, ...) {
@@ -312,7 +313,6 @@ fortify.summary.glm <- function(model, data=NULL, level=0.95, ...) {
 #' @param object and R object
 #' @param parm a vector of parameters
 #' @param level a confidence level
-#' @param ... additional arguments
 #' @examples
 #' confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
 #' @export
@@ -390,7 +390,6 @@ mplot.summary.lm <- function(object,
 mplot.summary.glm <- mplot.summary.lm
 
 #' @rdname fortify
-#' @param ... additional arguments
 #' @examples
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
 #' @export
@@ -463,7 +462,6 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
 #' @rdname fortify
 #' @param model an R object
 #' @param data original data set, if needed
-#' @param ... additional arguments
 #' @examples
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
 #' @export
