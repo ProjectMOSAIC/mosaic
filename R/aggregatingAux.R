@@ -219,24 +219,41 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   if ( is.null(evalF$left) || ncol(evalF$left) < 1 )  {
     if (ncol(evalF$right) > 1) warning("Too many variables in rhs; ignoring all but first.")
     if (.format=="table") {
+      if (.multiple) stop ("table view unavailable for this functions.")
+      ldata <- evalF$right[,1,drop=FALSE]
+      gdata <- group_by(data)
+      res <- as.data.frame(
+        dplyr::do(gdata, foo = FUN( .[,1], ...) ) )
+      names(res)[ncol(res)] <- gsub(".*::", "", .name)
+      return(res)
+      
       return(evalF$right[,1,drop=FALSE] %>% 
-               group_by(names(NULL)) %>%
+               group_by() %>%
                dplyr::do( do.call(FUN, list(evalF$right[,1], ...)) ) %>%
                as.data.frame()
       )
-      return(plyr::ddply(evalF$right[,1,drop=FALSE], names(NULL),
-                   function(x) do.call(FUN, list(evalF$right[,1], ...)) 
-      )[,-1])  # remove the .id column since it is uninteresting here.
+#      return(plyr::ddply(evalF$right[,1,drop=FALSE], names(NULL),
+#                   function(x) do.call(FUN, list(evalF$right[,1], ...)) 
+#      )[,-1])  # remove the .id column since it is uninteresting here.
     }
     return( do.call(FUN, alist(evalF$right[,1], ...) ) )
   } else {
     if (ncol(evalF$left) > 1) warning("Too many variables in lhs; ignoring all but first.")
     if (.format=='table') {
-      res <-  plyr::ddply( 
-        joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
-        union(names(evalF$right), names(evalF$condition)),
-        function(x) do.call(FUN, list(x[,1], ...))
-      )
+      if (.multiple) stop ("table view unavailable for this functions.")
+      ldata <- joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
+      ldata$.var <- ldata[, 1]
+      gdata <- do.call( group_by, c(list(ldata),  
+                        lapply(union(names(evalF$right), names(evalF$condition)),
+                        as.name )) )
+      res <- as.data.frame(
+        dplyr::do(gdata, foo = FUN( .[,1], ...) ) )
+      names(res)[ncol(res)] <- gsub(".*::", "", .name)
+#      res <-  plyr::ddply( 
+#        joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
+#        union(names(evalF$right), names(evalF$condition)),
+#        function(x) do.call(FUN, list(x[,1], ...))
+#      )
       
     } else {
       res <- lapply( split( evalF$left[,1], 
