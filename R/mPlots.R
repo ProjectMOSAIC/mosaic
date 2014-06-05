@@ -73,7 +73,7 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @details
 #' Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
 #' 
-#' @rdname mPlot
+#' @rdname mPlotting
 #' @aliases mPlot
 #' @param data a data frame containing the variables that might be used in the plot.
 #' Note that for maps, the data frame must contain coordinates of the polygons 
@@ -108,7 +108,7 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' }
 #' 
 mPlot <- function(data, 
-  default=plotType,
+  default=plotTypes,
   system=c('lattice','ggplot2'),
   show=FALSE, 
   title="",
@@ -123,6 +123,7 @@ mPlot <- function(data,
   if (default == 'xyplot') default <- 'scatter'
   if (default %in% c('scatter','jitter','boxplot','violin')) {
     return( 
+      # do.call(mScatter, list(dataName, default=default, system=system, show=show, title=title))
       eval(parse(text=paste("mScatter(", dataName, 
                             ", default=default, system=system, show=show, title=title)") ) ) 
     )
@@ -139,7 +140,7 @@ mPlot <- function(data,
   )
 }
 
-#' @rdname mPlot
+#' @rdname mPlotting
 #' @export
 mMap <- function(data, default = 'map',
         system="ggplot2", 
@@ -294,7 +295,7 @@ mMap <- function(data, default = 'map',
   return(res)
 }
 
-#' @rdname mPlot
+#' @rdname mPlotting
 #' @export
 
 mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
@@ -444,7 +445,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
   return(res)
 }
 
-#' @rdname mPlot  
+#' @rdname mPlotting  
 #' @export
 
 mUniplot <- function(data, default=c('histogram','density', 'frequency polygon'),
