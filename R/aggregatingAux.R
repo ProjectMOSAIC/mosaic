@@ -168,9 +168,7 @@ mosaic_formula_q <- function( formula,
 #' @param FUN a function to apply to each subset 
 #' @param subset a logical indicating a subset of \code{data} to be processed.
 #' @param drop a logical indicating whether unused levels should be dropped.
-#' @param method used for aggregation.  Choosing \code{"ddply"} 
-#' (or \code{"grid"}, which is equivalent) 
-#' requires that \pkg{plry} is installed. \code{"default"} and \code{"flat"} are equivalent.  
+#' @param .format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
 #' @param overall currently unused
 #' @param .name a name used for the resulting object
 #' @param groups grouping variable that will be folded into the formula (if there is room for it).  
@@ -193,7 +191,7 @@ mosaic_formula_q <- function( formula,
 #'
 maggregate <- function(formula, data=parent.frame(), FUN, subset, 
                        overall=mosaic.par.get("aggregate.overall"), 
-                       method=c('default', 'ddply', 'grid', 'flat'), drop=FALSE, 
+                       .format=c('default', 'grid', 'flat'), drop=FALSE, 
                        multiple=FALSE, 
                        groups=NULL, 
                        .name = deparse(substitute(FUN)), 
@@ -201,9 +199,11 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   dots <- list(...)
   formula <- mosaic_formula_q(formula, groups=groups, as.environment(data))
 
-  method <- match.arg(method)
-  
-  if (method %in% c("ddply","grid") && !require(plyr)) stop("plyr package is unavailable.")
+  .format <- match.arg(.format)
+ 
+#   if (.format == "grid") stop("grid temporarily disabled in prep for conversion to dplyr")
+
+#   if (.format %in% c("grid") && !require(dplyr)) stop("dplyr package is unavailable.")
 
   evalF <- evalFormula(formula, data=data)
   
@@ -213,7 +213,6 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
     if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
   }
-
 # this should now be standardized by the call to mosaic_formula_q() above.
 #  if ( is.null( evalF$left ) ) {
 #    evalF$left <- evalF$right
@@ -223,22 +222,25 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     
   if ( is.null(evalF$left) || ncol(evalF$left) < 1 )  {
     if (ncol(evalF$right) > 1) warning("Too many variables in rhs; ignoring all but first.")
-    if (method=="ddply") {
-      return(ddply(evalF$right[,1,drop=FALSE], names(NULL),
+    if (.format=="grid") {
+      return(plyr::ddply(evalF$right[,1,drop=FALSE], names(NULL),
                    function(x) do.call(FUN, list(evalF$right[,1], ...)) 
       )[,-1])  # remove the .id column since it is uninteresting here.
     }
     return( do.call(FUN, alist(evalF$right[,1], ...) ) )
   } else {
     if (ncol(evalF$left) > 1) warning("Too many variables in lhs; ignoring all but first.")
-    if (method=='ddply') {
-      res <-  ddply( joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
-                     union(names(evalF$right), names(evalF$condition)),
-                     function(x) do.call(FUN, list(x[,1], ...))
+    if (.format=='grid') {
+      res <-  plyr::ddply( 
+        joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
+        union(names(evalF$right), names(evalF$condition)),
+        function(x) do.call(FUN, list(x[,1], ...))
       )
       
     } else {
-      res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
+      res <- lapply( split( evalF$left[,1], 
+                            joinFrames(evalF$right, evalF$condition), 
+                            drop=drop),
                      function(x) { do.call(FUN, alist(x, ...) ) }
       )
       
