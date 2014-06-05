@@ -9,6 +9,7 @@ Depends:
     grid,
     lattice (>= 0.20-21),
     ggplot2,
+    dplyr,
     car
 Imports:
     Hmisc,
@@ -16,7 +17,6 @@ Imports:
     utils,
     splines,
     latticeExtra,
-    dplyr,
     magrittr
 Suggests:
     MASS,
