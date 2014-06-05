@@ -46,20 +46,22 @@ mplot <- function(object, ...) {
 #' responds to a prompt.
 #' @param multiplot if TRUE and \code{ask == FALSE}, all plots will be 
 #' displayed together.
+#' @param title title used for multi-plots
 #' @param ... additional arguments.  If \code{object} is an \code{lm}, these
 #' are passed to \code{grid.arrange};
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
 #' @examples
-#' mplot( lm( width ~ length + sex, data=KidsFeet), w=1:6, nrow=3 )
-#' mplot( lm( width ~ length + sex, data=KidsFeet), w=1:6, nrow=3, 
-#' system="ggplot2" )
+#' mplot( lm( width ~ length + sex, data=KidsFeet) )
 #' @export
 
-mplot.lm <- function(object, which=c(1:3, 5), 
+mplot.lm <- function(object, which=c(1:3, 7), 
                      system=c("lattice","ggplot2","base"),
                      ask=FALSE, 
                      multiplot=TRUE,
+                     par.settings = theme.mosaic(),
+                     level=.95,
+                     title=paste("model: ", deparse(object$call), "\n"),
                      ...){
   
   system <- match.arg(system)
@@ -68,7 +70,7 @@ mplot.lm <- function(object, which=c(1:3, 5),
     return(plot( object, which=intersect(which, 1:6)))
   }
   
-  fdata <- ggplot2::fortify(object)
+  fdata <- fortify(object)
   fdata <- cbind(fdata, row=1:nrow(fdata))
   
   if (!inherits(object, "lm")) 
@@ -101,7 +103,8 @@ mplot.lm <- function(object, which=c(1:3, 5),
                 },
                 main="Residuals vs Fitted",
                 xlab="Fitted Value",
-                ylab="Residual"
+                ylab="Residual",
+                par.settings=par.settings
   )
   
   # normal qq
@@ -123,7 +126,8 @@ mplot.lm <- function(object, which=c(1:3, 5),
                 },
                 main="Normal Q-Q",
                 xlab="Theoretical Quantiles",
-                ylab=ylab23
+                ylab=ylab23,
+                par.settings=par.settings
   )
   
   # scale-location
@@ -132,7 +136,8 @@ mplot.lm <- function(object, which=c(1:3, 5),
     geom_point() +
     geom_smooth(se=FALSE) +
     scale_x_continuous("Fitted Values") +
-    scale_y_continuous("Root of Standardized Residuals") +
+    scale_y_continuous(as.expression(
+      substitute(sqrt(abs(YL)), list(YL = as.name(ylab23))) )) +
     labs(title="Scale-Location")
   
   l3 <- xyplot( sqrt(abs(.stdresid)) ~ .fitted, data=fdata,
@@ -141,7 +146,8 @@ mplot.lm <- function(object, which=c(1:3, 5),
                 xlab="Fitted Value",
                 ylab=as.expression(
                   substitute(sqrt(abs(YL)), list(YL = as.name(ylab23)))
-                )
+                ),
+                par.settings=par.settings
   )
   
   # cook's distance
@@ -155,7 +161,8 @@ mplot.lm <- function(object, which=c(1:3, 5),
                 type=c("p","h"),
                 main="Cook's Distance",
                 xlab="Observation number",
-                ylab="Cook's distance"
+                ylab="Cook's distance",
+                par.settings=par.settings
   )
   
   # residuals vs leverage
@@ -175,7 +182,8 @@ mplot.lm <- function(object, which=c(1:3, 5),
                 },
                 main="Residuals vs Leverage",
                 xlab="Leverage",
-                ylab="Standardized Residuals"
+                ylab="Standardized Residuals",
+                par.settings=par.settings,
   )
   
   # cooksd vs leverage
@@ -190,42 +198,45 @@ mplot.lm <- function(object, which=c(1:3, 5),
                 type = c("p", "smooth"),
                 main="Cook's dist vs Leverage",
                 xlab="Leverage",
-                ylab="Cook's distance"
+                ylab="Cook's distance",
+                par.settings=par.settings
   )
+
+  g7 <- mplot(summary(object), level=level, ..., system="ggplot2")
   
-  g7 <- mplot(summary(object, ...), system="ggplot2")
-  l7 <- mplot(summary(object, ...), system="lattice")
+  l7 <- mplot(summary(object), level=level, ..., system="lattice")
   
   plots <- if (system == "ggplot2") {
     list(g1, g2, g3, g4, g5, g6, g7)
   } else {
-    list(l1, l2, l3, l4, l5, l6, l7)
+    lapply( list(l1, l2, l3, l4, l5, l6, l7), 
+            function(x) update(x, par.settings=par.settings))
   }
   
   plots <- plots[which] 
   
   if (ask) {
     for (p in plots) {
-      .devnull <- readLines("Hit <RETURN> for next plot")
+      readline("Hit <RETURN> for next plot")
       print(p)
     }
   } 
   if (multiplot) {
-    return( 
-      do.call(
-        grid.arrange, 
-        c(plots, list(...))
-      )
+    result <-  do.call(
+      arrangeGrob, 
+      c(plots, main=title, list(...))
     )
+    return(result)
   }
-
   return(plots)
 }
 
 #' @rdname mplot
 #' @examples
+#' \dontrun{
 #' mplot( HELPrct )
 #' mplot( HELPrct, "histogram" )
+#' }
 #' @export
 
 mplot.data.frame <- function (object, default = plotTypes, system = c("lattice", "ggplot2"), 
@@ -278,6 +289,24 @@ fortify.summary.lm <- function(model, data=NULL, level=0.95, ...) {
   return(E)
 }
 
+#' @rdname fortify
+#' @export
+
+fortify.summary.glm <- function(model, data=NULL, level=0.95, ...) {
+  E <- as.data.frame(coef(model, level=level))
+  # grab only part of the third name that comes before space
+  statName <- strsplit(names(E)[3], split=" ")[[1]][1]
+  names(E) <- c("estimate", "se", "stat", "pval")
+  # add coefficient names to data frame
+  E$coef <- row.names(E)
+  E$statName <- statName
+  E <- mutate(E, 
+              lower = estimate + qnorm((1-level)/2) * se,
+              upper = estimate + qnorm(1-(1-level)/2) * se,
+              level = level)
+  return(E)
+}
+
 #' @rdname confint
 #' @param object and R object
 #' @param parm a vector of parameters
@@ -307,6 +336,7 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 
 #' @rdname mplot
 #' @param level a confidence level
+#' @param par.settings \pkg{lattice} theme settings 
 #' @examples
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)))
 #' @export
@@ -314,21 +344,22 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 mplot.summary.lm <- function(object, 
                              system=c("lattice","ggplot2"),
                              level=0.95,
+                             par.settings = trellis.par.get(),
                              ...){
-  
   system <- match.arg(system)
-  fdata <- fortify(object, level=0.95)
+  fdata <- fortify(object, level=level)
   
   g <- ggplot(data=fdata,
               aes(x=factor(coef, labels=coef), y=estimate, 
-                  ymin=estimate-se, ymax=estimate+se, 
+                  ymin=lower, ymax=upper, 
                   color=log10(pval)) ) + 
     geom_pointrange() + 
     geom_hline(x=0, color="red", alpha=.5, linetype=2) + 
     labs(x="coefficient", title = paste0(format(100*level), "% confidence intervals") ) +
     coord_flip()
   
-  cols <- trellis.par.get("superpose.line")$col[1 + as.numeric( sign(fdata$lower) * sign(fdata$upper) < 0)]
+  cols <- par.settings$superpose.line$col[1 + 
+            as.numeric( sign(fdata$lower) * sign(fdata$upper) < 0)]
   l <- xyplot( factor(coef, levels=coef) ~ estimate + lower + upper,
                data=fdata,
                xlab="estimate",
@@ -337,7 +368,7 @@ mplot.summary.lm <- function(object,
                panel = function(x, y, subscripts, ...) {
                  panel.abline(v=0, col="red", alpha=.5, lty=2) 
                  panel.segments(y0=y, y1=y, x0=fdata$lower, x1=fdata$upper,
-                                alpha=.6, 
+                                alpha=.6, lwd=2,
                                 col=cols[subscripts]
                  )
                  panel.xyplot(fdata$estimate, y, type=c('p', 'g'), 
@@ -352,6 +383,85 @@ mplot.summary.lm <- function(object,
   }
 }
 
+
+#' @export
+ 
+mplot.summary.glm <- mplot.summary.lm
+
+#' @rdname fortify
+#' @param model an R object
+#' @param data original data set, if needed
+#' @param ... additional arguments
+#' @examples
+#' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+#' @export
+ 
+fortify.TukeyHSD <- function(model, data, ...) {
+  nms <- names(model)
+  l <- length(model)
+  plotData <- do.call( 
+    rbind, 
+    lapply(seq_len(l), function(i) {
+      res <- transform(as.data.frame(model[[i]]), 
+                       var=nms[[i]], 
+                       pair=row.names(model[[i]]) ) 
+    } ) 
+  )
+  names(plotData) <- c("diff", "lwr", "upr", "pval", "var", "pair")
+  return(plotData)
+}  
+
+#' @rdname mplot
+#' @param xlab label for x-axis
+#' @param ylab label for y-axis
+#' @param title title for plot
+#' @examples
+#' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
+#' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
+#' @export
+
+mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 
+                           ylab="", xlab="difference in means", 
+                           title="Tukey's Honest Significant Differences",
+                           par.settings=trellis.par.get(),
+                           ...) {
+  
+  system = match.arg(system)
+  fdata <- fortify(object)
+  
+  if (system=="ggplot2") {
+    return(
+      ggplot( data=fdata,
+              aes(x=diff, color=log10(pval), y=pair) ) +
+        geom_point(size=2) +
+        geom_segment(aes(x=lwr, xend=upr, y=pair, yend=pair) ) +
+        geom_vline( xintercept=0, color="red", linetype=2, alpha=.5 ) + 
+        facet_grid( var ~ ., scales = "free_y") +
+        labs(x=xlab, y=ylab, title=title)
+    )
+  }
+
+  cols <- par.settings$superpose.line$col[1 + 
+            as.numeric( sign(fdata$lwr) * sign(fdata$upr) < 0)]
+  return( 
+    xyplot( pair ~ diff + lwr + upr | var, data=fdata, 
+            panel=function(x,y,subscripts,...) {
+              n <- length(x)
+              m <- round(n/3)
+              print(list(n=n, m=m, subscripts=subscripts))
+              panel.abline(v=0, col="red", lty=2, alpha=.5)
+              panel.segments(x0=x[(m+1):(2*m)], x1=x[(2*m+1):(3*m)], y0=y, y1=y, col=cols[subscripts])
+              panel.xyplot(x[1:m], y, cex=1.4, pch=16, col=cols[subscripts])
+            },
+            scales = list( y=list(relation="free", rot=30) ),
+            xlab=xlab,
+            ylab=ylab,
+            main=title,
+            ...
+    )
+  )
+  
+}
 
 
 #' @rdname fortify
@@ -389,6 +499,7 @@ fortify.TukeyHSD <- function(model, data, ...) {
 mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 
                            ylab="", xlab="difference in means", 
                            title="Tukey's Honest Significant Differences",
+                           par.settings = trellis.par.get(),
                            ...) {
   
   system = match.arg(system)
@@ -406,7 +517,9 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
     )
   }
 
-  cols <- trellis.par.get("superpose.line")$col[1 + as.numeric( sign(fdata$lwr) * sign(fdata$upr) < 0)]
+  cols <- par.settings$superpose.line$col[1 + 
+            as.numeric( sign(fdata$lwr) * sign(fdata$upr) < 0)]
+    
   return( 
     xyplot( pair ~ diff + lwr + upr | var, data=fdata, 
             panel=function(x,y,subscripts,...) {
@@ -426,3 +539,4 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
   )
   
 }
+
