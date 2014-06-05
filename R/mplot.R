@@ -223,18 +223,13 @@ mplot.lm <- function(object, which=c(1:3, 5),
 }
 
 #' @rdname mplot
-#' @param envir an environment for evaluation
-#' @param enclos an enclosure for evaluation
 #' @examples
 #' mplot( HELPrct )
 #' mplot( HELPrct, "histogram" )
 #' @export
 
 mplot.data.frame <- function (object, default = plotTypes, system = c("lattice", "ggplot2"), 
-                              show = FALSE, title = "", ..., 
-                              envir=parent.frame(),
-                              enclos = if (is.list(envir) || 
-                                             is.pairlist(envir)) parent.frame() else baseenv()
+                              show = FALSE, title = "", ...
                               ) {
   if (missing(default)) 
     default <- "scatter"
@@ -248,19 +243,19 @@ mplot.data.frame <- function (object, default = plotTypes, system = c("lattice",
     default <- "scatter"
   if (default %in% c("scatter", "jitter", "boxplot", "violin")) {
     return(eval(parse(text = paste("mScatter(", dataName, 
-                                   ", default=default, system=system, show=show, title=title)")),
-                envir = envir))
+                                   ", default=default, system=system, show=show, title=title)"))
+    ))
   }
   if (default == "map") {
     return(eval(parse(
       text = paste("mMap(", dataName, 
-                   ", default=default, system=system, show=show, title=title)")),
-      envir = envir))
+                   ", default=default, system=system, show=show, title=title)"))
+    ))
   }
   return(eval(parse(
     text = paste("mUniplot(", dataName, 
-                 ", default=default, system=system, show=show, title=title)")),
-    envir = envir))
+                 ", default=default, system=system, show=show, title=title)"))
+  ))
 }
 
 #' Extract data from R objects

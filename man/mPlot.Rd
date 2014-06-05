@@ -13,9 +13,7 @@ mplot(object, ...)
   "ggplot2", "base"), ask = FALSE, multiplot = TRUE, ...)
 
 \method{mplot}{data.frame}(object, default = plotTypes,
-  system = c("lattice", "ggplot2"), show = FALSE, title = "", ...,
-  envir = parent.frame(), enclos = if (is.list(envir) || is.pairlist(envir))
-  parent.frame() else baseenv())
+  system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
 
 \method{mplot}{summary.lm}(object, system = c("lattice", "ggplot2"),
   level = 0.95, ...)
@@ -65,10 +63,6 @@ displayed together.}
 are passed to \code{grid.arrange};
 \code{nrow} and \code{ncol} can be used to control the number of rows
 and columns used.}
-
-\item{envir}{an environment for evaluation}
-
-\item{enclos}{an enclosure for evaluation}
 
 \item{level}{a confidence level}
 
