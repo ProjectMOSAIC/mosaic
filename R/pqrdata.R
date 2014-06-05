@@ -117,6 +117,8 @@ cdata_f <- aggregatingFunction1( cdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' pdata(3:6, Sepal.Length, data=iris)
 #' pdata(3:6, ~Sepal.Length, data=iris)
 #' pdata(3:6, Sepal.Length, data=iris)
+#' @export
+
 pdata <- function (q, vals, data = NULL, ...) 
 {
   vals_call <- substitute(vals)
@@ -131,6 +133,7 @@ pdata <- function (q, vals, data = NULL, ...)
 #' @param x an object
 #' @param lower.tail a logical indicating whether to use the lower or upper tail probability
 #' @rdname pqrdata2
+#' @export
 
 pdata_v <- function(x, q, lower.tail=TRUE, ... ) {
   .check_for_quant_input(x)
@@ -144,6 +147,8 @@ pdata_v <- function(x, q, lower.tail=TRUE, ... ) {
 }
 
 #' @rdname pqrdata2
+#' @export
+
 pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 
 
@@ -169,11 +174,15 @@ rdata <- function (n, vals, data = NULL, ...)
 }
  
 #' @rdname pqrdata2
+#' @export
+
 rdata_v <- function(vals, n, replace=TRUE, ... ) {
   sample( vals, n, replace=replace, ...)
 }
 
 #' @rdname pqrdata2
+#' @export
+
 rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 
 #' @rdname pqrdata
@@ -195,6 +204,8 @@ ddata <- function (q, vals, data = NULL, ...)
 }
 
 #' @rdname pqrdata2
+#' @export
+
 ddata_v <- function(vals, q, ..., data=NULL, log=FALSE, na.rm=TRUE) {
         if( !is.null(data) ) {
          vals = eval( substitute(vals), data, enclos=parent.frame())
@@ -206,6 +217,8 @@ ddata_v <- function(vals, q, ..., data=NULL, log=FALSE, na.rm=TRUE) {
 }
 
 #' @rdname pqrdata2
+#' @export
+
 ddata_f <- aggregatingFunction1( ddata_v, output.multiple=TRUE, na.rm=TRUE )
 
 .check_for_quant_input <- function(x) {
