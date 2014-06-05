@@ -68,6 +68,10 @@ tally <- function(x, ...) {
 }
 
 #' @rdname tally
+#' @param wt for weighted tallying, 
+#'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
+#' @param sort a logical, 
+#'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
 #' @export
 tally.tbl <- function(x, wt, sort=FALSE, ...) {
   dplyr::tally(x, wt, sort=sort)

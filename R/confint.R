@@ -4,10 +4,6 @@
 #' on numerical vectors and numerical components of data frames.
 #' @rdname confint
 #'
-#' @param object The data frame or numerical vector.
-#' @param parm not used -- for compatibility with other confint methods
-#' @param level confidence level (default 0.95)
-#' @param \dots additional arguments (currently ignored)
 #' @param method either "stderr" (default) or "quantile".  ("se" and "percentile" are 
 #' allowed as aliases) or a vector containing both.
 #' @param margin.of.error if true, report intervals as a center and margin of error.

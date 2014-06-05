@@ -1,4 +1,9 @@
 
+tryCatch(utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
+                                  '.stdresid', '.cooksd', '.fitted', 
+                                  '.hat', 'grid.arrange',  'estimate','se')), 
+         error=function(e) message('Looks like you should update R.'))
+
 #' Generic plotting
 #' 
 #' Generic function plotting for R objects.  Currently plots exist for 
@@ -13,13 +18,36 @@ mplot <- function(object, ...) {
 }
 
 #' @rdname mplot
+#' @param data a data frame containing the variables that might be used in the plot.
+#' Note that for maps, the data frame must contain coordinates of the polygons 
+#' comprising the map and a variable for determining which corodiantes are part
+#' of the same region.  See \code{\link{sp2df}} for one way to create such
+#' a data frame.  Typically \code{\link{merge}} will be used to combine the map
+#' data with some auxilliary data to be displayed as fill color on the map, although
+#' this is not necessary if all one wants is a map.
+#' @param default default type of plot to create; one of 
+#' \code{"scatter"},
+#' \code{"jitter"},
+#' \code{"boxplot"},
+#' \code{"violin"},
+#' \code{"histogram"},
+#' \code{"density"},
+#' \code{"frequency polygon"},
+#' \code{"xyplot"}, 
+#' or
+#' \code{"map"}.  Unique prefixes suffice.
+#' @param system which graphics system to use (initially) for plotting (\pkg{ggplot2} 
+#'   or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
+#' @param show a logical, if \code{TRUE}, the code will be displayed each time the plot is 
+#'   changed.
+#' @return Nothing.  Just for side effects. 
 #' @param which a numeric vector used to select from 7 potential plots
 #' @param ask if TRUE, each plot will be displayed separately after the user 
 #' responds to a prompt.
 #' @param multiplot if TRUE and \code{ask == FALSE}, all plots will be 
 #' displayed together.
 #' @param ... additional arguments.  If \code{object} is an \code{lm}, these
-#' are passed to \code{\link{grid.arrange}},
+#' are passed to \code{grid.arrange};
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
 #' @export
@@ -194,10 +222,12 @@ mplot.lm <- function(object, which=c(1:3, 5),
 }
 
 #' @rdname mplot
-#' @export
+#' @param envir an environment for evaluation
+#' @param enclos an enclosure for evaluation
 #' @examples
 #' mplot( HELPrct )
 #' mplot( HELPrct, "histogram" )
+#' @export
 
 mplot.data.frame <- function (object, default = plotTypes, system = c("lattice", "ggplot2"), 
                               show = FALSE, title = "", ..., 
@@ -235,11 +265,9 @@ mplot.data.frame <- function (object, default = plotTypes, system = c("lattice",
 #' Extract data from R objects
 #' 
 #' @rdname fortify
-#' @param model an R object to fortify
 #' @param level confidence level
-#' @param data a data frame (ignored by \code{fortify.summary.lm})
 #' @export
-fortify.summary.lm <- function(model, level=0.95, data=NULL, ...) {
+fortify.summary.lm <- function(model, data=NULL, level=0.95, ...) {
   E <- as.data.frame(coef(model, level=level))
   # grab only part of the third name that comes before space
   statName <- strsplit(names(E)[3], split=" ")[[1]][1]
@@ -281,10 +309,10 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 }
 
 #' @rdname mplot
-#' 
-#' @export
+#' @param level a confidence level
 #' @examples
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)))
+#' @export
  
 mplot.summary.lm <- function(object, 
                              system=c("lattice","ggplot2"),
@@ -332,6 +360,7 @@ mplot.summary.lm <- function(object,
 #' @rdname fortify
 #' @param model an R object
 #' @param data original data set, if needed
+#' @param ... additional arguments
 #' @export
 #' @examples
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))

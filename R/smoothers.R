@@ -77,6 +77,7 @@ smoother <- function(formula, data, span=0.5, degree=2, ... ) {
 }
 # =============================
 #' @rdname FunctionsFromData
+#' @export
 linearModel <- function(formula, data, ...) {
   input.names <- all.vars(formula)[-1]
   L <- lm(update(formula,~-1+.), data, ...)

@@ -4,20 +4,18 @@
 \alias{fortify.summary.lm}
 \title{Extract data from R objects}
 \usage{
-\method{fortify}{summary.lm}(model, level = 0.95, data = NULL, ...)
+\method{fortify}{summary.lm}(model, data = NULL, level = 0.95, ...)
 
 \method{fortify}{TukeyHSD}(model, data, ...)
 }
 \arguments{
-\item{model}{an R object to fortify}
-
 \item{level}{confidence level}
-
-\item{data}{a data frame (ignored by \code{fortify.summary.lm})}
 
 \item{model}{an R object}
 
 \item{data}{original data set, if needed}
+
+\item{...}{additional arguments}
 }
 \description{
 Extract data from R objects

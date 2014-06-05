@@ -27,6 +27,32 @@ mplot(object, ...)
 \arguments{
 \item{object}{an R object from which a plot will be constructed.}
 
+\item{data}{a data frame containing the variables that might be used in the plot.
+Note that for maps, the data frame must contain coordinates of the polygons
+comprising the map and a variable for determining which corodiantes are part
+of the same region.  See \code{\link{sp2df}} for one way to create such
+a data frame.  Typically \code{\link{merge}} will be used to combine the map
+data with some auxilliary data to be displayed as fill color on the map, although
+this is not necessary if all one wants is a map.}
+
+\item{default}{default type of plot to create; one of
+\code{"scatter"},
+\code{"jitter"},
+\code{"boxplot"},
+\code{"violin"},
+\code{"histogram"},
+\code{"density"},
+\code{"frequency polygon"},
+\code{"xyplot"},
+or
+\code{"map"}.  Unique prefixes suffice.}
+
+\item{system}{which graphics system to use (initially) for plotting (\pkg{ggplot2}
+or \pkg{lattice}).  A check box will allow on the fly change of plotting system.}
+
+\item{show}{a logical, if \code{TRUE}, the code will be displayed each time the plot is
+changed.}
+
 \item{which}{a numeric vector used to select from 7 potential plots}
 
 \item{ask}{if TRUE, each plot will be displayed separately after the user
@@ -36,15 +62,24 @@ responds to a prompt.}
 displayed together.}
 
 \item{...}{additional arguments.  If \code{object} is an \code{lm}, these
-are passed to \code{\link{grid.arrange}},
+are passed to \code{grid.arrange};
 \code{nrow} and \code{ncol} can be used to control the number of rows
 and columns used.}
+
+\item{envir}{an environment for evaluation}
+
+\item{enclos}{an enclosure for evaluation}
+
+\item{level}{a confidence level}
 
 \item{xlab}{label for x-axis}
 
 \item{ylab}{label for y-axis}
 
 \item{title}{title for plot}
+}
+\value{
+Nothing.  Just for side effects.
 }
 \description{
 Generic function plotting for R objects.  Currently plots exist for

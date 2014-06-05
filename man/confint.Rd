@@ -17,14 +17,6 @@
 \method{confint}{summary.lm}(object, parm, level = 0.95, ...)
 }
 \arguments{
-\item{object}{The data frame or numerical vector.}
-
-\item{parm}{not used -- for compatibility with other confint methods}
-
-\item{level}{confidence level (default 0.95)}
-
-\item{\dots}{additional arguments (currently ignored)}
-
 \item{method}{either "stderr" (default) or "quantile".  ("se" and "percentile" are
 allowed as aliases) or a vector containing both.}
 

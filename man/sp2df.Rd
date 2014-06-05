@@ -20,7 +20,7 @@ if(require(maptools)) {
   worldmap <- sp2df(wrld_simpl)
 }
 
-if ( require(ggplot2) && require(maptools) && require(plyr) ) {
+if ( require(ggplot2) && require(maptools) ) {
   data(wrld_simpl)
   World <- sp2df(wrld_simpl)
   World2 <- merge(World, Countries, by.x="NAME", by.y="maptools", all.y=FALSE)

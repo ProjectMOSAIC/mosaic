@@ -18,7 +18,7 @@ tryCatch(utils::globalVariables( c('Var') ),
 #' @export
 
 fetchGapminder1 <- function(name,value.name=NULL){
-  if (! require(reshape2) ) { stop("plyr required for this function") }
+  if (! require(reshape2) ) { stop("reshape2 required for this function") }
   if( is.null(value.name) ) # Just the base name of the file --- no extension.
     value.name <- sub("\\.[^.]+$","",basename(name))
   dat <- fetchData(name)

@@ -24,4 +24,5 @@
 #' @import splines 
 #' @import methods
 #' @import dplyr
+#' @import ggplot2
 NA
