@@ -105,7 +105,6 @@ Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 #' @examples
 #' nice_names( c("bad name", "name (crazy)", "a:b", "two-way") )
 #' @export
-
  
 nice_names <- function(x) {
 	x <- gsub('\\(Intercept\\)','Intercept', x)
@@ -378,7 +377,8 @@ setMethod("*",
     {
 		e2unevaluated = substitute(e2)
 		if ( ! is.function(e2) ) {
-			e2 = function(){eval.parent(e2unevaluated, n=1) }   
+      frame <- parent.frame()
+			e2 = function(){eval(e2unevaluated, envir=frame) }   
 		}
 		n = e1@n
 
