@@ -1,7 +1,7 @@
 
 tryCatch(utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
                                   '.stdresid', '.cooksd', '.fitted', 
-                                  'lower', 'uppper',
+                                  'lower', 'upper',
                                   '.hat', 'grid.arrange',  'estimate','se')), 
          error=function(e) message('Looks like you should update R.'))
 
@@ -225,7 +225,7 @@ mplot.lm <- function(object, which=c(1:3, 7),
   if (multiplot) {
     result <-  do.call(
       arrangeGrob, 
-      c(plots, main=title, list(...))
+      c(plots, list(main=title, ...))
     )
     return(result)
   }
@@ -353,10 +353,11 @@ mplot.summary.lm <- function(object,
   g <- ggplot(data=fdata,
               aes(x=factor(coef, labels=coef), y=estimate, 
                   ymin=lower, ymax=upper, 
-                  color=log10(pval)) ) + 
-    geom_pointrange() + 
+                  color=factor(pval < (1-level)/2))) + 
+    geom_pointrange(size=1.2) + 
     geom_hline(x=0, color="red", alpha=.5, linetype=2) + 
     labs(x="coefficient", title = paste0(format(100*level), "% confidence intervals") ) +
+    theme(legend.position="none") +
     coord_flip()
   
   cols <- par.settings$superpose.line$col[1 + 
@@ -443,7 +444,6 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
             panel=function(x,y,subscripts,...) {
               n <- length(x)
               m <- round(n/3)
-              print(list(n=n, m=m, subscripts=subscripts))
               panel.abline(v=0, col="red", lty=2, alpha=.5)
               panel.segments(x0=x[(m+1):(2*m)], x1=x[(2*m+1):(3*m)], y0=y, y1=y, col=cols[subscripts])
               panel.xyplot(x[1:m], y, cex=1.4, pch=16, col=cols[subscripts])
@@ -518,7 +518,6 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
             panel=function(x,y,subscripts,...) {
               n <- length(x)
               m <- round(n/3)
-              print(list(n=n, m=m, subscripts=subscripts))
               panel.abline(v=0, col="red", lty=2, alpha=.5)
               panel.segments(x0=x[(m+1):(2*m)], x1=x[(2*m+1):(3*m)], y0=y, y1=y, col=cols[subscripts])
               panel.xyplot(x[1:m], y, cex=1.4, pch=16, col=cols[subscripts])
