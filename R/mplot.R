@@ -67,6 +67,12 @@ mplot.lm <- function(object, which=c(1:3, 7),
   
   system <- match.arg(system)
   
+  if (multiplot && ! "package:gridExtra" %in% search()) {
+    message("multiplot = TRUE only works when 'gridExtra' is loaded.")
+    message("    I'm setting multiplot = FALSE and continuing.")
+    multiplot <- FALSE
+  }
+  
   if (system == "base") {
     return(plot( object, which=intersect(which, 1:6)))
   }
