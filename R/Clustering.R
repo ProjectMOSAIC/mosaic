@@ -79,6 +79,7 @@ fortify.hclust <- function(model, data,
 #' fortify(Cl, which="data", data=KidsFeet2) %>% head(3)
 #' fortify(Cl, which="labels") %>% head(3)
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=2)
+#' mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
 #' @export
@@ -98,7 +99,10 @@ mplot.hclust <- function(object, data, colorize = TRUE, k=1,
   if (heatmap) {
     HeatMapData <- fortify(object, data, which="heatmap") %>%
       mutate(h = rescale(variable_num, heatmap * max(object$height) * c(-1/12, -1)))
-    
+    TicksData <-  
+      HeatMapData %>%  
+      group_by(variable) %>% 
+      summarise(pos=unique(variable_num), h=unique(h)) 
     p <- p + 
       geom_tile(data=HeatMapData,
                 aes(x=position, 
@@ -108,13 +112,19 @@ mplot.hclust <- function(object, data, colorize = TRUE, k=1,
       geom_text(data=HeatMapData,
                 aes(x=position, y= h, label=idx), 
                 colour=enumerate, size=3, angle=90) +
-      geom_text(data = HeatMapData %>% 
-                  group_by(variable) %>% 
-                  summarise(pos=unique(variable_num), h=min(h)), 
-                aes(x = 0, y = h, label=variable),
-                hjust=1)  
+      scale_y_continuous(
+        breaks = TicksData$h,
+        labels = TicksData$variable
+      )
+#      geom_text(data = HeatMapData %>% 
+#                  group_by(variable) %>% 
+#                  summarise(pos=unique(variable_num), h=min(h)), 
+#                aes(x = 0, y = h, label=variable),
+#                hjust=1)  
   }
-  p <- p + theme_dendro()
+  p <- p + theme_minimal() + 
+           labs(x="", y="") + 
+           theme(axis.ticks.y=element_blank())
   p
 }
 
