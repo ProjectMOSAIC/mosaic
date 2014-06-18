@@ -16,16 +16,19 @@
 #' \url{http://mosaic-web.org}
 #'
 #' @keywords package
+#' @importFrom car deltaMethod
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
 #' @importFrom Hmisc xYplot
 #' @importFrom gridExtra grid.arrange arrangeGrob
+#' @importFrom ggdendro segment label dendro_data dendro_data.hclust
+#' @importFrom reshape2 melt acast dcast
+#' @import methods
+#' @import dplyr
 #' @import grid    
 #' @import lattice
-#' @import splines 
-#' @import methods
-#' @import plyr
-#' @import dplyr
 #' @import ggplot2
-#' @import ggdendro
+#' @import splines 
+#' @importFrom plyr ddply
+#' @import dplyr
 NA
