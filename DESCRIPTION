@@ -6,12 +6,13 @@ Version: 0.8-32
 Date: 2014-06-17
 Depends:
     R (>= 3.0.0),
+    car,
     dplyr,
-    grid,
     lattice (>= 0.20-21),
-    ggplot2,
-    car
+    ggplot2
 Imports:
+    grid,
+    reshape2,
     plyr,
     Hmisc,
     methods,
@@ -22,7 +23,6 @@ Imports:
     ggdendro
 Suggests:
     MASS,
-    reshape2,
     maptools,
     manipulate,
     vcd,
@@ -43,5 +43,3 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     which are usually taught in isolation, if at all.  A few features take
     advantage of the manipulate package when working in RStudio.
 License: GPL (>=2)
-LazyLoad: yes
-LazyData: yes
