@@ -71,7 +71,7 @@ fortify.hclust <- function(model, data,
 #' @param colorize whether to show clusters in different colors
 #' @param k number of clusters
 #' @param labels a logical indicating whether labels should be used
-#' to identify leaves of the tree
+#' to identify leaves of the tree.
 #' @param heatmap the ratio of size of heatmap to size of dendrogram.  
 #'   Use \code{0} or \code{FALSE} to omit the heatmap.
 #' @param enumerate a color used for numbers within heatmap.  Use 
