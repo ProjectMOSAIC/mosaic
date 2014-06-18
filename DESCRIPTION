@@ -43,3 +43,5 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     which are usually taught in isolation, if at all.  A few features take
     advantage of the manipulate package when working in RStudio.
 License: GPL (>=2)
+LazyLoad: yes
+LazyData: yes
