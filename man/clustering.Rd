@@ -17,9 +17,9 @@
 
 \item{which}{which kind of fortification to compute}
 
-\item{k}{the number of clusters to show}
-
 \item{...}{additional arguments passed on to \code{link{dendro_data}}}
+
+\item{object}{an object of class \code{"hclust"}}
 
 \item{colorize}{whether to show clusters in different colors}
 
@@ -35,6 +35,7 @@ Use \code{0} or \code{FALSE} to omit the heatmap.}
 mosaic tools for clustering
 }
 \examples{
+if (require(ggdendro)) {
 KidsFeet \%>\% select(-name, -birthmonth) \%>\% rescale() -> KidsFeet2
 M <- dist(KidsFeet2)
 Cl <- hclust(M)
@@ -46,5 +47,6 @@ mplot(Cl, data=KidsFeet2, k=4, heatmap=2)
 mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
 mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
 mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
+}
 }
 

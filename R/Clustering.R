@@ -4,7 +4,6 @@
 #' @param model a model
 #' @param data a data-like object
 #' @param which which kind of fortification to compute
-#' @param k the number of clusters to show
 #' @param ... additional arguments passed on to \code{link{dendro_data}}
 #' @export
 
@@ -64,6 +63,7 @@ fortify.hclust <- function(model, data,
 
 
 #' @rdname clustering
+#' @param object an object of class \code{"hclust"}
 #' @param colorize whether to show clusters in different colors
 #' @param k number of clusters
 #' @param heatmap the ratio of size of heatmap to size of dendrogram.  
@@ -71,6 +71,7 @@ fortify.hclust <- function(model, data,
 #' @param enumerate a color used for numbers within heatmap.  Use 
 #'   \code{"transparent"} to hide.
 #' @examples
+#' if (require(ggdendro)) {
 #' KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2
 #' M <- dist(KidsFeet2)
 #' Cl <- hclust(M)
@@ -82,6 +83,7 @@ fortify.hclust <- function(model, data,
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
+#' }
 #' @export
 
 mplot.hclust <- function(object, data, colorize = TRUE, k=1, 
