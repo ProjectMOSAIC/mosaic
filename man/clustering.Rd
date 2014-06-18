@@ -35,7 +35,6 @@ Use \code{0} or \code{FALSE} to omit the heatmap.}
 mosaic tools for clustering
 }
 \examples{
-if (require(ggdendro)) {
 KidsFeet \%>\% select(-name, -birthmonth) \%>\% rescale() -> KidsFeet2
 M <- dist(KidsFeet2)
 Cl <- hclust(M)
@@ -47,6 +46,5 @@ mplot(Cl, data=KidsFeet2, k=4, heatmap=2)
 mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
 mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
 mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
-}
 }
 
