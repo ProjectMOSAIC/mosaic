@@ -2,7 +2,6 @@
 \name{fortify.hclust}
 \alias{fortify.hclust}
 \alias{mplot.hclust}
-\title{mosaic tools for clustering}
 \usage{
 \method{fortify}{hclust}(model, data, which = c("segments", "heatmap",
   "leaves", "labels", "data"), k = 1, ...)
@@ -30,9 +29,6 @@ Use \code{0} or \code{FALSE} to omit the heatmap.}
 
 \item{enumerate}{a color used for numbers within heatmap.  Use
 \code{"transparent"} to hide.}
-}
-\description{
-mosaic tools for clustering
 }
 \examples{
 KidsFeet \%>\% select(-name, -birthmonth) \%>\% rescale() -> KidsFeet2
