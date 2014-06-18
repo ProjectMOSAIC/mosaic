@@ -10,8 +10,6 @@
 fortify.hclust <- function(model, data, 
                            which=c("segments", "heatmap", "leaves", "labels", "data"), 
                            k=1, ...) {
-  if (! (require(ggdendro) ) ) { stop("package 'ggdendro' is required") }
-  if (! (require(reshape2) ) ) { stop("package 'reshape2' is required") }
   
   which <- match.arg(which)
   
@@ -71,7 +69,6 @@ fortify.hclust <- function(model, data,
 #' @param enumerate a color used for numbers within heatmap.  Use 
 #'   \code{"transparent"} to hide.
 #' @examples
-#' if (require(ggdendro)) {
 #' KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2
 #' M <- dist(KidsFeet2)
 #' Cl <- hclust(M)
@@ -83,7 +80,6 @@ fortify.hclust <- function(model, data,
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
 #' mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
-#' }
 #' @export
 
 mplot.hclust <- function(object, data, colorize = TRUE, k=1, 
