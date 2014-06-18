@@ -24,6 +24,8 @@
 #' @import lattice
 #' @import splines 
 #' @import methods
+#' @import plyr
 #' @import dplyr
 #' @import ggplot2
+#' @import ggdendro
 NA
