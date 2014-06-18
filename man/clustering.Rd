@@ -7,8 +7,8 @@
 \method{fortify}{hclust}(model, data, which = c("segments", "heatmap",
   "leaves", "labels", "data"), k = 1, ...)
 
-\method{mplot}{hclust}(object, data, colorize = TRUE, k = 1, heatmap = 0,
-  enumerate = "white", ...)
+\method{mplot}{hclust}(object, data, colorize = TRUE, k = 1,
+  labels = FALSE, heatmap = 0, enumerate = "white", ...)
 }
 \arguments{
 \item{model}{a model}
@@ -24,6 +24,9 @@
 \item{colorize}{whether to show clusters in different colors}
 
 \item{k}{number of clusters}
+
+\item{labels}{a logical indicating whether labels should be used
+to identify leaves of the tree}
 
 \item{heatmap}{the ratio of size of heatmap to size of dendrogram.
 Use \code{0} or \code{FALSE} to omit the heatmap.}

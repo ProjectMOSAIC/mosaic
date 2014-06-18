@@ -70,6 +70,8 @@ fortify.hclust <- function(model, data,
 #' @param object an object of class \code{"hclust"}
 #' @param colorize whether to show clusters in different colors
 #' @param k number of clusters
+#' @param labels a logical indicating whether labels should be used
+#' to identify leaves of the tree
 #' @param heatmap the ratio of size of heatmap to size of dendrogram.  
 #'   Use \code{0} or \code{FALSE} to omit the heatmap.
 #' @param enumerate a color used for numbers within heatmap.  Use 
@@ -89,15 +91,27 @@ fortify.hclust <- function(model, data,
 #' @export
 
 mplot.hclust <- function(object, data, colorize = TRUE, k=1, 
-                         heatmap = 0, enumerate="white", ...) {
+                         labels = FALSE,
+                         heatmap = 0, 
+                         enumerate="white", ...) {
   ggenv <- list(h=5)
   p <- ggplot( environment = ggenv ) 
   if (colorize && k > 1) { 
-    p <- p + geom_segment(data=fortify(Cl, which="segments", k=k, ...),
-                          aes(x=x, y=y, xend=xend, yend=yend, colour=factor(group)))
+    p <- p + 
+      geom_segment(data=fortify(object, which="segments", k=k, ...),
+                   aes(x=x, y=y, xend=xend, yend=yend, colour=factor(group))) +
+      guides(colour=guide_legend(title="group"))
+      
   } else { 
-    p <- p + geom_segment(data=fortify(Cl, which="segments", ...),
+    p <- p + geom_segment(data=fortify(object, which="segments", ...),
                           aes(x=x, y=y, xend=xend, yend=yend ))
+  }
+  
+  if (labels) {
+    lobject <- fortify(object, which="leaves")
+    p <- p + 
+      scale_x_continuous(breaks = lobject$x,
+                         labels = lobject$label) 
   }
   
   if (heatmap) {
@@ -129,6 +143,10 @@ mplot.hclust <- function(object, data, colorize = TRUE, k=1,
   p <- p + theme_minimal() + 
            labs(x="", y="") + 
            theme(axis.ticks.y=element_blank())
+  if (labels) {
+    p <- p + theme(axis.text.x = element_text(angle=90, hjust=1), 
+        axis.ticks.x=element_blank())
+  }
   p
 }
 
