@@ -2,9 +2,9 @@ tryCatch(utils::globalVariables(
   c('xend','variable', 
     'Cl', 'xend', 'yend', 'variable', 'variable_num',
     'h', 'position', 'value', 'idx')), 
-         error=function(e) message('Looks like you should update R.'))
+  error=function(e) message('Looks like you should update R.'))
 
-' mosaic tools for clustering
+#' mosaic tools for clustering
 #' 
 #' @rdname clustering
 #' @param model a model
