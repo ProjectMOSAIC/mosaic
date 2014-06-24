@@ -122,6 +122,7 @@ prepanel.xhistogram <-
 #'        how bins should be striped when \code{groups} is not \code{NULL}
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param alpha transparency level
+#' @export
 panel.xhistogram <-
 function (x, 
 	dcol = trellis.par.get("plot.line")$col, dalpha=1, dlwd = 2, 
