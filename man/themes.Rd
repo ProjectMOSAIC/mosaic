@@ -4,9 +4,9 @@
 \alias{theme.mosaic}
 \title{Lattice Theme}
 \usage{
-theme.mosaic(bw = FALSE, lty = 1:7)
+theme.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1)
 
-col.mosaic(bw = FALSE, lty = 1:7)
+col.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1)
 }
 \arguments{
 \item{bw}{whether color scheme should be "black and white"}

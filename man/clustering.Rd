@@ -26,7 +26,7 @@
 \item{k}{number of clusters}
 
 \item{labels}{a logical indicating whether labels should be used
-to identify leaves of the tree}
+to identify leaves of the tree.}
 
 \item{heatmap}{the ratio of size of heatmap to size of dendrogram.
 Use \code{0} or \code{FALSE} to omit the heatmap.}

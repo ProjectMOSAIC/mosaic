@@ -4,7 +4,7 @@
 \title{Read data files}
 \usage{
 read.file(file, header = T, na.strings = c("NA", "", ".", "na", "-"),
-  comment.char = "#", ...)
+  comment.char = "#", filetype = c("default", "csv", "txt", "rdata"), ...)
 }
 \arguments{
 \item{file}{character:
@@ -23,12 +23,16 @@ read.file(file, header = T, na.strings = c("NA", "", ".", "na", "-"),
 \item{comment.char}{character: a character vector of length one containing a single character or an empty string. Use "" to turn
 off the interpretation of comments altogether.}
 
+\item{filtype}{one of \code{"default"}, \code{"csv"}, \code{"txt"}, or \code{"rdata"}
+indicating the type of file being loaded.  The default is to use the filename
+to guess the type of file.}
+
 \item{\dots}{additional arguments passed on to
   \code{\link{read.table}}, \code{\link{read.csv}}, or \code{\link{load}}.}
 }
 \value{
-A data frame, unless \code{file} ends in \code{.Rdata}, in which
-case arbitrary objects may be loaded and a character vector
+A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"},
+in which  case arbitrary objects may be loaded and a character vector
 holding the names of the loaded objects is returned invisibly.
 }
 \description{
@@ -37,8 +41,9 @@ A wrapper around
 to unify and simply reading data from files.
 }
 \details{
-\code{read.file} uses the file extension to determine how to read
-data from the file.  If \code{file} ends in \code{.Rdata}, then
+Unless \code{filetype} is specified,
+\code{read.file} uses the (case insensitive) file extension to determine how to read
+data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
 \code{\link{load}} is used to load the file.  If \code{file}
 ends in \code{.csv}, then \code{\link{read.csv}} is used.  Otherwise,
 \code{\link{read.table}} is used.
