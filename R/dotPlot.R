@@ -39,6 +39,7 @@ function (x, breaks, ..., panel = panel.dotPlot)
 }
 
 #' @rdname dotPlot
+#' @export
 
 panel.dotPlot <-
   function (x, breaks, equal.widths = TRUE, groups = NULL, 
@@ -105,11 +106,11 @@ panel.dotPlot <-
                 yvals <- 1:(h$counts[bin])
                 xvals <- rep( h$mids[bin], h$counts[bin] )
                 grid.points( 
-                  size= cex * unit( 0.8 / max(h$counts),"npc"),  
+                  size= cex * unit( 0.9 / max(h$counts), "snpc"),  
                   pch = pch, 
                   gp = gpar(fill = col, alpha = alpha, col = col, lty = lty, lwd = lwd), 
 				  		    x = xvals,
-                  y = yvals, 
+                  y = yvals - 0.5, 
 						default.units = "native")
 				pch <- pch[ -(1:h$counts[bin]) ]
 				col <- col[ -(1:h$counts[bin]) ]
