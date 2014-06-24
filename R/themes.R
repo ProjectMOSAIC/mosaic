@@ -27,7 +27,7 @@
 #' @export
  
 theme.mosaic <-
-function (bw = FALSE, lty = 1:7) 
+function (bw = FALSE, lty = if (bw) 1:7 else 1) 
 {
     aBlue <- colorRampPalette(c("white", "navy"))(10)[8]
     paleBlue <- colorRampPalette(c("white", "navy"))(10)[6]
