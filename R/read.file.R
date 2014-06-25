@@ -20,7 +20,7 @@
 #' character: a character vector of length one containing a single character or an empty string. Use "" to turn 
 #' off the interpretation of comments altogether.
 #' 
-#' @param filtype one of \code{"default"}, \code{"csv"}, \code{"txt"}, or \code{"rdata"}
+#' @param filetype one of \code{"default"}, \code{"csv"}, \code{"txt"}, or \code{"rdata"}
 #' indicating the type of file being loaded.  The default is to use the filename
 #' to guess the type of file.
 #' 
