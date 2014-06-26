@@ -51,48 +51,49 @@ function (x, y,
 	bandDots[['alpha']] <- NULL
 	bandDots[['lwd']] <- NULL
 
-	if (band.show[2])
-	do.call( panel.plotFun1, 
-			c(list(makeFun(Plower(x)~x), 
-				   col=band.col[2], 
-				   lty=band.lty[2], 
-				   npts=npts, 
-				   alpha=band.alpha[2], 
-				   lwd=band.lwd[2]),
-			  bandDots) )
+  if (band.show[2]) {
+    do.call( panel.plotFun1, 
+             c(list(makeFun(Plower(x)~x), 
+                    col=band.col[2], 
+                    lty=band.lty[2], 
+                    npts=npts, 
+                    alpha=band.alpha[2], 
+                    lwd=band.lwd[2]),
+               bandDots) )
+    
+    do.call( panel.plotFun1, 
+             c(list(makeFun(Pupper(x)~x), 
+                    col=band.col[2], 
+                    lty=band.lty[2], 
+                    alpha=band.alpha[2], 
+                    lwd=band.lwd[2],
+                    npts=npts), 
+               bandDots) )
+  }
 
-	if (band.show[2])
-	do.call( panel.plotFun1, 
-			c(list(makeFun(Pupper(x)~x), 
-				   col=band.col[2], 
-				   lty=band.lty[2], 
-				   alpha=band.alpha[2], 
-				   lwd=band.lwd[2],
-				   npts=npts), 
-			  bandDots) )
+  if (band.show[1]) {
+    do.call( panel.plotFun1, 
+             c(list(makeFun(Clower(x)~x), 
+                    col=band.col[1], 
+                    lty=band.lty[1], 
+                    alpha=band.alpha[1], 
+                    lwd=band.lwd[1],
+                    npts=npts), 
+               bandDots) )
+    
+    do.call( panel.plotFun1, 
+             c(list(makeFun(Cupper(x)~x), 
+                    col=band.col[1], 
+                    lty=band.lty[1], 
+                    alpha=band.alpha[1], 
+                    lwd=band.lwd[1],
+                    npts=npts), 
+               bandDots) )
+  }
 
-	if (band.show[1])
-	do.call( panel.plotFun1, 
-			c(list(makeFun(Clower(x)~x), 
-				   col=band.col[1], 
-				   lty=band.lty[1], 
-				   alpha=band.alpha[1], 
-				   lwd=band.lwd[1],
-				   npts=npts), 
-			  bandDots) )
+	if (fit.show) {
+	  panel.plotFun1(makeFun(fit(x) ~ x), ...)
+	}
 
-	if (band.show[1])
-	do.call( panel.plotFun1, 
-			c(list(makeFun(Cupper(x)~x), 
-				   col=band.col[1], 
-				   lty=band.lty[1], 
-				   alpha=band.alpha[1], 
-				   lwd=band.lwd[1],
-				   npts=npts), 
-			  bandDots) )
-
-	if (fit.show)
-	panel.plotFun1(makeFun(fit(x) ~ x), ...)
-
-    panel.xyplot(x, y, ...)
+  panel.xyplot(x, y, ...)
 }
