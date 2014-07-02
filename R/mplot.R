@@ -59,7 +59,7 @@ mplot <- function(object, ...) {
 mplot.lm <- function(object, which=c(1:3, 7), 
                      system=c("lattice","ggplot2","base"),
                      ask=FALSE, 
-                     multiplot=TRUE,
+                     multiplot= "package:gridExtra" %in% search(),
                      par.settings = theme.mosaic(),
                      level=.95,
                      title=paste("model: ", deparse(object$call), "\n"),
@@ -111,7 +111,8 @@ mplot.lm <- function(object, which=c(1:3, 7),
                 main="Residuals vs Fitted",
                 xlab="Fitted Value",
                 ylab="Residual",
-                par.settings=par.settings
+                par.settings=par.settings,
+                ...
   )
   
   # normal qq
@@ -134,7 +135,8 @@ mplot.lm <- function(object, which=c(1:3, 7),
                 main="Normal Q-Q",
                 xlab="Theoretical Quantiles",
                 ylab=ylab23,
-                par.settings=par.settings
+                par.settings=par.settings,
+                ...
   )
   
   # scale-location
@@ -154,7 +156,8 @@ mplot.lm <- function(object, which=c(1:3, 7),
                 ylab=as.expression(
                   substitute(sqrt(abs(YL)), list(YL = as.name(ylab23)))
                 ),
-                par.settings=par.settings
+                par.settings=par.settings,
+                ...
   )
   
   # cook's distance
@@ -169,7 +172,8 @@ mplot.lm <- function(object, which=c(1:3, 7),
                 main="Cook's Distance",
                 xlab="Observation number",
                 ylab="Cook's distance",
-                par.settings=par.settings
+                par.settings=par.settings,
+                ...
   )
   
   # residuals vs leverage
@@ -191,6 +195,7 @@ mplot.lm <- function(object, which=c(1:3, 7),
                 xlab="Leverage",
                 ylab="Standardized Residuals",
                 par.settings=par.settings,
+                ...
   )
   
   # cooksd vs leverage
@@ -206,7 +211,8 @@ mplot.lm <- function(object, which=c(1:3, 7),
                 main="Cook's dist vs Leverage",
                 xlab="Leverage",
                 ylab="Cook's distance",
-                par.settings=par.settings
+                par.settings=par.settings,
+                ...
   )
 
   g7 <- mplot(summary(object), level=level, ..., system="ggplot2")
@@ -229,12 +235,24 @@ mplot.lm <- function(object, which=c(1:3, 7),
     }
   } 
   if (multiplot) {
+    dots <- list(...)
+    nn <- intersect( 
+      union(names(formals(arrangeGrob)), names(formals(grid.layout))),
+      names(dots) 
+    )
+    dots <- dots[ nn ]
     result <-  do.call(
       arrangeGrob, 
-      c(plots, list(main=title, ...))
+      c(plots, c(list(main=title), dots))
     )
     return(result)
   }
+
+# Not sure I like this idea, so leaving it out for now
+#  if (length(plots) == 1) {
+#    return(plots[[1]])
+#  }
+  
   return(plots)
 }
 
@@ -354,33 +372,50 @@ mplot.summary.lm <- function(object,
                              par.settings = trellis.par.get(),
                              ...){
   system <- match.arg(system)
-  fdata <- fortify(object, level=level)
+  fdata <- fortify(object, level=level) %>% 
+    mutate(signif = pval < (1-level)/2 )
   
   g <- ggplot(data=fdata,
               aes(x=factor(coef, labels=coef), y=estimate, 
                   ymin=lower, ymax=upper, 
-                  color=factor(pval < (1-level)/2))) + 
+                  color=signif)) + # (pval < (1-level)/2))) + 
     geom_pointrange(size=1.2) + 
     geom_hline(x=0, color="red", alpha=.5, linetype=2) + 
     labs(x="coefficient", title = paste0(format(100*level), "% confidence intervals") ) +
     theme(legend.position="none") +
     coord_flip()
   
-  cols <- par.settings$superpose.line$col[1 + 
-            as.numeric( sign(fdata$lower) * sign(fdata$upper) < 0)]
+  cols <- rep( par.settings$superpose.line$col, length.out=2)
+  cols <- cols[2 - fdata$signif]
+  
   l <- xyplot( factor(coef, levels=coef) ~ estimate + lower + upper,
                data=fdata,
+               fdata=fdata,
                xlab="estimate",
                ylab="coefficient",
                main=paste0(format(100 * level), "% confidence intervals"),
-               panel = function(x, y, subscripts, ...) {
-                 panel.abline(v=0, col="red", alpha=.5, lty=2) 
-                 panel.segments(y0=y, y1=y, x0=fdata$lower, x1=fdata$upper,
-                                alpha=.6, lwd=2,
-                                col=cols[subscripts]
+               ...,
+               panel = function(x, y, fdata, ...) {
+                 dots <- list(...)
+                 if ("col" %in% names(dots)) {
+                   dots$col <- rep(dots$col, length.out=2) [2 - fdata$signif]
+                 } 
+                 dots <- .updateList(
+                   list(lwd = 2, alpha = 0.6, cex=1.4, col=cols),
+                   dots
                  )
-                 panel.xyplot(fdata$estimate, y, type=c('p', 'g'), 
-                              cex=1.4, col=cols[subscripts])
+                 dots[["type"]] <- NULL
+                                     
+                 panel.abline(v=0, col="red", alpha=.5, lty=2) 
+                 do.call( panel.points,
+                          c( list (x=fdata$estimate, y=y), 
+                             dots )
+                 )
+                 do.call( panel.segments, 
+                          c( list(y0=y, y1=y, x0=fdata$lower, 
+                                  x1=fdata$upper),
+                             dots )
+                 )
                }
   )
   

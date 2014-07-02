@@ -10,9 +10,9 @@
 mplot(object, ...)
 
 \method{mplot}{lm}(object, which = c(1:3, 7), system = c("lattice",
-  "ggplot2", "base"), ask = FALSE, multiplot = TRUE,
-  par.settings = theme.mosaic(), level = 0.95, title = paste("model: ",
-  deparse(object$call), "\\n"), ...)
+  "ggplot2", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
+  search(), par.settings = theme.mosaic(), level = 0.95,
+  title = paste("model: ", deparse(object$call), "\\n"), ...)
 
 \method{mplot}{data.frame}(object, default = plotTypes,
   system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
