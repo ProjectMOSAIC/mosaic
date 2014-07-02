@@ -54,27 +54,26 @@ The \texttt{mosaic} package includes a number of additional vignettes, including
 <<results='asis', echo=FALSE>>=
 cat( anitem("MinimalR-vignette.pdf", "Minimal R") )
 @
-		provides a minimal set of R commands for use in Intro Stats and disucusses why it is important
-		to keep the set of commands small
-<<results='asis', echo=FALSE>>=
-cat( anitem("Commands-vignette.pdf", "A Compendium of Commands to Teach Statistics using R") )
-@
-		describes the R commands needed for all the basic statistical procedures in an Intro Stats course;
+		provides a minimal set of R commands for use in Intro Stats and discusses why it is important to keep the set of commands small
 <<results='asis', echo=FALSE>>=
 cat( anitem("StartTeaching-vignette.pdf", "Start Teaching Statistics Using R") )
 @
 		provides an introduction to R targeted at instructors of statistics courses and
 		also discusses strategies for teaching statistics using R
 <<results='asis', echo=FALSE>>=
-cat( anitem("Resampling-vignette.pdf", "Resampling in R") )
+cat( anitem("Commands-vignette.pdf", "A Compendium of Commands to Teach Statistics using R") )
 @
-		discusses how to use R for resampling and bootstrapping in lower level statistics courses.
+		describes the R commands needed for all the basic statistical procedures in an Intro Stats course;
     <<results='asis', echo=FALSE>>=
 cat( anitem("Modeling-vignette.pdf", "Start Modeling with R") )
 @
 presents a strategy for teaching statistical modeling as a way of 
 making sense of the world by building a representation that is 
 easy to explore and manipulate.
+<<results='asis', echo=FALSE>>=
+cat( anitem("Resampling-vignette.pdf", "Resampling in R") )
+@
+		discusses how to use R for resampling and bootstrapping in lower level statistics courses.
 <<results='asis', echo=FALSE>>=
 cat( anitem("Calculus-vignette.pdf", "Start R in Calculus") )
 @
