@@ -69,8 +69,9 @@ displayed together.}
 
 \item{title}{title for plot}
 
-\item{...}{additional arguments.  If \code{object} is an \code{lm}, these
-are passed to \code{grid.arrange};
+\item{...}{additional arguments.  If \code{object} is an \code{lm}, subsets
+of these arguments are passed to \code{grid.arrange} and to the
+\pkg{lattice} plotting routines; in particular,
 \code{nrow} and \code{ncol} can be used to control the number of rows
 and columns used.}
 

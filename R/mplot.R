@@ -48,8 +48,9 @@ mplot <- function(object, ...) {
 #' @param multiplot if TRUE and \code{ask == FALSE}, all plots will be 
 #' displayed together.
 #' @param title title for plot
-#' @param ... additional arguments.  If \code{object} is an \code{lm}, these
-#' are passed to \code{grid.arrange};
+#' @param ... additional arguments.  If \code{object} is an \code{lm}, subsets
+#' of these arguments are passed to \code{grid.arrange} and to the 
+#' \pkg{lattice} plotting routines; in particular,
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
 #' @examples
@@ -66,6 +67,11 @@ mplot.lm <- function(object, which=c(1:3, 7),
                      ...){
   
   system <- match.arg(system)
+  
+  dots <- list(...)
+  if ("col" %in% names(dots)) {
+    dots$col <- dots$col[1]
+  }
   
   if (multiplot && ! "package:gridExtra" %in% search()) {
     message("multiplot = TRUE only works when 'gridExtra' is loaded.")
@@ -102,17 +108,18 @@ mplot.lm <- function(object, which=c(1:3, 7),
     scale_y_continuous("Residual") +
     labs(title="Residuals vs Fitted")
   
-  l1 <- xyplot( .resid ~ .fitted, data=fdata,
-                type=c("p","smooth"),
-                panel=function(x,y,...) {
-                  panel.abline(h=0, linetype=2, lwd=.5) 
-                  panel.xyplot(x,y,...)
-                },
-                main="Residuals vs Fitted",
-                xlab="Fitted Value",
-                ylab="Residual",
-                par.settings=par.settings,
-                ...
+  l1 <- do.call(xyplot, 
+                c(list( .resid ~ .fitted, data=fdata,
+                        type=c("p","smooth"),
+                        panel=function(x,y,...) {
+                          panel.abline(h=0, linetype=2, lwd=.5) 
+                          panel.xyplot(x,y,...)
+                        },
+                        main="Residuals vs Fitted",
+                        xlab="Fitted Value",
+                        ylab="Residual",
+                        par.settings=par.settings),
+                  dots)
   )
   
   # normal qq
@@ -127,16 +134,17 @@ mplot.lm <- function(object, which=c(1:3, 7),
     scale_y_continuous("Standardized Residuals") +
     labs(title="Normal Q-Q")
   
-  l2 <- qqmath( ~ .stdresid, data=fdata, 
-                panel=function(x,...) {
-                  panel.abline(a=int, b=slope)
-                  panel.qqmath(x,...)
-                },
-                main="Normal Q-Q",
-                xlab="Theoretical Quantiles",
-                ylab=ylab23,
-                par.settings=par.settings,
-                ...
+  l2 <- do.call(qqmath, 
+                c(list( ~ .stdresid, data=fdata, 
+                        panel=function(x,...) {
+                          panel.abline(a=int, b=slope)
+                          panel.qqmath(x,...)
+                        },
+                        main="Normal Q-Q",
+                        xlab="Theoretical Quantiles",
+                        ylab=ylab23,
+                        par.settings=par.settings),
+                  dots)
   )
   
   # scale-location
@@ -149,15 +157,16 @@ mplot.lm <- function(object, which=c(1:3, 7),
       substitute(sqrt(abs(YL)), list(YL = as.name(ylab23))) )) +
     labs(title="Scale-Location")
   
-  l3 <- xyplot( sqrt(abs(.stdresid)) ~ .fitted, data=fdata,
-                type=c("p","smooth"),
-                main="Scale-Location",
-                xlab="Fitted Value",
-                ylab=as.expression(
-                  substitute(sqrt(abs(YL)), list(YL = as.name(ylab23)))
-                ),
-                par.settings=par.settings,
-                ...
+  l3 <- do.call(xyplot, 
+                c(list( sqrt(abs(.stdresid)) ~ .fitted, data=fdata,
+                        type=c("p","smooth"),
+                        main="Scale-Location",
+                        xlab="Fitted Value",
+                        ylab=as.expression(
+                          substitute(sqrt(abs(YL)), list(YL = as.name(ylab23)))
+                        ),
+                        par.settings=par.settings),
+                  dots)  
   )
   
   # cook's distance
@@ -167,13 +176,14 @@ mplot.lm <- function(object, which=c(1:3, 7),
     scale_y_continuous("Cook's distance") +
     labs(title="Cook's Distance")
   
-  l4 <- xyplot( .cooksd ~ row, data=fdata, 
-                type=c("p","h"),
-                main="Cook's Distance",
-                xlab="Observation number",
-                ylab="Cook's distance",
-                par.settings=par.settings,
-                ...
+  l4 <- do.call( xyplot,
+                 c(list( .cooksd ~ row, data=fdata, 
+                         type=c("p","h"),
+                         main="Cook's Distance",
+                         xlab="Observation number",
+                         ylab="Cook's distance",
+                         par.settings=par.settings),
+                   dots)  
   )
   
   # residuals vs leverage
@@ -185,17 +195,18 @@ mplot.lm <- function(object, which=c(1:3, 7),
     scale_y_continuous("Standardized Residuals") +
     labs(title="Residuals vs Leverage")
   
-  l5 <- xyplot( .stdresid ~ .hat, data=fdata,
-                type=c('p','smooth'),
-                panel = function(x,y,...) {
-                  panel.abline( h=0, lty=2, lwd=.5)
-                  panel.xyplot( x, y, ...)
-                },
-                main="Residuals vs Leverage",
-                xlab="Leverage",
-                ylab="Standardized Residuals",
-                par.settings=par.settings,
-                ...
+  l5 <- do.call( xyplot, 
+                 c(list( .stdresid ~ .hat, data=fdata,
+                         type=c('p','smooth'),
+                         panel = function(x,y,...) {
+                           panel.abline( h=0, lty=2, lwd=.5)
+                           panel.xyplot( x, y, ...)
+                         },
+                         main="Residuals vs Leverage",
+                         xlab="Leverage",
+                         ylab="Standardized Residuals",
+                         par.settings=par.settings),
+                   dots)
   )
   
   # cooksd vs leverage
@@ -206,13 +217,14 @@ mplot.lm <- function(object, which=c(1:3, 7),
     scale_y_continuous("Cook's distance") +
     labs(title="Cook's dist vs Leverage")
   
-  l6 <- xyplot( .cooksd ~ .hat, data=fdata,
-                type = c("p", "smooth"),
-                main="Cook's dist vs Leverage",
-                xlab="Leverage",
-                ylab="Cook's distance",
-                par.settings=par.settings,
-                ...
+  l6 <- do.call(xyplot,
+                c(list( .cooksd ~ .hat, data=fdata,
+                        type = c("p", "smooth"),
+                        main="Cook's dist vs Leverage",
+                        xlab="Leverage",
+                        ylab="Cook's distance",
+                        par.settings=par.settings),
+                  dots)
   )
 
   g7 <- mplot(summary(object), level=level, ..., system="ggplot2")
