@@ -16,11 +16,12 @@
   facilitate plotting.
 \item \code{read.file} now handles https URLs
 \item The default for \code{useNA} in the \code{tally} function
-  has changed to \code{"ifany"}
+  has changed to \code{"ifany"}.
 \item \pkg{mosaic} now depends on \pkg{dplyr} both to use some
   of its functionality and to avoid naming collisions with functions 
   like \code{tally} and \code{do}, allowing \pkg{mosaic} and \pkg{dplyr} 
   to coexist more happily.
+}
 }
 \section{Changes in version 0.8}{
 \itemize{
