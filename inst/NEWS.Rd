@@ -1,5 +1,30 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+\section{Changes in version 0.9}{
+\itemize{
+\item A generic \code{mplot} and several instances have been
+added to make a number of plots easy to generate.  There are methods 
+for objects of classes 
+\code{"data.frame"}, 
+\code{"lm"}, 
+\code{"summary.lm"}, 
+\code{"glm"}, 
+\code{"summary.glm"}, 
+\code{"TukeyHSD"},  and 
+\code{"hclust"}.  For several of these there are also
+\code{fortify} methods that return the data frame created to 
+facilitate plotting.
+}
+\item{\code{read.file} now handles https URLs
+}
+\item{The default for \code{useNA} in the \code{tally} function
+has changed to \code{"ifany"}
+}
+\item{\pkg{mosaic} now depends on \pkg{dplyr} both to use some
+of its functionality and to avoid naming collisions with functions 
+like \code{tally} and \code{do}, allowing \pkg{mosaic} and \pkg{dplyr} to coexist more happily.
+}
+}
 \section{Changes in version 0.8}{
 \itemize{
 \item The \code{HELP} data set has been removed from the package.  
