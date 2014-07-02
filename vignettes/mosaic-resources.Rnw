@@ -31,7 +31,7 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 <<include=FALSE>>=
 pdfpath <- function(name) {
   return( 
-    paste('http://github.com/rpruim/mosaic/blob/master/inst/doc/',
+    paste('http://github.com/rpruim/mosaic/blob/master/vignettes/',
           name, "?raw=TRUE",sep="")
     )
 }
@@ -52,30 +52,30 @@ The \texttt{mosaic} package includes a number of additional vignettes, including
 \begin{description}
 
 <<results='asis', echo=FALSE>>=
-cat( anitem("MinimalR-vignette.pdf", "Minimal R") )
+cat( anitem("01-MinimalR.pdf", "Minimal R") )
 @
 		provides a minimal set of R commands for use in Intro Stats and discusses why it is important to keep the set of commands small
 <<results='asis', echo=FALSE>>=
-cat( anitem("StartTeaching-vignette.pdf", "Start Teaching Statistics Using R") )
+cat( anitem("02-StartTeaching.pdf", "Start Teaching Statistics Using R") )
 @
 		provides an introduction to R targeted at instructors of statistics courses and
 		also discusses strategies for teaching statistics using R
 <<results='asis', echo=FALSE>>=
-cat( anitem("Commands-vignette.pdf", "A Compendium of Commands to Teach Statistics using R") )
+cat( anitem("03-Commands.pdf", "A Compendium of Commands to Teach Statistics using R") )
 @
 		describes the R commands needed for all the basic statistical procedures in an Intro Stats course;
     <<results='asis', echo=FALSE>>=
-cat( anitem("Modeling-vignette.pdf", "Start Modeling with R") )
+cat( anitem("04-Modeling.pdf", "Start Modeling with R") )
 @
 presents a strategy for teaching statistical modeling as a way of 
 making sense of the world by building a representation that is 
 easy to explore and manipulate.
 <<results='asis', echo=FALSE>>=
-cat( anitem("Resampling-vignette.pdf", "Resampling in R") )
+cat( anitem("05-Resample.pdf", "Resampling in R") )
 @
 		discusses how to use R for resampling and bootstrapping in lower level statistics courses.
 <<results='asis', echo=FALSE>>=
-cat( anitem("Calculus-vignette.pdf", "Start R in Calculus") )
+cat( anitem("06-Calculus.pdf", "Start R in Calculus") )
 @
 		describes how R can be used in calculus courses
 \end{description}
