@@ -8,7 +8,6 @@
 #' 
 #' @seealso \code{\link{chisq.test}} 
 #' 
-#' @export
 #' @examples
 #' # Physicians' Health Study data
 #' phs <- cbind(c(104,189),c(10933,10845)) 
@@ -16,6 +15,7 @@
 #' colnames(phs) <- c("heart attack","no heart attack") 
 #' phs 
 #' xchisq.test(phs) 
+#' @export
 
 xchisq.test <-
 function (...) 

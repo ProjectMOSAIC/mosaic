@@ -28,7 +28,6 @@
 #' \code{derivedFactor} is designed to be used with \code{transform} to add new 
 #' factor variables to a data frame.  See the examples.
 #' 
-#' @export
 #' @examples
 #' Kf <- transform(KidsFeet, biggerfoot2=derivedFactor(
 #'                    dom = biggerfoot == domhand,
@@ -71,7 +70,8 @@
 #'   )
 #' )
 #' tally( ~drinkstat, data=modHELP )
-#' 
+#' @export
+
 derivedFactor <- function(..., 
                           .ordered=FALSE, 
                           .method = c("unique","first", "last"),

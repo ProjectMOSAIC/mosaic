@@ -6,7 +6,7 @@
 \alias{mUniplot}
 \title{Interactive plotting}
 \usage{
-mPlot(data, default = plotType, system = c("lattice", "ggplot2"),
+mPlot(data, default = plotTypes, system = c("lattice", "ggplot2"),
   show = FALSE, title = "", ...)
 
 mMap(data, default = "map", system = "ggplot2", show = FALSE,

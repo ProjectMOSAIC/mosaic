@@ -2,11 +2,20 @@
 \docType{methods}
 \name{do}
 \alias{*,repeater,ANY-method}
+\alias{Do}
 \alias{do}
+\alias{do.default}
+\alias{do.numeric}
 \alias{print,repeater-method}
 \title{Do Things Repeatedly}
 \usage{
-do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
+do(object, ...)
+
+\method{do}{numeric}(object, ...)
+
+\method{do}{default}(object, ...)
+
+Do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
   parallel = TRUE)
 
 \S4method{print}{repeater}(x, ...)
@@ -15,6 +24,8 @@ do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
 }
 \arguments{
 \item{n}{number of times to repeat}
+
+\item{object}{an object}
 
 \item{cull}{function for culling output of objects being repeated.  If NULL,
   a default culling function is used.  The default culling function is
@@ -33,23 +44,27 @@ use an older algorithm and numbers >=1 use a newer algorithm which is faster in 
 situations.}
 
 \item{parallel}{a logical indicating whether parallel computation should be attempted
-using the \pkg{parallel} package (if it is installed).}
+  using the \pkg{parallel} package (if it is installed).}
 
 \item{e1}{an object (in cases documented here, the result of running \code{do})}
 
 \item{e2}{an object (in cases documented here, an expression to be repeated)}
 
-\item{x}{an object used to select a method.}
-
 \item{...}{further arguments passed to or from other methods.}
+
+\item{x}{an object used to select a method.}
 }
 \value{
 \code{do} returns an object of class \code{repeater} which is only useful in
-the context of the operator \code{*}.  See the examples.
+  the context of the operator \code{*}.  See the examples.
 }
 \description{
 \code{do()} provides a natural syntax for repetition tuned to assist
 with replication and resampling methods.
+}
+\note{
+\code{do} is a thin wrapper around \code{Do} to avoid collision with
+  \code{\link[dplyr]{do}} from the \pkg{dplyr} package.
 }
 \examples{
 do(3) * rnorm(1)
@@ -63,7 +78,7 @@ do(3) * tally( ~sex|treat, data=resample(HELPrct))
 }
 \author{
 Daniel Kaplan (\email{kaplan@macalaster.edu})
-and Randall Pruim (\email{rpruim@calvin.edu})
+  and Randall Pruim (\email{rpruim@calvin.edu})
 }
 \seealso{
 \code{\link{replicate}}

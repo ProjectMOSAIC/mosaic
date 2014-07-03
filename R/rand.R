@@ -15,19 +15,14 @@
 #' In its intended use, the number of rows will be selected to match the 
 #' size of the data frame supplied to \code{lm}
 #' 
-#' @export
 #' @examples
 #' rand(2,nrow=4)
 #' rand(2,rdist=rpois, args=list(lambda=3), nrow=4)
 #' summary(lm( waiting ~ eruptions + rand(1), faithful))
-#' 
 #' @keywords distribution 
 #' @keywords regression 
-#' 
+#' @export
 
-#
-##########################################
-# Random number generation in modeling: for use in model formulas
 rand = function(df=1, rdist=rnorm, args=list(), nrow, seed=NULL ){
 	if(missing(nrow)) {
 		nrow <- length(get( ls( envir=parent.frame())[1], envir=parent.frame()))

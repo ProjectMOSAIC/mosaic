@@ -42,7 +42,8 @@
 #' @seealso 
 #' \code{\link{lm}}, 
 #' \code{\link{do}}
-#' 
+#' @export
+ 
 mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
   evalF <- evalFormula(formula, data)
   # placeholder for the response values
@@ -84,6 +85,8 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
 #' @param pooled Whether to use a pooled variance of residuals to compute the standard error. 
 #' (This is what \code{lm} does.)
 #' @param margin Whether to present the margin of error rather than the lower and upper bounds
+#' @export
+
 confint.groupwiseModel <- function(object, parm, level=0.95, ..., pooled=TRUE, margin=FALSE) {
   n <- length(object$fitted)
   # Find the standard error of each group
@@ -109,6 +112,8 @@ confint.groupwiseModel <- function(object, parm, level=0.95, ..., pooled=TRUE, m
 }
 
 #' @rdname mm
+#' @export
+
 coef.groupwiseModel <- function(object, ...) {
   x <- object$coefs
   if( is.numeric(x)) return(x)
@@ -142,10 +147,16 @@ print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) )
 }
 #' @rdname mm
 #' @param object groupwiseMean object from which to extract the residuals
+#' @export
+
 residuals.groupwiseModel <- function(object, ...) {object$resids}
 #' @rdname mm
+#' @export
+
 fitted.groupwiseModel <- function(object, ...) {object$fitted}
 #' @rdname mm
+#' @export
+
 summary.groupwiseModel <- function(object, ... ){
   resids <- resid(object)
   sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
@@ -159,6 +170,8 @@ summary.groupwiseModel <- function(object, ... ){
 }
 #' @rdname mm
 #' @method print summary_groupwiseModel
+#' @export
+
 print.summary_groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {
   cat("Groupwise Model\n")
   cat(paste("Call: ", deparse(x$call), "\n"))

@@ -96,6 +96,8 @@ rkFunction <- function(DE, additionalArguments=list() ) {
 #' plotFun(soln2$y(t)~t, tlim=range(0,10))
 #' # SIR epidemic
 #' epi = integrateODE(dS~ -a*S*I, dI ~ a*S*I - b*I, a=0.0026, b=.5, S=762, I=1, tdur=20)
+#' @export
+
 integrateODE = function(dyn,...,tdur) {
   new <- TRUE
   inputs <- list(dyn,...)
@@ -148,8 +150,8 @@ integrateODE = function(dyn,...,tdur) {
 #'
 #' @details
 #' This is mainly for internal use by integrateODE.
+#' @export
 
-# Runge-Kutta integration
 rkintegrate <- function(fun,x0,tstart=0,tend=1,dt=NULL) {
   if (is.null(dt)) {
     dt <- if( tend > 0 ) min(.01, (tend - tstart)/100)

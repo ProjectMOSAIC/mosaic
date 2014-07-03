@@ -23,12 +23,12 @@
 #' @param na.rm the default value for na.rm in the resulting function.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
-#' @export
 #' @examples
 #' foo <- aggregatingFunction1( base::mean )
 #' foo( ~length, data=KidsFeet )
 #' base::mean(KidsFeet$length)
 #' foo( length ~ sex, data=KidsFeet )
+#' @export
 aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
                                   envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
   result <- function( x, ..., data, groups=NULL) {
@@ -82,7 +82,7 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
     maggregate.call$data <- data 
     maggregate.call$x <- NULL
     maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
-    maggregate.call$multiple <- output.multiple
+    maggregate.call$.multiple <- output.multiple
     maggregate.call$na.rm <- substitute(na.rm)
 #    print(maggregate.call)
     return( eval(maggregate.call, envir=envir) )
@@ -102,11 +102,11 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
 #' returning a numeric vector of length 1.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
-#' @export
 #' @examples
 #' foo <- aggregatingFunction2( stats::cor)
 #' foo( length ~ width, data=KidsFeet )
 #' stats::cor( KidsFeet$length, KidsFeet$width )
+#' @export
 aggregatingFunction2 <- function( fun ) {
   result <- function( x, y=NULL, ..., data=parent.frame() ) { # , ..fun.. = fun) {
     orig.call <- match.call()
@@ -197,7 +197,6 @@ var <- aggregatingFunction1( stats::var, input.multiple=TRUE )
 #' @export
 cor <- aggregatingFunction2( stats::cor )
 #' @rdname aggregating
-#' @export
 #' 
 #' @examples
 #' mean( HELPrct$age )
@@ -218,6 +217,7 @@ cor <- aggregatingFunction2( stats::cor )
 #' 
 #' cor( length ~ width, data=KidsFeet )
 #' cov ( length ~ width, data=KidsFeet )
+#' @export
 
 cov <- aggregatingFunction2( stats::cov)
 

@@ -30,7 +30,6 @@ tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q
 #' \code{\link{plot}}. 
 #' 
 #' 
-#' @export
 #' @examples
 #' xpnorm(650, 500, 100)
 #' xqnorm(.75, 500, 100)
@@ -42,6 +41,7 @@ tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q
 #'   )
 #' }
 #' }
+#' @export
 
 xpnorm <-
 function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, digits = 4, 
@@ -87,6 +87,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
 }
 
 #' @rdname xpnorm
+#' @export
 
 xqnorm <-
 function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4, 

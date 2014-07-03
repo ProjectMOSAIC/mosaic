@@ -12,7 +12,6 @@
 #' @seealso \code{\link{do}}, \code{\link{compareProportion}} and \code{\link{shuffle}}
 #' @keywords iteration
 #' @keywords stats
-#' @export
 #' @examples
 #' data(HELPrct)
 #' # calculate the observed difference
@@ -23,6 +22,7 @@
 #'   data=HELPrct) 
 #' histogram(~ result, groups=(result >= obs), nulldist, 
 #'   xlab="difference in means")
+#' @export
 compareMean = function(formula, data=NULL, ...) {
   means = mean( formula, data=data, ... )
   if (length(means) != 2) {

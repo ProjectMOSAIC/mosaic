@@ -10,12 +10,11 @@
 #' 
 #' @return A vector of statistical summaries
 #' @keywords stats
-#' @export
 #' @examples
 #' fav_stats(1:10)
 #' fav_stats(faithful$eruptions)
 #' favstats(length ~ sex, data=KidsFeet)  # Note: this is favstats() rather than fav_stats()
-#' 
+#' @export
 
 fav_stats <- function (x, ..., na.rm = TRUE) 
 {

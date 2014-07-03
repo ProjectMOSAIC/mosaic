@@ -23,6 +23,7 @@ tryCatch(utils::globalVariables(c('model','result')),
 #' f <- makeFun( sin(x^2 * b) ~ x & y & a); f
 #' g <- makeFun( sin(x^2 * b) ~ x & y & a, a=2 ); g
 #' h <- makeFun( a * sin(x^2 * b) ~ b & y, a=2, y=3); h
+#' @export
 
 setGeneric(
 		   "makeFun",
@@ -50,8 +51,8 @@ setGeneric(
 #' f(8.4)
 #' head(KidsFeet,1)
 #' 
-# @usage
-# \S4method{makeFun}{formula} ( object, ..., strict.declaration =TRUE, use.environment=TRUE, suppress.warnings=FALSE) 
+#' @export
+
 setMethod(
   'makeFun',
   'formula',
@@ -129,9 +130,8 @@ setMethod(
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' @export
 
-# @usage
-# \S4method{makeFun}{lm} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'lm',
@@ -184,9 +184,8 @@ setMethod(
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' @export
 
-# @usage
-# \S4method{makeFun}{glm} ( object, ..., type=c('response','link'), transform=identity )
 setMethod(
   'makeFun',
   'glm',
@@ -245,9 +244,8 @@ setMethod(
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' @export
 
-# @usage
-# \S4method{makeFun}{nls} ( object, ..., transform=identity)
 setMethod(
   'makeFun',
   'nls',
@@ -300,6 +298,8 @@ setMethod(
 #' @examples
 #' model <- lm( wage ~ poly(exper,degree=2), data=CPS85 )
 #' modelVars(model)
+#' @export
+
 modelVars <- function(model) {
   formula <- as.formula(model$call$formula)
   all.vars(rhs(formula))
@@ -319,11 +319,11 @@ modelVars <- function(model) {
 #' @param object a function
 #' @param ... ignored
 #'
-#' @export
 #' @examples
 #' model <- lm( width ~ length, data=KidsFeet)
 #' f <- makeFun( model )
 #' coef(f)
+#' @export
 
 coef.function <- function(object,...) { attr(object,"coefficients") }
 

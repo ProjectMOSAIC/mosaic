@@ -36,6 +36,7 @@
 #' mat(~a+b+1)
 #' mat(~length+sex, data=KidsFeet)
 #' singvals(~length*sex*width, data=KidsFeet)
+#' @export
 
 mat <- function(A, data=parent.frame()) {
   if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")
@@ -56,6 +57,7 @@ mat <- function(A, data=parent.frame()) {
 #' @rdname linear.algebra
 #' @return \code{singvals} gives singular values for each column in the model matrix
 #' @export
+
 singvals <- function(A, data=parent.frame()){
   M <- mat(A, data=data)
   # formulated to give one singular value for each column in A

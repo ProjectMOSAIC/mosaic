@@ -4,13 +4,12 @@
 #' on numerical vectors and numerical components of data frames.
 #' @rdname confint
 #'
-#' @param object The data frame or numerical vector.
-#' @param parm not used -- for compatibility with other confint methods
-#' @param level confidence level (default 0.95)
-#' @param \dots additional arguments (currently ignored)
 #' @param method either "stderr" (default) or "quantile".  ("se" and "percentile" are 
 #' allowed as aliases) or a vector containing both.
+#'
 #' @param margin.of.error if true, report intervals as a center and margin of error.
+#' 
+#' @param ... additional arguments
 #'
 #' @return When applied to a data frame, returns a data frame giving the 
 #' confidence interval for each variable in the data frame using 
@@ -29,8 +28,9 @@
 #' confint(s, margin.of.error=TRUE, level=0.99 )
 #' s2 <- do(500)*mean( resample(1:10) ) 
 #' confint(s2)
-# ==================
-confint.numeric = function(object, parm, level=0.95, ..., method="stderr", 
+#' @export
+
+confint.numeric <- function(object, parm, level=0.95, ..., method="stderr", 
                            margin.of.error="stderr" %in% method=="stderr") {
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok=TRUE)
   result <- list()
@@ -43,9 +43,10 @@ confint.numeric = function(object, parm, level=0.95, ..., method="stderr",
   
   
 }
-# =================
+
 #' @rdname confint
-confint.do.data.frame = function(object, parm, level=0.95, ..., 
+#' @export
+confint.do.data.frame <- function(object, parm, level=0.95, ..., 
                                  method="stderr", margin.of.error="stderr" %in% method) {
   method <- match.arg(method, c("se","stderr","percentile","quantile"), several.ok=TRUE) # which method was selected
   method[method=="percentile"] <- "quantile"
@@ -96,12 +97,12 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
   return( res )
 }
 
-.turn.to.margin = function(res) {
+.turn.to.margin <- function(res) {
   data.frame( name=res$name, center=(res[[2]]+res[[3]])/2,
               margin.of.error=(res[[3]]-res[[2]])/2)
 }
 
-.mosaic.get.ci = function( vals, level, method ) {
+.mosaic.get.ci <- function( vals, level, method ) {
   alpha <- (1-level)/2
   if( method == "stderr" ) res = mean(vals, na.rm=TRUE) + 
     c(-1,1) * sd(vals, na.rm=TRUE) * qt(1-alpha, sum(!is.na(vals))-1)
@@ -111,8 +112,9 @@ confint.do.data.frame = function(object, parm, level=0.95, ...,
 }
 
 #' @rdname confint
-#' 
-confint.data.frame = function(object, parm, level=0.95, ... )  {
+#' @export
+ 
+confint.data.frame <- function(object, parm, level=0.95, ... )  {
   results <- list()
   for (c in 1:ncol(object)) {
     x <- object[,c]

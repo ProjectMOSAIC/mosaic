@@ -27,7 +27,8 @@
 #' myfun <- rfun(~ u & v, seed=1959)
 #' g <- rpoly2( ~ x&y&z, seed=1964)
 #' plotFun(g(x,y,z=2)~x&y,xlim=range(-5,5),ylim=range(-5,5))
-#' 
+#' @export
+ 
 rfun <- function(vars=~x&y, seed=NULL, n=0) {
   if( !is.null(seed) ) set.seed(seed)
   if( class(vars) != "formula" )
@@ -107,6 +108,7 @@ rfun <- function(vars=~x&y, seed=NULL, n=0) {
 #'
 #' @keywords random
 #' @details These functions are particularly useful for teaching calculus.
+#' @export
 
 rpoly2 <- function(vars=~x&y,seed=NULL){
   if( !is.null(seed) ) set.seed(round(seed))

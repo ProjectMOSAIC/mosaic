@@ -42,6 +42,7 @@
 #' f = numD( sin(x)~x, add.h.control=TRUE)
 #' plotFun( f(3,.hstep=h)~h, hlim=range(.00000001,.000001))
 #' ladd( panel.abline(cos(3),0))
+#' @export
 
 # Strategy: 
 # The various dfdx, d2fdx2, d2fdxdy functions create a new function.

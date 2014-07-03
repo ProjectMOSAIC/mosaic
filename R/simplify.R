@@ -356,6 +356,7 @@
 #'@return A list containing a list, \code{coeffs}, of coefficients ordered high to low (i.e. the list (2,3,4) would correspond to
 #'the polynomial 2*x^2+3*x+4 ) and value, \code{pow}, indicating the order of the polynomial.
 #'If the expression is not a polynomial, this method returns an empty list or an error.
+
 .polyExp.num <- function(tree, .x.){
   #if it is a simple expression
   if(tree==.x.){

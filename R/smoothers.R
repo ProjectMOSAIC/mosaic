@@ -36,8 +36,8 @@ tryCatch(utils::globalVariables(c('.latticeEnv')),
 #' data(CPS85)
 #' f <- smoother(wage ~ age, span=.9, data=CPS85)
 #' f(40)
-#' df <- D(f(age) ~ age)
-#' df(40)
+#' derivf <- D(f(age) ~ age)
+#' derivf(40)
 #' g <- linearModel(log(wage) ~ age+educ+1, data=CPS85)
 #' g(age=40, educ=12)
 #' dgdeduc <- D(g(age=age, educ=educ) ~ educ)
@@ -46,20 +46,21 @@ tryCatch(utils::globalVariables(c('.latticeEnv')),
 #' f1 <- spliner(y ~ x)
 #' f1(x=8:10)
 #' f2 <- connector(x~y)
+#' @export
 
-# ==============
 spliner <- function(formula, data=NULL,method="fmm",monotonic=FALSE) {
   .interpolatingFunction(formula, data, method=method, monotonic=monotonic)
 }
-# ==============
+
 #' @rdname FunctionsFromData
 #' @export
+
 connector <- function(formula, data=NULL, method="linear") {
   .interpolatingFunction(formula, data, connect=TRUE)
 }
-#' @export
 #' @rdname FunctionsFromData
 #' @param \dots additional arguments to \code{\link[stats]{loess}} or \code{\link[stats]{lm}}
+#' @export
 
 smoother <- function(formula, data, span=0.5, degree=2, ... ) {
   input.names <- all.vars(formula)[-1]
@@ -74,8 +75,10 @@ smoother <- function(formula, data, span=0.5, degree=2, ... ) {
   formals(F) <- tmp
   return(F)
 }
-# =============================
+
 #' @rdname FunctionsFromData
+#' @export
+
 linearModel <- function(formula, data, ...) {
   input.names <- all.vars(formula)[-1]
   L <- lm(update(formula,~-1+.), data, ...)
@@ -93,7 +96,7 @@ linearModel <- function(formula, data, ...) {
   attr(F,"mosaicType") <- "Fitted Linear Model"
   return(F)
 }
-# =============================
+
 .interpolatingFunction <- function(formula, data, method="fmm",monotonic=FALSE,connect=FALSE) {
   fnames <- all.vars(formula)
   if( length(fnames) > 2 )

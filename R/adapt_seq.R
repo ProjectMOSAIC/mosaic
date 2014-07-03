@@ -14,10 +14,10 @@
 #' @param f a function
 #' @param args arguments passed to \code{f}
 #' @return a numerical vector
-#' @export
 #' @examples
 #' adapt_seq(0, pi, 25, sin)
 #'
+#' @export
 adapt_seq <-function(from, to, 
 	length.out=100, 
 	f=function(x,...){ 1 }, 

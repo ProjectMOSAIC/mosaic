@@ -36,6 +36,7 @@
 #' bargraph( ~ substance, groups=homeless, auto.key=TRUE, data=HELPrct, subset=sex=="male")
 #' HELPrct2 <- transform( HELPrct, older = age > 40 )
 #' bargraph( ~ substance | older, data = HELPrct2 )
+#' @export
 
 bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0, 
                      ylab=ifelse(horizontal,"","Frequency"), 

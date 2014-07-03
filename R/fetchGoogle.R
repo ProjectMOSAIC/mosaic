@@ -45,14 +45,12 @@
 #' @name fetchGoogle
 #' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
 #' 
-#' @export
 #' 
 #' @examples
 #' \dontrun{s = fetchGoogle(key="0Am13enSalO74dEVzMGJSMU5TbTc2eWlWakppQlpjcGc")}
-#' 
+#' @export
 
-
-fetchGoogle = function(URL,key=NULL){
+fetchGoogle <- function(URL,key=NULL){
 
   .try_require("RCurl")
 

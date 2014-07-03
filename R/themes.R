@@ -17,7 +17,6 @@
 #' 
 #' @rdname themes
 #'
-#' @export
 #' @examples
 #' trellis.par.set(theme=theme.mosaic())
 #' show.settings()
@@ -25,9 +24,10 @@
 #' show.settings()
 #' 
 #' @keywords graphics 
-#' 
+#' @export
+ 
 theme.mosaic <-
-function (bw = FALSE, lty = 1:7) 
+function (bw = FALSE, lty = if (bw) 1:7 else 1) 
 {
     aBlue <- colorRampPalette(c("white", "navy"))(10)[8]
     paleBlue <- colorRampPalette(c("white", "navy"))(10)[6]
@@ -89,5 +89,6 @@ function (bw = FALSE, lty = 1:7)
 
 #' @rdname themes
 #' @export
+
 col.mosaic <- theme.mosaic
 

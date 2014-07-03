@@ -27,12 +27,12 @@
 #' @return A trellis graphics object 
 #' 
 #' @seealso \code{\link{plotFun}}
-#' @export
 #' @examples
 #' plotPoints( width ~ length, data=KidsFeet, groups=sex, pch=20)
 #' f <- makeFun( lm( width ~ poly(length,2) * sex, data=KidsFeet))
 #' plotFun( f(length=length,sex="G")~length, add=TRUE, col="pink")
 #' plotFun( f(length=length,sex="B")~length, add=TRUE)
+#' @export
 
 plotPoints <- function( x, data=parent.frame(), add=NULL, under=FALSE,
                         panelfun=panel.xyplot, plotfun=xyplot, ..., plot=trellis.last.object()

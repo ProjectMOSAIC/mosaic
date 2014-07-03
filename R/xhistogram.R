@@ -49,6 +49,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' xhistogramBreaks(0:10, center=15, width=3)
 #' xhistogramBreaks(1:100, center=50, width=3)
 #' xhistogramBreaks(0:10, center=5, nint=5)
+#' @export
 
 xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
   x <- x[!is.na(x)]
@@ -85,6 +86,7 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
 
 #' @rdname xhistogram
 #' @export
+
 prepanel.xhistogram <- 
   function (x, breaks=xhistogramBreaks, ...) 
   {
@@ -120,6 +122,7 @@ prepanel.xhistogram <-
 #'        how bins should be striped when \code{groups} is not \code{NULL}
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param alpha transparency level
+#' @export
 panel.xhistogram <-
 function (x, 
 	dcol = trellis.par.get("plot.line")$col, dalpha=1, dlwd = 2, 

@@ -10,7 +10,6 @@ tryCatch(utils::globalVariables(c('coordinates')),
 #'
 #' @param map a map object of class \code{SpatialPolygonsDataFrame}
 #' @param ... other arguments, currently ignored
-#' @export
 #' @examples
 #'
 #' \dontrun{ 
@@ -19,7 +18,7 @@ tryCatch(utils::globalVariables(c('coordinates')),
 #'   worldmap <- sp2df(wrld_simpl)
 #' }
 #' 
-#' if ( require(ggplot2) && require(maptools) && require(plyr) ) { 
+#' if ( require(ggplot2) && require(maptools) ) { 
 #'   data(wrld_simpl)
 #'   World <- sp2df(wrld_simpl)
 #'   World2 <- merge(World, Countries, by.x="NAME", by.y="maptools", all.y=FALSE)
@@ -30,6 +29,8 @@ tryCatch(utils::globalVariables(c('coordinates')),
 #'                      geom="polygon")
 #' }
 #' }
+#' @export
+
 sp2df <- function (map, ...) 
 {
   .try_require(c("ggplot2", "maptools"))

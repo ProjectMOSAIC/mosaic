@@ -46,7 +46,6 @@
 #' 
 #' @return a data frame.
 #'
-#' @export
 #' @examples
 #' \dontrun{dome <- fetchData("Dome.csv")}
 #' \dontrun{carbon <- fetchData("CO2")}
@@ -55,7 +54,7 @@
 #' \dontrun{fetchData(drop.from.path="http://www.macalester.edu/~kaplan/ISM/datasets/") }
 #' \dontrun{dome <- fetchData("Dome.csv", cache=TRUE)}
 #' @keywords util 
-#' 
+#' @export
 
 
 fetchData <- function(name=NULL,show.path=FALSE, 

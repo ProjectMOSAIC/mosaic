@@ -14,7 +14,6 @@
 #' \code{mosaic_formula_q} uses nonstandard evaluation of \code{groups} that may be
 #' necessary for use within other functions.  \code{mosaic_formula} is a wrapper
 #' around \code{mosaic_formula_q} and quotes \code{groups} before passing it along. 
-#' @export
 #' @examples
 #' mosaic_formula( ~ x | z )
 #' mosaic_formula( ~ x, groups=g ) 
@@ -26,6 +25,7 @@
 #'     mosaic_formula_q(x, groups=groups, envir=parent.frame())
 #' }
 #' foo( y ~ x , groups = g)
+#' @export
 
 mosaic_formula <- function( 
   formula, 
@@ -131,6 +131,10 @@ mosaic_formula_q <- function( formula,
 
 # This could use a better name and a better desription
 
+
+tryCatch(utils::globalVariables(c('.')),
+         error=function(e) message('Looks like you should update R.'))
+
 #' Extract simple part from formula
 #'
 #' @param x a formula
@@ -168,17 +172,14 @@ mosaic_formula_q <- function( formula,
 #' @param FUN a function to apply to each subset 
 #' @param subset a logical indicating a subset of \code{data} to be processed.
 #' @param drop a logical indicating whether unused levels should be dropped.
-#' @param method used for aggregation.  Choosing \code{"ddply"} 
-#' (or \code{"grid"}, which is equivalent) 
-#' requires that \pkg{plry} is installed. \code{"default"} and \code{"flat"} are equivalent.  
+#' @param .format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
 #' @param overall currently unused
 #' @param .name a name used for the resulting object
 #' @param groups grouping variable that will be folded into the formula (if there is room for it).  
 #' This offers some additional flexibility in how formulas can be specified.
-#' @param multiple a logical indicating whether FUN returns multiple values
+#' @param .multiple a logical indicating whether FUN returns multiple values
 #' @param \dots additional arguments passed to \code{FUN}
 #'
-#' @export
 #' @examples
 #' maggregate( cesd ~ sex, HELPrct, FUN=mean )
 #' # using groups instead
@@ -191,19 +192,18 @@ mosaic_formula_q <- function( formula,
 #' # this is unusual, but also works.
 #' maggregate( cesd ~ NULL , groups = sex, HELPrct, FUN=sd )
 #'
+#' @export
 maggregate <- function(formula, data=parent.frame(), FUN, subset, 
                        overall=mosaic.par.get("aggregate.overall"), 
-                       method=c('default', 'ddply', 'grid', 'flat'), drop=FALSE, 
-                       multiple=FALSE, 
+                       .format=c('default', 'table', 'flat'), drop=FALSE, 
+                       .multiple=FALSE, 
                        groups=NULL, 
                        .name = deparse(substitute(FUN)), 
                        ...) {
   dots <- list(...)
   formula <- mosaic_formula_q(formula, groups=groups, as.environment(data))
 
-  method <- match.arg(method)
-  
-  if (method %in% c("ddply","grid") && !require(plyr)) stop("plyr package is unavailable.")
+  .format <- match.arg(.format)
 
   evalF <- evalFormula(formula, data=data)
   
@@ -213,7 +213,6 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
     if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
   }
-
 # this should now be standardized by the call to mosaic_formula_q() above.
 #  if ( is.null( evalF$left ) ) {
 #    evalF$left <- evalF$right
@@ -223,39 +222,64 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
     
   if ( is.null(evalF$left) || ncol(evalF$left) < 1 )  {
     if (ncol(evalF$right) > 1) warning("Too many variables in rhs; ignoring all but first.")
-    if (method=="ddply") {
-      return(ddply(evalF$right[,1,drop=FALSE], names(NULL),
-                   function(x) do.call(FUN, list(evalF$right[,1], ...)) 
-      )[,-1])  # remove the .id column since it is uninteresting here.
+    if (.format=="table") {
+      if (.multiple) stop ("table view unavailable for this functions.")
+      ldata <- evalF$right[,1,drop=FALSE]
+      gdata <- group_by(data)
+      res <- as.data.frame(
+        dplyr::do(gdata, foo = FUN( .[,1], ...) ) )
+      names(res)[ncol(res)] <- gsub(".*::", "", .name)
+      return(res)
+      
+      return(evalF$right[,1,drop=FALSE] %>% 
+               group_by() %>%
+               dplyr::do( do.call(FUN, list(evalF$right[,1], ...)) ) %>%
+               as.data.frame()
+      )
+#      return(plyr::ddply(evalF$right[,1,drop=FALSE], names(NULL),
+#                   function(x) do.call(FUN, list(evalF$right[,1], ...)) 
+#      )[,-1])  # remove the .id column since it is uninteresting here.
     }
     return( do.call(FUN, alist(evalF$right[,1], ...) ) )
   } else {
     if (ncol(evalF$left) > 1) warning("Too many variables in lhs; ignoring all but first.")
-    if (method=='ddply') {
-      res <-  ddply( joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
-                     union(names(evalF$right), names(evalF$condition)),
-                     function(x) do.call(FUN, list(x[,1], ...))
-      )
+    if (.format=='table') {
+      if (.multiple) stop ("table view unavailable for this functions.")
+      ldata <- joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
+      ldata$.var <- ldata[, 1]
+      gdata <- do.call( group_by, c(list(ldata),  
+                        lapply(union(names(evalF$right), names(evalF$condition)),
+                        as.name )) )
+      res <- as.data.frame(
+        dplyr::do(gdata, foo = FUN( .[,1], ...) ) )
+      names(res)[ncol(res)] <- gsub(".*::", "", .name)
+#      res <-  plyr::ddply( 
+#        joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
+#        union(names(evalF$right), names(evalF$condition)),
+#        function(x) do.call(FUN, list(x[,1], ...))
+#      )
       
     } else {
-      res <- lapply( split( evalF$left[,1], joinFrames(evalF$right, evalF$condition), drop=drop),
+      res <- lapply( split( evalF$left[,1], 
+                            joinFrames(evalF$right, evalF$condition), 
+                            drop=drop),
                      function(x) { do.call(FUN, alist(x, ...) ) }
       )
       
-      if (! multiple ) res <- unlist(res)
+      if (! .multiple ) res <- unlist(res)
       
       if (! is.null(evalF$condition) ) {
         if (ncol(evalF$left) > 1) message("Too many variables in lhs; ignoring all but first.")
         res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
                         function(x) { do.call(FUN, alist(x, ...) ) }
         )
-        if (!multiple) {
+        if (!.multiple) {
           res <- c( res , unlist(res2) )
         } else {
           res <- c(res, res2)
         }
       }
-      if (multiple) {
+      if (.multiple) {
         result <- res
         res <- result[[1]]
         for (item in result[-1]) {

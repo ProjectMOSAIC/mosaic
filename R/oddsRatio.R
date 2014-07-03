@@ -29,7 +29,6 @@
 #' @author Kevin Middleton (\email{kmm@@csusb.edu})
 #' @seealso \code{\link{chisq.test}}
 #' @keywords stats
-#' @export
 #' @examples
 #' M1 <- matrix(c(14, 38, 51, 11), nrow = 2)
 #' M1
@@ -40,7 +39,8 @@
 #' colnames(M2) <- c("No", "Yes")
 #' M2
 #' oddsRatio(M2)
-#' 
+#' @export
+
 oddsRatio <- function(x, conf.level = 0.95){
   rowsums <- rowSums(x)
   p1 <- x[1, 1] / rowsums[1]
@@ -64,8 +64,9 @@ oddsRatio <- function(x, conf.level = 0.95){
 #' @rdname oddsRatio
 #' @param digits number of digits to display
 #' @param \dots additional arguments
-#' @export
 #' @method print oddsRatio
+#' @export
+
 print.oddsRatio <- function(x, digits = 4, ...){
   cat("\n")
   cat("Odds Ratio\n")

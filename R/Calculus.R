@@ -45,7 +45,6 @@
 #' of the expression, e.g., antiD(f(x)~x) -> F(x).  
 #' To calculate the integral of f(x), use F(to) - F(from). 
 #' 
-#' @export
 #' @examples
 #' D(sin(t) ~ t)
 #' D(A*sin(t) ~ t )
@@ -60,7 +59,8 @@
 #' gg(t=1, B=100)
 #' f <- makeFun(x^2~x)
 #' D(f(cos(z))~z) #will look in user functions also
-#' 
+#' @export
+ 
 D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
   tryCatch( return( stats::D(formula, ...) ), error=function(e) {}  )
   
@@ -94,7 +94,6 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' @return a function of the same arguments as the original expression with a 
 #' constant of integration set to zero by default, named "C", "D", ... depending on the first 
 #' such letter not otherwise in the argument list.
-#' @export
 #' @examples
 #' antiD( a*x^2 ~ x)
 #' antiD( A/x~x )
@@ -104,6 +103,7 @@ D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
 #' by.x = antiD( one(x=x, y=y) ~x)
 #' by.xy = antiD(by.x(x=sqrt(1-y^2), y=y)~y)
 #' 4*by.xy(y=1) #area of quarter circle
+#' @export
 antiD <- function(formula, ..., lower.bound=0, force.numeric=FALSE){
   wrt <- all.vars(rhs(formula), unique=FALSE) # "with respect to" variable name
   if (length(wrt) != 1)  stop("Integration with respect to multiple variables not supported directly.")

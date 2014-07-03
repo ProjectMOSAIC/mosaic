@@ -10,6 +10,7 @@
 ^vignettes/.*\.toc$
 vignettes-source$
 ^\.Rproj\.user$
+^\.Rproj\.user/.*$
 ^\.Rd2dvi.*$
 ^.*\.csv\.bz2.*$
 ^.*\.swp$

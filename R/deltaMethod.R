@@ -7,7 +7,6 @@
 #' @name deltaMethod
 #' @aliases deltaMethod.data.frame
 #' @importFrom car deltaMethod
-#' @export
 #' @examples
 #' C_p <- 4.182 / 60 # / 60 because measureing m in L/min
 #' exprforQ <- "(T.cold.out - T.cold.in) * C_p * m.cold"
@@ -61,6 +60,7 @@
 #' @param ... additional arguments passed through to \code{deltaMethod} in the \pkg{car} 
 #' package.
 #' @seealso \code{deltaMethod} in the \pkg{car} package.
+#' @export
  
 deltaMethod.data.frame <- function(object, g, uncertainties, estimates=measurements, func=g, constants=c(), 
                                    measurements=NULL, vcov., ...) {

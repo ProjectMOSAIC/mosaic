@@ -15,6 +15,8 @@
 #'@examples
 #'f=makeFun(x^2~x)
 #'expandFun(f(z)~z) #Returns z^2~z
+#' @export
+
 expandFun <- function(formula,...){
   exp = lhs(formula)
   #See if first operator is a primitive

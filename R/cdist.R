@@ -18,7 +18,6 @@
 #' @note This function is still experimental and changes the input or output
 #' formats are possible in future versions of the package.
 #' 
-#' @export
 #' @examples
 #' cdist( "norm", .95)
 #' cdist( "t", c(.90, .95, .99), df=5)
@@ -27,6 +26,7 @@
 #' cdist( "norm", .95, mean=500, sd=100 )
 #' cdist( "chisq", c(.90, .95), df=3 )
 #' cdist( "chisq", c(.90, .95), df=3, tail="lower" )
+#' @export
 
 cdist <- function( dist, p, ... , tail=c("upper","lower"), warn=TRUE) {
   tail = match.arg(tail)

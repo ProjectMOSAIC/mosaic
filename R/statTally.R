@@ -38,7 +38,6 @@
 #' about the empirical sampling distribution and (optionally) a stem plot are
 #' printed to the screen.
 #'
-#' @export
 #' @examples
 #' # is my spinner fair?
 #' x <- c(10, 18, 9, 15)   # counts in four cells
@@ -51,7 +50,8 @@
 #' statTally( D, nullDist)
 #' 
 #' @keywords inference 
-#' 
+#' @export
+ 
 statTally <-
 function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sided','less','greater'),
 		  sig.level=0.1, center=NULL,
