@@ -22,3 +22,4 @@ vignettes-source$
 ^README\.mediawiki$
 ^mosaic.*\.gz$
 ^.*\.Rproj$
+^\.httr-oauth$
