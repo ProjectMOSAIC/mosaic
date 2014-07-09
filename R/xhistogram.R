@@ -65,6 +65,9 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
     nint <- max(nint - 1, 1)
     width <- diff(range(x)) / nint
   }
+  if (width <= 0) { width <- diff(range(c(0,x))) / nint }
+  
+  if (width <= 0) {stop("`width' too small.")}
 
   shift <- ( (floor( (min(x) - center)/width) ):(1 + ceiling( (max(x) - center)/width)) )
   breaks <-  -.5 * width + center + shift * width
