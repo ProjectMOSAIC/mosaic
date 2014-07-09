@@ -69,6 +69,34 @@ NA
 #' subset(Alcohol, ! year %in% c(2005,2008))
 
 NA
+#' US Births in 1969 - 1988
+#'
+#' A day by day record of the number of births in each US State.
+#' 
+#' @docType data
+#' @name Birthdays
+#' @usage data(Birthdays)
+#' @format 
+#'   A data frame with 374221 observations on the following variables.
+#'   \itemize{
+#'     \item{\code{state}} {state where child was born}
+#'     \item{\code{year}} {year (1969-1988)}
+#'     \item{\code{month}} {month (1-12)}
+#'     \item{\code{day}} {day of month}
+#'     \item{\code{date}} {date as a date object}
+#'     \item{\code{births}} {number of births}
+#'   }
+#' 
+#' @examples
+#' data(Birthdays)
+#' xyplot(births ~ date, Birthdays, subset=state=="CA")
+#' xyplot(births ~ date, Birthdays, subset=state=="CA", 
+#'   groups=wday, type='l')
+#' xyplot(births ~ date, type='l',
+#'   data = Birthdays %>% group_by(date) %>% summarise(births=sum(births)))
+
+NA 
+
 #' US Births in 1978
 #'
 #' A day by day record of the number of births in the United States in 1978.
