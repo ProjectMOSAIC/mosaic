@@ -525,7 +525,8 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
   
   system=match.arg(system)
   adjust <- 10 / s$nbins
-  binwidth <- eval( parse( text= paste("range( ~", s$x, ", data=", s$dataName,")"))) / s$nbins
+  binwidth <- eval( parse( text= paste("diff(range( ~", s$x, ", data=", s$dataName,", na.rm=TRUE))"))) / s$nbins
+  if ( anyNA(binwidth) || any(is.nan(binwidth)) ) binwidth <- NULL
   if (system == "ggplot2") {
     res <- paste("qplot( data=", s$dataName, ", x=", s$x, sep="")
     res <- paste(res, geom[s$plotType], stat[s$plotType], sep="")
