@@ -14,6 +14,30 @@
 #' mod = lm( width ~ length + sex + length*sex, data=KidsFeet)
 #' plotModel(mod)
 #' 
+#' 
+#' 
+# require(mosaic)
+# mod = lm(width ~ length + sex, data=KidsFeet)
+# fmod = makeFun(mod)
+# plotFun(fmod(x, "B") ~ x) # works
+# plotFun(fmod(x, a) ~ x, a = "B") # not work
+# plotFun(fmod(x, a) ~ x, a = mod$xlevels[[1]][1]) # not work
+# plotFun(fmod(x, mod$xlevels[[1]][1]) ~ x) # not work for different reason
+# 
+# 
+# 
+# xyplot(width ~ length, data=KidsFeet)
+# form = as.formula(paste( "fmod(x, \'", mod$xlevels[[1]][1], "\') ~ x", sep="" ))
+# plotFun(form, add=TRUE)
+# form = as.formula(paste( "fmod(x, \'", mod$xlevels[[1]][2], "\') ~ x", sep="" ))
+# plotFun(form, add=TRUE)
+# 
+# 
+# 
+# form = as.formula("width ~ length + sex")
+# xyplot(form, data=KidsFeet)
+# lm(form, data=KidsFeet)
+
 
 # https://github.com/rpruim/mosaic/issues/40
 
@@ -49,6 +73,7 @@ plotModel <- function( x, data=parent.frame(), ...) {
 #        plotFun(fmod(x, "B") ~ x, col = pal[i], add=TRUE)
         # but this doesn't work?? Why? 
         form = as.formula(paste( "fmod(x, \'", z.levels[i], "\') ~ x", sep="" ))
+        cat(print(as.character(form)))
         myplot = plotFun(form, col=pal[i], add=TRUE)
 #        plotFun(fmod(x, a) ~ x, a = as.character(z.levels[i]), col = pal[i], add=TRUE)
       }
