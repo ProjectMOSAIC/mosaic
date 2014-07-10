@@ -31,7 +31,7 @@ plotModel <- function( x, data=parent.frame(), ...) {
   if (length(x.names) == 1) {
     # draw a scatterplot
     x.name = x.names[1]
-    xyplot(as.formula(paste(y.name, "~", x.name)), data=mod$model)
+    myplot = xyplot(as.formula(paste(y.name, "~", x.name)), data=mod$model)
     
     # make the model into a function
     fmod = makeFun(x)
@@ -46,9 +46,11 @@ plotModel <- function( x, data=parent.frame(), ...) {
       # put the regression lines on the plot
       for(i in 1:k) {
         # hardcoding works
-        plotFun(fmod(x, "B") ~ x, col = pal[i], add=TRUE)
+#        plotFun(fmod(x, "B") ~ x, col = pal[i], add=TRUE)
         # but this doesn't work?? Why? 
-        plotFun(fmod(x, as.character(z.levels[i])) ~ x, col = pal[i], add=TRUE)
+        form = as.formula(paste( "fmod(x, \'", z.levels[i], "\') ~ x", sep="" ))
+        myplot = plotFun(form, col=pal[i], add=TRUE)
+#        plotFun(fmod(x, a) ~ x, a = as.character(z.levels[i]), col = pal[i], add=TRUE)
       }
     }
   } else if (num.q.vars == 3) {
@@ -57,4 +59,5 @@ plotModel <- function( x, data=parent.frame(), ...) {
     # too many variables
     stop("You cannot plotModel if you have more than 3 numeric variables")
   }
+  return(myplot)
 }
