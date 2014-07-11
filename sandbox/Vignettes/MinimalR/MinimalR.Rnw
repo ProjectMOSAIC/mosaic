@@ -306,21 +306,11 @@ Basic calculation is very similar to a calculator.
 # basic ops: + - * / ^ ( )
 log(); exp(); sqrt()
 @
+\squeeze
 <<highlight=FALSE>>=
 log10(); abs(); choose()
 @
 % uniroot()   # root finder
-
-\subsection*{Distributions}
-%
-<<>>=
-pbinom(); pnorm();   
-xpnorm()    # mosaic
-pchisq(); pt()
-qbinom(); qnorm(); 
-qchisq(); qt()
-plotDist()  # mosaic
-@
 
 
 
@@ -362,6 +352,8 @@ differently for each \code{z}'.
 
 See the sampler for examples.
 
+
+
 \subsection*{Numerical Summaries}
 These functions have 
 a formula interface to match plotting.
@@ -385,8 +377,6 @@ IQR()        # mosaic augmented
 min(); max() # mosaic augmented
 @
 \fi
-
-\columnbreak
 
 
 \subsection*{Graphics (mostly lattice)}
@@ -421,6 +411,16 @@ mplot(data=HELPrct, 'boxplot')
 mplot(data=HELPrct, 'histogram')
 @
 
+\subsection*{Distributions}
+%
+<<>>=
+pbinom(); pnorm();   
+xpnorm()    # mosaic
+pchisq(); pt()
+qbinom(); qnorm(); 
+qchisq(); qt()
+plotDist()  # mosaic
+@
 
 \subsection*{Inference}
 %
@@ -446,7 +446,22 @@ fisher.test()
 xchisq.test()  # mosaic
 model <- glm() # logistic reg.
 @
-\columnbreak
+
+\subsection*{Randomization/Simulation}
+%
+<<>>=
+rflip()     # mosaic
+do()        # mosaic
+sample()    # mosaic augmented
+resample()  # with replacement
+@
+\squeeze
+<<highlight=FALSE>>=
+shuffle()   # mosaic
+rbinom()
+rnorm()     # etc, if needed
+@
+
 
 \subsection*{Data}
 <<>>=
@@ -484,21 +499,6 @@ seq()
 sort()
 colnames()
 rownames()
-@
-
-\subsection*{Randomization/Simulation}
-%
-<<>>=
-rflip()     # mosaic
-do()        # mosaic
-sample()    # mosaic augmented
-resample()  # with replacement
-@
-\squeeze
-<<highlight=FALSE>>=
-shuffle()   # mosaic
-rbinom()
-rnorm()     # etc, if needed
 @
 
 
