@@ -148,7 +148,7 @@
 \title{Minimal R for Intro Stats}
 
 \author{
-Randall Pruim
+Randall Pruim, Project MOSAIC
 }
 
 \date{\today}
@@ -323,8 +323,8 @@ graphical summaries, numerical summaries,
 and inference procedures.
 
 <<>>=
-goal( y ~ x | z, data=..., 
-                 groups=... )
+goal(y ~ x | z, data=..., 
+                 groups=...)
 @
 
 For plots:
@@ -378,6 +378,21 @@ min(); max() # mosaic augmented
 @
 \fi
 
+\subsection*{Randomization/Simulation}
+%
+<<>>=
+rflip()     # mosaic
+do()        # mosaic
+sample()    # mosaic augmented
+resample()  # with replacement
+@
+\squeeze
+<<highlight=FALSE>>=
+shuffle()   # mosaic
+rbinom()
+rnorm()     # etc, if needed
+@
+
 
 \subsection*{Graphics (mostly lattice)}
 
@@ -393,6 +408,7 @@ bwplot()
 xyplot()
 histogram() # mosaic augmented
 densityplot()
+freqpolygon() # mosaic
 qqmath()
 makeFun()   # mosaic
 plotFun()   # mosaic
@@ -415,7 +431,7 @@ mplot(data=HELPrct, 'histogram')
 %
 <<>>=
 pbinom(); pnorm();   
-xpnorm()    # mosaic
+xpnorm()    # mosaic augmented
 pchisq(); pt()
 qbinom(); qnorm(); 
 qchisq(); qt()
@@ -425,41 +441,28 @@ plotDist()  # mosaic
 \subsection*{Inference}
 %
 <<>>=
+t.test()      # mosaic augmented
 binom.test()  # mosaic augmented
 prop.test()   # mosaic augmented
 xchisq.test() # mosaic augmented
-t.test()      # mosaic augmented
+fisher.test()
+pval()        # mosaic
+@
+\squeeze
+<<highlight=TRUE>>=
 model <- lm() # linear models
-anova(model)
 summary(model)
 coef(model)
-makeFun(model)   # mosaic 
+confint(model) # mosaic augmented
+anova(model)
+makeFun(model) # mosaic 
 resid(model); fitted(model)
 mplot(model) # mosaic
+@
+\squeeze
+<<highlight=FALSE>>=
 mplot(TukeyHSD(model))
-@
-\squeeze
-<<highlight=FALSE>>=
-confint()      # mosaic augmented
-pval()         # mosaic
-fisher.test()
-xchisq.test()  # mosaic
 model <- glm() # logistic reg.
-@
-
-\subsection*{Randomization/Simulation}
-%
-<<>>=
-rflip()     # mosaic
-do()        # mosaic
-sample()    # mosaic augmented
-resample()  # with replacement
-@
-\squeeze
-<<highlight=FALSE>>=
-shuffle()   # mosaic
-rbinom()
-rnorm()     # etc, if needed
 @
 
 
@@ -470,35 +473,35 @@ nrow(); ncol(); dim()
 summary()
 str()
 names()
-head()
-factor()
-c()
-cbind(); rbind()
-select()
-mutate()
-summarise()
-group_by()
+head(); tail()
+with()
+@
+\squeeze
+<<highlight=FALSE>>=
+select() # dplyr
+mutate() # dplyr
+filter() # dplyr
+arrange() # dplyr
+summarise() # dplyr
+group_by() # dplyr
 @
 \squeeze
 <<highlight=FALSE>>=
 merge()
-relevel()
 ntiles()      # mosaic
 cut()
+c()
+cbind(); rbind()
+colnames()
+rownames()
+relevel()
+factor()
 @
 \squeeze
 <<highlight=FALSE>>=
-str()
-tail()
-table()
-perctable()    # mosaic
-proptable()    # mosaic
-with()
 rep()
 seq()
 sort()
-colnames()
-rownames()
 @
 
 
@@ -539,43 +542,43 @@ options(show.signif.stars=FALSE)
 rflip(6)
 do(2) * rflip(6)
 coins <- do(1000)* rflip(6)
-tally( ~heads, data=coins )
-tally( ~heads, data=coins, format="perc" )
-tally( ~ (heads>=5 | heads<=1) , data=coins )
-histogram( ~heads, data=coins, width=1,
+tally(~ heads, data=coins)
+tally(~ heads, data=coins, format="perc")
+tally(~ (heads>=5 | heads<=1) , data=coins)
+histogram(~ heads, data=coins, width=1,
             groups = (heads>=5 | heads<=1))
 @
 %\columnbreak
 <<tally>>=
-tally( ~ sex + substance, data=HELPrct )
-mean( age ~ sex, data=HELPrct )
-diffmean( age ~ sex, data=HELPrct )
-favstats( age ~ sex, data=HELPrct )
+tally(~ sex + substance, data=HELPrct)
+mean(age ~ sex, data=HELPrct)
+diffmean(age ~ sex, data=HELPrct)
+favstats(age ~ sex, data=HELPrct)
 @
 \vspace*{-.15in}
 <<densityplot,fig.height=2.4>>=
-densityplot( ~ age | sex, groups=substance, 
-               data=HELPrct, auto.key=TRUE )
+densityplot(~ age | sex, groups=substance, 
+               data=HELPrct, auto.key=TRUE)
 @
 \vspace*{-.25in}
 <<bwplot>>=
-bwplot( age ~ substance | sex, data=HELPrct )
+bwplot(age ~ substance | sex, data=HELPrct)
 @
 \columnbreak
 <<message=FALSE>>=
-pval( binom.test( ~sex, data=HELPrct ) )
-confint( t.test( ~age, data=HELPrct ) )
+pval(binom.test(~ sex, data=HELPrct))
+confint(t.test(~ age, data=HELPrct))
 @
 \iffalse
 <<tidy=FALSE>>=
 model <- lm(age ~ sex + substance, 
-			data=HELPrct ) 
-anova( model )
+			data=HELPrct) 
+anova(model)
 @
 \fi
 \iffalse
 <<tidy=FALSE>>=
-xyplot( Sepal.Length ~ Sepal.Width, 
+xyplot(Sepal.Length ~ Sepal.Width, 
         groups=Species, data=iris) 
 @
 \fi
@@ -598,11 +601,11 @@ plotDist("chisq", df=4)
 @
 
 <<include=FALSE>>=
-tally( ~ homeless | sex, data=HELPrct)
+tally(~ homeless | sex, data=HELPrct)
 @
 <<include=FALSE>>=
-chisq.test( tally(~ homeless + sex, data=HELPrct) )
-prop.test( homeless ~ sex, data=HELPrct)
+chisq.test(tally(~ homeless + sex, data=HELPrct))
+prop.test(homeless ~ sex, data=HELPrct)
 @
 
 \iffalse
