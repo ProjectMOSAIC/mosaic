@@ -130,7 +130,7 @@ coef.groupwiseModel <- function(object, ...) {
 #' @rdname mm
 #' @param x Object to be printed
 #' @param digits number of digits to display
-#' @method print groupwiseModel
+#' @export
 print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) ) {
   # directly copied from print.lm, but since this isn't an lm object, it
   # doesn't make sense to call print.lm on it.
@@ -169,7 +169,6 @@ summary.groupwiseModel <- function(object, ... ){
   return(res)
 }
 #' @rdname mm
-#' @method print summary_groupwiseModel
 #' @export
 
 print.summary_groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {

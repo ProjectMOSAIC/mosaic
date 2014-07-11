@@ -17,8 +17,7 @@ mm(formula, data = parent.frame(), fun = mean, drop = TRUE, ...)
 
 \method{coef}{groupwiseModel}(object, ...)
 
-\method{print}{groupwiseModel}(x, ..., digits = max(3, getOption("digits") -
-  3))
+print.groupwiseModel(x, ..., digits = max(3, getOption("digits") - 3))
 
 \method{residuals}{groupwiseModel}(object, ...)
 
@@ -26,8 +25,7 @@ mm(formula, data = parent.frame(), fun = mean, drop = TRUE, ...)
 
 \method{summary}{groupwiseModel}(object, ...)
 
-\method{print}{summary_groupwiseModel}(x, digits = max(3, getOption("digits")
-  - 3), ...)
+print.summary_groupwiseModel(x, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
 \item{formula}{A formula.  The left-hand side specifies the variable over
