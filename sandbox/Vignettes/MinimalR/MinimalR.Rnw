@@ -321,25 +321,8 @@ qbinom(); qnorm();
 qchisq(); qt()
 plotDist()  # mosaic
 @
-\vfill
 
 
-\subsection*{Randomization/Simulation}
-%
-<<>>=
-rflip()     # mosaic
-do()        # mosaic
-sample()    # mosaic augmented
-resample()  # with replacement
-@
-\squeeze
-<<highlight=FALSE>>=
-shuffle()   # mosaic
-rbinom()
-rnorm()     # etc, if needed
-@
-
-\vfill
 
 
 
@@ -402,9 +385,9 @@ IQR()        # mosaic augmented
 min(); max() # mosaic augmented
 @
 \fi
-\vfill
 
-%\columnbreak
+\columnbreak
+
 
 \subsection*{Graphics (mostly lattice)}
 
@@ -431,31 +414,29 @@ dotPlot()   # mosaic
 bargraph()  # mosaic
 xqqmath()   # mosaic
 @
-
-
-\subsection*{Interactive Graphics (RStudio)}
+\squeeze
 <<eval=FALSE>>=
 mplot(data=HELPrct, 'scatter')
 mplot(data=HELPrct, 'boxplot')
 mplot(data=HELPrct, 'histogram')
 @
-%\columnbreak
+
 
 \subsection*{Inference}
 %
 <<>>=
 binom.test()  # mosaic augmented
 prop.test()   # mosaic augmented
-chisq.test()
+xchisq.test() # mosaic augmented
 t.test()      # mosaic augmented
 model <- lm() # linear models
-anova( model )
-summary( model )
-makeFun( model )   # mosaic 
-resid( model )
-plot( model )
-TukeyHSD( model )  # mosaic aug
-plot( TukeyHSD( model ) )
+anova(model)
+summary(model)
+coef(model)
+makeFun(model)   # mosaic 
+resid(model); fitted(model)
+mplot(model) # mosaic
+mplot(TukeyHSD(model))
 @
 \squeeze
 <<highlight=FALSE>>=
@@ -463,25 +444,25 @@ confint()      # mosaic augmented
 pval()         # mosaic
 fisher.test()
 xchisq.test()  # mosaic
-model <- glm() # logistic regression
+model <- glm() # logistic reg.
 @
-% wilcox.test()
-% power.t.test()
-% power.prop.test()
+\columnbreak
 
 \subsection*{Data}
 <<>>=
 read.file()    # mosaic
-nrow(); ncol() 
+nrow(); ncol(); dim()
 summary()
 str()
 names()
 head()
-subset()
 factor()
 c()
 cbind(); rbind()
-transform()
+select()
+mutate()
+summarise()
+group_by()
 @
 \squeeze
 <<highlight=FALSE>>=
@@ -490,7 +471,6 @@ relevel()
 ntiles()      # mosaic
 cut()
 @
-\iffalse
 \squeeze
 <<highlight=FALSE>>=
 str()
@@ -505,7 +485,21 @@ sort()
 colnames()
 rownames()
 @
-\fi
+
+\subsection*{Randomization/Simulation}
+%
+<<>>=
+rflip()     # mosaic
+do()        # mosaic
+sample()    # mosaic augmented
+resample()  # with replacement
+@
+\squeeze
+<<highlight=FALSE>>=
+shuffle()   # mosaic
+rbinom()
+rnorm()     # etc, if needed
+@
 
 
 \end{multicols}
