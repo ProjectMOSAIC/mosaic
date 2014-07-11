@@ -158,7 +158,7 @@ Randall Pruim
 \parindent=0pt
 
 \chead{\sf \bfseries \Large Enough R for Intro Stats}
-\rhead{May, 2014}
+\rhead{July, 2014}
 \lhead{R. Pruim}
 
 
@@ -304,16 +304,25 @@ example()
 Basic calculation is very similar to a calculator.
 <<>>=
 # basic ops: + - * / ^ ( )
-log()
-exp()
-sqrt()
+log(); exp(); sqrt()
 @
 <<highlight=FALSE>>=
-log10()
-abs()
-choose()
+log10(); abs(); choose()
 @
 % uniroot()   # root finder
+
+\subsection*{Distributions}
+%
+<<>>=
+pbinom(); pnorm();   
+xpnorm()    # mosaic
+pchisq(); pt()
+qbinom(); qnorm(); 
+qchisq(); qt()
+plotDist()  # mosaic
+@
+\vfill
+
 
 \subsection*{Randomization/Simulation}
 %
@@ -331,7 +340,8 @@ rnorm()     # etc, if needed
 @
 
 \vfill
-\columnbreak
+
+
 
 \subsection*{Formula Theme}
 The following syntax (often with 
@@ -369,18 +379,6 @@ differently for each \code{z}'.
 
 See the sampler for examples.
 
-\subsection*{Distributions}
-%
-<<>>=
-pbinom(); pnorm();   
-xpnorm()    # mosaic
-pchisq(); pt()
-qbinom(); qnorm(); 
-qchisq(); qt()
-plotDist()  # mosaic
-@
-\vfill
-
 \subsection*{Numerical Summaries}
 These functions have 
 a formula interface to match plotting.
@@ -405,6 +403,8 @@ min(); max() # mosaic augmented
 @
 \fi
 \vfill
+
+%\columnbreak
 
 \subsection*{Graphics (mostly lattice)}
 
@@ -432,13 +432,15 @@ bargraph()  # mosaic
 xqqmath()   # mosaic
 @
 
+
 \subsection*{Interactive Graphics (RStudio)}
 <<eval=FALSE>>=
-mPlot(data=HELPrct, 'scatter')
-mPlot(data=HELPrct, 'boxplot')
-mPlot(data=HELPrct, 'histogram')
+mplot(data=HELPrct, 'scatter')
+mplot(data=HELPrct, 'boxplot')
+mplot(data=HELPrct, 'histogram')
 @
-\columnbreak
+%\columnbreak
+
 \subsection*{Inference}
 %
 <<>>=
