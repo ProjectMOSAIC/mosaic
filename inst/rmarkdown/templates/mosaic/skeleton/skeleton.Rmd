@@ -3,10 +3,13 @@ title: "mosaic template"
 author: "Project MOSAIC"
 date: "July 12, 2014"
 output: 
-  html_document: 
+  html_document:
     fig_height: 3
     fig_width: 5
   pdf_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
     fig_height: 3
     fig_width: 5
 ---
