@@ -1,0 +1,40 @@
+---
+title: "mosaic template"
+author: "Project MOSAIC"
+date: "July 12, 2014"
+output: 
+  html_document: 
+    fig_height: 3
+    fig_width: 5
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+
+```{r include=FALSE}
+# Don't delete this chunk if you are using the mosaic package
+# This loads the mosaic and dplyr packages
+require(dplyr)
+require(mosaic)
+```
+
+```{r include=FALSE}
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+
+# This changes the default colors in lattice plots
+trellis.par.set(theme=theme.mosaic())  
+
+# knitr settings
+require(knitr)
+opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small"    # slightly smaller font for code
+)
+```
+
+## Births per day in the US (1978)
+```{r}
+xyplot(births ~ dayofyear, data=Births78)
+favstats(~births, data=Births78)
+```
