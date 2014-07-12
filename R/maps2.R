@@ -40,9 +40,9 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
 
 #' Make a map with \code{ggplot2}
 #'
-#' \code{mMap} takes in two sources of data that refer to geographical
+#' \code{makeMap} takes in two sources of data that refer to geographical
 #' regions and merges them together. Depending on the arguments passed,
-#' it returns this data or a ggplot object constructed with the data.
+#' it returns this merged data or a ggplot object constructed with the data.
 #'
 #' @param data A dataframe with countries as cases
 #' @param map An object that can be fortified to a dataframe (ex: a dataframe itself,
@@ -63,7 +63,7 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
 #' returns a ggplot object with one geom_polygon layer that shows the
 #' borders of the regions.
 #' @export 
-mMap <- function (data, map=NULL, key=c(key.data, key.map), 
+makeMap <- function (data, map=NULL, key=c(key.data, key.map), 
                   key.data, key.map, tr.data = identity, tr.map = identity,
                   plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
