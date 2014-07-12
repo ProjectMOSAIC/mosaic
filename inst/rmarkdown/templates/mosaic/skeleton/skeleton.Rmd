@@ -15,7 +15,6 @@ output:
 ```{r include=FALSE}
 # Don't delete this chunk if you are using the mosaic package
 # This loads the mosaic and dplyr packages
-require(dplyr)
 require(mosaic)
 ```
 
