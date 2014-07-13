@@ -1,0 +1,4 @@
+name: mosaic
+description: >
+ An almost empty document using the mosaic package.
+create_dir: false
