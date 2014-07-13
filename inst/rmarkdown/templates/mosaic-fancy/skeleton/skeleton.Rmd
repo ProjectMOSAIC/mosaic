@@ -1,6 +1,6 @@
 ---
-title: "mosaic template"
-author: "Project MOSAIC"
+title: "Untitled"
+author: ""
 date: "July 12, 2014"
 output: 
   html_document:
