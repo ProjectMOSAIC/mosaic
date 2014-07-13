@@ -10,26 +10,26 @@
 \usage{
 mplot(object, ...)
 
-\method{mplot}{default}(object, ...)
+mplot.default(object, ...)
 
-\method{mplot}{lm}(object, which = c(1:3, 7), system = c("lattice",
-  "ggplot2", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
-  search(), par.settings = theme.mosaic(), level = 0.95,
-  title = paste("model: ", deparse(object$call), "\\n"), ...)
+mplot.lm(object, which = c(1:3, 7), system = c("lattice", "ggplot2",
+  "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\% search(),
+  par.settings = theme.mosaic(), level = 0.95, title = paste("model: ",
+  deparse(object$call), "\\n"), ...)
 
-\method{mplot}{data.frame}(object, default = plotTypes,
-  system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
+mplot.data.frame(object, default = plotTypes, system = c("lattice",
+  "ggplot2"), show = FALSE, title = "", ...)
 
-\method{mplot}{summary.lm}(object, system = c("lattice", "ggplot2"),
-  level = 0.95, par.settings = trellis.par.get(), ...)
+mplot.summary.lm(object, system = c("lattice", "ggplot2"), level = 0.95,
+  par.settings = trellis.par.get(), ...)
 
-\method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
-  ylab = "", xlab = "difference in means",
+mplot.TukeyHSD(object, system = c("lattice", "ggplot2"), ylab = "",
+  xlab = "difference in means",
   title = "Tukey's Honest Significant Differences",
   par.settings = trellis.par.get(), ...)
 
-\method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
-  ylab = "", xlab = "difference in means",
+mplot.TukeyHSD(object, system = c("lattice", "ggplot2"), ylab = "",
+  xlab = "difference in means",
   title = "Tukey's Honest Significant Differences",
   par.settings = trellis.par.get(), ...)
 }

@@ -16,7 +16,7 @@ tryCatch(utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
 
 mplot <- function(object, ...) {
   message("mplot() doesn't know how to handle this kind of input.")
-  message("use `methods("mplot")' to see a list of available methods.")
+  message('use methods("mplot") to see a list of available methods.')
 }
 
 #' @rdname mplot
