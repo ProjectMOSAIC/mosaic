@@ -15,14 +15,14 @@ tryCatch(utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
 #' @export
 
 mplot <- function(object, ...) {
-  message("mplot() doesn't know how to handle this kind of input.")
-  message('use methods("mplot") to see a list of available methods.')
+  UseMethod("mplot")
 }
 
 #' @rdname mplot
 #' @export
 mplot.default <- function(object, ...) {
-  plot(object, ...)
+  message("mplot() doesn't know how to handle this kind of input.")
+  message('use methods("mplot") to see a list of available methods.')
 }
 
 #' @rdname mplot

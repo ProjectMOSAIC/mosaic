@@ -7,8 +7,8 @@
 \method{fortify}{hclust}(model, data, which = c("segments", "heatmap",
   "leaves", "labels", "data"), k = 1, ...)
 
-mplot.hclust(object, data, colorize = TRUE, k = 1, labels = FALSE,
-  heatmap = 0, enumerate = "white", ...)
+\method{mplot}{hclust}(object, data, colorize = TRUE, k = 1,
+  labels = FALSE, heatmap = 0, enumerate = "white", ...)
 }
 \arguments{
 \item{model}{a model}
