@@ -19,6 +19,12 @@ mplot <- function(object, ...) {
 }
 
 #' @rdname mplot
+#' @export
+mplot.default <- function(object, ...) {
+  plot(object, ...)
+}
+
+#' @rdname mplot
 #' @param data a data frame containing the variables that might be used in the plot.
 #' Note that for maps, the data frame must contain coordinates of the polygons 
 #' comprising the map and a variable for determining which corodiantes are part
