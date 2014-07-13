@@ -3,11 +3,14 @@
 \alias{mplot}
 \alias{mplot.TukeyHSD}
 \alias{mplot.data.frame}
+\alias{mplot.default}
 \alias{mplot.lm}
 \alias{mplot.summary.lm}
 \title{Generic plotting}
 \usage{
 mplot(object, ...)
+
+\method{mplot}{default}(object, ...)
 
 \method{mplot}{lm}(object, which = c(1:3, 7), system = c("lattice",
   "ggplot2", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
