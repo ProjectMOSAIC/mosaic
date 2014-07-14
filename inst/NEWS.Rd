@@ -2,6 +2,7 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.9}{
 \itemize{
+\item The mosaic package now contains an RMarkdown template.
 \item A generic \code{mplot} and several instances have been
   added to make a number of plots easy to generate.  There are methods 
   for objects of classes 

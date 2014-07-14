@@ -311,6 +311,9 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
   # variables$q is the quantitative variables.
   plotnames <- list("scatter", "jitter","boxplot", "violin")
   snames <- .NAprepend(variables$all)
+  if (length(variables$all) < 2 || length(variables$q) < 1) {
+    stop("data must have at least 2 variables, at least one of which is quantitative")
+  }
   cnames <- .NAprepend(variables$c)
   mnames <- list("none", linear="linear", "smooth")
   lnames <- list("none","top","right","left",
@@ -325,8 +328,12 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
              show = button("Show Expression"),
              system = picker(sysnames, initial=system, label="Graphics System"),
              plotType = picker(plotnames, initial=default, label="Type of plot      "),
-             x = picker(variables$all, initial=variables$q[[1]], label="any variable (x)   "),
-             y = picker(variables$q, initial=variables$q[[2]],   label="quant. variable (y)"),
+             x = if (length(variables$q) >= 2) 
+               picker(variables$all, initial=variables$q[[2]], label="any variable (x)   ")
+             else 
+               picker(variables$all, initial=variables$c[[1]], label="any variable (x)   ")
+               ,
+             y = picker(variables$q, initial=variables$q[[1]],   label="quant. variable (y)"),
              flipCoords = checkbox(label="Flip coordinates"),
              color = picker(snames, initial="none ", label="Color"),
              size = picker(snames, initial="none ", label="Size (ggplot only)"),
@@ -463,6 +470,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
   # variables$q is the quantitative variables.
   snames <- .NAprepend(variables$all)
   cnames <- .NAprepend(variables$c)
+  if (length(variables$q) < 1) stop("data must have at least 1 quantitative variable")
   lnames <- list("none","top","right","left",
                  "N (lattice)" = "N", "NE (lattice)" = "NE", 
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
@@ -526,7 +534,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
   system=match.arg(system)
   adjust <- 10 / s$nbins
   binwidth <- eval( parse( text= paste("diff(range( ~", s$x, ", data=", s$dataName,", na.rm=TRUE))"))) / s$nbins
-  if ( anyNA(binwidth) || any(is.nan(binwidth)) ) binwidth <- NULL
+  if ( any(is.na(binwidth)) || any(is.nan(binwidth)) ) binwidth <- NULL
   if (system == "ggplot2") {
     res <- paste("qplot( data=", s$dataName, ", x=", s$x, sep="")
     res <- paste(res, geom[s$plotType], stat[s$plotType], sep="")
