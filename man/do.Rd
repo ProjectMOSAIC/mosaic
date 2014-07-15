@@ -7,6 +7,7 @@
 \alias{do.default}
 \alias{do.numeric}
 \alias{print,repeater-method}
+\alias{print.repeater}
 \title{Do Things Repeatedly}
 \usage{
 do(object, ...)
@@ -18,7 +19,7 @@ do(object, ...)
 Do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
   parallel = TRUE)
 
-\S4method{print}{repeater}(x, ...)
+\method{print}{repeater}(x, ...)
 
 \S4method{*}{repeater,ANY}(e1, e2)
 }
@@ -50,9 +51,10 @@ situations.}
 
 \item{e2}{an object (in cases documented here, an expression to be repeated)}
 
-\item{...}{further arguments passed to or from other methods.}
+\item{...}{additional arguments}
 
-\item{x}{an object used to select a method.}
+\item{x}{numeric or complex vectors or objects which can be
+    coerced to such, or other objects for which methods have been written.}
 }
 \value{
 \code{do} returns an object of class \code{repeater} which is only useful in
@@ -61,6 +63,8 @@ situations.}
 \description{
 \code{do()} provides a natural syntax for repetition tuned to assist
 with replication and resampling methods.
+
+#
 }
 \note{
 \code{do} is a thin wrapper around \code{Do} to avoid collision with
