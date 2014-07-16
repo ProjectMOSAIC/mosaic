@@ -53,6 +53,10 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
 #' @param ... additional arguments passed to \code{\link{table}}
+#' @details
+#' The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  If \code{x} inherits 
+#' from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes it
+#' easier to have the two package coexist.
 #' @examples
 #' tally( ~ substance, data=HELPrct)
 #' tally( ~ substance & sex , data=HELPrct)
@@ -74,8 +78,12 @@ tally <- function(x, ...) {
 #'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
 #' @export
 
-tally.tbl <- function(x, wt, sort=FALSE, ...) {
-  dplyr::tally(x, wt, sort=sort)
+tally.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
+  if (missing(wt)) {
+    return(do.call(dplyr::tally, list(x, sort=sort), envir=envir))
+  } else {
+    return(do.call(dplyr::tally, list(x, wt=substitute(wt), sort=sort), envir=envir))
+  }
 }
 
 #' @rdname tally
@@ -87,13 +95,14 @@ tally.default <- function(x, data=parent.frame(),
                       quiet=TRUE,
                       subset, 
                       useNA = "ifany", ...) {
+  print(class(x))
 	format <- match.arg(format)
   if (! .is.formula(x) ) {
       formula <- ~ x
       formula[[2]] <- substitute(x)
       message( "First argument should be a formula... But I'll try to guess what you meant")
       return(
-        do.call(tally, list(formula, data=data, format=format, margins=margins, quiet=quiet, ...))
+        do.call(mosaic::tally, list(formula, data=data, format=format, margins=margins, quiet=quiet, ...))
       )  
   }
   
@@ -192,7 +201,7 @@ rows <- function(x, default=c()) {
 #' @export
 
 prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=".", format="proportion") {
-  T <- tally(x, data=data, ..., format=format)
+  T <- mosaic::tally(x, data=data, ..., format=format)
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   if (is.null(level)) {
 	  level <- dimnames(T)[[1]][1]

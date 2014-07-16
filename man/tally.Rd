@@ -7,7 +7,7 @@
 \usage{
 tally(x, ...)
 
-\method{tally}{tbl}(x, wt, sort = FALSE, ...)
+\method{tally}{tbl}(x, wt, sort = FALSE, ..., envir = parent.frame())
 
 \method{tally}{default}(x, data = parent.frame(), format = c("default",
   "count", "proportion", "percent"), margins = FALSE, quiet = TRUE, subset,
@@ -42,6 +42,11 @@ see \code{\link[dplyr]{tally}} in \pkg{dplyr}}
 }
 \description{
 Tabulate categorical data
+}
+\details{
+The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  If \code{x} inherits
+from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes it
+easier to have the two package coexist.
 }
 \examples{
 tally( ~ substance, data=HELPrct)
