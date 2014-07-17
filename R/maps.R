@@ -1,5 +1,6 @@
 
 
+
 tryCatch(utils::globalVariables(c('coordinates')),
          error=function(e) message('Looks like you should update R.'))
 
@@ -8,8 +9,10 @@ tryCatch(utils::globalVariables(c('coordinates')),
 #'
 #'Some utilities for working with map data
 #'
-#' @param map a map object of class \code{SpatialPolygonsDataFrame}
-#' @param ... other arguments, currently ignored
+#' @param map A map object of class \code{SpatialPolygonsDataFrame}
+#' @param ... Other arguments, currently ignored
+#' @return A dataframe, in which the first 7 columns hold geographical
+#' information (ex: \code{long} and \code{lat})
 #' @examples
 #'
 #' \dontrun{ 
@@ -38,7 +41,8 @@ sp2df <- function (map, ...)
   coords_matrix <- coordinates(map)  # in sp, which maptools depends on
   map@data$clon = coords_matrix[, 1]
   map@data$clat = coords_matrix[, 2]
-  map_points <- fortify(map, region = "id")
+  map_points <- do.call(fortify, list(map, region="id"), 
+                        envir=environment(ggplot2::fortify))
   result <- merge(map_points, map@data, by = "id")
   return(result)
 }
