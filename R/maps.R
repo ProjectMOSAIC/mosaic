@@ -33,7 +33,7 @@ tryCatch(utils::globalVariables(c('coordinates')),
 
 sp2df <- function (map, ...) 
 {
-  .try_require(c("ggplot2", "maptools"))
+  .try_require(c("ggplot2", "maptools")) 
   map@data$id <- rownames(map@data)
   coords_matrix <- coordinates(map)  # in sp, which maptools depends on
   map@data$clon = coords_matrix[, 1]
