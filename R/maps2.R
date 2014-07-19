@@ -12,18 +12,26 @@
 #' the same region.  These utilities make it easier to merge data from different
 #' sources by converting names to standardized forms.
 #' 
-#' @rdname standardName
+#' @param x A vector with the names to standardize
+#' @param standard A named vector in which each name is a particular spelling of
+#' the name in question and the value is the standardized version of that name 
 #' @export
 standardName <- function(x, standard) {
   standard[toupper(x)]
 }
 
+#' @param x A vector with the country names to standardize
+#' @return A vector with standardized country names (in the ISO-a3 format)
 #' @export
+#' @rdname standardName
 standardCountry <- function(x) {
   standardName(x, countryAlternatives)
 }
 
+#' @param x A vector with the US state names to standardize
+#' @return A vector with standardized state names (as two-letter abbreviations)
 #' @export
+#' @rdname standardName
 standardState <- function(x) {
   standardName(x, stateAlternatives)
 }

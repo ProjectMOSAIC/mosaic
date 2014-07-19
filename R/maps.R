@@ -5,7 +5,13 @@ tryCatch(utils::globalVariables(c('coordinates')),
 
 #' Map Utilities
 #'
-#'Some utilities for working with map data
+#' Some utilities for working with map data
+#' 
+#' @details Here's the purpose of each function:
+#' \itemize{
+#'  \item{"sp2df"}{This function takes in a shapefile (formal class of
+#'  \code{SpatialPolygonsDataFrame}) and transforms it in a dataframe.}
+#' }
 #'
 #' @param map A map object of class \code{SpatialPolygonsDataFrame}
 #' @param ... Other arguments, currently ignored
