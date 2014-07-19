@@ -222,7 +222,7 @@ CIAdata <- function (name = NULL) {
   if (name %in% CIA$Name) {
     sub <- subset(CIA, Name == name)
   } else {
-    if (name %in% CIA$code) {
+    if (name %in% CIA$Code) {
       sub <- subset(CIA, Code == name)
     } else {
       message("Unable to locate desired table.  See list of available tables.")
