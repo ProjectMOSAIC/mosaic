@@ -52,22 +52,22 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
 #' regions and merges them together. Depending on the arguments passed,
 #' it returns this merged data or a ggplot object constructed with the data.
 #'
-#' @param data A dataframe with countries as cases
+#' @param data A dataframe with regions as cases
 #' @param map An object that can be fortified to a dataframe (ex: a dataframe itself,
 #' or a SpatialPolygonsDataFrame) 
-#' @param key.data A vector specifying the column name in the 
-#' \code{data} that holds the the unique names of each region
-#' @param key.map A vector specifying the column name in the 
-#' \code{map} that holds the the unique names of each region
+#' @param key.data The column name in the \code{data} that holds the
+#' unique names of each region
+#' @param key.map The column name in the \code{map} that holds the
+#' unique names of each region
 #' @param key The combination of \code{key.data} and \code{key.map} 
 #' @param tr.data A function of the transformation to be performed to
-#' \code{key.data} column
+#' the \code{key.data} column
 #' @param tr.map A function of the transformation to be performed to
-#' \code{key.map} column
+#' the \code{key.map} column
 #' @param plot The plot desired for the output. \code{plot} = "none"
 #' returns the merged data that is the result of merging the \code{data}
 #' and \code{map} together; \code{plot}="frame" returns an empty
-#' (unplotable) ggplot object; \code{plot} = "border" (the default)
+#' (unplottable) ggplot object; \code{plot} = "border" (the default)
 #' returns a ggplot object with one geom_polygon layer that shows the
 #' borders of the regions.
 #' @export 
@@ -109,17 +109,17 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' with the data.
 #'
 #' @param data A dataframe with countries as cases
-#' @param key A vector specifying the column name in the 
-#' \code{data} that holds the the unique names of each country
-#' @param fill A variable in the \code{data} used to specifying the fill
+#' @param key The column name in the \code{data} that holds
+#' the unique names of each country
+#' @param fill A variable in the \code{data} used to specify the fill
 #' color of countries in the map (note: if \code{fill} is not null, then
-#' \code{code} cannot be set to "none")
+#' \code{plot} cannot be set to "none")
 #' @param plot The plot desired for the output. \code{plot} = "none"
 #' returns the merged data that is the result of merging the \code{data}
 #' and the dataframe with the geographical coordinate information;
-#' \code{plot}="frame" returns an empty (unplotable) ggplot object;
+#' \code{plot} = "frame" returns an empty (unplottable) ggplot object;
 #' \code{plot} = "border" (the default) returns a ggplot object with
-#' one geom_polygon layer that shows the borders of the regions.
+#' one geom_polygon layer that shows the borders of the countries
 #' 
 #' @examples
 #' \dontrun{
@@ -155,18 +155,18 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' arguments passed, it returns this data or a ggplot object constructed
 #' with the data.
 #'
-#' @param data A dataframe with states as cases
-#' @param key A vector specifying the column name in the 
-#' \code{data} that holds the the unique names of each state
-#' @param fill A variable in the \code{data} used to specifying the fill
+#' @param data A dataframe with US states as cases
+#' @param key The column name in the \code{data} that holds the unique
+#' names of each state
+#' @param fill A variable in the \code{data} used to specify the fill
 #' color of states in the map (note: if \code{fill} is not null, then
-#' \code{code} cannot be set to "none")
+#' \code{plot} cannot be set to "none")
 #' @param plot The plot desired for the output. \code{plot} = "none"
 #' returns the merged data that is the result of merging the \code{data}
 #' and the dataframe with the geographical coordinate information;
-#' \code{plot}="frame" returns an empty (unplotable) ggplot object;
+#' \code{plot} = "frame" returns an empty (unplottable) ggplot object;
 #' \code{plot} = "border" (the default) returns a ggplot object with
-#' one geom_polygon layer that shows the borders of the regions.
+#' one geom_polygon layer that shows the borders of the states
 #' 
 #' @examples
 #' \dontrun{
@@ -174,7 +174,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' require(dplyr)
 #' 
 #' sAnscombe <- Anscombe %>% group_by(state = rownames(Anscombe)) %>% 
-#' summarise(income = sum(income))       # get some data goruped by state
+#' summarise(income = sum(income))       # get some data grouped by state
 #' 
 #' mUSMap(sAnscombe, key="state", fill="income")
 #'
@@ -217,7 +217,7 @@ mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
 #' head(mergedData)
 #' @export
 CIAdata <- function (name = NULL) {
-  if (is.null(names)) return(CIA)  
+  if (is.null(name)) return(CIA)  
   
   if (name %in% CIA$Name) {
     sub <- subset(CIA, Name == name)
