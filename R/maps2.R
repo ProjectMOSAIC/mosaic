@@ -12,20 +12,50 @@
 #' the same region.  These utilities make it easier to merge data from different
 #' sources by converting names to standardized forms.
 #' 
-#' @rdname standardName
+#' @details
+#' \describe{
+#' 
+#' \item{standardName}{This is the most general standardizing function.
+#' In addition to \code{x}, this function requires another argument:
+#' \code{standard} - a named vector in which each name is a particular
+#' spelling of the region name in question and the corresponding value
+#' is the standardized version of that region name}
+#'  
+#' \item{standardCountry}{This function will standardize the country
+#' names in \code{x} to the standard ISO_a3 country code format. If 
+#' \code{returnAlternatives} is set to \code{TRUE}, this function will also
+#' return the the named vector used to standardize the country names}
+#' 
+#' \item{standardState}{This function will standardize the US state
+#' names in \code{x} to the standard two-letter abbreviations. If 
+#' \code{returnAlternatives} is set to \code{TRUE}, this function will also
+#' return the the named vector used to standardize the state names}
+#' }
+#' 
+#' @param x A vector with the region names to standardize
 #' @export
 standardName <- function(x, standard) {
   standard[toupper(x)]
 }
 
 #' @export
-standardCountry <- function(x) {
-  standardName(x, countryAlternatives)
+#' @rdname standardName
+standardCountry <- function(x, returnAlternatives = FALSE) {
+  stand <- standardName(x, countryAlternatives)
+  if (returnAlternatives == FALSE) return(stand)
+  else {
+    return(list(countries = stand, alternatives = countryAlternatives))
+  }
 }
 
 #' @export
-standardState <- function(x) {
-  standardName(x, stateAlternatives)
+#' @rdname standardName
+standardState <- function(x, returnAlternatives = FALSE) {
+  stand <- standardName(x, stateAlternatives)
+  if (returnAlternatives == FALSE) return(stand)
+  else {
+    return(list(countries = stand, alternatives = stateAlternatives))
+  }
 }
 
 #' @export
@@ -44,22 +74,22 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
 #' regions and merges them together. Depending on the arguments passed,
 #' it returns this merged data or a ggplot object constructed with the data.
 #'
-#' @param data A dataframe with countries as cases
+#' @param data A dataframe with regions as cases
 #' @param map An object that can be fortified to a dataframe (ex: a dataframe itself,
 #' or a SpatialPolygonsDataFrame) 
-#' @param key.data A vector specifying the column name in the 
-#' \code{data} that holds the the unique names of each region
-#' @param key.map A vector specifying the column name in the 
-#' \code{map} that holds the the unique names of each region
+#' @param key.data The column name in the \code{data} that holds the
+#' unique names of each region
+#' @param key.map The column name in the \code{map} that holds the
+#' unique names of each region
 #' @param key The combination of \code{key.data} and \code{key.map} 
 #' @param tr.data A function of the transformation to be performed to
-#' \code{key.data} column
+#' the \code{key.data} column
 #' @param tr.map A function of the transformation to be performed to
-#' \code{key.map} column
+#' the \code{key.map} column
 #' @param plot The plot desired for the output. \code{plot} = "none"
 #' returns the merged data that is the result of merging the \code{data}
 #' and \code{map} together; \code{plot}="frame" returns an empty
-#' (unplotable) ggplot object; \code{plot} = "border" (the default)
+#' (unplottable) ggplot object; \code{plot} = "border" (the default)
 #' returns a ggplot object with one geom_polygon layer that shows the
 #' borders of the regions.
 #' @export 
@@ -101,17 +131,17 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' with the data.
 #'
 #' @param data A dataframe with countries as cases
-#' @param key A vector specifying the column name in the 
-#' \code{data} that holds the the unique names of each country
-#' @param fill A variable in the \code{data} used to specifying the fill
+#' @param key The column name in the \code{data} that holds
+#' the unique names of each country
+#' @param fill A variable in the \code{data} used to specify the fill
 #' color of countries in the map (note: if \code{fill} is not null, then
-#' \code{code} cannot be set to "none")
+#' \code{plot} cannot be set to "none")
 #' @param plot The plot desired for the output. \code{plot} = "none"
 #' returns the merged data that is the result of merging the \code{data}
 #' and the dataframe with the geographical coordinate information;
-#' \code{plot}="frame" returns an empty (unplotable) ggplot object;
+#' \code{plot} = "frame" returns an empty (unplottable) ggplot object;
 #' \code{plot} = "border" (the default) returns a ggplot object with
-#' one geom_polygon layer that shows the borders of the regions.
+#' one geom_polygon layer that shows the borders of the countries
 #' 
 #' @examples
 #' \dontrun{
@@ -130,7 +160,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' @export 
 mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- mMap(data=data, map=World_Countries, key=c(key, "iso_a3"), 
+  map <- makeMap(data=data, map=World_Countries, key=c(key, "iso_a3"), 
               tr.data=standardCountry, tr.map=toupper, plot=plot)
   if (!(is.null(fill) && plot== "none")) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
@@ -147,18 +177,18 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' arguments passed, it returns this data or a ggplot object constructed
 #' with the data.
 #'
-#' @param data A dataframe with states as cases
-#' @param key A vector specifying the column name in the 
-#' \code{data} that holds the the unique names of each state
-#' @param fill A variable in the \code{data} used to specifying the fill
+#' @param data A dataframe with US states as cases
+#' @param key The column name in the \code{data} that holds the unique
+#' names of each state
+#' @param fill A variable in the \code{data} used to specify the fill
 #' color of states in the map (note: if \code{fill} is not null, then
-#' \code{code} cannot be set to "none")
+#' \code{plot} cannot be set to "none")
 #' @param plot The plot desired for the output. \code{plot} = "none"
 #' returns the merged data that is the result of merging the \code{data}
 #' and the dataframe with the geographical coordinate information;
-#' \code{plot}="frame" returns an empty (unplotable) ggplot object;
+#' \code{plot} = "frame" returns an empty (unplottable) ggplot object;
 #' \code{plot} = "border" (the default) returns a ggplot object with
-#' one geom_polygon layer that shows the borders of the regions.
+#' one geom_polygon layer that shows the borders of the states
 #' 
 #' @examples
 #' \dontrun{
@@ -166,7 +196,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' require(dplyr)
 #' 
 #' sAnscombe <- Anscombe %>% group_by(state = rownames(Anscombe)) %>% 
-#' summarise(income = sum(income))       # get some data goruped by state
+#' summarise(income = sum(income))       # get some data grouped by state
 #' 
 #' mUSMap(sAnscombe, key="state", fill="income")
 #'
@@ -181,7 +211,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' @export 
 mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- mMap(data=data, map=US_States, key=c(key, "STATE_ABBR"), 
+  map <- makeMap(data=data, map=US_States, key=c(key, "STATE_ABBR"), 
               tr.data=standardState, tr.map=toupper, plot=plot)
   if (!(is.null(fill) && plot== "none")) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
@@ -208,13 +238,14 @@ mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
 #' mergedData <- merge(CIAdata("pop"), CIAdata("fert"), by="country")
 #' head(mergedData)
 #' @export
+#' @import RCurl
 CIAdata <- function (name = NULL) {
-  if (is.null(names)) return(CIA)  
+  if (is.null(name)) return(CIA)  
   
   if (name %in% CIA$Name) {
     sub <- subset(CIA, Name == name)
   } else {
-    if (name %in% CIA$code) {
+    if (name %in% CIA$Code) {
       sub <- subset(CIA, Code == name)
     } else {
       message("Unable to locate desired table.  See list of available tables.")
@@ -232,3 +263,53 @@ CIAdata <- function (name = NULL) {
                                table[[2]]))
   return(table)
 }
+
+
+
+tryCatch(utils::globalVariables(c('coordinates')),
+         error=function(e) message('Looks like you should update R.'))
+
+
+#' Transforms a shapefile into a dataframe
+#'
+#' This function takes in a shapefile (formal class of
+#' \code{SpatialPolygonsDataFrame}) and transforms it into a dataframe
+#'
+#' @param map A map object of class \code{SpatialPolygonsDataFrame}
+#' @param ... Other arguments, currently ignored
+#' @return A dataframe, in which the first 7 columns hold geographical
+#' information (ex: \code{long} and \code{lat})
+#' @examples
+#'
+#' \dontrun{ 
+#' if(require(maptools)) {
+#'   data(wrld_simpl)
+#'   worldmap <- sp2df(wrld_simpl)
+#' }
+#' 
+#' if ( require(ggplot2) && require(maptools) ) { 
+#'   data(wrld_simpl)
+#'   World <- sp2df(wrld_simpl)
+#'   World2 <- merge(World, Countries, by.x="NAME", by.y="maptools", all.y=FALSE)
+#'   Mdata <- merge(Alcohol, World2, by.x="country", by.y="gapminder", all.y=FALSE) 
+#'   Mdata <- Mdata[order(Mdata$order),]
+#'   qplot( x=long, y=lat, fill=ntiles(alcohol,5), 
+#'          data=subset(Mdata, year==2008), group = group, 
+#'                      geom="polygon")
+#' }
+#' }
+#' @export
+
+sp2df <- function (map, ...) 
+{
+  .try_require(c("ggplot2", "maptools")) 
+  map@data$id <- rownames(map@data)
+  coords_matrix <- coordinates(map)  # in sp, which maptools depends on
+  map@data$clon = coords_matrix[, 1]
+  map@data$clat = coords_matrix[, 2]
+  map_points <- do.call(fortify, list(map, region="id"), 
+                        envir=environment(ggplot2::fortify))
+  result <- merge(map_points, map@data, by = "id")
+  return(result)
+}
+

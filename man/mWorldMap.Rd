@@ -8,19 +8,19 @@ mWorldMap(data, key, fill = NULL, plot = c("borders", "frame", "none"))
 \arguments{
 \item{data}{A dataframe with countries as cases}
 
-\item{key}{A vector specifying the column name in the
-\code{data} that holds the the unique names of each country}
+\item{key}{The column name in the \code{data} that holds
+the unique names of each country}
 
-\item{fill}{A variable in the \code{data} used to specifying the fill
+\item{fill}{A variable in the \code{data} used to specify the fill
 color of countries in the map (note: if \code{fill} is not null, then
-\code{code} cannot be set to "none")}
+\code{plot} cannot be set to "none")}
 
 \item{plot}{The plot desired for the output. \code{plot} = "none"
 returns the merged data that is the result of merging the \code{data}
 and the dataframe with the geographical coordinate information;
-\code{plot}="frame" returns an empty (unplotable) ggplot object;
+\code{plot} = "frame" returns an empty (unplottable) ggplot object;
 \code{plot} = "border" (the default) returns a ggplot object with
-one geom_polygon layer that shows the borders of the regions.}
+one geom_polygon layer that shows the borders of the countries}
 }
 \description{
 \code{mWorldMap} takes in one dataframe that includes information
