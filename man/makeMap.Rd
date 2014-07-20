@@ -8,29 +8,29 @@ makeMap(data, map = NULL, key = c(key.data, key.map), key.data, key.map,
   "none"))
 }
 \arguments{
-\item{data}{A dataframe with countries as cases}
+\item{data}{A dataframe with regions as cases}
 
 \item{map}{An object that can be fortified to a dataframe (ex: a dataframe itself,
 or a SpatialPolygonsDataFrame)}
 
-\item{key.data}{A vector specifying the column name in the
-\code{data} that holds the the unique names of each region}
+\item{key.data}{The column name in the \code{data} that holds the
+unique names of each region}
 
-\item{key.map}{A vector specifying the column name in the
-\code{map} that holds the the unique names of each region}
+\item{key.map}{The column name in the \code{map} that holds the
+unique names of each region}
 
 \item{key}{The combination of \code{key.data} and \code{key.map}}
 
 \item{tr.data}{A function of the transformation to be performed to
-\code{key.data} column}
+the \code{key.data} column}
 
 \item{tr.map}{A function of the transformation to be performed to
-\code{key.map} column}
+the \code{key.map} column}
 
 \item{plot}{The plot desired for the output. \code{plot} = "none"
 returns the merged data that is the result of merging the \code{data}
 and \code{map} together; \code{plot}="frame" returns an empty
-(unplotable) ggplot object; \code{plot} = "border" (the default)
+(unplottable) ggplot object; \code{plot} = "border" (the default)
 returns a ggplot object with one geom_polygon layer that shows the
 borders of the regions.}
 }

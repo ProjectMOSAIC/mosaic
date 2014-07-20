@@ -6,21 +6,21 @@
 mUSMap(data, key, fill = NULL, plot = c("borders", "frame", "none"))
 }
 \arguments{
-\item{data}{A dataframe with states as cases}
+\item{data}{A dataframe with US states as cases}
 
-\item{key}{A vector specifying the column name in the
-\code{data} that holds the the unique names of each state}
+\item{key}{The column name in the \code{data} that holds the unique
+names of each state}
 
-\item{fill}{A variable in the \code{data} used to specifying the fill
+\item{fill}{A variable in the \code{data} used to specify the fill
 color of states in the map (note: if \code{fill} is not null, then
-\code{code} cannot be set to "none")}
+\code{plot} cannot be set to "none")}
 
 \item{plot}{The plot desired for the output. \code{plot} = "none"
 returns the merged data that is the result of merging the \code{data}
 and the dataframe with the geographical coordinate information;
-\code{plot}="frame" returns an empty (unplotable) ggplot object;
+\code{plot} = "frame" returns an empty (unplottable) ggplot object;
 \code{plot} = "border" (the default) returns a ggplot object with
-one geom_polygon layer that shows the borders of the regions.}
+one geom_polygon layer that shows the borders of the states}
 }
 \description{
 \code{mUSMap} takes in one dataframe that includes information
@@ -35,7 +35,7 @@ require(car)
 require(dplyr)
 
 sAnscombe <- Anscombe \%>\% group_by(state = rownames(Anscombe)) \%>\%
-summarise(income = sum(income))       # get some data goruped by state
+summarise(income = sum(income))       # get some data grouped by state
 
 mUSMap(sAnscombe, key="state", fill="income")
 

@@ -6,12 +6,23 @@
 sp2df(map, ...)
 }
 \arguments{
-\item{map}{a map object of class \code{SpatialPolygonsDataFrame}}
+\item{map}{A map object of class \code{SpatialPolygonsDataFrame}}
 
-\item{...}{other arguments, currently ignored}
+\item{...}{Other arguments, currently ignored}
+}
+\value{
+A dataframe, in which the first 7 columns hold geographical
+information (ex: \code{long} and \code{lat})
 }
 \description{
 Some utilities for working with map data
+}
+\details{
+Here's the purpose of each function:
+\itemize{
+ \item{"sp2df"}{This function takes in a shapefile (formal class of
+ \code{SpatialPolygonsDataFrame}) and transforms it in a dataframe.}
+}
 }
 \examples{
 \dontrun{
