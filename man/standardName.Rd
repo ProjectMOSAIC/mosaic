@@ -12,7 +12,7 @@ standardCountry(x, returnAlternatives = FALSE)
 standardState(x, returnAlternatives = FALSE)
 }
 \arguments{
-\item{x}{A vector with the names to standardize}
+\item{x}{A vector with the region names to standardize}
 }
 \description{
 Often different sources of geographical data will use different names for
@@ -24,16 +24,16 @@ sources by converting names to standardized forms.
 
 \item{standardName}{This is the most general standardizing function.
 In addition to \code{x}, this function requires another argument:
-\code{standard}: a named vector in which each name is a particular
-spelling of the name in question and the value is the standardized
-version of that name}
+\code{standard} - a named vector in which each name is a particular
+spelling of the region name in question and the corresponding value
+is the standardized version of that region name}
 
-\item{standardCountry}{This function will standardized the country
+\item{standardCountry}{This function will standardize the country
 names in \code{x} to the standard ISO_a3 country code format. If
 \code{returnAlternatives} is set to \code{TRUE}, this function will also
 return the the named vector used to standardize the country names}
 
-\item{standardState}{This function will standardized the US state
+\item{standardState}{This function will standardize the US state
 names in \code{x} to the standard two-letter abbreviations. If
 \code{returnAlternatives} is set to \code{TRUE}, this function will also
 return the the named vector used to standardize the state names}

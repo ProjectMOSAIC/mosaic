@@ -17,22 +17,22 @@
 #' 
 #' \item{standardName}{This is the most general standardizing function.
 #' In addition to \code{x}, this function requires another argument:
-#' \code{standard}: a named vector in which each name is a particular
-#' spelling of the name in question and the value is the standardized
-#' version of that name}
+#' \code{standard} - a named vector in which each name is a particular
+#' spelling of the region name in question and the corresponding value
+#' is the standardized version of that region name}
 #'  
-#' \item{standardCountry}{This function will standardized the country
+#' \item{standardCountry}{This function will standardize the country
 #' names in \code{x} to the standard ISO_a3 country code format. If 
 #' \code{returnAlternatives} is set to \code{TRUE}, this function will also
 #' return the the named vector used to standardize the country names}
 #' 
-#' \item{standardState}{This function will standardized the US state
+#' \item{standardState}{This function will standardize the US state
 #' names in \code{x} to the standard two-letter abbreviations. If 
 #' \code{returnAlternatives} is set to \code{TRUE}, this function will also
 #' return the the named vector used to standardize the state names}
 #' }
 #' 
-#' @param x A vector with the names to standardize
+#' @param x A vector with the region names to standardize
 #' @export
 standardName <- function(x, standard) {
   standard[toupper(x)]
@@ -160,7 +160,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' @export 
 mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- mMap(data=data, map=World_Countries, key=c(key, "iso_a3"), 
+  map <- makeMap(data=data, map=World_Countries, key=c(key, "iso_a3"), 
               tr.data=standardCountry, tr.map=toupper, plot=plot)
   if (!(is.null(fill) && plot== "none")) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
@@ -211,7 +211,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' @export 
 mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- mMap(data=data, map=US_States, key=c(key, "STATE_ABBR"), 
+  map <- makeMap(data=data, map=US_States, key=c(key, "STATE_ABBR"), 
               tr.data=standardState, tr.map=toupper, plot=plot)
   if (!(is.null(fill) && plot== "none")) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
