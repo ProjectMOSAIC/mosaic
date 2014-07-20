@@ -216,6 +216,7 @@ mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
 #' mergedData <- merge(CIAdata("pop"), CIAdata("fert"), by="country")
 #' head(mergedData)
 #' @export
+#' @import RCurl
 CIAdata <- function (name = NULL) {
   if (is.null(name)) return(CIA)  
   
