@@ -136,6 +136,7 @@ plotFun <- function(object, ...,
   otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,"",sep="") else c()
   if (length( setdiff( otherGroups, names(dots) ) ) > 0 ) {
     # print(list(otherGroups=otherGroups, dots=names(dots)) )
+    
     stop(paste("Cannot plot with free parameters; try setting", 
                paste( setdiff(otherGroups, names(dots)), collapse=", " ) ))
   }
