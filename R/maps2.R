@@ -162,6 +162,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
   plot <- match.arg(plot)
   map <- makeMap(data=data, map=World_Countries, key=c(key, "iso_a3"), 
               tr.data=standardCountry, tr.map=toupper, plot=plot)
+  if (!(plot=="none")) map <- map + coord_map()
   if (!(is.null(fill) || plot== "none")) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
   }
@@ -213,6 +214,7 @@ mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
   map <- makeMap(data=data, map=US_States, key=c(key, "STATE_ABBR"), 
               tr.data=standardState, tr.map=toupper, plot=plot)
+  if (!(plot=="none")) map <- map + coord_map()
   if (!(is.null(fill) || plot== "none")) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
   }
