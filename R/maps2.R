@@ -210,15 +210,40 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE) 
 #' }
 #' @export 
-mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
+mUSMap <- function(data, key, fill = NULL, plot = c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- makeMap(data=data, map=US_States, key=c(key, "STATE_ABBR"), 
-              tr.data=standardState, tr.map=toupper, plot=plot)
-  if (!(plot=="none")) map <- map + coord_map()
-  if (!(is.null(fill) || plot== "none")) {
-    map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
+  US_States <- sp2df(US_States)
+  US_States_moved <- within(US_States, {
+    lat[STATE_ABBR == "AK"] <- lat[STATE_ABBR == "AK"] - 45
+    long[STATE_ABBR == "AK"] <- long[STATE_ABBR == "AK"] + 25
+    lat[STATE_ABBR == "HI"] <- lat[STATE_ABBR == "HI"] + 5   
+    long[STATE_ABBR == "HI"] <- long[STATE_ABBR == "HI"] + 50
+  })
+  map <- makeMap(data = data, map = US_States_moved, 
+                 key = c(key, "STATE_ABBR"), 
+                 tr.data = standardState, 
+                 tr.map = toupper, 
+                 plot = plot)
+  if (!(plot == "none")) {
+    map <- map + coord_map() + 
+      coord_trans(xtrans = 'neg_sqrt', ytrans = 'squared')
+  }
+  if (!(is.null(fill) || plot == "none")) {
+    map <- map + geom_polygon(aes_string(fill = fill), color = "darkgray")
   }
   map
+}
+
+
+#' @export
+#' @import scales
+squared_trans <- function() {
+  trans_new("squared", function(x) x^2, function(x) sqrt(x))
+}
+
+#' @export
+neg_sqrt_trans <- function() {
+  trans_new("neg_sqrt", function(x) sqrt(abs(x)), function(x) x^2)
 }
 
 
@@ -301,7 +326,6 @@ tryCatch(utils::globalVariables(c('coordinates')),
 #' }
 #' }
 #' @export
-
 sp2df <- function (map, ...) 
 {
   .try_require(c("ggplot2", "maptools")) 
