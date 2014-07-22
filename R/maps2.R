@@ -115,7 +115,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
   }
   switch(plot, 
          borders = ggplot(data, aes(x=long, y=lat, group=group, order=order)) +
-           geom_polygon(color="darkgray", fill=NA) + theme_minimal() + coord_map() +
+           geom_polygon(color="darkgray", fill=NA) + theme_minimal() +
            labs(x="", y=""),
          frame = ggplot(data, aes(x=long, y=lat, group=group, order=order)),
          none = data)
