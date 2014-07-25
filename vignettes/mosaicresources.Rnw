@@ -1,6 +1,7 @@
 %\VignetteIndexEntry{mosaic resources}
 %\VignettePackage{mosaic}
-%\VignetteKeywords{mosaic, references}
+%\VignetteKeywords{mosaic, vignettes, resources, references}
+%\VignetteEngine{knitr::knitr} 
 \documentclass[11pt]{article}
 %\usepackage{epstopdf, color, url, hyperref} 
 \usepackage{color, url, hyperref} 
