@@ -155,7 +155,7 @@ function (x,
                     "log-normal"  = dlnorm,
                     "poisson"     = dpois,
                     "beta"        = dbeta,
-                    "t"           = dt,
+                    "t"           = dt3,
                     "weibull"     = dweibull,
                     "cauchy"      = dcauchy,
                     "gamma"       = dgamma,
@@ -308,4 +308,8 @@ function (x,
     }
 }
 
-         
+dt3 <- function (x, df, m=0, s=1, log = FALSE) {
+  if (log) 
+    return( dt( (x-m)/s, df=df, log=TRUE)  - log(s) )
+  dt( (x-m)/s, df=df, log=FALSE) / s
+}  
