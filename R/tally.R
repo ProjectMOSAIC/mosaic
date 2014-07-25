@@ -95,7 +95,6 @@ tally.default <- function(x, data=parent.frame(),
                       quiet=TRUE,
                       subset, 
                       useNA = "ifany", ...) {
-  print(class(x))
 	format <- match.arg(format)
   if (! .is.formula(x) ) {
       formula <- ~ x
