@@ -8,11 +8,12 @@
 
 
 
-#' Odds Ratio for 2X2 Contingency Tables
+#' Odds Ratio and Relative Risk for 2 x 2 Contingency Tables
 #' 
-#' This function calculates the odds ratio for a 2 X 2 contingency table and a
+#' This function calculates the odds ratio and relative risk for a 2 x 2 
+#' contingency table and a
 #' confidence interval (default \code{conf.level} is 95 percent) for the
-#' estimated odds ratio. \code{x} should be a matrix, data frame or table. "Successes"
+#' each estimate. \code{x} should be a matrix, data frame or table. "Successes"
 #' should be located in column 1 of \code{x}, and the treatment of interest
 #' should be located in row 2. The odds ratio is calculated as (Odds row 2) /
 #' (Odds row 1). The confidence interval is calculated from the log(OR) and
@@ -22,12 +23,11 @@
 #' @rdname oddsRatio
 #' @param x a 2 X 2 matrix, data frame or table of counts
 #' @param conf.level the confidence interval level
-#' @return \item{p1, p2}{Proportions for rows 1 and 2} \item{o1, o2}{Odds for
-#' rows 1 and 2} \item{OR}{Odds ratio} \item{lower}{the lower bound of the
-#' confidence interval} \item{upper}{the upper bound of the confidence
-#' interval} \item{conf.level}{the confidence interval level}
-#' @author Kevin Middleton (\email{kmm@@csusb.edu})
-#' @seealso \code{\link{chisq.test}}
+#' @return an odds ratio or relative risk.  If \code{verpose} is true,
+#' more details and the confidence intervals are displayed.
+#' @author Kevin Middleton (\email{kmm@@csusb.edu}); modified by 
+#' R Pruim.
+#' @seealso \code{\link{chisq.test}}, \code{\link{fisher.test}}
 #' @keywords stats
 #' @examples
 #' M1 <- matrix(c(14, 38, 51, 11), nrow = 2)
@@ -39,26 +39,61 @@
 #' colnames(M2) <- c("No", "Yes")
 #' M2
 #' oddsRatio(M2)
+#' oddsRatio(M2, verbose=TRUE)
+#' relrisk(M2, verbose=TRUE)
+#' relrisk(tally(~ homeless + sex, data=HELPrct) )
+#' do(3) * relrisk( tally( ~ homeless + shuffle(sex), data=HELPrct) )
 #' @export
 
-oddsRatio <- function(x, conf.level = 0.95){
+oddsRatio <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3){
+  if (any(dim(x) != c(2,2))) {
+    stop("expecting something 2 x 2")
+  }
+  names(x) <- NULL
+  row.names(x) <- NULL
+  colnames(x) <- NULL
   rowsums <- rowSums(x)
   p1 <- x[1, 1] / rowsums[1]
   p2 <- x[2, 1] / rowsums[2]
   o1 <- p1 / (1 - p1)
   o2 <- p2 / (1 - p2)
+  RR <- p2 / p1
   OR <- o2 / o1
+  crit <- qnorm((1 - conf.level)/2, lower.tail = FALSE)
+  
+  names(RR) <- "RR"
+  log.RR <- log(RR)
+  SE.log.RR <- sqrt( sum( x[,2]/x[,1]/rowsums) )
+  log.lower.RR <- log.RR - crit * SE.log.RR
+  log.upper.RR <- log.RR + crit * SE.log.RR
+  lower.RR <- exp(log.lower.RR)
+  upper.RR <- exp(log.upper.RR)
+  
+  names(OR) <- "OR"
   log.OR <- log(OR)
   SE.log.OR <- sqrt(sum(1/x))
-  crit <- qnorm((1 - conf.level)/2, lower.tail = FALSE)
-  log.lower <- log.OR - crit * SE.log.OR
-  log.upper <- log.OR + crit * SE.log.OR
-  lower <- exp(log.lower)
-  upper <- exp(log.upper)
-  zz <- list(p1 = p1, p2 = p2, o1 = o1, o2 = o2, OR = OR, 
-    lower = lower, upper = upper, conf.level = conf.level)
-  class(zz) <- "oddsRatio"
-  zz
+  log.lower.OR <- log.OR - crit * SE.log.OR
+  log.upper.OR <- log.OR + crit * SE.log.OR
+  lower.OR <- exp(log.lower.OR)
+  upper.OR <- exp(log.upper.OR)
+  
+  res <- structure(OR,
+                   p1 = p1, 
+                   p2 = p2, 
+                   o1 = o1, 
+                   o2 = o2, 
+                   OR = OR, 
+                   lower.OR = lower.OR, 
+                   upper.OR = upper.OR, 
+                   RR = RR,
+                   lower.RR = lower.RR, 
+                   upper.RR = upper.RR, 
+                   conf.level = conf.level,
+                   class="oddsRatio")
+  if (verbose) {
+    return(res)
+  }
+  OR
 }
 
 #' @rdname oddsRatio
@@ -71,13 +106,25 @@ print.oddsRatio <- function(x, digits = 4, ...){
   cat("Odds Ratio\n")
   cat("\n")
   cat("Proportions\n")
-  cat("\tProp. 1:\t", format(x$p1, digits = digits), "\n")
-  cat("\tProp. 2:\t", format(x$p2, digits = digits), "\n\n")
+  cat("\t   Prop. 1:\t", format(attr(x,"p1"), digits = digits), "\n")
+  cat("\t   Prop. 2:\t", format(attr(x,"p2"), digits = digits), "\n")
+  cat("\t Rel. Risk:\t", format(attr(x,"RR"), digits = digits), "\n\n")
   cat("Odds\n")
-  cat("\tOdds 1:\t\t", format(x$o1, digits = digits), "\n")
-  cat("\tOdds 2:\t\t", format(x$o2, digits = digits), "\n\n")
-  cat("Odds Ratio\n")
-  cat("\tOdds Ratio:\t", format(x$OR, digits = digits), "\n\n")
-  cat(format(100 * x$conf.level), "percent confidence interval:\n\t")
-  cat(format(x$lower, digits = digits), "< OR <", format(x$upper, digits = digits), "\n")
+  cat("\t    Odds 1:\t", format(attr(x,"o1"), digits = digits), "\n")
+  cat("\t    Odds 2:\t", format(attr(x,"o2"), digits = digits), "\n")
+  cat("\tOdds Ratio:\t", format(attr(x,"OR"), digits = digits), "\n\n")
+  cat(format(100 * attr(x,"conf.level")), "percent confidence interval:\n")
+  cat("\t", format(attr(x,"lower.RR"), digits = digits), "< RR <", 
+      format(attr(x,"upper.RR"), digits = digits), "\n")
+  cat("\t", format(attr(x,"lower.OR"), digits = digits), "< OR <", 
+      format(attr(x,"upper.OR"), digits = digits), "\n")
+}
+
+#' @rdname oddsRatio
+#' @export
+relrisk <- function( x, verbose=FALSE, ... ) {
+  if (verbose) {
+      return(oddsRatio(x, verbose=verbose, ...))
+  } 
+  attr(oddsRatio(x, verbose=TRUE, ...), "RR")
 }
