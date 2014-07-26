@@ -165,9 +165,11 @@ function (x,
     x = x[!is.na(x)]
     density <- TRUE
     if (is.null(args)) {
-      if (! require(MASS) ){
-        stop("The MASS package must be loaded to auto-fit distributions.")
-      }
+      # we now depend on MASS, so we don't have to check for it
+	  #	if (! require(MASS) ){
+      #  stop("The MASS package must be loaded to auto-fit distributions.")
+      #}
+
       if (is.null(start)) {
         args = fitdistr(x, fit)$estimate
       }

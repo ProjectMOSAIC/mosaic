@@ -696,7 +696,10 @@ symbolicAntiD <- function(form, ...){
 .makeNice <- function(form,params=all.vars(form)){
   # See if the MASS package fraction simplifier is installed, if not 
   # leave fractions in decimal form
-  if (!require(MASS,quietly=TRUE)) fractions <- I
+  # Belay that order.  We now require MASS, so it will be there.
+  # So next line is now commented out.
+  # # if (!require(MASS,quietly=TRUE)) fractions <- I
+
   # Functions where the contents are preserved, e.g. sqrt(2)
   forbidden = c("exp","sin","cos","tan","acos", "asin", 
                 "atan","log","sqrt","log10","tanh","atanh",
