@@ -17,6 +17,10 @@ relrisk(x, verbose = FALSE, ...)
 
 \item{conf.level}{the confidence interval level}
 
+\item{verbose}{a logical indicating whether verbose output should be displayed}
+
+\item{quiet}{a logical indicating whether verbose outoput should be supressed}
+
 \item{digits}{number of digits to display}
 
 \item{\dots}{additional arguments}

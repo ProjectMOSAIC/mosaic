@@ -52,6 +52,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #'        are calculated should be surpressed.  See \code{\link{addmargins}}.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
+#' @param envir an environment in which to evaluate
 #' @param ... additional arguments passed to \code{\link{table}}
 #' @details
 #' The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  If \code{x} inherits 

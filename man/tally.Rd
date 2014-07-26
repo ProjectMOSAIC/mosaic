@@ -32,6 +32,8 @@ are calculated should be surpressed.  See \code{\link{addmargins}}.}
 
 \item{useNA}{as in \code{\link{table}}, but the default here is \code{"ifany"}.}
 
+\item{envir}{an environment in which to evaluate}
+
 \item{...}{additional arguments passed to \code{\link{table}}}
 
 \item{wt}{for weighted tallying,

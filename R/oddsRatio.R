@@ -23,6 +23,8 @@
 #' @rdname oddsRatio
 #' @param x a 2 X 2 matrix, data frame or table of counts
 #' @param conf.level the confidence interval level
+#' @param verbose a logical indicating whether verbose output should be displayed
+#' @param quiet a logical indicating whether verbose outoput should be supressed
 #' @return an odds ratio or relative risk.  If \code{verpose} is true,
 #' more details and the confidence intervals are displayed.
 #' @author Kevin Middleton (\email{kmm@@csusb.edu}); modified by 
