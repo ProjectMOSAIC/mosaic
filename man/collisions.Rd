@@ -2,6 +2,7 @@
 \name{collisions}
 \alias{collisions}
 \alias{select}
+\alias{select.data.frame}
 \alias{select.default}
 \alias{select.ridgelm}
 \alias{select.tbl}
@@ -11,16 +12,20 @@ select(object, ...)
 
 \method{select}{tbl}(object, ...)
 
+\method{select}{data.frame}(object, ...)
+
 \method{select}{ridgelm}(object, ...)
 
 \method{select}{default}(object, ...)
 }
 \arguments{
 \item{object}{and R object}
+
+\item{...}{additional arguments}
 }
 \description{
 Several popular packages export functions with the same names.  The \pkg{mosaic}
-package attempts to help these other packge co-exist by creating generic functions
+package attempts to help these other package co-exist by creating generic functions
 with the same name and dispatching to the appropriate function based on the (first)
 arguemnt supplied.
 }
