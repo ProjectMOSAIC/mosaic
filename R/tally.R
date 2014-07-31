@@ -42,7 +42,12 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @aliases tally
 #'
 #' @param x an object
-#' @param data a data frame or environment in which evaluation occurs
+#' @param data a data frame or environment in which evaluation occurs.
+#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#' use this function interactively by treating the working envionment as if it were 
+#' a data frame.  But this may not be appropriate for programming uses.  
+#' When programming, it is best to use an explicit \code{data} argument
+#' -- ideally supplying a data frame that contains the variables mentioned
 #' @param format a character string describing the desired format of the results.
 #'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
 #'        In case of \code{'default'}, counts are used unless there is a condition, in
