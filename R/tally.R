@@ -65,7 +65,12 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ substance | sex , data=HELPrct)
 #' tally( ~ substance | sex , data=HELPrct, format='count')
 #' tally( ~ substance & sex , data=HELPrct, format='percent')
-#' tally( ~ link, data=HELPrct, useNA="always")
+#' # force NAs to show up
+#' tally( ~ sex, data=HELPrct, useNA="always")
+#' # show NAs if any are there
+#' tally( ~ link, data=HELPrct)
+#' # ignfore the NAs
+#' tally( ~ link, data=HELPrct, useNA="no")
 #' @export
 
 tally <- function(x, ...) {
