@@ -7,7 +7,41 @@
 \usepackage{color, url, hyperref} 
 \usepackage[margin=1in]{geometry}
 \usepackage[parfill]{parskip}
-\usepackage{language}
+
+
+%\usepackage{language}
+\usepackage{xstring}
+\usepackage{xcolor}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Looking for a consistent typography for language elements.
+
+\providecommand{\R}{}
+\renewcommand{\R}{\mbox{\sf{R}}}
+\providecommand{\RStudio}{}
+\renewcommand{\RStudio}{\mbox{\sf{R}Studio}}
+
+\providecommand{\variable}[1]{}
+\renewcommand{\variable}[1]{{\color{green!50!black}\texttt{#1}}}
+\providecommand{\dataframe}[1]{}
+\renewcommand{\dataframe}[1]{{\color{blue!80!black}\texttt{#1}}}
+\providecommand{\function}[1]{}
+\renewcommand{\function}[1]{{\color{purple!75!blue}\texttt{\StrSubstitute{#1}{()}{}()}}}
+\providecommand{\option}[1]{}
+\renewcommand{\option}[1]{{\color{brown!80!black}\texttt{#1}}}
+\providecommand{\pkg}[1]{}
+\renewcommand{\pkg}[1]{{\color{red!80!black}\texttt{#1}}}
+\providecommand{\code}[1]{}
+\renewcommand{\code}[1]{{\color{blue!80!black}\texttt{#1}}}
+
+\providecommand{\file}[1]{}
+\renewcommand{\file}[1]{{\tt #1}}
+
+% This looks really hokey.  Probably need to redefine this.
+\providecommand{\model}[2]{}
+\renewcommand{\model}[2]{{$\,$\hbox{#1}\ \ensuremath{\sim}\ \hbox{#2}}}
+
+
+
 \definecolor{green}{RGB}{0,127,0}
 \hypersetup{pdftitle={Resources Related to the mosaic Package}, colorlinks=true, linkcolor=black, citecolor=black}
 %\usepackage[bottom]{footmisc}
