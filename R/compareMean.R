@@ -23,7 +23,7 @@
 #' histogram(~ result, groups=(result >= obs), nulldist, 
 #'   xlab="difference in means")
 #' @export
-compareMean = function(formula, data=NULL, ...) {
+compareMean = function(formula, data=parent.frame(), ...) {
   means = mean( formula, data=data, ... )
   if (length(means) != 2) {
   	stop("number of levels for grouping variable must be 2\n")

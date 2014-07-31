@@ -3,7 +3,7 @@
 \alias{compareMean}
 \title{Compare means between 2 groups}
 \usage{
-compareMean(formula, data = NULL, ...)
+compareMean(formula, data = parent.frame(), ...)
 }
 \arguments{
 \item{formula}{a formula}
