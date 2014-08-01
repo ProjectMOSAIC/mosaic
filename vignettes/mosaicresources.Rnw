@@ -149,9 +149,9 @@ An annotated companion to the examples in the book implemented using R can be fo
 \section{Articles}
 \begin{itemize}
 \item GW Cobb, The introductory statistics course: a Ptolemaic curriculum?, 
-   \emph{Technology Innovations in Statistics Education}, 2007, 1(1), \url{www.escholarship.org/uc/item/6hb3k0nz}.
+   \emph{Technology Innovations in Statistics Education}, 2007, 1(1), \url{http://www.escholarship.org/uc/item/6hb3k0nz}.
 \item D Nolan and D Temple Lang, Computing in the statistics curricula, 
-   \emph{The American Statistician}, 2010, 64(2), \url{www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf}.
+   \emph{The American Statistician}, 2010, 64(2), \url{http://www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf}.
 \end{itemize}
 
 \end{document}
