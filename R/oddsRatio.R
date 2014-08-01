@@ -1,7 +1,7 @@
 # Function to calculate odds ratios and confidence intervals
 # on odds ratios.
 
-# Written by Kevin Middleton
+# Written by Kevin Middleton; largely redone by R. Pruim
 
 # Successes in Column 1
 # Treatment of interest in Row 2
@@ -25,6 +25,8 @@
 #' @param conf.level the confidence interval level
 #' @param verbose a logical indicating whether verbose output should be displayed
 #' @param quiet a logical indicating whether verbose outoput should be supressed
+#' @param relrisk a logical indicating whether the relative risk should be returned
+#' instead of the odds ratio
 #' @return an odds ratio or relative risk.  If \code{verpose} is true,
 #' more details and the confidence intervals are displayed.
 #' @author Kevin Middleton (\email{kmm@@csusb.edu}); modified by 
@@ -47,7 +49,8 @@
 #' do(3) * relrisk( tally( ~ homeless + shuffle(sex), data=HELPrct) )
 #' @export
 
-oddsRatio <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3){
+orrr <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3,
+                      relrisk=FALSE){
   if (any(dim(x) != c(2,2))) {
     stop("expecting something 2 x 2")
   }
@@ -78,32 +81,77 @@ oddsRatio <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3
   log.upper.OR <- log.OR + crit * SE.log.OR
   lower.OR <- exp(log.lower.OR)
   upper.OR <- exp(log.upper.OR)
-  
-  res <- structure(OR,
-                   p1 = p1, 
-                   p2 = p2, 
-                   o1 = o1, 
-                   o2 = o2, 
-                   OR = OR, 
-                   lower.OR = lower.OR, 
-                   upper.OR = upper.OR, 
-                   RR = RR,
-                   lower.RR = lower.RR, 
-                   upper.RR = upper.RR, 
-                   conf.level = conf.level,
-                   class="oddsRatio")
-  if (verbose) {
-    return(res)
+
+  res <- if (relrisk) {
+    structure(RR,
+              p1 = p1, 
+              p2 = p2, 
+              o1 = o1, 
+              o2 = o2, 
+              OR = OR, 
+              lower.OR = lower.OR, 
+              upper.OR = upper.OR, 
+              RR = RR,
+              lower.RR = lower.RR, 
+              upper.RR = upper.RR, 
+              conf.level = conf.level,
+              class=c("relrisk", "numeric"))
+  } else {  
+    structure(OR,
+              p1 = p1, 
+              p2 = p2, 
+              o1 = o1, 
+              o2 = o2, 
+              OR = OR, 
+              lower.OR = lower.OR, 
+              upper.OR = upper.OR, 
+              RR = RR,
+              lower.RR = lower.RR, 
+              upper.RR = upper.RR, 
+              conf.level = conf.level,
+              class=c("oddsRatio", "numeric"))
   }
-  OR
+  if (verbose) print(summary(res))
+  res
 }
 
 #' @rdname oddsRatio
-#' @param digits number of digits to display
-#' @param \dots additional arguments
 #' @export
+oddsRatio <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3) {
+  orrr(x, conf.level=conf.level, verbose=verbose, digits=digits, relrisk=FALSE)
+}
 
-print.oddsRatio <- function(x, digits = 4, ...){
+#' @rdname oddsRatio
+#' @export
+relrisk <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3) {
+  orrr(x, conf.level=conf.level, verbose=verbose, digits=digits, relrisk=TRUE)
+}
+
+#' @rdname oddsRatio
+#' @export
+print.oddsRatio <- function(x, digits  = 4, ...) {
+  print(as.numeric(x))
+}
+
+#' @rdname oddsRatio
+#' @export
+print.relrisk <- function(x, digits  = 4, ...) {
+  print(as.numeric(x))
+}
+
+#' @rdname oddsRatio
+#' @export
+summary.oddsRatio <- function(x, digits = 4, ...){
+  summary_relrisk_oddsratio(x, digits=digits, ...) 
+}
+
+#' @rdname oddsRatio
+#' @export
+summary.relrisk <- function(x, digits = 4, ...){
+  summary_relrisk_oddsratio(x, digits=digits, ...) 
+}
+
+summary_relrisk_oddsratio <- function(x, digits = 4, ...){
   cat("\n")
   cat("Odds Ratio\n")
   cat("\n")
@@ -120,13 +168,4 @@ print.oddsRatio <- function(x, digits = 4, ...){
       format(attr(x,"upper.RR"), digits = digits), "\n")
   cat("\t", format(attr(x,"lower.OR"), digits = digits), "< OR <", 
       format(attr(x,"upper.OR"), digits = digits), "\n")
-}
-
-#' @rdname oddsRatio
-#' @export
-relrisk <- function( x, verbose=FALSE, ... ) {
-  if (verbose) {
-      return(oddsRatio(x, verbose=verbose, ...))
-  } 
-  attr(oddsRatio(x, verbose=TRUE, ...), "RR")
 }
