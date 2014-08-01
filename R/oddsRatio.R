@@ -22,11 +22,16 @@
 #' 
 #' @rdname oddsRatio
 #' @param x a 2 X 2 matrix, data frame or table of counts
+#' @param object an R object to print or summarise.  Here an object of class
+#' \code{"oddsRatio"} or \code{"relrisk"}.
 #' @param conf.level the confidence interval level
 #' @param verbose a logical indicating whether verbose output should be displayed
 #' @param quiet a logical indicating whether verbose outoput should be supressed
 #' @param relrisk a logical indicating whether the relative risk should be returned
 #' instead of the odds ratio
+#' @param digits number of digits to display
+
+#' @param ... additional arguments
 #' @return an odds ratio or relative risk.  If \code{verpose} is true,
 #' more details and the confidence intervals are displayed.
 #' @author Kevin Middleton (\email{kmm@@csusb.edu}); modified by 
@@ -141,14 +146,14 @@ print.relrisk <- function(x, digits  = 4, ...) {
 
 #' @rdname oddsRatio
 #' @export
-summary.oddsRatio <- function(x, digits = 4, ...){
-  summary_relrisk_oddsratio(x, digits=digits, ...) 
+summary.oddsRatio <- function(object, digits = 4, ...){
+  summary_relrisk_oddsratio(object, digits=digits, ...) 
 }
 
 #' @rdname oddsRatio
 #' @export
-summary.relrisk <- function(x, digits = 4, ...){
-  summary_relrisk_oddsratio(x, digits=digits, ...) 
+summary.relrisk <- function(object, digits = 4, ...){
+  summary_relrisk_oddsratio(object, digits=digits, ...) 
 }
 
 summary_relrisk_oddsratio <- function(x, digits = 4, ...){

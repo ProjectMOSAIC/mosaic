@@ -22,12 +22,15 @@ relrisk(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
 
 \method{print}{relrisk}(x, digits = 4, ...)
 
-\method{summary}{oddsRatio}(x, digits = 4, ...)
+\method{summary}{oddsRatio}(object, digits = 4, ...)
 
-\method{summary}{relrisk}(x, digits = 4, ...)
+\method{summary}{relrisk}(object, digits = 4, ...)
 }
 \arguments{
 \item{x}{a 2 X 2 matrix, data frame or table of counts}
+
+\item{object}{an R object to print or summarise.  Here an object of class
+\code{"oddsRatio"} or \code{"relrisk"}.}
 
 \item{conf.level}{the confidence interval level}
 
@@ -37,6 +40,10 @@ relrisk(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
 
 \item{relrisk}{a logical indicating whether the relative risk should be returned
 instead of the odds ratio}
+
+\item{digits}{number of digits to display}
+
+\item{...}{additional arguments}
 }
 \value{
 an odds ratio or relative risk.  If \code{verpose} is true,
