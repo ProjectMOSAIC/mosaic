@@ -156,18 +156,20 @@ residuals.groupwiseModel <- function(object, ...) {object$resids}
 fitted.groupwiseModel <- function(object, ...) {object$fitted}
 #' @rdname mm
 #' @export
+setMethod("summary", "groupwiseModel",
+          function(object, ... ){
+            resids <- resid(object)
+            sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
+            r2 <- var(resids)/var(resids+fitted(object))
+            ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
+            res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
+                                   df=object$df,coefs=confint(object)), 
+                              class= "summary_groupwiseModel"
+            )
+            return(res)
+          }
+)
 
-summary.groupwiseModel <- function(object, ... ){
-  resids <- resid(object)
-  sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
-  r2 <- var(resids)/var(resids+fitted(object))
-  ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
-  res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
-                         df=object$df,coefs=confint(object)), 
-                         class= "summary_groupwiseModel"
-  )
-  return(res)
-}
 #' @rdname mm
 #' @export
 

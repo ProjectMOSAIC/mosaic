@@ -146,15 +146,19 @@ print.relrisk <- function(x, digits  = 4, ...) {
 
 #' @rdname oddsRatio
 #' @export
-summary.oddsRatio <- function(object, digits = 4, ...){
-  summary_relrisk_oddsratio(object, digits=digits, ...) 
-}
+setMethod("summary", "oddsRatio",
+          function(object, digits = 4, ...){
+            summary_relrisk_oddsratio(object, digits=digits, ...) 
+          }
+)
 
 #' @rdname oddsRatio
 #' @export
-summary.relrisk <- function(object, digits = 4, ...){
-  summary_relrisk_oddsratio(object, digits=digits, ...) 
-}
+setMethod("summary","relrisk",
+          function(object, digits = 4, ...){
+            summary_relrisk_oddsratio(object, digits=digits, ...) 
+          }
+)
 
 summary_relrisk_oddsratio <- function(x, digits = 4, ...){
   cat("\n")
