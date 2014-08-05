@@ -25,7 +25,6 @@
 #' @importFrom reshape2 melt acast dcast
 #' @import methods
 #' @importFrom MASS fitdistr fractions
-#' @import sp
 #' @import dplyr
 #' @import grid    
 #' @import lattice

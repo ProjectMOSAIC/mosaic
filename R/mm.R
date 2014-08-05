@@ -156,7 +156,7 @@ residuals.groupwiseModel <- function(object, ...) {object$resids}
 fitted.groupwiseModel <- function(object, ...) {object$fitted}
 #' @rdname mm
 #' @export
-setMethod("summary", "groupwiseModel",
+summary.groupwiseModel <- 
           function(object, ... ){
             resids <- resid(object)
             sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
@@ -168,7 +168,7 @@ setMethod("summary", "groupwiseModel",
             )
             return(res)
           }
-)
+
 
 #' @rdname mm
 #' @export
