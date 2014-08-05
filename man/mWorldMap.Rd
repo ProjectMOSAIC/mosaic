@@ -30,18 +30,21 @@ arguments passed, it returns this data or a ggplot object constructed
 with the data.
 }
 \examples{
+\dontrun{
 gdpData <- CIAdata("GDP")      # load some world data
 
 mWorldMap(gdpData, key="country", fill="GDP")
 
-\dontrun{
+gdpData <- gdpData \%>\% mutate(GDP5 = ntiles(-GDP, 5, format="rank"))
+mWorldMap(gdpData, key="country", fill="GDP5")
+
 mWorldMap(gdpData, key="country", plot="frame") +
 geom_point()
 
 mergedData <- mWorldMap(gdpData, key="country", plot="none")
 
 ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
-geom_polygon(aes(fill=country), color="darkgray") + guides(fill=FALSE)
+geom_polygon(aes(fill=GDP5), color="gray70", size=.5) + guides(fill=FALSE)
 }
 }
 
