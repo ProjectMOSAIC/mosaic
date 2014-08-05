@@ -158,7 +158,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' 
 #' mWorldMap(gdpData, key="country", fill="GDP")
 #'
-#' gdpData <- gdpData %>% mutate(GDP5 = ntiles(GDP, 5, format="interval")) 
+#' gdpData <- gdpData %>% mutate(GDP5 = ntiles(-GDP, 5, format="rank")) 
 #' mWorldMap(gdpData, key="country", fill="GDP5")
 #'
 #' mWorldMap(gdpData, key="country", plot="frame") +
@@ -167,7 +167,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' mergedData <- mWorldMap(gdpData, key="country", plot="none")
 #' 
 #' ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
-#' geom_polygon(aes(fill=country), color="darkgray") + guides(fill=FALSE)  
+#' geom_polygon(aes(fill=GDP5), color="gray70", size=.5) + guides(fill=FALSE)  
 #' }
 #' @export 
 mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
