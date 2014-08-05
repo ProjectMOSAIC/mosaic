@@ -1,7 +1,12 @@
+tryCatch(utils::globalVariables(c('coordinates',"Name","Code","long","lat")),
+         error=function(e) message('Looks like you should update R.'))
+
 ## Files needed for the country and state functions:
 #### US_States : a SpatialPolygonsDataFrame object for US states
+#### US_States_df : fortify(US_States)
 #### stateAlternatives : a vector for standardizing state names
 #### World_Countries : a SpatialPolygonsDataFrame object for world countries
+#### World_Countries_df : fortify(World_Countries)
 #### countryAlternatives : a vector for standardizing country names
 #### CIA: a dataframe specifying the possible datasets available for
 ####      download through the CIAdata() function
@@ -33,6 +38,8 @@
 #' }
 #' 
 #' @param x A vector with the region names to standardize
+#' @param standard a named vector providing the map from 
+#' non-standard names (names of vector) to standard names (values of vector)
 #' @export
 standardName <- function(x, standard) {
   standard[toupper(x)]
@@ -40,12 +47,13 @@ standardName <- function(x, standard) {
 
 #' @export
 #' @rdname standardName
+#' @param returnAlternatives a logical indicating whether all alternatives should
+#' be returned in addition to the standard name.
 standardCountry <- function(x, returnAlternatives = FALSE) {
   stand <- standardName(x, countryAlternatives)
-  if (returnAlternatives == FALSE) return(stand)
-  else {
-    return(list(countries = stand, alternatives = countryAlternatives))
-  }
+  if (!returnAlternatives) return(stand)
+  
+  return(list(countries = stand, alternatives = countryAlternatives))
 }
 
 #' @export
@@ -96,6 +104,7 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
 makeMap <- function (data, map=NULL, key=c(key.data, key.map), 
                   key.data, key.map, tr.data = identity, tr.map = identity,
                   plot=c("borders", "frame", "none")) {
+  message("Mapping API still under development and may change in future releases.")
   plot <- match.arg(plot)
   if (!is.null(map)) {
     map <- fortify(map)
@@ -129,7 +138,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' that includes geographical coordinate information. Depending on the
 #' arguments passed, it returns this data or a ggplot object constructed
 #' with the data.
-#'
+#' 
 #' @param data A dataframe with countries as cases
 #' @param key The column name in the \code{data} that holds
 #' the unique names of each country
@@ -144,10 +153,13 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' one geom_polygon layer that shows the borders of the countries
 #' 
 #' @examples
-#' \dontrun{
+#'\dontrun{
 #' gdpData <- CIAdata("GDP")      # load some world data
 #' 
 #' mWorldMap(gdpData, key="country", fill="GDP")
+#'
+#' gdpData <- gdpData %>% mutate(GDP5 = ntiles(GDP, 5, format="interval")) 
+#' mWorldMap(gdpData, key="country", fill="GDP5")
 #'
 #' mWorldMap(gdpData, key="country", plot="frame") +
 #' geom_point()
@@ -160,9 +172,9 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' @export 
 mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- makeMap(data=data, map=World_Countries, key=c(key, "iso_a3"), 
+  map <- makeMap(data=data, map=World_Countries_df, key=c(key, "iso_a3"), 
               tr.data=standardCountry, tr.map=toupper, plot=plot)
-  if (!(is.null(fill) && plot== "none")) {
+  if ( (!is.null(fill) && plot != "none") ) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
   }
   map
@@ -191,9 +203,6 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' one geom_polygon layer that shows the borders of the states
 #' 
 #' @examples
-#' \dontrun{
-#' require(car)
-#' require(dplyr)
 #' 
 #' sAnscombe <- Anscombe %>% group_by(state = rownames(Anscombe)) %>% 
 #' summarise(income = sum(income))       # get some data grouped by state
@@ -207,13 +216,12 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' 
 #' ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
 #' geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE) 
-#' }
 #' @export 
 mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- makeMap(data=data, map=US_States, key=c(key, "STATE_ABBR"), 
+  map <- makeMap(data=data, map=US_States_df, key=c(key, "STATE_ABBR"), 
               tr.data=standardState, tr.map=toupper, plot=plot)
-  if (!(is.null(fill) && plot== "none")) {
+  if ( (!is.null(fill) && plot != "none") ) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
   }
   map
@@ -238,7 +246,6 @@ mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
 #' mergedData <- merge(CIAdata("pop"), CIAdata("fert"), by="country")
 #' head(mergedData)
 #' @export
-#' @import RCurl
 CIAdata <- function (name = NULL) {
   if (is.null(name)) return(CIA)  
   
@@ -255,6 +262,9 @@ CIAdata <- function (name = NULL) {
   code <- sub[["Code"]]
   url <- (paste0("https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_",
                  code, ".txt"))
+  
+  .try_require("RCurl")
+  
   table <- read.delim(textConnection(getURL(url, ssl.verifypeer = FALSE)),
                       header = FALSE, stringsAsFactors = FALSE)
   table[, 1] <- NULL
@@ -263,11 +273,6 @@ CIAdata <- function (name = NULL) {
                                table[[2]]))
   return(table)
 }
-
-
-
-tryCatch(utils::globalVariables(c('coordinates')),
-         error=function(e) message('Looks like you should update R.'))
 
 
 #' Transforms a shapefile into a dataframe
