@@ -24,11 +24,11 @@
 #' @importFrom ggdendro segment label dendro_data dendro_data.hclust
 #' @importFrom reshape2 melt acast dcast
 #' @import methods
+#' @importFrom MASS fitdistr fractions
 #' @import dplyr
 #' @import grid    
 #' @import lattice
 #' @import ggplot2
 #' @import splines 
 #' @importFrom plyr ddply
-#' @import dplyr
 NA

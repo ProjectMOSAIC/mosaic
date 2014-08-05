@@ -22,6 +22,8 @@ rgeo2(n = 1, latlim = c(-90, 90), lonlim = c(-180, 180),
 
 \item{verbose}{return verbose output that includes Euclidean coordinates on unit sphere as well as
 longitude and latitude.}
+
+\item{...}{arguments passed through to other functions}
 }
 \value{
 a data frame with variables \code{long} and \code{lat}.  If \code{verbose} is

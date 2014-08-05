@@ -155,7 +155,7 @@ function (x,
                     "log-normal"  = dlnorm,
                     "poisson"     = dpois,
                     "beta"        = dbeta,
-                    "t"           = dt,
+                    "t"           = dt3,
                     "weibull"     = dweibull,
                     "cauchy"      = dcauchy,
                     "gamma"       = dgamma,
@@ -165,9 +165,11 @@ function (x,
     x = x[!is.na(x)]
     density <- TRUE
     if (is.null(args)) {
-      if (! require(MASS) ){
-        stop("The MASS package must be loaded to auto-fit distributions.")
-      }
+      # we now depend on MASS, so we don't have to check for it
+	  #	if (! require(MASS) ){
+      #  stop("The MASS package must be loaded to auto-fit distributions.")
+      #}
+
       if (is.null(start)) {
         args = fitdistr(x, fit)$estimate
       }
@@ -308,4 +310,8 @@ function (x,
     }
 }
 
-         
+dt3 <- function (x, df, m=0, s=1, log = FALSE) {
+  if (log) 
+    return( dt( (x-m)/s, df=df, log=TRUE)  - log(s) )
+  dt( (x-m)/s, df=df, log=FALSE) / s
+}  

@@ -66,8 +66,8 @@ latlon2xyz <- function(latitude,longitude) {
 
 #' @rdname latlon2xyz
 #' @export
-longlat2xyz <- function(longitude, latitude) {
-  latlong2xyz(latitude, longitude)
+lonlat2xyz <- function(longitude, latitude) {
+  latlon2xyz(latitude, longitude)
 }
 
 #' @rdname rgeo
@@ -98,6 +98,8 @@ rlonlat <- function(...){
 #' @param verbose 
 #'   return verbose output that includes Euclidean coordinates on unit sphere as well as 
 #' longitude and latitude.
+#' 
+#' @param ... arguments passed through to other functions
 #'
 #' @return a data frame with variables \code{long} and \code{lat}.  If \code{verbose} is
 #' TRUE, then x, y, and z coordinates are also included in the data frame.

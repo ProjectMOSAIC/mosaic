@@ -1647,7 +1647,7 @@ NA
 #'   \itemize{
 #'     \item{\code{state}} {State of residence of runner.}
 #'     \item{\code{time}} {Official time from starting gun to finish line.}
-#'     \item{\code{net}} {The recorded time from when the runner crossed the starting
+#'     \item{\code{net}} {The recorded time (in seconds) from when the runner crossed the starting
 #' line to when the runner crossed the finish line.  This is generally
 #' less than the official time because of the large number of runners in
 #' the race: it takes time to reach the starting line after the gun has

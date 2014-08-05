@@ -45,8 +45,7 @@ Text can deocrated with **bold** or *italics*.  It is also possible to
 * create [links](http://rmarkdown.rstudio.com/) 
 * include mathematics like $e=mc^2$ or 
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
-* embed images 
-![an image](http://imgs.xkcd.com/comics/convincing.png)
+
 
 Be sure to put a space after the * when you are creating bullets and a space after # when 
 creating section headers, but **not** between $ and the mathematical formulas.

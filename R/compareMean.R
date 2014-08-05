@@ -7,6 +7,11 @@
 #' @param formula a formula 
 #' @param data a data frame in which \code{x} is evaluated if \code{x} is a
 #' formula.
+#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#' use this function interactively by treating the working envionment as if it were 
+#' a data frame.  But this may not be appropriate for programming uses.  
+#' When programming, it is best to use an explicit \code{data} argument
+#' -- ideally supplying a data frame that contains the variables mentioned
 #' @param \dots other arguments
 #' @return the difference in means between the second and first group
 #' @seealso \code{\link{do}}, \code{\link{compareProportion}} and \code{\link{shuffle}}
@@ -23,7 +28,7 @@
 #' histogram(~ result, groups=(result >= obs), nulldist, 
 #'   xlab="difference in means")
 #' @export
-compareMean = function(formula, data=NULL, ...) {
+compareMean = function(formula, data=parent.frame(), ...) {
   means = mean( formula, data=data, ... )
   if (length(means) != 2) {
   	stop("number of levels for grouping variable must be 2\n")

@@ -42,7 +42,12 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @aliases tally
 #'
 #' @param x an object
-#' @param data a data frame or environment in which evaluation occurs
+#' @param data a data frame or environment in which evaluation occurs.
+#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#' use this function interactively by treating the working envionment as if it were 
+#' a data frame.  But this may not be appropriate for programming uses.  
+#' When programming, it is best to use an explicit \code{data} argument
+#' -- ideally supplying a data frame that contains the variables mentioned
 #' @param format a character string describing the desired format of the results.
 #'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
 #'        In case of \code{'default'}, counts are used unless there is a condition, in
@@ -52,7 +57,12 @@ logical2factor.data.frame  <- function( x, ... ) {
 #'        are calculated should be surpressed.  See \code{\link{addmargins}}.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
+#' @param envir an environment in which to evaluate
 #' @param ... additional arguments passed to \code{\link{table}}
+#' @details
+#' The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  If \code{x} inherits 
+#' from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes it
+#' easier to have the two package coexist.
 #' @examples
 #' tally( ~ substance, data=HELPrct)
 #' tally( ~ substance & sex , data=HELPrct)
@@ -60,7 +70,12 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ substance | sex , data=HELPrct)
 #' tally( ~ substance | sex , data=HELPrct, format='count')
 #' tally( ~ substance & sex , data=HELPrct, format='percent')
-#' tally( ~ link, data=HELPrct, useNA="always")
+#' # force NAs to show up
+#' tally( ~ sex, data=HELPrct, useNA="always")
+#' # show NAs if any are there
+#' tally( ~ link, data=HELPrct)
+#' # ignfore the NAs
+#' tally( ~ link, data=HELPrct, useNA="no")
 #' @export
 
 tally <- function(x, ...) {
@@ -74,8 +89,12 @@ tally <- function(x, ...) {
 #'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
 #' @export
 
-tally.tbl <- function(x, wt, sort=FALSE, ...) {
-  dplyr::tally(x, wt, sort=sort)
+tally.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
+  if (missing(wt)) {
+    return(do.call(dplyr::tally, list(x, sort=sort), envir=envir))
+  } else {
+    return(do.call(dplyr::tally, list(x, wt=substitute(wt), sort=sort), envir=envir))
+  }
 }
 
 #' @rdname tally
@@ -93,7 +112,7 @@ tally.default <- function(x, data=parent.frame(),
       formula[[2]] <- substitute(x)
       message( "First argument should be a formula... But I'll try to guess what you meant")
       return(
-        do.call(tally, list(formula, data=data, format=format, margins=margins, quiet=quiet, ...))
+        do.call(mosaic::tally, list(formula, data=data, format=format, margins=margins, quiet=quiet, ...))
       )  
   }
   
@@ -192,7 +211,7 @@ rows <- function(x, default=c()) {
 #' @export
 
 prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=".", format="proportion") {
-  T <- tally(x, data=data, ..., format=format)
+  T <- mosaic::tally(x, data=data, ..., format=format)
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   if (is.null(level)) {
 	  level <- dimnames(T)[[1]][1]
