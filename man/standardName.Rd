@@ -13,6 +13,12 @@ standardState(x, returnAlternatives = FALSE)
 }
 \arguments{
 \item{x}{A vector with the region names to standardize}
+
+\item{standard}{a named vector providing the map from
+non-standard names (names of vector) to standard names (values of vector)}
+
+\item{returnAlternatives}{a logical indicating whether all alternatives should
+be returned in addition to the standard name.}
 }
 \description{
 Often different sources of geographical data will use different names for

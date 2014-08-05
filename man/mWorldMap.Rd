@@ -30,11 +30,11 @@ arguments passed, it returns this data or a ggplot object constructed
 with the data.
 }
 \examples{
-\dontrun{
 gdpData <- CIAdata("GDP")      # load some world data
 
 mWorldMap(gdpData, key="country", fill="GDP")
 
+\dontrun{
 mWorldMap(gdpData, key="country", plot="frame") +
 geom_point()
 

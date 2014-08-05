@@ -30,10 +30,6 @@ arguments passed, it returns this data or a ggplot object constructed
 with the data.
 }
 \examples{
-\dontrun{
-require(car)
-require(dplyr)
-
 sAnscombe <- Anscombe \%>\% group_by(state = rownames(Anscombe)) \%>\%
 summarise(income = sum(income))       # get some data grouped by state
 
@@ -46,6 +42,5 @@ mergedData <- mUSMap(sAnscombe, key="state", plot="none")
 
 ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
 geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE)
-}
 }
 
