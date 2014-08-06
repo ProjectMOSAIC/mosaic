@@ -107,6 +107,9 @@ an Intro Stats course (\url{http://cran.r-project.org/web/packages/mosaic/vignet
 	\item modeling in R (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V4Modeling.pdf}); 
 	\item resampling methods in R (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V5Resample.pdf}); and 
 	\item using R in calculus (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V6Calculus.pdf}).
+	\item Less Volume, More Creativity, 
+  slides from an ICOTS 2014 presentation introducing
+  the mosaic package and related tools. (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/LessVolume-MoreCreativity.Rhtml}).
 \end{itemize}
 
 \section{Textbook Related}
