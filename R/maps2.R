@@ -93,11 +93,13 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
 #' returns a ggplot object with one geom_polygon layer that shows the
 #' borders of the regions.
 #' @export 
+#' @import rgeos
 makeMap <- function (data, map=NULL, key=c(key.data, key.map), 
                   key.data, key.map, tr.data = identity, tr.map = identity,
                   plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
   if (!is.null(map)) {
+    gpclibPermit()
     map <- fortify(map)
     if (!("long" %in% names(map) && "lat" %in% names(map))) {
       stop("`map' does not appear to be a map")
