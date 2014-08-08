@@ -13,7 +13,7 @@ model(object, ...)
 
 \method{model}{nlsfunction}(object, ...)
 
-\method{summary}{nlsfunction}(object, ...)
+summary.nlsfunction(object, ...)
 
 \method{coef}{nlsfunction}(object, ...)
 }

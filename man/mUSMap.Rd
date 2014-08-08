@@ -3,7 +3,8 @@
 \alias{mUSMap}
 \title{Make a US map with \code{ggplot2}}
 \usage{
-mUSMap(data, key, fill = NULL, plot = c("borders", "frame", "none"))
+mUSMap(data, key, fill = NULL, plot = c("borders", "frame", "none"),
+  style = c("compact", "real"))
 }
 \arguments{
 \item{data}{A dataframe with US states as cases}

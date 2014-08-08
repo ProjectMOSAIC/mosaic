@@ -117,7 +117,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
   }
   switch(plot, 
          borders = ggplot(data, aes(x=long, y=lat, group=group, order=order)) +
-           geom_polygon(color="darkgray", fill=NA) + theme_minimal() +
+           geom_polygon(color="darkgray", fill=NA) + theme_clean() +
            labs(x="", y=""),
          frame = ggplot(data, aes(x=long, y=lat, group=group, order=order)),
          none = data)
@@ -162,7 +162,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' @export 
 mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- makeMap(data=data, map=World_Countries, key=c(key, "iso_a3"), 
+  map <- makeMap(data=data, map=World_Countries_df, key=c(key, "iso_a3"), 
               tr.data=standardCountry, tr.map=toupper, plot=plot)
   if (!(plot=="none")) map <- map + coord_map()
   if (!(is.null(fill) || plot== "none")) {
@@ -212,24 +212,22 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE) 
 #' }
 #' @export 
-mUSMap <- function(data, key, fill = NULL, plot = c("borders", "frame", "none")) {
+mUSMap <- function(data, key, fill = NULL,
+                   plot = c("borders", "frame", "none"),
+                   style = c("compact", "real")) {
   plot <- match.arg(plot)
-  US_States <- sp2df(US_States)
-  US_States_moved <- within(US_States, {
-    lat[STATE_ABBR == "AK"] <- lat[STATE_ABBR == "AK"] - 45
-    long[STATE_ABBR == "AK"] <- long[STATE_ABBR == "AK"] + 25
-    lat[STATE_ABBR == "HI"] <- lat[STATE_ABBR == "HI"] + 5   
-    long[STATE_ABBR == "HI"] <- long[STATE_ABBR == "HI"] + 50
-  })
-  map <- makeMap(data = data, map = US_States_moved, 
+  if (style == "compact") {
+    usAEA = spTransform(US_States,CRS("+init=epsg:2163"))
+    US_States <- fixUSA(usAEA,
+                        c(-35,1.5,-2800000,-2600000),
+                        c(-35,1,5200000,-1400000))
+    US_States_df <- fortify(US_States)
+  }
+  map <- makeMap(data = data, map = US_States_df, 
                  key = c(key, "STATE_ABBR"), 
                  tr.data = standardState, 
                  tr.map = toupper, 
                  plot = plot)
-  if (!(plot == "none")) {
-    map <- map + coord_map() + 
-      coord_trans(xtrans = 'neg_sqrt', ytrans = 'squared')
-  }
   if (!(is.null(fill) || plot == "none")) {
     map <- map + geom_polygon(aes_string(fill = fill), color = "darkgray")
   }
@@ -238,14 +236,49 @@ mUSMap <- function(data, key, fill = NULL, plot = c("borders", "frame", "none"))
 
 
 #' @export
-#' @import scales
-squared_trans <- function() {
-  trans_new("squared", function(x) x^2, function(x) sqrt(x))
+theme_clean <- function (base_size=12) {
+  require(grid) 
+  theme_grey(base_size) %+replace%
+    theme(
+      axis.title = element_blank (),
+      axis.text = element_blank (),
+      panel.background = element_blank (),
+      panel.grid = element_blank (),
+      axis.ticks.length = unit (0,"cm"),
+      axis.ticks.margin = unit (0.01,"cm"),
+      panel.margin = unit (0,"lines"),
+      plot.margin = unit(c(0,0,0,0),"lines"),
+      complete = TRUE
+    )    
 }
 
+
 #' @export
-neg_sqrt_trans <- function() {
-  trans_new("neg_sqrt", function(x) sqrt(abs(x)), function(x) x^2)
+fixUSA <- function(usa,alaskaFix,hawaiiFix){
+  alaska = usa[usa$STATE_ABBR == "AK",]
+  alaska = fix(alaska,alaskaFix)
+  proj4string(alaska) <- proj4string(usa)
+  
+  hawaii = usa[usa$STATE_ABBR == "HI",]
+  hawaii = fix(hawaii,hawaiiFix)
+  proj4string(hawaii) <- proj4string(usa)
+  
+  usa = usa[! usa$STATE_ABBR %in% c("AK","HI"),]
+  usa = rbind(usa,alaska,hawaii)
+  return(usa)
+}
+
+
+#' @export
+#' @import maptools
+#' @import rgdal
+fix <- function(object,params){
+  r=params[1];scale=params[2];shift=params[3:4]
+  object = elide(object,rotate=r)
+  size = max(apply(bbox(object),1,diff))/scale
+  object = elide(object,scale=size)
+  object = elide(object,shift=shift)
+  return(object)
 }
 
 
