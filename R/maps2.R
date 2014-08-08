@@ -254,6 +254,7 @@ theme_clean <- function (base_size=12) {
 
 
 #' @export
+#' @import rgdal
 fixUSA <- function(usa,alaskaFix,hawaiiFix){
   alaska = usa[usa$STATE_ABBR == "AK",]
   alaska = fix(alaska,alaskaFix)
@@ -271,7 +272,6 @@ fixUSA <- function(usa,alaskaFix,hawaiiFix){
 
 #' @export
 #' @import maptools
-#' @import rgdal
 fix <- function(object,params){
   r=params[1];scale=params[2];shift=params[3:4]
   object = elide(object,rotate=r)
