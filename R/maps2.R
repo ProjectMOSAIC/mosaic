@@ -211,7 +211,8 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
 #' geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE) 
 #' }
-#' @export 
+#' @export
+#' @importFrom maptools spTransform 
 mUSMap <- function(data, key, fill = NULL,
                    plot = c("borders", "frame", "none"),
                    style = c("compact", "real")) {
@@ -271,7 +272,7 @@ fixUSA <- function(usa,alaskaFix,hawaiiFix){
 
 
 #' @export
-#' @import maptools
+#' @importFrom maptools elide
 fix <- function(object,params){
   r=params[1];scale=params[2];shift=params[3:4]
   object = elide(object,rotate=r)
