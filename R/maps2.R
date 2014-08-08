@@ -212,7 +212,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE) 
 #' }
 #' @export
-#' @importFrom rgdal spTransform-methods 
+#' @importFrom sp spTransform
 mUSMap <- function(data, key, fill = NULL,
                    plot = c("borders", "frame", "none"),
                    style = c("compact", "real")) {
