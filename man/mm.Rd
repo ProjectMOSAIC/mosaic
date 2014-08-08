@@ -23,7 +23,7 @@ print.groupwiseModel(x, ..., digits = max(3, getOption("digits") - 3))
 
 \method{fitted}{groupwiseModel}(object, ...)
 
-summary.groupwiseModel(object, ...)
+\method{summary}{groupwiseModel}(object, ...)
 
 print.summary_groupwiseModel(x, digits = max(3, getOption("digits") - 3), ...)
 }

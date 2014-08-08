@@ -212,12 +212,12 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE) 
 #' }
 #' @export
-#' @importFrom sp spTransform
 mUSMap <- function(data, key, fill = NULL,
                    plot = c("borders", "frame", "none"),
                    style = c("compact", "real")) {
   plot <- match.arg(plot)
   if (style == "compact") {
+    require(rgdal)
     usAEA = spTransform(US_States,CRS("+init=epsg:2163"))
     US_States <- fixUSA(usAEA,
                         c(-35,1.5,-2800000,-2600000),
