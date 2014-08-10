@@ -124,7 +124,7 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
   }
   switch(plot, 
          borders = ggplot(data, aes(x=long, y=lat, group=group, order=order)) +
-           geom_polygon(color="darkgray", fill=NA) + theme_minimal() + coord_map() +
+           geom_polygon(color="darkgray", fill=NA) + theme_map() +
            labs(x="", y=""),
          frame = ggplot(data, aes(x=long, y=lat, group=group, order=order)),
          none = data)
@@ -174,6 +174,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
   plot <- match.arg(plot)
   map <- makeMap(data=data, map=World_Countries_df, key=c(key, "iso_a3"), 
               tr.data=standardCountry, tr.map=toupper, plot=plot)
+  if (plot !- "none") { map <- map + coord_map() }
   if ( (!is.null(fill) && plot != "none") ) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
   }
@@ -201,6 +202,10 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' \code{plot} = "frame" returns an empty (unplottable) ggplot object;
 #' \code{plot} = "border" (the default) returns a ggplot object with
 #' one geom_polygon layer that shows the borders of the states
+#' @param style The style in which to display the map. \code{compact} gives 
+#' a polyconic projection with Alaska and Hawaii on the lower left corner;
+#' \code{real} gives the real size and position of all states without any
+#' projection.
 #' 
 #' @examples
 #' 
@@ -217,8 +222,11 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
 #' geom_polygon(aes(fill=state), color="darkgray") + guides(fill=FALSE) 
 #' @export 
-mUSMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
+mUSMap <- function(data, key, fill=NULL, 
+                   plot=c("borders", "frame", "none"),
+                   style=c("compact","real")) {
   plot <- match.arg(plot)
+  if (style == "compact") {US_States_df <- US_States_comp_df}
   map <- makeMap(data=data, map=US_States_df, key=c(key, "STATE_ABBR"), 
               tr.data=standardState, tr.map=toupper, plot=plot)
   if ( (!is.null(fill) && plot != "none") ) {
@@ -317,3 +325,19 @@ sp2df <- function (map, ...)
   return(result)
 }
 
+#' @export
+theme_map <- function (base_size=12) {
+  require(grid) 
+  theme_grey(base_size) %+replace%
+    theme(
+      axis.title = element_blank (),
+      axis.text = element_blank (),
+      panel.background = element_blank (),
+      panel.grid = element_blank (),
+      axis.ticks.length = unit (0,"cm"),
+      axis.ticks.margin = unit (0.01,"cm"),
+      panel.margin = unit (0,"lines"),
+      plot.margin = unit(c(0,0,0,0),"lines"),
+      complete = TRUE
+    )    
+}
