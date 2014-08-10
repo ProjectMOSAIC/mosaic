@@ -64,10 +64,9 @@ model.nlsfunction <- function(object, ...) {
 
 #' @rdname fitModel
 #' @export
-summary.nlsfunction <- function(object, ...) {
+  summary.nlsfunction <-  function(object, ...) {
   summary( model( object), ... )
 }
-
 
 #' @rdname fitModel
 #' @export

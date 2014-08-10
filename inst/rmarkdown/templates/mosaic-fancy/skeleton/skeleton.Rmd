@@ -40,7 +40,7 @@ opts_chunk$set(
 
 ### Text
 
-Text can deocrated with **bold** or *italics*.  It is also possible to 
+Text can be decorated with **bold** or *italics*.  It is also possible to 
 
 * create [links](http://rmarkdown.rstudio.com/) 
 * include mathematics like $e=mc^2$ or 

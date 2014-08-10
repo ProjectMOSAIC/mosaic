@@ -1,8 +1,16 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+\section{Changes in version 0.9.1}{
+\itemize{
+\item The mosaic package now contains two RMarkdown templates (one fancy and one plain).
+\item \code{oddsRatio} has been redesigned and \code{relrisk} has been added.
+Use their \code{summary()} methods or \code{verbose=TRUE} to see more information
+(including confidence intervals).
+\item Added \code{Birthdays} data set.
+}
+}
 \section{Changes in version 0.9}{
 \itemize{
-\item The mosaic package now contains an RMarkdown template.
 \item A generic \code{mplot} and several instances have been
   added to make a number of plots easy to generate.  There are methods 
   for objects of classes 
@@ -15,7 +23,7 @@
   \code{"hclust"}.  For several of these there are also
   \code{fortify} methods that return the data frame created to 
   facilitate plotting.
-\item \code{read.file} now handles https URLs and accepts 
+\item \code{read.file} now handles (some?) https URLs and accepts 
 an optional argument \code{filetype} that can be used to
 declare the type of data file when it is not identified 
 by extension.

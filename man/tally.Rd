@@ -16,7 +16,12 @@ tally(x, ...)
 \arguments{
 \item{x}{an object}
 
-\item{data}{a data frame or environment in which evaluation occurs}
+\item{data}{a data frame or environment in which evaluation occurs.
+Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+use this function interactively by treating the working envionment as if it were
+a data frame.  But this may not be appropriate for programming uses.
+When programming, it is best to use an explicit \code{data} argument
+-- ideally supplying a data frame that contains the variables mentioned}
 
 \item{format}{a character string describing the desired format of the results.
 One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
@@ -31,6 +36,8 @@ are calculated should be surpressed.  See \code{\link{addmargins}}.}
 \item{margins}{a logical indicating whether marginal distributions should be displayed.}
 
 \item{useNA}{as in \code{\link{table}}, but the default here is \code{"ifany"}.}
+
+\item{envir}{an environment in which to evaluate}
 
 \item{...}{additional arguments passed to \code{\link{table}}}
 
@@ -55,6 +62,11 @@ tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance
 tally( ~ substance | sex , data=HELPrct)
 tally( ~ substance | sex , data=HELPrct, format='count')
 tally( ~ substance & sex , data=HELPrct, format='percent')
-tally( ~ link, data=HELPrct, useNA="always")
+# force NAs to show up
+tally( ~ sex, data=HELPrct, useNA="always")
+# show NAs if any are there
+tally( ~ link, data=HELPrct)
+# ignfore the NAs
+tally( ~ link, data=HELPrct, useNA="no")
 }
 

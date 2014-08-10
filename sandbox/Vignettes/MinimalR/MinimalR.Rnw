@@ -287,6 +287,8 @@ And most importantly: What is your creativity to volume quotient?
 
 \newpage
 
+\lhead{\href{http://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
+\rhead{\href{http://mosaic-web.org}{mosaic-web.org}}
 
 \begin{multicols}{4}
 
@@ -301,7 +303,7 @@ example()
 \fi
 
 \subsection*{Basic Calculations}
-Basic calculation is very similar to a calculator.
+Basic calculation works like a calculator.
 <<>>=
 # basic ops: + - * / ^ ( )
 log(); exp(); sqrt()
@@ -316,7 +318,7 @@ log10(); abs(); choose()
 
 
 
-\subsection*{Formula Theme}
+\subsection*{Formula Interface}
 The following syntax (often with 
 some parts omitted) is used for 
 graphical summaries, numerical summaries,
@@ -365,6 +367,7 @@ mean()       # mosaic augmented
 median()     # mosaic augmented
 sd()         # mosaic augmented
 var()        # mosaic augmented
+diffmean()   # mosaic
 @
 \iftrue
 \squeeze
@@ -377,22 +380,6 @@ IQR()        # mosaic augmented
 min(); max() # mosaic augmented
 @
 \fi
-
-\subsection*{Randomization/Simulation}
-%
-<<>>=
-rflip()     # mosaic
-do()        # mosaic
-sample()    # mosaic augmented
-resample()  # with replacement
-@
-\squeeze
-<<highlight=FALSE>>=
-shuffle()   # mosaic
-rbinom()
-rnorm()     # etc, if needed
-@
-
 
 \subsection*{Graphics (mostly lattice)}
 
@@ -427,6 +414,23 @@ mplot(data=HELPrct, 'boxplot')
 mplot(data=HELPrct, 'histogram')
 @
 
+
+\subsection*{Randomization/Simulation}
+%
+<<>>=
+rflip()     # mosaic
+do()        # mosaic
+sample()    # mosaic augmented
+resample()  # with replacement
+shuffle()   # mosaic
+@
+\squeeze
+<<highlight=FALSE>>=
+rbinom()
+rnorm()     # etc, if needed
+@
+
+
 \subsection*{Distributions}
 %
 <<>>=
@@ -447,9 +451,6 @@ prop.test()   # mosaic augmented
 xchisq.test() # mosaic augmented
 fisher.test()
 pval()        # mosaic
-@
-\squeeze
-<<highlight=TRUE>>=
 model <- lm() # linear models
 summary(model)
 coef(model)
@@ -457,9 +458,9 @@ confint(model) # mosaic augmented
 anova(model)
 makeFun(model) # mosaic 
 resid(model); fitted(model)
-mplot(model) # mosaic
+mplot(model)   # mosaic
 @
-\squeeze
+%\squeeze
 <<highlight=FALSE>>=
 mplot(TukeyHSD(model))
 model <- glm() # logistic reg.
@@ -475,19 +476,10 @@ str()
 names()
 head(); tail()
 with()
+factor()
 @
 \squeeze
 <<highlight=FALSE>>=
-select() # dplyr
-mutate() # dplyr
-filter() # dplyr
-arrange() # dplyr
-summarise() # dplyr
-group_by() # dplyr
-@
-\squeeze
-<<highlight=FALSE>>=
-merge()
 ntiles()      # mosaic
 cut()
 c()
@@ -495,15 +487,29 @@ cbind(); rbind()
 colnames()
 rownames()
 relevel()
-factor()
+reorder()
 @
 \squeeze
 <<highlight=FALSE>>=
 rep()
 seq()
 sort()
+rank()
+@
+\subsection*{Data Transformation}
+<<highlight=FALSE>>=
+select()      # dplyr
+mutate()      # dplyr
+filter()      # dplyr
+arrange()     # dplyr
+summarise()   # dplyr
+group_by()    # dplyr
+left_join()   # dplyr
+inner_join()  # dplyr
+merge()    
 @
 
+\vfill
 
 \end{multicols}
 
@@ -520,6 +526,7 @@ sort()
 <<more-hooks,eval=TRUE,echo=FALSE>>=
 opts_chunk$set(
 	eval=TRUE, 
+  size='small',
 	fig.path='figures/fig-',
 	fig.width=4,
 	fig.height=1.9,
@@ -532,19 +539,23 @@ opts_chunk$set(
 @
 
 \begin{multicols}{3}
-
 <<echo=FALSE>>=
 options(width=40)
 options(show.signif.stars=FALSE)
 @
-
 <<coins,fig.keep="last">>=
 rflip(6)
 do(2) * rflip(6)
 coins <- do(1000)* rflip(6)
 tally(~ heads, data=coins)
+@
+\vspace*{-.25in}
+<<>>=
 tally(~ heads, data=coins, format="perc")
 tally(~ (heads>=5 | heads<=1) , data=coins)
+@
+\vspace*{-.20in}
+<<coins-hist,fig.keep="last">>=
 histogram(~ heads, data=coins, width=1,
             groups = (heads>=5 | heads<=1))
 @
@@ -590,10 +601,10 @@ wt <- makeFun(model)
 wt( height=72, gender="male")
 xyplot(weight ~ height, groups=gender, 
        data=Heightweight)
-plotFun(wt(h,gender="male") ~ h, add=TRUE, 
-		col="skyblue")
-plotFun(wt(h,gender="female") ~ h, add=TRUE, 
-		col="navy")
+plotFun(wt(h,gender="male") ~ h, 
+        add=TRUE, col="skyblue")
+plotFun(wt(h,gender="female") ~ h, 
+        add=TRUE, col="navy")
 @
 \vspace{-.2in}
 <<fig.height=1.75>>=

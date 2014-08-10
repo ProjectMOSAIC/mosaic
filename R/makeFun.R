@@ -78,7 +78,7 @@ setMethod(
 	  if (length( undeclaredVars ) != 0) {
 		  if (strict.declaration) 
 		  	stop(paste( "Default values provided for variables not in formula:",
-					   paste(unDeclaredVars, collapse=",")
+					   paste(undeclaredVars, collapse=",")
 					 ))
 	  }
     # vars is just a permutation of varsInFormula
