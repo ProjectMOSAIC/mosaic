@@ -226,6 +226,7 @@ mUSMap <- function(data, key, fill=NULL,
                    plot=c("borders", "frame", "none"),
                    style=c("compact","real")) {
   plot <- match.arg(plot)
+  style <- match.arg(style)
   if (style == "compact") {US_States_df <- US_States_comp_df}
   map <- makeMap(data=data, map=US_States_df, key=c(key, "STATE_ABBR"), 
               tr.data=standardState, tr.map=toupper, plot=plot)

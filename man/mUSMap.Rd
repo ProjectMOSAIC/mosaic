@@ -3,7 +3,8 @@
 \alias{mUSMap}
 \title{Make a US map with \code{ggplot2}}
 \usage{
-mUSMap(data, key, fill = NULL, plot = c("borders", "frame", "none"))
+mUSMap(data, key, fill = NULL, plot = c("borders", "frame", "none"),
+  style = c("compact", "real"))
 }
 \arguments{
 \item{data}{A dataframe with US states as cases}
@@ -21,6 +22,11 @@ and the dataframe with the geographical coordinate information;
 \code{plot} = "frame" returns an empty (unplottable) ggplot object;
 \code{plot} = "border" (the default) returns a ggplot object with
 one geom_polygon layer that shows the borders of the states}
+
+\item{style}{The style in which to display the map. \code{compact} gives
+a polyconic projection with Alaska and Hawaii on the lower left corner;
+\code{real} gives the real size and position of all states without any
+projection.}
 }
 \description{
 \code{mUSMap} takes in one dataframe that includes information
