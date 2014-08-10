@@ -174,7 +174,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
   plot <- match.arg(plot)
   map <- makeMap(data=data, map=World_Countries_df, key=c(key, "iso_a3"), 
               tr.data=standardCountry, tr.map=toupper, plot=plot)
-  if (plot !- "none") { map <- map + coord_map() }
+  if (plot != "none") { map <- map + coord_map() }
   if ( (!is.null(fill) && plot != "none") ) {
     map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
   }
