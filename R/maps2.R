@@ -304,7 +304,6 @@ CIAdata <- function (name = NULL) {
 #' }
 #' }
 #' @export
-
 sp2df <- function (map, ...) 
 {
   .try_require(c("ggplot2", "maptools")) 
