@@ -20,6 +20,9 @@ standardState(x, ignore.case = TRUE, returnAlternatives = FALSE,
 \item{standard}{a named vector providing the map from
 non-standard names (names of vector) to standard names (values of vector)}
 
+\item{ignore.case}{a logical indicating whether case should be ignored
+when matching.}
+
 \item{quiet}{a logical indicating whether warnings should be surpressed}
 
 \item{returnAlternatives}{a logical indicating whether all alternatives should
