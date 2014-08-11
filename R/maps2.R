@@ -36,14 +36,28 @@ tryCatch(utils::globalVariables(c('coordinates',"Name","Code","long","lat")),
 #' \code{returnAlternatives} is set to \code{TRUE}, this function will also
 #' return the the named vector used to standardize the state names}
 #' }
+#' In all three cases, any names not found in \code{standard}
+#' will be left unaltered.  Unless supressed, a warning message will
+#' indicate the number of such cases, if there are any.
 #' 
 #' @param x A vector with the region names to standardize
 #' @param standard a named vector providing the map from 
 #' non-standard names (names of vector) to standard names (values of vector)
+#' @param quiet a logical indicating whether warnings should be surpressed
 #' @export
-standardName <- function(x, standard, returnAlternatives=FALSE) {
-  res <- standard[toupper(x)]
+standardName <- function(x, standard, ignore.case=TRUE, returnAlternatives=FALSE, quiet=FALSE) {
+  nn <- names(x)  
+  if (ignore.case) {
+    x <- toupper(x)
+    names(standard) <- toupper(names(standard))
+  }
+  res <- standard[x]
+  numNAs <- sum(is.na(res))
   res[ is.na(res) ] <- x [ is.na(res) ]
+  names(res) <- nn
+  if (! quiet && (numNAs > 0)) {
+    warning(paste(numNAs, "items were not transalted"))
+  }
   if (!returnAlternatives) return(res)
   list(standardized = stand, alternatives = countryAlternatives)
 }
@@ -52,14 +66,23 @@ standardName <- function(x, standard, returnAlternatives=FALSE) {
 #' @rdname standardName
 #' @param returnAlternatives a logical indicating whether all alternatives should
 #' be returned in addition to the standard name.
-standardCountry <- function(x, returnAlternatives = FALSE) {
-  standardName(x, countryAlternatives, returnAlternatives=returnAlternatives)
+standardCountry <- function(x, ignore.case=TRUE, returnAlternatives = FALSE, 
+                            quiet=FALSE) {
+  standardName(x, countryAlternatives, 
+               ignore.case = ignore.case, 
+               returnAlternatives=returnAlternatives,
+               quiet=quiet)
 }
 
 #' @export
 #' @rdname standardName
-standardState <- function(x, returnAlternatives = FALSE) {
-  standardName(x, stateAlternatives, returnAlternatives=returnAlternatives)
+standardState <- function(x, ignore.case=TRUE, 
+                          returnAlternatives = FALSE, 
+                          quiet=FALSE) {
+  standardName(x, stateAlternatives, 
+               ignore.case = ignore.case, 
+               returnAlternatives=returnAlternatives, 
+               quiet=quiet)
 }
 
 #' @export
@@ -208,7 +231,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' sAnscombe <- Anscombe %>% 
 #'   group_by(state = rownames(Anscombe)) %>% 
 #'   summarise(income = sum(income)) %>%
-#'   mutate(state = standardName(state, c(IO = "IA", KA = "KS")))
+#'   mutate(state = standardName(state, c(IO = "IA", KA = "KS"), quiet=TRUE))
 #' 
 #' mUSMap(sAnscombe, key="state", fill="income")
 #'

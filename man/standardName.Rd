@@ -5,17 +5,22 @@
 \alias{standardState}
 \title{Standardization of Geographic Names}
 \usage{
-standardName(x, standard, returnAlternatives = FALSE)
+standardName(x, standard, ignore.case = TRUE, returnAlternatives = FALSE,
+  quiet = FALSE)
 
-standardCountry(x, returnAlternatives = FALSE)
+standardCountry(x, ignore.case = TRUE, returnAlternatives = FALSE,
+  quiet = FALSE)
 
-standardState(x, returnAlternatives = FALSE)
+standardState(x, ignore.case = TRUE, returnAlternatives = FALSE,
+  quiet = FALSE)
 }
 \arguments{
 \item{x}{A vector with the region names to standardize}
 
 \item{standard}{a named vector providing the map from
 non-standard names (names of vector) to standard names (values of vector)}
+
+\item{quiet}{a logical indicating whether warnings should be surpressed}
 
 \item{returnAlternatives}{a logical indicating whether all alternatives should
 be returned in addition to the standard name.}
@@ -44,5 +49,8 @@ names in \code{x} to the standard two-letter abbreviations. If
 \code{returnAlternatives} is set to \code{TRUE}, this function will also
 return the the named vector used to standardize the state names}
 }
+In all three cases, any names not found in \code{standard}
+will be left unaltered.  Unless supressed, a warning message will
+indicate the number of such cases, if there are any.
 }
 

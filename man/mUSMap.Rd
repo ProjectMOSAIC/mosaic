@@ -39,7 +39,7 @@ with the data.
 sAnscombe <- Anscombe \%>\%
   group_by(state = rownames(Anscombe)) \%>\%
   summarise(income = sum(income)) \%>\%
-  mutate(state = standardName(state, c(IO = "IA", KA = "KS")))
+  mutate(state = standardName(state, c(IO = "IA", KA = "KS"), quiet=TRUE))
 
 mUSMap(sAnscombe, key="state", fill="income")
 
