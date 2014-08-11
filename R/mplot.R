@@ -61,7 +61,8 @@ mplot.default <- function(object, ...) {
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
 #' @examples
-#' mplot( lm( width ~ length + sex, data=KidsFeet) )
+#' mplot( lm( width ~ length * sex, data=KidsFeet) )
+#' mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )
 #' @export
 
 mplot.lm <- function(object, which=c(1:3, 7), 
@@ -71,6 +72,7 @@ mplot.lm <- function(object, which=c(1:3, 7),
                      par.settings = theme.mosaic(),
                      level=.95,
                      title=paste("model: ", deparse(object$call), "\n"),
+                     rows=TRUE,
                      ...){
   
   system <- match.arg(system)
@@ -234,9 +236,9 @@ mplot.lm <- function(object, which=c(1:3, 7),
                   dots)
   )
 
-  g7 <- mplot(summary(object), level=level, ..., system="ggplot2")
+  g7 <- mplot(summary(object), level=level, rows=rows, ..., system="ggplot2")
   
-  l7 <- mplot(summary(object), level=level, ..., system="lattice")
+  l7 <- mplot(summary(object), level=level, rows=rows, ..., system="lattice")
   
   plots <- if (system == "ggplot2") {
     list(g1, g2, g3, g4, g5, g6, g7)
@@ -381,18 +383,26 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @rdname mplot
 #' @param level a confidence level
 #' @param par.settings \pkg{lattice} theme settings 
+#' @param rows rows to show.  This may be a numeric vector, 
+#' \code{TRUE} (for all rows), or a character vector of row names.
 #' @examples
-#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)))
+#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot")
+#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
+#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
 #' @export
  
 mplot.summary.lm <- function(object, 
                              system=c("lattice","ggplot2"),
                              level=0.95,
                              par.settings = trellis.par.get(),
+                             rows=TRUE,
                              ...){
   system <- match.arg(system)
   fdata <- fortify(object, level=level) %>% 
-    mutate(signif = pval < (1-level)/2 )
+    mutate(signif = pval < (1-level))  
+  row.names(fdata) <- fdata$coef
+  fdata <- fdata[rows, ]
+  fdata <- fdata[nrow(fdata):1, ]
   
   g <- ggplot(data=fdata,
               aes(x=factor(coef, labels=coef), y=estimate, 

@@ -15,13 +15,13 @@ mplot(object, ...)
 \method{mplot}{lm}(object, which = c(1:3, 7), system = c("lattice",
   "ggplot2", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
   search(), par.settings = theme.mosaic(), level = 0.95,
-  title = paste("model: ", deparse(object$call), "\\n"), ...)
+  title = paste("model: ", deparse(object$call), "\\n"), rows = TRUE, ...)
 
 \method{mplot}{data.frame}(object, default = plotTypes,
   system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
 
 \method{mplot}{summary.lm}(object, system = c("lattice", "ggplot2"),
-  level = 0.95, par.settings = trellis.par.get(), ...)
+  level = 0.95, par.settings = trellis.par.get(), rows = TRUE, ...)
 
 \method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
   ylab = "", xlab = "difference in means",
@@ -82,6 +82,9 @@ and columns used.}
 
 \item{par.settings}{\pkg{lattice} theme settings}
 
+\item{rows}{rows to show.  This may be a numeric vector,
+\code{TRUE} (for all rows), or a character vector of row names.}
+
 \item{xlab}{label for x-axis}
 
 \item{ylab}{label for y-axis}
@@ -94,12 +97,15 @@ Generic function plotting for R objects.  Currently plots exist for
 \code{data.frame}s, \code{lm}s, (including \code{glm}s).
 }
 \examples{
-mplot( lm( width ~ length + sex, data=KidsFeet) )
+mplot( lm( width ~ length * sex, data=KidsFeet) )
+mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )
 \dontrun{
 mplot( HELPrct )
 mplot( HELPrct, "histogram" )
 }
-mplot(summary(lm(width ~ length * sex, data=KidsFeet)))
+mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot")
+mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
+mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
