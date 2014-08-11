@@ -43,6 +43,8 @@ tryCatch(utils::globalVariables(c('coordinates',"Name","Code","long","lat")),
 #' @param x A vector with the region names to standardize
 #' @param standard a named vector providing the map from 
 #' non-standard names (names of vector) to standard names (values of vector)
+#' @param ignore.case a logical indicating whether case should be ignored 
+#' when matching.
 #' @param quiet a logical indicating whether warnings should be surpressed
 #' @export
 standardName <- function(x, standard, ignore.case=TRUE, returnAlternatives=FALSE, quiet=FALSE) {
