@@ -41,8 +41,11 @@ tryCatch(utils::globalVariables(c('coordinates',"Name","Code","long","lat")),
 #' @param standard a named vector providing the map from 
 #' non-standard names (names of vector) to standard names (values of vector)
 #' @export
-standardName <- function(x, standard) {
-  standard[toupper(x)]
+standardName <- function(x, standard, returnAlternatives=FALSE) {
+  res <- standard[toupper(x)]
+  res[ is.na(res) ] <- x [ is.na(res) ]
+  if (!returnAlternatives) return(res)
+  list(standardized = stand, alternatives = countryAlternatives)
 }
 
 #' @export
@@ -50,20 +53,13 @@ standardName <- function(x, standard) {
 #' @param returnAlternatives a logical indicating whether all alternatives should
 #' be returned in addition to the standard name.
 standardCountry <- function(x, returnAlternatives = FALSE) {
-  stand <- standardName(x, countryAlternatives)
-  if (!returnAlternatives) return(stand)
-  
-  return(list(countries = stand, alternatives = countryAlternatives))
+  standardName(x, countryAlternatives, returnAlternatives=returnAlternatives)
 }
 
 #' @export
 #' @rdname standardName
 standardState <- function(x, returnAlternatives = FALSE) {
-  stand <- standardName(x, stateAlternatives)
-  if (returnAlternatives == FALSE) return(stand)
-  else {
-    return(list(countries = stand, alternatives = stateAlternatives))
-  }
+  standardName(x, stateAlternatives, returnAlternatives=returnAlternatives)
 }
 
 #' @export
@@ -209,8 +205,10 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' 
 #' @examples
 #' 
-#' sAnscombe <- Anscombe %>% group_by(state = rownames(Anscombe)) %>% 
-#' summarise(income = sum(income))       # get some data grouped by state
+#' sAnscombe <- Anscombe %>% 
+#'   group_by(state = rownames(Anscombe)) %>% 
+#'   summarise(income = sum(income)) %>%
+#'   mutate(state = standardName(state, c(IO = "IA", KA = "KS")))
 #' 
 #' mUSMap(sAnscombe, key="state", fill="income")
 #'

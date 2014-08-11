@@ -36,8 +36,10 @@ arguments passed, it returns this data or a ggplot object constructed
 with the data.
 }
 \examples{
-sAnscombe <- Anscombe \%>\% group_by(state = rownames(Anscombe)) \%>\%
-summarise(income = sum(income))       # get some data grouped by state
+sAnscombe <- Anscombe \%>\%
+  group_by(state = rownames(Anscombe)) \%>\%
+  summarise(income = sum(income)) \%>\%
+  mutate(state = standardName(state, c(IO = "IA", KA = "KS")))
 
 mUSMap(sAnscombe, key="state", fill="income")
 

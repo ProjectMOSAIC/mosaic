@@ -5,7 +5,7 @@
 \alias{standardState}
 \title{Standardization of Geographic Names}
 \usage{
-standardName(x, standard)
+standardName(x, standard, returnAlternatives = FALSE)
 
 standardCountry(x, returnAlternatives = FALSE)
 
