@@ -349,6 +349,11 @@ sp2df <- function (map, ...)
   return(result)
 }
 
+#' ggplot2 theme for maps
+#' 
+#' A very plain \pkg{ggplot2} theme that is good for maps.
+#' 
+#' @param base_size the base font size for the theme.
 #' @export
 theme_map <- function (base_size=12) {
   theme_grey(base_size) %+replace%
