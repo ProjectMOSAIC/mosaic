@@ -239,4 +239,3 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
 	return(plot)
 }
 
-
