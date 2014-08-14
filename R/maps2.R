@@ -58,7 +58,7 @@ standardName <- function(x, standard, ignore.case=TRUE, returnAlternatives=FALSE
   res[ is.na(res) ] <- x [ is.na(res) ]
   names(res) <- nn
   if (! quiet && (numNAs > 0)) {
-    warning(paste(numNAs, "items were not transalted"))
+    warning(paste(numNAs, "items were not translated"))
   }
   if (!returnAlternatives) return(res)
   list(standardized = stand, alternatives = countryAlternatives)
