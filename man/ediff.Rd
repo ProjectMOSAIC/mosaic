@@ -3,7 +3,8 @@
 \alias{ediff}
 \title{Lagged Differences with equal length}
 \usage{
-ediff(x, lag = 1, differences = 1, frontPad = TRUE, ...)
+ediff(x, lag = 1, differences = 1, pad = c("head", "tail", "symmetric"),
+  frontPad, ...)
 }
 \arguments{
 \item{x}{a numeric vector or a matrix containing the values to be differenced}
@@ -12,8 +13,12 @@ ediff(x, lag = 1, differences = 1, frontPad = TRUE, ...)
 
 \item{differences}{an integer indicating the order of the difference}
 
-\item{frontPad}{logical indicating whether padding is on the front (default) or
-back end.}
+\item{pad}{one of \code{"head"}, \code{"tail"}, or \code{"symmetric"}.
+indicating where the \code{NA} padding should be added to the result.}
+
+\item{frontPad}{logical indicating whether padding is on the front (head) or
+back (tail) end. This exists for backward compatibility. New code should use
+\code{pad} instaed.}
 
 \item{\dots}{further arguments to be passed to or from methods}
 }
@@ -29,6 +34,7 @@ ediff(1:10, 2, 2)
 x <- cumsum(cumsum(1:10))
 ediff(x, lag = 2)
 ediff(x, differences = 2)
+ediff(x, differences = 2, pad="symmetric")
 ediff(.leap.seconds)
 Men <- subset(SwimRecords, sex=="M")
 Men <- transform(Men, change=ediff(time), interval=ediff(year))
