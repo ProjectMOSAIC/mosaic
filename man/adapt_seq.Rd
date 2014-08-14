@@ -3,8 +3,8 @@
 \alias{adapt_seq}
 \title{Adaptively generate sequences in an interval}
 \usage{
-adapt_seq(from, to, length.out = 100, f = function(x, ...) {     1 },
-  args = list())
+adapt_seq(from, to, length.out = 200, f = function(x, ...) {     1 },
+  args = list(), quiet = FALSE)
 }
 \arguments{
 \item{from}{start of interval}
@@ -16,6 +16,8 @@ adapt_seq(from, to, length.out = 100, f = function(x, ...) {     1 },
 \item{f}{a function}
 
 \item{args}{arguments passed to \code{f}}
+
+\item{quiet}{suppress warnings about NaNs, etc.}
 }
 \value{
 a numerical vector

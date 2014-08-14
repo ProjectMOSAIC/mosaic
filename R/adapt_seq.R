@@ -13,34 +13,67 @@
 #' @param length.out desired length of sequence
 #' @param f a function
 #' @param args arguments passed to \code{f}
+#' @param quiet suppress warnings about NaNs, etc.
 #' @return a numerical vector
 #' @examples
 #' adapt_seq(0, pi, 25, sin)
 #'
 #' @export
 adapt_seq <-function(from, to, 
-	length.out=100, 
-	f=function(x,...){ 1 }, 
-	args=list()
-	) 
+                     length.out=200, 
+                     f=function(x,...){ 1 }, 
+                     args=list(),
+                     quiet=FALSE
+) 
 {
-	n <- round(log(length.out))
-	s <- seq(from, to, length.out=n)
-	while (length(s) < length.out) {
-		# subdivide all intervals
-		ds <- diff(s)
-		mid.s <- s[-1] - .5 * ds
-		s <- sort( c(s, mid.s) )
+  n <- round(log(length.out))
+  n <- max(n,10)
+  s <- seq(from, to, length.out=n)
+  iteration <- 0
+  keepers <- s
+  
+  repeat{
+    iteration <- iteration + 1
+    # clean up: remove bad s values
+    tryCatch(y <- do.call(f, args=c(list(s), args)), 
+                  warning=function(w) if (quiet){} else {w})
+    w <- which(is.finite(y))
+    a <- min(which(is.finite(y))) - 1
+    a <- max(a,1)
+    b <- max(which(is.finite(y))) + 1
+    b <- min(b,length(s))
+    w <- sort(unique(c(w, 1, length(s), a, b )))
+    s <- s[w]; y <- y[w]
+    
+    # quit if we have enough or reach edge condition
+    # print(list(i=iteration, a=s[a], b=s[b], start=head(s,4), end=tail(s,4)))
+    if ((length(s) < 2) || (iteration > 20) || (length(s) > length.out)) 
+      return(s[is.finite(y)])
+    
+    # keep best points + previous keepers
+    ds <- ediff(s)
+    dy <- ediff(y)
+    score <- abs(ediff(dy/ds, pad="tail"))
+    w <- which( s %in% keepers | score > quantile(score, probs=0.2, na.rm=TRUE))
+    # be sure to keep left and right ends
+    a <- min(which(is.finite(y))) - 1
+    a <- max(a,1)
+    b <- max(which(is.finite(y))) + 1
+    b < min(b,length(s))
+    w <- sort(unique(c(w, 1, length(s), a, b )))
+    s <- s[w]
+    keepers <- s
+    
+    # create some more s values at midpoints
+    ds <- diff(s)
+    mid.s <- s[-1] - .5 * ds
+    s <- sort( c(s, mid.s) )
+    tryCatch(y <- do.call(f, args=c(list(s), args)), 
+                  warning=function(w) if (quiet){} else {w})
 
-		# subdivide again if function changing rapidly
-		ds <- diff(s)
-		mid.s <- s[-1] - .5 * ds
-		y <- do.call(f, args=c(list(s), args))
-		dy <- abs(diff(y))
-		o <- rev(order(dy))
-		m <- base::sum( dy > quantile(dy,.75, na.rm=TRUE), na.rm=TRUE )
-		new.s <- mid.s[ o[ 1:m ] ]
-		s <- sort( c(s, new.s) )
-	}
-	return(s)
+  }
+
+#    print(list(i=iteration, s=c(head(s), tail(s))))
+  return(s[is.finite(y)])
 }
+
