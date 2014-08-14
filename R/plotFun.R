@@ -225,7 +225,9 @@ plotFun <- function(object, ...,
 				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
 			else 
 				adapt_seq(min(limits$xlim), max(limits$xlim), 
-										   f=function(xxqq){ .f.(xxqq) }, length.out=npts)
+										   f=function(xxqq){ .f.(xxqq) }, 
+                       length.out=npts,
+                       quiet=TRUE)
 	
     .yvals <- c()
     for ( .f. in fList ) .yvals <- c( .yvals, sapply( .xvals, .f. ) )
@@ -245,6 +247,7 @@ plotFun <- function(object, ...,
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
 								panel="panel.plotFun1",
+                npts = npts,
                 col=col ),
 								cleanDots
 								)
@@ -260,6 +263,7 @@ plotFun <- function(object, ...,
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
 								panel="panel.plotFun1",
+                npts=npts,
                 col=col),
 								cleanDots)
 								)
@@ -286,7 +290,9 @@ plotFun <- function(object, ...,
 
 		.xvals <- seq(min(limits$xlim),max(limits$xlim),length=npts)
 		.yvals <- seq(min(limits$ylim),max(limits$ylim),length=npts)
-		zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
+		zvals <- tryCatch(
+      outer(.xvals, .yvals, function(x,y){..f..(x,y)} ),
+      warning = function(w) {} )
 		grid <- expand.grid( .xvals, .yvals )
 		grid$height <- c(zvals)
 		localData <- grid
@@ -458,15 +464,17 @@ panel.plotFun1 <- function( ..f.., ...,
     parent.ylim <- current.panel.limits()$ylim
     
     npts <- ifelse( is.null(npts), 200, npts)
-    
-    # Evaluate the function on appropriate inputs.
+  
+    # Evaluate the function on appropriate inputs to help figure out y limits.
     .xvals <-  if ('h' %in% type)  
       seq(min(parent.xlim), max(parent.xlim), length.out=npts)
     else 
       adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ .f.(xxqq) }, length.out=npts)
+                        f=function(xxqq){ .f.(xxqq) }, 
+                length.out=npts,
+                quiet=TRUE)
     
-    .yvals <- sapply( .xvals, .f. ) 
+    tryCatch(.yvals <- sapply( .xvals, .f. ), warning=function(w) {} )
     
     # need to strip out any components of ... that are in the object so they
     # don't get passed to the panel function.
@@ -558,8 +566,12 @@ panel.plotFun <- function( object, ...,
         seq(min(parent.xlim), max(parent.xlim), length.out=npts)
     else 
       adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ ..f..(xxqq) }, length.out=npts)
-    .yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
+                        f=function(xxqq){ ..f..(xxqq) }, 
+                length.out=npts,
+                quiet=TRUE)
+    .yvals <- tryCatch( sapply( .xvals, ..f.. ), 
+                        warning=function(w) {} )
+      # pfun(.xvals)
     
     # need to strip out any components of ... that are in the object so they
     # don't get passed to the panel function.
@@ -583,7 +595,9 @@ panel.plotFun <- function( object, ...,
     
     .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
     .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
-    zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
+    zvals <- tryCatch( 
+      outer(.xvals, .yvals, function(x,y){..f..(x,y)} ),
+      warning=function(w) {} )
     grid <- expand.grid( .xvals, .yvals )
     grid$height <- c(zvals)
     
