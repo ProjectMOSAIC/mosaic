@@ -464,17 +464,22 @@ panel.plotFun1 <- function( ..f.., ...,
     parent.ylim <- current.panel.limits()$ylim
     
     npts <- ifelse( is.null(npts), 200, npts)
-  
-    # Evaluate the function on appropriate inputs to help figure out y limits.
-    .xvals <-  if ('h' %in% type)  
-      seq(min(parent.xlim), max(parent.xlim), length.out=npts)
-    else 
-      adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ .f.(xxqq) }, 
-                length.out=npts,
-                quiet=TRUE)
-    
-    tryCatch(.yvals <- sapply( .xvals, .f. ), warning=function(w) {} )
+
+    if (! missing(x) && !missing(y) && length(x) >= npts && length(y) == length(x)) {
+      .xvals <- x
+      .yvals <- y
+    } else {
+      # Evaluate the function on appropriate inputs to help figure out y limits.
+      .xvals <-  if ('h' %in% type)  
+        seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+      else 
+        adapt_seq(min(parent.xlim), max(parent.xlim), 
+                  f=function(xxqq){ .f.(xxqq) }, 
+                  length.out=npts,
+                  quiet=TRUE)
+      
+      tryCatch(.yvals <- sapply( .xvals, .f. ), warning=function(w) {} )
+    }
     
     # need to strip out any components of ... that are in the object so they
     # don't get passed to the panel function.
@@ -559,19 +564,20 @@ panel.plotFun <- function( object, ...,
   
   if( ndims == 1 ){
     npts <- ifelse( is.null(npts), 200, npts)
+
     
-    # Evaluate the function on appropriate inputs.
-    .xvals <- 
-      if ('h' %in% type)  
-        seq(min(parent.xlim), max(parent.xlim), length.out=npts)
-    else 
-      adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ ..f..(xxqq) }, 
-                length.out=npts,
-                quiet=TRUE)
-    .yvals <- tryCatch( sapply( .xvals, ..f.. ), 
-                        warning=function(w) {} )
-      # pfun(.xvals)
+      # Evaluate the function on appropriate inputs.
+      .xvals <- 
+        if ('h' %in% type)  
+          seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+      else 
+        adapt_seq(min(parent.xlim), max(parent.xlim), 
+                  f=function(xxqq){ ..f..(xxqq) }, 
+                  length.out=npts,
+                  quiet=TRUE)
+      .yvals <- tryCatch( sapply( .xvals, ..f.. ), 
+                          warning=function(w) {} )
+    
     
     # need to strip out any components of ... that are in the object so they
     # don't get passed to the panel function.
