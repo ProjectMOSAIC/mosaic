@@ -26,7 +26,7 @@ adapt_seq <-function(from, to,
                      quiet=FALSE
 ) 
 {
-  n <- round(log(length.out))
+  n <- round(sqrt(length.out))
   n <- max(n,10)
   s <- seq(from, to, length.out=n)
   iteration <- 0
@@ -35,12 +35,15 @@ adapt_seq <-function(from, to,
   repeat{
     iteration <- iteration + 1
     # clean up: remove bad s values
-    tryCatch(y <- do.call(f, args=c(list(s), args)), 
-                  warning=function(w) if (quiet){} else {w})
+    if (quiet) {
+      suppressWarnings(y <- do.call(f, args=c(list(s), args)))
+    } else {
+      y <- do.call(f, args=c(list(s), args))
+    }
     w <- which(is.finite(y))
-    a <- min(which(is.finite(y))) - 1
+    a <- min(w) - 1
     a <- max(a,1)
-    b <- max(which(is.finite(y))) + 1
+    b <- max(w) + 1
     b <- min(b,length(s))
     w <- sort(unique(c(w, 1, length(s), a, b )))
     s <- s[w]; y <- y[w]
@@ -53,14 +56,19 @@ adapt_seq <-function(from, to,
     # keep best points + previous keepers
     ds <- ediff(s)
     dy <- ediff(y)
-    score <- abs(ediff(dy/ds, pad="tail"))
+    angle <- atan(dy/ds)
+    # score <- abs(ediff(dy/ds, pad="tail"))
+    score <- abs(ediff(angle, pad="tail"))
+    wsum <- cumsum(is.finite(y))
+    a <- which.min( wsum== 1) - 1  # last non-finite
+    a <- max(a,1)
+    b <- which.min( wsum == max(wsum) ) # first of last run of non-finites
+    b < min(b,length(s))
+    score[c(a,b)] <- Inf     # keep a and b
+    
     w <- which( s %in% keepers | score > quantile(score, probs=0.2, na.rm=TRUE))
     # be sure to keep left and right ends
-    a <- min(which(is.finite(y))) - 1
-    a <- max(a,1)
-    b <- max(which(is.finite(y))) + 1
-    b < min(b,length(s))
-    w <- sort(unique(c(w, 1, length(s), a, b )))
+    w <- sort(unique(c(w, 1, length(s))))
     s <- s[w]
     keepers <- s
     
@@ -68,9 +76,11 @@ adapt_seq <-function(from, to,
     ds <- diff(s)
     mid.s <- s[-1] - .5 * ds
     s <- sort( c(s, mid.s) )
-    tryCatch(y <- do.call(f, args=c(list(s), args)), 
-                  warning=function(w) if (quiet){} else {w})
-
+    if (quiet) {
+      suppressWarnings(y <- do.call(f, args=c(list(s), args)))
+    } else {
+      y <- do.call(f, args=c(list(s), args))
+    }
   }
 
 #    print(list(i=iteration, s=c(head(s), tail(s))))
