@@ -115,3 +115,22 @@ plotFun( x * sin(1/x) ~ x, xlim=c(-1,1) )
 plotFun( x * sin(1/x) ~ x, xlim=c(-1,1), npts=10000 )
 ```
 
+### Maps
+
+The `mosaic` package now provides facilities for producing choropleth maps.  The API is still under developement and may change in future releases.
+
+```{r}
+# we need to get state names into the data frame and then fix two of them with
+# wrong state abbreviations.  Then we are ready to make maps
+sAnscombe <- Anscombe %>%
+group_by(state = rownames(Anscombe)) %>%
+summarise(income = sum(income)) %>%
+mutate(state = standardName(state, c(IO = "IA", KA = "KS"), quiet=TRUE))
+
+mUSMap(sAnscombe, key="state", fill="income")
+mUSMap(sAnscombe, key="state", fill="income", style="real") 
+
+# A sillier example
+Countries %>% mutate( nletters = nchar(gapminder) ) %>%
+  mWorldMap( key="gapminder", fill="nletters") 
+```
