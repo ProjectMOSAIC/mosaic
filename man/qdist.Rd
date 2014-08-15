@@ -3,7 +3,7 @@
 \alias{qdist}
 \title{Illustrated quantile calculations from distributions}
 \usage{
-qdist(dist = "norm", p, plot = TRUE, verbose = TRUE, invisible = FALSE,
+qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
   digits = 4, lower.tail = TRUE, log.p = FALSE, xlim, ylim, vlwd = 2,
   vcol = trellis.par.get("add.line")$col, rot = 45, ...)
 }

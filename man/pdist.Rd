@@ -3,7 +3,7 @@
 \alias{pdist}
 \title{Illustrated probability calculations from distributions}
 \usage{
-pdist(dist = "norm", q, plot = TRUE, verbose = TRUE, invisible = FALSE,
+pdist(dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE,
   digits = 4, lower.tail = TRUE, log.p = FALSE, xlim, ylim, vlwd = 2,
   vcol = trellis.par.get("add.line")$col, rot = 45, ...)
 }

@@ -60,7 +60,7 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' pdist("f", 1, df1=2, df2=10)
 #' @export
  
-pdist <- function (dist="norm", q, plot = TRUE, verbose = TRUE, invisible=FALSE, 
+pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE, 
                    digits = 4, lower.tail = TRUE, log.p = FALSE, 
                    xlim, ylim,
                    vlwd=2, 
@@ -126,7 +126,7 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = TRUE, invisible=FALSE,
 #' qdist("chisq", .5,  df=3)
 #' @export 
 
-qdist <- function (dist="norm", p, plot = TRUE, verbose = TRUE, invisible=FALSE, 
+qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
                    digits = 4, lower.tail = TRUE, log.p = FALSE, 
                    xlim, ylim,
                    vlwd=2, 
