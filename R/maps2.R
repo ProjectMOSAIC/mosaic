@@ -61,7 +61,7 @@ standardName <- function(x, standard, ignore.case=TRUE, returnAlternatives=FALSE
     warning(paste(numNAs, "items were not translated"))
   }
   if (!returnAlternatives) return(res)
-  list(standardized = stand, alternatives = countryAlternatives)
+  list(standardized = res, alternatives = countryAlternatives)
 }
 
 #' @export
