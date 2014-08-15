@@ -306,4 +306,25 @@ sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 	return(data)
 }
 
-
+#' Simulate spinning a spinnner
+#' 
+#' This is essentially \code{rmultinom} with a different interface.
+#' 
+#' @param n number of spins of spinner
+#' @param probs a vector of probabilities.  If the sum is not 1, the 
+#' probabiliies will be rescaled.
+#' @param labels a character vector of labels for the categories
+#' @export
+#' @examples
+#' rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
+#' do(2) * rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
+ 
+rspin <- function(n, probs, labels=1:length(probs)) {
+  if (any(probs < 0))
+    stop("All probs must be non-negative.")
+  
+  probs <- probs/sum(probs)
+  res <- t(rmultinom(1, n, probs)) %>% as.data.frame()
+  names(res) <- labels
+  res
+}
