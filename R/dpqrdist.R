@@ -1,34 +1,10 @@
 
-distParams <- list(
-  norm = list(mean=0, sd=1),
-  t = list(df=NULL),
-  chisq = list(df=NULL),
-  f = list(df1=NULL, df2=NULL)
-)
-
-extractFromList <- function(l=list(), defaults) {
-  res <- defaults
-  for (item in intersect(names(defaults), names(l))) {
-    res[[item]] <- l[[item]]  
-  }
-  return(res)
-}
-
-# remove from l1 named args that appear in l2 -- a bit list setdiff()
-listdiff <- function(l1=list(), l2=list()) {
-  res <- l1
-  for (item in intersect(names(l1), names(l2))) {
-    res[[item]] <- NULL
-  }
-  return(res)
-}
-
 dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
   type <- match.arg(type)
   dots <- list(...)
   distFunName <- paste0(type,dist)
-  do.call(distFunName, c(extractFromList(dots, distParams[[dist]]), 
-                         listdiff(dots, distParams[[dist]])))
+
+  do.call(distFunName, dots)
 }
 
 #' Illustrated probability calculations from distributions
@@ -42,9 +18,6 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' @param verbose a logical
 #' @param invisible a logical
 #' @param digits the number of digits desired
-#' @param lower.tail a logical indicating whether lower tail probabilities are used
-#' @param log.p a logical indicating whether the log of the probability should be 
-#' calculated
 #' @param xlim x limits
 #' @param ylim y limits
 #' @param vlwd width of vertical lines
@@ -52,36 +25,30 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' @param rot angle for rotating text indicating probability
 #' @param ... additional arguments, including parameters of the distribution
 #' and additional options for the plot
-#' @return a vector of quantiles; often used for side effect of creating a plot
+#' @details The most general function is \code{pdist} which can work with 
+#' any distribution for which a p-function exists.  As a convenience, wrappers are 
+#' provided for several common distributions.
+#' @return a vector of probabilities; a plot is printed as a side effect 
 #' @examples
 #' pdist("norm", -2:2)
 #' pdist("norm", seq(80,120, by=10), mean=100, sd=10)
 #' pdist("chisq", 2:4, df=3)
 #' pdist("f", 1, df1=2, df2=10)
+#' pdist("gamma", 2, shape=3, rate=4)
 #' @export
  
 pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE, 
-                   digits = 4, lower.tail = TRUE, log.p = FALSE, 
+                   digits = 4, 
                    xlim, ylim,
                    vlwd=2, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
                    ...)
 {
-  if (! (dist %in% names(distParams)) ) {
-    stop( paste0("I don't know how to deal with the `", dist, "' distribution") )
-  }
   
   dots <- list(...)
-  distParams <- distParams[[dist]]
   
-  requiredDots <- names(distParams[is.null(distParams)])
-  missingDots <- setdiff(requiredDots, names(dots)) 
-  if (length(missingDots) > 0) {
-    stop( paste("Missing parameters:", paste(missingDots, sep=", ")) )
-  }
-  
-  p <- dpqrdist(dist, type="p", q, lower.tail = lower.tail, log.p = log.p, ...) 
+  p <- dpqrdist(dist, type="p", q, ...) 
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
@@ -109,9 +76,6 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @param verbose a logical
 #' @param invisible a logical
 #' @param digits the number of digits desired
-#' @param lower.tail a logical indicating whether lower tail probabilities are used
-#' @param log.p a logical indicating whether the log of the probability should be 
-#' calculated
 #' @param xlim x limits
 #' @param ylim y limits
 #' @param vlwd width of vertical lines
@@ -119,35 +83,30 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @param rot angle for rotating text indicating probability
 #' @param ... additional arguments, including parameters of the distribution
 #' and additional options for the plot
-#' @return a vector of probabilities; often used for side effect of creating a plot
+#' @details The most general function is \code{qdist} which can work with 
+#' any distribution for which a q-function exists.  As a convenience, wrappers are 
+#' provided for several common distributions.
+#' @return a vector of quantiles; a plot is printed as a side effect
 #' @examples
 #' qdist("norm", seq(.2, .8, by=.10))
-#' qdist("norm", seq(.2, .8, by=.10), mean=100, sd=10)
-#' qdist("chisq", .5,  df=3)
+#' xqnorm(seq(.2, .8, by=.10), mean=100, sd=10)
+#' qdist("unif", .5)
+#' xqgamma(.5, shape=3, scale=4)
+#' xqchisq(c(.25,.5,.75), df=3)
 #' @export 
 
 qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
-                   digits = 4, lower.tail = TRUE, log.p = FALSE, 
+                   digits = 4, 
                    xlim, ylim,
                    vlwd=2, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
                    ...)
 {
-  if (! (dist %in% names(distParams)) ) {
-    stop( paste0("I don't know how to deal with the `", dist, "' distribution") )
-  }
   
   dots <- list(...)
-  distParams <- distParams[[dist]]
   
-  requiredDots <- names(distParams[is.null(distParams)])
-  missingDots <- setdiff(requiredDots, names(dots)) 
-  if (length(missingDots) > 0) {
-    stop( paste("Missing parameters:", paste(missingDots, sep=", ")) )
-  }
-  
-  q <- dpqrdist(dist, type="q", p, lower.tail = lower.tail, log.p = log.p, ...) 
+  q <- dpqrdist(dist, type="q", p, ...) 
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
@@ -201,25 +160,60 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, dlwd=2,
   p <- c(0, p, 1)
   q <- c(xlim[1], q, xlim[2])
   
-  plot <- do.call("xyplot", c(list(
-    ydata ~ xdata, 
-    xlim = xlim, ylim = ylim, 
-    groups = groups, type='h',
-    xlab = "", ylab = "density", 
-    panel = function(x, y, ...) {
-      panel.xyplot(x,y,...)
-      panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
-                     col = vcol, lwd=vlwd)
-      grid.text(x=.mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
-                rot=rot,
-                check.overlap=TRUE,
-                paste("", round(diff(p), 3), sep = ""), 
-                just = c('center','center'),  gp=gpar(cex = 1.0))
-      panel.xyplot(x,y, type='l', lwd=dlwd, col="black")
-    } 
-  ), dots)
+  latticedots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
+  
+  args <- c(
+    list(
+      ydata ~ xdata, 
+      xlim = xlim, ylim = ylim, 
+      groups = groups, type='h',
+      xlab = "", ylab = "density", 
+      panel = function(x, y, ...) {
+        panel.xyplot(x,y,...)
+        panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+                       col = vcol, lwd=vlwd)
+        grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
+                  rot=rot,
+                  check.overlap=TRUE,
+                  paste("", round(diff(p), 3), sep = ""), 
+                  just = c('center','center'),  gp=gpar(cex = 1.0))
+        panel.xyplot(x,y, type='l', lwd=dlwd, col="black")
+      } 
+    ), 
+    latticedots
   )
+  
+  plot <- do.call("xyplot", args)
   
   return(plot)
 }
 
+
+#' @rdname pdist
+#' @seealso \code{\link{qdist}}, \code{\link{xpnorm}}, \code{\link{xqnorm}}.
+#' @export
+xpgamma <- function(...)  pdist("gamma", ...)
+#' @rdname qdist
+#' @export
+xqgamma <- function(...)  qdist("gamma", ...)
+
+#' @rdname pdist
+#' @export
+xpt <- function(...)  pdist("t", ...)
+#' @rdname qdist
+#' @export
+xqt <- function(...)  pdist("t", ...)
+
+#' @rdname pdist
+#' @export
+xpchisq <- function(...)  pdist("chisq", ...)
+#' @rdname qdist
+#' @export
+xqchisq <- function(...)  qdist("chisq", ...)
+
+#' @rdname pdist
+#' @export
+xpf <- function(...)  pdist("f", ...)
+#' @rdname qdist
+#' @export
+xqf <- function(...)  qdist("f", ...)
