@@ -353,6 +353,10 @@ sp2df <- function (map, ...)
 #' 
 #' A very plain \pkg{ggplot2} theme that is good for maps.
 #' 
+#' @details
+#' This theme is largely based on an example posted by 
+#' Winston Chang at the \pkg{ggplot2} Google group forum.
+#' 
 #' @param base_size the base font size for the theme.
 #' @export
 theme_map <- function (base_size=12) {
