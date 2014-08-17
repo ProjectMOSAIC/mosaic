@@ -49,7 +49,7 @@ opts_chunk$set(
 
 
 This vignette is simply a suite of plots that exist primarily as part of our quality
-control for the package.  But since the example might be useful to others as well, we've added this as a vignette in the package.
+control for the package.  But since the examples might be useful to others as well, we've added this as a vignette in the package.
 
 ### lattice extras
 
