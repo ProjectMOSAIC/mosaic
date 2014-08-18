@@ -30,7 +30,8 @@ Suggests:
     R.rsp,
     tools,
     parallel
-Enhances: manipulate
+Enhances: 
+    manipulate
 VignetteBuilder: knitr, R.rsp
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@amherst.edu>
