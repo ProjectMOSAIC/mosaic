@@ -393,7 +393,7 @@ setMethod("*",
 
     if (e1@algorithm >= 1) {
       resultsList <- if( e1@parallel && require(parallel) )
-        mclapply( integer(n), function(...) { cull(e2()) } )
+        parallel::mclapply( integer(n), function(...) { cull(e2()) } )
       else 
         lapply( integer(n), function(...) { cull(e2()) } )
           
