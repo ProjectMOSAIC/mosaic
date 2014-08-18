@@ -34,7 +34,14 @@
 #' CIsim(10,1000, rdist=rexp, estimand=1)    # this time population is Exp(1)
 #' ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper), 
 #'     data=CIsim(10,100, rdist=rexp, estimand=1)) +
-#'   geom_errorbar(aes(color=cover)) 
+#'   geom_errorbar(aes(color=cover)) +
+#'   geom_abline(slope=0, intercept=1, alpha=0.4)
+#'   
+#' ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper), 
+#'   data = CIsim(10, 100, rdist=rbinom, args=list(size=1,prob=.5), 
+#'        estimand = .5, method = prop.test)) + 
+#'   geom_errorbar(aes(color=cover)) +
+#'   geom_abline(slope=0, intercept=0.5, alpha=0.4)
 #' 
 #' \dontrun{
 #' if (require(Hmisc)) {
@@ -59,7 +66,7 @@
 
 CIsim <-
 function (n, samples = 100, rdist = rnorm, args = list(), estimand = 0, 
-    conf.level = 0.95, method = t.test, method.args = list(), 
+    conf.level = 0.95, method = t.test, method.args = list(),
     interval = function(x) {
         do.call(method, c(list(x, conf.level = conf.level), method.args))$conf.int
     }, estimate = function(x) {
