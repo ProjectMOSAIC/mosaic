@@ -3,7 +3,7 @@ Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
 Version: 0.9.1
-Date: 2014-08-16
+Date: 2014-08-18
 Depends:
     R (>= 3.0.0),
     car,
@@ -15,7 +15,6 @@ Imports:
     grid,
     reshape2,
     plyr,
-    Hmisc,
     methods,
     utils,
     splines,
@@ -25,13 +24,13 @@ Imports:
 Suggests:
     RCurl,
     maptools,
-    manipulate,
     vcd,
     testthat,
     knitr,
     R.rsp,
     tools,
     parallel
+Enhances: manipulate
 VignetteBuilder: knitr, R.rsp
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@amherst.edu>
