@@ -55,7 +55,14 @@ CIsim(10,1000)    # 1000 95\% intervals using t.test; population is N(0,1)
 CIsim(10,1000, rdist=rexp, estimand=1)    # this time population is Exp(1)
 ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper),
     data=CIsim(10,100, rdist=rexp, estimand=1)) +
-  geom_errorbar(aes(color=cover))
+  geom_errorbar(aes(color=cover)) +
+  geom_abline(slope=0, intercept=1, alpha=0.4)
+
+ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper),
+  data = CIsim(10, 100, rdist=rbinom, args=list(size=1,prob=.5),
+       estimand = .5, method = prop.test)) +
+  geom_errorbar(aes(color=cover)) +
+  geom_abline(slope=0, intercept=0.5, alpha=0.4)
 
 \dontrun{
 if (require(Hmisc)) {
