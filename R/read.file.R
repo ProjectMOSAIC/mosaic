@@ -64,12 +64,9 @@ function (file, header = T, na.strings = c("NA", "", ".", "na",
     }
     
     if (!file.exists(file) && grepl("https://", file)) {  # assume we are reading a URL
-      if (! require(RCurl) ) {
-        stop("The `RCurl' package is required to download via https")
-      }
-      file <- textConnection(getURL(file))
+      .try_require("RCurl")
+      file <- textConnection(RCurl::getURL(file))
     }
-
     
     if (filetype == "csv") 
       return(read.csv(file, header = header, na.strings = na.strings, 

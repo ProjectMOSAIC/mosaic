@@ -297,7 +297,7 @@ CIAdata <- function (name = NULL) {
   
   .try_require("RCurl")
   
-  table <- read.delim(textConnection(getURL(url, ssl.verifypeer = FALSE)),
+  table <- read.delim(textConnection(RCurl::getURL(url, ssl.verifypeer = FALSE)),
                       header = FALSE, stringsAsFactors = FALSE)
   table[, 1] <- NULL
   names(table) <- c("country", name)
