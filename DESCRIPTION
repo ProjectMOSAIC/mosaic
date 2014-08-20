@@ -29,7 +29,8 @@ Suggests:
     knitr,
     R.rsp,
     tools,
-    parallel
+    parallel,
+    mapproj
 Enhances: manipulate
 VignetteBuilder: knitr, R.rsp
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
