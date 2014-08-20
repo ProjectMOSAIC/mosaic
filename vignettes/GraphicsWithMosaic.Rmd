@@ -181,6 +181,11 @@ mUSMap(sAnscombe, key="state", fill="income")
 mUSMap(sAnscombe, key="state", fill="income", style="real") 
 
 # A sillier example
+if (require(mapproj)) {
+Countries %>% mutate( nletters = nchar(gapminder) ) %>%
+  mWorldMap( key="gapminder", fill="nletters") + coord_map()
+} else {
 Countries %>% mutate( nletters = nchar(gapminder) ) %>%
   mWorldMap( key="gapminder", fill="nletters") 
+}
 ```
