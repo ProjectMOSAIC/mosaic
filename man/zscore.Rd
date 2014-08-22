@@ -3,7 +3,7 @@
 \alias{zscore}
 \title{Compute z-scores}
 \usage{
-zscore(x, na.rm = getOptions("na.rm", FALSE))
+zscore(x, na.rm = getOption("na.rm", FALSE))
 }
 \arguments{
 \item{x}{a numeric vector}
