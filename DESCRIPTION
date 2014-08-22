@@ -22,6 +22,7 @@ Imports:
     gridExtra,
     ggdendro
 Suggests:
+    mosaicData,
     RCurl,
     maptools,
     vcd,
