@@ -68,26 +68,6 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 \tableofcontents
 
 
-<<setupRnw, eval=FALSE, echo=FALSE,results="hide",message=FALSE>>=
-require(grDevices) 
-require(datasets) 
-require(stats) 
-require(lattice)
-require(grid) 
-require(mosaic) 
-require(fastR)
-trellis.par.set(theme=col.mosaic(bw=FALSE))
-trellis.par.set(fontsize=list(text=9))
-options(keep.blank.line=FALSE) 
-options(width=70)
-require(vcd)
-require(knitr)
-
-opts_chunk$set( 
-  fig.align="center",
-  fig.show="hold"
-)
-@
 
 
 \section{Introduction}

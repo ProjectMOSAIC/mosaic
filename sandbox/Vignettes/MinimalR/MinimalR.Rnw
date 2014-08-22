@@ -168,6 +168,7 @@ Randall Pruim, Project MOSAIC
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
 #source('setup.R')
 require(mosaic)
+require(mosaicData)
 require(parallel)
 trellis.par.set(theme=col.mosaic())
 set.seed(123)
@@ -261,7 +262,8 @@ as possible into a small number of paradigms.  In particular,
 		to teach it anyway, we use formulas as consistently and as often as we can.
 		In some cases, my colleagues and I have written new functions or expanded the use of existing functions 
 		to serve this end.  These functions are available in the \pkg{mosaic} package and are
-		indicated in the comments in our palette.
+		indicated in the comments in our palette.  Some of the data sets are from the 
+		\pkg{mosaicData} package.
 
 	\item 
 		We use \pkg{lattice} graphics.
