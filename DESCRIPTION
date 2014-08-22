@@ -11,6 +11,7 @@ Depends:
     lattice (>= 0.20-21),
     ggplot2
 Imports:
+    mosaicData,
     MASS,
     grid,
     reshape2,
@@ -22,7 +23,6 @@ Imports:
     gridExtra,
     ggdendro
 Suggests:
-    mosaicData,
     NHANES,
     RCurl,
     maptools,

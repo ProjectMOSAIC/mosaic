@@ -29,5 +29,6 @@
 #' @import lattice
 #' @import ggplot2
 #' @import splines 
+#' @import mosaicData
 #' @importFrom plyr ddply
 NA
