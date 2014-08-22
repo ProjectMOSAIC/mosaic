@@ -4,7 +4,7 @@
 #' 
 #' @param x a numeric vector
 #' @param ... if present, appended to x
-#' @param na.omot a logical indicating whether NAs should be removed before
+#' @param na.rm a logical indicating whether NAs should be removed before
 #' calculaing.
 #' @return the mean or sum of the absolute differences between each pair
 #' of values in \code{c(x,...)}.

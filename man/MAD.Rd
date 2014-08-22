@@ -13,7 +13,7 @@ SAD(x, ..., na.omit = getOption("na.omit", FALSE))
 
 \item{...}{if present, appended to x}
 
-\item{na.omot}{a logical indicating whether NAs should be removed before
+\item{na.rm}{a logical indicating whether NAs should be removed before
 calculaing.}
 }
 \value{
