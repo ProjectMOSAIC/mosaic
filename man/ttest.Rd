@@ -41,10 +41,12 @@ This is a wrapper around \code{\link{t.test}} from the \pkg{stats} package
 to extend the functionality of the formula interface.
 }
 \examples{
+if (require(mosaicData)) {
 t.test( ~ age, data=HELPrct)
 t.test( age ~ sex, data=HELPrct)
 t.test( ~ age | sex, data=HELPrct)
 t.test( ~ age, groups=sex, data=HELPrct)
+}
 }
 \seealso{
 \code{\link[mosaic]{prop.test}}, \code{\link[stats]{t.test}}
