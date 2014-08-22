@@ -18,7 +18,7 @@ MAD <- function(x, ..., na.rm=getOption("na.omit", FALSE)) {
 }
 
 #' @rdname MAD
-SAD <- function(x, ..., na.omit=getOption("na.omit", FALSE)) {
+SAD <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
   x <- c(x,...)
   x <- na.omit(x)
   M <- outer(x, x, "-")
