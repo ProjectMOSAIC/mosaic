@@ -2,6 +2,11 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.9.1}{
 \itemize{
+\item The data sets formerly in this pacakge have been separated out into two
+additional packages:  \pkg{NHANES} contains the \code{NHANES} data set
+and \pkg{mosaicData} contains the other data sets.  
+\item \code{MAD} and \code{SAD} were added to compute mean and sum
+of all pairs of absolute differences.
 \item Facilities for making choropleth maps has been added.  The API for these 
 tools is still under development and may change in future releases.
 \item \code{rspin} has been added to simulate spinning a spinner.
