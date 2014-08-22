@@ -23,6 +23,7 @@ Imports:
     ggdendro
 Suggests:
     mosaicData,
+    NHANES,
     RCurl,
     maptools,
     vcd,
