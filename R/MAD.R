@@ -18,6 +18,7 @@ MAD <- function(x, ..., na.rm=getOption("na.omit", FALSE)) {
 }
 
 #' @rdname MAD
+#' @export
 SAD <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
   x <- c(x,...)
   x <- na.omit(x)
