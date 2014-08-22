@@ -98,6 +98,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #' # 100 Bernoulli trials -- no need for replace=TRUE
 #' resample(0:1, 100)
 #' tally(resample(0:1, 100))
+#' if (require(mosaicData)) {
 #' Small <- sample(KidsFeet, 10)
 #' resample(Small)
 #' tally(~ sex, data=resample(Small))
@@ -111,6 +112,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #'    id1 = paste(sex,1:10, sep=":"),  
 #'    id2 = paste(sex,1:10, sep=":"))
 #' resample(Small, groups=sex, shuffled=c("id1","id2"))
+#' }
 #' @export
 
 resample <- function(..., replace=TRUE) {
