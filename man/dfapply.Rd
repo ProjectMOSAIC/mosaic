@@ -19,7 +19,9 @@ An \code{apply}-type function for data frames.
 }
 \examples{
 dfapply(iris, favstats)
+if (require(mosaicData)) {
 dfapply(HELPrct, table, select=is.factor)
+}
 }
 \seealso{
 \code{\link{apply}},

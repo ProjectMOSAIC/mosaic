@@ -24,12 +24,14 @@
 #' f <- fitSpline( weight ~ height, data=women, df=5 )
 #' xyplot( weight ~ height, data=women )
 #' plotFun(f(height) ~ height, add=TRUE)
-#' 
+#'
+#' if (require(mosaicData)) {
 #' g <- fitSpline( height ~ weight, Heightweight, type='natural', df=5 )
 #' h <- fitSpline( height ~ weight, Heightweight, type='linear', df=5 )
 #' xyplot( height ~ weight, Heightweight, col='gray70', pch=16)
 #' plotFun(g, add=TRUE, col='navy')
 #' plotFun(h, add=TRUE, col='red')
+#' }
 #' @export
 
 fitSpline <- function( formula, data=parent.frame(), 

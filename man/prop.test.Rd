@@ -91,9 +91,11 @@ prop.test(c(97,272-97))
 faithful$long <- faithful$eruptions > 3
 prop.test( faithful$long )
 prop.test( ~long , faithful )
+if (require(mosaicData)) {
 prop.test( homeless ~ sex, data=HELPrct )
 prop.test( ~ homeless | sex, data=HELPrct )
 prop.test( ~ homeless, groups= sex, data=HELPrct )
+}
 }
 \seealso{
 \code{\link[mosaic]{binom.test}}, \code{\link[stats]{prop.test}}

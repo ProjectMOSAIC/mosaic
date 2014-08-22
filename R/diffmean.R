@@ -5,12 +5,14 @@
 #' 
 #' @param ... arguments passed to \code{mean}
 #' @examples
+#' if (require(mosaicData)) {
 #' diffprop( homeless ~ sex , data=HELPrct)
 #' do(3) * diffprop( homeless ~ shuffle(sex) , data=HELPrct)
 #' diffmean( age ~ substance, data=HELPrct)
 #' do(3) * diffmean(age ~ shuffle(substance), data=HELPrct)
 #' diffmean( age ~ sex, data=HELPrct)
 #' do(3) * diffmean(age ~ shuffle(sex), data=HELPrct)
+#' }
 #' @export
 diffmean <- function( ... ) {
   m <- mean(...)

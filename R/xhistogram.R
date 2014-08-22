@@ -39,6 +39,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' @rdname xhistogram
 #' @return \code{xhistogramBreaks} returns a vector of break points
 #' @examples
+#' if (require(mosaicData)) {
 #' histogram(~age | substance, HELPrct, v=35, fit='normal')
 #' histogram(~age, HELPrct, labels=TRUE, type='count')
 #' histogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
@@ -49,6 +50,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' xhistogramBreaks(0:10, center=15, width=3)
 #' xhistogramBreaks(1:100, center=50, width=3)
 #' xhistogramBreaks(0:10, center=5, nint=5)
+#' }
 #' @export
 
 xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {

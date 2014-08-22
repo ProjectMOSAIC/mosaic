@@ -15,11 +15,6 @@
 #'the polynomial 2*x^2+3*x+4 ) and value, \code{pow}, indicating the order of the polynomial.
 #'If the expression is not a polynomial, this method returns an empty list or an error.
 #'
-#'@examples
-# Move to tests.
-#'mosaic:::.polyExp(lhs((2*x+x^3+1)^3+x~x), "x", "")
-#'mosaic:::.polyExp(lhs((3+a*x)^2+a^2*(x+2)~x), "x", "a")
-#'mosaic:::.polyExp(lhs((a+b*x)^3~x), "x", c("a", "b"))
 .polyExp <- function(tree, .x., params, iterate=1){
   # Reduce purely numerical coefficients to a number
   # Aaron Mayerson May 29, 2013

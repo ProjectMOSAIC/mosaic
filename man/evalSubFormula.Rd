@@ -20,9 +20,11 @@ a data frame containing the terms of the evaluated subformula
 Evaluate a part of a formula
 }
 \examples{
+if (require(mosaicData)) {
 data(CPS85)
 cps <- CPS85[1:6,]
 cps
 evalSubFormula( rhs( ~ married & sector), data=cps )
+}
 }
 

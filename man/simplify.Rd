@@ -49,9 +49,4 @@ in turn.  Calls .polyExp.num when all remaining coefficients are numeric to redu
 
 works with the same structure as .polyExp() but will return only if all coefficients reduce to numeric values.
 }
-\examples{
-mosaic:::.polyExp(lhs((2*x+x^3+1)^3+x~x), "x", "")
-mosaic:::.polyExp(lhs((3+a*x)^2+a^2*(x+2)~x), "x", "a")
-mosaic:::.polyExp(lhs((a+b*x)^3~x), "x", c("a", "b"))
-}
 

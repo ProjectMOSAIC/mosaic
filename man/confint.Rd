@@ -45,13 +45,17 @@ Methods for \code{confint} to compute confidence intervals
 on numerical vectors and numerical components of data frames.
 }
 \examples{
-s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
-confint(s)
-confint(s, method="quantile")
-confint(s, margin.of.error=TRUE)
-confint(s, margin.of.error=TRUE, level=0.99 )
-s2 <- do(500)*mean( resample(1:10) )
-confint(s2)
+if (require(mosaicData)) {
+  s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
+  confint(s)
+  confint(s, method="quantile")
+  confint(s, margin.of.error=TRUE)
+  confint(s, margin.of.error=TRUE, level=0.99 )
+  s2 <- do(500)*mean( resample(1:10) )
+  confint(s2)
+}
+if (require(mosaicData)) {
 confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
+}
 }
 

@@ -47,6 +47,7 @@ a vector
 Compute function on subsets of a variable in a data frame.
 }
 \examples{
+if (require(mosaicData)) {
 maggregate( cesd ~ sex, HELPrct, FUN=mean )
 # using groups instead
 maggregate( ~ cesd, groups = sex, HELPrct, FUN=sd )
@@ -57,5 +58,6 @@ maggregate( ~ cesd | sex , groups= homeless, HELPrct, FUN=sd )
 maggregate( cesd ~ sex, groups = homeless, HELPrct, FUN=sd )
 # this is unusual, but also works.
 maggregate( cesd ~ NULL , groups = sex, HELPrct, FUN=sd )
+}
 }
 

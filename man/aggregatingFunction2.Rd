@@ -16,8 +16,10 @@ a function that generalizes \code{fun} to handle a formula/data frame interface.
 \code{aggregatinFuntion2} creates statistical summaries of two numerical vectors that are formula aware.
 }
 \examples{
-foo <- aggregatingFunction2( stats::cor)
-foo( length ~ width, data=KidsFeet )
-stats::cor( KidsFeet$length, KidsFeet$width )
+if(require(mosaicData)) {
+  foo <- aggregatingFunction2( stats::cor)
+  foo( length ~ width, data=KidsFeet )
+   stats::cor( KidsFeet$length, KidsFeet$width )
+}
 }
 

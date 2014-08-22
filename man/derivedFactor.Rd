@@ -43,6 +43,7 @@ or an error is generated, depending on the value of \code{method}.
 factor variables to a data frame.  See the examples.
 }
 \examples{
+if (require(mosaicData)) {
 Kf <- transform(KidsFeet, biggerfoot2=derivedFactor(
                    dom = biggerfoot == domhand,
                    nondom = biggerfoot != domhand)
@@ -84,5 +85,6 @@ modHELP <- transform(HELPrct, drinkstat = derivedFactor(
   )
 )
 tally( ~drinkstat, data=modHELP )
+}
 }
 

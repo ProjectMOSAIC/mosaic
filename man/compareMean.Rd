@@ -26,15 +26,17 @@ A function to calculate the difference between the means of a continuous
 variable for two groups.
 }
 \examples{
-data(HELPrct)
-# calculate the observed difference
-mean(age ~ sex, data=HELPrct)
-obs <- compareMean(age ~ sex, data=HELPrct); obs
-# calculate the permutation distribution
-nulldist <- do(100) * compareMean(age ~ shuffle(sex),
-  data=HELPrct)
-histogram(~ result, groups=(result >= obs), nulldist,
-  xlab="difference in means")
+if (require(mosaicData)) {
+  data(HELPrct)
+  # calculate the observed difference
+  mean(age ~ sex, data=HELPrct)
+  obs <- compareMean(age ~ sex, data=HELPrct); obs
+  # calculate the permutation distribution
+  nulldist <- do(100) * compareMean(age ~ shuffle(sex),
+    data=HELPrct)
+  histogram(~ result, groups=(result >= obs), nulldist,
+    xlab="difference in means")
+}
 }
 \seealso{
 \code{\link{do}}, \code{\link{compareProportion}} and \code{\link{shuffle}}

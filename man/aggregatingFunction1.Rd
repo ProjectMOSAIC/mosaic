@@ -25,9 +25,11 @@ a function that generalizes \code{fun} to handle a formula/data frame interface.
 \code{aggregatinFuntion1} creates statistical summaries of one numerical vector that are formula aware.
 }
 \examples{
-foo <- aggregatingFunction1( base::mean )
-foo( ~length, data=KidsFeet )
-base::mean(KidsFeet$length)
-foo( length ~ sex, data=KidsFeet )
+if (require(mosaicData)) {
+  foo <- aggregatingFunction1( base::mean )
+  foo( ~length, data=KidsFeet )
+  base::mean(KidsFeet$length)
+  foo( length ~ sex, data=KidsFeet )
+}
 }
 

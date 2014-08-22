@@ -12,14 +12,16 @@
 #' @keywords iteration
 #' @keywords stats
 #' @examples
-#' data(HELPrct)
-#' # calculate the observed difference
-#' mean(homeless=="housed" ~ sex, data=HELPrct)
-#' obs <- compareProportion(homeless=="housed" ~ sex, data=HELPrct); obs
-#' # calculate the permutation distribution
-#' nulldist <- do(100) * compareProportion(homeless=="housed" ~ shuffle(sex), data=HELPrct)
-#' histogram(~ result, groups=(result >= obs), nulldist, 
-#'   xlab="difference in proportions")
+#' if (require(mosaicData)) {
+#'   data(HELPrct)
+#'   # calculate the observed difference
+#'   mean(homeless=="housed" ~ sex, data=HELPrct)
+#'   obs <- compareProportion(homeless=="housed" ~ sex, data=HELPrct); obs
+#'   # calculate the permutation distribution
+#'   nulldist <- do(100) * compareProportion(homeless=="housed" ~ shuffle(sex), data=HELPrct)
+#'   histogram(~ result, groups=(result >= obs), nulldist, 
+#'     xlab="difference in proportions")
+#' }
 #' @export
 compareProportion = function(formula, data=NULL, ...) {
   means = mean( formula, data=data, ... )

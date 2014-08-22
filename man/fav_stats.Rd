@@ -24,7 +24,7 @@ should be aggregated across various subsets of the data.
 \examples{
 fav_stats(1:10)
 fav_stats(faithful$eruptions)
-favstats(length ~ sex, data=KidsFeet)  # Note: this is favstats() rather than fav_stats()
+favstats(Sepal.Length ~ Species, data=iris)  # Note: this is favstats() rather than fav_stats()
 }
 \keyword{stats}
 

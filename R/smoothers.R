@@ -33,6 +33,7 @@ tryCatch(utils::globalVariables(c('.latticeEnv')),
 #' @seealso \code{\link{project}} method for formulas
 #'
 #' @examples
+#' if (require(mosaicData)) {
 #' data(CPS85)
 #' f <- smoother(wage ~ age, span=.9, data=CPS85)
 #' f(40)
@@ -46,6 +47,7 @@ tryCatch(utils::globalVariables(c('.latticeEnv')),
 #' f1 <- spliner(y ~ x)
 #' f1(x=8:10)
 #' f2 <- connector(x~y)
+#' }
 #' @export
 
 spliner <- function(formula, data=NULL,method="fmm",monotonic=FALSE) {

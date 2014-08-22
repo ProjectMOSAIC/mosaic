@@ -56,6 +56,7 @@ from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes 
 easier to have the two package coexist.
 }
 \examples{
+if (require(mosaicData)) {
 tally( ~ substance, data=HELPrct)
 tally( ~ substance & sex , data=HELPrct)
 tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance, ... )
@@ -68,5 +69,6 @@ tally( ~ sex, data=HELPrct, useNA="always")
 tally( ~ link, data=HELPrct)
 # ignfore the NAs
 tally( ~ link, data=HELPrct, useNA="no")
+}
 }
 

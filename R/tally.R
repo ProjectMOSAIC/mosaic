@@ -64,6 +64,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes it
 #' easier to have the two package coexist.
 #' @examples
+#' if (require(mosaicData)) {
 #' tally( ~ substance, data=HELPrct)
 #' tally( ~ substance & sex , data=HELPrct)
 #' tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance, ... )
@@ -76,6 +77,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ link, data=HELPrct)
 #' # ignfore the NAs
 #' tally( ~ link, data=HELPrct, useNA="no")
+#' }
 #' @export
 
 tally <- function(x, ...) {
@@ -169,9 +171,12 @@ tally.default <- function(x, data=parent.frame(),
 #' @return if \code{x} has rows or columns, a vector of indices, else \code{default}
 #' @rdname columns
 #' @examples
+#' columns(iris)
+#' if (require(mosaicData)) {
 #' dim(HELPrct)
 #' columns(HELPrct)
 #' rows(HELPrct)
+#' }
 #' columns(NULL)
 #' columns("this doesn't have columns")
 #' @export
@@ -203,11 +208,13 @@ rows <- function(x, default=c()) {
 #' @param format one of \code{proportion}, \code{percent}, or \code{count},
 #'        possibly abbrevaited
 #' @examples
+#' if (require(mosaicData)) {
 #' prop( ~sex, data=HELPrct)
 #' prop( ~sex, data=HELPrct, level='male')
 #' count( ~sex | substance, data=HELPrct)
 #' prop( ~sex | substance, data=HELPrct)
 #' perc( ~sex | substance, data=HELPrct)
+#' }
 #' @export
 
 prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=".", format="proportion") {

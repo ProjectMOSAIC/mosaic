@@ -50,8 +50,10 @@
 #' oddsRatio(M2)
 #' oddsRatio(M2, verbose=TRUE)
 #' relrisk(M2, verbose=TRUE)
+#' if (require(mosaicData)) {
 #' relrisk(tally(~ homeless + sex, data=HELPrct) )
 #' do(3) * relrisk( tally( ~ homeless + shuffle(sex), data=HELPrct) )
+#' }
 #' @export
 
 orrr <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3,

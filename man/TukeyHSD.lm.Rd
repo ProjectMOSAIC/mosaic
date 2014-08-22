@@ -23,9 +23,11 @@ have been provided to remove this need.
 }
 \examples{
 ## These should all give the same results
-model <- lm(age ~ substance, data=HELPrct)
-TukeyHSD(model)
-TukeyHSD( age ~ substance, data=HELPrct)
-TukeyHSD(aov(age ~ substance, data=HELPrct))
+if (require(mosaicData)) {
+  model <- lm(age ~ substance, data=HELPrct)
+  TukeyHSD(model)
+  TukeyHSD( age ~ substance, data=HELPrct)
+  TukeyHSD(aov(age ~ substance, data=HELPrct))
+}
 }
 

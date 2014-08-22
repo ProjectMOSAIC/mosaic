@@ -29,6 +29,7 @@
 #' factor variables to a data frame.  See the examples.
 #' 
 #' @examples
+#' if (require(mosaicData)) {
 #' Kf <- transform(KidsFeet, biggerfoot2=derivedFactor(
 #'                    dom = biggerfoot == domhand,
 #'                    nondom = biggerfoot != domhand)
@@ -70,6 +71,7 @@
 #'   )
 #' )
 #' tally( ~drinkstat, data=modHELP )
+#' }
 #' @export
 
 derivedFactor <- function(..., 

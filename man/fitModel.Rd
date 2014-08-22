@@ -50,11 +50,13 @@ to the returned function.
 This doesn't work with categorical explanatory variables.
 }
 \examples{
+if (require(mosaicData)) {
 f <- fitModel(temp ~ A+B*exp(-k*time), data=CoolingWater, start=list(A=50,B=50,k=1/20))
 f(time=50)
 coef(f)
 summary(f)
 model(f)
+}
 }
 \seealso{
 \code{\link{linearModel}}, \code{\link{nls}}

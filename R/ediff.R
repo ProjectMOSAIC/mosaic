@@ -25,9 +25,11 @@
 #' ediff(x, differences = 2)
 #' ediff(x, differences = 2, pad="symmetric")
 #' ediff(.leap.seconds)
+#' if (require(mosaicData)) {
 #' Men <- subset(SwimRecords, sex=="M")
 #' Men <- transform(Men, change=ediff(time), interval=ediff(year))
 #' head(Men) 
+#' }
 #' @export
 
 ediff <- function(x, lag=1, differences=1, pad=c("head","tail","symmetric"), 

@@ -61,8 +61,10 @@ mplot.default <- function(object, ...) {
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
 #' @examples
+#' if (require(mosaicData)) {
 #' mplot( lm( width ~ length * sex, data=KidsFeet) )
 #' mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )
+#' }
 #' @export
 
 mplot.lm <- function(object, which=c(1:3, 7), 
@@ -280,8 +282,10 @@ mplot.lm <- function(object, which=c(1:3, 7),
 #' @rdname mplot
 #' @examples
 #' \dontrun{
+#' if (require(mosaicData)) {
 #' mplot( HELPrct )
 #' mplot( HELPrct, "histogram" )
+#' }
 #' }
 #' @export
 
@@ -359,7 +363,9 @@ fortify.summary.glm <- function(model, data=NULL, level=0.95, ...) {
 #' @param parm a vector of parameters
 #' @param level a confidence level
 #' @examples
+#' if (require(mosaicData)) {
 #' confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
+#' }
 #' @export
 
 confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
@@ -386,9 +392,11 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @param rows rows to show.  This may be a numeric vector, 
 #' \code{TRUE} (for all rows), or a character vector of row names.
 #' @examples
+#' if (require(mosaicData)) {
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot")
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
+#' }
 #' @export
  
 mplot.summary.lm <- function(object, 
@@ -462,7 +470,9 @@ mplot.summary.glm <- mplot.summary.lm
 
 #' @rdname fortify
 #' @examples
+#' if (require(mosaicData)) {
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+#' }
 #' @export
  
 fortify.TukeyHSD <- function(model, data, ...) {
@@ -482,8 +492,10 @@ fortify.TukeyHSD <- function(model, data, ...) {
 
 #' @rdname mplot
 #' @examples
+#' if (require(mosaicData)) {
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
+#' }
 #' @export
 
 mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 
@@ -533,7 +545,9 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
 #' @param model an R object
 #' @param data original data set, if needed
 #' @examples
+#' if (require(mosaicData)) {
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+#' }
 #' @export
  
 fortify.TukeyHSD <- function(model, data, ...) {
@@ -555,8 +569,10 @@ fortify.TukeyHSD <- function(model, data, ...) {
 #' @param xlab label for x-axis
 #' @param ylab label for y-axis
 #' @examples
+#' if (require(mosaicData)) {
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
+#' }
 #' @export
 
 mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 

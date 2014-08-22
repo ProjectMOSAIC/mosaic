@@ -38,16 +38,18 @@ Use \code{0} or \code{FALSE} to omit the heatmap.}
 mosaic tools for clustering
 }
 \examples{
+if (require(mosaicData)) {
 KidsFeet \%>\% select(-name, -birthmonth) \%>\% rescale() -> KidsFeet2
-M <- dist(KidsFeet2)
-Cl <- hclust(M)
-fortify(Cl, k=5) \%>\% head(3)
-fortify(Cl, which="heatmap", data=KidsFeet2) \%>\% head(3)
-fortify(Cl, which="data", data=KidsFeet2) \%>\% head(3)
-fortify(Cl, which="labels") \%>\% head(3)
-mplot(Cl, data=KidsFeet2, k=4, heatmap=2)
-mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
-mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
-mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
+  M <- dist(KidsFeet2)
+  Cl <- hclust(M)
+  fortify(Cl, k=5) \%>\% head(3)
+  fortify(Cl, which="heatmap", data=KidsFeet2) \%>\% head(3)
+  fortify(Cl, which="data", data=KidsFeet2) \%>\% head(3)
+  fortify(Cl, which="labels") \%>\% head(3)
+  mplot(Cl, data=KidsFeet2, k=4, heatmap=2)
+  mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
+  mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
+  mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
+}
 }
 

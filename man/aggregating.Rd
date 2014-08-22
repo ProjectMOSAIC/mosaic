@@ -87,6 +87,7 @@ The \code{mosaic} package makes several summary statistic functions (like \code{
 formula aware.
 }
 \examples{
+if (require(mosaicData)) {
 mean( HELPrct$age )
 mean( ~ age, data=HELPrct )
 mean( age ~ sex + substance, data=HELPrct )
@@ -105,5 +106,6 @@ favstats( width ~ sex, data=KidsFeet )
 
 cor( length ~ width, data=KidsFeet )
 cov ( length ~ width, data=KidsFeet )
+}
 }
 

@@ -18,10 +18,12 @@ TukeyHSD.lm <- function(x, which, ordered = FALSE, conf.level=0.95, ...) {
 #' @rdname TukeyHSD.lm
 #' @examples
 #' ## These should all give the same results
-#' model <- lm(age ~ substance, data=HELPrct)
-#' TukeyHSD(model)
-#' TukeyHSD( age ~ substance, data=HELPrct)
-#' TukeyHSD(aov(age ~ substance, data=HELPrct))
+#' if (require(mosaicData)) {
+#'   model <- lm(age ~ substance, data=HELPrct)
+#'   TukeyHSD(model)
+#'   TukeyHSD( age ~ substance, data=HELPrct)
+#'   TukeyHSD(aov(age ~ substance, data=HELPrct))
+#' }
 #' @export
 TukeyHSD.formula <- function(x, which, ordered = FALSE, conf.level=0.95, data=parent.frame(), ...) {
   TukeyHSD( lm(x, data=data, ...), which = which, ordered = ordered, conf.level=conf.level, ...)

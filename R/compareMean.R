@@ -18,15 +18,17 @@
 #' @keywords iteration
 #' @keywords stats
 #' @examples
-#' data(HELPrct)
-#' # calculate the observed difference
-#' mean(age ~ sex, data=HELPrct)
-#' obs <- compareMean(age ~ sex, data=HELPrct); obs
-#' # calculate the permutation distribution
-#' nulldist <- do(100) * compareMean(age ~ shuffle(sex), 
-#'   data=HELPrct) 
-#' histogram(~ result, groups=(result >= obs), nulldist, 
-#'   xlab="difference in means")
+#' if (require(mosaicData)) {
+#'   data(HELPrct)
+#'   # calculate the observed difference
+#'   mean(age ~ sex, data=HELPrct)
+#'   obs <- compareMean(age ~ sex, data=HELPrct); obs
+#'   # calculate the permutation distribution
+#'   nulldist <- do(100) * compareMean(age ~ shuffle(sex), 
+#'     data=HELPrct) 
+#'   histogram(~ result, groups=(result >= obs), nulldist, 
+#'     xlab="difference in means")
+#' }
 #' @export
 compareMean = function(formula, data=parent.frame(), ...) {
   means = mean( formula, data=data, ... )

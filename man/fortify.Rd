@@ -26,7 +26,11 @@
 Extract data from R objects
 }
 \examples{
+if (require(mosaicData)) {
 fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+}
+if (require(mosaicData)) {
 fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+}
 }
 

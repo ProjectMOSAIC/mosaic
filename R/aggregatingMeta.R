@@ -24,10 +24,12 @@
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @examples
-#' foo <- aggregatingFunction1( base::mean )
-#' foo( ~length, data=KidsFeet )
-#' base::mean(KidsFeet$length)
-#' foo( length ~ sex, data=KidsFeet )
+#' if (require(mosaicData)) {
+#'   foo <- aggregatingFunction1( base::mean )
+#'   foo( ~length, data=KidsFeet )
+#'   base::mean(KidsFeet$length)
+#'   foo( length ~ sex, data=KidsFeet )
+#' } 
 #' @export
 aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
                                   envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
@@ -103,9 +105,11 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @examples
-#' foo <- aggregatingFunction2( stats::cor)
-#' foo( length ~ width, data=KidsFeet )
-#' stats::cor( KidsFeet$length, KidsFeet$width )
+#' if(require(mosaicData)) {
+#'   foo <- aggregatingFunction2( stats::cor)
+#'   foo( length ~ width, data=KidsFeet )
+#'    stats::cor( KidsFeet$length, KidsFeet$width )
+#' }
 #' @export
 aggregatingFunction2 <- function( fun ) {
   result <- function( x, y=NULL, ..., data=parent.frame() ) { # , ..fun.. = fun) {
@@ -204,6 +208,7 @@ cor <- aggregatingFunction2( stats::cor )
 #' @rdname aggregating
 #' 
 #' @examples
+#' if (require(mosaicData)) {
 #' mean( HELPrct$age )
 #' mean( ~ age, data=HELPrct )
 #' mean( age ~ sex + substance, data=HELPrct )
@@ -222,6 +227,7 @@ cor <- aggregatingFunction2( stats::cor )
 #' 
 #' cor( length ~ width, data=KidsFeet )
 #' cov ( length ~ width, data=KidsFeet )
+#' }
 #' @export
 
 cov <- aggregatingFunction2( stats::cov)

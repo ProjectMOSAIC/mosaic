@@ -21,13 +21,15 @@
 #' a numerical vector, returns a vector.
 #' 
 #' @examples
-#' s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
-#' confint(s)
-#' confint(s, method="quantile")
-#' confint(s, margin.of.error=TRUE)
-#' confint(s, margin.of.error=TRUE, level=0.99 )
-#' s2 <- do(500)*mean( resample(1:10) ) 
-#' confint(s2)
+#' if (require(mosaicData)) {
+#'   s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
+#'   confint(s)
+#'   confint(s, method="quantile")
+#'   confint(s, margin.of.error=TRUE)
+#'   confint(s, margin.of.error=TRUE, level=0.99 )
+#'   s2 <- do(500)*mean( resample(1:10) ) 
+#'   confint(s2)
+#' }
 #' @export
 
 confint.numeric <- function(object, parm, level=0.95, ..., method="stderr", 

@@ -98,6 +98,7 @@ plotFun( sin(x) ~ x,
 f <- rfun( ~ u & v )
 plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
+if (require(mosaicData)) {
 # display a linear model using a formula interface
 model <- lm(wage ~ poly(exper,degree=2), data=CPS85)
 fit <- makeFun(model)
@@ -105,6 +106,7 @@ xyplot(wage ~ exper, data=CPS85)
 plotFun(fit(exper) ~ exper, add=TRUE, lwd=8)
 # Can also just give fit since it is a "function of one variable"
 plotFun(fit, add=TRUE, lwd=2, col='white')
+}
 # Attempts to find sensible axis limits by default
 plotFun( sin(k*x)~x, k=0.01 )
 }

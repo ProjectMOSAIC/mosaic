@@ -36,9 +36,11 @@ ediff(x, lag = 2)
 ediff(x, differences = 2)
 ediff(x, differences = 2, pad="symmetric")
 ediff(.leap.seconds)
+if (require(mosaicData)) {
 Men <- subset(SwimRecords, sex=="M")
 Men <- transform(Men, change=ediff(time), interval=ediff(year))
 head(Men)
+}
 }
 \seealso{
 \code{\link{diff}} since

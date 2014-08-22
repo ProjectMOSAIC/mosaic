@@ -71,8 +71,10 @@ M2
 oddsRatio(M2)
 oddsRatio(M2, verbose=TRUE)
 relrisk(M2, verbose=TRUE)
+if (require(mosaicData)) {
 relrisk(tally(~ homeless + sex, data=HELPrct) )
 do(3) * relrisk( tally( ~ homeless + shuffle(sex), data=HELPrct) )
+}
 }
 \author{
 Kevin Middleton (\email{kmm@csusb.edu}); modified by

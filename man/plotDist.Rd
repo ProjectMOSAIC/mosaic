@@ -79,11 +79,13 @@ plotDist( "binom", params=list(35,.25),
            kind='hist')
 plotDist("norm", 10, 2, col="blue", type="h")
 plotDist("norm", 12, 2, col="red", type="h", under=TRUE)
+if (require(mosaicData)) {
 histogram( ~age|sex, data=HELPrct)
 m <- mean( ~age|sex, data=HELPrct)
 s <- sd(~age|sex, data=HELPrct)
 plotDist( "norm", mean=m[1], sd=s[1], col="red", add=TRUE, packets=1)
 plotDist( "norm", mean=m[2], sd=s[2], col="blue", add=TRUE, packets=2, under=TRUE)
+}
 }
 \keyword{graphics}
 \keyword{stats}
