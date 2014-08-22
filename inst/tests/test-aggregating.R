@@ -2,46 +2,46 @@
 context('Aggregating Functions')
 
 test_that("formula interface works", {
-  expect_equivalent( mean(~cesd, data=HELPrct), mean(HELPrct$cesd))
-  expect_equivalent( var(~cesd, data=HELPrct), var(HELPrct$cesd))
-  expect_equivalent( sd(~cesd, data=HELPrct), sd(HELPrct$cesd))
-  expect_equivalent( max(~cesd, data=HELPrct), max(HELPrct$cesd))
-  expect_equivalent( min(~cesd, data=HELPrct), min(HELPrct$cesd))
-  expect_equivalent( min(~cesd | sex, data=HELPrct), min(cesd ~ sex, data=HELPrct))
-  expect_equivalent( max(~cesd | sex, data=HELPrct), max(cesd ~ sex, data=HELPrct))
-  expect_equivalent( mean(~cesd | sex, data=HELPrct), mean(cesd ~ sex, data=HELPrct))
-  expect_equivalent( sd(~cesd | sex, data=HELPrct), sd(cesd ~ sex, data=HELPrct))
-  expect_equivalent( var(~cesd | sex, data=HELPrct), var(cesd ~ sex, data=HELPrct))
+  expect_equivalent( mean(~cesd, data=mosaicData::HELPrct), mean(mosaicData::HELPrct$cesd))
+  expect_equivalent( var(~cesd, data=mosaicData::HELPrct), var(mosaicData::HELPrct$cesd))
+  expect_equivalent( sd(~cesd, data=mosaicData::HELPrct), sd(mosaicData::HELPrct$cesd))
+  expect_equivalent( max(~cesd, data=mosaicData::HELPrct), max(mosaicData::HELPrct$cesd))
+  expect_equivalent( min(~cesd, data=mosaicData::HELPrct), min(mosaicData::HELPrct$cesd))
+  expect_equivalent( min(~cesd | sex, data=mosaicData::HELPrct), min(cesd ~ sex, data=mosaicData::HELPrct))
+  expect_equivalent( max(~cesd | sex, data=mosaicData::HELPrct), max(cesd ~ sex, data=mosaicData::HELPrct))
+  expect_equivalent( mean(~cesd | sex, data=mosaicData::HELPrct), mean(cesd ~ sex, data=mosaicData::HELPrct))
+  expect_equivalent( sd(~cesd | sex, data=mosaicData::HELPrct), sd(cesd ~ sex, data=mosaicData::HELPrct))
+  expect_equivalent( var(~cesd | sex, data=mosaicData::HELPrct), var(cesd ~ sex, data=mosaicData::HELPrct))
 })
 
 test_that("data frame interface works", {
-  expect_equivalent( mean(cesd, data=HELPrct), mean(HELPrct$cesd))
-  expect_equivalent( var(cesd, data=HELPrct), var(HELPrct$cesd))
-  expect_equivalent( sd(cesd, data=HELPrct), sd(HELPrct$cesd))
-  expect_equivalent( max(cesd, data=HELPrct), max(HELPrct$cesd))
-  expect_equivalent( min(cesd, data=HELPrct), min(HELPrct$cesd))
+  expect_equivalent( mean(cesd, data=mosaicData::HELPrct), mean(mosaicData::HELPrct$cesd))
+  expect_equivalent( var(cesd, data=mosaicData::HELPrct), var(mosaicData::HELPrct$cesd))
+  expect_equivalent( sd(cesd, data=mosaicData::HELPrct), sd(mosaicData::HELPrct$cesd))
+  expect_equivalent( max(cesd, data=mosaicData::HELPrct), max(mosaicData::HELPrct$cesd))
+  expect_equivalent( min(cesd, data=mosaicData::HELPrct), min(mosaicData::HELPrct$cesd))
 })
 
 
 test_that("formulas work without data", {
-  age <<- HELPrct$age
-  sex <<- HELPrct$sex
+  age <<- mosaicData::HELPrct$age
+  sex <<- mosaicData::HELPrct$sex
   expect_equivalent( min( age ), min( ~age ))
-  expect_equivalent( min( ~ age ), min( ~age, data=HELPrct ))
+  expect_equivalent( min( ~ age ), min( ~age, data=mosaicData::HELPrct ))
   expect_equivalent( max( age ), max( ~age ))
-  expect_equivalent( max( ~ age ), max( ~age, data=HELPrct ))
+  expect_equivalent( max( ~ age ), max( ~age, data=mosaicData::HELPrct ))
   expect_equivalent( sd( age ), sd( ~age ))
-  expect_equivalent( sd( ~ age ), sd( ~age, data=HELPrct ))
+  expect_equivalent( sd( ~ age ), sd( ~age, data=mosaicData::HELPrct ))
   expect_equivalent( var( age ), var( ~age ))
-  expect_equivalent( var( ~ age ), var( ~age, data=HELPrct ))
-  # expect_equivalent( median( ~ age ), median( ~age, data=HELPrct ))
-  # expect_equivalent( median( age ~ sex ), median( age ~ sex, data=HELPrct ))
+  expect_equivalent( var( ~ age ), var( ~age, data=mosaicData::HELPrct ))
+  # expect_equivalent( median( ~ age ), median( ~age, data=mosaicData::HELPrct ))
+  # expect_equivalent( median( age ~ sex ), median( age ~ sex, data=mosaicData::HELPrct ))
   expect_equivalent( mean( age ), mean( ~age ))
-  expect_equivalent( mean( ~ age ), mean( ~age, data=HELPrct ))
+  expect_equivalent( mean( ~ age ), mean( ~age, data=mosaicData::HELPrct ))
 })
 
 test_that("var grabs two vectors from data frame", {
-  expect_equivalent( var( age, cesd, data=HELPrct ), var( HELPrct$age, HELPrct$cesd) )
+  expect_equivalent( var( age, cesd, data=mosaicData::HELPrct ), var( mosaicData::HELPrct$age, mosaicData::HELPrct$cesd) )
 })
 
 test_that("na.rm works", {
