@@ -6,7 +6,7 @@
 \usage{
 MAD(x, ..., na.rm = getOption("na.omit", FALSE))
 
-SAD(x, ..., na.omit = getOption("na.omit", FALSE))
+SAD(x, ..., na.rm = getOption("na.omit", FALSE))
 }
 \arguments{
 \item{x}{a numeric vector}
