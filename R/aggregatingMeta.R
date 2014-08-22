@@ -232,4 +232,3 @@ cor <- aggregatingFunction2( stats::cor )
 
 cov <- aggregatingFunction2( stats::cov)
 
-
