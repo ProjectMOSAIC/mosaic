@@ -1,6 +1,6 @@
 ^sandbox$
 ^bin$
-^builds$
+^RBuildIgnore$
 ^vignettes-source$
 ^vignettes/.*\.pdf$
 ^vignettes/.*\.tex$
