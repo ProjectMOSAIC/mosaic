@@ -114,6 +114,7 @@ mPlot <- function(data,
   title="",
   ...) 
 {
+  
   if (missing(default))  default <- 'scatter' 
   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
                 'density', 'frequency polygon', 'xyplot', 'map')
