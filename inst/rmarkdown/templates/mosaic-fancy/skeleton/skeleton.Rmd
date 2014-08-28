@@ -33,6 +33,8 @@ opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small"    # slightly smaller font for code
 )
+# This loads the mosaic data sets.  (Could be deleted if you are not using them.)
+require(mosaicData)                
 ```
 
 ## Using RMarkdown
