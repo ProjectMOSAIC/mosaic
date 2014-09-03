@@ -48,9 +48,12 @@
 
 read.file <-
 function (file, header = T, na.strings = c("NA", "", ".", "na", 
-    "-"), comment.char = "#", filetype = c("default", "csv", "txt", "rdata"), ...) 
+    "-"), comment.char = "#", filetype = c("default", "csv", "txt", "rdata"), 
+    package=NULL, ...) 
 {
-
+    if (!is.null(package)) {
+      file <- docFile(file, package=package, character.only=TRUE)
+    }
     filetype <- match.arg(tolower(filetype), choices=filetype)
     if (filetype == "default") {
       filetype <- "txt"
