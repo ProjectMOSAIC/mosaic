@@ -8,7 +8,7 @@
 #' @return a character vector specifying the path to the file on the user's system.
 #' @export
 #' @examples
-#' MustangPrice <- read.file(docFile("MustangPrice", "mosaic"))
+#' MustangPrice <- read.file(docFile("MustangPrice.csv", "mosaic"))
 
 docFile <- function(file, package="mosaic", character.only=FALSE) {
   if (! character.only)  package <- as.character(substitute(package))
