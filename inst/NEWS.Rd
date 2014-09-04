@@ -1,5 +1,14 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+\section{Changes in version 0.9.2}{
+\itemize{
+\item \code{docFile} introduced to simplify accessing files included
+with package documentation.  \code{read.file()} enhanced to take a package
+as an argument and look among package documentation files.
+\item \code{factorize} introduced as a way to convert vectors with
+few unique values into factors.  Can be applied to an entire data frame.
+}
+}
 \section{Changes in version 0.9.1}{
 \itemize{
 \item The data sets formerly in this pacakge have been separated out into two
