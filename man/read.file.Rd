@@ -28,6 +28,9 @@ off the interpretation of comments altogether.}
 indicating the type of file being loaded.  The default is to use the filename
 to guess the type of file.}
 
+\item{package}{if specified, files will be search for among the documentation
+files provided by the package.}
+
 \item{\dots}{additional arguments passed on to
   \code{\link{read.table}}, \code{\link{read.csv}}, or \code{\link{load}}.}
 }

@@ -49,6 +49,8 @@ situations.}
 \item{parallel}{a logical indicating whether parallel computation should be attempted
   using the \pkg{parallel} package (if it is installed).}
 
+\item{x}{an object}
+
 \item{e1}{an object (in cases documented here, the result of running \code{do})}
 
 \item{e2}{an object (in cases documented here, an expression to be repeated)}

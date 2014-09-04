@@ -31,7 +31,7 @@ tryCatch(utils::globalVariables(c('.row')),
 #' 
 #' @param e1 an object (in cases documented here, the result of running \code{do})
 #' @param e2 an object (in cases documented here, an expression to be repeated)
-#' 
+#' @param x an object
 #' @param ... additional arguments
 #' 
 #' @note \code{do} is a thin wrapper around \code{Do} to avoid collision with
