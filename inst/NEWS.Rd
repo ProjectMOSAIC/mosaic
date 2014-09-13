@@ -2,6 +2,7 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.9.2}{
 \itemize{
+\item Some additional functions are now formula-aware: \code{MAD}, \code{SAD}, and \code{quantile}.
 \item \code{docFile} introduced to simplify accessing files included
 with package documentation.  \code{read.file()} enhanced to take a package
 as an argument and look among package documentation files.
