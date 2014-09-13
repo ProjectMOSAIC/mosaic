@@ -4,14 +4,19 @@
 \alias{SAD}
 \title{All pairs mean and sum of absolute differences}
 \usage{
-MAD(x, ..., na.rm = getOption("na.omit", FALSE))
+MAD(x, ..., data, groups = NULL, ..fun.. = MAD_,
+  na.rm = getOption("na.rm", FALSE))
 
-SAD(x, ..., na.rm = getOption("na.omit", FALSE))
+SAD(x, ..., data, groups = NULL, ..fun.. = SAD_,
+  na.rm = getOption("na.rm", FALSE))
 }
 \arguments{
-\item{x}{a numeric vector}
+\item{x}{a numeric vector or a formula.}
 
-\item{...}{if present, appended to x}
+\item{...}{additional arguments passed through to \code{MAD_}
+or \code{SAD_}.  If \code{x} is a formala, \code{...} should
+include an argument named \code{data} if the intent is to
+interpret the formala in a data frame.}
 
 \item{na.rm}{a logical indicating whether NAs should be removed before
 calculaing.}
@@ -26,8 +31,9 @@ All pairs mean and sum of absolute differences
 \examples{
 SAD(1:3)
 MAD(1:3)
+MAD(~eruptions, data=faithful)
 }
 \seealso{
-\code{link{mad}}
+\code{link{mad}}, \code{\link{MAD_}}
 }
 

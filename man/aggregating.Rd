@@ -11,6 +11,7 @@
 \alias{median}
 \alias{min}
 \alias{prod}
+\alias{quantile}
 \alias{range}
 \alias{sd}
 \alias{sum}
@@ -54,6 +55,9 @@ sum(x, ..., data, groups = NULL, ..fun.. = base::sum,
   na.rm = getOption("na.rm", FALSE))
 
 favstats(x, ..., data, groups = NULL, ..fun.. = fav_stats, na.rm = TRUE)
+
+quantile(x, ..., data, groups = NULL, ..fun.. = stats::quantile,
+  na.rm = getOption("na.rm", FALSE))
 
 var(x, ..., data, groups = NULL, ..fun.. = stats::var,
   na.rm = getOption("na.rm", FALSE))
