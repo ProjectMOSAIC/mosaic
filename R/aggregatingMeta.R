@@ -168,6 +168,7 @@ mean <- aggregatingFunction1( base::mean )
 median <- aggregatingFunction1( stats::median )
 #' @rdname aggregating
 #' @export
+
 range <- aggregatingFunction1( base::range )
 #' @rdname aggregating
 #' @export
@@ -198,7 +199,12 @@ prod <- aggregatingFunction1( base::prod )
 sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
-favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE, na.rm=TRUE)
+favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE, 
+                                 na.rm=TRUE)
+#' @rdname aggregating
+#' @export
+quantile <- aggregatingFunction1(stats::quantile, output.multiple=TRUE, 
+                                 na.rm=getOption("na.rm", FALSE))
 #' @rdname aggregating
 #' @export
 var <- aggregatingFunction1( stats::var, input.multiple=TRUE )
@@ -232,3 +238,55 @@ cor <- aggregatingFunction2( stats::cor )
 
 cov <- aggregatingFunction2( stats::cov)
 
+#' All pairs mean and sum of absolute differences
+#' 
+#' All pairs mean and sum of absolute differences
+#' 
+#' @param x a numeric vector. 
+#' @param ... if present, appended to x
+#' @param na.rm a logical indicating whether NAs should be removed before
+#' calculaing.
+#' @return the mean or sum of the absolute differences between each pair
+#' of values in \code{c(x,...)}.
+#' @seealso \code{link{mad}}
+#' @rdname MAD_
+#' @export
+MAD_ <- function(x, ..., na.rm=getOption("na.omit", FALSE)) {
+  SAD(x, ..., na.rm=na.rm) / length(x)
+}
+
+#' @rdname MAD_
+#' @export
+SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
+  x <- c(x,...)
+  x <- na.omit(x)
+  M <- outer(x, x, "-")
+  base::sum( upper.tri(M) * abs(M) )
+}
+
+#' All pairs mean and sum of absolute differences
+#' 
+#' All pairs mean and sum of absolute differences
+#' 
+#' @param x a numeric vector or a formula.  
+#' @param ... additional arguments passed through to \code{MAD_} 
+#' or \code{SAD_}.  If \code{x} is a formala, \code{...} should
+#' include an argument named \code{data} if the intent is to 
+#' interpret the formala in a data frame.
+#' @param na.rm a logical indicating whether NAs should be removed before
+#' calculaing.
+#' @return the mean or sum of the absolute differences between each pair
+#' of values in \code{c(x,...)}.
+#' @seealso \code{link{mad}}, \code{\link{MAD_}}
+#' @rdname MAD
+#' @export
+#' @examples
+#' SAD(1:3)
+#' MAD(1:3)
+#' MAD(~eruptions, data=faithful)
+ 
+MAD <- aggregatingFunction1( MAD_ )
+
+#' @rdname MAD
+#' @export
+SAD <- aggregatingFunction1( SAD_ )
