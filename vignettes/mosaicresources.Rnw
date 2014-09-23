@@ -10,7 +10,7 @@
 
 
 %\usepackage{language}
-\usepackage{xstring}
+%\usepackage{xstring}
 \usepackage{xcolor}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Looking for a consistent typography for language elements.
