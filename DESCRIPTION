@@ -28,6 +28,7 @@ Suggests:
     maptools,
     vcd,
     testthat,
+    tidyr,
     knitr,
     R.rsp,
     tools,
