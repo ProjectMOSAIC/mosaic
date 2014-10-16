@@ -202,7 +202,7 @@ xqgamma <- function(...)  qdist("gamma", ...)
 xpt <- function(...)  pdist("t", ...)
 #' @rdname qdist
 #' @export
-xqt <- function(...)  pdist("t", ...)
+xqt <- function(...)  qdist("t", ...)
 
 #' @rdname pdist
 #' @export
