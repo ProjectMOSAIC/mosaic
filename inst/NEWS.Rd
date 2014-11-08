@@ -2,6 +2,9 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.9.2}{
 \itemize{
+\item Added \code{swap} which is useful for creating randomization
+distributions for paired designs.  The current implementation is a bit slow.  
+We'll improve that by implementing part of the code in C++.
 \item Some additional functions are now formula-aware: \code{MAD}, \code{SAD}, and \code{quantile}.
 \item \code{docFile} introduced to simplify accessing files included
 with package documentation.  \code{read.file()} enhanced to take a package
