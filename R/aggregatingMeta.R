@@ -244,29 +244,20 @@ cov <- aggregatingFunction2( stats::cov)
 #' 
 #' @param x a numeric vector. 
 #' @param ... if present, appended to x
-#' @param na.rm a logical indicating whether NAs should be removed before
-#' calculaing.
-#' #' @param ..fun.. the underlyin function used in the computation
-#' @param groups a grouping variable, typically a name of a variable in \code{data}
-#' @param data a data frame in which to evaluate formulas (or bare names).
-#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
-#' use this function interactively by treating the working envionment as if it were 
-#' a data frame.  But this may not be appropriate for programming uses.  
-#' When programming, it is best to use an explicit \code{data} argument
-#' -- ideally supplying a data frame that contains the variables mentioned.
+
 #' @return the mean or sum of the absolute differences between each pair
 #' of values in \code{c(x,...)}.
 #' @seealso \code{link{mad}}
 #' @rdname MAD_
 #' @export
 MAD_ <- function(x, ..., na.rm=getOption("na.omit", FALSE)) {
-  SAD(x, ..., na.rm=na.rm) / length(x)
+  SAD_(x, ..., na.rm=na.rm) / (length(x) + length(...))
 }
 
 #' @rdname MAD_
 #' @export
 SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
-  x <- c(x,...)
+  x <- c(x, unlist(...))
   x <- na.omit(x)
   M <- outer(x, x, "-")
   base::sum( upper.tri(M) * abs(M) )
@@ -283,6 +274,17 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #' interpret the formala in a data frame.
 #' @param na.rm a logical indicating whether NAs should be removed before
 #' calculaing.
+#' 
+#' @param na.rm a logical indicating whether NAs should be removed before
+#' calculaing.
+#' @param ..fun.. the underlying function used in the computation
+#' @param groups a grouping variable, typically a name of a variable in \code{data}
+#' @param data a data frame in which to evaluate formulas (or bare names).
+#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#' use this function interactively by treating the working envionment as if it were 
+#' a data frame.  But this may not be appropriate for programming uses.  
+#' When programming, it is best to use an explicit \code{data} argument
+#' -- ideally supplying a data frame that contains the variables mentioned.
 #' @return the mean or sum of the absolute differences between each pair
 #' of values in \code{c(x,...)}.
 #' @seealso \code{link{mad}}, \code{\link{MAD_}}
