@@ -5,8 +5,8 @@
 \alias{prop}
 \title{Compute proportions, percents, or counts for a single level}
 \usage{
-prop(x, data = parent.frame(), ..., level = NULL, long.names = TRUE,
-  sep = ".", format = "proportion")
+prop(x, data = parent.frame(), useNA = "no", ..., level = NULL,
+  long.names = TRUE, sep = ".", format = "proportion", quiet = FALSE)
 
 count(x, data = parent.frame(), ..., format = "count")
 
@@ -16,6 +16,9 @@ perc(x, data = parent.frame(), ..., format = "percent")
 \item{x}{an R object, usually a formula}
 
 \item{data}{a data frame in which \code{x} is to be evaluated}
+
+\item{useNA}{an indication of how NA's should be handled.  By default, they are
+ignored.}
 
 \item{level}{the level for which counts, proportions or percents are
 calculated}
@@ -27,6 +30,8 @@ when there is a conditioning variable}
 
 \item{format}{one of \code{proportion}, \code{percent}, or \code{count},
 possibly abbrevaited}
+
+\item{quiet}{a logical indicating whether messages should be supressed.}
 
 \item{\dots}{arguments passed through to \code{\link{tally}}}
 }
