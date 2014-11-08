@@ -4,12 +4,15 @@
 \alias{diffprop}
 \title{Difference in means and proportions}
 \usage{
-diffmean(...)
+diffmean(..., only.2 = TRUE)
 
-diffprop(...)
+diffprop(..., only.2 = TRUE)
 }
 \arguments{
 \item{...}{arguments passed to \code{mean}}
+
+\item{only.2}{a logical indicating whether differences should only be computed
+between two groups.}
 }
 \description{
 Wrappers around \code{diff(mean(...))} and \code{diff(prop(...))} that
