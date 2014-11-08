@@ -205,8 +205,11 @@ rows <- function(x, default=c()) {
 #' @param long.names a logical indicating whether long names should be 
 #'         when there is a conditioning variable
 #' @param sep a character used to separate portions of long names
+#' @param useNA an indication of how NA's should be handled.  By default, they are
+#'   ignored.
 #' @param format one of \code{proportion}, \code{percent}, or \code{count},
 #'        possibly abbrevaited
+#' @param quiet a logical indicating whether messages should be supressed.
 #' @examples
 #' if (require(mosaicData)) {
 #' prop( ~sex, data=HELPrct)
@@ -217,21 +220,30 @@ rows <- function(x, default=c()) {
 #' }
 #' @export
 
-prop <- function(x, data=parent.frame(), ..., level=NULL, long.names=TRUE, sep=".", format="proportion") {
-  T <- mosaic::tally(x, data=data, ..., format=format)
+prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL, 
+                 long.names=TRUE, sep=".", 
+                 format="proportion", quiet=FALSE) {
+  T <- mosaic::tally(x, data=data, useNA = useNA, ..., format=format)
+  lnames <- dimnames(T)[[1]]
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   if (is.null(level)) {
-	  level <- dimnames(T)[[1]][1]
+	  level <- lnames[1]
   	  if (level == 'FALSE') level <- 'TRUE'
   }
+  if (! level %in% lnames) stop(
+    paste("I don't see any such level.  Only", paste(lnames, collapse=", "))
+    )
+  if (! quiet) message(paste( "    other levels:", paste(setdiff(lnames,level), collapse=", "), "\n" ) )
   if ( length(dim(T)) == 2) {
-    result <- T[level,]
+    idx <- match(level, lnames)
+    result <- T[idx,]
     if (long.names)
       names(result) <- paste(level, names(result), sep=sep)
     return(result)
   }
   if ( length(dim(T)) == 1) {
-    result <- T[level]
+    idx <- match(level, names(T))
+    result <- T[idx]
     return(result)
   }
   stop(paste('Too many dimensions (', length(dim(T)), ")",sep=""))
