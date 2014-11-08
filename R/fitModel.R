@@ -23,7 +23,9 @@
 #' fitting (as opposed to parameters) are unassigned arguments 
 #' to the returned function.  
 #' @note
-#' This doesn't work with categorical explanatory variables.
+#' This doesn't work with categorical explanatory variables.  Also, 
+#' this does not work with synthentic data that fit the model perfectly.
+#' See \code{link{nls}} for details.
 #'
 #' @seealso \code{\link{linearModel}}, \code{\link{nls}}
 #'
