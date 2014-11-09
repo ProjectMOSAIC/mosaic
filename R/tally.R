@@ -233,7 +233,9 @@ prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL,
   if (! level %in% lnames) stop(
     paste("I don't see any such level.  Only", paste(lnames, collapse=", "))
     )
-  if (! quiet) message(paste( "    other levels:", paste(setdiff(lnames,level), collapse=", "), "\n" ) )
+  if (! quiet) message(paste0( "    target level: ", level, 
+                              ";  other levels: ", 
+                              paste(setdiff(lnames,level), collapse=", "), "\n" ) )
   if ( length(dim(T)) == 2) {
     idx <- match(level, lnames)
     result <- T[idx,]
