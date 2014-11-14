@@ -136,6 +136,9 @@ aggregatingFunction2 <- function( fun ) {
         if (n != "") mosaic.call[[n]] <- NULL
       }
     }
+    if (! is.null(condition(formula)) ) {
+      stop( "Formula must of form y ~ x." )
+    }
     return( eval(mosaic.call) )
   }
   assign("fun", fun, environment(result))
