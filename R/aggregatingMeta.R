@@ -260,7 +260,7 @@ MAD_ <- function(x, ..., na.rm=getOption("na.omit", FALSE)) {
 #' @rdname MAD_
 #' @export
 SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
-  x <- c(x, unlist(...))
+  x <- c(x, unlist(list(...)))
   x <- na.omit(x)
   M <- outer(x, x, "-")
   base::sum( upper.tri(M) * abs(M) )
