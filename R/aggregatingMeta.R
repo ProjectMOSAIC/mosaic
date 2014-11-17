@@ -250,11 +250,11 @@ cov <- aggregatingFunction2( stats::cov)
 
 #' @return the mean or sum of the absolute differences between each pair
 #' of values in \code{c(x,...)}.
-#' @seealso \code{link{mad}}
+#' @seealso \code{\link{mad}}
 #' @rdname MAD_
 #' @export
 MAD_ <- function(x, ..., na.rm=getOption("na.omit", FALSE)) {
-  SAD_(x, ..., na.rm=na.rm) / (length(x) + length(...))
+  SAD_(x, ..., na.rm=na.rm) / (length(x) + length(list(...)))
 }
 
 #' @rdname MAD_
