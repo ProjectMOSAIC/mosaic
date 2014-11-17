@@ -167,7 +167,7 @@ plotDist <- function(
     call_without_add["add"] <- FALSE
     return( 
       trellis.last.object() + 
-        as.layer(
+        latticeExtra::as.layer(
           eval.parent(call_without_add),
           under=under,
           packets=packets,
