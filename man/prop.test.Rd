@@ -82,6 +82,10 @@ This is a wrapper around \code{\link{prop.test}} to simplify its use
 when the raw data are available, in which case
 an extended syntax for \code{prop.test} is provided.
 }
+\note{
+When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
+for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
+}
 \examples{
 # Several ways to get a confidence interval for the proportion of Old Faithful
 # eruptions lasting more than 3 minutes.

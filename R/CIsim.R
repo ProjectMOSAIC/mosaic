@@ -32,31 +32,17 @@
 #'
 #' 
 #' @examples
-#' CIsim(10,1000)    # 1000 95% intervals using t.test; population is N(0,1)
-#' CIsim(10,1000, rdist=rexp, estimand=1)    # this time population is Exp(1)
-#' ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper), 
-#'     data=CIsim(10,100, rdist=rexp, estimand=1)) +
-#'   geom_errorbar(aes(color=cover)) +
-#'   geom_abline(slope=0, intercept=1, alpha=0.4)
-#'   
-#' ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper), 
-#'   data = CIsim(10, 100, rdist=rbinom, args=list(size=1,prob=.5), 
-#'        estimand = .5, method = prop.test)) + 
-#'   geom_errorbar(aes(color=cover)) +
-#'   geom_abline(slope=0, intercept=0.5, alpha=0.4)
-#' 
-#' \dontrun{
-#' if (require(Hmisc)) {
-#'   xYplot(Cbind(estimate,lower,upper) ~ sample, 
-#'     data=CIsim(10,100, rdist=rexp, estimand=1),
-#'     par.settings=col.mosaic(), groups=cover)
-#'   ladd(panel.abline(h=1))
-#'   xYplot( Cbind(estimate,lower,upper) ~ sample, 
-#'   data=CIsim(10, 100, rdist=rbinom, args=list(size=1,prob=.5), 
-#'        estimand = .5, method = prop.test),
-#'     par.settings=col.mosaic(), groups=cover)
-#' }
-#' }
+#' # 1000 95% intervals using t.test; population is N(0,1)
+#' CIsim(n=10, samples=1000)    
+#' # this time population is Exp(1)
+#' CIsim(n=10, samples=1000, rdist=rexp, estimand=1)    
+#' # fewer samples, so we get a plot 
+#' CIsim(n=10, samples=100, rdist=rexp, estimand=1) 
+#' # Binomial treats 1 like success, 0 like failure
+#' CIsim(n=30, samples=100, rdist=rbinom, args=list(size=1, prob=.7), 
+#'        estimand = .7, method = prop.test)  
+#' CIsim(n=30, samples=100, rdist=rbinom, args=list(size=1, prob=.7), 
+#'        estimand = .7, method = binom.test)
 #' 
 #' @keywords inference 
 #' @keywords simulation 
@@ -68,7 +54,7 @@
 
 CIsim <-
   function (n, samples = 100, rdist = rnorm, args = list(), 
-            plot = c("draw", "return", "none"),
+            plot = if (samples <= 200) "draw" else "return",
             estimand = 0, 
             conf.level = 0.95, method = t.test, method.args = list(),
             interval = function(x) {
@@ -77,7 +63,7 @@ CIsim <-
               do.call(method, c(list(x, conf.level = conf.level), method.args))$estimate
             }, verbose = TRUE) 
 {
-    plot <- match.arg(plot)
+    plot <- match.arg(plot, c("draw", "return", "none"))
     sampleData <- replicate(samples, do.call(rdist, c(list(n = n), 
         args)))
     lower <- apply(sampleData, 2, function(x) {

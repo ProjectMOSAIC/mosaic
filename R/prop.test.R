@@ -40,6 +40,9 @@
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' 
 #' @param ... additional arguments (often ignored) 
+#' 
+#' @note When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
+#' for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
 #'
 #' @return an \code{htest} object
 #' 
@@ -192,7 +195,12 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-
+        if (all(x %in% c(0,1))) 
+          return( prop.test(x=as.logical(x),
+                            p=p, alternative=alternative,
+                            conf.level=conf.level,
+                            success=success, 
+                            data.name=data.name, ...))
 			  prop.test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 
