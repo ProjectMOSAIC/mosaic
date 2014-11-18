@@ -31,13 +31,10 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{na.rm}{a logical indicating whether NAs should be removed before
 calculaing.}
-
-\item{na.rm}{a logical indicating whether NAs should be removed before
-calculaing.}
 }
 \value{
 the mean or sum of the absolute differences between each pair
-of values in \code{c(x,...)}.
+  of values in \code{c(x,...)}.
 }
 \description{
 All pairs mean and sum of absolute differences

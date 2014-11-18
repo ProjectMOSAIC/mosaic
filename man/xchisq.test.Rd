@@ -7,14 +7,7 @@ xchisq.test(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)),
   rescale.p = FALSE, simulate.p.value = FALSE, B = 2000)
 }
 \arguments{
-\item{x,y,correct,p,rescale.p,simulate.p.value}{}
-
-\item{correct}{A logical indicating whether the Yates' continuity correction should be applied
-to 2 by 2 tables (when not simulating).}
-
-\item{\dots}{Arguments passed directly to \code{\link{chisq.test}}.}
-
-\item{simulate}{A logical indicating whether the p-value should be computed by simulation.}
+\item{x,y,correct,p,rescale.p,simulate.p.value,B}{as in \code{\link{chisq.test}}.}
 }
 \description{
 This augmented version of \code{\link{chisq.test}} provides more verbose

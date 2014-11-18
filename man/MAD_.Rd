@@ -9,9 +9,12 @@ MAD_(x, ..., na.rm = getOption("na.omit", FALSE))
 SAD_(x, ..., na.rm = getOption("na.omit", FALSE))
 }
 \arguments{
-\item{x}{a numeric vector.}
+\item{x}{a numeric vector or a formula.}
 
-\item{...}{if present, appended to x}
+\item{...}{additional arguments appended to \code{x}}
+
+\item{na.rm}{a logical indicating whether NAs should be removed before
+calculaing.}
 }
 \value{
 the mean or sum of the absolute differences between each pair

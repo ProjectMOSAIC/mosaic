@@ -3,12 +3,7 @@
 #' This augmented version of \code{\link{chisq.test}} provides more verbose
 #' output.
 #'
-#' @param x,y,correct,p,rescale.p,simulate.p.value
-#' @param \dots Arguments passed directly to \code{\link{chisq.test}}.
-#' @param correct A logical indicating whether the Yates' continuity correction should be applied
-#' to 2 by 2 tables (when not simulating).
-#' @param simulate A logical indicating whether the p-value should be computed by simulation.
-#' 
+#' @param x,y,correct,p,rescale.p,simulate.p.value,B as in \code{\link{chisq.test}}.
 #' 
 #' @seealso \code{\link{chisq.test}} 
 #' 
