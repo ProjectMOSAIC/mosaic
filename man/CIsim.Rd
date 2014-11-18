@@ -3,12 +3,12 @@
 \alias{CIsim}
 \title{Compute confidence intervals from (multiple) simulated data sets}
 \usage{
-CIsim(n, samples = 100, rdist = rnorm, args = list(), estimand = 0,
-  conf.level = 0.95, method = t.test, method.args = list(),
-  interval = function(x) {     do.call(method, c(list(x, conf.level =
-  conf.level), method.args))$conf.int }, estimate = function(x) {    
-  do.call(method, c(list(x, conf.level = conf.level), method.args))$estimate },
-  verbose = TRUE)
+CIsim(n, samples = 100, rdist = rnorm, args = list(), plot = c("draw",
+  "return", "none"), estimand = 0, conf.level = 0.95, method = t.test,
+  method.args = list(), interval = function(x) {     do.call(method,
+  c(list(x, conf.level = conf.level), method.args))$conf.int },
+  estimate = function(x) {     do.call(method, c(list(x, conf.level =
+  conf.level), method.args))$estimate }, verbose = TRUE)
 }
 \arguments{
 \item{n}{size of each sample}
@@ -18,6 +18,9 @@ CIsim(n, samples = 100, rdist = rnorm, args = list(), estimand = 0,
 \item{rdist}{function used to draw random samples}
 
 \item{args}{arguments required by \code{rdist}}
+
+\item{plot}{one of \code{"print"}, \code{"return"} or \code{"none"} describing
+whether a plot should be printed, returned, or no generated at all.}
 
 \item{estimand}{true value of the parameter being estimated}
 
