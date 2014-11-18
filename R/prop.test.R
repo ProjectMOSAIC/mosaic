@@ -195,12 +195,7 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-        if (all(x %in% c(0,1))) 
-          return( prop.test(x=as.logical(x),
-                            p=p, alternative=alternative,
-                            conf.level=conf.level,
-                            success=success, 
-                            data.name=data.name, ...))
+        if (is.null(success) && all(x %in% c(0,1))) success <- 1
 			  prop.test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 
