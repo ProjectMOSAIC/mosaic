@@ -1,5 +1,13 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+\section{Changes in version 0.9.3}{
+\itemize{
+\item \code{binom.test} and \code{prop.test} now set \code{success = 1} by default
+on 0-1 data to treat 0 like failure and 1 like success. Similarly, \code{prop} and \code{count} set \code{level = 1} by default.
+\item \code{CIsim} can now produce plots and does so by default when \code{samples <= 200}.
+\item implementation of \code{add=TRUE} improved for \code{plotDist}.
+}
+}
 \section{Changes in version 0.9.2}{
 \itemize{
 \item Added \code{swap} which is useful for creating randomization

@@ -38,6 +38,10 @@ possibly abbrevaited}
 \description{
 Compute proportions, percents, or counts for a single level
 }
+\note{
+For 0-1 data, level is set to 1 by default since that a standard
+coding scheme for success and failure.
+}
 \examples{
 if (require(mosaicData)) {
 prop( ~sex, data=HELPrct)

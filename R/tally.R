@@ -210,6 +210,10 @@ rows <- function(x, default=c()) {
 #' @param format one of \code{proportion}, \code{percent}, or \code{count},
 #'        possibly abbrevaited
 #' @param quiet a logical indicating whether messages should be supressed.
+#'
+#' @note For 0-1 data, level is set to 1 by default since that a standard 
+#' coding scheme for success and failure.
+#' 
 #' @examples
 #' if (require(mosaicData)) {
 #' prop( ~sex, data=HELPrct)
@@ -224,11 +228,14 @@ prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL,
                  long.names=TRUE, sep=".", 
                  format="proportion", quiet=FALSE) {
   T <- mosaic::tally(x, data=data, useNA = useNA, ..., format=format)
-  lnames <- dimnames(T)[[1]]
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
+  lnames <- dimnames(T)[[1]]
   if (is.null(level)) {
 	  level <- lnames[1]
-  	  if (level == 'FALSE') level <- 'TRUE'
+  	if (level == 'FALSE') level <- 'TRUE'
+    if (level == 0 && lnames[2] ==1 && length(lnames) == 2) {
+      level <- 1
+    }
   }
   if (! level %in% lnames) stop(
     paste("I don't see any such level.  Only", paste(lnames, collapse=", "))
