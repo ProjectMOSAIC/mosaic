@@ -19,20 +19,20 @@ the difference in proportions between the second and first group
 \description{
 A function to facilitate 2 group permutation tests for a categorical outcome variable
 }
+\note{
+This funciton has been deprecated. Use \code{\link{diffprop}} instead.
+}
 \examples{
 if (require(mosaicData)) {
   data(HELPrct)
   # calculate the observed difference
   mean(homeless=="housed" ~ sex, data=HELPrct)
-  obs <- compareProportion(homeless=="housed" ~ sex, data=HELPrct); obs
+  obs <- diffprop(homeless=="housed" ~ sex, data=HELPrct); obs
   # calculate the permutation distribution
-  nulldist <- do(100) * compareProportion(homeless=="housed" ~ shuffle(sex), data=HELPrct)
+  nulldist <- do(100) * diffprop(homeless=="housed" ~ shuffle(sex), data=HELPrct)
   histogram(~ result, groups=(result >= obs), nulldist,
     xlab="difference in proportions")
 }
-}
-\seealso{
-\code{\link{do}}, \code{\link{compareMean}} and \code{\link{shuffle}}
 }
 \keyword{iteration}
 \keyword{stats}

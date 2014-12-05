@@ -14,6 +14,7 @@
 #' -- ideally supplying a data frame that contains the variables mentioned
 #' @param \dots other arguments
 #' @return the difference in means between the second and first group
+#' @note This funciton has been deprecated. Use \code{\link{diffmean}} instead.
 #' @seealso \code{\link{do}}, \code{\link{compareProportion}} and \code{\link{shuffle}}
 #' @keywords iteration
 #' @keywords stats
@@ -22,16 +23,17 @@
 #'   data(HELPrct)
 #'   # calculate the observed difference
 #'   mean(age ~ sex, data=HELPrct)
-#'   obs <- compareMean(age ~ sex, data=HELPrct); obs
+#'   obs <- diffmean(age ~ sex, data=HELPrct); obs
 #'   # calculate the permutation distribution
-#'   nulldist <- do(100) * compareMean(age ~ shuffle(sex), 
+#'   nulldist <- do(100) * diffmean(age ~ shuffle(sex), 
 #'     data=HELPrct) 
 #'   histogram(~ result, groups=(result >= obs), nulldist, 
 #'     xlab="difference in means")
 #' }
 #' @export
-compareMean = function(formula, data=parent.frame(), ...) {
-  means = mean( formula, data=data, ... )
+compareMean <- function(formula, data=parent.frame(), ...) {
+  .Deprecated("diffmean")
+  means <- mean( formula, data=data, ... )
   if (length(means) != 2) {
   	stop("number of levels for grouping variable must be 2\n")
   }

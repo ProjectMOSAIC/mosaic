@@ -25,14 +25,17 @@ the difference in means between the second and first group
 A function to calculate the difference between the means of a continuous
 variable for two groups.
 }
+\note{
+This funciton has been deprecated. Use \code{\link{diffmean}} instead.
+}
 \examples{
 if (require(mosaicData)) {
   data(HELPrct)
   # calculate the observed difference
   mean(age ~ sex, data=HELPrct)
-  obs <- compareMean(age ~ sex, data=HELPrct); obs
+  obs <- diffmean(age ~ sex, data=HELPrct); obs
   # calculate the permutation distribution
-  nulldist <- do(100) * compareMean(age ~ shuffle(sex),
+  nulldist <- do(100) * diffmean(age ~ shuffle(sex),
     data=HELPrct)
   histogram(~ result, groups=(result >= obs), nulldist,
     xlab="difference in means")
