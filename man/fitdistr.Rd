@@ -6,13 +6,13 @@
 fitdistr(x, densfun, start, ...)
 }
 \arguments{
-\item{x}{see \code{link[MASS]{fitdistr}} in the \pkg{MASS} package}
+\item{x}{see \code{\link[MASS]{fitdistr}} in the \pkg{MASS} package}
 
-\item{densfun}{see \code{link[MASS]{fitdistr}} in the \pkg{MASS} package}
+\item{densfun}{see \code{\link[MASS]{fitdistr}} in the \pkg{MASS} package}
 
-\item{start}{see \code{link[MASS]{fitdistr}} in the \pkg{MASS} package}
+\item{start}{see \code{\link[MASS]{fitdistr}} in the \pkg{MASS} package}
 
-\item{...}{see \code{link[MASS]{fitdistr}} in the \pkg{MASS} package}
+\item{...}{see \code{\link[MASS]{fitdistr}} in the \pkg{MASS} package}
 }
 \description{
 Maximum-likelihood fitting of univariate distributions (from \pkg{MASS})
