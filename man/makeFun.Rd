@@ -3,12 +3,16 @@
 \name{makeFun}
 \alias{makeFun}
 \alias{makeFun,formula-method}
+\alias{makeFun,function-method}
 \alias{makeFun,glm-method}
 \alias{makeFun,lm-method}
 \alias{makeFun,nls-method}
 \title{Create a function from a formula}
 \usage{
 makeFun(object, ...)
+
+\S4method{makeFun}{`function`}(object, ..., strict.declaration = TRUE,
+  use.environment = TRUE, suppress.warnings = FALSE)
 
 \S4method{makeFun}{formula}(object, ..., strict.declaration = TRUE,
   use.environment = TRUE, suppress.warnings = FALSE)
