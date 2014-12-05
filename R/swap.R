@@ -19,7 +19,7 @@
 #'   do(3) * mean( ~(drug1 - drug2), data=Sleep2 %>% swap(drug1 ~ drug2) ) 
 #' } 
  
-swap <- function( data, which ) {
+swap <- function(data, which) {
  
   if (inherits(which, "formula")) {
     which <- all.vars(which)
@@ -41,17 +41,19 @@ swap <- function( data, which ) {
     return(data)
   }
   
+  subdata <- data[, which]
   n <- nrow(data)
-  idx <- as.matrix( do(n) * shuffle(which) )
-  
+  idx <- do(n) * shuffle(1:ncol(subdata))
+  replacement <- data.frame(
+    lapply( 1:ncol(subdata), function(i) subdata[cbind(1:n, idx[,i])] )
+  )
   res <- data
-  for (i in 1:length(which)) {
-    res[[ which[i] ]] <- fetchByCol( data, idx[,i] )
-  }
+  res[, which] <- replacement
   
   res
 }
 
+# probably don't need this anymore
 fetchByCol <- function(data, cols) {
   res <- data[[ cols[1] ]]
   
