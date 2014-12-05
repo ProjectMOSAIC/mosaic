@@ -54,7 +54,7 @@
 
 CIsim <-
   function (n, samples = 100, rdist = rnorm, args = list(), 
-            plot = if (samples <= 200) "draw" else "return",
+            plot = if (samples <= 200) "draw" else "none",
             estimand = 0, 
             conf.level = 0.95, method = t.test, method.args = list(),
             interval = function(x) {
