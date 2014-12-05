@@ -34,6 +34,20 @@ setGeneric(
 		   )
 
 #' @rdname makeFun
+#' @aliases makeFun,function-method
+#' @export
+
+setMethod(
+  'makeFun',
+  'function',
+  function( object, ..., strict.declaration =TRUE, use.environment=TRUE, 
+            suppress.warnings=FALSE) {
+    object
+  }
+)    
+
+
+#' @rdname makeFun
 #' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
@@ -54,6 +68,7 @@ setGeneric(
 #' }
 #' 
 #' @export
+
 
 setMethod(
   'makeFun',
