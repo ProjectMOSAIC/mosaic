@@ -4,5 +4,5 @@ if(require(manipulate)) {
 	n = slider(5,40)
   )
 } else {
-  histogram( ~ eruptions, data=faithful, n=15)
+  message("This demo requires the manipulate package available in RStudio.")
 }

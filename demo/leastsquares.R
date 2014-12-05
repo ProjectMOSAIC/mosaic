@@ -1,5 +1,5 @@
 
-x <- rep(1:6, each=5)
+x <- rep(1:6, each=5) + runif(6 * 5, -.2, .2)
 y <-  1*x + 3 + rnorm(30,3)
 lsline <- function( x, y, a=NULL, b=0, ... ) {
   if (is.null(a)) {
@@ -8,17 +8,18 @@ lsline <- function( x, y, a=NULL, b=0, ... ) {
   xyplot(y ~ x, 
     panel=function(x,y,...) {
       resid <- y - a - b*x
-      grid.rect( x, y, width=resid, height=resid, default.units="native",
-        gp=gpar(fill='red',col='red',alpha=0.1),
-		just= if (resid < 0) c('right','top') else c('left','bottom')
+      grid::grid.rect( x, y, width=resid, height=resid, default.units="native",
+        gp=grid::gpar(fill='red',col='red',alpha=0.1),
+		    hjust = ifelse (resid < 0, 1, 0),
+        vjust = ifelse (resid < 0, 1, 0) 
       )
       panel.xyplot(x,y,...)
       panel.abline(a,b)
-      pushViewport(viewport(clip="off"))
-      grid.text( x=.95, y=1.01, just=c('right','bottom'), format(sum(resid^2)), 
-        gp=gpar(col='red')
+      grid::pushViewport(grid::viewport(clip="off"))
+      grid::grid.text( x=.95, y=1.01, just=c('right','bottom'), format(sum(resid^2)), 
+        gp=grid::gpar(col='red')
       )
-      upViewport()
+      grid::upViewport()
     },
     ...
   )
