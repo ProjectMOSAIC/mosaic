@@ -49,9 +49,13 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' When programming, it is best to use an explicit \code{data} argument
 #' -- ideally supplying a data frame that contains the variables mentioned
 #' @param format a character string describing the desired format of the results.
-#'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
+#'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, \code{'percent'}, 
+#'        \code{'data.frame'} or \code{'sparse'}.
 #'        In case of \code{'default'}, counts are used unless there is a condition, in
 #'        which case proportions are used instead.
+#'        \code{'data.frame'} converts the table to a data frame with one row per cell;
+#'        \code{'sparse'} additionally removes any rows with 0 counts.
+#'        
 #' @param subset an expression evaluating to a logical vector used to select a subset of \code{data}
 #' @param quiet a logical indicating whether messages about order in which marginal distributions
 #'        are calculated should be surpressed.  See \code{\link{addmargins}}.
@@ -63,6 +67,8 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  If \code{x} inherits 
 #' from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes it
 #' easier to have the two package coexist.
+#' @note The curent implementation when \code{format = "sparse"} first creates the full data frame
+#' and then removes the unneeded rows.  So the savings is in terms of space, not time.
 #' @examples
 #' if (require(mosaicData)) {
 #' tally( ~ substance, data=HELPrct)
@@ -103,7 +109,7 @@ tally.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
 #' @export
 
 tally.default <- function(x, data=parent.frame(), 
-                      format=c('default','count','proportion','percent'), 
+                      format=c('default','count','proportion','percent','data.frame','sparse'), 
                       margins=FALSE,
                       quiet=TRUE,
                       subset, 
@@ -152,12 +158,15 @@ tally.default <- function(x, data=parent.frame(),
 	res <- switch(format,
 		   'count' = 
 				res,
+       'data.frame' = as.data.frame(res),
+       'sparse' = as.data.frame(res) %>% filter(Freq > 0),
 		   'proportion' = 
 		   		prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) ),
 		   'percent' = 
 		   		100 * prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) )
 		   )
-	if (margins) {  # add margins for the non-condition dimensions of the table
+	if (margins & ! format %in% c("data.frame", "sparse")) {  
+    # add margins for the non-condition dimensions of the table
     if ( !is.null(evalF$right) & ncol(evalF$right) > 0 )
 		  res <- addmargins(res, 1:ncol(evalF$right), FUN=list(Total=sum), quiet=quiet )
 	}

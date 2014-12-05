@@ -10,8 +10,8 @@ tally(x, ...)
 \method{tally}{tbl}(x, wt, sort = FALSE, ..., envir = parent.frame())
 
 \method{tally}{default}(x, data = parent.frame(), format = c("default",
-  "count", "proportion", "percent"), margins = FALSE, quiet = TRUE, subset,
-  useNA = "ifany", ...)
+  "count", "proportion", "percent", "data.frame", "sparse"), margins = FALSE,
+  quiet = TRUE, subset, useNA = "ifany", ...)
 }
 \arguments{
 \item{x}{an object}
@@ -34,9 +34,12 @@ When programming, it is best to use an explicit \code{data} argument
 -- ideally supplying a data frame that contains the variables mentioned}
 
 \item{format}{a character string describing the desired format of the results.
-One of \code{'default'}, \code{'count'}, \code{'proportion'}, or \code{'percent'}.
-In case of \code{'default'}, counts are used unless there is a condition, in
-which case proportions are used instead.}
+       One of \code{'default'}, \code{'count'}, \code{'proportion'}, \code{'percent'},
+       \code{'data.frame'} or \code{'sparse'}.
+       In case of \code{'default'}, counts are used unless there is a condition, in
+       which case proportions are used instead.
+       \code{'data.frame'} converts the table to a data frame with one row per cell;
+       \code{'sparse'} additionally removes any rows with 0 counts.}
 
 \item{margins}{a logical indicating whether marginal distributions should be displayed.}
 
@@ -54,6 +57,10 @@ Tabulate categorical data
 The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  If \code{x} inherits
 from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes it
 easier to have the two package coexist.
+}
+\note{
+The curent implementation when \code{format = "sparse"} first creates the full data frame
+and then removes the unneeded rows.  So the savings is in terms of space, not time.
 }
 \examples{
 if (require(mosaicData)) {
