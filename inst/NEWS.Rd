@@ -2,6 +2,7 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.9.3}{
 \itemize{
+\item By default \code{do * lm( )} will now keep track of the F statistic, too.
 \item \code{binom.test} and \code{prop.test} now set \code{success = 1} by default
 on 0-1 data to treat 0 like failure and 1 like success. Similarly, \code{prop} and \code{count} set \code{level = 1} by default.
 \item \code{CIsim} can now produce plots and does so by default when \code{samples <= 200}.
