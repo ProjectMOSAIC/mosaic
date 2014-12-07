@@ -1,15 +1,7 @@
 
-#' Alternative print functions
-#' 
-#' The functions provide alternatives to \code{print} methods
-#' for various objects, generally providing terser output.  The
-#' \code{\link{verbosity}} function can be used to make these 
-#' replace the standard print methods.
-#' 
-#' @rdname print
-#' @seealso \code{\link{verbosity}}
+#' @rdname msummary
 #' @export
-print_summary_lm <-
+print.msummary.lm <-
   function (x, digits = max(3L, getOption("digits") - 3L), 
             symbolic.cor = x$symbolic.cor, 
             signif.stars = getOption("show.signif.stars"), ...) 
@@ -19,7 +11,8 @@ print_summary_lm <-
                                symbolic.cor = symbolic.cor, 
                                signif.stars=signif.stars, ...) )
   
-    printCoefmat(x$coefficients)
+    printCoefmat(x$coefficients, digits = digits,
+                 signif.stars = signif.stars, signif.legend = FALSE)
     
     rows <- 1:length(output)
     w1 <- min( grep("Coefficients", output) ) 
@@ -30,9 +23,9 @@ print_summary_lm <-
     return(invisible(x))
   }
 
-#' @rdname print
+#' @rdname msummary
 #' @export
-print_summary_glm <-
+print.msummary.glm <-
   function (x, digits = max(3L, getOption("digits") - 3L), 
             symbolic.cor = x$symbolic.cor, 
             signif.stars = getOption("show.signif.stars"), ...) 
@@ -50,3 +43,44 @@ print_summary_glm <-
     return(invisible(x))
   }
 
+#print.msummary.lm  <- print_summary_lm
+#
+#print.msummary.glm <- print_summary_glm
+#'
+#'
+#' Modified summaries
+#' 
+#' \code{msummary} provides modified summary objects that typically produce
+#' output that is either identical to or somewhat terser than their 
+#' \code{\link{summary}} analogs.  The contents of the object itself are unchanged 
+#' (except for an augmented class) so that other downstream functions should work as 
+#' before.
+#' 
+#' @rdname msummary
+#' 
+#' @export
+msummary <- function(object, ...)
+  UseMethod("msummary")
+
+#' @rdname msummary
+#' @export
+#' 
+msummary.default <- function(object, ...) {
+  summary(object, ...)
+}
+
+#' @rdname msummary
+#' @export
+msummary.lm <- function(object, ...) {
+  res <- summary(object, ...)
+  class(res) <- c("msummary.lm", class(res))
+  res
+}
+
+#' @rdname msummary
+#' @export
+msummary.glm <- function(object, ...) {
+  res <- summary(object, ...)
+  class(res) <- c("msummary.lm", class(res))
+  res
+}
