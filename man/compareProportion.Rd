@@ -30,7 +30,7 @@ if (require(mosaicData)) {
   obs <- diffprop(homeless=="housed" ~ sex, data=HELPrct); obs
   # calculate the permutation distribution
   nulldist <- do(100) * diffprop(homeless=="housed" ~ shuffle(sex), data=HELPrct)
-  histogram(~ result, groups=(result >= obs), nulldist,
+  histogram(~ diffprop, groups=(diffprop>= obs), nulldist,
     xlab="difference in proportions")
 }
 }

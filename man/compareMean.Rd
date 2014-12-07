@@ -37,7 +37,7 @@ if (require(mosaicData)) {
   # calculate the permutation distribution
   nulldist <- do(100) * diffmean(age ~ shuffle(sex),
     data=HELPrct)
-  histogram(~ result, groups=(result >= obs), nulldist,
+  histogram(~ diffmean, groups=(diffmean >= obs), nulldist,
     xlab="difference in means")
 }
 }
