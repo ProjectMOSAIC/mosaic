@@ -8,11 +8,11 @@
 \alias{numerical_integration}
 \title{Derivative and Anti-derivative operators}
 \usage{
-D(f, ..., .hstep = NULL, add.h.control = FALSE)
+D(formula, ..., .hstep = NULL, add.h.control = FALSE)
 
-\method{D}{default}(f, ..., .hstep = NULL, add.h.control = FALSE)
+\method{D}{default}(formula, ..., .hstep = NULL, add.h.control = FALSE)
 
-\method{D}{formula}(f, ..., .hstep = NULL, add.h.control = FALSE)
+\method{D}{formula}(formula, ..., .hstep = NULL, add.h.control = FALSE)
 
 antiD(formula, ..., lower.bound = 0, force.numeric = FALSE)
 
@@ -21,7 +21,7 @@ makeAntiDfun(.function, .wrt, from, .tol = .Machine$double.eps^0.25)
 numerical_integration(f, wrt, av, args, vi.from, ciName = "C", .tol)
 }
 \arguments{
-\item{f}{A formula. The right side of a formula specifies
+\item{formula}{A formula. The right side of a formula specifies
   the variable(s) with which to
   carry out the integration or differentiation.  On the left side should be
   an expression or a function that returns a numerical vector
@@ -50,6 +50,8 @@ symbolic integral is available.}
 
 \item{.tol}{Numerical tolerance.  See stats::integrate}
 
+\item{f}{a function}
+
 \item{wrt}{character string naming a variable: the var. of integration}
 
 \item{av}{a list of the arguments passed to the function calling this}
@@ -64,8 +66,6 @@ symbolic integral is available.}
 See examples.#'  Note that in creating anti-derivative functions,
 default values of "from" and "to" can be assigned.  They are to be written with
 the name of the variable as a prefix, e.g. \code{y.from}.}
-
-\item{f}{a function}
 }
 \value{
 For derivatives, the return value is a function of the variable(s)

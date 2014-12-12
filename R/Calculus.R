@@ -6,7 +6,7 @@
 #'
 #' @rdname Calculus
 #'
-#' @param f A formula. The right side of a formula specifies 
+#' @param formula A formula. The right side of a formula specifies 
 #'   the variable(s) with which to 
 #'   carry out the integration or differentiation.  On the left side should be 
 #'   an expression or a function that returns a numerical vector 
@@ -66,14 +66,14 @@
 #' D(f(cos(z))~z) #will look in user functions also
 #' @export
 
-D <- function(f, ..., .hstep=NULL,add.h.control=FALSE){
+D <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
     UseMethod("D")
 }
 
 #' @rdname Calculus
 #' @export
-D.default <- function(f, ..., .hstep=NULL,add.h.control=FALSE){
-  tryCatch( return( stats::D(f, ...) ), error=function(e) {}  ) 
+D.default <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
+  tryCatch( return( stats::D(formula, ...) ), error=function(e) {}  ) 
   stop( paste("First argument should be a formula that explicitly identifies the",
               "variable with respect to which the derivative is to be taken. ",
               "Example:  D(sin(x) ~ x).", sep ="\n  " ) )
@@ -81,10 +81,9 @@ D.default <- function(f, ..., .hstep=NULL,add.h.control=FALSE){
   
 #' @rdname Calculus
 #' @export
-D.formula <- function(f, ..., .hstep=NULL,add.h.control=FALSE){
-  tryCatch( return( stats::D(f, ...) ), error=function(e) {}  )
+D.formula <- function(formula, ..., .hstep=NULL,add.h.control=FALSE){
+  tryCatch( return( stats::D(formula, ...) ), error=function(e) {}  )
 
-  formula <- f
   formulaEnv = environment(formula) # where was the formula made?
   #Try to construct a symbolic derivative
   res = try(symbolicD(formula, ...), silent=TRUE)
