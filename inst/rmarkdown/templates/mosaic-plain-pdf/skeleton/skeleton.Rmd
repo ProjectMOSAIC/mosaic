@@ -33,9 +33,10 @@ opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small"    # slightly smaller font for code
 )
-# This loads the mosaic data sets.  (Could be deleted if you are not using them.)
-require(mosaicData)   
-```
 
+```{r, include=FALSE}
+# Load additional packages here.  Uncomment the line below to use Project MOSAIC data sets.
+# require(mosaicData)   
+```
 
 Delete this sentence and enter your text here.
