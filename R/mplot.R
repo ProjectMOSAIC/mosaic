@@ -289,10 +289,11 @@ mplot.lm <- function(object, which=c(1:3, 7),
 #' }
 #' @export
 
-mplot.data.frame <- function (object, default = plotTypes, system = c("lattice", "ggplot2"), 
-                              show = FALSE, title = "", ...
+mplot.data.frame <- function (object, format = plotTypes, default = format, 
+                              system = c("lattice", "ggplot2"),  show = FALSE, 
+                              title = "", ...
                               ) {
-  if (missing(default)) 
+  if (missing(default) & missing(format)) 
     default <- "scatter"
   plotTypes <- c("scatter", "jitter", "boxplot", "violin", 
                  "histogram", "density", "frequency polygon", "xyplot", 

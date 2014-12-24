@@ -68,7 +68,8 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' use.
 #' 
 #' Only \code{mPlot} is required by end users.  The other plotting functions 
-#' are dispatched based on the value of \code{default}.
+#' are dispatched based on the value of \code{default}.  Furthermore, \code{\link{mplot}} 
+#' will dispatch \code{mPlot} when provided a data frame.
 #' 
 #' @details
 #' Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
@@ -82,6 +83,7 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' a data frame.  Typically \code{\link{merge}} will be used to combine the map
 #' data with some auxilliary data to be displayed as fill color on the map, although
 #' this is not necessary if all one wants is a map.
+#' @param format a synonym for \code{default}.
 #' @param default default type of plot to create; one of 
 #' \code{"scatter"},
 #' \code{"jitter"},
@@ -102,20 +104,21 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @return Nothing.  Just for side effects.  
 #' @examples
 #' \dontrun{
-#' mPlot(HELPrct, "scatter")
-#' mPlot(HELPrct, "density")
+#' mPlot(HELPrct, format="scatter")
+#' mPlot(HELPrct, format="density")
 #' }
 #' @export
 
 mPlot <- function(data, 
-  default=plotTypes,
+  format = plotTypes,
+  default = format,
   system=c('lattice','ggplot2'),
   show=FALSE, 
   title="",
   ...) 
 {
   
-  if (missing(default))  default <- 'scatter' 
+  if (missing(default) & missing(format))  default <- 'scatter' 
   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
                 'density', 'frequency polygon', 'xyplot', 'map')
   default <- match.arg(default, plotTypes)
