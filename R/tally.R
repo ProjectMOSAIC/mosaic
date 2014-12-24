@@ -50,9 +50,10 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' -- ideally supplying a data frame that contains the variables mentioned
 #' @param format a character string describing the desired format of the results.
 #'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, \code{'percent'}, 
-#'        \code{'data.frame'} or \code{'sparse'}.
+#'        \code{'data.frame'}, \code{'sparse'}, or \code{'default'}.
 #'        In case of \code{'default'}, counts are used unless there is a condition, in
-#'        which case proportions are used instead.
+#'        which case proportions are used instead.  Note that prior to version 0.9.3, 
+#'        \code{'default'} was the default, now it is \code{'count'}.
 #'        \code{'data.frame'} converts the table to a data frame with one row per cell;
 #'        \code{'sparse'} additionally removes any rows with 0 counts.
 #'        
@@ -109,7 +110,7 @@ tally.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
 #' @export
 
 tally.default <- function(x, data=parent.frame(), 
-                      format=c('default','count','proportion','percent','data.frame','sparse'), 
+                      format=c('count', 'proportion', 'percent', 'data.frame', 'sparse', 'default'), 
                       margins=FALSE,
                       quiet=TRUE,
                       subset, 

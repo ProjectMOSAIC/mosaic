@@ -9,9 +9,9 @@ tally(x, ...)
 
 \method{tally}{tbl}(x, wt, sort = FALSE, ..., envir = parent.frame())
 
-\method{tally}{default}(x, data = parent.frame(), format = c("default",
-  "count", "proportion", "percent", "data.frame", "sparse"), margins = FALSE,
-  quiet = TRUE, subset, useNA = "ifany", ...)
+\method{tally}{default}(x, data = parent.frame(), format = c("count",
+  "proportion", "percent", "data.frame", "sparse", "default"),
+  margins = FALSE, quiet = TRUE, subset, useNA = "ifany", ...)
 }
 \arguments{
 \item{x}{an object}
@@ -35,9 +35,10 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{format}{a character string describing the desired format of the results.
        One of \code{'default'}, \code{'count'}, \code{'proportion'}, \code{'percent'},
-       \code{'data.frame'} or \code{'sparse'}.
+       \code{'data.frame'}, \code{'sparse'}, or \code{'default'}.
        In case of \code{'default'}, counts are used unless there is a condition, in
-       which case proportions are used instead.
+       which case proportions are used instead.  Note that prior to version 0.9.3,
+       \code{'default'} was the default, now it is \code{'count'}.
        \code{'data.frame'} converts the table to a data frame with one row per cell;
        \code{'sparse'} additionally removes any rows with 0 counts.}
 
