@@ -231,7 +231,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   if ( is.null(evalF$left) || ncol(evalF$left) < 1 )  {
     if (ncol(evalF$right) > 1) warning("Too many variables in rhs; ignoring all but first.")
     if (.format=="table") {
-      if (.multiple) stop ("table view unavailable for this functions.")
+      if (.multiple) stop ("table view unavailable for this function.")
       ldata <- evalF$right[,1,drop=FALSE]
       gdata <- group_by(data)
       res <- as.data.frame(
@@ -252,7 +252,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
   } else {
     if (ncol(evalF$left) > 1) warning("Too many variables in lhs; ignoring all but first.")
     if (.format=='table') {
-      if (.multiple) stop ("table view unavailable for this functions.")
+      if (.multiple) stop ("table view unavailable for this function.")
       ldata <- joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
       ldata$.var <- ldata[, 1]
       gdata <- do.call( group_by, c(list(ldata),  
