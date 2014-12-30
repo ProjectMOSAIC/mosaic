@@ -274,11 +274,17 @@ if(FALSE) {
 	}
 	if (inherits(object,c('lm','groupwiseModel')) ) {
 		sobject <- summary(object)
-    F <- sobject$fstatistic[1]
-    names(F) <- "F"
-		result <-  c( coef(object), sigma=sobject$sigma, 
-                  r.squared = sobject$r.squared, 
-                  F)
+    	Fstat <- sobject$fstatistic[1]
+		if (!is.null(Fstat)) {
+			names(Fstat) <- "F"
+			result <-  c(coef(object), sigma=sobject$sigma, 
+						 r.squared = sobject$r.squared, 
+						 Fstat)
+		} else {
+			result <-  c(coef(object), sigma=sobject$sigma, 
+						 r.squared = sobject$r.squared
+			)
+		}
 		names(result) <- nice_names(names(result))
 		return(result)
 	}
