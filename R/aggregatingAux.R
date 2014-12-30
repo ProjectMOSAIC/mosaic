@@ -235,7 +235,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
       ldata <- evalF$right[,1,drop=FALSE]
       gdata <- group_by(data)
       res <- as.data.frame(
-        dplyr::do(gdata, foo = FUN( .[,1], ...) ) )
+        dplyr::do(gdata, foo = FUN( as.data.frame(.)[, 1], ...) ) )
       names(res)[ncol(res)] <- gsub(".*::", "", .name)
       return(res)
       
@@ -259,7 +259,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
                         lapply(union(names(evalF$right), names(evalF$condition)),
                         as.name )) )
       res <- as.data.frame(
-        dplyr::do(gdata, foo = FUN( .[,1], ...) ) )
+        dplyr::do(gdata, foo = FUN( as.data.frame(.)[, 1], ...) ) )
       names(res)[ncol(res)] <- gsub(".*::", "", .name)
 #      res <-  plyr::ddply( 
 #        joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
@@ -268,7 +268,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
 #      )
       
     } else {
-      res <- lapply( split( evalF$left[,1], 
+      res <- lapply( split( evalF$left[, 1], 
                             joinFrames(evalF$right, evalF$condition), 
                             drop=drop),
                      function(x) { do.call(FUN, alist(x, ...) ) }
@@ -278,11 +278,11 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
       
       if (! is.null(evalF$condition) ) {
         if (ncol(evalF$left) > 1) message("Too many variables in lhs; ignoring all but first.")
-        res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
+        res2 <- lapply( split( evalF$left[, 1], evalF$condition, drop=drop),
                         function(x) { do.call(FUN, alist(x, ...) ) }
         )
         if (!.multiple) {
-          res <- c( res , unlist(res2) )
+          res <- c( res, unlist(res2) )
         } else {
           res <- c(res, res2)
         }
@@ -352,7 +352,7 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
     ldata <- joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
     ldata$.var <- ldata[, 1]
     gdata <- do.call( group_by, c(list(ldata),  as.name(names(evalF$condition)) ) )
-    res <- as.data.frame( dplyr::do(gdata, foo = FUN( .[,1], .[,2], ...) ) )
+    res <- as.data.frame( dplyr::do(gdata, foo = FUN( as.data.frame(.)[,1], as.data.frame(.)[,2], ...) ) )
     names(res)[ncol(res)] <- gsub(".*::", "", .name)
   } else {
     res <- lapply( split( evalF$left[,1], 
