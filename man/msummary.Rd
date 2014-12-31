@@ -24,6 +24,20 @@ msummary(object, ...)
 
 \method{msummary}{glm}(object, ...)
 }
+\arguments{
+\item{x}{an object to summarize}
+
+\item{digits}{desired number of digits to display}
+
+\item{symbolic.cor}{see \code{\link{summary}}}
+
+\item{signif.stars}{a logical indicating whether to diplay stars to
+indicate significance}
+
+\item{...}{aditional arguments}
+
+\item{object}{an object to summarise}
+}
 \description{
 \code{msummary} provides modified summary objects that typically produce
 output that is either identical to or somewhat terser than their

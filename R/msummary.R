@@ -1,5 +1,11 @@
 
 #' @rdname msummary
+#' @param x an object to summarize
+#' @param digits desired number of digits to display
+#' @param symbolic.cor see \code{\link{summary}}
+#' @param signif.stars a logical indicating whether to diplay stars to 
+#'   indicate significance
+#' @param ... aditional arguments
 #' @export
 print.msummary.lm <-
   function (x, digits = max(3L, getOption("digits") - 3L), 
@@ -59,6 +65,7 @@ print.msummary.glm <-
 #' @rdname msummary
 #' 
 #' @export
+#' @param object an object to summarise
 msummary <- function(object, ...)
   UseMethod("msummary")
 
