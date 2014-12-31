@@ -17,13 +17,13 @@ test_that("dimensions are correct", {
 })
 
 test_that("Proportions/Counts/Percents selected correctly", {
-  expect_true( all(tally( ~ sex & substance | homeless, data=mosaicData::HELPrct) <= 1) )
+  expect_true( all(tally( ~ sex & substance | homeless, data=mosaicData::HELPrct) > 5) )
   expect_true( all(tally( ~ sex & substance & homeless, data=mosaicData::HELPrct) > 5) )
   expect_equivalent( max(tally( ~ sex & substance & homeless, data=mosaicData::HELPrct, margins=TRUE)) , nrow(mosaicData::HELPrct) )
   expect_true( all(tally( ~ sex & substance | homeless, format='percent', data=mosaicData::HELPrct) <= 100) )
   expect_equivalent( 100 * tally( ~ sex & substance | homeless, format='proportion', data=mosaicData::HELPrct),
                           tally( ~ sex & substance | homeless, format='percent', data=mosaicData::HELPrct))
-  expect_true( all(tally( ~ sex + substance | homeless, data=mosaicData::HELPrct) <= 1) )
+  expect_true( all(tally( ~ sex + substance | homeless, data=mosaicData::HELPrct) > 5) )
   expect_true( all(tally( ~ sex + substance + homeless, data=mosaicData::HELPrct) > 5) )
   expect_equivalent( max(tally( ~ sex + substance + homeless, data=mosaicData::HELPrct, margins=TRUE)) , nrow(mosaicData::HELPrct) )
   expect_true( all(tally( ~ sex + substance | homeless, format='percent', data=mosaicData::HELPrct) <= 100) )
