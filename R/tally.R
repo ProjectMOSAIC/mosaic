@@ -160,7 +160,7 @@ tally.default <- function(x, data=parent.frame(),
 		   'count' = 
 				res,
        'data.frame' = as.data.frame(res),
-       'sparse' = as.data.frame(res) %>% filter(Freq > 0),
+       'sparse' = {res <- as.data.frame(res); res <- res[res$Freq > 0,]},
 		   'proportion' = 
 		   		prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) ),
 		   'percent' = 
