@@ -62,7 +62,7 @@ displayed together.}
 \item{rows}{rows to show.  This may be a numeric vector,
 \code{TRUE} (for all rows), or a character vector of row names.}
 
-\item{default}{default type of plot to create; one of
+\item{format,default}{default type of plot to create; one of
 \code{"scatter"},
 \code{"jitter"},
 \code{"boxplot"},
