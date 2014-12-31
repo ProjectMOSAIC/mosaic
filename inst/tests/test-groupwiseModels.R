@@ -23,8 +23,8 @@ test_that("fitted and resids have the right relationship",{
 })
 
 test_that("mm works with do",{
-  s <- do(10)*mm(width~sex&domhand, data=resample(mosaicData::KidsFeet))
-  expect_that( nrow(s), equals(10))
-  expect_that( ncol(s), equals(6))
+  s <- do(10) * mm(width ~ sex & domhand, data=resample(mosaicData::KidsFeet))
+  expect_that(nrow(s), equals(10))
+  expect_that(ncol(s), equals(6))
 })
 
