@@ -2,7 +2,8 @@
 \title{NEWS file for the mosaic package}
 \section{Changes in version 0.9.3}{
 \itemize{
-\iterm Introduction of \code{msummary}.  Usually this is identical to \code{summary}, but for a few kids of objects it provides modified output that is less verbose.  
+\item \code{tally} now produces counts by default for all formula shapes.  Proportions or percentages must be requested explicitly.  This is to avoid common errors, especially when feeding the results into \code{chisq.test}.
+\item Introduction of \code{msummary}.  Usually this is identical to \code{summary}, but for a few kids of objects it provides modified output that is less verbose.  
 \item By default \code{do * lm( )} will now keep track of the F statistic, too.
 \item \code{binom.test} and \code{prop.test} now set \code{success = 1} by default
 on 0-1 data to treat 0 like failure and 1 like success. Similarly, \code{prop} and \code{count} set \code{level = 1} by default.
