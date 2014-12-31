@@ -1,4 +1,13 @@
 
+withClass <- function(object, class, add=TRUE) {
+  if (add) {
+    class(object) <- c(class, class(object))
+  } else {
+    class(object) <- class
+  }
+  object
+}
+
 #' @rdname msummary
 #' @param x an object to summarize
 #' @param digits desired number of digits to display
@@ -13,9 +22,10 @@ print.msummary.lm <-
             signif.stars = getOption("show.signif.stars"), ...) 
   {
     output <- capture.output( 
-      stats:::print.summary.lm(x, digits=digits, 
-                               symbolic.cor = symbolic.cor, 
-                               signif.stars=signif.stars, ...) )
+      print( withClass(x, "summary.lm"), 
+             digits=digits, 
+             symbolic.cor = symbolic.cor, 
+             signif.stars=signif.stars, ...) )
   
     printCoefmat(x$coefficients, digits = digits,
                  signif.stars = signif.stars, signif.legend = FALSE)
@@ -37,9 +47,10 @@ print.msummary.glm <-
             signif.stars = getOption("show.signif.stars"), ...) 
   {
     output <- capture.output( 
-      stats:::print.summary.glm(x, digits=digits, 
-                                symbolic.cor = symbolic.cor, 
-                                signif.stars=signif.stars, ...) )
+      print(withClass(x, "summary.glm"), 
+            digits=digits, 
+            symbolic.cor = symbolic.cor, 
+            signif.stars=signif.stars, ...) )
     w1 <- min( grep("Coefficients", output) ) 
     w2 <- which.max( ! grepl("\\d", output) & (1:length(output)) > (w1 + 1) ) 
     w3 <- which.max( nchar(output) == 0 & (1:length(output)) >= w2 ) 
