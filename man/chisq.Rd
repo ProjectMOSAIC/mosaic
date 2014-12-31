@@ -19,7 +19,7 @@ the inputs to \code{\link{chisq.test}}.}
 Extract Chi-squared statistic
 }
 \examples{
-if(require(mosicData)) {
+if(require(mosaicData)) {
   Mites.table <- tally( ~ outcome + treatment, data=Mites )
   Mites.table
   chisq.test(Mites.table)
