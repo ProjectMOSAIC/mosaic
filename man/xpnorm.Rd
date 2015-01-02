@@ -38,7 +38,7 @@ xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
 \item{rot}{angle of rotation for text labels.}
 
 \item{manipulate}{logical.  If TRUE and in RStudio,
-then sliders are added for ineractivity.}
+then sliders are added for interactivity.}
 
 \item{p}{probability}
 
@@ -52,8 +52,8 @@ removed from their names but add more verbose output and graphics.
 xpnorm(650, 500, 100)
 xqnorm(.75, 500, 100)
 \dontrun{
-if (require(manipulate)) {
-  manipulate( xpnorm(score, 500, 100, verbose=verbose),
+if (rstudio_is_available()) {
+  manipulate(xpnorm(score, 500, 100, verbose=verbose),
     score = slider(200,800),
 	   verbose = checkbox(TRUE, label="Verbose Output")
   )

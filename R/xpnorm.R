@@ -18,7 +18,7 @@ tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q
 #' @param vlwd,vcol line width and color for vertical lines.
 #' @param rot angle of rotation for text labels.
 #' @param manipulate logical.  If TRUE and in RStudio,
-#' 	then sliders are added for ineractivity.
+#' 	then sliders are added for interactivity.
 #' @param \dots additional arguments.
 #' 
 #' 
@@ -34,8 +34,8 @@ tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q
 #' xpnorm(650, 500, 100)
 #' xqnorm(.75, 500, 100)
 #' \dontrun{
-#' if (require(manipulate)) {
-#'   manipulate( xpnorm(score, 500, 100, verbose=verbose),
+#' if (rstudio_is_available()) {
+#'   manipulate(xpnorm(score, 500, 100, verbose=verbose),
 #'     score = slider(200,800),
 #' 	   verbose = checkbox(TRUE, label="Verbose Output")
 #'   )
@@ -49,7 +49,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     vlwd=2, vcol=trellis.par.get('add.line')$col,
 	rot=45, manipulate=FALSE, ...) 
 {
-	if ( manipulate && require(manipulate) ) {
+	if (manipulate && rstudio_is_available()) {
 		return(manipulate( 
 			xpnorm(q=Q, mean=MEAN, sd=SD, plot=TRUE, verbose=FALSE, invisible=invisible,
 						   digits=digits, lower.tail=lower.tail, log.p=log.p, xlim=xlim,

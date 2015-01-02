@@ -1,6 +1,6 @@
 
-tryCatch(utils::globalVariables(c('RStudioGD')), 
-         error=function(e) message('Looks like you should update R.'))
+# tryCatch(utils::globalVariables(c('RStudioGD')), 
+#          error=function(e) message('Looks like you should update R.'))
 
 #' @details
 #' \code{.do.safe.call} avoids conflicts between named arguments and ... by taking named arguments 
@@ -39,15 +39,27 @@ tryCatch(utils::globalVariables(c('RStudioGD')),
 }
 
 .require_manipulate <-function() {
-  tryCatch( require(manipulate), error=function(e) { 
+  if (! rstudio_is_available()) {
     stop("The manipulate package (available only in RStudio) is required.") 
   }
-  )
+  require(manipulate)
 }
 
-.manipulate_is_available <- function() {
-  if (! exists("RStudioGD") ) return (FALSE)
-  if (! is.function(RStudioGD) ) return (FALSE)
-  return(TRUE)
+#' Check whether RStudio is in use
+#' 
+#' This functions checks that RStudio is in use.  It will likely be removed
+#' from this package once the versions of RStudio in popular use rely on the 
+#' manipulate package on CRAN which will provide its own version.
+#' 
+#' @return a logical
+#' 
+#' @rdname rstudio
+#' 
+#' @export
+rstudio_is_available <- function() {
+  identical(.Platform$GUI, "RStudio")
+  # if (! exists("RStudioGD") ) return (FALSE)
+  # if (! is.function(RStudioGD) ) return (FALSE)
+  # return(TRUE)
 }
 
