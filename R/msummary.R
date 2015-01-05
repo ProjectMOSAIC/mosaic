@@ -60,11 +60,6 @@ print.msummary.glm <-
     return(invisible(x))
   }
 
-#print.msummary.lm  <- print_summary_lm
-#
-#print.msummary.glm <- print_summary_glm
-#'
-#'
 #' Modified summaries
 #' 
 #' \code{msummary} provides modified summary objects that typically produce
@@ -75,8 +70,11 @@ print.msummary.glm <-
 #' 
 #' @rdname msummary
 #' 
-#' @export
 #' @param object an object to summarise
+#' @export
+#' @examples
+#' msummary(lm(Sepal.Length ~ Species, data = iris))
+#' 
 msummary <- function(object, ...)
   UseMethod("msummary")
 
@@ -99,6 +97,6 @@ msummary.lm <- function(object, ...) {
 #' @export
 msummary.glm <- function(object, ...) {
   res <- summary(object, ...)
-  class(res) <- c("msummary.lm", class(res))
+  class(res) <- c("msummary.glm", class(res))
   res
 }

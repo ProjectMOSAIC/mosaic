@@ -45,4 +45,7 @@ output that is either identical to or somewhat terser than their
 (except for an augmented class) so that other downstream functions should work as
 before.
 }
+\examples{
+msummary(lm(Sepal.Length ~ Species, data = iris))
+}
 
