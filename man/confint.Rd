@@ -10,7 +10,7 @@
   method = "stderr", margin.of.error = "stderr" \%in\% method == "stderr")
 
 \method{confint}{do.data.frame}(object, parm, level = 0.95, ...,
-  method = "stderr", margin.of.error = "stderr" \%in\% method)
+  method = "stderr", margin.of.error = "stderr" \%in\% method, df = Inf)
 
 \method{confint}{data.frame}(object, parm, level = 0.95, ...)
 
@@ -29,6 +29,12 @@
 allowed as aliases) or a vector containing both.}
 
 \item{margin.of.error}{if true, report intervals as a center and margin of error.}
+
+\item{df}{degrees for freedom. This is required when \code{object} was produced using
+\code{link{do}} when
+using the standard error to compute the confidence interval since
+typically this information is not recorded in these objects.  The default (\code{Inf})
+uses a normal critical value rather than a one derived from a t-distribution.}
 }
 \value{
 When applied to a data frame, returns a data frame giving the
@@ -37,22 +43,34 @@ confidence interval for each variable in the data frame using
 it is assumed that each variable contains resampled statistics that serve as an estimated sampling
 distribution from which a confidence interval can be computed using either a central proportion
 of this distribution or using the standard error as estimated by the standard deviation of the
-estimated sampling distribution.  When applied to
-a numerical vector, returns a vector.
+estimated sampling distribution.  For the standard error method, the user must supply the correct
+degrees of freedom for the t distribution since this information is typically not available in
+the output of \code{\link{do}}.
+
+When applied to a numerical vector, returns a vector.
 }
 \description{
 Methods for \code{confint} to compute confidence intervals
 on numerical vectors and numerical components of data frames.
 }
+\details{
+The methods of producing confidence intervals from bootstrap distributions are currently
+quite naive.  In particular, when using the standard error, assistance is required with the
+degrees of freedom, and it may not be possible to provide a correct value in all situations.
+}
 \examples{
 if (require(mosaicData)) {
-  s <- do(500)*mean( age ~ sex, data=resample(HELPrct) )
-  confint(s)
-  confint(s, method="quantile")
-  confint(s, margin.of.error=TRUE)
-  confint(s, margin.of.error=TRUE, level=0.99 )
-  s2 <- do(500)*mean( resample(1:10) )
-  confint(s2)
+  bootstrap <- do(500) * diffmean( age ~ sex, data=resample(HELPrct) )
+  confint(bootstrap)
+  confint(bootstrap, df=nrow(HELPrct) - 1)
+  confint(bootstrap, method="quantile")
+  confint(bootstrap, margin.of.error=FALSE, df=nrow(HELPrct) - 1)
+  confint(bootstrap, margin.of.error=TRUE, level=0.99,
+    df=nrow(HELPrct) - 1,
+    method=c("se", "quant") )
+  bootstrap2 <- do(500)*mean( resample(1:10) )
+  confint(bootstrap2)
+  confint(bootstrap2, df=9)
 }
 if (require(mosaicData)) {
 confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
