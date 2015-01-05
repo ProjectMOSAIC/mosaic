@@ -4,14 +4,17 @@
 \alias{theme.mosaic}
 \title{Lattice Theme}
 \usage{
-theme.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1, plain = FALSE, ...)
+theme.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1, ...)
 
-col.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1, plain = FALSE, ...)
+col.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1, ...)
 }
 \arguments{
 \item{bw}{whether color scheme should be "black and white"}
 
 \item{lty}{vector of line type codes}
+
+\item{...}{additional named arguments passed to
+  \code{\link{trellis.par.set()}}}
 }
 \value{
 Returns a list that can be supplied as the \code{theme} to
