@@ -14,7 +14,7 @@ col.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1, ...)
 \item{lty}{vector of line type codes}
 
 \item{...}{additional named arguments passed to
-  \code{\link{trellis.par.set()}}}
+  \code{\link{trellis.par.set}}}
 }
 \value{
 Returns a list that can be supplied as the \code{theme} to

@@ -5,7 +5,7 @@
 #' @param bw whether color scheme should be "black and white"
 #' @param lty vector of line type codes
 #' @param ... additional named arguments passed to 
-#'   \code{\link{trellis.par.set()}}
+#'   \code{\link{trellis.par.set}}
 #' 
 #' @return Returns a list that can be supplied as the \code{theme} to 
 #' \code{\link{trellis.par.set}()}.
