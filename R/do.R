@@ -404,7 +404,7 @@ setMethod("*",
 		out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
 
     if (e1@algorithm >= 1) {
-      resultsList <- if( e1@parallel && require(parallel) )
+      resultsList <- if( e1@parallel && requireNamespace("parallel", quietly=TRUE) )
         parallel::mclapply( integer(n), function(...) { cull(e2()) } )
       else 
         lapply( integer(n), function(...) { cull(e2()) } )

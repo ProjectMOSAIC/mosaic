@@ -25,24 +25,27 @@
 }
 
 # patterned after similar function in ggplot2
+# a bit flakey at the moment, so I'm eliminating its use in favor of directly calling
+# requireNamespace.  ---rjp
 
-.try_require <-function(package) {
+
+.try_requireNamespace <-function(package) {
   available <- suppressMessages(suppressWarnings(sapply(package, 
-                                                        require, quietly = TRUE, 
+                                                        requireNamespace, quietly = TRUE, 
                                                         character.only = TRUE, 
                                                         warn.conflicts = FALSE)))
   missing <- package[!available]
   if (length(missing) > 0) 
     stop("Missing packages.  Please retry after installing the following: ", 
-         paste(package, collapse = ", "), 
+         paste(missing, collapse = ", "), 
          call. = FALSE)
 }
 
-.require_manipulate <-function() {
-  if (! rstudio_is_available()) {
-    stop("The manipulate package (available only in RStudio) is required.") 
+.require_manipulate_namespace <-function() {
+  if (! rstudio_is_available() && requireNamespace("manipulate", quietly=TRUE)) {
+    stop("RStudio required for manipulate.") 
   }
-  require(manipulate)
+  requireNamespace("manipulate", quietly=TRUE)
 }
 
 #' Check whether RStudio is in use
@@ -58,8 +61,5 @@
 #' @export
 rstudio_is_available <- function() {
   identical(.Platform$GUI, "RStudio")
-  # if (! exists("RStudioGD") ) return (FALSE)
-  # if (! is.function(RStudioGD) ) return (FALSE)
-  # return(TRUE)
 }
 

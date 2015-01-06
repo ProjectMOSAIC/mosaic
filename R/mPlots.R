@@ -151,8 +151,7 @@ mMap <- function(data, default = 'map',
         system="ggplot2", 
         show=FALSE, title=title, ...) {
   
-  .require_manipulate()
-  .try_require(c("ggplot2","lattice"))
+  .require_manipulate_namespace()
   system <- "ggplot2" # only handling ggplot2 for now.
   # system <- match.arg(system)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
@@ -211,7 +210,7 @@ mMap <- function(data, default = 'map',
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate( { .doMap(df, variables, show=show, system=system, 
+  manipulate::manipulate( { .doMap(df, variables, show=show, system=system, 
                        x=x, y=y, 
                        color=color, 
                        group=group,
@@ -219,15 +218,15 @@ mMap <- function(data, default = 'map',
                        facet=facet, 
                        key=key,
                        title=title) },
-              show = button("Show Expression"),
-              # system = picker(sysnames, initial=system, label="Graphics System"),
-              x = picker(variables$q, initial=variables$q[[longid]], label="longitude (x)"),
-              y = picker(variables$q, initial=variables$q[[latid]], label="latitude (y)"),
-              group = picker(variables$all, initial=variables$all[[groupid]], label="region"),
-              color = picker(snames, initial="none ", label="Color"),
-              facet = picker(cnames, initial="none ", label="Facets"),
-              projection = picker(pnames, initial="mercator", label="Projection"),
-              key = picker(lnames, label="key", initial=keyDefault)
+              show = manipulate::button("Show Expression"),
+              # system = manipulate::picker(sysnames, initial=system, label="Graphics System"),
+              x = manipulate::picker(variables$q, initial=variables$q[[longid]], label="longitude (x)"),
+              y = manipulate::picker(variables$q, initial=variables$q[[latid]], label="latitude (y)"),
+              group = manipulate::picker(variables$all, initial=variables$all[[groupid]], label="region"),
+              color = manipulate::picker(snames, initial="none ", label="Color"),
+              facet = manipulate::picker(cnames, initial="none ", label="Facets"),
+              projection = manipulate::picker(pnames, initial="mercator", label="Projection"),
+              key = manipulate::picker(lnames, label="key", initial=keyDefault)
   )
 }
 
@@ -306,8 +305,7 @@ mMap <- function(data, default = 'map',
 mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="") {
 
-  .require_manipulate()
-  .try_require(c("ggplot2","lattice"))
+  .require_manipulate_namespace()
   system <- match.arg(system)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
   df <- substitute(data)
@@ -326,27 +324,27 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate( { .doScatter(df, variables, show=show, system=system, x=x, y=y, plotType=plotType, 
+  manipulate::manipulate( { .doScatter(df, variables, show=show, system=system, x=x, y=y, plotType=plotType, 
                            flipCoords = flipCoords, color=color, size=size, facet=facet, 
                            logScales=logScales, model=model, key=key, title=title) },
-             show = button("Show Expression"),
-             system = picker(sysnames, initial=system, label="Graphics System"),
-             plotType = picker(plotnames, initial=default, label="Type of plot      "),
+             show = manipulate::button("Show Expression"),
+             system = manipulate::picker(sysnames, initial=system, label="Graphics System"),
+             plotType = manipulate::picker(plotnames, initial=default, label="Type of plot      "),
              x = if (length(variables$q) >= 2) 
-               picker(variables$all, initial=variables$q[[2]], label="any variable (x)   ")
+               manipulate::picker(variables$all, initial=variables$q[[2]], label="any variable (x)   ")
              else 
-               picker(variables$all, initial=variables$c[[1]], label="any variable (x)   ")
+               manipulate::picker(variables$all, initial=variables$c[[1]], label="any variable (x)   ")
                ,
-             y = picker(variables$q, initial=variables$q[[1]],   label="quant. variable (y)"),
-             flipCoords = checkbox(label="Flip coordinates"),
-             color = picker(snames, initial="none ", label="Color"),
-             size = picker(snames, initial="none ", label="Size (ggplot only)"),
-             facet = picker(cnames, initial="none ", label="Facets"),
-             logScales = picker(list("none","x","y","both"), initial="none", label="log scales"),
-#             logx = checkbox(label="log x-axis"),
-#             logy = checkbox(label="log y-axis"),
-             key = picker(lnames, label="key", initial=keyDefault),
-             model = picker(mnames, initial="none", label="Model")
+             y = manipulate::picker(variables$q, initial=variables$q[[1]],   label="quant. variable (y)"),
+             flipCoords = manipulate::checkbox(label="Flip coordinates"),
+             color = manipulate::picker(snames, initial="none ", label="Color"),
+             size = manipulate::picker(snames, initial="none ", label="Size (ggplot only)"),
+             facet = manipulate::picker(cnames, initial="none ", label="Facets"),
+             logScales = manipulate::picker(list("none","x","y","both"), initial="none", label="log scales"),
+#             logx = manipulate::checkbox(label="log x-axis"),
+#             logy = manipulate::checkbox(label="log y-axis"),
+             key = manipulate::picker(lnames, label="key", initial=keyDefault),
+             model = manipulate::picker(mnames, initial="none", label="Model")
   )
 }
 
@@ -462,8 +460,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
 
 mUniplot <- function(data, default=c('histogram','density', 'frequency polygon'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="") {
-  .require_manipulate()
-  .try_require(c("ggplot2","lattice"))
+  .require_manipulate_namespace()
   system <- match.arg(system)
   default <- match.arg(default)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
@@ -481,22 +478,22 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate( { .doUniplot(df, variables=variables, show=show, system=system, plotType=plotType, x=x, 
+  manipulate::manipulate( { .doUniplot(df, variables=variables, show=show, system=system, plotType=plotType, x=x, 
                            nbins=nbins, color=color, 
                            facet=facet, 
                            model=model, key=key, title=title) },
-              show = button("Show Expression"),
-              system = picker(sysnames, initial=system, label="Graphics system"),
-              plotType = picker(plotnames, initial = default, label="Plot type"),
-              x = picker(variables$q, initial=variables$q[[1]], label="x axis"),
-              # y = picker(variables$q, initial=variables$q[[2]], label="y axis"),
-              nbins = slider(2, 100, initial=25, label="Number of bins"),
-              color = picker(snames, initial="none ", label="Color"),
-#              size = picker(snames, initial="none ", label="Size (ggplot only)"),
-              facet = picker(cnames, initial="none ", label="Facets"),
-#              logx = checkbox(label="log x-axis"),
-#              logy = checkbox(label="log y-axis"),
-              key = picker(lnames, label="key", initial=keyDefault)
+              show = manipulate::button("Show Expression"),
+              system = manipulate::picker(sysnames, initial=system, label="Graphics system"),
+              plotType = manipulate::picker(plotnames, initial = default, label="Plot type"),
+              x = manipulate::picker(variables$q, initial=variables$q[[1]], label="x axis"),
+              # y = manipulate::picker(variables$q, initial=variables$q[[2]], label="y axis"),
+              nbins = manipulate::slider(2, 100, initial=25, label="Number of bins"),
+              color = manipulate::picker(snames, initial="none ", label="Color"),
+#              size = manipulate::picker(snames, initial="none ", label="Size (ggplot only)"),
+              facet = manipulate::picker(cnames, initial="none ", label="Facets"),
+#              logx = manipulate::checkbox(label="log x-axis"),
+#              logy = manipulate::checkbox(label="log y-axis"),
+              key = manipulate::picker(lnames, label="key", initial=keyDefault)
   )
 }
 

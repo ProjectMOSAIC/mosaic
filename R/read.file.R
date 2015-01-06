@@ -69,7 +69,7 @@ function (file, header = T, na.strings = c("NA", "", ".", "na",
     }
     
     if (!file.exists(file) && grepl("https://", file)) {  # assume we are reading a URL
-      .try_require("RCurl")
+      if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
       file <- textConnection(RCurl::getURL(file))
     }
     

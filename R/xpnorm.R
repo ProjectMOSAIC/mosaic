@@ -34,7 +34,7 @@ tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q
 #' xpnorm(650, 500, 100)
 #' xqnorm(.75, 500, 100)
 #' \dontrun{
-#' if (rstudio_is_available()) {
+#' if (rstudio_is_available() & require(manipulate)) {
 #'   manipulate(xpnorm(score, 500, 100, verbose=verbose),
 #'     score = slider(200,800),
 #' 	   verbose = checkbox(TRUE, label="Verbose Output")
@@ -49,15 +49,15 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     vlwd=2, vcol=trellis.par.get('add.line')$col,
 	rot=45, manipulate=FALSE, ...) 
 {
-	if (manipulate && rstudio_is_available()) {
-		return(manipulate( 
+	if (manipulate && rstudio_is_available() && requireNamespace(manipulate)) {
+		return(manipulate::manipulate( 
 			xpnorm(q=Q, mean=MEAN, sd=SD, plot=TRUE, verbose=FALSE, invisible=invisible,
 						   digits=digits, lower.tail=lower.tail, log.p=log.p, xlim=xlim,
 						   ylim=ylim, vlwd=vlwd, vcol=vcol, rot=rot, manipulate=FALSE,
 						   ...),
-				   Q = slider(mean-4*sd, mean+4*sd, initial=q, step=8*sd/200, label='q'),
-				   MEAN = slider(mean-4*sd, mean+4*sd, initial=mean, step=8*sd/200, label='mean'),
-				   SD = slider(0, 4*sd, initial=sd, step=4*sd/100, label='st dev')
+				   Q = manipulate::slider(mean-4*sd, mean+4*sd, initial=q, step=8*sd/200, label='q'),
+				   MEAN = manipulate::slider(mean-4*sd, mean+4*sd, initial=mean, step=8*sd/200, label='mean'),
+				   SD = manipulate::slider(0, 4*sd, initial=sd, step=4*sd/100, label='st dev')
 				   )
 		)
 	}

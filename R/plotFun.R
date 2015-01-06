@@ -308,7 +308,7 @@ plotFun <- function(object, ...,
 			zcuts = pretty(grid$height,50)
 			zcolors = col.regions (length(zcuts),alpha=.5*alpha)
 			if( rstudio_is_available() ) {
-				return(manipulate(
+				return(manipulate::manipulate(
 						   wireframe(height ~ Var1 + Var2, 
 											xlab=xlab,ylab=ylab,
 											zlab=list(zlab,rot=90),
@@ -324,9 +324,9 @@ plotFun <- function(object, ...,
 											col.regions= zcolors
 											#...
 											),
-						   rot=slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
-						   elev=slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
-						   dist=slider(min=0,max=1,step=.01,initial=.2,label="Distance")
+						   rot=manipulate::slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
+						   elev=manipulate::slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
+						   dist=manipulate::slider(min=0,max=1,step=.01,initial=.2,label="Distance")
 						   ))
 			} else {  # without manipulate
 				return((wireframe(height ~ Var1 + Var2, 

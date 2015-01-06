@@ -52,7 +52,7 @@ removed from their names but add more verbose output and graphics.
 xpnorm(650, 500, 100)
 xqnorm(.75, 500, 100)
 \dontrun{
-if (rstudio_is_available()) {
+if (rstudio_is_available() & require(manipulate)) {
   manipulate(xpnorm(score, 500, 100, verbose=verbose),
     score = slider(200,800),
 	   verbose = checkbox(TRUE, label="Verbose Output")

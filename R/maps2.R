@@ -298,7 +298,7 @@ CIAdata <- function (name = NULL) {
   url <- (paste0("https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_",
                  code, ".txt"))
   
-  .try_require("RCurl")
+  if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
   
   table <- read.delim(textConnection(RCurl::getURL(url, ssl.verifypeer = FALSE)),
                       header = FALSE, stringsAsFactors = FALSE)
@@ -341,9 +341,10 @@ CIAdata <- function (name = NULL) {
 #' @export
 sp2df <- function (map, ...) 
 {
-  .try_require(c("ggplot2", "maptools")) 
+  if (! requireNamespace("sp")) stop( "Package `sp' must be installed.")
+
   map@data$id <- rownames(map@data)
-  coords_matrix <- coordinates(map)  # in sp, which maptools depends on
+  coords_matrix <- sp::coordinates(map)  # in sp, which maptools depends on
   map@data$clon = coords_matrix[, 1]
   map@data$clat = coords_matrix[, 2]
   map_points <- do.call(fortify, list(map, region="id"), 
