@@ -3,7 +3,7 @@ Type: Package
 Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
     utilities
 Version: 0.9.2-1
-Date: 2014-11-08
+Date: 2015-01-05
 Depends:
     R (>= 3.0.0),
     car,
@@ -44,8 +44,7 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
     NSF, Project MOSAIC is a community of educators working to tie together
     aspects of quantitative work that students in science, technology,
     engineering and mathematics will need in their professional lives, but
-    which are usually taught in isolation, if at all.  A few features take
-    advantage of the manipulate package when working in RStudio.
+    which are usually taught in isolation, if at all.  
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
