@@ -11,11 +11,11 @@ test_that("favstats works for vectors ", {
 })
 
 test_that("data interface works", {
-  expect_equivalent( favstats(HELPrct$age), favstats(age, data=HELPrct) )
+  expect_equivalent( favstats(mosaicData::HELPrct$age), favstats(age, data=mosaicData::HELPrct) )
 })
 
 test_that("formula interface works", {
-  expect_equivalent( favstats(HELPrct$age), favstats(~age, data=HELPrct) )
+  expect_equivalent( favstats(mosaicData::HELPrct$age), favstats(~age, data=mosaicData::HELPrct) )
 })
 
 test_that("formulas work without data", {
@@ -24,11 +24,11 @@ test_that("formulas work without data", {
 
 
 test_that("missing data handled correctly", {
-  myHELP <- HELPrct
+  myHELP <- mosaicData::HELPrct
   myHELP$age[1] <- NA
   expect_equivalent( favstats(myHELP$age)$missing, 1 ) 
-  expect_equivalent( favstats(myHELP$age)$mean, mean(HELPrct$age[-1]) )
-  expect_equivalent( favstats(myHELP$age)$sd, sd(HELPrct$age[-1]) )
+  expect_equivalent( favstats(myHELP$age)$mean, mean(mosaicData::HELPrct$age[-1]) )
+  expect_equivalent( favstats(myHELP$age)$sd, sd(mosaicData::HELPrct$age[-1]) )
 })
 
 

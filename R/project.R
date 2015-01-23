@@ -64,7 +64,9 @@ setGeneric(
 #' cbind(x1,x2) %*% pr -> v; v
 #' project( y1 ~ x1 + x2, coefficients=FALSE )
 #' dot( y1 - v, v ) # left over should be orthogonal to projection, so this should be ~ 0
+#' if (require(mosaicData)) {
 #' project(width~length+sex, data=KidsFeet)
+#' }
 #' @export
 
 setMethod(
@@ -154,6 +156,7 @@ setMethod(
 #' @seealso \code{link{project}}
 #' @examples
 #' vlength(rep(1,4))
+#' if (require(mosaicData)) {
 #' m <- lm( length ~ width, data=KidsFeet )
 #' # These should be the same
 #' vlength( m$effects )  
@@ -161,6 +164,7 @@ setMethod(
 #' # So should these
 #' vlength( tail(m$effects, -2) )
 #' sqrt(sum(resid(m)^2))
+#' }
 #' v <- c(1,1,1); w <- c(1,2,3)
 #' u <- v / vlength(v)  # make a unit vector
 #' # The following are equivalent

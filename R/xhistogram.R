@@ -39,6 +39,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' @rdname xhistogram
 #' @return \code{xhistogramBreaks} returns a vector of break points
 #' @examples
+#' if (require(mosaicData)) {
 #' histogram(~age | substance, HELPrct, v=35, fit='normal')
 #' histogram(~age, HELPrct, labels=TRUE, type='count')
 #' histogram(~age, HELPrct, groups=cut(age, seq(10,80,by=10)))
@@ -49,6 +50,7 @@ xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density',
 #' xhistogramBreaks(0:10, center=15, width=3)
 #' xhistogramBreaks(1:100, center=50, width=3)
 #' xhistogramBreaks(0:10, center=5, nint=5)
+#' }
 #' @export
 
 xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
@@ -65,6 +67,9 @@ xhistogramBreaks <- function(x, center=NULL, width=NULL, nint, ...) {
     nint <- max(nint - 1, 1)
     width <- diff(range(x)) / nint
   }
+  if (width <= 0) { width <- diff(range(c(0,x))) / nint }
+  
+  if (width <= 0) {stop("`width' too small.")}
 
   shift <- ( (floor( (min(x) - center)/width) ):(1 + ceiling( (max(x) - center)/width)) )
   breaks <-  -.5 * width + center + shift * width
@@ -152,7 +157,7 @@ function (x,
                     "log-normal"  = dlnorm,
                     "poisson"     = dpois,
                     "beta"        = dbeta,
-                    "t"           = dt,
+                    "t"           = dt3,
                     "weibull"     = dweibull,
                     "cauchy"      = dcauchy,
                     "gamma"       = dgamma,
@@ -162,9 +167,11 @@ function (x,
     x = x[!is.na(x)]
     density <- TRUE
     if (is.null(args)) {
-      if (! require(MASS) ){
-        stop("The MASS package must be loaded to auto-fit distributions.")
-      }
+      # we now depend on MASS, so we don't have to check for it
+	  #	if (! require(MASS) ){
+      #  stop("The MASS package must be loaded to auto-fit distributions.")
+      #}
+
       if (is.null(start)) {
         args = fitdistr(x, fit)$estimate
       }
@@ -305,4 +312,8 @@ function (x,
     }
 }
 
-         
+dt3 <- function (x, df, m=0, s=1, log = FALSE) {
+  if (log) 
+    return( dt( (x-m)/s, df=df, log=TRUE)  - log(s) )
+  dt( (x-m)/s, df=df, log=FALSE) / s
+}  

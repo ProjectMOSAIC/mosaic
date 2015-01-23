@@ -10,10 +10,12 @@
 #' Currently only implemented when data is a data frame.
 #'
 #' @examples
+#' if (require(mosaicData)) {
 #' data(CPS85)
 #' cps <- CPS85[1:6,]
 #' cps
 #' evalFormula(wage ~ sex & married & age | sector & race, data=cps)
+#' }
 #' @export
 
 evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
@@ -51,10 +53,12 @@ evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
 #'      instead used to further split \code{x}
 #' @return a data frame containing the terms of the evaluated subformula
 #' @examples
+#' if (require(mosaicData)) {
 #' data(CPS85)
 #' cps <- CPS85[1:6,]
 #' cps
 #' evalSubFormula( rhs( ~ married & sector), data=cps )
+#' }
 #' @export
 
 evalSubFormula <- function(x, data=parent.frame(), ops=c('+','&') ){

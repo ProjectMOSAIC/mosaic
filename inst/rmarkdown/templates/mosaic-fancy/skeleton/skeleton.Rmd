@@ -1,0 +1,72 @@
+---
+title: "Untitled"
+author: ""
+date: ""
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+
+```{r include=FALSE}
+# Don't delete this chunk if you are using the mosaic package
+# This loads the mosaic and dplyr packages
+require(mosaic)
+```
+
+```{r include=FALSE}
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+
+# This changes the default colors in lattice plots.
+trellis.par.set(theme=theme.mosaic())  
+
+# knitr settings to control how R chunks work.
+require(knitr)
+opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small"    # slightly smaller font for code
+)
+# This loads the mosaic data sets.  (Could be deleted if you are not using them.)
+require(mosaicData)                
+```
+
+## Using RMarkdown
+
+
+### Text
+
+Text can be decorated with **bold** or *italics*.  It is also possible to 
+
+* create [links](http://rmarkdown.rstudio.com/) 
+* include mathematics like $e=mc^2$ or 
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
+
+
+Be sure to put a space after the * when you are creating bullets and a space after # when 
+creating section headers, but **not** between $ and the mathematical formulas.
+
+### Graphics
+
+If the code of an R chunk produces a plot, this plot can be displayed in the resulting file.
+```{r}
+xyplot(births ~ date, data=Births78)
+```
+
+### R output
+Other forms of R output are also displayed as they are produced.
+```{r}
+favstats(~ births, data=Births78)
+```
+
+### Destination formats
+
+This file can be knit to HTML, PDF, or Word.  In RStudio, just select the desired output file type
+and click on `Knit HTML`, `Knit PDF`, or `Knit Word`.  Use the dropdown menu next to that to 
+change the desired file type.

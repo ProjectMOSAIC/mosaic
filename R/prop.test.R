@@ -40,6 +40,9 @@
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' 
 #' @param ... additional arguments (often ignored) 
+#' 
+#' @note When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
+#' for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
 #'
 #' @return an \code{htest} object
 #' 
@@ -59,9 +62,11 @@
 #' faithful$long <- faithful$eruptions > 3
 #' prop.test( faithful$long )
 #' prop.test( ~long , faithful )
+#' if (require(mosaicData)) {
 #' prop.test( homeless ~ sex, data=HELPrct )
 #' prop.test( ~ homeless | sex, data=HELPrct )
 #' prop.test( ~ homeless, groups= sex, data=HELPrct )
+#' }
 #' 
 #' @keywords stats
 #' 
@@ -144,7 +149,11 @@ setMethod(
         
         if (! is.null(form$left) || !is.null(form$condition) ) {
           table_from_formula <-  tally( formula, data=data, margin=FALSE, format="count" )
-          return( prop.test( t(table_from_formula), ...) ) 
+          return( stats::prop.test( t(table_from_formula), 
+                             p=p,
+                             conf.level=conf.level, 
+                             alternative=alternative, 
+                             ...) ) 
         }
         
 			  if (length(cond) == 0) {
@@ -186,7 +195,7 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-
+        if (is.null(success) && all(x %in% c(0,1))) success <- 1
 			  prop.test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 

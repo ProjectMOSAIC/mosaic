@@ -48,7 +48,7 @@ rflip <- function(n=1, prob=.5, quiet=FALSE, verbose = !quiet) {
 #' @rdname rflip
 #' @param x an object 
 #' @param \dots additional arguments
-#' @method print cointoss
+#' @export
 
 print.cointoss <- function(x, ...) {
 	heads <- as.numeric(x)
@@ -98,6 +98,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #' # 100 Bernoulli trials -- no need for replace=TRUE
 #' resample(0:1, 100)
 #' tally(resample(0:1, 100))
+#' if (require(mosaicData)) {
 #' Small <- sample(KidsFeet, 10)
 #' resample(Small)
 #' tally(~ sex, data=resample(Small))
@@ -111,6 +112,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #'    id1 = paste(sex,1:10, sep=":"),  
 #'    id2 = paste(sex,1:10, sep=":"))
 #' resample(Small, groups=sex, shuffled=c("id1","id2"))
+#' }
 #' @export
 
 resample <- function(..., replace=TRUE) {
@@ -306,4 +308,25 @@ sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 	return(data)
 }
 
-
+#' Simulate spinning a spinnner
+#' 
+#' This is essentially \code{rmultinom} with a different interface.
+#' 
+#' @param n number of spins of spinner
+#' @param probs a vector of probabilities.  If the sum is not 1, the 
+#' probabiliies will be rescaled.
+#' @param labels a character vector of labels for the categories
+#' @export
+#' @examples
+#' rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
+#' do(2) * rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
+ 
+rspin <- function(n, probs, labels=1:length(probs)) {
+  if (any(probs < 0))
+    stop("All probs must be non-negative.")
+  
+  probs <- probs/sum(probs)
+  res <- t(rmultinom(1, n, probs)) %>% as.data.frame()
+  names(res) <- labels
+  res
+}

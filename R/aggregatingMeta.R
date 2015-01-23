@@ -24,10 +24,12 @@
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @examples
-#' foo <- aggregatingFunction1( base::mean )
-#' foo( ~length, data=KidsFeet )
-#' base::mean(KidsFeet$length)
-#' foo( length ~ sex, data=KidsFeet )
+#' if (require(mosaicData)) {
+#'   foo <- aggregatingFunction1( base::mean )
+#'   foo( ~length, data=KidsFeet )
+#'   base::mean(KidsFeet$length)
+#'   foo( length ~ sex, data=KidsFeet )
+#' } 
 #' @export
 aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
                                   envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
@@ -103,9 +105,11 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @examples
-#' foo <- aggregatingFunction2( stats::cor)
-#' foo( length ~ width, data=KidsFeet )
-#' stats::cor( KidsFeet$length, KidsFeet$width )
+#' if(require(mosaicData)) {
+#'   foo <- aggregatingFunction2( stats::cor)
+#'   foo( length ~ width, data=KidsFeet )
+#'    stats::cor( KidsFeet$length, KidsFeet$width )
+#' }
 #' @export
 aggregatingFunction2 <- function( fun ) {
   result <- function( x, y=NULL, ..., data=parent.frame() ) { # , ..fun.. = fun) {
@@ -132,6 +136,9 @@ aggregatingFunction2 <- function( fun ) {
         if (n != "") mosaic.call[[n]] <- NULL
       }
     }
+    if (! is.null(condition(formula)) ) {
+      stop( "Formula must of form y ~ x." )
+    }
     return( eval(mosaic.call) )
   }
   assign("fun", fun, environment(result))
@@ -149,7 +156,12 @@ aggregatingFunction2 <- function( fun ) {
 #' @param y an object, often a numeric vector 
 #' @param ..fun.. the underlyin function used in the computation
 #' @param groups a grouping variable, typically a name of a variable in \code{data}
-#' @param data a data frame in which to evaluate formulas (or bare names)
+#' @param data a data frame in which to evaluate formulas (or bare names).
+#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#' use this function interactively by treating the working envionment as if it were 
+#' a data frame.  But this may not be appropriate for programming uses.  
+#' When programming, it is best to use an explicit \code{data} argument
+#' -- ideally supplying a data frame that contains the variables mentioned.
 #' @param \dots additional arguments
 #' @param na.rm a logical indicating whether \code{NA}s should be removed before computing
 #' @export
@@ -159,6 +171,7 @@ mean <- aggregatingFunction1( base::mean )
 median <- aggregatingFunction1( stats::median )
 #' @rdname aggregating
 #' @export
+
 range <- aggregatingFunction1( base::range )
 #' @rdname aggregating
 #' @export
@@ -189,7 +202,12 @@ prod <- aggregatingFunction1( base::prod )
 sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
-favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE, na.rm=TRUE)
+favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE, 
+                                 na.rm=TRUE)
+#' @rdname aggregating
+#' @export
+quantile <- aggregatingFunction1(stats::quantile, output.multiple=TRUE, 
+                                 na.rm=getOption("na.rm", FALSE))
 #' @rdname aggregating
 #' @export
 var <- aggregatingFunction1( stats::var, input.multiple=TRUE )
@@ -199,6 +217,7 @@ cor <- aggregatingFunction2( stats::cor )
 #' @rdname aggregating
 #' 
 #' @examples
+#' if (require(mosaicData)) {
 #' mean( HELPrct$age )
 #' mean( ~ age, data=HELPrct )
 #' mean( age ~ sex + substance, data=HELPrct )
@@ -217,8 +236,68 @@ cor <- aggregatingFunction2( stats::cor )
 #' 
 #' cor( length ~ width, data=KidsFeet )
 #' cov ( length ~ width, data=KidsFeet )
+#' }
 #' @export
 
 cov <- aggregatingFunction2( stats::cov)
 
+#' All pairs mean and sum of absolute differences
+#' 
+#' All pairs mean and sum of absolute differences
+#' 
+#' @inheritParams MAD
 
+#' @return the mean or sum of the absolute differences between each pair
+#' of values in \code{c(x,...)}.
+#' @seealso \code{\link{mad}}
+#' @rdname MAD_
+#' @export
+MAD_ <- function(x, ..., na.rm=getOption("na.omit", FALSE)) {
+  SAD_(x, ..., na.rm=na.rm) / (length(x) + length(list(...)))
+}
+
+#' @rdname MAD_
+#' @param ... additional arguments appended to \code{x}
+#' 
+#' @export
+SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
+  x <- c(x, unlist(list(...)))
+  x <- na.omit(x)
+  M <- outer(x, x, "-")
+  base::sum( upper.tri(M) * abs(M) )
+}
+
+#' All pairs mean and sum of absolute differences
+#' 
+#' All pairs mean and sum of absolute differences
+#' 
+#' @param x a numeric vector or a formula.  
+#' @param ... additional arguments passed through to \code{MAD_} 
+#'   or \code{SAD_}.  If \code{x} is a formala, \code{...} should
+#'   include an argument named \code{data} if the intent is to 
+#'   interpret the formala in a data frame.
+#' @param na.rm a logical indicating whether NAs should be removed before
+#'   calculaing.
+#' @param ..fun.. the underlying function used in the computation
+#' @param groups a grouping variable, typically a name of a variable in \code{data}
+#' @param data a data frame in which to evaluate formulas (or bare names).
+#'   Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#'   use this function interactively by treating the working envionment as if it were 
+#'   a data frame.  But this may not be appropriate for programming uses.  
+#'   When programming, it is best to use an explicit \code{data} argument
+#'   -- ideally supplying a data frame that contains the variables mentioned.
+#' @return the mean or sum of the absolute differences between each pair
+#'   of values in \code{c(x,...)}.
+#' @seealso \code{link{mad}}, \code{\link{MAD_}}
+#' @rdname MAD
+#' @export
+#' @examples
+#' SAD(1:3)
+#' MAD(1:3)
+#' MAD(~eruptions, data=faithful)
+ 
+MAD <- aggregatingFunction1( MAD_ )
+
+#' @rdname MAD
+#' @export
+SAD <- aggregatingFunction1( SAD_ )

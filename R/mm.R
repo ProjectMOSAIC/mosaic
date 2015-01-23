@@ -30,6 +30,7 @@
 #' that is, use \code{*} instead of \code{&}.  See the examples.
 #' 
 #' @examples
+#' if (require(mosaicData)) {
 #' mm( wage ~ sex, data=CPS85 )
 #' mm( wage ~ sex & married, data=CPS85 )
 #' lm( wage ~ sex*married-1, data=CPS85)
@@ -38,6 +39,7 @@
 #' summary(mod)
 #' resid(mod)
 #' fitted(mod)
+#' }
 #' 
 #' @seealso 
 #' \code{\link{lm}}, 
@@ -130,7 +132,7 @@ coef.groupwiseModel <- function(object, ...) {
 #' @rdname mm
 #' @param x Object to be printed
 #' @param digits number of digits to display
-#' @method print groupwiseModel
+#' @export
 print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) ) {
   # directly copied from print.lm, but since this isn't an lm object, it
   # doesn't make sense to call print.lm on it.
@@ -156,20 +158,21 @@ residuals.groupwiseModel <- function(object, ...) {object$resids}
 fitted.groupwiseModel <- function(object, ...) {object$fitted}
 #' @rdname mm
 #' @export
+summary.groupwiseModel <- 
+          function(object, ... ){
+            resids <- resid(object)
+            sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
+            r2 <- var(resids)/var(resids+fitted(object))
+            ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
+            res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
+                                   df=object$df,coefs=confint(object)), 
+                              class= "summary_groupwiseModel"
+            )
+            return(res)
+          }
 
-summary.groupwiseModel <- function(object, ... ){
-  resids <- resid(object)
-  sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
-  r2 <- var(resids)/var(resids+fitted(object))
-  ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
-  res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
-                         df=object$df,coefs=confint(object)), 
-                         class= "summary_groupwiseModel"
-  )
-  return(res)
-}
+
 #' @rdname mm
-#' @method print summary_groupwiseModel
 #' @export
 
 print.summary_groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {

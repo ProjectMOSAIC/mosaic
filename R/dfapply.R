@@ -15,7 +15,9 @@
 #' 
 #' @examples
 #' dfapply(iris, favstats)
+#' if (require(mosaicData)) {
 #' dfapply(HELPrct, table, select=is.factor)
+#' }
 #' @export
 
 dfapply <-

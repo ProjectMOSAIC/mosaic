@@ -18,7 +18,7 @@ tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q
 #' @param vlwd,vcol line width and color for vertical lines.
 #' @param rot angle of rotation for text labels.
 #' @param manipulate logical.  If TRUE and in RStudio,
-#' 	then sliders are added for ineractivity.
+#' 	then sliders are added for interactivity.
 #' @param \dots additional arguments.
 #' 
 #' 
@@ -34,8 +34,8 @@ tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q
 #' xpnorm(650, 500, 100)
 #' xqnorm(.75, 500, 100)
 #' \dontrun{
-#' if (require(manipulate)) {
-#'   manipulate( xpnorm(score, 500, 100, verbose=verbose),
+#' if (rstudio_is_available() & require(manipulate)) {
+#'   manipulate(xpnorm(score, 500, 100, verbose=verbose),
 #'     score = slider(200,800),
 #' 	   verbose = checkbox(TRUE, label="Verbose Output")
 #'   )
@@ -49,15 +49,15 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     vlwd=2, vcol=trellis.par.get('add.line')$col,
 	rot=45, manipulate=FALSE, ...) 
 {
-	if ( manipulate && require(manipulate) ) {
-		return(manipulate( 
+	if (manipulate && rstudio_is_available() && requireNamespace(manipulate)) {
+		return(manipulate::manipulate( 
 			xpnorm(q=Q, mean=MEAN, sd=SD, plot=TRUE, verbose=FALSE, invisible=invisible,
 						   digits=digits, lower.tail=lower.tail, log.p=log.p, xlim=xlim,
 						   ylim=ylim, vlwd=vlwd, vcol=vcol, rot=rot, manipulate=FALSE,
 						   ...),
-				   Q = slider(mean-4*sd, mean+4*sd, initial=q, step=8*sd/200, label='q'),
-				   MEAN = slider(mean-4*sd, mean+4*sd, initial=mean, step=8*sd/200, label='mean'),
-				   SD = slider(0, 4*sd, initial=sd, step=4*sd/100, label='st dev')
+				   Q = manipulate::slider(mean-4*sd, mean+4*sd, initial=q, step=8*sd/200, label='q'),
+				   MEAN = manipulate::slider(mean-4*sd, mean+4*sd, initial=mean, step=8*sd/200, label='mean'),
+				   SD = manipulate::slider(0, 4*sd, initial=sd, step=4*sd/100, label='st dev')
 				   )
 		)
 	}
@@ -117,8 +117,21 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
     return(q)
 }
 
-# midpoints along a sequence
-.mid <- function(x) { 
+#' midpoints along a sequence
+#' 
+#' Compute a vector of midpoints between values in a numeric vector
+
+#' @param x a numeric vector
+#' @return a vector of length 1 less than \code{x}
+#' @export
+#' @examples
+#' mid(1:5)
+#' mid((1:5)^2)
+
+mid <- function(x) { 
+	if (!is.numeric(x) || length(x) < 2) {
+		stop( "`x' must be a numeric vector of length at least 2")
+	}
 	x[-1] - .5 * diff(x)
 }
 
@@ -157,9 +170,8 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
 			panel.xyplot(x,y,...)
 			panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
 			  col = vcol, lwd=vlwd)
-			grid.text(x=.mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
-				rot=rot,
-				check.overlap=TRUE,
+			grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), 
+                default.units='native', rot=rot, check.overlap=TRUE,
 			  	paste("", round(diff(p), 3), sep = ""), 
 				just = c('center','center'),  gp=gpar(cex = 1.0))
 			panel.mathdensity(dmath = dnorm, args = list(mean = mean, 
@@ -201,42 +213,48 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
 			  textloc = c(q, 1.2 * ymax)
 			}
 			else {
-			  textloc = c(q, ymax * 0.8)
+			  textloc = c(q, ymax * 0.9)
 			  textloc = c(q, 1.2 * ymax)
 			}
-			panel.segments(q, 0, q, unit(ymax,'native') + unit(1.5,'lines'), 
+      # vertical line
+			panel.segments(q, 0, q, unit(ymax,'native') + unit(0.6,'lines'), 
 			  col = vcol, lwd=vlwd)
 			#panel.segments(q, textloc[2] + 0.1 * ymax, q, 
 			#  ylim[2], col = "forestgreen")
-			grid.text(x=q, y=unit(ymax,'native') + unit(2.4,'lines'),  default.units='native',
+      # quantile
+			grid.text(x=q, y=unit(ymax,'native') + unit(1.8,'lines'),  
+                default.units='native',
 				paste(round(q, digits)), 
-				just = c('center','bottom'), gp=gpar(cex = 1.5))
-			grid.text(x=q, y=unit(ymax,'native') + unit(2.4,'lines'), default.units='native',
+				just = c('center','bottom'), gp=gpar(cex = 1.0))
+      # z score
+			grid.text(x=q, y=unit(ymax,'native') + unit(1.8,'lines'), default.units='native',
 			  paste("(z=", round(z, 3), ")", sep = ""), 
-				just = c('center','top'),  gp=gpar(cex = 1.2))
+				just = c('center','top'),  gp=gpar(cex = 0.9))
+      # arrow <- 
 			grid.lines( gp=gpar(lwd=1.5),
 				x=unit.c( unit(q,'native'), unit(q,'native') - unit(2,'char') ),
-				y=unit(ymax,'native') + unit(.6,'lines'),
+				y=unit(ymax,'native') + unit(.2,'lines'),
 				arrow=arrow(angle=20,length=unit(.75,'char'))
 				)
+      # left prob
 			grid.text(
-				x=unit(q,'native') - unit(2,'char'), 
-				y=unit(ymax,'native') + unit(.3,'lines'), default.units='native',
+				x=unit(q,'native') - unit(3,'char'), 
+				y=unit(ymax,'native') + unit(.2,'lines'), default.units='native',
 				paste(round(p, digits), ""), 
-				just = c('right','bottom'),  gp=gpar(cex = 1.2))
+				just = c('right','bottom'),  gp=gpar(cex = 0.9))
+      # arrow ->
 			grid.lines( gp=gpar(lwd=1.5),
 				x=unit.c( unit(q,'native'), unit(q,'native') + unit(2,'char') ),
-				y=unit(ymax,'native') + unit(.6,'lines'),
+				y=unit(ymax,'native') + unit(.2,'lines'),
 				arrow=arrow(angle=20,length=unit(.75,'char'))
 				)
+      # left prob
 			grid.text(
-				x=unit(q,'native') + unit(2,'char'), 
-				y=unit(ymax,'native') + unit(.3,'lines'), default.units='native',
+				x=unit(q,'native') + unit(3,'char'), 
+				y=unit(ymax,'native') + unit(.2,'lines'), default.units='native',
 				paste("", round(1 - p, digits)), 
-				just = c('left','bottom'),  gp=gpar(cex = 1.2))
+				just = c('left','bottom'),  gp=gpar(cex = 0.9))
 		}, ...)
 
 	return(plot)
 }
-
-

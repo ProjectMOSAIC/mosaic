@@ -35,6 +35,8 @@
 #' \code{\link{load}} is used to load the file.  If \code{file}
 #' ends in \code{.csv}, then \code{\link{read.csv}} is used.  Otherwise,
 #' \code{\link{read.table}} is used.
+#' @param package if specified, files will be search for among the documentation
+#' files provided by the package.
 #' 
 #' @return A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
 #' in which  case arbitrary objects may be loaded and a character vector
@@ -48,9 +50,12 @@
 
 read.file <-
 function (file, header = T, na.strings = c("NA", "", ".", "na", 
-    "-"), comment.char = "#", filetype = c("default", "csv", "txt", "rdata"), ...) 
+    "-"), comment.char = "#", filetype = c("default", "csv", "txt", "rdata"), 
+    package=NULL, ...) 
 {
-
+    if (!is.null(package)) {
+      file <- docFile(file, package=package, character.only=TRUE)
+    }
     filetype <- match.arg(tolower(filetype), choices=filetype)
     if (filetype == "default") {
       filetype <- "txt"
@@ -64,12 +69,9 @@ function (file, header = T, na.strings = c("NA", "", ".", "na",
     }
     
     if (!file.exists(file) && grepl("https://", file)) {  # assume we are reading a URL
-      if (! require(RCurl) ) {
-        stop("The `RCurl' package is required to download via https")
-      }
-      file <- textConnection(getURL(file))
+      if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
+      file <- textConnection(RCurl::getURL(file))
     }
-
     
     if (filetype == "csv") 
       return(read.csv(file, header = header, na.strings = na.strings, 

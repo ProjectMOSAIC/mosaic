@@ -34,8 +34,10 @@
 #' # Formula interface
 #' mat(~a+b)
 #' mat(~a+b+1)
+#' if (require(mosaicData)) {
 #' mat(~length+sex, data=KidsFeet)
 #' singvals(~length*sex*width, data=KidsFeet)
+#' }
 #' @export
 
 mat <- function(A, data=parent.frame()) {

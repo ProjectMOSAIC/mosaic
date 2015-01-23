@@ -62,13 +62,18 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' plotDist( "binom", params=list(35,.25), 
 #'            groups= y < dbinom(qbinom(0.05, 35, .25), 35,.25), 
 #'            kind='hist')
-#' plotDist("norm", 10, 2, col="blue", type="h")
-#' plotDist("norm", 12, 2, col="red", type="h", under=TRUE)
+#' plotDist("norm", mean=10, sd=2, col="blue", type="h")
+#' plotDist("norm", mean=12, sd=2, col="red", type="h", under=TRUE)
+#' plotDist("binom", size=100, prob=.30) +
+#'   plotDist("norm", mean=30, sd=sqrt(100 * .3 * .7))
+#' plotDist("chisq", df=4, groups = x > 6, type="h")
+#' if (require(mosaicData)) {
 #' histogram( ~age|sex, data=HELPrct)
 #' m <- mean( ~age|sex, data=HELPrct)
 #' s <- sd(~age|sex, data=HELPrct)
 #' plotDist( "norm", mean=m[1], sd=s[1], col="red", add=TRUE, packets=1)
-#' plotDist( "norm", mean=m[2], sd=s[2], col="blue", add=TRUE, packets=2, under=TRUE)
+#' plotDist( "norm", mean=m[2], sd=s[2], col="blue", under=TRUE, packets=2)
+#' }
 #' 
 #' @keywords graphics 
 #' @keywords stats 
@@ -82,18 +87,37 @@ plotDist <- function(
   rows=NULL,
   columns=NULL,
   kind = c('density','cdf','qq','histogram'), 
-	xlab = "", ylab = "", breaks = NULL, type, 
-	resolution = 5000,  params = NULL ) {
+  xlab = "", ylab = "", breaks = NULL, type, 
+  resolution = 5000,  params = NULL ) {
   
-	kind = match.arg(kind)
+  kind = match.arg(kind)
   if (missing(add)) add <- under
-	ddist = paste('d', dist, sep='')
-	qdist = paste('q', dist, sep='')
-	pdist = paste('p', dist, sep='')
+  ddist = paste('d', dist, sep='')
+  qdist = paste('q', dist, sep='')
+  pdist = paste('p', dist, sep='')
   
-  
+  original_call <- match.call()  
+  dots <- original_call
+  dots[[1]] <- NULL
+  unnamed_dots <- original_call
+  named_dots <- original_call
+  unnamed_dots[[1]] <- NULL
+  named_dots[[1]] <- NULL
+  groupless_dots <- original_call
+  groupless_dots[[1]] <- NULL
+  for (i in length(unnamed_dots):1) {
+    if (names(unnamed_dots)[i] != "") {
+      unnamed_dots[i] <- NULL
+    } else {
+      named_dots[i] <- NULL
+    }
+  }
   if (is.null(params)) {
-    params <- list(...)
+    params <- original_call
+    params[[1]] <- NULL
+    for (item in names(formals()) ) {
+      if (item %in% names(params)) params[[item]] <- NULL
+    }
     dparams <- c(unnamed(params) , named_among( params, names(formals(ddist))) )
     pparams <- c(unnamed(params) , named_among( params, names(formals(pdist))) )
     qparams <- c(unnamed(params) , named_among( params, names(formals(qdist))) )
@@ -103,114 +127,79 @@ plotDist <- function(
     qparams <- params
   }
   
-	values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
-	fewerValues = unique(values)
-	discrete = length(fewerValues) < length(values) 
-	if ( is.null(breaks) && discrete ){
-		step = min(diff(fewerValues))
-		breaks = seq( min(fewerValues) -.5 * step , max(fewerValues) + .5*step, step)
-	}
-	if (kind=='cdf') {
-		if (discrete) {
-			step = min(diff(fewerValues))
-			cdfx <- seq( min(fewerValues) -1.5 * step , max(fewerValues) + 1.5*step, length.out=resolution)
-			cdfx <- sort(unique( c(fewerValues, cdfx) ) )
-			cdfy <- approxfun( fewerValues, do.call(pdist, c(list(q=fewerValues),pparams)), method='constant', 
-							  f=0, yleft=0, yright=1 ) (cdfx)
-		} else {
-			cdfx <- values
-			cdfy <- do.call( pdist, c(list(q=values), pparams) ) 
-		}
-	}
-	if (missing(type)) {
-		if (discrete) {
-			type = switch(kind,
-						  density = c('p','h'),
-						  cdf = 'p',
-						  histogram = 'density',
-						  qq = 'l')  
-		} else {
-			type = switch(kind,
-						  density = 'l',
-						  cdf = 'l',
-						  histogram = 'density',
-						  qq = 'l')
-		}
-	}
-
-	if (add) {
-    dots <- named(list(...))
-    densx <- fewerValues
-	  densy = do.call( ddist, c(list(x=fewerValues), dparams) ) 
-#    print(names(as.list(environment())))
-#    print(names(dots))
-    
-switch(kind, 
-       density = 
-         return( trellis.last.object() + latticeExtra::layer(
-           do.call( lattice::panel.xyplot, 
-                    c(list(x=densx, y=densy, type=type), dots) ),
-           data = as.list(environment()),
-           under=under,
-           packets=packets,
-           rows=rows,
-           columns=columns) ),
-       cdf = trellis.last.object() + latticeExtra::layer(
-         do.call( lattice::panel.xyplot,  
-                  c(list( x = cdfx, y = cdfy,  type=type), dots) ),
-         data = list( cdfx=cdfx, cdfy=cdfy,  
-                      type=type, dots=list(...) ),
-         under=under,
-         packets=packets,
-         rows=rows,
-         columns=columns),
-       qq = 
-         trellis.last.object() + latticeExtra::layer( 
-           do.call( lattice::panel.qqmath,  
-                    c(list(  x = values, type=type), dots) ),
-           data= list(  values=values, type=type, dots=list(...) ), 
-           under=under,
-           packets=packets,
-           rows=rows,
-           columns=columns),
-       histogram = 
-         trellis.last.object() + latticeExtra::layer(  
-           do.call( panel.xhistogram,  
-                    c(list(x=values, type=type, breaks=breaks), dots)), 
-           data = list(  values=values, 
-                         breaks=breaks, type=type,
-                         dots=list(...) ),
-           under=under,
-           packets=packets,
-           rows=rows,
-           columns=columns),
-)
-	} else {
-	  switch(kind, 
-	         density = 
-	           lattice::xyplot( y ~ x, 
-	                            data=data.frame( 
-	                              y = do.call( ddist, c(list(x=fewerValues), dparams) ), 
-	                              x = fewerValues), 
-	                            type=type, xlab=xlab, ylab=ylab, ...),
-	         cdf = 
-	           lattice::xyplot( y ~ x, 
-	                            data=data.frame( y = cdfy, x = cdfx ), 
-	                            type=type, xlab=xlab, ylab=ylab, ...),
-	         qq = 
-	           lattice::qqmath( ~ x, 
-	                            data = data.frame( 
-	                              x = values, 
-	                              y = do.call( ddist, c(list(x=values), dparams) ) ), 
-	                            type=type, xlab=xlab, ylab=ylab, ...),
-	         histogram = 
-	           histogram( ~ x,
-	                      data = data.frame( 
-	                        x = values, 
-	                        y = do.call( ddist, c(list(x=values), dparams) ) ), 
-	                      type=type, xlab=xlab, breaks=breaks, ...)
-	  )
-	}
+  values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
+  fewerValues = unique(values)
+  discrete = length(fewerValues) < length(values) 
+  if ( is.null(breaks) && discrete ){
+    step = min(diff(fewerValues))
+    breaks = seq( min(fewerValues) -.5 * step , max(fewerValues) + .5*step, step)
+  }
+  if (kind=='cdf') {
+    if (discrete) {
+      step = min(diff(fewerValues))
+      cdfx <- seq( min(fewerValues) -1.5 * step , max(fewerValues) + 1.5*step, length.out=resolution)
+      cdfx <- sort(unique( c(fewerValues, cdfx) ) )
+      cdfy <- approxfun( fewerValues, do.call(pdist, c(list(q=fewerValues),pparams)), method='constant', 
+                         f=0, yleft=0, yright=1 ) (cdfx)
+    } else {
+      cdfx <- values
+      cdfy <- do.call( pdist, c(list(q=values), pparams) ) 
+    }
+  }
+  if (missing(type)) {
+    if (discrete) {
+      type = switch(kind,
+                    density = c('p','h'),
+                    cdf = 'p',
+                    histogram = 'density',
+                    qq = 'l')  
+    } else {
+      type = switch(kind,
+                    density = 'l',
+                    cdf = 'l',
+                    histogram = 'density',
+                    qq = 'l')
+    }
+  }
+  
+  if (add) {
+    call_without_add <- original_call
+    call_without_add["add"] <- FALSE
+    return( 
+      trellis.last.object() + 
+        latticeExtra::as.layer(
+          eval.parent(call_without_add),
+          under=under,
+          packets=packets,
+          rows=rows,
+          columns=columns) 
+    )
+  } else { # not adding
+    switch(kind, 
+           density = 
+             lattice::xyplot( y ~ x, 
+                              data=data.frame( 
+                                y = do.call( ddist, c(list(x=fewerValues), dparams) ), 
+                                x = fewerValues), 
+                              type=type, xlab=xlab, ylab=ylab, ...),
+           cdf = 
+             lattice::xyplot( y ~ x, 
+                              data=data.frame( y = cdfy, x = cdfx ), 
+                              type=type, xlab=xlab, ylab=ylab, ...),
+           qq = 
+             lattice::qqmath( ~ x, 
+                              data = data.frame( 
+                                x = values, 
+                                y = do.call( ddist, c(list(x=values), dparams) ) ), 
+                              type=type, xlab=xlab, ylab=ylab, ...),
+           histogram = 
+             histogram( ~ x,
+                        data = data.frame( 
+                          x = values, 
+                          y = do.call( ddist, c(list(x=values), dparams) ) ), 
+                        type=type, xlab=xlab, breaks=breaks, ...)
+    )
+  }
 }
 
 #' List extraction

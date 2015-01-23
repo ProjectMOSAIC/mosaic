@@ -23,16 +23,20 @@
 #' fitting (as opposed to parameters) are unassigned arguments 
 #' to the returned function.  
 #' @note
-#' This doesn't work with categorical explanatory variables.
+#' This doesn't work with categorical explanatory variables.  Also, 
+#' this does not work with synthentic data that fit the model perfectly.
+#' See \code{link{nls}} for details.
 #'
 #' @seealso \code{\link{linearModel}}, \code{\link{nls}}
 #'
 #' @examples
+#' if (require(mosaicData)) {
 #' f <- fitModel(temp ~ A+B*exp(-k*time), data=CoolingWater, start=list(A=50,B=50,k=1/20))
 #' f(time=50)
 #' coef(f)
 #' summary(f)
 #' model(f)
+#' }
 #' @export
 
 fitModel <- function(formula, data=parent.frame(), start=list(), ...) {
@@ -64,10 +68,9 @@ model.nlsfunction <- function(object, ...) {
 
 #' @rdname fitModel
 #' @export
-summary.nlsfunction <- function(object, ...) {
+  summary.nlsfunction <-  function(object, ...) {
   summary( model( object), ... )
 }
-
 
 #' @rdname fitModel
 #' @export

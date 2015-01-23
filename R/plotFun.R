@@ -73,6 +73,7 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
 #' plotFun( u^2 + v < 3 ~ u & v, add=TRUE, npts=200 )
+#' if (require(mosaicData)) {
 #' # display a linear model using a formula interface
 #' model <- lm(wage ~ poly(exper,degree=2), data=CPS85)
 #' fit <- makeFun(model)
@@ -80,6 +81,7 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' plotFun(fit(exper) ~ exper, add=TRUE, lwd=8)
 #' # Can also just give fit since it is a "function of one variable"
 #' plotFun(fit, add=TRUE, lwd=2, col='white')
+#' }
 #' # Attempts to find sensible axis limits by default
 #' plotFun( sin(k*x)~x, k=0.01 )
 #' @export
@@ -136,6 +138,7 @@ plotFun <- function(object, ...,
   otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,"",sep="") else c()
   if (length( setdiff( otherGroups, names(dots) ) ) > 0 ) {
     # print(list(otherGroups=otherGroups, dots=names(dots)) )
+    
     stop(paste("Cannot plot with free parameters; try setting", 
                paste( setdiff(otherGroups, names(dots)), collapse=", " ) ))
   }
@@ -224,7 +227,9 @@ plotFun <- function(object, ...,
 				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
 			else 
 				adapt_seq(min(limits$xlim), max(limits$xlim), 
-										   f=function(xxqq){ .f.(xxqq) }, length.out=npts)
+										   f=function(xxqq){ .f.(xxqq) }, 
+                       length.out=npts,
+                       quiet=TRUE)
 	
     .yvals <- c()
     for ( .f. in fList ) .yvals <- c( .yvals, sapply( .xvals, .f. ) )
@@ -244,6 +249,7 @@ plotFun <- function(object, ...,
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
 								panel="panel.plotFun1",
+                npts = npts,
                 col=col ),
 								cleanDots
 								)
@@ -259,6 +265,7 @@ plotFun <- function(object, ...,
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
 								panel="panel.plotFun1",
+                npts=npts,
                 col=col),
 								cleanDots)
 								)
@@ -285,7 +292,9 @@ plotFun <- function(object, ...,
 
 		.xvals <- seq(min(limits$xlim),max(limits$xlim),length=npts)
 		.yvals <- seq(min(limits$ylim),max(limits$ylim),length=npts)
-		zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
+		zvals <- tryCatch(
+      outer(.xvals, .yvals, function(x,y){..f..(x,y)} ),
+      warning = function(w) {} )
 		grid <- expand.grid( .xvals, .yvals )
 		grid$height <- c(zvals)
 		localData <- grid
@@ -298,8 +307,8 @@ plotFun <- function(object, ...,
 			}
 			zcuts = pretty(grid$height,50)
 			zcolors = col.regions (length(zcuts),alpha=.5*alpha)
-			if( .manipulate_is_available() ) {
-				return(manipulate(
+			if( rstudio_is_available() ) {
+				return(manipulate::manipulate(
 						   wireframe(height ~ Var1 + Var2, 
 											xlab=xlab,ylab=ylab,
 											zlab=list(zlab,rot=90),
@@ -315,9 +324,9 @@ plotFun <- function(object, ...,
 											col.regions= zcolors
 											#...
 											),
-						   rot=slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
-						   elev=slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
-						   dist=slider(min=0,max=1,step=.01,initial=.2,label="Distance")
+						   rot=manipulate::slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
+						   elev=manipulate::slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
+						   dist=manipulate::slider(min=0,max=1,step=.01,initial=.2,label="Distance")
 						   ))
 			} else {  # without manipulate
 				return((wireframe(height ~ Var1 + Var2, 
@@ -457,15 +466,22 @@ panel.plotFun1 <- function( ..f.., ...,
     parent.ylim <- current.panel.limits()$ylim
     
     npts <- ifelse( is.null(npts), 200, npts)
-    
-    # Evaluate the function on appropriate inputs.
-    .xvals <-  if ('h' %in% type)  
-      seq(min(parent.xlim), max(parent.xlim), length.out=npts)
-    else 
-      adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ .f.(xxqq) }, length.out=npts)
-    
-    .yvals <- sapply( .xvals, .f. ) 
+
+    if (! missing(x) && !missing(y) && length(x) >= npts && length(y) == length(x)) {
+      .xvals <- x
+      .yvals <- y
+    } else {
+      # Evaluate the function on appropriate inputs to help figure out y limits.
+      .xvals <-  if ('h' %in% type)  
+        seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+      else 
+        adapt_seq(min(parent.xlim), max(parent.xlim), 
+                  f=function(xxqq){ .f.(xxqq) }, 
+                  length.out=npts,
+                  quiet=TRUE)
+      
+      tryCatch(.yvals <- sapply( .xvals, .f. ), warning=function(w) {} )
+    }
     
     # need to strip out any components of ... that are in the object so they
     # don't get passed to the panel function.
@@ -550,15 +566,20 @@ panel.plotFun <- function( object, ...,
   
   if( ndims == 1 ){
     npts <- ifelse( is.null(npts), 200, npts)
+
     
-    # Evaluate the function on appropriate inputs.
-    .xvals <- 
-      if ('h' %in% type)  
-        seq(min(parent.xlim), max(parent.xlim), length.out=npts)
-    else 
-      adapt_seq(min(parent.xlim), max(parent.xlim), 
-                        f=function(xxqq){ ..f..(xxqq) }, length.out=npts)
-    .yvals <- sapply( .xvals, ..f.. )  # pfun(.xvals)
+      # Evaluate the function on appropriate inputs.
+      .xvals <- 
+        if ('h' %in% type)  
+          seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+      else 
+        adapt_seq(min(parent.xlim), max(parent.xlim), 
+                  f=function(xxqq){ ..f..(xxqq) }, 
+                  length.out=npts,
+                  quiet=TRUE)
+      .yvals <- tryCatch( sapply( .xvals, ..f.. ), 
+                          warning=function(w) {} )
+    
     
     # need to strip out any components of ... that are in the object so they
     # don't get passed to the panel function.
@@ -582,7 +603,9 @@ panel.plotFun <- function( object, ...,
     
     .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
     .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
-    zvals <- outer(.xvals, .yvals, function(x,y){..f..(x,y)} )
+    zvals <- tryCatch( 
+      outer(.xvals, .yvals, function(x,y){..f..(x,y)} ),
+      warning=function(w) {} )
     grid <- expand.grid( .xvals, .yvals )
     grid$height <- c(zvals)
     

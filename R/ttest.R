@@ -25,10 +25,12 @@
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{t.test}}
 #' 
 #' @examples
+#' if (require(mosaicData)) {
 #' t.test( ~ age, data=HELPrct)
 #' t.test( age ~ sex, data=HELPrct)
 #' t.test( ~ age | sex, data=HELPrct)
 #' t.test( ~ age, groups=sex, data=HELPrct)
+#' }
 #' @export t.test
   
 t.test <- function(x, ...) ttest(x, ...)

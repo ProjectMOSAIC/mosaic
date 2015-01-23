@@ -29,6 +29,9 @@
 #' to simplify its use when the raw data are available, in which case 
 #' an extended syntax for \code{binom.test} is provided.
 #' 
+#' @note When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
+#' for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
+#' 
 #'
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
 #' 
@@ -150,7 +153,7 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-
+			  if (is.null(success) && all(x %in% c(0,1))) success <- 1
 			  binom.test(x=factor(x), p=p, alternative=alternative, 
 						 conf.level=conf.level, 
 						 success=success, 
