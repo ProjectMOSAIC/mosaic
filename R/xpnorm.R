@@ -49,7 +49,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     vlwd=2, vcol=trellis.par.get('add.line')$col,
 	rot=45, manipulate=FALSE, ...) 
 {
-	if (manipulate && rstudio_is_available() && requireNamespace(manipulate)) {
+	if (manipulate && rstudio_is_available() && requireNamespace("manipulate")) {
 		return(manipulate::manipulate( 
 			xpnorm(q=Q, mean=MEAN, sd=SD, plot=TRUE, verbose=FALSE, invisible=invisible,
 						   digits=digits, lower.tail=lower.tail, log.p=log.p, xlim=xlim,
