@@ -16,73 +16,120 @@
 #' 
 #' 
 #' 
-# require(mosaic)
-# mod = lm(width ~ length + sex, data=KidsFeet)
-# fmod = makeFun(mod)
-# plotFun(fmod(x, "B") ~ x) # works
-# plotFun(fmod(x, a) ~ x, a = "B") # not work
-# plotFun(fmod(x, a) ~ x, a = mod$xlevels[[1]][1]) # not work
-# plotFun(fmod(x, mod$xlevels[[1]][1]) ~ x) # not work for different reason
 # 
-# 
-# 
-# xyplot(width ~ length, data=KidsFeet)
-# form = as.formula(paste( "fmod(x, \'", mod$xlevels[[1]][1], "\') ~ x", sep="" ))
-# plotFun(form, add=TRUE)
-# form = as.formula(paste( "fmod(x, \'", mod$xlevels[[1]][2], "\') ~ x", sep="" ))
-# plotFun(form, add=TRUE)
-# 
-# 
-# 
-# form = as.formula("width ~ length + sex")
-# xyplot(form, data=KidsFeet)
-# lm(form, data=KidsFeet)
-
 
 # https://github.com/rpruim/mosaic/issues/40
 
-plotModel <- function( x, data=parent.frame(), ...) {
-  if (!(class(x) %in% c("lm", "glm"))) {
-    stop(paste("You cannot plotModel with an object of type", class(x)))
+# ------------------------------------------------------------------------------
+# TODO
+# plotting correct regression lines? (how to check?) (test on other data sets)
+# work with no categories
+# doesn't recognize interaction terms
+
+# account if variables/model doesn't exist
+# other error accounting
+# does the ... for xyplot work?
+
+# if categorical variable isn't a factor, thinks it's numeric
+
+# should plot legend for line colors
+# doesn't plot other lines if we run out of colors - maybe do automatic color generation in intervals?
+# change to prettier color set?
+# add warning if more than x # of categories? (too many lines/legend too big)?
+# add ... to xyplot
+# works with glm?
+# ------------------------------------------------------------------------------
+# QUESTIONS
+# how does modelFunc know to replace mod in formula but not when calling it?
+# how can we "fill in" interaction terms for modelFunc ?
+#-------------------------------------------------------------------------------
+
+require(mosaic)
+data(KidsFeet)
+mod = lm(width ~ length + birthyear, data=KidsFeet)
+
+require(mosaic)
+weights = c(83,  82,  97,  92,  91,  94,  75,  97,  202, 150, 110, 102, 143, 155, 121, 109, 115, 117, 123, 130, 142, 155, 167, 189, 210, 240, 270, 350)
+heights = c(4.1, 4.1, 4.2, 4.5, 4.3, 4.4, 4.4, 4.3, 4.6, 4.7, 4.9, 4.9, 4.8, 5.0, 5.2, 5.1, 5.4, 5.3, 5.5, 5.5, 5.6, 5.7, 5.9, 6.1, 6.4, 6.2, 6.0, 6.3)
+genders = c("F", "F", "F", "M", "F", "F", "F", "F", "M", "F", "F", "F", "F", "F", "F", "O", "F", "F", "O", "O", "O", "F", "M", "M", "O", "M", "M", "M")
+happiness = c("H", "H", "H", "H", "S", "S", "H", "S", "S", "H", "S", "H", "S", "H", "H", "S", "S", "S", "S", "S", "H", "S", "S", "S", "S", "S", "S", "H")
+humans = data.frame("weights"=weights, "heights"=heights, "genders"=genders, "happiness"=happiness)
+mod = lm(weights ~ heights + genders + happiness, data=humans)
+
+require(mosaic)
+require(Stat2Data)
+data(Day1Survey)
+head(Day1Survey)
+mod = lm(Reading ~ Sex + Texting + Class, data=Day1Survey)
+
+# -------------------------------------------------------------------
+# CODE
+# -------------------------------------------------------------------
+
+CATEGORICAL_REPLACE_STR = "#%#" # chosen b/c no regex chars
+
+plotModel <- function(mod, data=parent.frame(), ...) {
+  # make sure model is class lm or glm
+  if (!(class(mod) %in% c("lm", "glm"))) {
+    stop(paste("plotModel takes object of class lm or glm, not", class(mod)))
   }
-  # Determine the dimensionality of the problem
-  var.classes = attr(terms(x), "dataClasses")
-  var.names = names(var.classes)
-  y.name = as.character(lhs(terms(x)))
-  x.names = setdiff(names(which(var.classes == "numeric")), y.name)
-  z.names = setdiff(names(which(var.classes != "numeric")), y.name)
-  pal = trellis.par.get("superpose.symbol")$col
-  if (length(x.names) == 1) {
-    # draw a scatterplot
-    x.name = x.names[1]
-    myplot = xyplot(as.formula(paste(y.name, "~", x.name)), data=mod$model)
+  
+  # determine number of each variable type (categorical or quantitative)
+  var.classes = attr(terms(mod), "dataClasses")
+  response.name = as.character(lhs(terms(mod)))
+  numeric.names = setdiff(names(which(var.classes == "numeric")), response.name)
+  
+  # get palette to color each regression line
+  palette = trellis.par.get("superpose.symbol")$col
+  palette = rep(palette, 5) # duplicate for now
+  
+  # if one numeric explanatory variable, draw 2D plot
+  if (length(numeric.names) == 1) {
+    numeric.name = numeric.names[1]
+    modelFunc = makeFun(mod)
+    myplot = xyplot(as.formula(paste(response.name, "~", numeric.name)), data=mod$model) # plot data
+    categories = expand.grid(mod$xlevels) # all category combinations
     
-    # make the model into a function
-    fmod = makeFun(x)
-    # get information about any categorical variables
-    z.vals = x$xlevels
-    
-    if (length(z.vals) == 1) {
-      # parallel slopes model
-      z.levels = z.vals[[1]]
-      # how many regression lines are there?
-      k = length(z.levels)
-      # put the regression lines on the plot
-      for(i in 1:k) {
-        # hardcoding works
-#        plotFun(fmod(x, "B") ~ x, col = pal[i], add=TRUE)
-        # but this doesn't work?? Why? 
-        form = as.formula(paste( "fmod(x, \'", z.levels[i], "\') ~ x", sep="" ))
-        cat(print(as.character(form)))
-        myplot = plotFun(form, col=pal[i], add=TRUE)
-#        plotFun(fmod(x, a) ~ x, a = as.character(z.levels[i]), col = pal[i], add=TRUE)
-      }
+    if (nrow(categories) == 0) {
+      return(myplot)
     }
-  } else if (num.q.vars == 3) {
-    # draw a 3D plot
-  } else if (num.q.vars > 3) {
-    # too many variables
-    stop("You cannot plotModel if you have more than 3 numeric variables")
+    
+    template = getFormulaTemplate(attr(terms(mod), "dataClasses"))
+    
+    # plot parallel regression lines for each category combination
+    for (row in 1:nrow(categories)) {
+      formStr = template
+      for (col in 1:ncol(categories)) {
+        category = as.character(categories[row, col])
+        formStr = sub(CATEGORICAL_REPLACE_STR, category, formStr)
+      }
+      form = as.formula(formStr)
+      
+      # plot regression line of formula
+      myplot = plotFun(form, plot=myplot, col=palette[row], add=TRUE)
+    }
+    
+  } else if (length(numeric.names) == 2) {
+    # if 2 numeric explanatory variables, draw 3D plot
+    stop("Currently no support for 3D plots with 2 numeric variables.")
+  } else if (length(numeric.names) > 2) {
+    # too many numeric variables - plot is not visualizable in 3D
+    stop("Cannot visualize model in 3D space if more than 2 numeric variables")
   }
+  
+  # display plot
   return(myplot)
 }
+
+getFormulaTemplate = function(vars) {
+  # takes all numeric and categorical explanatory variables
+  # returns template to fill in categorical variables for formula, e.g.
+  # "numeric", "factor", "factor" -> "modelFunc(mod, '%#%', '%#%') ~ mod"
+  vars = vars[2:length(vars)] # ignore response variable
+  vars[vars=="numeric"] = "mod"
+  vars[vars=="factor"] = paste("'", CATEGORICAL_REPLACE_STR, "'", sep="")
+  template = paste(vars,  collapse=", ")
+  template = paste("modelFunc(", template, ") ~ mod", sep="")
+  return(template)
+}
+
