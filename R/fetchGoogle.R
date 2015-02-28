@@ -52,7 +52,7 @@
 
 fetchGoogle <- function(URL,key=NULL){
 
-  .try_require("RCurl")
+  if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
 
   if (missing(URL) & !is.null(key))
     URL = paste("https://docs.google.com/spreadsheet/pub?key=",

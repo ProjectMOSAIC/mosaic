@@ -15,7 +15,14 @@ tryCatch(utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
 #' @export
 
 mplot <- function(object, ...) {
-  UseMethod("mplot")  
+  UseMethod("mplot")
+}
+
+#' @rdname mplot
+#' @export
+mplot.default <- function(object, ...) {
+  message("mplot() doesn't know how to handle this kind of input.")
+  message('use methods("mplot") to see a list of available methods.')
 }
 
 #' @rdname mplot
@@ -26,7 +33,7 @@ mplot <- function(object, ...) {
 #' a data frame.  Typically \code{\link{merge}} will be used to combine the map
 #' data with some auxilliary data to be displayed as fill color on the map, although
 #' this is not necessary if all one wants is a map.
-#' @param default default type of plot to create; one of 
+#' @param format,default default type of plot to create; one of 
 #' \code{"scatter"},
 #' \code{"jitter"},
 #' \code{"boxplot"},
@@ -54,7 +61,10 @@ mplot <- function(object, ...) {
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
 #' @examples
-#' mplot( lm( width ~ length + sex, data=KidsFeet) )
+#' if (require(mosaicData)) {
+#' mplot( lm( width ~ length * sex, data=KidsFeet) )
+#' mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )
+#' }
 #' @export
 
 mplot.lm <- function(object, which=c(1:3, 7), 
@@ -64,6 +74,7 @@ mplot.lm <- function(object, which=c(1:3, 7),
                      par.settings = theme.mosaic(),
                      level=.95,
                      title=paste("model: ", deparse(object$call), "\n"),
+                     rows=TRUE,
                      ...){
   
   system <- match.arg(system)
@@ -227,9 +238,9 @@ mplot.lm <- function(object, which=c(1:3, 7),
                   dots)
   )
 
-  g7 <- mplot(summary(object), level=level, ..., system="ggplot2")
+  g7 <- mplot(summary(object), level=level, rows=rows, ..., system="ggplot2")
   
-  l7 <- mplot(summary(object), level=level, ..., system="lattice")
+  l7 <- mplot(summary(object), level=level, rows=rows, ..., system="lattice")
   
   plots <- if (system == "ggplot2") {
     list(g1, g2, g3, g4, g5, g6, g7)
@@ -271,15 +282,18 @@ mplot.lm <- function(object, which=c(1:3, 7),
 #' @rdname mplot
 #' @examples
 #' \dontrun{
+#' if (require(mosaicData)) {
 #' mplot( HELPrct )
 #' mplot( HELPrct, "histogram" )
 #' }
+#' }
 #' @export
 
-mplot.data.frame <- function (object, default = plotTypes, system = c("lattice", "ggplot2"), 
-                              show = FALSE, title = "", ...
+mplot.data.frame <- function (object, format = plotTypes, default = format, 
+                              system = c("lattice", "ggplot2"),  show = FALSE, 
+                              title = "", ...
                               ) {
-  if (missing(default)) 
+  if (missing(default) & missing(format)) 
     default <- "scatter"
   plotTypes <- c("scatter", "jitter", "boxplot", "violin", 
                  "histogram", "density", "frequency polygon", "xyplot", 
@@ -350,7 +364,9 @@ fortify.summary.glm <- function(model, data=NULL, level=0.95, ...) {
 #' @param parm a vector of parameters
 #' @param level a confidence level
 #' @examples
+#' if (require(mosaicData)) {
 #' confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
+#' }
 #' @export
 
 confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
@@ -374,18 +390,28 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @rdname mplot
 #' @param level a confidence level
 #' @param par.settings \pkg{lattice} theme settings 
+#' @param rows rows to show.  This may be a numeric vector, 
+#' \code{TRUE} (for all rows), or a character vector of row names.
 #' @examples
-#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)))
+#' if (require(mosaicData)) {
+#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot")
+#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
+#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
+#' }
 #' @export
  
 mplot.summary.lm <- function(object, 
                              system=c("lattice","ggplot2"),
                              level=0.95,
                              par.settings = trellis.par.get(),
+                             rows=TRUE,
                              ...){
   system <- match.arg(system)
   fdata <- fortify(object, level=level) %>% 
-    mutate(signif = pval < (1-level)/2 )
+    mutate(signif = pval < (1-level))  
+  row.names(fdata) <- fdata$coef
+  fdata <- fdata[rows, ]
+  fdata <- fdata[nrow(fdata):1, ]
   
   g <- ggplot(data=fdata,
               aes(x=factor(coef, labels=coef), y=estimate, 
@@ -445,7 +471,9 @@ mplot.summary.glm <- mplot.summary.lm
 
 #' @rdname fortify
 #' @examples
+#' if (require(mosaicData)) {
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+#' }
 #' @export
  
 fortify.TukeyHSD <- function(model, data, ...) {
@@ -465,8 +493,10 @@ fortify.TukeyHSD <- function(model, data, ...) {
 
 #' @rdname mplot
 #' @examples
+#' if (require(mosaicData)) {
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
+#' }
 #' @export
 
 mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 
@@ -516,7 +546,9 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
 #' @param model an R object
 #' @param data original data set, if needed
 #' @examples
+#' if (require(mosaicData)) {
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+#' }
 #' @export
  
 fortify.TukeyHSD <- function(model, data, ...) {
@@ -538,8 +570,10 @@ fortify.TukeyHSD <- function(model, data, ...) {
 #' @param xlab label for x-axis
 #' @param ylab label for y-axis
 #' @examples
+#' if (require(mosaicData)) {
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
+#' }
 #' @export
 
 mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 

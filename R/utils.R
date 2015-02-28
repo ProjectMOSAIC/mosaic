@@ -1,6 +1,6 @@
 
-tryCatch(utils::globalVariables(c('RStudioGD')), 
-         error=function(e) message('Looks like you should update R.'))
+# tryCatch(utils::globalVariables(c('RStudioGD')), 
+#          error=function(e) message('Looks like you should update R.'))
 
 #' @details
 #' \code{.do.safe.call} avoids conflicts between named arguments and ... by taking named arguments 
@@ -25,29 +25,41 @@ tryCatch(utils::globalVariables(c('RStudioGD')),
 }
 
 # patterned after similar function in ggplot2
+# a bit flakey at the moment, so I'm eliminating its use in favor of directly calling
+# requireNamespace.  ---rjp
 
-.try_require <-function(package) {
+
+.try_requireNamespace <-function(package) {
   available <- suppressMessages(suppressWarnings(sapply(package, 
-                                                        require, quietly = TRUE, 
+                                                        requireNamespace, quietly = TRUE, 
                                                         character.only = TRUE, 
                                                         warn.conflicts = FALSE)))
   missing <- package[!available]
   if (length(missing) > 0) 
     stop("Missing packages.  Please retry after installing the following: ", 
-         paste(package, collapse = ", "), 
+         paste(missing, collapse = ", "), 
          call. = FALSE)
 }
 
-.require_manipulate <-function() {
-  tryCatch( require(manipulate), error=function(e) { 
-    stop("The manipulate package (available only in RStudio) is required.") 
+.require_manipulate_namespace <-function() {
+  if (! rstudio_is_available() && requireNamespace("manipulate", quietly=TRUE)) {
+    stop("RStudio required for manipulate.") 
   }
-  )
+  requireNamespace("manipulate", quietly=TRUE)
 }
 
-.manipulate_is_available <- function() {
-  if (! exists("RStudioGD") ) return (FALSE)
-  if (! is.function(RStudioGD) ) return (FALSE)
-  return(TRUE)
+#' Check whether RStudio is in use
+#' 
+#' This functions checks that RStudio is in use.  It will likely be removed
+#' from this package once the versions of RStudio in popular use rely on the 
+#' manipulate package on CRAN which will provide its own version.
+#' 
+#' @return a logical
+#' 
+#' @rdname rstudio
+#' 
+#' @export
+rstudio_is_available <- function() {
+  identical(.Platform$GUI, "RStudio")
 }
 

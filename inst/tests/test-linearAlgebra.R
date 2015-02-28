@@ -36,6 +36,6 @@ test_that("formula interface to project works in present environment",{
 })
 
 test_that("formula interface works with data frame",{
-  expect_that( round(project( wage ~ educ, data=CPS85)[1],3), is_equivalent_to( 0.695))
-  expect_that( round(project( wage ~ educ+1, data=CPS85)[1],3), is_equivalent_to( -0.746) )
+  expect_that( round(project( wage ~ educ, data=mosaicData::CPS85)[1],3), is_equivalent_to( 0.695))
+  expect_that( round(project( wage ~ educ+1, data=mosaicData::CPS85)[1],3), is_equivalent_to( -0.746) )
 })

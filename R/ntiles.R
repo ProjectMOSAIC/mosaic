@@ -6,6 +6,7 @@
 #' @param digits desired number of digits for labeling of factors.
 #' @return a vector.  The type of vector will depend on \code{format}.
 #' @examples
+#' if (require(mosaicData)) {
 #' tally( ~ ntiles(age, 4), data=HELPrct)
 #' tally( ~ ntiles(age, 4, format="center"), data=HELPrct)
 #' tally( ~ ntiles(age, 4, format="interval"), data=HELPrct)
@@ -14,6 +15,7 @@
 #' tally( ~ ntiles(age, 4, format="mean"), data=HELPrct)
 #' tally( ~ ntiles(age, 4, format="median"), data=HELPrct)
 #' bwplot( i2 ~ ntiles(age, n=5, format="interval"), data=HELPrct)
+#' }
 #' @export
 
 ntiles <-  function(x, n=3, 

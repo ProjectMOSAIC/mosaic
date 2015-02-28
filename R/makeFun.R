@@ -34,6 +34,20 @@ setGeneric(
 		   )
 
 #' @rdname makeFun
+#' @aliases makeFun,function-method
+#' @export
+
+setMethod(
+  'makeFun',
+  'function',
+  function( object, ..., strict.declaration =TRUE, use.environment=TRUE, 
+            suppress.warnings=FALSE) {
+    object
+  }
+)    
+
+
+#' @rdname makeFun
 #' @aliases makeFun,formula-method
 #' @param strict.declaration  if \code{TRUE} (the default), an error is thrown if 
 #' default values are given for variables not appearing in the \code{object} formula.
@@ -46,12 +60,15 @@ setGeneric(
 #' This can be useful to invert a transformation used on the response
 #' when creating the model.
 #' @examples
+#' if (require(mosaicData)) {
 #' model <- lm( log(length) ~ log(width), data=KidsFeet)
 #' f <- makeFun(model, transform=exp)
 #' f(8.4)
 #' head(KidsFeet,1)
+#' }
 #' 
 #' @export
+
 
 setMethod(
   'makeFun',
@@ -78,7 +95,7 @@ setMethod(
 	  if (length( undeclaredVars ) != 0) {
 		  if (strict.declaration) 
 		  	stop(paste( "Default values provided for variables not in formula:",
-					   paste(unDeclaredVars, collapse=",")
+					   paste(undeclaredVars, collapse=",")
 					 ))
 	  }
     # vars is just a permutation of varsInFormula
@@ -126,10 +143,12 @@ setMethod(
 #' @rdname makeFun
 #' @aliases makeFun,lm-method
 #' @examples
+#' if (require(mosaicData)) {
 #' model <- lm(wage ~ poly(exper,degree=2), data=CPS85)
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' }
 #' @export
 
 setMethod(
@@ -180,10 +199,12 @@ setMethod(
 #' @param type one of \code{'response'} (default) or \code{'link'} specifying scale to be used
 #' for value of function returned.
 #' @examples
+#' if (require(mosaicData)) {
 #' model <- glm(wage ~ poly(exper,degree=2), data=CPS85, family=gaussian)
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' }
 #' @export
 
 setMethod(
@@ -240,10 +261,12 @@ setMethod(
 #' @rdname makeFun
 #' @aliases makeFun,nls-method
 #' @examples
+#' if (require(mosaicData)) {
 #' model <- nls( wage ~ A + B * exper + C * exper^2, data=CPS85, start=list(A=1,B=1,C=1) )
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
 #' plotFun(fit(exper) ~ exper, add=TRUE)
+#' }
 #' @export
 
 setMethod(
@@ -296,8 +319,10 @@ setMethod(
 #' @param model a model, typically of class \code{lm} or \code{glm}
 #' @return a vector of variable names
 #' @examples
+#' if (require(mosaicData)) {
 #' model <- lm( wage ~ poly(exper,degree=2), data=CPS85 )
 #' modelVars(model)
+#' }
 #' @export
 
 modelVars <- function(model) {
@@ -320,9 +345,11 @@ modelVars <- function(model) {
 #' @param ... ignored
 #'
 #' @examples
+#' if (require(mosaicData)) {
 #' model <- lm( width ~ length, data=KidsFeet)
 #' f <- makeFun( model )
 #' coef(f)
+#' }
 #' @export
 
 coef.function <- function(object,...) { attr(object,"coefficients") }

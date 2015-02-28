@@ -66,13 +66,13 @@ test_that('Can make functions from lm models', {
 })
 
 test_that('Can make functions from models with no predictors', {
-  model <- lm( age ~ 1, data=HELPrct )
+  model <- lm( age ~ 1, data=mosaicData::HELPrct )
   f <- makeFun(model)
-  expect_equivalent( f(), mean(HELPrct$age) )
-  expect_equivalent( f(7), mean(HELPrct$age) )
-  expect_equivalent( f(x=7), mean(HELPrct$age) )
-  expect_equivalent( f(sex='female'), mean(HELPrct$age) )
-  expect_equivalent( f(1:3), rep(mean(HELPrct$age),3) )
+  expect_equivalent( f(), mean(mosaicData::HELPrct$age) )
+  expect_equivalent( f(7), mean(mosaicData::HELPrct$age) )
+  expect_equivalent( f(x=7), mean(mosaicData::HELPrct$age) )
+  expect_equivalent( f(sex='female'), mean(mosaicData::HELPrct$age) )
+  expect_equivalent( f(1:3), rep(mean(mosaicData::HELPrct$age),3) )
   expect_equivalent( names(formals(f)), c('...') )
 })
 

@@ -23,7 +23,6 @@ plotCumfreq <- function(x, data, ...) { UseMethod('plotCumfreq') }
 
 plotCumfreq.formula <- function(x, data=NULL, subscripts,
 	...) {
-	.try_require("lattice")
 	densityplot( x, data=data,
 		ylab='cumulative frequency',
 		panel=panel.cumfreq,

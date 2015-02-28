@@ -42,6 +42,7 @@ require(stats)
 require(lattice)
 require(grid) 
 require(mosaic) 
+require(mosaicData) 
 require(fastR)
 trellis.par.set(theme=col.mosaic(bw=FALSE))
 trellis.par.set(fontsize=list(text=9))
@@ -141,11 +142,13 @@ install.packages("mosaic")
 @ 
 
 Once installed, the package must be loaded so that it is available (this must
-be done within each \R{} session).  In addition to loading the package, 
-the following commands set the number of digits to display by default. 
+be done within each \R{} session).  In addition to loading the \pkg{mosaic} package, 
+the following commands also load the \pkg{mosaicData} package that contains a number 
+of data sets and set the number of digits to display by default. 
 
 <<moreSetup>>=
 require(mosaic)
+require(mosaicData) 
 options(digits=3)
 @ 
 

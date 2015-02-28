@@ -19,16 +19,16 @@
 #' @importFrom car deltaMethod
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
-#' @importFrom Hmisc xYplot
 #' @importFrom gridExtra grid.arrange arrangeGrob
 #' @importFrom ggdendro segment label dendro_data dendro_data.hclust
 #' @importFrom reshape2 melt acast dcast
 #' @import methods
+#' @importFrom MASS fitdistr fractions
 #' @import dplyr
 #' @import grid    
 #' @import lattice
 #' @import ggplot2
 #' @import splines 
+#' @import mosaicData
 #' @importFrom plyr ddply
-#' @import dplyr
 NA

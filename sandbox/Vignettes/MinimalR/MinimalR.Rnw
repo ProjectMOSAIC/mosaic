@@ -148,7 +148,7 @@
 \title{Minimal R for Intro Stats}
 
 \author{
-Randall Pruim
+Randall Pruim, Project MOSAIC
 }
 
 \date{\today}
@@ -158,7 +158,7 @@ Randall Pruim
 \parindent=0pt
 
 \chead{\sf \bfseries \Large Enough R for Intro Stats}
-\rhead{May, 2014}
+\rhead{July, 2014}
 \lhead{R. Pruim}
 
 
@@ -168,6 +168,7 @@ Randall Pruim
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
 #source('setup.R')
 require(mosaic)
+require(mosaicData)
 require(parallel)
 trellis.par.set(theme=col.mosaic())
 set.seed(123)
@@ -261,7 +262,8 @@ as possible into a small number of paradigms.  In particular,
 		to teach it anyway, we use formulas as consistently and as often as we can.
 		In some cases, my colleagues and I have written new functions or expanded the use of existing functions 
 		to serve this end.  These functions are available in the \pkg{mosaic} package and are
-		indicated in the comments in our palette.
+		indicated in the comments in our palette.  Some of the data sets are from the 
+		\pkg{mosaicData} package.
 
 	\item 
 		We use \pkg{lattice} graphics.
@@ -287,6 +289,8 @@ And most importantly: What is your creativity to volume quotient?
 
 \newpage
 
+\lhead{\href{http://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
+\rhead{\href{http://mosaic-web.org}{mosaic-web.org}}
 
 \begin{multicols}{4}
 
@@ -301,47 +305,30 @@ example()
 \fi
 
 \subsection*{Basic Calculations}
-Basic calculation is very similar to a calculator.
+Basic calculation works like a calculator.
 <<>>=
 # basic ops: + - * / ^ ( )
-log()
-exp()
-sqrt()
-@
-<<highlight=FALSE>>=
-log10()
-abs()
-choose()
-@
-% uniroot()   # root finder
-
-\subsection*{Randomization/Simulation}
-%
-<<>>=
-rflip()     # mosaic
-do()        # mosaic
-sample()    # mosaic augmented
-resample()  # with replacement
+log(); exp(); sqrt()
 @
 \squeeze
 <<highlight=FALSE>>=
-shuffle()   # mosaic
-rbinom()
-rnorm()     # etc, if needed
+log10(); abs(); choose()
 @
+% uniroot()   # root finder
 
-\vfill
-\columnbreak
 
-\subsection*{Formula Theme}
+
+
+
+\subsection*{Formula Interface}
 The following syntax (often with 
 some parts omitted) is used for 
 graphical summaries, numerical summaries,
 and inference procedures.
 
 <<>>=
-goal( y ~ x | z, data=..., 
-                 groups=... )
+goal(y ~ x | z, data=..., 
+                 groups=...)
 @
 
 For plots:
@@ -369,17 +356,7 @@ differently for each \code{z}'.
 
 See the sampler for examples.
 
-\subsection*{Distributions}
-%
-<<>>=
-pbinom(); pnorm();   
-xpnorm()    # mosaic
-pchisq(); pt()
-qbinom(); qnorm(); 
-qchisq(); qt()
-plotDist()  # mosaic
-@
-\vfill
+
 
 \subsection*{Numerical Summaries}
 These functions have 
@@ -392,6 +369,7 @@ mean()       # mosaic augmented
 median()     # mosaic augmented
 sd()         # mosaic augmented
 var()        # mosaic augmented
+diffmean()   # mosaic
 @
 \iftrue
 \squeeze
@@ -404,7 +382,6 @@ IQR()        # mosaic augmented
 min(); max() # mosaic augmented
 @
 \fi
-\vfill
 
 \subsection*{Graphics (mostly lattice)}
 
@@ -420,6 +397,7 @@ bwplot()
 xyplot()
 histogram() # mosaic augmented
 densityplot()
+freqpolygon() # mosaic
 qqmath()
 makeFun()   # mosaic
 plotFun()   # mosaic
@@ -431,80 +409,109 @@ dotPlot()   # mosaic
 bargraph()  # mosaic
 xqqmath()   # mosaic
 @
-
-\subsection*{Interactive Graphics (RStudio)}
+\squeeze
 <<eval=FALSE>>=
-mPlot(data=HELPrct, 'scatter')
-mPlot(data=HELPrct, 'boxplot')
-mPlot(data=HELPrct, 'histogram')
+mplot(data=HELPrct, 'scatter')
+mplot(data=HELPrct, 'boxplot')
+mplot(data=HELPrct, 'histogram')
 @
-\columnbreak
-\subsection*{Inference}
+
+
+\subsection*{Randomization/Simulation}
 %
 <<>>=
-binom.test()  # mosaic augmented
-prop.test()   # mosaic augmented
-chisq.test()
-t.test()      # mosaic augmented
-model <- lm() # linear models
-anova( model )
-summary( model )
-makeFun( model )   # mosaic 
-resid( model )
-plot( model )
-TukeyHSD( model )  # mosaic aug
-plot( TukeyHSD( model ) )
+rflip()     # mosaic
+do()        # mosaic
+sample()    # mosaic augmented
+resample()  # with replacement
+shuffle()   # mosaic
 @
 \squeeze
 <<highlight=FALSE>>=
-confint()      # mosaic augmented
-pval()         # mosaic
-fisher.test()
-xchisq.test()  # mosaic
-model <- glm() # logistic regression
+rbinom()
+rnorm()     # etc, if needed
 @
-% wilcox.test()
-% power.t.test()
-% power.prop.test()
+
+
+\subsection*{Distributions}
+%
+<<>>=
+pbinom(); pnorm();   
+xpnorm()    # mosaic augmented
+pchisq(); pt()
+qbinom(); qnorm(); 
+qchisq(); qt()
+plotDist()  # mosaic
+@
+
+\subsection*{Inference}
+%
+<<>>=
+t.test()      # mosaic augmented
+binom.test()  # mosaic augmented
+prop.test()   # mosaic augmented
+xchisq.test() # mosaic augmented
+fisher.test()
+pval()        # mosaic
+model <- lm() # linear models
+summary(model)
+coef(model)
+confint(model) # mosaic augmented
+anova(model)
+makeFun(model) # mosaic 
+resid(model); fitted(model)
+mplot(model)   # mosaic
+@
+%\squeeze
+<<highlight=FALSE>>=
+mplot(TukeyHSD(model))
+model <- glm() # logistic reg.
+@
+
 
 \subsection*{Data}
 <<>>=
 read.file()    # mosaic
-nrow(); ncol() 
+nrow(); ncol(); dim()
 summary()
 str()
 names()
-head()
-subset()
+head(); tail()
+with()
 factor()
-c()
-cbind(); rbind()
-transform()
 @
 \squeeze
 <<highlight=FALSE>>=
-merge()
-relevel()
 ntiles()      # mosaic
 cut()
+c()
+cbind(); rbind()
+colnames()
+rownames()
+relevel()
+reorder()
 @
-\iffalse
 \squeeze
 <<highlight=FALSE>>=
-str()
-tail()
-table()
-perctable()    # mosaic
-proptable()    # mosaic
-with()
 rep()
 seq()
 sort()
-colnames()
-rownames()
+rank()
 @
-\fi
+\subsection*{Data Transformation}
+<<highlight=FALSE>>=
+select()      # dplyr
+mutate()      # dplyr
+filter()      # dplyr
+arrange()     # dplyr
+summarise()   # dplyr
+group_by()    # dplyr
+left_join()   # dplyr
+inner_join()  # dplyr
+merge()    
+@
 
+\vfill
 
 \end{multicols}
 
@@ -521,6 +528,7 @@ rownames()
 <<more-hooks,eval=TRUE,echo=FALSE>>=
 opts_chunk$set(
 	eval=TRUE, 
+  size='small',
 	fig.path='figures/fig-',
 	fig.width=4,
 	fig.height=1.9,
@@ -533,53 +541,57 @@ opts_chunk$set(
 @
 
 \begin{multicols}{3}
-
 <<echo=FALSE>>=
 options(width=40)
 options(show.signif.stars=FALSE)
 @
-
 <<coins,fig.keep="last">>=
 rflip(6)
 do(2) * rflip(6)
 coins <- do(1000)* rflip(6)
-tally( ~heads, data=coins )
-tally( ~heads, data=coins, format="perc" )
-tally( ~ (heads>=5 | heads<=1) , data=coins )
-histogram( ~heads, data=coins, width=1,
+tally(~ heads, data=coins)
+@
+\vspace*{-.25in}
+<<>>=
+tally(~ heads, data=coins, format="perc")
+tally(~ (heads>=5 | heads<=1) , data=coins)
+@
+\vspace*{-.20in}
+<<coins-hist,fig.keep="last">>=
+histogram(~ heads, data=coins, width=1,
             groups = (heads>=5 | heads<=1))
 @
 %\columnbreak
 <<tally>>=
-tally( ~ sex + substance, data=HELPrct )
-mean( age ~ sex, data=HELPrct )
-diffmean( age ~ sex, data=HELPrct )
-favstats( age ~ sex, data=HELPrct )
+tally(~ sex + substance, data=HELPrct)
+mean(age ~ sex, data=HELPrct)
+diffmean(age ~ sex, data=HELPrct)
+favstats(age ~ sex, data=HELPrct)
 @
 \vspace*{-.15in}
 <<densityplot,fig.height=2.4>>=
-densityplot( ~ age | sex, groups=substance, 
-               data=HELPrct, auto.key=TRUE )
+densityplot(~ age | sex, groups=substance, 
+               data=HELPrct, auto.key=TRUE)
 @
 \vspace*{-.25in}
 <<bwplot>>=
-bwplot( age ~ substance | sex, data=HELPrct )
+bwplot(age ~ substance | sex, data=HELPrct)
 @
 \columnbreak
 <<message=FALSE>>=
-pval( binom.test( ~sex, data=HELPrct ) )
-confint( t.test( ~age, data=HELPrct ) )
+pval(binom.test(~ sex, data=HELPrct))
+confint(t.test(~ age, data=HELPrct))
 @
 \iffalse
 <<tidy=FALSE>>=
 model <- lm(age ~ sex + substance, 
-			data=HELPrct ) 
-anova( model )
+			data=HELPrct) 
+anova(model)
 @
 \fi
 \iffalse
 <<tidy=FALSE>>=
-xyplot( Sepal.Length ~ Sepal.Width, 
+xyplot(Sepal.Length ~ Sepal.Width, 
         groups=Species, data=iris) 
 @
 \fi
@@ -591,10 +603,10 @@ wt <- makeFun(model)
 wt( height=72, gender="male")
 xyplot(weight ~ height, groups=gender, 
        data=Heightweight)
-plotFun(wt(h,gender="male") ~ h, add=TRUE, 
-		col="skyblue")
-plotFun(wt(h,gender="female") ~ h, add=TRUE, 
-		col="navy")
+plotFun(wt(h,gender="male") ~ h, 
+        add=TRUE, col="skyblue")
+plotFun(wt(h,gender="female") ~ h, 
+        add=TRUE, col="navy")
 @
 \vspace{-.2in}
 <<fig.height=1.75>>=
@@ -602,11 +614,11 @@ plotDist("chisq", df=4)
 @
 
 <<include=FALSE>>=
-tally( ~ homeless | sex, data=HELPrct)
+tally(~ homeless | sex, data=HELPrct)
 @
 <<include=FALSE>>=
-chisq.test( tally(~ homeless + sex, data=HELPrct) )
-prop.test( homeless ~ sex, data=HELPrct)
+chisq.test(tally(~ homeless + sex, data=HELPrct))
+prop.test(homeless ~ sex, data=HELPrct)
 @
 
 \iffalse

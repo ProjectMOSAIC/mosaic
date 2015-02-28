@@ -51,7 +51,8 @@ xyz2latlon <- function(x,y,z) {
 #' @return a matrix each row of which contains the x, y, and z coordinates of a point on a unit sphere
 #' 
 #' @examples
-#' latlon2xyz(45, 45)
+#' latlon2xyz(30, 45)
+#' lonlat2xyz(45, 30)
 #' @seealso \code{\link{deg2rad}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
 #' @export
 
@@ -61,6 +62,25 @@ latlon2xyz <- function(latitude,longitude) {
 	x <- rad2deg(cos( longitude ))
 	y <- rad2deg(sin( longitude ))
 	return(cbind( x=x, y=y, z=z ))
+}
+
+#' @rdname latlon2xyz
+#' @export
+lonlat2xyz <- function(longitude, latitude) {
+  latlon2xyz(latitude, longitude)
+}
+
+#' @rdname rgeo
+#' @export
+rlatlon <- function(...) { 
+  rgeo(...)
+}
+
+
+#' @rdname rgeo
+#' @export
+rlonlat <- function(...){
+  rgeo(...)[,c(2,1)]
 }
 
 #' Sample longitude and latitude on a sphere
@@ -78,6 +98,8 @@ latlon2xyz <- function(latitude,longitude) {
 #' @param verbose 
 #'   return verbose output that includes Euclidean coordinates on unit sphere as well as 
 #' longitude and latitude.
+#' 
+#' @param ... arguments passed through to other functions
 #'
 #' @return a data frame with variables \code{long} and \code{lat}.  If \code{verbose} is
 #' TRUE, then x, y, and z coordinates are also included in the data frame.
@@ -92,6 +114,11 @@ latlon2xyz <- function(latitude,longitude) {
 #' angle about the z-axis is uniformly distributed and independent of z.  This provides 
 #' a straightforward way to generate Euclidean coordinates using \code{runif}.  These are then
 #' translated into latitude and longitude.
+#' 
+#' \code{rlatlon} is an alias for \code{rgeo} and 
+#' \code{rlonlat} is too, expect that it reverses the 
+#' order in which the lattitude and longitute values are 
+#' returned.
 #' 
 #' \code{rgeo2} samples points in a cube by independently sampling each coordinate.  It then
 #' discards any point outside the sphere contained in the cube and projects the non-discarded points

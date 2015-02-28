@@ -8,26 +8,28 @@
 #' @aliases deltaMethod.data.frame
 #' @importFrom car deltaMethod
 #' @examples
-#' C_p <- 4.182 / 60 # / 60 because measureing m in L/min
-#' exprforQ <- "(T.cold.out - T.cold.in) * C_p * m.cold"
-#' deltaMethod( HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, c(1,1,.5) )
-#' # This is just wordier in this example, but would allow the uncertainties to vary 
-#' # from row to row.
+#' if (require(mosaicData)) {
+#'   C_p <- 4.182 / 60 # / 60 because measureing m in L/min
+#'   exprforQ <- "(T.cold.out - T.cold.in) * C_p * m.cold"
+#'   deltaMethod( HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, c(1,1,.5) )
+#'   # This is just wordier in this example, but would allow the uncertainties to vary 
+#'   # from row to row.
 #' 
-#' HeatX3 <- transform(HeatX, 
+#'   HeatX3 <- transform(HeatX, 
 #'                     u.cold.in=1, u.cold.out=1, u.hot.in=1, u.hot.out=1, 
 #'                     u.m.cold=0.5, u.m.hot=0.5)
-#' deltaMethod( HeatX3[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
-#'              HeatX3[, c("u.cold.in", "u.cold.out", "u.m.cold")])
-#' # Rather than specifying two data frames, we can use subsetting instead
-#' deltaMethod( HeatX3,  exprforQ, 
-#'    estimates=c("T.cold.in","T.cold.out","m.cold"), 
-#'    uncertainties=c("u.cold.in", "u.cold.out", "u.m.cold"))
-#' # Can also specify vcov. as a matrix or list of matrices:
-#' deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
-#'   vcov. = diag(c(1,1,.5)^2) )
-#' deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
-#'   vcov. = list( diag(c(1,1,.5)^2), diag(c(1,2,.8)^2) ) )
+#'   deltaMethod( HeatX3[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
+#'                HeatX3[, c("u.cold.in", "u.cold.out", "u.m.cold")])
+#'   # Rather than specifying two data frames, we can use subsetting instead
+#'   deltaMethod( HeatX3,  exprforQ, 
+#'      estimates=c("T.cold.in","T.cold.out","m.cold"), 
+#'      uncertainties=c("u.cold.in", "u.cold.out", "u.m.cold"))
+#'   # Can also specify vcov. as a matrix or list of matrices:
+#'   deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
+#'     vcov. = diag(c(1,1,.5)^2) )
+#'   deltaMethod(HeatX[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 
+#'     vcov. = list( diag(c(1,1,.5)^2), diag(c(1,2,.8)^2) ) )
+#' }
 #'    
 #' @param object a data frame containing measured quantities
 #' @param g a quoted string that is describes the function of the parameter estimates to be 
