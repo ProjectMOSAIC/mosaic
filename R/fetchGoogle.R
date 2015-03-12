@@ -54,12 +54,24 @@ fetchGoogle <- function(URL,key=NULL){
 
   if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
 
-  if (missing(URL) & !is.null(key))
-    URL = paste("https://docs.google.com/spreadsheet/pub?key=",
+  if (missing(URL) & !is.null(key)) {
+    URL.old = paste("https://docs.google.com/spreadsheet/pub?key=",
                 key,"&single=TRUE&gid=0","&output=csv",sep="")
-  s = RCurl::getURLContent(URL)
+    # https://docs.google.com/spreadsheets/d/<KEY>/export?format=csv&id=<KEY>
+    URL.new = paste("https://docs.google.com/spreadsheets/d/",
+              key, "/export?format=csv&id=", key, sep="")
+  }
+  
+  s = RCurl::getURLContent(URL.old)
   foo = textConnection(s)
   b = read.csv(foo)
   close(foo)
+  
+  if (ncol(b) == 1 & names(b)[1] == "X.HTML.") {
+    s = RCurl::getURLContent(URL.new)
+    foo = textConnection(s)
+    b = read.csv(foo)
+    close(foo)
+  }
   return(b)
 }
