@@ -57,7 +57,9 @@ ttest.formula <- function(x, data=parent.frame(), groups=NULL, ...) {
   # if (is.null(x)) stop("Invalid formula specification.")
   tryCatch( 
     return(stats::t.test(x, data=data, ...)),
-    error=function(e) {})
+    error=function(e) {
+      if (grepl("grouping factor must have exactly 2 levels", e$message)) stop(e)
+      })
   dots <- list(...)
   formula <- x
 
