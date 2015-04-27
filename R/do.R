@@ -8,6 +8,11 @@ tryCatch(utils::globalVariables(c('.row')),
 #' care of the additional overhead.
 #'
 #' @param seed seed for the random number generator
+#' @details
+#' If the \code{parallel} package is not on the search path, then \code{\link{set.seed}} is called.
+#' If \code{parallel} is on the search path, then the RNG kind is set to \code{"L'Ecuyer-CMRG"},
+#' the seed is set and \code{mc.reset.stream} is called.
+#' 
 #' @examples
 #' # These should give identical results, even if the `parallel' package is loaded.
 #' set.pseed(123); do(3) * rsample(1:10, 2)
