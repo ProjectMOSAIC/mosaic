@@ -48,7 +48,7 @@ use an older algorithm and numbers >=1 use a newer algorithm which is faster in 
 situations.}
 
 \item{parallel}{a logical indicating whether parallel computation should be attempted
-  using the \pkg{parallel} package (if it is installed).}
+  using the \pkg{parallel} package (if it is installed and loaded).}
 
 \item{x}{an object}
 

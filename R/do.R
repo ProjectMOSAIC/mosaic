@@ -1,6 +1,29 @@
 tryCatch(utils::globalVariables(c('.row')), 
          error=function(e) message('Looks like you should update R.'))
 
+#' Set seed in parallel compatible way
+#'
+#' When the parallel package is used, setting the RNG seed for reproducibility
+#' involves more than simply calling \code{\link{set.seed}}. \code{set.pseed} takes
+#' care of the additional overhead.
+#'
+#' @param seed seed for the random number generator
+#' @examples
+#' # These should give identical results, even if the `parallel' package is loaded.
+#' set.pseed(123); do(3) * rsample(1:10, 2)
+#' set.pseed(123); do(3) * rsample(1:10, 2)
+#' @export
+
+set.pseed <- function(seed) {
+  if ("package:parallel" %in% search()) {
+    set.seed(seed, kind = "L'Ecuyer-CMRG")
+    parallel::mc.reset.stream()
+  } else {
+    set.seed(seed) 
+  }
+}
+
+
 #' Do Things Repeatedly
 #' 
 #' \code{do()} provides a natural syntax for repetition tuned to assist 
@@ -27,7 +50,7 @@ tryCatch(utils::globalVariables(c('.row')),
 #'   use an older algorithm and numbers >=1 use a newer algorithm which is faster in some 
 #'   situations.
 #' @param parallel a logical indicating whether parallel computation should be attempted
-#'   using the \pkg{parallel} package (if it is installed).
+#'   using the \pkg{parallel} package (if it is installed and loaded).
 #' 
 #' @param e1 an object (in cases documented here, the result of running \code{do})
 #' @param e2 an object (in cases documented here, an expression to be repeated)
@@ -404,10 +427,13 @@ setMethod("*",
 		out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
 
     if (e1@algorithm >= 1) {
-      resultsList <- if( e1@parallel && requireNamespace("parallel", quietly=TRUE) )
+      resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
+        # requireNamespace("parallel", quietly=TRUE) )
+        message("Using `parallel'.  Set seed with set.pseed().")
         parallel::mclapply( integer(n), function(...) { cull(e2()) } )
-      else 
+      } else {
         lapply( integer(n), function(...) { cull(e2()) } )
+      }
           
       if (out.mode=='default') {  # is there any reason to be fancier?
         out.mode = 'data.frame'
