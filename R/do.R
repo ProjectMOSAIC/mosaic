@@ -4,7 +4,7 @@ tryCatch(utils::globalVariables(c('.row')),
 #' Set seed in parallel compatible way
 #'
 #' When the parallel package is used, setting the RNG seed for reproducibility
-#' involves more than simply calling \code{\link{set.seed}}. \code{set.pseed} takes
+#' involves more than simply calling \code{\link{set.seed}}. \code{set_pseed} takes
 #' care of the additional overhead.
 #'
 #' @param seed seed for the random number generator
@@ -15,11 +15,11 @@ tryCatch(utils::globalVariables(c('.row')),
 #' 
 #' @examples
 #' # These should give identical results, even if the `parallel' package is loaded.
-#' set.pseed(123); do(3) * rsample(1:10, 2)
-#' set.pseed(123); do(3) * rsample(1:10, 2)
+#' set_pseed(123); do(3) * rsample(1:10, 2)
+#' set_pseed(123); do(3) * rsample(1:10, 2)
 #' @export
 
-set.pseed <- function(seed) {
+set_pseed <- function(seed) {
   if ("package:parallel" %in% search()) {
     set.seed(seed, kind = "L'Ecuyer-CMRG")
     parallel::mc.reset.stream()
@@ -434,7 +434,7 @@ setMethod("*",
     if (e1@algorithm >= 1) {
       resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
         # requireNamespace("parallel", quietly=TRUE) )
-        message("Using `parallel'.  Set seed with set.pseed().")
+        message("Using `parallel'.  Set seed with set_pseed().")
         parallel::mclapply( integer(n), function(...) { cull(e2()) } )
       } else {
         lapply( integer(n), function(...) { cull(e2()) } )
