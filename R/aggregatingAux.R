@@ -209,6 +209,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
                        .name = deparse(substitute(FUN)), 
                        ...) {
   dots <- list(...)
+  groupName <- ".group"  # gets changed to something better later when possible.
   formula <- mosaic_formula_q(formula, groups=groups, parent.frame()) # as.environment(data))
 
   .format <- match.arg(.format)
@@ -273,6 +274,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
                             drop=drop),
                      function(x) { do.call(FUN, alist(x, ...) ) }
       )
+      groupName <- paste(c(names(evalF$right), names(evalF$condition)), collapse=".")
       
       if (! .multiple ) res <- unlist(res)
       
@@ -281,6 +283,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
         res2 <- lapply( split( evalF$left[, 1], evalF$condition, drop=drop),
                         function(x) { do.call(FUN, alist(x, ...) ) }
         )
+        groupName <- paste(names(evalF$condition), collapse=".")
         if (!.multiple) {
           res <- c( res, unlist(res2) )
         } else {
@@ -294,9 +297,9 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
           res <- as.data.frame(rbind(res,item))
         }
         if ( nrow(res) == length(names(result)) ) {
-          res['.group'] <- names(result)
+          res[groupName] <- names(result)
         } else {
-          res['.group'] <- rep(names(result), each=nrow(res) / length(names(result)) )
+          res[groupName] <- rep(names(result), each=nrow(res) / length(names(result)) )
         }
         res <- res[, c(ncol(res), 1:(ncol(res) -1))]
       }
@@ -360,6 +363,7 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
                           drop=drop),
                    function(x) { do.call(FUN, alist(x, ...) ) }
     )
+    groupName <- paste(c(names(evalF$right), names(evalF$condition)), collapse=".")
     
     if (! .multiple ) res <- unlist(res)
     
@@ -368,6 +372,7 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
       res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
                       function(x) { do.call(FUN, alist(x, ...) ) }
       )
+      groupName <- paste(names(evalF$condition), collapse=".")
       if (!.multiple) {
         res <- c( res , unlist(res2) )
       } else {
@@ -381,9 +386,9 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
         res <- as.data.frame(rbind(res,item))
       }
       if ( nrow(res) == length(names(result)) ) {
-        res['.group'] <- names(result)
+        res[groupName] <- names(result)
       } else {
-        res['.group'] <- rep(names(result), each=nrow(res) / length(names(result)) )
+        res[groupName] <- rep(names(result), each=nrow(res) / length(names(result)) )
       }
       res <- res[, c(ncol(res), 1:(ncol(res) -1))]
     }
