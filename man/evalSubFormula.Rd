@@ -4,15 +4,17 @@
 \alias{evalSubFormula}
 \title{Evaluate a part of a formula}
 \usage{
-evalSubFormula(x, data = parent.frame(), ops = c("+", "&"))
+evalSubFormula(x, data = NULL, ops = c("+", "&"), env = parent.frame())
 }
 \arguments{
-\item{x}{an object appearing as a subformula (typically a call)}
+\item{x}{an object appearing as a subformula (typically a name or a call)}
 
-\item{data}{a data fram or environment in which things are evaluated}
+\item{data}{a data frame or environment in which things are evaluated}
 
 \item{ops}{a vector of operators that are not evaluated as operators but
 instead used to further split \code{x}}
+
+\item{env}{an environment in which to search for objects not in \code{data}.}
 }
 \value{
 a data frame containing the terms of the evaluated subformula

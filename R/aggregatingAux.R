@@ -209,7 +209,7 @@ maggregate <- function(formula, data=parent.frame(), FUN, subset,
                        .name = deparse(substitute(FUN)), 
                        ...) {
   dots <- list(...)
-  formula <- mosaic_formula_q(formula, groups=groups, as.environment(data))
+  formula <- mosaic_formula_q(formula, groups=groups, parent.frame()) # as.environment(data))
 
   .format <- match.arg(.format)
 
