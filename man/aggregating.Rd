@@ -95,6 +95,10 @@ formula aware.
 if (require(mosaicData)) {
 mean( HELPrct$age )
 mean( ~ age, data=HELPrct )
+mean( age ~ shuffle(sex), data=HELPrct)
+mean( age ~ shuffle(sex), data=HELPrct, .format="table")
+# wrap in data.frame() to auto-convert awkward variable names
+data.frame(mean( age ~ shuffle(sex), data=HELPrct, .format="table"))
 mean( age ~ sex + substance, data=HELPrct )
 mean( ~ age | sex + substance, data=HELPrct )
 mean( sqrt(age), data=HELPrct )
