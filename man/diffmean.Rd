@@ -5,11 +5,13 @@
 \alias{diffprop}
 \title{Difference in means and proportions}
 \usage{
-diffmean(..., only.2 = TRUE)
+diffmean(x, ..., data = parent.frame(), only.2 = TRUE)
 
 diffprop(..., only.2 = TRUE)
 }
 \arguments{
+\item{x,data,...}{as in \code{\link[mosaic]{mean}}}
+
 \item{...}{arguments passed to \code{mean}}
 
 \item{only.2}{a logical indicating whether differences should only be computed
