@@ -2,14 +2,18 @@
 % Please edit documentation in R/dpqrdist.R
 \name{qdist}
 \alias{qdist}
+\alias{xqbinom}
 \alias{xqchisq}
 \alias{xqf}
 \alias{xqgamma}
+\alias{xqgeom}
+\alias{xqnbinom}
+\alias{xqpois}
 \alias{xqt}
 \title{Illustrated quantile calculations from distributions}
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  digits = 4, xlim, ylim, vlwd = 2,
+  resolution = 5000, digits = 4, xlim, ylim, vlwd = 2,
   vcol = trellis.par.get("add.line")$col, rot = 45, ...)
 
 xqgamma(...)
@@ -19,6 +23,14 @@ xqt(...)
 xqchisq(...)
 
 xqf(...)
+
+xqbinom(...)
+
+xqpois(...)
+
+xqgeom(...)
+
+xqnbinom(...)
 }
 \arguments{
 \item{dist}{a character discription of a distribution, for example

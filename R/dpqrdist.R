@@ -43,12 +43,14 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
                    vlwd=2, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
+                   resolution = 5000,
                    ...)
 {
   
   dots <- list(...)
   
   p <- dpqrdist(dist, type="p", q, ...) 
+  
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
@@ -57,6 +59,7 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
     print(plot_multi_dist(dist=dist, p=p, 
                           xlim=xlim, ylim=ylim, 
                           digits=digits, 
+                          resolution=resolution,
                           vlwd=vlwd, vcol=vcol, rot=rot, ...))
   }
   if (invisible) { 
@@ -96,6 +99,7 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @export 
 
 qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
+                   resolution = 5000,
                    digits = 4, 
                    xlim, ylim,
                    vlwd=2, 
@@ -115,6 +119,7 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
     print(plot_multi_dist(dist=dist, p=p, 
                           xlim=xlim, ylim=ylim, 
                           digits=digits, 
+                          resolution=resolution,
                           vlwd=vlwd, vcol=vcol, rot=rot, ...))
   }
   if (invisible) { 
@@ -124,11 +129,13 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
 }
 
 
-plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, dlwd=2, 
-                            vlwd=2, vcol=trellis.par.get('add.line')$col,
+plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
+                            dlwd=2, vlwd=2, vcol=trellis.par.get('add.line')$col,
                             rot=0, ...) 
 {
   dots <- list(...)
+  discrete <- is_discrete_dist(dist, ...)
+  
   if (missing(p)) {
     if (missing(q)) { stop( "one of p or q must be specified") }
     q <- sort(q)
@@ -146,7 +153,16 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, dlwd=2,
   if (missing(xlim) || is.null(xlim)) {
     xlim <- dpqrdist(dist, type="q", p=c(0.001, .999), ...)
   }
-  xdata <- seq(xlim[1], xlim[2], length.out=400)
+  if (discrete) {
+    xdata <- unique(dpqrdist(dist, type="q", ppoints(resolution), ...))
+    step = min(diff(xdata))
+    fill <- seq( min(xdata) -1.5 * step , max(xdata) + 1.5*step, length.out=resolution)
+    xdata <- c(xdata, fill) 
+    xdata <- dpqrdist(dist, type="q", dpqrdist(dist, type="p", xdata, ...), ...)
+    xdata <- sort(unique(xdata))
+  } else {
+    xdata <- unique(seq(xlim[1], xlim[2], length.out=resolution))
+  }
   
   ydata <- dpqrdist(dist, type="d", xdata, ...)
   ymax <- max(ydata, na.rm=TRUE)
@@ -166,19 +182,35 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, dlwd=2,
     list(
       ydata ~ xdata, 
       xlim = xlim, ylim = ylim, 
-      groups = groups, type='h',
+      groups = sapply(xdata, function(x) {sum(x < q)}),
+      type='h',
       xlab = "", ylab = "density", 
-      panel = function(x, y, ...) {
-        panel.xyplot(x,y,...)
-        panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
-                       col = vcol, lwd=vlwd)
-        grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
-                  rot=rot,
-                  check.overlap=TRUE,
-                  paste("", round(diff(p), 3), sep = ""), 
-                  just = c('center','center'),  gp=gpar(cex = 1.0))
-        panel.xyplot(x,y, type='l', lwd=dlwd, col="black")
-      } 
+      panel = 
+        if (discrete) {
+          function(x, y, ...) {
+            panel.xyplot(x,y,...)
+            panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+                           col = vcol, lwd=vlwd)
+            grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
+                      rot=rot,
+                      check.overlap=TRUE,
+                      paste("", round(diff(p), 3), sep = ""), 
+                      just = c('center','center'),  gp=gpar(cex = 1.0))
+            panel.xyplot(x,y, type=c('p','h'), lwd=dlwd)
+          } 
+        } else {
+          function(x, y, ...) {
+            panel.xyplot(x, y, ...)
+            panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+                           col = vcol, lwd=vlwd)
+            grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
+                      rot=rot,
+                      check.overlap=TRUE,
+                      paste("", round(diff(p), 3), sep = ""), 
+                      just = c('center','center'),  gp=gpar(cex = 1.0))
+            panel.xyplot(x,y, type='l', lwd=dlwd, col="black")
+          }
+        } 
     ), 
     latticedots
   )
@@ -217,3 +249,37 @@ xpf <- function(...)  pdist("f", ...)
 #' @rdname qdist
 #' @export
 xqf <- function(...)  qdist("f", ...)
+
+#' @rdname pdist
+#' @export
+xpbinom <- function(...)  pdist("binom", ...)
+#' @rdname qdist
+#' @export
+xqbinom <- function(...)  qdist("binom", ...)
+
+#' @rdname pdist
+#' @export
+xppois <- function(...)  pdist("pois", ...)
+#' @rdname qdist
+#' @export
+xqpois <- function(...)  qdist("pois", ...)
+
+#' @rdname pdist
+#' @export
+xpgeom <- function(...)  pdist("geom", ...)
+#' @rdname qdist
+#' @export
+xqgeom <- function(...)  qdist("geom", ...)
+
+#' @rdname pdist
+#' @export
+xpnbinom <- function(...)  pdist("nbinom", ...)
+#' @rdname qdist
+#' @export
+xqnbinom <- function(...)  qdist("nbinom", ...)
+
+
+is_discrete_dist <- function(dist, ... ) {
+  q <- mosaic:::dpqrdist(dist, type="q", p=ppoints(100), ...) 
+  length(q) * .9 >= length(unique(q))
+} 

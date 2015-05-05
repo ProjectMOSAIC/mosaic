@@ -2,15 +2,20 @@
 % Please edit documentation in R/dpqrdist.R
 \name{pdist}
 \alias{pdist}
+\alias{xpbinom}
 \alias{xpchisq}
 \alias{xpf}
 \alias{xpgamma}
+\alias{xpgeom}
+\alias{xpnbinom}
+\alias{xppois}
 \alias{xpt}
 \title{Illustrated probability calculations from distributions}
 \usage{
 pdist(dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE,
   digits = 4, xlim, ylim, vlwd = 2,
-  vcol = trellis.par.get("add.line")$col, rot = 45, ...)
+  vcol = trellis.par.get("add.line")$col, rot = 45, resolution = 5000,
+  ...)
 
 xpgamma(...)
 
@@ -19,6 +24,14 @@ xpt(...)
 xpchisq(...)
 
 xpf(...)
+
+xpbinom(...)
+
+xppois(...)
+
+xpgeom(...)
+
+xpnbinom(...)
 }
 \arguments{
 \item{dist}{a character discription of a distribution, for example
