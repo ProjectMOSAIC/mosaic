@@ -7,10 +7,10 @@
 \usage{
 diffmean(x, ..., data = parent.frame(), only.2 = TRUE)
 
-diffprop(..., only.2 = TRUE)
+diffprop(x, ..., data = parent.frame(), only.2 = TRUE)
 }
 \arguments{
-\item{x,data,...}{as in \code{\link[mosaic]{mean}}}
+\item{x,data,...}{as in \code{\link[mosaic]{mean}} or \code{\link[mosaic]{prop}}}
 
 \item{...}{arguments passed to \code{mean}}
 

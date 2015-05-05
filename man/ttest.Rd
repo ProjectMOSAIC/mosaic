@@ -7,11 +7,11 @@
 \alias{ttest.formula}
 \title{Student's t-Test}
 \usage{
-\method{t}{test}(x, ...)
+\method{t}{test}(x, data = parent.frame(), ...)
 
-ttest(x, ...)
+ttest(x, data = parent.frame(), ...)
 
-\method{ttest}{default}(x, ...)
+\method{ttest}{default}(x, data = parent.frame(), ...)
 
 \method{ttest}{formula}(x, data = parent.frame(), groups = NULL, ...)
 }

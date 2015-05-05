@@ -33,20 +33,20 @@
 #' }
 #' @export t.test
   
-t.test <- function(x, ...) ttest(x, ...)
+t.test <- function(x, data=parent.frame(), ...) ttest(x, data=data, ...)
 
 #' rdname ttest
 #' @export
 
-ttest <- function (x, ...) {
+ttest <- function (x, data=parent.frame(), ...) {
   UseMethod('ttest') 
 }
 
 #' @rdname ttest
 #' @export
 
-ttest.default <-  function (x, ...) {
-  stats::t.test(x = x, ...)
+ttest.default <-  function (x, data=parent.frame(), ...) {
+  stats::t.test(x = x, data=data, ...)
 }
 
 #' @rdname ttest
