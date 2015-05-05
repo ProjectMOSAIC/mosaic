@@ -158,7 +158,7 @@ Randall Pruim, Project MOSAIC
 \parindent=0pt
 
 \chead{\sf \bfseries \Large Enough R for Intro Stats}
-\rhead{July, 2014}
+\rhead{May, 2015}
 \lhead{R. Pruim}
 
 
@@ -450,7 +450,7 @@ plotDist()  # mosaic
 t.test()      # mosaic augmented
 binom.test()  # mosaic augmented
 prop.test()   # mosaic augmented
-xchisq.test() # mosaic augmented
+xchisq.test() # mosaic 
 fisher.test()
 pval()        # mosaic
 model <- lm() # linear models
@@ -471,6 +471,7 @@ model <- glm() # logistic reg.
 
 \subsection*{Data}
 <<>>=
+require(mosaicData)  # load package 
 read.file()    # mosaic
 nrow(); ncol(); dim()
 summary()
@@ -563,7 +564,8 @@ histogram(~ heads, data=coins, width=1,
 @
 %\columnbreak
 <<tally>>=
-tally(~ sex + substance, data=HELPrct)
+require(mosaicData)   # this package contains data sets used below
+tally(sex ~ substance, data=HELPrct)
 mean(age ~ sex, data=HELPrct)
 diffmean(age ~ sex, data=HELPrct)
 favstats(age ~ sex, data=HELPrct)
@@ -614,10 +616,10 @@ plotDist("chisq", df=4)
 @
 
 <<include=FALSE>>=
-tally(~ homeless | sex, data=HELPrct)
+tally(homeless ~ sex, data=HELPrct)
 @
 <<include=FALSE>>=
-chisq.test(tally(~ homeless + sex, data=HELPrct))
+chisq.test(tally(homeless ~ sex, data=HELPrct))
 prop.test(homeless ~ sex, data=HELPrct)
 @
 
