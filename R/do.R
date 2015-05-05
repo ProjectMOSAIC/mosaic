@@ -4,7 +4,7 @@ tryCatch(utils::globalVariables(c('.row')),
 #' Set seed in parallel compatible way
 #'
 #' When the parallel package is used, setting the RNG seed for reproducibility
-#' involves more than simply calling \code{\link{set.seed}}. \code{set_pseed} takes
+#' involves more than simply calling \code{\link{set.seed}}. \code{set.rseed} takes
 #' care of the additional overhead.
 #'
 #' @param seed seed for the random number generator
@@ -15,11 +15,11 @@ tryCatch(utils::globalVariables(c('.row')),
 #' 
 #' @examples
 #' # These should give identical results, even if the `parallel' package is loaded.
-#' set_pseed(123); do(3) * rsample(1:10, 2)
-#' set_pseed(123); do(3) * rsample(1:10, 2)
+#' set.rseed(123); do(3) * rsample(1:10, 2)
+#' set.rseed(123); do(3) * rsample(1:10, 2)
 #' @export
 
-set_pseed <- function(seed) {
+set.rseed <- function(seed) {
   if ("package:parallel" %in% search()) {
     set.seed(seed, kind = "L'Ecuyer-CMRG")
     parallel::mc.reset.stream()
@@ -69,7 +69,7 @@ set_pseed <- function(seed) {
 #' @author Daniel Kaplan (\email{kaplan@@macalaster.edu})
 #'   and Randall Pruim (\email{rpruim@@calvin.edu})
 #'
-#' @seealso \code{\link{replicate}}
+#' @seealso \code{\link{replicate}}, \code{\link{set.rseed}}
 #' 
 #' @examples
 #' do(3) * rnorm(1)
@@ -77,10 +77,13 @@ set_pseed <- function(seed) {
 #' do(3) * 1:4
 #' do(3) * mean(rnorm(25))
 #' if (require(mosaicData)) {
-#' do(3) * lm(shuffle(height) ~ sex + mother, Galton)
-#' do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
-#' do(3) * c(sample.mean = mean(rnorm(25)))
-#' do(3) * tally( ~sex|treat, data=resample(HELPrct))
+#'   do(3) * lm(shuffle(height) ~ sex + mother, Galton)
+#'   do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
+#'   do(3) * c(sample.mean = mean(rnorm(25)))
+#'   set.rseed(1234)
+#'   do(3) * tally( ~sex|treat, data=resample(HELPrct))
+#'   set.rseed(1234)  # re-using seed gives same results again
+#'   do(3) * tally( ~sex|treat, data=resample(HELPrct))
 #' }
 #' @keywords iteration 
 #' @export
@@ -434,7 +437,7 @@ setMethod("*",
     if (e1@algorithm >= 1) {
       resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
         # requireNamespace("parallel", quietly=TRUE) )
-        message("Using `parallel'.  Set seed with set_pseed().")
+        message("Using `parallel'.  Set seed with set.rseed().")
         parallel::mclapply( integer(n), function(...) { cull(e2()) } )
       } else {
         lapply( integer(n), function(...) { cull(e2()) } )
