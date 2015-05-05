@@ -41,13 +41,13 @@
 #' @examples
 #' # is my spinner fair?
 #' x <- c(10, 18, 9, 15)   # counts in four cells
-#' rdata <- rmultinom(1000, sum(x), prob=rep(.25, 4))
+#' rdata <- rmultinom(999, sum(x), prob=rep(.25, 4))
 #' statTally(x, rdata, fun=max)  # unusual test statistic
 #' statTally(x, rdata, fun=var)  # equivalent to chi-squared test
 #' # Can also be used with test stats that are precomputed.
 #' if (require(mosaicData)) {
-#' D <- diff(mean( age ~ sex, data=HELPrct)); D
-#' nullDist <- do(1000) * diff( mean( age ~ shuffle(sex), data=HELPrct))
+#' D <- diffmean( age ~ sex, data=HELPrct); D
+#' nullDist <- do(999) * diffmean( age ~ shuffle(sex), data=HELPrct)
 #' statTally( D, nullDist)
 #' }
 #' 
@@ -118,18 +118,20 @@ function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sid
 						) , error = function(e) NULL
 	)
 
-    message("\nOf the random samples")
+  # add in observed statistic for the remaining summaries.
+  stats <- c(dstat, stats)
+    message("\nOf the ", length(stats), " samples (1 original + ", length(stats) -1, " random),")
     message("\n\t", paste(sum(stats == dstat), "(", round(100 * 
         sum(stats == dstat)/length(stats), 2), "% )", "had test stats =", 
         signif(dstat, 4)))
 	if (alternative != 'greater') {
-    	message("\n\t", paste(sum(stats < lo), "(", round(100 * sum(stats < lo)/length(stats), 2), 
-							  "% )", "had test stats <", 
+    	message("\n\t", paste(sum(stats <= lo), "(", round(100 * sum(stats <= lo)/length(stats), 2), 
+							  "% )", "had test stats <=", 
    	     signif(lo, 4)))
 	}
 	if (alternative != 'less') {
-    message("\n\t", paste(sum(stats > hi), "(", round(100 * sum(stats > hi)/length(stats), 2), 
-						  "% )", "had test stats >", signif(hi, 4)))
+    message("\n\t", paste(sum(stats >= hi), "(", round(100 * sum(stats >= hi)/length(stats), 2), 
+						  "% )", "had test stats >=", signif(hi, 4)))
 	}
     message("\n")
 	

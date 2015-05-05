@@ -54,13 +54,13 @@ from a simulated null distribution
 \examples{
 # is my spinner fair?
 x <- c(10, 18, 9, 15)   # counts in four cells
-rdata <- rmultinom(1000, sum(x), prob=rep(.25, 4))
+rdata <- rmultinom(999, sum(x), prob=rep(.25, 4))
 statTally(x, rdata, fun=max)  # unusual test statistic
 statTally(x, rdata, fun=var)  # equivalent to chi-squared test
 # Can also be used with test stats that are precomputed.
 if (require(mosaicData)) {
-D <- diff(mean( age ~ sex, data=HELPrct)); D
-nullDist <- do(1000) * diff( mean( age ~ shuffle(sex), data=HELPrct))
+D <- diffmean( age ~ sex, data=HELPrct); D
+nullDist <- do(999) * diffmean( age ~ shuffle(sex), data=HELPrct)
 statTally( D, nullDist)
 }
 }
