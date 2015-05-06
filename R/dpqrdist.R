@@ -23,6 +23,9 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' @param vlwd width of vertical lines
 #' @param vcol color of vertical lines
 #' @param rot angle for rotating text indicating probability
+#' @param resolution number of points used for detecting discreteness and generating plots.  
+#'        The defaut value of 5000 should work well except for discrete distributions
+#'        that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #' and additional options for the plot
 #' @details The most general function is \code{pdist} which can work with 
@@ -38,12 +41,12 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' @export
  
 pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE, 
-                   digits = 4, 
+                   digits = 4L, 
                    xlim, ylim,
                    vlwd=2, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
-                   resolution = 5000,
+                   resolution = 5000L,
                    ...)
 {
   
@@ -84,6 +87,9 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @param vlwd width of vertical lines
 #' @param vcol color of vertical lines
 #' @param rot angle for rotating text indicating probability
+#' @param resolution number of points used for detecting discreteness and generating plots.  
+#'        The defaut value of 5000 should work well except for discrete distributions
+#'        that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #' and additional options for the plot
 #' @details The most general function is \code{qdist} which can work with 
@@ -99,8 +105,8 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @export 
 
 qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
-                   resolution = 5000,
-                   digits = 4, 
+                   resolution = 5000L,
+                   digits = 4L, 
                    xlim, ylim,
                    vlwd=2, 
                    vcol=trellis.par.get('add.line')$col, 
