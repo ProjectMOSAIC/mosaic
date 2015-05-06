@@ -4,7 +4,6 @@
 #' facilitate better naming of the result
 #' 
 #' @param x,data,... as in \code{\link[mosaic]{mean}} or \code{\link[mosaic]{prop}}
-#' @param ... arguments passed to \code{mean}
 #' @param only.2 a logical indicating whether differences should only be computed
 #'   between two groups.
 #' @examples
