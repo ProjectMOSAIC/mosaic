@@ -280,6 +280,6 @@ xqnbinom <- function(...)  qdist("nbinom", ...)
 
 
 is_discrete_dist <- function(dist, ... ) {
-  q <- mosaic:::dpqrdist(dist, type="q", p=ppoints(100), ...) 
+  q <- dpqrdist(dist, type="q", p=ppoints(100), ...) 
   length(q) * .9 >= length(unique(q))
 } 
