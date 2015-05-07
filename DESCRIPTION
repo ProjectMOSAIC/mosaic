@@ -30,12 +30,11 @@ Suggests:
     testthat,
     tidyr,
     knitr,
-    R.rsp,
     tools,
     parallel,
     mapproj
 Enhances: manipulate
-VignetteBuilder: knitr, R.rsp
+VignetteBuilder: knitr
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@amherst.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>
