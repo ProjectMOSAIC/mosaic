@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC (mosaic-web.org) Statistics and Mathematics Teaching Utilities
-Version: 0.9.3-1.99
-Date: 2015-01-06
+Version: 0.9.3-2.99
+Date: 2015-05-07
 Depends:
     R (>= 3.0.0),
     car,
