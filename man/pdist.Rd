@@ -13,8 +13,8 @@
 \title{Illustrated probability calculations from distributions}
 \usage{
 pdist(dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  digits = 4, xlim, ylim, vlwd = 2,
-  vcol = trellis.par.get("add.line")$col, rot = 45, resolution = 5000,
+  digits = 4L, xlim, ylim, vlwd = 2,
+  vcol = trellis.par.get("add.line")$col, rot = 45, resolution = 5000L,
   ...)
 
 xpgamma(...)
@@ -56,6 +56,10 @@ xpnbinom(...)
 \item{vcol}{color of vertical lines}
 
 \item{rot}{angle for rotating text indicating probability}
+
+\item{resolution}{number of points used for detecting discreteness and generating plots.
+The defaut value of 5000 should work well except for discrete distributions
+that have many distinct values, especially if these values are not evenly spaced.}
 
 \item{...}{additional arguments, including parameters of the distribution
 and additional options for the plot}

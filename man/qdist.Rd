@@ -13,7 +13,7 @@
 \title{Illustrated quantile calculations from distributions}
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  resolution = 5000, digits = 4, xlim, ylim, vlwd = 2,
+  resolution = 5000L, digits = 4L, xlim, ylim, vlwd = 2,
   vcol = trellis.par.get("add.line")$col, rot = 45, ...)
 
 xqgamma(...)
@@ -43,6 +43,10 @@ xqnbinom(...)
 \item{verbose}{a logical}
 
 \item{invisible}{a logical}
+
+\item{resolution}{number of points used for detecting discreteness and generating plots.
+The defaut value of 5000 should work well except for discrete distributions
+that have many distinct values, especially if these values are not evenly spaced.}
 
 \item{digits}{the number of digits desired}
 

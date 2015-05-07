@@ -12,8 +12,6 @@ diffprop(x, ..., data = parent.frame(), only.2 = TRUE)
 \arguments{
 \item{x,data,...}{as in \code{\link[mosaic]{mean}} or \code{\link[mosaic]{prop}}}
 
-\item{...}{arguments passed to \code{mean}}
-
 \item{only.2}{a logical indicating whether differences should only be computed
 between two groups.}
 }
