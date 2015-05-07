@@ -4,7 +4,7 @@
 %\VignetteEngine{knitr::knitr} 
 
 \documentclass[11pt]{article}
-\usepackage{./mosaic}
+\usepackage{mosaic}
 \usepackage{graphicx, amsmath, amsfonts, amssymb, epstopdf, color, url, hyperref} 
 \usepackage[margin=1in]{geometry}
 \usepackage[parfill]{parskip}
