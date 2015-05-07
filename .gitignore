@@ -31,3 +31,4 @@ vignettes/*/*.tex
 vignettes/Plotting/Figures/plt-explain*.pdf
 mosaic.Rproj
 .httr-oauth
+inst/doc
