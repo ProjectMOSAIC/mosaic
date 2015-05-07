@@ -22,6 +22,7 @@ Imports:
     gridExtra,
     ggdendro
 Suggests:
+    lubridate,
     NHANES,
     RCurl,
     sp,
