@@ -24,3 +24,4 @@ vignettes-source$
 ^mosaic.*\.gz$
 ^.*\.Rproj$
 ^\.httr-oauth$
+^\.travis\.yml$
