@@ -28,7 +28,6 @@ border:0px;
 </style>
 
 ```{r include=FALSE}
-require(magrittr)
 require(lubridate)
 require(dplyr)
 require(mosaic)
