@@ -123,7 +123,7 @@ Two examples of this principle:
 
 **Goal:** a minimal set of R commands for Intro Stats
 
-**Result:** [Minimal R Vignette](https://github.com/rpruim/mosaic/raw/master/inst/doc/MinimalR-vignette.pdf#page=2)
+**Result:** Minimal R Vignette (`vignette("MinimalR")`)
 
 Much of the work on the `mosaic` package has been motivated
 by 
