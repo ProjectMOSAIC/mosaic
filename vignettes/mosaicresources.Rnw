@@ -92,8 +92,9 @@ from within \R{} or from \url{http://cran.r-project.org/web/packages/mosaic/}.
 	``resamping bake off'' at USCOTS 2013.
 \end{itemize}
 
-\section{Additional Project MOSAIC documents}	
-The following longer documents are available at TBA.
+\section{Project MOSAIC Little Books}
+The following longer documents are available at 
+\url{https://github.com/ProjectMOSAIC/LittleBooks}.
 
 \begin{itemize}
 \item \textit{Start Teaching Statistics Using R} includes 
@@ -103,10 +104,10 @@ and some additional things that instructors should know about using \R.
 a brief introduction to 
 the \R commands needed for all the basic statistical procedures in 
 an Intro Stats course;
-	\item \textit{Modeling in R}
-	\item \textit{Start R in Calculus} highlights features 
-	of \R{} and the \pkg{mosaic} package that can be used to teach 
-	calculus with \R.
+\item \textit{Start Modeling in R};
+\item \textit{Start R in Calculus} highlights features 
+of \R{} and the \pkg{mosaic} package that can be used to teach 
+calculus with \R.
 \end{itemize}
 
 \section{Textbook Related}
