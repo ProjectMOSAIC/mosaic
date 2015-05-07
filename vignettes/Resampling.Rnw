@@ -456,7 +456,8 @@ it's unlikely that the two groups have the same mean word recall back in their r
 
 We can fallow essentially the same workflow to obtain a confidence interval
 for other statistics, including the correlation coefficient.\footnote{Naive 
-confidence intervals based on percentiles or bootstrap standard errors may not
+confidence intervals based on percentiles or bootstrap standard errors from 
+small samples may not be
 as good as other methods (for example, the bootstrap t is preferred when
 generating a confidence interval for a mean), and the ability to easily 
 create simulated bootstrap distributions does not guarantee that the resulting
