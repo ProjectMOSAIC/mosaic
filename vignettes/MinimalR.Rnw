@@ -13,6 +13,8 @@
 \usepackage{hyperref}
 \usepackage{longtable}
 
+\usepackage[utf8]{inputenc}
+
 %%%%  fancy family
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
