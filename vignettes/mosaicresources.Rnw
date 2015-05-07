@@ -69,27 +69,44 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 
 
 
-
-\section{Introduction}
-
 This vignette describes related resources and materials useful for teaching
 statistics with a focus on modeling and computation.
 
 \section{Package Vignettes}
 
-The \pkg{mosaic} package includes a number of vignettes:
+The \pkg{mosaic} package includes a number of vignettes.  These are available 
+from within \R{} or from \url{http://cran.r-project.org/web/packages/mosaic/}.
 \begin{itemize}
-	\item a minimal set of R commands for use in Introductory Statistics and why it is important
-		to keep the set of commands small (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V1MinimalR.pdf});
-	\item strategies for teaching statistics using R (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V2StartTeaching.pdf});
-	\item the R commands needed for all the basic statistical procedures in 
-an Intro Stats course (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V3Commands.pdf});
-	\item modeling in R (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V4Modeling.pdf}); 
-	\item resampling methods in R (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V5Resample.pdf}); and 
-	\item using R in calculus (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/V6Calculus.pdf}).
-	\item Less Volume, More Creativity, 
-  slides from an ICOTS 2014 presentation introducing
-  the mosaic package and related tools. (\url{http://cran.r-project.org/web/packages/mosaic/vignettes/LessVolume-MoreCreativity.Rhtml}).
+	\item \textit{Minimal R} desribes a minimal set of R commands for use in 
+	Introductory Statistics and discusses why it is important
+		to keep the set of commands small;
+	\item \textit{Less Volume, More Creativity}, based on slides from an 
+	ICOTS 2014 workshop, introduces the \pkg{mosaic} package and related tools 
+	and describes some of the philosophy behind the design choices made in the 
+	\pkg{mosaic} package. 
+  \item \textit{Graphics with with the mosaic package} is gallery of plots made 
+	using tools from the \pkg{mosaic} package.
+	\item \textit{Resampling methods in R} demonstrates how to use the \pkg{mosaic}
+	package to compute p-values for randomization tests and bootstrap confidence 
+	intervals in a number of common situations.  The examples are based on the 
+	``resamping bake off'' at USCOTS 2013.
+\end{itemize}
+
+\section{Additional Project MOSAIC documents}	
+The following longer documents are available at TBA.
+
+\begin{itemize}
+\item \textit{Start Teaching Statistics Using R} includes 
+some strategies for teaching beginners, and introduction to the \pkg{mosaic} package,
+and some additional things that instructors should know about using \R.
+\item \textit{A Compendium of Commands to Teach Statistics with R} provides
+a brief introduction to 
+the \R commands needed for all the basic statistical procedures in 
+an Intro Stats course;
+	\item \textit{Modeling in R}
+	\item \textit{Start R in Calculus} highlights features 
+	of \R{} and the \pkg{mosaic} package that can be used to teach 
+	calculus with \R.
 \end{itemize}
 
 \section{Textbook Related}
