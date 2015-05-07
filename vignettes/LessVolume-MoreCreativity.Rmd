@@ -663,7 +663,7 @@ do(2) * rflip(10)
 
 Now let's simulate 5000 guessing ladies
 
-```{r}
+```{r ladies5000}
 Ladies <- do(5000) * rflip(10)
 head(Ladies, 1)
 histogram( ~ heads, data=Ladies, width=1 )
