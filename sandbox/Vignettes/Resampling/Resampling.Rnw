@@ -158,12 +158,15 @@ executed automatically each time an \R{} session is started.
 The \pkg{mosaic} package works within \R{}, 
 so any of the data facilities within \R{} can be used to
 provide data sets to students.  In particular, \R{} functions 
-such as \function{read.csv} support 
-accessing data files via a website URL, avoiding the need to download data files to individual student machines.  Since URL names are often long and ungainly, \pkg{mosaic} provides the \function{fetchData} function which allows data files to be referred to by a simple name.  We've put the data files relating to the Lock problems on a web site that is checked automatically by \function{fetchData}.  (Instructors can specify their own sites via start-up file commands.  This enables an instructor to drop a file onto their own web site and have it instantly available to students.)
+such as \function{read.csv} and \function{read.table} support 
+accessing data files via a website URL, avoiding the need to download data 
+files to individual student machines.  The \pkg{mosaic} package provides the function
+\function{read.file} that can read files of several different types and provides 
+a common set of defaults across these file types.  
 
 Here, one of the Lock data sets are read into \R{} via the Internet:
 <<>>=
-mustangs <- fetchData("MustangPrice.csv")
+Mustangs <- read.file("http://www.mosaic-web.org/go/datasets/MustangPrice.csv")
 @
 
 \section{The Lock problems}
@@ -188,21 +191,21 @@ standard \R{} tools can be used for this.  We advocate the use of \pkg{lattice}-
 \item They extend naturally to more complicated settings.
 \end{enumerate}
 <<dot,fig.width=4, fig.height=2>>=
-histogram(~Price, data=mustangs)
+histogram(~Price, data=Mustangs)
 @
 
 The basic \pkg{lattice} syntax here --- operator, ``formula" involving \verb+~+, and the use of \texttt{data=} to specify the relevant data set --- will be used throughout \pkg{mosaic}.  For example, here is the sample mean 
 <<meanmust>>=
-mean(~Price, data=mustangs)
+mean(~Price, data=Mustangs)
 @ 
 
 Those familiar with \R{} may wonder why the statement has not been written as 
 <<eval=FALSE>>=
-mean(mustangs$Price)
+mean(Mustangs$Price)
 @
 You can, of course, carry out exactly the same calculation this way.  By using 
 <<eval=FALSE>>=
-mean(~Price, data=mustangs)
+mean(~Price, data=Mustangs)
 @
 we are anticipating the next steps: the introduction of 
 additional operations such as randomization and modeling.
@@ -218,11 +221,11 @@ resample(simple)
 When applied to a dataframe, \function{resample} selects random rows.  It's easy to demonstrate this with a statement such as:
 
 <<results="hide">>=
-resample(mustangs)
+resample(Mustangs)
 @
 <<echo=FALSE>>=
 set.seed(104)
-head(resample(mustangs))
+head(resample(Mustangs))
 cat("... and so on")
 @
 
@@ -230,7 +233,7 @@ By reference to the case numbers in the left column, you can see that case 19 ha
 
 One resampling trial of the mean can be carried out with
 <<>>=
-mean(~Price, data=resample(mustangs))
+mean(~Price, data=resample(Mustangs))
 @
 Even though a single trial is of little use, it's a nice idea to have
 students do the calculation to show that they are 
@@ -239,16 +242,16 @@ students do the calculation to show that they are
 
 Another trial can be carried out by repeating the command:
 <<>>=
-mean(~Price, data=resample(mustangs))
+mean(~Price, data=resample(Mustangs))
 @ 
 Let's generate five more, with a single command: 
 <<>>=
-do(5) * mean(~Price, data=resample(mustangs))
+do(5) * mean(~Price, data=resample(Mustangs))
 @
 Now conduct 1000 resampling trials, saving the results in an object
 called \dataframe{trials}:
 <<>>=
-trials <- do(1000) * mean(~Price, data=resample(mustangs))
+trials <- do(1000) * mean(~Price, data=resample(Mustangs))
 @ 
 
 
@@ -411,11 +414,11 @@ hypothesis, we carry out many trials:
  95\% confidence interval for the correlation between price and mileage.}
 \end{quotation}
 <<>>=
-cor(Price, Miles, data=mustangs)
+cor(Price, Miles, data=Mustangs)
 @
 
 <<>>=
-trials <- do(1000) * cor(Price, Miles, data=resample(mustangs))
+trials <- do(1000) * cor(Price, Miles, data=resample(Mustangs))
 quantiles <- qdata(c(.025, .975), result, data=trials); quantiles
 @
 
@@ -459,14 +462,14 @@ Usually, people think about linear models in the context of regression.  For ins
 there is presumably a relationship between the price of a car and its mileage.  Here's a graph:
 
 <<price-mileage-graph,fig.width=4, fig.height=3>>=
-xyplot( Price ~ Miles, data=mustangs )
+xyplot( Price ~ Miles, data=Mustangs )
 @
 There's a pretty clear relationship here, which in the Lock problems was quantified with the correlation coefficient.
 
 In regression, one finds a straight-line functional relationship between the two variables.
 The built-in \R{} \function{lm} function does the calculations:
 <<mustangregression>>=
-lm(Price ~ Miles, data=mustangs)
+lm(Price ~ Miles, data=Mustangs)
 @
 The notation used is the same as used to produce a scatter plot.  
 The result indicates that for every additional 1000 miles driven, the price of a car 
@@ -478,12 +481,12 @@ This number, 22 cents decrease per mile, can be thought of as an ``effect size.'
 
 The mean price of the Mustangs is, calculated in the ordinary way:
 <<>>=
-mean( Price, data=mustangs )
+mean( Price, data=Mustangs )
 @
 
 The same result can be had via a linear model:
 <<>>=
-lm( Price ~ 1, data=mustangs)
+lm( Price ~ 1, data=Mustangs)
 @
 
 This may seem obscure.  In \function{lm}, the \verb+~+ notation is used to identify the
@@ -492,7 +495,7 @@ The mileage varies from car to car; this variation in mileage is used to explain
 
 In \verb+Price ~ 1+, the \texttt{1} can be thought of as signifying that there are no explanatory variables, or, from a slightly different perspective, that the cars are all the same. The \function{mean} function is set up to accept this same notation:
 <<>>=
-mean( Price ~ 1, data=mustangs)
+mean( Price ~ 1, data=Mustangs)
 @
 Why?  So that the notation can be extended to include calculating the mean for different groups.  To illustrate, consider the Lock \texttt{sleep} data which compares the ability to memorize words after a nap versus after taking caffeine.
 
@@ -549,7 +552,7 @@ lm(homeless=="homeless" ~ sex, data=HELPrct)
 Randomization can be performed with \function{lm} in the same style as with \function{mean} and \function{prop}.  Here, for instance, is a resampling confidence interval on the 
 price change with mileage in the Mustang data:
 <<>>=
-trials <- do(1000) * lm(Price ~ Miles, data=resample(mustangs))
+trials <- do(1000) * lm(Price ~ Miles, data=resample(Mustangs))
 confint(trials)
 @
 
@@ -566,9 +569,9 @@ prop(~ abs(sexmale) > 0.1146, data=nulldist)
 The regression framework allows more than one explanatory to be used.  For instance, one can examine how each of \texttt{Age} and \texttt{Miles} is related to the \texttt{Price} of the Mustangs.
 
 <<>>=
-trialsmod1 <- do(1000) * lm( Price ~ Age, data=resample(mustangs))
-trialsmod2 <- do(1000) * lm( Price ~ Miles, data=resample(mustangs))
-trialsmod3 <- do(1000) * lm( Price ~ Miles + Age, data=resample(mustangs))
+trialsmod1 <- do(1000) * lm( Price ~ Age, data=resample(Mustangs))
+trialsmod2 <- do(1000) * lm( Price ~ Miles, data=resample(Mustangs))
+trialsmod3 <- do(1000) * lm( Price ~ Miles + Age, data=resample(Mustangs))
 @
 The first model suggests that \texttt{Price} goes down by about one to two thousand dollars per year of \texttt{Age}. 
 
@@ -594,11 +597,11 @@ between those explanatory variables.
 
 One way to think about {\sc Anova} is a way of quantifying the extent to which a model term, in the context of other model terms, is better than random ``junk.'' Consider, for example, the role of \texttt{Age} in a model of the Mustang prices that includes \texttt{Miles}.  Here's one {\sc Anova} report:
 <<>>=
-anova( lm( Price ~ Miles + Age, data=mustangs))
+anova( lm( Price ~ Miles + Age, data=Mustangs))
 @
 The p-value on \texttt{Age} suggests that \texttt{Age} is not contributing to the model.  But there's a different {\sc Anova} report available that suggests a different conclusion.
 <<>>=
-anova( lm( Price ~ Age + Miles, data=mustangs))
+anova( lm( Price ~ Age + Miles, data=Mustangs))
 @
 The difference between the two {\sc Anova} reports can be explained in 
 several ways, for example by regarding {\sc Anova} as a sequential report 
@@ -607,15 +610,15 @@ a difference.  For instance, the $R^2$ from this sequence of models suggests
 that \texttt{Age} doesn't add much to \texttt{Miles}.
 
 <<>>=
-do(1) * lm( Price ~ Miles, data=mustangs)
-do(1) * lm( Price ~ Miles + Age, data=mustangs)
+do(1) * lm( Price ~ Miles, data=Mustangs)
+do(1) * lm( Price ~ Miles + Age, data=Mustangs)
 @
 
 Here, \function{do} has been used without any randomization, merely to format the results in a way that let's them be readily compared.  Note that the addition of \texttt{Age} as an explanatory variable has increased $R^2$ by a little bit, from $0.680$ to $0.681$.  
 
 Shuffling \texttt{Age} allows the actual change in $R^2$ to be compared to what would be expected under the null hypothesis:
 <<>>=
-trials1 <- do(1000) * lm( Price ~ Miles + shuffle(Age), data=mustangs )
+trials1 <- do(1000) * lm( Price ~ Miles + shuffle(Age), data=Mustangs )
 confint(trials1)
 @
 
@@ -624,7 +627,7 @@ observed range when \texttt{Age} is shuffled.
 
 The result is very different when \texttt{Miles} is shuffled instead.
 <<>>=
-trials2 <- do(1000) * lm( Price ~ shuffle(Miles) + Age, data=mustangs )
+trials2 <- do(1000) * lm( Price ~ shuffle(Miles) + Age, data=Mustangs )
 confint(trials2)
 @
 The observed value of $R^2 = 0.681$ falls well above the confidence interval, 
