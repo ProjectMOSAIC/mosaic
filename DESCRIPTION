@@ -23,6 +23,8 @@ Imports:
     ggdendro
 Suggests:
     lubridate,
+    fastR, 
+    magrittr,
     NHANES,
     RCurl,
     sp,
