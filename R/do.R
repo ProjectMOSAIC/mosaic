@@ -15,8 +15,8 @@ tryCatch(utils::globalVariables(c('.row')),
 #' 
 #' @examples
 #' # These should give identical results, even if the `parallel' package is loaded.
-#' set.rseed(123); do(3) * rsample(1:10, 2)
-#' set.rseed(123); do(3) * rsample(1:10, 2)
+#' set.rseed(123); do(3) * resample(1:10, 2)
+#' set.rseed(123); do(3) * resample(1:10, 2)
 #' @export
 
 set.rseed <- function(seed) {
