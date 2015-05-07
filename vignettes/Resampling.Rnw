@@ -1,6 +1,8 @@
 %\VignetteIndexEntry{Randomization-based inference}
 %\VignettePackage{mosaic}
 %\VignetteKeywords{mosaic, resampling, bootstrapping, permutation}
+%\VignetteEngine{knitr::knitr} 
+
 \documentclass[11pt]{article}
 \usepackage{./mosaic}
 \usepackage{graphicx, amsmath, amsfonts, amssymb, epstopdf, color, url, hyperref} 
@@ -32,7 +34,7 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 \tableofcontents
 
 
-<<setupRnw,echo=FALSE,results="hide",message=FALSE>>=
+<<setupRnw,include=FALSE>>=
 # source('../setup.R')
 ## @knitr setup
 #setCacheDir("cache")
