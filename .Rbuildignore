@@ -8,6 +8,7 @@
 ^vignettes/.*\.aux$
 ^vignettes/.*\.gz$
 ^vignettes/.*\.toc$
+^vignettes/.*_cache$
 vignettes-source$
 ^\.Rproj\.user$
 ^\.Rproj\.user/.*$
