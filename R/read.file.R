@@ -1,8 +1,7 @@
 #' Read data files
 #' 
-#' A wrapper around 
-#' \code{\link{read.table}}, \code{\link{read.csv}}, and \code{\link{load}}
-#' to unify and simply reading data from files.
+#' A wrapper around various file reading functions.
+#' 
 #' @param file character:
 #' 	 The name of the file which the data are to be read from. 
 #' 	 This may also be a complete URL or a path to a compressed file.
@@ -25,7 +24,7 @@
 #' to guess the type of file.
 #' 
 #' @param \dots  additional arguments passed on to 
-#'   \code{\link{read.table}}, \code{\link{read.csv}}, or \code{\link{load}}.
+#'   \code{\link{read.table}}, \code{\link{readr::read_csv}}, or \code{\link{load}}.
 #' 
 #' 
 #' @details
@@ -33,7 +32,7 @@
 #' \code{read.file} uses the (case insensitive) file extension to determine how to read
 #' data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
 #' \code{\link{load}} is used to load the file.  If \code{file}
-#' ends in \code{.csv}, then \code{\link{read.csv}} is used.  Otherwise,
+#' ends in \code{.csv}, then \code{\link{readr::read_csv}} is used.  Otherwise,
 #' \code{\link{read.table}} is used.
 #' @param package if specified, files will be search for among the documentation
 #' files provided by the package.
@@ -41,18 +40,20 @@
 #' @return A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
 #' in which  case arbitrary objects may be loaded and a character vector
 #' holding the names of the loaded objects is returned invisibly.
-#' @seealso \code{\link{read.table}}, 
-#' \code{\link{read.csv}}, 
+#' @seealso \code{\link{readr::read_table}}, 
+#' \code{\link{readr::read_csv}}, 
 #' \code{\link{load}}.
 #' 
 #' @keywords util 
 #' @export
 
 read.file <-
-function (file, header = T, na.strings = c("NA", "", ".", "na", 
-    "-"), comment.char = "#", filetype = c("default", "csv", "txt", "rdata"), 
+function (file, header = T, na.strings = "NA",
+    comment.char = NULL, filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"), 
     package=NULL, ...) 
 {
+  
+  
     if (!is.null(package)) {
       file <- docFile(file, package=package, character.only=TRUE)
     }
@@ -62,10 +63,23 @@ function (file, header = T, na.strings = c("NA", "", ".", "na",
       if (regexpr("\\.csv$", tolower(file)) > 0) {
         filetype <- "csv"
       } 
+      if (regexpr("\\.tsv$", tolower(file)) > 0) {
+        filetype <- "tsv"
+      } 
       if ( regexpr("\\.rdata$", tolower(file)) > 0 || 
             regexpr("\\.rda", tolower(file)) >0 ){
         filetype <- "rdata"
       } 
+    }
+    
+    if( ! filetype=="txt") {
+      if (! is.null(comment.char)) message("comment.char is currently being ignored.")
+      
+      if (length(na.strings) > 1) {
+        message("Currently, only the first item in na.strings is used.")
+        message("Additional items will be ignored.")
+        na.strings = na.strings[1]
+      }
     }
     
     if (!file.exists(file) && grepl("https://", file)) {  # assume we are reading a URL
@@ -73,16 +87,30 @@ function (file, header = T, na.strings = c("NA", "", ".", "na",
       file <- textConnection(RCurl::getURL(file))
     }
     
-    if (filetype == "csv") 
-      return(read.csv(file, header = header, na.strings = na.strings, 
-                      comment.char = comment.char, ...))
+    if (filetype == "csv") {
+      message("Reading data with readr::read_csv()")
+      return(as.data.frame(readr::read_csv(file, col_names = header, na = na.strings, ...)))
+    }
+    
+    if (filetype == "fw") {
+      message("Reading data with readr::read_table()")
+      return(as.data.frame(readr::read_table(file, col_names = header, na = na.strings, ...)))
+    }
+    
+    if (filetype == "tsv") {
+      message("Reading data with readr::read_tsv()")
+      return(as.data.frame(readr::read_tsv(file, col_names = header, na = na.strings, ...)))
+    }
     
     if (filetype == "rdata") {
+      message("Reading data with load()")
       varNames <- load(file)  
       return(invisible(varNames))
     }
-
-    # fall through to read.table() for any other file format.
-    return(read.table(file, header = header, na.strings = na.strings, 
-                      comment.char = comment.char, ...))
+    
+    # fall through to read_table() for any other file format.
+    message("Reading data with read.table()")
+    return(
+      read.table(file, header = header, na.strings = na.strings, stringsAsFactors=FALSE,...)
+    )
 }
