@@ -31,28 +31,26 @@
 #' t.test( ~ age | sex, data=HELPrct)
 #' t.test( ~ age, groups=sex, data=HELPrct)
 #' }
-#' @export t.test
-  
-t.test <- function(x, data=parent.frame(), ...) ttest(x, data=data, ...)
-
-#' rdname ttest
 #' @export
 
-ttest <- function (x, data=parent.frame(), ...) {
-  UseMethod('ttest') 
+ttest <- function (x, ..., data=parent.frame(), enclos=parent.frame()) {
+  x <- eval(substitute(x), data, enclos)
+  UseMethod('ttest', x) 
 }
 
 #' @rdname ttest
 #' @export
 
-ttest.default <-  function (x, data=parent.frame(), ...) {
-  stats::t.test(x = x, data=data, ...)
+ttest.default <-  function (x, y = NULL, ..., data=parent.frame(), enclos=parent.frame()) {
+  x <- eval(substitute(x), data, enclos)
+  y <- eval(substitute(y), data, enclos)
+  stats::t.test(x, y, ...)
 }
 
 #' @rdname ttest
 #' @export
 
-ttest.formula <- function(x, data=parent.frame(), groups=NULL, ...) {
+ttest.formula <- function(x, groups=NULL, ..., data=parent.frame()) {
   x <- mosaic_formula_q(x, groups=groups, max.slots=2)
   # if (is.null(x)) stop("Invalid formula specification.")
   tryCatch( 
@@ -80,3 +78,7 @@ ttest.formula <- function(x, data=parent.frame(), groups=NULL, ...) {
   result$data.name <- dataName
   return(result)
 }
+
+#' @rdname ttest
+#' @export 
+t.test <- ttest
