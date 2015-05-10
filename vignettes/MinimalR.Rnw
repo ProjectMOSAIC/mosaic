@@ -96,7 +96,6 @@ set.seed(123)
 #})
 opts_chunk$set(
 	dev="pdf",
-	fig.path='figures/fig-',  
 	eval=FALSE,
 	tidy=FALSE,
 	fig.align='center',
@@ -444,7 +443,6 @@ merge()
 opts_chunk$set(
 	eval=TRUE, 
   size='small',
-	fig.path='figures/fig-',
 	fig.width=4,
 	fig.height=1.9,
 	fig.align="center",
