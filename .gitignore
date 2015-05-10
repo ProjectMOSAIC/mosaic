@@ -29,6 +29,11 @@ data/*.csv.bz2
 .Rd2dvi*
 vignettes/*/*.tex
 vignettes/Plotting/Figures/plt-explain*.pdf
+vignettes/*_files/*
+vignettes/*_figure/*
+vignettes/*_cache/*
+vignettes/*.tex
+vignettes/*.synctex.gz
 mosaic.Rproj
 .httr-oauth
 inst/doc
