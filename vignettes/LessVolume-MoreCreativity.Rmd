@@ -54,9 +54,13 @@ and modeling to students in colleges and universities.
  
  * the `mosaic` package is available via 
      * [CRAN](http://cran.r-project.org/web/packages/mosaic/index.html)
-     * [github](https://github.com/rpruim/mosaic) 
+     * [github](https://github.com/ProjectMOSAIC/mosaic) 
          * updates more frequently than CRAN
-         * beta branch for developing new features
+         * use `devtools::install_github(ProjectMOSAIC/mosaic)` to install 
+         directly from github
+         * add the optional `ref="beta"` to install from the beta (developmental) 
+         branch
+         * add `build_vignettes=TRUE` if your system is equipped to build vignettes.
      
 ### A note about this document  
 
