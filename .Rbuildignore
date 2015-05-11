@@ -1,6 +1,8 @@
 ^sandbox$
 ^bin$
 ^RBuildIgnore$
+^README.Rmd$
+^README.html$
 ^vignettes-source$
 ^vignettes/.*\.pdf$
 ^vignettes/.*\.tex$
