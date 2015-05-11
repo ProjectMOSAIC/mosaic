@@ -282,6 +282,7 @@ mUSMap <- function(data, key, fill=NULL,
 #' head(mergedData)
 #' @export
 CIAdata <- function (name = NULL) {
+  
   if (is.null(name)) return(CIA)  
   
   if (name %in% CIA$Name) {
@@ -297,6 +298,7 @@ CIAdata <- function (name = NULL) {
   code <- sub[["Code"]]
   url <- (paste0("https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_",
                  code, ".txt"))
+  message(paste("Retrieving data from", url))
   
   if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
 
