@@ -13,7 +13,7 @@
 \title{Illustrated quantile calculations from distributions}
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  resolution = 5000L, digits = 4L, xlim, ylim, vlwd = 2,
+  resolution = 5000L, digits = 4L, xlim, ylim, vlwd = NULL,
   vcol = trellis.par.get("add.line")$col, rot = 45, ...)
 
 xqgamma(...)
@@ -80,5 +80,7 @@ xqnorm(seq(.2, .8, by=.10), mean=100, sd=10)
 qdist("unif", .5)
 xqgamma(.5, shape=3, scale=4)
 xqchisq(c(.25,.5,.75), df=3)
+xpbinom( c(480, 500, 510), size=1000, prob=0.48)
+xqpois( c(0.25, 0.5, 0.75), lambda=6, lwd=3, vlwd=2)
 }
 

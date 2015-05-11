@@ -1,10 +1,14 @@
 
+# Note: one of d, p, q, or n must be a **named** argument.  This allows other things to 
+# be in ... without causing issues for the d/p/q/r function called.
+
 dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
   type <- match.arg(type)
   dots <- list(...)
-  distFunName <- paste0(type,dist)
+  distFunName <- paste0(type, dist)
+  distdots <- dots[names(dots) %in% names(formals(distFunName))]
 
-  do.call(distFunName, dots)
+  do.call(distFunName, distdots)
 }
 
 #' Illustrated probability calculations from distributions
@@ -43,7 +47,7 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE, 
                    digits = 4L, 
                    xlim, ylim,
-                   vlwd=2, 
+                   vlwd=NULL, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
                    resolution = 5000L,
@@ -52,7 +56,11 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
   
   dots <- list(...)
   
-  p <- dpqrdist(dist, type="p", q, ...) 
+  if (is.null(vlwd)) {
+    vlwd <- if (is_discrete_dist( dist, ... )) 0 else 2
+  }
+  
+  p <- dpqrdist(dist, type="p", q=q, ...) 
   
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
@@ -102,13 +110,15 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' qdist("unif", .5)
 #' xqgamma(.5, shape=3, scale=4)
 #' xqchisq(c(.25,.5,.75), df=3)
+#' xpbinom( c(480, 500, 510), size=1000, prob=0.48)
+#' xqpois( c(0.25, 0.5, 0.75), lambda=6, lwd=3, vlwd=2)
 #' @export 
 
 qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
                    resolution = 5000L,
                    digits = 4L, 
                    xlim, ylim,
-                   vlwd=2, 
+                   vlwd=NULL, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
                    ...)
@@ -116,7 +126,13 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
   
   dots <- list(...)
   
-  q <- dpqrdist(dist, type="q", p, ...) 
+  if (is.null(vlwd)) {
+    vlwd <- if (is_discrete_dist( dist, ... )) 0 else 2
+  }
+  
+  q <- dpqrdist(dist, type="q", p=p, ...) 
+  # adjust probs for discrete dists where requested p's might not be (exactly) possible
+  p <- dpqrdist(dist, type="p", q=q, ...)  
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
@@ -136,11 +152,14 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
 
 
 plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
-                            dlwd=2, vlwd=2, vcol=trellis.par.get('add.line')$col,
+                            dlwd=2, vlwd=if (discrete) 0 else 2, vcol=trellis.par.get('add.line')$col,
                             rot=0, ...) 
 {
   dots <- list(...)
-  discrete <- is_discrete_dist(dist, ...)
+  latticedots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
+  distdots <- dots[ names(dots) %in% names(formals(paste0("p",dist))) ]
+  
+  discrete <- do.call(is_discrete_dist, c(list(dist), distdots))
   
   if (missing(p)) {
     if (missing(q)) { stop( "one of p or q must be specified") }
@@ -154,23 +173,24 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
     q <- dpqrdist(dist, type="q", p=p, ...)
   }
   
-  if (! 'lty' %in% names(dots)) { dots$lty <- 1 }
+  if (! 'lty' %in% names(latticedots)) { latticedots$lty <- 1 }
+  if (! 'pch' %in% names(latticedots)) { latticedots$pch <- 16 }
   
   if (missing(xlim) || is.null(xlim)) {
     xlim <- dpqrdist(dist, type="q", p=c(0.001, .999), ...)
   }
   if (discrete) {
-    xdata <- unique(dpqrdist(dist, type="q", ppoints(resolution), ...))
+    xdata <- unique(dpqrdist(dist, type="q", p=ppoints(resolution), ...))
     step = min(diff(xdata))
     fill <- seq( min(xdata) -1.5 * step , max(xdata) + 1.5*step, length.out=resolution)
     xdata <- c(xdata, fill) 
-    xdata <- dpqrdist(dist, type="q", dpqrdist(dist, type="p", xdata, ...), ...)
+    xdata <- dpqrdist(dist, type="q", p=dpqrdist(dist, type="p", q=xdata, ...), ...)
     xdata <- sort(unique(xdata))
   } else {
     xdata <- unique(seq(xlim[1], xlim[2], length.out=resolution))
   }
   
-  ydata <- dpqrdist(dist, type="d", xdata, ...)
+  ydata <- dpqrdist(dist, type="d", x=xdata, ...)
   ymax <- max(ydata, na.rm=TRUE)
   if (missing(ylim)) {
     ylim = c(0, 1.4 * ymax)
@@ -182,19 +202,21 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
   p <- c(0, p, 1)
   q <- c(xlim[1], q, xlim[2])
   
-  latticedots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
+  if (discrete) {
+    if (is.null(latticedots$pch)) latticedots$pch = 16
+  }
   
   args <- c(
     list(
       ydata ~ xdata, 
       xlim = xlim, ylim = ylim, 
       groups = sapply(xdata, function(x) {sum(x < q)}),
-      type='h',
-      xlab = "", ylab = "density", 
+      type= if (discrete) c('p','h') else 'h',
+      xlab = "", ylab = if (discrete) "probability" else "density", 
       panel = 
         if (discrete) {
           function(x, y, ...) {
-            panel.xyplot(x,y,...)
+            # panel.xyplot(x,y,...)
             panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
                            col = vcol, lwd=vlwd)
             grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
@@ -202,7 +224,7 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
                       check.overlap=TRUE,
                       paste("", round(diff(p), 3), sep = ""), 
                       just = c('center','center'),  gp=gpar(cex = 1.0))
-            panel.xyplot(x,y, type=c('p','h'), lwd=dlwd)
+            panel.xyplot(x, y, ...)
           } 
         } else {
           function(x, y, ...) {
