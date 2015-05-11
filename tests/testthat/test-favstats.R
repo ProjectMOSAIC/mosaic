@@ -1,5 +1,5 @@
 
-context('favstats')
+context('favstats()')
 
 test_that("favstats works for vectors ", {
   expect_equivalent( favstats(1:10)$mean,  mean(1:10) )

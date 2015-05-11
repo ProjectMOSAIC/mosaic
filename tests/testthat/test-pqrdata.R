@@ -1,5 +1,5 @@
 
-context('Testing pdata(), qdata(), and rdata() ')
+context('pdata(), qdata(), and rdata()')
 
 
 test_that("formula interface works.", {

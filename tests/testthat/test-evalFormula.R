@@ -1,6 +1,6 @@
 
 
-context('evalFormula')
+context('evalFormula()')
 
 
 test_that("subset works ", {

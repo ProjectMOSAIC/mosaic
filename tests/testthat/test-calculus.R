@@ -1,4 +1,4 @@
-context('Testing calculus functions: D(), antiD(), etc.')
+context('Calculus functions: D(), antiD(), etc.')
 
 test_that("stats::D still accessible", {
   expect_equivalent( 

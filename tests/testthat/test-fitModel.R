@@ -1,5 +1,5 @@
 
-context('Testing fitModel()')
+context('fitModel()')
 
 
 test_that("A function is created", {

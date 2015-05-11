@@ -1,5 +1,5 @@
 
-context('dpqrdist')
+context('dpqrdist()')
 
 test_that("dpqrdist works for normal dist", {
   expect_equivalent(
@@ -40,5 +40,20 @@ test_that("dpqrdist works for t dist", {
   expect_equivalent(
     dpqrdist("t", "q", c(.1,.2,.3), df=10), 
     qt(c(.1,.2,.3), df=10)
+  )
+})
+
+test_that("dpqrdist works for binomial dist", {
+  expect_equivalent(
+    dpqrdist("binom", "d", c(0,1,2), size=10, prob=0.4), 
+    dbinom(c(0,1,2), size=10, prob=0.4)
+  )
+  expect_equivalent(
+    dpqrdist("binom", "p", c(0,1,2), size=10, prob=0.4), 
+    pbinom(c(0,1,2), size=10, prob=0.4)
+  )
+  expect_equivalent(
+    dpqrdist("binom", "q", c(.25, .5, .75), size=10, prob=0.4), 
+    qbinom(c(.25, .5, .75), size=10, prob=0.4)
   )
 })
