@@ -25,3 +25,4 @@ vignettes-source$
 ^.*\.Rproj$
 ^\.httr-oauth$
 ^\.travis\.yml$
+^data-raw$
