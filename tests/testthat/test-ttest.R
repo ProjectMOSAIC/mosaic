@@ -1,5 +1,5 @@
 
-context("t.test")
+context("t.test()")
 
 Boys <- filter(mosaicData::Galton, sex=="M")
 
@@ -8,6 +8,11 @@ test_that("2-sample tests give same results as stats::t.test", {
   expect_equivalent( 
     interval(stats::t.test(height ~ sex, data=mosaicData::Galton)),
     interval(t.test(height ~ sex, data=mosaicData::Galton))
+  )
+  
+  expect_equivalent( 
+    with(mosaicData::Galton, interval(stats::t.test(height ~ sex))),
+    with(mosaicData::Galton, interval(t.test(height ~ sex)))
   )
   
   expect_equivalent( 
