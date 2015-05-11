@@ -12,7 +12,8 @@ ttest(x, ..., data = parent.frame(), enclos = parent.frame())
 \method{ttest}{default}(x, y = NULL, ..., data = parent.frame(),
   enclos = parent.frame())
 
-\method{ttest}{formula}(x, groups = NULL, ..., data = parent.frame())
+\method{ttest}{formula}(x, groups = NULL, ..., data = parent.frame(),
+  enclos = parent.frame())
 
 t.test(x, ..., data = parent.frame(), enclos = parent.frame())
 }

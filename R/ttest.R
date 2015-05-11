@@ -50,8 +50,9 @@ ttest.default <-  function (x, y = NULL, ..., data=parent.frame(), enclos=parent
 #' @rdname ttest
 #' @export
 
-ttest.formula <- function(x, groups=NULL, ..., data=parent.frame()) {
-  x <- mosaic_formula_q(x, groups=groups, max.slots=2)
+ttest.formula <- function(x, groups=NULL, ..., data=parent.frame(), enclos=parent.frame()) {
+  x <- mosaic_formula_q(x, groups=groups, max.slots=2, 
+                        envir = if (is.environment(data)) data else enclos)
   # if (is.null(x)) stop("Invalid formula specification.")
   tryCatch( 
     return(stats::t.test(x, data=data, ...)),
