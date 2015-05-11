@@ -50,12 +50,12 @@ Unless \code{filetype} is specified,
 \code{read.file} uses the (case insensitive) file extension to determine how to read
 data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
 \code{\link{load}} is used to load the file.  If \code{file}
-ends in \code{.csv}, then \code{\link{readr::read_csv}} is used.  Otherwise,
+ends in \code{.csv}, then \code{\link[readr]{read_csv}} is used.  Otherwise,
 \code{\link{read.table}} is used.
 }
 \seealso{
-\code{\link{readr::read_table}},
-\code{\link{readr::read_csv}},
+\code{\link[readr]{read_table}},
+\code{\link[readr]{read_csv}},
 \code{\link{load}}.
 }
 \keyword{util}

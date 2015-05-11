@@ -35,7 +35,7 @@
 #' \code{read.file} uses the (case insensitive) file extension to determine how to read
 #' data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
 #' \code{\link{load}} is used to load the file.  If \code{file}
-#' ends in \code{.csv}, then \code{\link{readr::read_csv}} is used.  Otherwise,
+#' ends in \code{.csv}, then \code{\link[readr]{read_csv}} is used.  Otherwise,
 #' \code{\link{read.table}} is used.
 #' @param package if specified, files will be search for among the documentation
 #' files provided by the package.
@@ -43,8 +43,8 @@
 #' @return A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
 #' in which  case arbitrary objects may be loaded and a character vector
 #' holding the names of the loaded objects is returned invisibly.
-#' @seealso \code{\link{readr::read_table}}, 
-#' \code{\link{readr::read_csv}}, 
+#' @seealso \code{\link[readr]{read_table}}, 
+#' \code{\link[readr]{read_csv}}, 
 #' \code{\link{load}}.
 #' 
 #' @keywords util 
