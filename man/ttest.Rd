@@ -22,6 +22,11 @@ t.test(x, ..., data = parent.frame(), enclos = parent.frame())
 
 \item{data}{a data frame}
 
+\item{enclos}{an environment in which to search in addition \code{data} when
+\code{data} is a data frame.}
+
+\item{y}{an optional non-empty numeric vector}
+
 \item{groups}{\code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.}
 
 \item{\dots}{additional arguments, see \code{\link[stats]{t.test}} in the

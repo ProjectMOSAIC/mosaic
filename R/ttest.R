@@ -9,6 +9,9 @@
 #' @rdname ttest
 #' 
 #' @param x an object (e.g., a formula or a numeric vector)
+#' @param y an optional non-empty numeric vector
+#' @param enclos an environment in which to search in addition \code{data} when 
+#' \code{data} is a data frame.
 #' @param data a data frame
 #' @param groups \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
 #' 
