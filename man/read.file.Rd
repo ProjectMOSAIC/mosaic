@@ -33,7 +33,9 @@ to guess the type of file.}
 files provided by the package.}
 
 \item{\dots}{additional arguments passed on to
-  \code{\link{read.table}}, \code{\link{readr::read_csv}}, or \code{\link{load}}.}
+  \code{\link{read.table}}, or \code{\link{load}} or one of the functions
+  in the \code{readr} package.  Note that a message will indicate which
+  underlying function is being used.}
 }
 \value{
 A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"},

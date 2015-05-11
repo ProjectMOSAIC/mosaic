@@ -24,7 +24,10 @@
 #' to guess the type of file.
 #' 
 #' @param \dots  additional arguments passed on to 
-#'   \code{\link{read.table}}, \code{\link{readr::read_csv}}, or \code{\link{load}}.
+#'   \code{\link{read.table}}, or \code{\link{load}} or one of the functions
+#'   in the \code{readr} package.  Note that a message will indicate which 
+#'   underlying function is being used.
+#'   
 #' 
 #' 
 #' @details
