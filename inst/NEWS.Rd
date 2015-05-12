@@ -2,7 +2,10 @@
 \title{NEWS file for the mosaic package}
 
 \section{This file is obsolete}{
+\itemize{
+\item
 We are no longer maintaining NEWS in this file.  Instead, see our NEWS.md file on github for the updated version.
+}
 }
 
 
