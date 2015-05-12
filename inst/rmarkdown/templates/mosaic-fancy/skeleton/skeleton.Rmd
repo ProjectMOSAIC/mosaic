@@ -3,10 +3,10 @@ title: "Untitled"
 author: ""
 date: ""
 output: 
-  pdf_document:
+  html_document:
     fig_height: 3
     fig_width: 5
-  html_document:
+  pdf_document:
     fig_height: 3
     fig_width: 5
   word_document:
