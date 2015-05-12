@@ -40,7 +40,7 @@ Make or add a scatter plot in a manner coordinated with \code{plotFun}.
 \examples{
 if (require(mosaicData)) {
 plotPoints( width ~ length, data=KidsFeet, groups=sex, pch=20)
-f <- makeFun( lm( width ~ poly(length,2) * sex, data=KidsFeet))
+f <- makeFun( lm( width ~ length * sex, data=KidsFeet))
 plotFun( f(length=length,sex="G")~length, add=TRUE, col="pink")
 plotFun( f(length=length,sex="B")~length, add=TRUE)
 }
