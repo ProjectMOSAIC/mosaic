@@ -28,3 +28,4 @@ vignettes-source$
 ^\.httr-oauth$
 ^\.travis\.yml$
 ^data-raw$
+^NEWS\.md$
