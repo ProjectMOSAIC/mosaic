@@ -28,11 +28,6 @@ mplot(object, ...)
   ylab = "", xlab = "difference in means",
   title = "Tukey's Honest Significant Differences",
   par.settings = trellis.par.get(), ...)
-
-\method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
-  ylab = "", xlab = "difference in means",
-  title = "Tukey's Honest Significant Differences",
-  par.settings = trellis.par.get(), ...)
 }
 \arguments{
 \item{object}{an R object from which a plot will be constructed.}
@@ -112,10 +107,6 @@ if (require(mosaicData)) {
 mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot")
 mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
 mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
-}
-if (require(mosaicData)) {
-mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
-mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
 }
 if (require(mosaicData)) {
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
