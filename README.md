@@ -1,6 +1,6 @@
 # The mosaic package
-R Pruim  
-`r Sys.Date()`  
+  
+  
 
 ## Purpose and design
 
