@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{mosaic resources}
+%\VignetteIndexEntry{mosaic Resources}
 %\VignettePackage{mosaic}
 %\VignetteKeywords{mosaic, vignettes, resources, references}
 %\VignetteEngine{knitr::knitr} 
