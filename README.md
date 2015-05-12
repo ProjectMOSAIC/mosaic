@@ -2,6 +2,8 @@
   
   
 
+[![Travis-CI Build Status](https://travis-ci.org/ProjectMOSAIC/mosaic.svg?branch=master)](https://travis-ci.org/ProjectMOSAIC/mosaic)
+
 ## Purpose and design
 
 The mosaic package is designed to facilitate the use of R in statistics and calculus
