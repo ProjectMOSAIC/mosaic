@@ -21,4 +21,5 @@ r_binary_packages:
 r_github_packages:
   - rstudio/rmarkdown
   - hadley/testthat
+  - ProjectMOSAIC/NHANES
   
