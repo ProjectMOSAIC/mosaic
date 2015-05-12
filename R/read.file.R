@@ -48,6 +48,11 @@
 #' \code{\link{load}}.
 #' 
 #' @keywords util 
+#' @examples
+#' \dontrun{
+#' Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
+#' }
+#' Mustangs <- read.file("MustangPrice.csv", package="mosaic")
 #' @export
 
 read.file <-

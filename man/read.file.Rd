@@ -53,6 +53,12 @@ data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
 ends in \code{.csv}, then \code{\link[readr]{read_csv}} is used.  Otherwise,
 \code{\link{read.table}} is used.
 }
+\examples{
+\dontrun{
+Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
+}
+Mustangs <- read.file("MustangPrice.csv", package="mosaic")
+}
 \seealso{
 \code{\link[readr]{read_table}},
 \code{\link[readr]{read_csv}},
