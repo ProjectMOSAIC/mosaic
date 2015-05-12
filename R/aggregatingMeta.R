@@ -137,7 +137,7 @@ aggregatingFunction2 <- function( fun ) {
       }
     }
     if (! is.null(condition(formula)) ) {
-      stop( "Formula must of form y ~ x." )
+      stop( "Formula must be of the form y ~ x." )
     }
     return( eval(mosaic.call) )
   }
