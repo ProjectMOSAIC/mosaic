@@ -1,9 +1,16 @@
-# mosaic 0.9.3.9000
+# mosaic package NEWS
 
- * Improved `pdist()`, `pdist()` and related functions now do a better (i.e., useful) job with discrete distributions
- * Bug fixes in several functions that use non-standard evaluation improve their robustness and scope.  This affects `t.test()` and all the "aggregating" functions like `mean()` and `favstats()`.  In particular, it is now possible to reference variables both in the `data` argument and in the calling environment.  
+## mosaic 0.9.3.9000
 
-# mosaic 0.9.2
+ * Improved `pdist()`, `pdist()` and related functions now do a better (i.e., useful) job with discrete distributions (#417)
+ * Bug fixes in several functions that use non-standard evaluation improve their robustness and scope.  This affects `t.test()` and all the "aggregating" functions like `mean()` and `favstats()`.  In particular, it is now possible to reference variables both in the `data` argument and in the calling environment.  (#435)
+ * `CIAdata()` now provides a message indicating the source URL for the data retrieved (#444)
+ * Bug fixes to `CIAdata()` that seem to be related to a changed in file format at
+ the CIA World Factobook website.  The "inflation" data set is still broken (on the CIA website).  (#441)
+ * `read.file()` now uses functions from `readr` in some cases.  A message is produced indicating which reader is being used.  There are also some API changes.  In particular, character data will be returned as character rather than factor.  See `factorize()` for an easy way to convert things with few unique values into factors. (#442)
+ * A major vignette housecleaning has happened.  Some vignettes have been removed from the package and vignettes inside the package are now compiled as part of package building to allow for more consistent checking of vignette contents.  "Less Volume, More Creativity" has been reformatted from slides into a more typical vignette format. (#438)
+
+## mosaic 0.9.2
 
  * `tally()` now produces counts by default for all formula shapes.  Proportions or percentages must be requested explicitly.  This is to avoid common errors, especially when feeding the results into `chisq.test()`.
  * Introduction of `msummary()`.  Usually this is identical to `summary()`, but for a few kids of objects it provides modified output that is less verbose.  
@@ -24,7 +31,7 @@ as an argument and look among package documentation files.
  * `factorize()` introduced as a way to convert vectors with
 few unique values into factors.  Can be applied to an entire data frame.
 
-# mosaic 0.9.1
+## mosaic 0.9.1
 
  * The data sets formerly in this pacakge have been separated out into two
 additional packages:  `NHANES` contains the `NHANES` data set
@@ -47,7 +54,7 @@ Use their `summary()` methods or `verbose=TRUE` to see more information
 (including confidence intervals).
  * Added `Birthdays` data set.
 
-# mosaic 0.9
+## mosaic 0.9
 
  * A generic `mplot()` and several instances have been
   added to make a number of plots easy to generate.  There are methods 
@@ -84,7 +91,7 @@ by extension.
  * introduction of `derivedFactor()` for creating factors
   from logical "cases".
 
-# mosaic 0.8
+## mosaic 0.8
 
  * The `HELP` data set has been removed from the package.  
 It was deprecated in version 0.5.  Use `HELPrct` instead.
@@ -141,7 +148,7 @@ as counts of heads and tails.
  * removed the deprecated HELP dataset (now called HELPrct)
  * Various minor bug fixes and internal improvements. 
 
-# mosaic 0.7
+## mosaic 0.7
 
  * Various improvements and bug fixes to `D()` and `antiD()`.
  * In RStudio, `mPlot()` provides an interactive environment for
@@ -162,7 +169,7 @@ as counts of heads and tails.
  * Plan to deprecate datasets from the Carnegie Melon University Online Learning Initiative Statistics Modules in next release.
  * `xhistogram()` is now deprecated.  Use `histogram()` instead.
 
-# mosaic 0.6
+## mosaic 0.6
 
  * Added vignette: Minimal R for Intro Stats.
  * Implemented symbolic integration for simple functions.
@@ -179,7 +186,7 @@ as counts of heads and tails.
  * Modified names of data frame produced by `do()` so that hyphens ('-') are turned into dots ('.')
  * Improvements to `fetchData()`.
 
-# mosaic 0.5
+## mosaic 0.5
 
 We are still in beta, but we hope things are beginning to stabilize as we settle on 
 syntax and coding idioms for the package.  Here are some of the key updates since 0.4:
@@ -202,7 +209,7 @@ syntax and coding idioms for the package.  Here are some of the key updates sinc
 						Each of these returns the model fit as a function.
  * improvements to the vignettes.
 
-# mosaic 0.4
+## mosaic 0.4
 
  * renamed mtable() to tally(), added new functionality
  * reimplemented D() and antiD()
