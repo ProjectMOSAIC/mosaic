@@ -16,6 +16,8 @@
 #' str(KidsFeet)
 #' factorize(KidsFeet$birthyear)
 #' str(factorize(KidsFeet))
+#' # alternative spelling
+#' str(factorise(KidsFeet))
  
 factorize <- function(x,  ...) {
   UseMethod("factorize")
@@ -46,3 +48,8 @@ factorize.character <- function(x, max.levels = 5L, ...){
 factorize.data.frame <- function(x, max.levels=5L, ...) {
   as.data.frame( lapply(x, factorize, max.levels=max.levels) )
 }
+
+# an alias with alternative spelling
+#' @rdname factorize
+#' @export
+factorise <- factorize
