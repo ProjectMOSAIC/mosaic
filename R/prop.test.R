@@ -97,9 +97,13 @@ setMethod(
 				   alternative = c("two.sided", "less", "greater"), 
 				   conf.level = 0.95,...) 
 		  {
-			  stats::prop.test( x=x, n=n , p = p,
-							   alternative = alternative,
-							   conf.level = conf.level,...) 
+		    dots <- list(...)
+		    do.call(stats::prop.test, 
+		            c(
+		              list(x = x, n = n , p = p, alternative = alternative,
+		                   conf.level = conf.level), 
+		              dots)
+		    )
 		  }
 		  )
 
@@ -177,16 +181,20 @@ setMethod(
 				   alternative = c("two.sided", "less", "greater"), 
 				   conf.level = 0.95, success=NULL, data.name, ...) 
 		  {
-		    if ( FALSE ) {  # no longer allowing this since it masks some stats::prop.test() behavior
-		      result <-  stats::prop.test(x=x[1], n=sum(x), p=p, alternative=alternative,
-		                                  conf.level=conf.level,...) 
-		      result$data.name <- deparse(substitute(x))
-		      return(result)
-		    }
+		    X <- deparse(substitute(x))
+		    N <- deparse(substitute(n))
+		    message(paste("Here we go with", X, "out of", N))
+# 		    if ( FALSE ) {  # no longer allowing this since it masks some stats::prop.test() behavior
+# 		      result <-  stats::prop.test(x=x[1], n=sum(x), p=p, alternative=alternative,
+# 		                                  conf.level=conf.level,...) 
+# 		      result$data.name <- deparse(substitute(x))
+# 		      return(result)
+# 		    }
 			  if ( !missing(n) ) {  # doing this if there is an n
+				  DNAME <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
 				  result <-  stats::prop.test(x=x, n=n, p=p, alternative=alternative,
 											  conf.level=conf.level,...) 
-				  result$data.name <- paste( deparse(substitute(x)), "and", deparse(substitute(n)) )
+				  result$data.name <- DNAME 
 				  return(result)
 			  }
         
