@@ -84,9 +84,6 @@ binom.test <- function( x, n, p = 0.5,
   res
 }
 
-#' @rdname binom.test
-# @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
-#' @export
 setGeneric(
 		   "binom_test",
 		   function( x, n, p = 0.5, 
@@ -97,9 +94,7 @@ setGeneric(
 		   }
 		   )
 
-#' @rdname binom.test
-#' @aliases binom_test,ANY-method
-#' @export
+## @aliases binom_test,ANY-method
 setMethod(
 		  'binom_test',
 		  'ANY',
@@ -114,10 +109,7 @@ setMethod(
 		  }
 		  )
 
-#' @rdname binom.test
-#' @aliases binom_test,formula-method
-#' @export
-
+## @aliases binom_test,formula-method
 setMethod(
 		  'binom_test',
 		  'formula',
@@ -161,9 +153,7 @@ setMethod(
 		  }
 		  )
 
-#' @rdname binom.test
-#' @aliases binom_test,numeric-method
-#' @export
+##  @aliases binom_test,numeric-method
 setMethod(
 		  'binom_test',
 		  'numeric',
@@ -196,9 +186,7 @@ setMethod(
 		  }
 		  )
 
-#' @rdname binom.test
-#' @aliases binom_test,character-method
-#' @export
+## @aliases binom_test,character-method
 setMethod(
 		  'binom_test',
 		  'character',
@@ -217,9 +205,7 @@ setMethod(
 		  }
 		  )
 
-#' @rdname binom.test
-#' @aliases binom_test,logical-method
-#' @export
+## @aliases binom_test,logical-method
 setMethod(
 		  'binom_test',
 		  'logical',
@@ -238,9 +224,7 @@ setMethod(
 		  }
 		  )
 
-#' @rdname binom.test
-#' @aliases binom_test,factor-method
-#' @export
+## @aliases binom_test,factor-method
 setMethod(
 		  'binom_test',
 		  'factor',
