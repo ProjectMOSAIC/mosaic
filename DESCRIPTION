@@ -10,6 +10,7 @@ Depends:
     lattice (>= 0.20-21),
     ggplot2
 Imports:
+    lazyeval,
     mosaicData,
     MASS,
     grid,
