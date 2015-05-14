@@ -20,6 +20,7 @@
 #'   	considered failure.
 #' @param data.name name for data.  If missing, this is inferred from variable names.
 #' @param data a data frame (if missing, \code{n} may be a data frame)
+#' @param ci.method a method to use for computing the confidence interval
 #' @param ... additional arguments (often ignored) 
 #' 
 #' @return an object of class \code{htest}
@@ -48,25 +49,53 @@
 #' binom.test(~ long, faithful)
 #' 
 #' @keywords stats
+#' 
+#' @rdname binom.test
+#' @export
+binom.test <- function( x, n, p = 0.5, 
+                        alternative = c("two.sided", "less", "greater"), 
+                        conf.level = 0.95, 
+                        ci.method = c("score", "wald", "agresti-coull", "plus4"), ...) 
+{
+  x_lazy <- lazyeval::lazy(x)
+  n_lazy <- lazyeval::lazy(n)
+  ci.method <- match.arg(ci.method)
+  
+  res <- update_ci(
+    binom_test( x = x,
+                 n = n,
+                 p = p,
+                 alternative = alternative, 
+                 conf.level = conf.level, 
+                 ...),
+    method = ci.method
+  )
+  
+  # update some slots based on lazyevaluated args
+  if (res$data.name == "x out of n") {
+    res$data.name <- paste(deparse(x_lazy$expr), "out of", deparse(n_lazy$expr))
+  }
+  res
+}
 
 #' @rdname binom.test
 # @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
 #' @export
 setGeneric(
-		   "binom.test",
+		   "binom_test",
 		   function( x, n, p = 0.5, 
 					alternative = c("two.sided", "less", "greater"), 
 					conf.level = 0.95, ...) 
 		   {
-			   standardGeneric('binom.test')
+			   standardGeneric('binom_test')
 		   }
 		   )
 
 #' @rdname binom.test
-#' @aliases binom.test,ANY-method
+#' @aliases binom_test,ANY-method
 #' @export
 setMethod(
-		  'binom.test',
+		  'binom_test',
 		  'ANY',
 		  function(
 				   x, n, p = 0.5, 
@@ -80,11 +109,11 @@ setMethod(
 		  )
 
 #' @rdname binom.test
-#' @aliases binom.test,formula-method
+#' @aliases binom_test,formula-method
 #' @export
 
 setMethod(
-		  'binom.test',
+		  'binom_test',
 		  'formula',
 		  function(
 				   x, n, p = 0.5, 
@@ -121,16 +150,16 @@ setMethod(
 			  }
 
 
-			  binom.test(x, p=p, alternative=alternative, 
+			  binom_test(x, p=p, alternative=alternative, 
 						 conf.level=conf.level, success=success, data.name=data.name, ...)
 		  }
 		  )
 
 #' @rdname binom.test
-#' @aliases binom.test,numeric-method
+#' @aliases binom_test,numeric-method
 #' @export
 setMethod(
-		  'binom.test',
+		  'binom_test',
 		  'numeric',
 		  function( x,  n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
@@ -139,7 +168,7 @@ setMethod(
 			  if ( length(x) == 1 ) {
 				  result <-  stats::binom.test(x=x, n=n, p=p, alternative=alternative,
 											   conf.level=conf.level) 
-				  result$data.name <- paste( deparse(substitute(x)), "and", deparse(substitute(n)) )
+				  result$data.name <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
 				  return(result)
 			  }
 
@@ -162,10 +191,10 @@ setMethod(
 		  )
 
 #' @rdname binom.test
-#' @aliases binom.test,character-method
+#' @aliases binom_test,character-method
 #' @export
 setMethod(
-		  'binom.test',
+		  'binom_test',
 		  'character',
 		  function(
 				   x,  n, p = 0.5, 
@@ -183,10 +212,10 @@ setMethod(
 		  )
 
 #' @rdname binom.test
-#' @aliases binom.test,logical-method
+#' @aliases binom_test,logical-method
 #' @export
 setMethod(
-		  'binom.test',
+		  'binom_test',
 		  'logical',
 		  function(
 				   x,  n, p = 0.5, 
@@ -204,10 +233,10 @@ setMethod(
 		  )
 
 #' @rdname binom.test
-#' @aliases binom.test,factor-method
+#' @aliases binom_test,factor-method
 #' @export
 setMethod(
-		  'binom.test',
+		  'binom_test',
 		  'factor',
 		  function(
 				   x,  n, p = 0.5, 

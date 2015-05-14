@@ -55,7 +55,7 @@ agresti_ci <- function (x, n, conf.level = 0.95,
   if (alternative == "greater") interval[2] <- 1
   
   attr(interval, "conf.level") <- conf.level
-  attr(interval, "method") <- "Agresti"
+  attr(interval, "method") <- "Agresti-Coull"
   return(interval)
 }
 
@@ -73,7 +73,7 @@ score_ci <- function(x, n, conf.level = 0.95,
 #' @return an \code{"htest"} object with an updated confidence interval
 #' 
 #' @export
-update_ci <- function( object, method = c("wald", "agresti", "plus4", "score") ) {
+update_ci <- function( object, method = c("wald", "agresti-coull", "plus4", "score") ) {
   if (! inherits(object, "htest") && !grepl("^Exact binomial test", object$method) )
     stop( "I don't know how to handle that type of object.")
   
@@ -99,7 +99,7 @@ update_ci <- function( object, method = c("wald", "agresti", "plus4", "score") )
                       n = object$parameter, 
                       conf.level = level,
                       alternative = object$alternative),
-           agresti = 
+           `agresti-coull` = 
              agresti_ci(x = object$statistic, 
                         n = object$parameter, 
                         conf.level = level,
@@ -114,7 +114,7 @@ update_ci <- function( object, method = c("wald", "agresti", "plus4", "score") )
     switch(method,
            wald = "Exact binomial test (with Wald CI)",
            plus4 = "Exact binomial test (with Plus 4 CI)",
-           agresti = "Exact binomial test (with Agresti-Coull CI)",
+           `agresti-coull` = "Exact binomial test (with Agresti-Coull CI)",
            score = "Exact binomial test (with Score CI)"
     )
              
