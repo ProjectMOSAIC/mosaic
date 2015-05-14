@@ -69,28 +69,41 @@
 #' }
 #' 
 #' @keywords stats
-#' 
 
 #'
 #' @rdname prop.test
 #' @export
+ 
+prop.test <- function( x, n, p = NULL, 
+          alternative = c("two.sided", "less", "greater"), 
+          conf.level = 0.95,...) 
+{
+  x_lazy <- lazyeval::lazy(x)
+  n_lazy <- lazyeval::lazy(n)
+  missing_n <- missing(n)
+  
+  # this list will later be converted to a string using the appropriate information
+  # dependent upon which of the prop_test methods is called.  
+  
+  data.name <- list(x=x_lazy, n=n_lazy)
+  
+  prop_test(x, n, p, alternative = alternative, conf.level=conf.level, data.name=data.name, ...)
+}
 
 setGeneric(
-		   "prop.test",
+		   "prop_test",
 		   function( x, n, p = NULL, 
 					alternative = c("two.sided", "less", "greater"), 
-					conf.level = 0.95,...) 
+					conf.level = 0.95, ...) 
 		   {
-			   standardGeneric('prop.test')
+			   standardGeneric('prop_test')
 		   }
 		   )
 
-#' @rdname prop.test
-#' @aliases prop.test,ANY-method
-#' @export
+## @aliases prop_test,ANY-method
 
 setMethod(
-		  'prop.test',
+		  'prop_test',
 		  'ANY',
 		  function(
 				   x, n, p=NULL, 
@@ -107,12 +120,10 @@ setMethod(
 		  }
 		  )
 
-#' @rdname prop.test
-#' @aliases prop.test,formula-method
-#' @export
+## @aliases prop_test,formula-method
 
 setMethod(
-		  'prop.test',
+		  'prop_test',
 		  'formula',
 		  function(
 				   x, n, p=NULL, 
@@ -126,18 +137,21 @@ setMethod(
 			  #    groups <- eval(substitute(groups), data, environment(formula))
 			  #    subset <- eval(substitute(subset), data, environment(formula))
 			  if (missing.n && !missing.data) {
-				  form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
-													   subscripts = TRUE, drop = TRUE)
-				  if (missing(data.name)) {
-					  data.name <- paste( deparse(substitute(data)), "$", form$right.name, sep="" )
-				  }
+			    form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
+			                                         subscripts = TRUE, drop = TRUE)
+			    if (missing(data.name) || is.list(data.name)) {
+			      data.name <- paste( deparse(substitute(data)), "$", form$right.name, sep="" )
+			    } 
 			  } else {
-				  form <- lattice::latticeParseFormula(formula, n, #subset = subset, #groups = groups,  
-													   subscripts = TRUE, drop = TRUE)
-				  if (missing(data.name)) {
-					  data.name <- paste( deparse(substitute(n)), "$", form$right.name, sep="" )
-				  }
-				  data <- n
+			    form <- lattice::latticeParseFormula(formula, n, #subset = subset, #groups = groups,  
+			                                         subscripts = TRUE, drop = TRUE)
+			    if (missing(data.name)) {
+			      data.name <- paste( deparse(substitute(n)), "$", form$right.name, sep="" )
+			    }
+			    if (is.list(data.name)) {
+			      data.name <- paste( deparse(data.name$n$expr), "$", form$right.name, sep="" )
+			    }
+			    data <- n
 			  }
 			  # now data.name should be set and data should hold the data
 
@@ -153,37 +167,34 @@ setMethod(
         
         if (! is.null(form$left) || !is.null(form$condition) ) {
           table_from_formula <-  tally( formula, data=data, margin=FALSE, format="count" )
-          return( stats::prop.test( t(table_from_formula), 
+          res <- stats::prop.test( t(table_from_formula), 
                              p=p,
                              conf.level=conf.level, 
                              alternative=alternative, 
-                             ...) ) 
+                             ...)  
+          res$data.name <- paste0("tally(", deparse(formula), ")")
+          return(res)
         }
         
 			  if (length(cond) == 0) {
 				  cond <- list(gl(1, length(x)))
 			  }
 
-			  prop.test(x, p=p, alternative=alternative, 
+			  prop_test(x, p=p, alternative=alternative, 
 						conf.level=conf.level, success=success, data.name=data.name, ...)
 		  }
 		  )
 
-#' @rdname prop.test
-#' @aliases prop.test,numeric-method
-#' @export
+## @aliases prop_test,numeric-method
 
 setMethod(
-		  'prop.test',
+		  'prop_test',
 		  'numeric',
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
 				   conf.level = 0.95, success=NULL, data.name, ...) 
 		  {
-		    X <- deparse(substitute(x))
-		    N <- deparse(substitute(n))
-		    message(paste("Here we go with", X, "out of", N))
 # 		    if ( FALSE ) {  # no longer allowing this since it masks some stats::prop.test() behavior
 # 		      result <-  stats::prop.test(x=x[1], n=sum(x), p=p, alternative=alternative,
 # 		                                  conf.level=conf.level,...) 
@@ -191,10 +202,15 @@ setMethod(
 # 		      return(result)
 # 		    }
 			  if ( !missing(n) ) {  # doing this if there is an n
-				  DNAME <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
+			    if (missing(data.name)) {
+				    data.name <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
+			    }
+			    if (is.list(data.name)) {
+				    data.name <- paste( deparse(data.name$x$expr), "out of", deparse(data.name$n$expr) )
+			    }
 				  result <-  stats::prop.test(x=x, n=n, p=p, alternative=alternative,
 											  conf.level=conf.level,...) 
-				  result$data.name <- DNAME 
+				  result$data.name <- data.name 
 				  return(result)
 			  }
         
@@ -203,20 +219,21 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
+		    if (is.list(data.name)) {
+				  data.name <- deparse(data.name$x$expr) 
+		    }
         if (is.null(success) && all(x %in% c(0,1))) success <- 1
-			  prop.test(x=factor(x), p=p, alternative=alternative, 
+			  prop_test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 
 						data.name=data.name, ...)
 		  }
 		  )
 
-#' @rdname prop.test
-#' @aliases prop.test,character-method
-#' @export
+## @aliases prop_test,character-method
 
 setMethod(
-		  'prop.test',
+		  'prop_test',
 		  'character',
 		  function(
 				   x,  n, p=NULL, 
@@ -226,19 +243,20 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-			  prop.test(x=factor(x), p=p, alternative=alternative, 
+			  if (is.list(data.name)) { 
+				  data.name <- deparse(data.name$x$expr) 
+			  }
+			  prop_test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 
 						data.name=data.name, ...)
 		  }
 		  )
 
-#' @rdname prop.test
-#' @aliases prop.test,logical-method
-#' @export
+## @aliases prop_test,logical-method
 
 setMethod(
-		  'prop.test',
+		  'prop_test',
 		  'logical',
 		  function(
 				   x,  n, p=NULL, 
@@ -248,19 +266,20 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-			  prop.test(x=factor(x, levels=c('TRUE','FALSE')), p=p, alternative=alternative, 
+			  if (is.list(data.name)) { 
+				  data.name <- deparse(data.name$x$expr) 
+			  }
+			  prop_test(x=factor(x, levels=c('TRUE','FALSE')), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 
 						data.name=data.name, ...)
 		  }
 		  )
 
-#' @rdname prop.test
-#' @aliases prop.test,factor-method
-#' @export
+## @aliases prop_test,factor-method
 
 setMethod(
-		  'prop.test',
+		  'prop_test',
 		  'factor',
 		  function(
 				   x,  n, p=NULL, 
@@ -269,6 +288,9 @@ setMethod(
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
+			  }
+			  if (is.list(data.name)) { 
+				  data.name <- deparse(data.name$x$expr) 
 			  }
 			  if (is.null(success)) {
 				  success <- levels(x)[1]
