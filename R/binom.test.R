@@ -62,6 +62,13 @@ binom.test <- function( x, n, p = 0.5,
 {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
+  missing_n <- missing(n)
+  
+  # this list will later be converted to a string using the appropriate information
+  # dependent upon which of the binom_test methods is called.  
+  
+  data.name <- list(x=x_lazy, n=n_lazy)
+  
   ci.method <- 
     match.arg(
       tolower(ci.method)[1], 
@@ -73,14 +80,23 @@ binom.test <- function( x, n, p = 0.5,
                  p = p,
                  alternative = alternative, 
                  conf.level = conf.level, 
+                 data.name = data.name,    # ignored by some methods, used by others
                  ...),
     method = ci.method
   )
   
-  # update some slots based on lazyevaluated args
-  if (res$data.name == "x out of n") {
-    res$data.name <- paste(deparse(x_lazy$expr), "out of", deparse(n_lazy$expr))
-  }
+#   # update some slots based on lazyevaluated args
+#   print(res$data.name)
+#   res$data.name <-
+#     switch( res$data.name,
+#       "x out of n" = paste(deparse(x_lazy$expr), 
+#                            if (missing_n) "" else "out of", 
+#                            if (missing_n) "" else deparse(n_lazy$expr)
+#                            ),
+#       "x" = deparse(x_lazy$expr),
+#       res$data.name
+#     )
+#   res$data.name <- sub("^n\\$", paste0(deparse(n_lazy$expr), "$"), res$data.name)
   res
 }
 
@@ -127,14 +143,17 @@ setMethod(
 			  if (missing.n && !missing.data) {
 				  form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
 													   subscripts = TRUE, drop = TRUE)
-				  if (missing(data.name)) {
+				  if (missing(data.name) || is.list(data.name)) {
 					  data.name <- paste( deparse(substitute(data)), "$", form$right.name, sep="" )
-				  }
+				  } 
 			  } else {
 				  form <- lattice::latticeParseFormula(formula, n, #subset = subset, #groups = groups,  
 													   subscripts = TRUE, drop = TRUE)
 				  if (missing(data.name)) {
 					  data.name <- paste( deparse(substitute(n)), "$", form$right.name, sep="" )
+				  }
+				  if (is.list(data.name)) {
+					  data.name <- paste( deparse(data.name$n$expr), "$", form$right.name, sep="" )
 				  }
 				  data <- n
 			  }
@@ -146,7 +165,6 @@ setMethod(
 			  if (length(cond) == 0) {
 				  cond <- list(gl(1, length(x)))
 			  }
-
 
 			  binom_test(x, p=p, alternative=alternative, 
 						 conf.level=conf.level, success=success, data.name=data.name, ...)
@@ -164,22 +182,34 @@ setMethod(
 			  if ( length(x) == 1 ) {
 				  result <-  stats::binom.test(x=x, n=n, p=p, alternative=alternative,
 											   conf.level=conf.level) 
-				  result$data.name <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
+				  if (is.list(data.name)) {
+				    result$data.name <- paste( deparse(data.name$x$expr), "out of", deparse(data.name$n$expr) ) 
+				  } else {
+				    result$data.name <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
+				  }
 				  return(result)
 			  }
 
 			  if ( length(x) == 2 ) {
 				  result <-  stats::binom.test(x=x[1], n=base::sum(x), p=p, alternative=alternative,
 											   conf.level=conf.level) 
-				  result$data.name <- deparse(substitute(x))
+				  if (is.list(data.name)) {
+				    result$data.name <- deparse(data.name$x$expr)
+				  } else {
+				    result$data.name <- deparse(substitute(x))
+				  }
 				  return(result)
 			  }
 
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
+		    if (is.list(data.name)) {
+				  data.name <- deparse(data.name$x$expr)
+		    }
+		    
 			  if (is.null(success) && all(x %in% c(0,1))) success <- 1
-			  binom.test(x=factor(x), p=p, alternative=alternative, 
+			  binom_test(x=factor(x), p=p, alternative=alternative, 
 						 conf.level=conf.level, 
 						 success=success, 
 						 data.name=data.name, ...)
@@ -198,7 +228,10 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-			  binom.test(x=factor(x), p=p, alternative=alternative, 
+		    if (is.list(data.name)) {
+				  data.name <- deparse(data.name$x$expr) 
+		    }
+			  binom_test(x=factor(x), p=p, alternative=alternative, 
 						 conf.level=conf.level, 
 						 success=success, 
 						 data.name=data.name, ...)
@@ -217,7 +250,10 @@ setMethod(
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
 			  }
-			  binom.test(x=factor(x, levels=c('TRUE','FALSE')), p=p, alternative=alternative, 
+		    if (is.list(data.name)) {
+				  data.name <- deparse(data.name$x$expr) 
+		    }
+			  binom_test(x=factor(x, levels=c('TRUE','FALSE')), p=p, alternative=alternative, 
 						 conf.level=conf.level, 
 						 success=success, 
 						 data.name=data.name, ...)
@@ -235,6 +271,9 @@ setMethod(
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
+			  }
+			  if (is.list(data.name)) { 
+				  data.name <- deparse(data.name$x$expr) 
 			  }
 			  if ( missing(success) || is.null(success) ) {
 				  success <- levels(x)[1]
