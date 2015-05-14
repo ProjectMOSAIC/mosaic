@@ -3,38 +3,43 @@
 \docType{methods}
 \name{binom.test}
 \alias{binom.test}
-\alias{binom.test,ANY-method}
-\alias{binom.test,character-method}
-\alias{binom.test,factor-method}
-\alias{binom.test,formula-method}
-\alias{binom.test,logical-method}
-\alias{binom.test,numeric-method}
+\alias{binom_test}
+\alias{binom_test,ANY-method}
+\alias{binom_test,character-method}
+\alias{binom_test,factor-method}
+\alias{binom_test,formula-method}
+\alias{binom_test,logical-method}
+\alias{binom_test,numeric-method}
 \alias{update_ci}
 \title{Exact Tests for Proportions}
 \usage{
 binom.test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95, ci.method = c("Score", "Wald", "Agresti-Coull",
+  "Plus4"), ...)
+
+binom_test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
   conf.level = 0.95, ...)
 
-\S4method{binom.test}{ANY}(x, n, p = 0.5, alternative = c("two.sided",
+\S4method{binom_test}{ANY}(x, n, p = 0.5, alternative = c("two.sided",
   "less", "greater"), conf.level = 0.95, ...)
 
-\S4method{binom.test}{formula}(x, n, p = 0.5, alternative = c("two.sided",
+\S4method{binom_test}{formula}(x, n, p = 0.5, alternative = c("two.sided",
   "less", "greater"), conf.level = 0.95, success = NULL, data.name, data,
   ...)
 
-\S4method{binom.test}{numeric}(x, n, p = 0.5, alternative = c("two.sided",
+\S4method{binom_test}{numeric}(x, n, p = 0.5, alternative = c("two.sided",
   "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 
-\S4method{binom.test}{character}(x, n, p = 0.5, alternative = c("two.sided",
+\S4method{binom_test}{character}(x, n, p = 0.5, alternative = c("two.sided",
   "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 
-\S4method{binom.test}{logical}(x, n, p = 0.5, alternative = c("two.sided",
+\S4method{binom_test}{logical}(x, n, p = 0.5, alternative = c("two.sided",
   "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 
-\S4method{binom.test}{factor}(x, n, p = 0.5, alternative = c("two.sided",
+\S4method{binom_test}{factor}(x, n, p = 0.5, alternative = c("two.sided",
   "less", "greater"), conf.level = 0.95, success = NULL, data.name, ...)
 
-update_ci(object, method = c("wald", "agresti", "plus4", "score"))
+update_ci(object, method = c("wald", "agresti-coull", "plus4", "score"))
 }
 \arguments{
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,
@@ -48,6 +53,9 @@ update_ci(object, method = c("wald", "agresti", "plus4", "score"))
 \item{alternative}{type of alternative hypothesis}
 
 \item{conf.level}{confidence level for confidence interval}
+
+\item{ci.method}{a method to use for computing the confidence interval
+(case insensitive and may be abbreviated).}
 
 \item{...}{additional arguments (often ignored)}
 
@@ -93,6 +101,8 @@ binom.test(c(97, 272-97))
 faithful$long <- faithful$eruptions > 3
 binom.test(faithful$long)
 binom.test(~ long, faithful)
+binom.test(~ long, faithful, ci.method="Wald")
+binom.test(~ long, faithful, ci.method="Plus4")
 }
 \seealso{
 \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}

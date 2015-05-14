@@ -20,7 +20,8 @@
 #'   	considered failure.
 #' @param data.name name for data.  If missing, this is inferred from variable names.
 #' @param data a data frame (if missing, \code{n} may be a data frame)
-#' @param ci.method a method to use for computing the confidence interval
+#' @param ci.method a method to use for computing the confidence interval 
+#'   (case insensitive and may be abbreviated).
 #' @param ... additional arguments (often ignored) 
 #' 
 #' @return an object of class \code{htest}
@@ -47,6 +48,8 @@
 #' faithful$long <- faithful$eruptions > 3
 #' binom.test(faithful$long)
 #' binom.test(~ long, faithful)
+#' binom.test(~ long, faithful, ci.method="Wald")
+#' binom.test(~ long, faithful, ci.method="Plus4")
 #' 
 #' @keywords stats
 #' 
@@ -55,11 +58,14 @@
 binom.test <- function( x, n, p = 0.5, 
                         alternative = c("two.sided", "less", "greater"), 
                         conf.level = 0.95, 
-                        ci.method = c("score", "wald", "agresti-coull", "plus4"), ...) 
+                        ci.method = c("Score", "Wald", "Agresti-Coull", "Plus4"), ...) 
 {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
-  ci.method <- match.arg(ci.method)
+  ci.method <- 
+    match.arg(
+      tolower(ci.method)[1], 
+      choices = c("score", "wald", "agresti-coull", "plus4"))
   
   res <- update_ci(
     binom_test( x = x,
