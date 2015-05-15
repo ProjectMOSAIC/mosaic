@@ -23,8 +23,8 @@ binom_test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
   "less", "greater"), conf.level = 0.95, ..., data, data.name)
 
 \S4method{binom_test}{formula}(x, n, p = 0.5, alternative = c("two.sided",
-  "less", "greater"), conf.level = 0.95, success = NULL, ..., data.name,
-  data = parent.frame())
+  "less", "greater"), conf.level = 0.95, success = NULL, ...,
+  data = parent.frame(), data.name)
 
 \S4method{binom_test}{numeric}(x, n, p = 0.5, alternative = c("two.sided",
   "less", "greater"), conf.level = 0.95, success = NULL, ..., data,

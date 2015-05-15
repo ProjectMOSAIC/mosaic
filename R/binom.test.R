@@ -145,7 +145,7 @@ setMethod(
 		  function(
 				   x, n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, ..., data.name, data = parent.frame()) 
+				   conf.level = 0.95, success=NULL, ..., data = parent.frame(), data.name) 
 		  {
 			  formula <- mosaic_formula(x, groups=NULL, max.slots=1)
 			  missing.n <- missing(n)
