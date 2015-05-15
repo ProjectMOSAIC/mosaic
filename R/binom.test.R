@@ -230,7 +230,17 @@ setMethod(
 				  data.name <- deparse(data.name$x$expr)
 		    }
 		    
-			  if (is.null(success) && all(x %in% c(0,1))) success <- 1
+			  # set a reasonable value for success if none given
+			  if (is.null(success)) {
+			    success <- 
+			      if (all(x %in% c(0, 1))) 1 else
+			        if (0 %in% x) 0 else 
+			          min(x, na.rm=TRUE)
+			  }
+		   
+		    message(
+		      paste("n is missing; treating x as raw data with success =", success)
+		    ) 
 			  binom_test(x=factor(x), p=p, alternative=alternative, 
 						 conf.level=conf.level, 
 						 success=success, 

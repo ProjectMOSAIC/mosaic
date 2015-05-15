@@ -213,13 +213,8 @@ setMethod(
 				   alternative = c("two.sided", "less", "greater"), 
 				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
-# 		    if ( FALSE ) {  # no longer allowing this since it masks some stats::prop.test() behavior
-# 		      result <-  stats::prop.test(x=x[1], n=sum(x), p=p, alternative=alternative,
-# 		                                  conf.level=conf.level,...) 
-# 		      result$data.name <- deparse(substitute(x))
-# 		      return(result)
-# 		    }
-			  if ( !missing(n) ) {  # doing this if there is an n
+			  # first hanlde case when n is provided
+			  if ( !missing(n) ) {  
 			    if (missing(data.name)) {
 				    data.name <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
 			    }
@@ -240,11 +235,15 @@ setMethod(
 		    if (is.list(data.name)) {
 				  data.name <- deparse(data.name$x$expr) 
 		    }
+		    # set a reasonable value for success if none given
         if (is.null(success)) {
-          success <- if (all(x %in% c(0,1))) 1 else min(x, na.rm=TRUE)
+          success <- 
+            if (all(x %in% c(0, 1))) 1 else
+              if (0 %in% x) 0 else 
+                min(x, na.rm=TRUE)
         }
 		    message(
-		      paste("n is missing.  treating x as raw data with success =", success)
+		      paste("n is missing; treating x as raw data with success =", success)
 		    )
 			  prop_test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 

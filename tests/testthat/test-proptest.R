@@ -98,5 +98,5 @@ test_that("x treated as raw data", {
   expect_equivalent(  
     interval(prop.test(X)), 
     interval(prop.test(x, 100)) )
-  expect_message(prop.test(X), "n is missing.")
+  expect_message(prop.test(X), "n is missing;")
 })

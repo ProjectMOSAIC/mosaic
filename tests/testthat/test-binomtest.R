@@ -85,3 +85,12 @@ test_that("numbers work", {
   
 })
   
+  test_that("x treated as raw data when n is missing", {
+    X <- resample(1:3, 100)
+    x <- sum(X == min(X))
+    expect_equivalent(  
+      interval(binom.test(X)), 
+      interval(binom.test(x, 100)) )
+    expect_message(prop.test(X), "n is missing;")
+  })  
+  
