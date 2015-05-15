@@ -241,6 +241,9 @@ setMethod(
 				  data.name <- deparse(data.name$x$expr) 
 		    }
         if (is.null(success) && all(x %in% c(0,1))) success <- 1
+		    message(
+		      paste("n is missing.  treating x as raw data with success =", success)
+		    )
 			  prop_test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 
