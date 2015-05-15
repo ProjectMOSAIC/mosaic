@@ -89,7 +89,7 @@ prop.test <- function( x, n, p = NULL,
   # this list will later be converted to a string using the appropriate information
   # dependent upon which of the prop_test methods is called.  
   
-  data.name <- list(x=x_lazy, n=n_lazy)
+  data.name <- list(x=x_lazy, n=n_lazy, data=data_lazy)
  
   if (missing_n) {
     prop_test(x_eval, p = p, alternative = alternative, 
@@ -149,17 +149,24 @@ setMethod(
 			  if (missing.n) { #  && !missing.data) {
 			    form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
 			                                         subscripts = TRUE, drop = TRUE)
-			    if (missing(data.name) || is.list(data.name)) {
-			      data.name <- paste( deparse(substitute(data)), "$", form$right.name, sep="" )
+			    if (missing(data.name)) {
+			      data.name <- 
+			        paste( deparse(substitute(data)), "$", form$right.name, sep="" )
 			    } 
+			    if (is.list(data.name)) {
+			      data.name <- 
+			        paste( deparse(data.name$data$expr), "$", form$right.name, sep="" )
+			    }
 			  } else {
 			    form <- lattice::latticeParseFormula(formula, n, #subset = subset, #groups = groups,  
 			                                         subscripts = TRUE, drop = TRUE)
 			    if (missing(data.name)) {
-			      data.name <- paste( deparse(substitute(n)), "$", form$right.name, sep="" )
+			      data.name <- 
+			        paste( deparse(substitute(n)), "$", form$right.name, sep="" )
 			    }
 			    if (is.list(data.name)) {
-			      data.name <- paste( deparse(data.name$n$expr), "$", form$right.name, sep="" )
+			      data.name <- 
+			        paste( deparse(data.name$n$expr), "$", form$right.name, sep="" )
 			    }
 			    data <- n
 			  }
