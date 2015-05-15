@@ -84,3 +84,14 @@ test_that("numbers work", {
   )
   
 })
+
+test_that("tests for multiple proportions", {
+  smokers  <- c( 83, 90, 129, 70 )
+  patients <- c( 86, 93, 136, 82 )
+  prop.test(smokers, patients)
+  expect_equivalent( 
+    stats::prop.test(smokers, patients),
+    prop.test(smokers, patients)
+  )
+  
+})
