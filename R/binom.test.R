@@ -58,11 +58,17 @@
 binom.test <- function( x, n, p = 0.5, 
                         alternative = c("two.sided", "less", "greater"), 
                         conf.level = 0.95, 
-                        ci.method = c("Score", "Wald", "Agresti-Coull", "Plus4"), ...) 
+                        ci.method = c("Score", "Wald", "Agresti-Coull", "Plus4"), 
+                        data = parent.frame(),
+                        ...) 
 {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
+  data_lazy <- lazyeval::lazy(data)
   missing_n <- missing(n)
+  x_eval <- tryCatch(
+    lazyeval::lazy_eval(x_lazy, data),
+    error = function(e) as.name(deparse(x_lazy$epr)) )
   
   # this list will later be converted to a string using the appropriate information
   # dependent upon which of the binom_test methods is called.  
@@ -75,12 +81,13 @@ binom.test <- function( x, n, p = 0.5,
       choices = c("score", "wald", "agresti-coull", "plus4"))
   
   res <- update_ci(
-    binom_test( x = x,
+    binom_test( x = x_eval,
                  n = n,
                  p = p,
                  alternative = alternative, 
                  conf.level = conf.level, 
                  data.name = data.name,    # ignored by some methods, used by others
+                 data = data,
                  ...),
     method = ci.method
   )
@@ -121,7 +128,7 @@ setMethod(
 		  function(
 				   x, n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, ...) 
+				   conf.level = 0.95, ..., data, data.name) 
 		  {
 			  stats::binom.test( x=x, n=n , p = p,
 								alternative = alternative,
@@ -138,7 +145,7 @@ setMethod(
 		  function(
 				   x, n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, data, ...) 
+				   conf.level = 0.95, success=NULL, ..., data.name, data = parent.frame()) 
 		  {
 			  formula <- mosaic_formula(x, groups=NULL, max.slots=1)
 			  missing.n <- missing(n)
@@ -185,7 +192,7 @@ setMethod(
 		  'numeric',
 		  function( x,  n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 			  if ( length(x) == 1 ) {
 				  result <-  stats::binom.test(x=x, n=n, p=p, alternative=alternative,
@@ -233,7 +240,7 @@ setMethod(
 		  function(
 				   x,  n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
@@ -257,7 +264,7 @@ setMethod(
 		  function(
 				   x,  n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
@@ -281,7 +288,7 @@ setMethod(
 		  function(
 				   x,  n, p = 0.5, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
