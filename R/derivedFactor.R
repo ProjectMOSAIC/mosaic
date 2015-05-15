@@ -103,10 +103,12 @@ derivedFactor <- function(...,
     rulesM <- do.call(cbind, rules)
   }
   
-  lastApplicableRule  <- apply( rulesM, 1, 
-                                function(x) max(which(x), na.rm=TRUE) )
-  firstApplicableRule <- apply( rulesM, 1, 
-                                function(x) min(which(x), na.rm=TRUE) )
+  lastApplicableRule  <- 
+    apply( rulesM, 1, 
+           function(x) if (all(is.na(x))) NA else max(which(x), na.rm=TRUE) )
+  firstApplicableRule <- 
+    apply( rulesM, 1, 
+           function(x) if (all(is.na(x))) NA else min(which(x), na.rm=TRUE) )
   firstApplicableRule[firstApplicableRule == Inf] <- NA
   lastApplicableRule[lastApplicableRule == -Inf] <- NA
   
