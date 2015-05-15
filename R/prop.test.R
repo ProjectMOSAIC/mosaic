@@ -76,18 +76,28 @@
  
 prop.test <- function( x, n, p = NULL, 
           alternative = c("two.sided", "less", "greater"), 
-          conf.level = 0.95,...) 
+          conf.level = 0.95, data = parent.frame(), ..., data.name) 
 {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
+  data_lazy <- lazyeval::lazy(data)
   missing_n <- missing(n)
+  x_eval <- tryCatch(
+    lazyeval::lazy_eval(x_lazy, data),
+    error = function(e) as.name(deparse(x_lazy$epr)) )
   
   # this list will later be converted to a string using the appropriate information
   # dependent upon which of the prop_test methods is called.  
   
   data.name <- list(x=x_lazy, n=n_lazy)
-  
-  prop_test(x, n, p, alternative = alternative, conf.level=conf.level, data.name=data.name, ...)
+ 
+  if (missing_n) {
+    prop_test(x_eval, p = p, alternative = alternative, 
+            conf.level = conf.level, data=data, data.name = data.name, ...)
+  } else {
+    prop_test(x_eval, n, p = p, alternative = alternative, 
+            conf.level = conf.level, data=data, data.name = data.name, ...)
+  }
 }
 
 setGeneric(
@@ -108,7 +118,7 @@ setMethod(
 		  function(
 				   x, n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95,...) 
+				   conf.level = 0.95, ..., data, data.name) 
 		  {
 		    dots <- list(...)
 		    do.call(stats::prop.test, 
@@ -128,7 +138,7 @@ setMethod(
 		  function(
 				   x, n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, data, groups=NULL, ...) 
+				   conf.level = 0.95, success=NULL, data.name, data=parent.frame(), groups=NULL, ...) 
 		  {
 			  formula <- mosaic_formula_q(x, groups=groups, max.slots=2)
 			  missing.n <- missing(n)
@@ -136,7 +146,7 @@ setMethod(
 			  dots <- list(...)
 			  #    groups <- eval(substitute(groups), data, environment(formula))
 			  #    subset <- eval(substitute(subset), data, environment(formula))
-			  if (missing.n && !missing.data) {
+			  if (missing.n) { #  && !missing.data) {
 			    form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
 			                                         subscripts = TRUE, drop = TRUE)
 			    if (missing(data.name) || is.list(data.name)) {
@@ -193,7 +203,7 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 # 		    if ( FALSE ) {  # no longer allowing this since it masks some stats::prop.test() behavior
 # 		      result <-  stats::prop.test(x=x[1], n=sum(x), p=p, alternative=alternative,
@@ -238,7 +248,7 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
@@ -261,7 +271,7 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
@@ -284,7 +294,7 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, ...) 
+				   conf.level = 0.95, success=NULL, ..., data, data.name) 
 		  {
 			  if (missing(data.name)) { 
 				  data.name <- deparse(substitute(x)) 
