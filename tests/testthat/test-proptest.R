@@ -22,7 +22,6 @@ test_that("formulas work", {
   
   expect_equivalent(interval(C), interval(X))
   expect_equivalent(C$data.name, "TestData$c")
-  
 })
 
 test_that("formulas work with unnamed second arg", {
@@ -82,16 +81,22 @@ test_that("numbers work", {
     interval(stats::prop.test(33, 100)),
     interval(prop.test(33, 100))
   )
-  
 })
 
 test_that("tests for multiple proportions", {
   smokers  <- c( 83, 90, 129, 70 )
   patients <- c( 86, 93, 136, 82 )
-  prop.test(smokers, patients)
   expect_equivalent( 
     stats::prop.test(smokers, patients),
     prop.test(smokers, patients)
   )
+})
   
+test_that("x treated as raw data", {
+  X <- resample(1:3, 100)
+  x <- sum(X == min(X))
+  expect_equivalent(  
+    interval(prop.test(X)), 
+    interval(prop.test(x, 100)) )
+  expect_message(prop.test(X), "n is missing.")
 })
