@@ -152,10 +152,8 @@ setMethod(
 			  missing.n <- missing(n)
 			  missing.data <- missing(data)
 			  dots <- list(...)
-			  #    groups <- eval(substitute(groups), data, environment(formula))
-			  #    subset <- eval(substitute(subset), data, environment(formula))
 			  if (missing.n && !missing.data) {
-				  form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
+				  form <- lattice::latticeParseFormula(formula, data, 
 													   subscripts = TRUE, drop = TRUE)
 				  if (missing(data.name)) {
 					  data.name <- paste( deparse(substitute(data)), "$", 
@@ -166,7 +164,7 @@ setMethod(
 					                      form$right.name,  sep="" )
 				  }
 			  } else {
-				  form <- lattice::latticeParseFormula(formula, n, #subset = subset, #groups = groups,  
+				  form <- lattice::latticeParseFormula(formula, n, 
 													   subscripts = TRUE, drop = TRUE)
 				  if (missing(data.name)) {
 					  data.name <- paste( deparse(substitute(n)), "$", form$right.name, sep="" )
@@ -177,7 +175,6 @@ setMethod(
 				  data <- n
 			  }
 			  # now data.name should be set and data should hold the data
-			  groups <- form$groups
 			  subscr <- form$subscr
 			  cond <- form$condition
 			  x <- form$right
