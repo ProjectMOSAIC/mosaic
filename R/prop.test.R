@@ -223,6 +223,9 @@ setMethod(
 				  result <-  stats::prop.test(x=x, n=n, p=p, alternative=alternative,
 											  conf.level=conf.level,...) 
 				  result$data.name <- data.name 
+				  if (!is.null(success)) 
+				    result$data.name <- 
+				      paste0(data.name, "  [with success = ", success, "]")
 				  return(result)
 			  }
         
@@ -323,6 +326,9 @@ setMethod(
 										 alternative = alternative,
 										 conf.level = conf.level, ...) 
 			  result$data.name <- data.name
+			  if (!is.null(success)) 
+			    result$data.name <- 
+			      paste0(data.name, "  [with success = ", success, "]")
 			  return(result)
 		  }
 		  )

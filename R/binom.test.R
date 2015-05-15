@@ -99,18 +99,6 @@ binom.test <- function( x, n, p = 0.5,
     method = ci.method
   )
   
-#   # update some slots based on lazyevaluated args
-#   print(res$data.name)
-#   res$data.name <-
-#     switch( res$data.name,
-#       "x out of n" = paste(deparse(x_lazy$expr), 
-#                            if (missing_n) "" else "out of", 
-#                            if (missing_n) "" else deparse(n_lazy$expr)
-#                            ),
-#       "x" = deparse(x_lazy$expr),
-#       res$data.name
-#     )
-#   res$data.name <- sub("^n\\$", paste0(deparse(n_lazy$expr), "$"), res$data.name)
   res
 }
 
@@ -311,6 +299,9 @@ setMethod(
 										  alternative = alternative,
 										  conf.level = conf.level, ...) 
 			  result$data.name <- data.name
+			  if (!is.null(success)) 
+			    result$data.name <- 
+			      paste0(data.name, "  [with success = ", success, "]")
 			  return(result)
 		  }
 		  )
