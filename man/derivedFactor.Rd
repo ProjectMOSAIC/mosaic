@@ -40,12 +40,13 @@ whenever all other rules are \code{FALSE}.
 When there are multiple \code{TRUE} rules for a slot, the first or last such is used
 or an error is generated, depending on the value of \code{method}.
 
-\code{derivedFactor} is designed to be used with \code{transform} to add new
+\code{derivedFactor} is designed to be used with \code{\link{transform}} or
+\code{\link[dplyr]{mutate}} to add new
 factor variables to a data frame.  See the examples.
 }
 \examples{
 if (require(mosaicData)) {
-Kf <- transform(KidsFeet, biggerfoot2=derivedFactor(
+Kf <- mutate(KidsFeet, biggerfoot2=derivedFactor(
                    dom = biggerfoot == domhand,
                    nondom = biggerfoot != domhand)
                    )
@@ -54,7 +55,7 @@ tally( ~biggerfoot + domhand, data=Kf)
 
 # Three equivalent ways to define a new variable
 # Method 1: explicitly define all levels
-modHELP <- transform(HELPrct, drinkstat = derivedFactor(
+modHELP <- mutate(HELPrct, drinkstat = derivedFactor(
   abstinent = i1 == 0,
   moderate = (i1>0 & i1<=1 & i2<=3 & sex=='female') |
      (i1>0 & i1<=2 & i2<=4 & sex=='male'),
@@ -65,7 +66,7 @@ modHELP <- transform(HELPrct, drinkstat = derivedFactor(
 tally( ~drinkstat, data=modHELP )
 
 # Method 2: Use .default for last level
-modHELP <- transform(HELPrct, drinkstat = derivedFactor(
+modHELP <- mutate(HELPrct, drinkstat = derivedFactor(
   abstinent = i1 == 0,
   moderate = (i1<=1 & i2<=3 & sex=='female') |
      (i1<=2 & i2<=4 & sex=='male'),
@@ -76,7 +77,7 @@ modHELP <- transform(HELPrct, drinkstat = derivedFactor(
 tally( ~drinkstat, data=modHELP )
 
 # Method 3: use TRUE to catch any fall through slots
-modHELP <- transform(HELPrct, drinkstat = derivedFactor(
+modHELP <- mutate(HELPrct, drinkstat = derivedFactor(
   abstinent = i1 == 0,
   moderate = (i1<=1 & i2<=3 & sex=='female') |
      (i1<=2 & i2<=4 & sex=='male'),

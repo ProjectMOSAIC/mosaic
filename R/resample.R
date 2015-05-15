@@ -108,7 +108,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #' tally(~ sex, data=resample(Small, groups=sex)) 
 #' # shuffled can be used to reshuffle some variables within groups
 #' # orig.ids shows where the values were in original data frame.
-#' Small <- transform(Small, 
+#' Small <- mutate(Small, 
 #'    id1 = paste(sex,1:10, sep=":"),  
 #'    id2 = paste(sex,1:10, sep=":"))
 #' resample(Small, groups=sex, shuffled=c("id1","id2"))

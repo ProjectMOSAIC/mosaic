@@ -56,7 +56,7 @@ bargraph( ~ substance, data=HELPrct)
 bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
 bargraph( ~ substance | sex, groups=homeless, auto.key=TRUE, data=HELPrct)
 bargraph( ~ substance, groups=homeless, auto.key=TRUE, data=HELPrct, subset=sex=="male")
-HELPrct2 <- transform( HELPrct, older = age > 40 )
+HELPrct2 <- mutate( HELPrct, older = age > 40 )
 bargraph( ~ substance | older, data = HELPrct2 )
 }
 }
