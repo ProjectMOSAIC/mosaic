@@ -113,22 +113,23 @@ setGeneric(
 ## @aliases prop_test,ANY-method
 
 setMethod(
-		  'prop_test',
-		  'ANY',
-		  function(
-				   x, n, p=NULL, 
-				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, ..., data, data.name) 
-		  {
-		    dots <- list(...)
-		    do.call(stats::prop.test, 
-		            c(
-		              list(x = x, n = n , p = p, alternative = alternative,
-		                   conf.level = conf.level), 
-		              dots)
-		    )
-		  }
-		  )
+  'prop_test',
+  'ANY',
+  function(
+    x, n, p=NULL, 
+    alternative = c("two.sided", "less", "greater"), 
+    conf.level = 0.95, ..., data, data.name) 
+  {
+    dots <- list(...)
+    res <- do.call(stats::prop.test, 
+                   c(
+                     list(x = x, n = n , p = p, alternative = alternative,
+                          conf.level = conf.level), 
+                     dots)
+    )
+    res
+  }
+)
 
 ## @aliases prop_test,formula-method
 
