@@ -95,9 +95,12 @@ binom.test(97, 272)
 binom.test(c(97, 272-97))
 faithful$long <- faithful$eruptions > 3
 binom.test(faithful$long)
-binom.test(~ long, faithful)
-binom.test(~ long, faithful, ci.method="Wald")
-binom.test(~ long, faithful, ci.method="Plus4")
+binom.test(resample(1:4, 400), p=.25)
+binom.test(~ long, data=faithful)
+binom.test(~ long, data=faithful, ci.method="Wald")
+binom.test(~ long, data=faithful, ci.method="Plus4")
+with(faithful, binom.test(~long))
+with(faithful, binom.test(long))
 }
 \seealso{
 \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
