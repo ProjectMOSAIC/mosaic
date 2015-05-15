@@ -8,81 +8,52 @@
 #' 
 #' @rdname ttest
 #' 
-#' @param x an object (e.g., a formula or a numeric vector)
-#' @param y an optional non-empty numeric vector
-#' @param enclos an environment in which to search in addition \code{data} when 
-#' \code{data} is a data frame.
+#' @param x a formula or a non-empty numeric vector
+#' @param y an optional non-empty numeric vector or formula
 #' @param data a data frame
 #' @param groups \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
-#' 
-#'
 #' @param \dots  additional arguments, see \code{\link[stats]{t.test}} in the
 #'    \pkg{stats} package.
 #' 
 #' @return an object of class \code{htest}
 #' 
 #' @details
-#' This is a wrapper around \code{\link{t.test}} from the \pkg{stats} package
+#' This is a wrapper around \code{\link[stats]{t.test}} from the \pkg{stats} package
 #' to extend the functionality of the formula interface.
 #'
-#' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{t.test}}
+#' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[mosaic]{binom.test}}, 
+#'   \code{\link[stats]{t.test}}
 #' 
 #' @examples
 #' if (require(mosaicData)) {
-#' t.test( ~ age, data=HELPrct)
-#' t.test( age ~ sex, data=HELPrct)
-#' t.test( ~ age | sex, data=HELPrct)
-#' t.test( ~ age, groups=sex, data=HELPrct)
+#'   t.test(~ age, data=HELPrct)
+#'   t.test(age ~ sex, data=HELPrct)
+#'   t.test(~ age | sex, data=HELPrct)
+#'   t.test(~ age, groups=sex, data=HELPrct)
 #' }
-#' @export
 
-ttest <- function (x, ..., data=parent.frame(), enclos=parent.frame()) {
-  x <- eval(substitute(x), data, enclos)
-  UseMethod('ttest', x) 
-}
-
-#' @rdname ttest
-#' @export
-
-ttest.default <-  function (x, y = NULL, ..., data=parent.frame(), enclos=parent.frame()) {
-  x <- eval(substitute(x), data, enclos)
-  y <- eval(substitute(y), data, enclos)
-  stats::t.test(x, y, ...)
-}
-
-#' @rdname ttest
-#' @export
-
-ttest.formula <- function(x, groups=NULL, ..., data=parent.frame(), enclos=parent.frame()) {
-  x <- mosaic_formula_q(x, groups=groups, max.slots=2, 
-                        envir = if (is.environment(data)) data else enclos)
-  # if (is.null(x)) stop("Invalid formula specification.")
-  tryCatch( 
-    return(stats::t.test(x, data=data, ...)),
-    error=function(e) {
-      if (grepl("grouping factor must have exactly 2 levels", e$message)) stop(e)
-      })
-  dots <- list(...)
-  formula <- x
-
-#  if (is.null(data)) stop("data must be specified.")
-
-  evalF <- evalFormula(formula,data)
-  if (ncol(evalF$right) < 1L) 
-    stop("No data specified in rhs of formula.") 
-  
-  vname <- names(evalF$right)[1L]
-  if (ncol(evalF$right) > 1L) {  
-    stop("Multiple variables specified in rhs of formula.")
-  }
-  
-  dataName <- paste("data$",vname,sep="")
-  x <- evalF$right[,1]
-  result <- do.call( stats::t.test, c(list(x=x), dots) ) 
-  result$data.name <- dataName
-  return(result)
-}
-
-#' @rdname ttest
 #' @export 
-t.test <- ttest
+t_test <- function(x, y=NULL, ..., data=parent.frame()) {
+  x_lazy <- lazyeval::lazy(x)
+  y_lazy <- lazyeval::lazy(y)
+  dots_lazy <- lazyeval::lazy_dots(...)
+  x_eval <- tryCatch( lazyeval::lazy_eval(x_lazy, data=data),
+                      error = function(e) as.name(deparse(x_lazy$expr)))
+  y_eval <- tryCatch( lazyeval::lazy_eval(y_lazy, data=data),
+                      error = function(e) as.name(deparse(y_lazy$expr)))
+  
+  res <- ttest(x_eval, y_eval, ..., data=data) 
+ 
+  res$data.name <- sub("^x$", deparse(x_lazy$expr), res$data.name)
+  res$data.name <- sub("^x and y$", 
+                       paste(deparse(x_lazy$expr), "and", deparse(y_lazy$expr)), 
+                       res$data.name)
+  res
+}
+
+#' @rdname ttest
+#' @export t.test
+#' @usage t.test(x, y=NULL, ..., data = parent.frame())
+t.test <- t_test
+
+
