@@ -241,7 +241,7 @@ setMethod(
 				  data.name <- deparse(data.name$x$expr) 
 		    }
         if (is.null(success)) {
-          success <- if (all(x %in% c(0,1))) 1 else x[1]
+          success <- if (all(x %in% c(0,1))) 1 else min(x, na.rm=TRUE)
         }
 		    message(
 		      paste("n is missing.  treating x as raw data with success =", success)
