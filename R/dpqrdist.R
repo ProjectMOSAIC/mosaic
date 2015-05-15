@@ -1,7 +1,25 @@
 
 # Note: one of d, p, q, or n must be a **named** argument.  This allows other things to 
 # be in ... without causing issues for the d/p/q/r function called.
-
+#' Distribution wrapper
+#' 
+#' Utility function wrapping up the d/p/q/r distribution functions
+#' 
+#' @param dist a character discription of a distribution, for example 
+#'   \code{"norm"}, \code{"t"}, or \code{"chisq"}
+#' @param type one of \code{"x"}, \code{"p"}, \code{"q"}, or \code{"r"}
+#' @param ... additional arguments passed on to underlying distribution function.
+#'   Note that one of \code{d}, \code{p}, \code{q}, or \code{n} must 
+#'   be a named argument in ...
+#' @export
+#' @examples
+#' # 3 random draws from N(1,2)
+#' dpqrdist("norm", "r", n=3, mean = 1, sd = 2)
+#' # These should all be the same
+#' dpqrdist("norm", "d", x=0) == dnorm(x=0)
+#' dpqrdist("norm", "p", q=0, mean = 1, sd = 2) == pnorm(q=0, mean = 1, sd = 2)
+#' dpqrdist("norm", "q", p=0.5, mean = 1, sd = 2) == qnorm(p=0.5, mean = 1, sd = 2)
+#' 
 dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
   type <- match.arg(type)
   dots <- list(...)
