@@ -18,7 +18,6 @@
 #' @param conf.level  confidence level for confidence interval 
 #' @param success  level of variable to be considered success.  All other levels are 
 #'   	considered failure.
-#' @param data.name name for data.  If missing, this is inferred from variable names.
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' @param ci.method a method to use for computing the confidence interval 
 #'   (case insensitive and may be abbreviated).
@@ -68,7 +67,8 @@ binom.test <- function( x, n, p = 0.5,
 {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
-  data_lazy <- lazyeval::lazy(data)
+  data_lazy <- lazyeval::lazy(data)   # this behaves differently from substitute() when data is a promise to lazy load.
+  data_sub <- substitute(data)
   missing_n <- missing(n)
   x_eval <- tryCatch(
     lazyeval::lazy_eval(x_lazy, data),
@@ -77,7 +77,9 @@ binom.test <- function( x, n, p = 0.5,
   # this list will later be converted to a string using the appropriate information
   # dependent upon which of the binom_test methods is called.  
   
-  data.name <- list(x=x_lazy, n=n_lazy, data=data_lazy)
+  data.name <- list(x=x_lazy, n=n_lazy, 
+                    data=list(expr = data_sub, env=parent.frame()))
+                    
   
   ci.method <- 
     match.arg(
@@ -112,8 +114,6 @@ binom.test <- function( x, n, p = 0.5,
   res
 }
 
-#' @rdname binom.test
-#' @export
 setGeneric(
 		   "binom_test",
 		   function( x, n, p = 0.5, 
@@ -125,8 +125,6 @@ setGeneric(
 		   )
 
 ## @aliases binom_test,ANY-method
-#' @rdname binom.test
-#' @export
 setMethod(
 		  'binom_test',
 		  'ANY',
@@ -142,8 +140,6 @@ setMethod(
 		  )
 
 ## @aliases binom_test,formula-method
-#' @rdname binom.test
-#' @export
 setMethod(
 		  'binom_test',
 		  'formula',
@@ -195,8 +191,6 @@ setMethod(
 		  )
 
 ##  @aliases binom_test,numeric-method
-#' @rdname binom.test
-#' @export
 setMethod(
 		  'binom_test',
 		  'numeric',
@@ -252,8 +246,6 @@ setMethod(
 		  )
 
 ## @aliases binom_test,character-method
-#' @rdname binom.test
-#' @export
 setMethod(
 		  'binom_test',
 		  'character',
@@ -276,8 +268,6 @@ setMethod(
 		  )
 
 ## @aliases binom_test,logical-method
-#' @rdname binom.test
-#' @export
 setMethod(
 		  'binom_test',
 		  'logical',
@@ -300,8 +290,6 @@ setMethod(
 		  )
 
 ## @aliases binom_test,factor-method
-#' @rdname binom.test
-#' @export
 setMethod(
 		  'binom_test',
 		  'factor',

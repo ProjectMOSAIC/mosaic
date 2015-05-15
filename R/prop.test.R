@@ -35,8 +35,6 @@
 #' @param success  level of variable to be considered success.  All other levels are 
 #'   	considered failure.
 #'
-#' @param data.name name for data.  If missing, this is inferred from variable names.
-#' 
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' 
 #' @param ... additional arguments (often ignored) 
@@ -75,11 +73,12 @@
  
 prop.test <- function( x, n, p = NULL, 
           alternative = c("two.sided", "less", "greater"), 
-          conf.level = 0.95, data = parent.frame(), ..., data.name) 
+          conf.level = 0.95, data = parent.frame(), ...) 
 {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
-  data_lazy <- lazyeval::lazy(data)
+  data_lazy <- lazyeval::lazy(data)   # this behaves differently from substitute() when data is a promise to lazy load.
+  data_sub <- substitute(data)
   missing_n <- missing(n)
   x_eval <- tryCatch(
     lazyeval::lazy_eval(x_lazy, data),
@@ -88,7 +87,8 @@ prop.test <- function( x, n, p = NULL,
   # this list will later be converted to a string using the appropriate information
   # dependent upon which of the prop_test methods is called.  
   
-  data.name <- list(x=x_lazy, n=n_lazy, data=data_lazy)
+  data.name <- list(x=x_lazy, n=n_lazy, 
+                    data=list(expr = data_sub, env=parent.frame()))
  
   if (missing_n) {
     prop_test(x_eval, p = p, alternative = alternative, 

@@ -5,7 +5,7 @@
 \title{Exact and Approximate Tests for Proportions}
 \usage{
 prop.test(x, n, p = NULL, alternative = c("two.sided", "less", "greater"),
-  conf.level = 0.95, data = parent.frame(), ..., data.name)
+  conf.level = 0.95, data = parent.frame(), ...)
 }
 \arguments{
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,
@@ -30,8 +30,6 @@ or that two proportions are equal; ignored otherwise.}
 \item{data}{a data frame (if missing, \code{n} may be a data frame)}
 
 \item{...}{additional arguments (often ignored)}
-
-\item{data.name}{name for data.  If missing, this is inferred from variable names.}
 
 \item{groups}{when \code{x} is a formula, \code{groups} can be used to
 compare groups.  (This can also be done using by placing both variables into
