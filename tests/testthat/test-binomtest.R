@@ -15,13 +15,13 @@ test_that("formulas work", {
   C <- binom.test(~ c, data=TestData)
   
   expect_equivalent(interval(A), interval(X))
-  expect_equivalent(A$data.name, "TestData$a")
+  expect_match(A$data.name, "TestData\\$a")
   
   expect_equivalent(interval(B), interval(X))
-  expect_equivalent(B$data.name, "TestData$b")
+  expect_match(B$data.name, "TestData\\$b")
   
   expect_equivalent(interval(C), interval(X))
-  expect_equivalent(C$data.name, "TestData$c")
+  expect_match(C$data.name, "TestData\\$c")
   
 })
 
@@ -33,13 +33,13 @@ test_that("formulas work with unnamed second arg", {
   C <- binom.test(~ c, TestData)
   
   expect_equivalent(interval(A), interval(X))
-  expect_equivalent(A$data.name, "TestData$a")
+  expect_match(A$data.name, "TestData\\$a")
   
   expect_equivalent(interval(B), interval(X))
-  expect_equivalent(B$data.name, "TestData$b")
+  expect_match(B$data.name, "TestData\\$b")
   
   expect_equivalent(interval(C), interval(X))
-  expect_equivalent(C$data.name, "TestData$c")
+  expect_match(C$data.name, "TestData\\$c")
 })
   
 test_that("success = works", {
@@ -51,13 +51,16 @@ test_that("success = works", {
   C <- binom.test(~ c, data=TestData, success = FALSE)
   
   expect_equivalent(interval(A), interval(X))
-  expect_equivalent(A$data.name, "TestData$a")
+  expect_match(A$data.name, "TestData\\$a")
+  expect_match(A$data.name, "success = b")
   
   expect_equivalent(interval(B), interval(X))
-  expect_equivalent(B$data.name, "TestData$b")
+  expect_match(B$data.name, "TestData\\$b")
+  expect_match(B$data.name, "success = b")
   
   expect_equivalent(interval(C), interval(Y))
-  expect_equivalent(C$data.name, "TestData$c")
+  expect_match(C$data.name, "TestData\\$c")
+  expect_match(C$data.name, "success = FALSE")
 })
 
 
@@ -68,13 +71,16 @@ test_that("bare vars work", {
   C <- binom.test( c, data=TestData)
   
   expect_equivalent(interval(A), interval(X))
-  expect_equivalent(A$data.name, "a")
+  expect_match(A$data.name, "a")
+  expect_match(A$data.name, "success = a")
   
   expect_equivalent(interval(B), interval(X))
-  expect_equivalent(B$data.name, "b")
+  expect_match(B$data.name, "b")
+  expect_match(B$data.name, "success = a")
   
   expect_equivalent(interval(C), interval(X))
-  expect_equivalent(C$data.name, "c")
+  expect_match(C$data.name, "c")
+  expect_match(C$data.name, "success = TRUE")
 })
 
 test_that("numbers work", {
