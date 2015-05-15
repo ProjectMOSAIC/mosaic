@@ -66,7 +66,6 @@ for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failu
 # eruptions lasting more than 3 minutes.
 prop.test( faithful$eruptions > 3 )
 prop.test(97,272)
-prop.test(c(97,272-97))
 faithful$long <- faithful$eruptions > 3
 prop.test( faithful$long )
 prop.test( ~long , faithful )
