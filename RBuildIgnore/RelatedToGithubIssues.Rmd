@@ -1,0 +1,21 @@
+---
+title: "Examples for Issues"
+author: "R Pruim"
+date: "May 16, 2015"
+output: html_document
+---
+
+```{r include=FALSE}
+require(mosaic)
+```
+
+## Identifying lazy data and success argument in binom.test() and prop.test() output
+
+```{r}
+# using ggplot2::midwest as an example
+binom.test(~category, data=midwest)
+prop.test(~category, data=midwest)
+```
+
+Note:  For lazy loaded data, using `deparse(lazyeval::lazy(data)$expr)` 
+doesn't contain what we want, so I'm reverting to using `substitute()` here.
