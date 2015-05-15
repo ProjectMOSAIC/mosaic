@@ -14,7 +14,7 @@
 \usage{
 binom.test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
   conf.level = 0.95, ci.method = c("Score", "Wald", "Agresti-Coull",
-  "Plus4"), data = parent.frame(), ...)
+  "Plus4"), data = parent.frame(), success = NULL, ...)
 
 binom_test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
   conf.level = 0.95, ...)
@@ -60,12 +60,12 @@ binom_test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
 
 \item{data}{a data frame (if missing, \code{n} may be a data frame)}
 
+\item{success}{level of variable to be considered success.  All other levels are
+considered failure.}
+
 \item{...}{additional arguments (often ignored)}
 
 \item{data.name}{name for data.  If missing, this is inferred from variable names.}
-
-\item{success}{level of variable to be considered success.  All other levels are
-considered failure.}
 }
 \value{
 an object of class \code{htest}

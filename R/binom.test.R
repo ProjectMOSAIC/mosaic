@@ -60,6 +60,7 @@ binom.test <- function( x, n, p = 0.5,
                         conf.level = 0.95, 
                         ci.method = c("Score", "Wald", "Agresti-Coull", "Plus4"), 
                         data = parent.frame(),
+                        success = NULL,
                         ...) 
 {
   x_lazy <- lazyeval::lazy(x)
@@ -73,7 +74,7 @@ binom.test <- function( x, n, p = 0.5,
   # this list will later be converted to a string using the appropriate information
   # dependent upon which of the binom_test methods is called.  
   
-  data.name <- list(x=x_lazy, n=n_lazy)
+  data.name <- list(x=x_lazy, n=n_lazy, data=data_lazy)
   
   ci.method <- 
     match.arg(
@@ -88,6 +89,7 @@ binom.test <- function( x, n, p = 0.5,
                  conf.level = conf.level, 
                  data.name = data.name,    # ignored by some methods, used by others
                  data = data,
+                 success = success,
                  ...),
     method = ci.method
   )
@@ -156,9 +158,14 @@ setMethod(
 			  if (missing.n && !missing.data) {
 				  form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
 													   subscripts = TRUE, drop = TRUE)
-				  if (missing(data.name) || is.list(data.name)) {
-					  data.name <- paste( deparse(substitute(data)), "$", form$right.name, sep="" )
+				  if (missing(data.name)) {
+					  data.name <- paste( deparse(substitute(data)), "$", 
+					                      form$right.name,  sep="" )
 				  } 
+				  if (is.list(data.name)) {
+					  data.name <- paste( deparse(data.name$data$expr), "$", 
+					                      form$right.name,  sep="" )
+				  }
 			  } else {
 				  form <- lattice::latticeParseFormula(formula, n, #subset = subset, #groups = groups,  
 													   subscripts = TRUE, drop = TRUE)
