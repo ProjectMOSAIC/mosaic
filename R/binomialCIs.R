@@ -1,5 +1,5 @@
 
-# copied from fastR
+# based on similar function in fastR
 wald_ci <- function (x, n = 100, conf.level = 0.95, 
                      alternative = c("two.sided", "less", "greater") ) 
 {
@@ -17,7 +17,7 @@ wald_ci <- function (x, n = 100, conf.level = 0.95,
   return(interval)
 }
 
-# copied from fastR
+# based on similar function in fastR
 plus4_ci <- function(x, n, conf.level = 0.95, 
                      alternative = c("two.sided", "less", "greater") ) 
 {
@@ -67,12 +67,18 @@ score_ci <- function(x, n, conf.level = 0.95,
   interval
 }
 
-#' @rdname binom.test
+#' Update confidence interval
+#' 
+#' Update the confidence interval portion of an object returned from
+#' \code{binom.test} using one of several alternative methods.
+#' 
 #' @param object An \code{"htest"} object produced by \code{\link{binom.test}}
 #' @param method a method for computing a confidence interval for a propotion.
 #' @return an \code{"htest"} object with an updated confidence interval
 #' 
 #' @export
+#' @seealso \code{\link[mosaic]{binom.test}}
+#' 
 update_ci <- function( object, method = c("wald", "agresti-coull", "plus4", "score") ) {
   if (! inherits(object, "htest") && !grepl("^Exact binomial test", object$method) )
     stop( "I don't know how to handle that type of object.")
