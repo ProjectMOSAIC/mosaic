@@ -242,6 +242,7 @@ setMethod(
 		    }
         if (is.null(success)) {
           success <- if (all(x %in% c(0,1))) 1 else x[1]
+        }
 		    message(
 		      paste("n is missing.  treating x as raw data with success =", success)
 		    )
