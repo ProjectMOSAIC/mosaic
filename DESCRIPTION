@@ -1,6 +1,6 @@
 Package: mosaic
 Type: Package
-Title: Project MOSAIC (mosaic-web.org) Statistics and Mathematics Teaching Utilities
+Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
 Version: 0.9.3.9001
 Date: 2015-05-07
 Depends:
