@@ -24,6 +24,7 @@ doesn't contain what we want, so I'm reverting to using `substitute()` here.
 
 ## favstats error message (#458)
 
+This error message was previously cryptic.  Better now.
 ```{r error=TRUE, purl=FALSE}
 require(mosaicData)
 favstats(~sex, data=HELPrct)

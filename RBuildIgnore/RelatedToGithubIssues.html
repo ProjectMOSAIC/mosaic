@@ -102,10 +102,14 @@ binom.test(~category, data=midwest)</code></pre>
 <h1>Error messages that could be improved</h1>
 <div id="favstats-error-message-458" class="section level2">
 <h2>favstats error message (#458)</h2>
+<p>This error message was previously cryptic. Better now.</p>
 <pre class="r"><code>require(mosaicData)</code></pre>
 <pre><code>## Loading required package: mosaicData</code></pre>
 <pre class="r"><code>favstats(~sex, data=HELPrct)</code></pre>
-<pre><code>## Error in maggregate(na.rm = na.rm, formula = ~(x), data = &lt;environment&gt;, : object 'na.rm' not found</code></pre>
+<pre><code>## Warning in (function (x, ..., na.rm = TRUE) : Auto-converting factor to
+## numeric.</code></pre>
+<pre><code>##  min Q1 median Q3 max     mean       sd   n missing
+##    1  2      2  2   2 1.763797 0.425218 453       0</code></pre>
 </div>
 </div>
 
