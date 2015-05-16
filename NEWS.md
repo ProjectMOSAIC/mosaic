@@ -1,7 +1,11 @@
 # mosaic package NEWS
 
-## mosaic 0.9.3.9000
-
+## mosaic 0.9.3.9000+
+ * Improved output to `binom.test()`, `prop.test()`, and `t.test()`, which have also undergone some internal restructuring.  The objects returned now do a 
+ better job of reporting about the test conducted.  In particular, `binom.test()`
+ and `prop.test()` will report the value of `success` used.(#450, #455)
+ * `binom.test()` can now computer several different kinds of confidence intervals including the Wald, Plus-4 and Agresti-Coull intervals.  (#449)
+ * `derivedFactor()` now handles NAs without throwing a warning.  (#451)
  * Improved `pdist()`, `pdist()` and related functions now do a better (i.e., useful) job with discrete distributions (#417)
  * Bug fixes in several functions that use non-standard evaluation improve their robustness and scope.  This affects `t.test()` and all the "aggregating" functions like `mean()` and `favstats()`.  In particular, it is now possible to reference variables both in the `data` argument and in the calling environment.  (#435)
  * `CIAdata()` now provides a message indicating the source URL for the data retrieved (#444)
@@ -9,6 +13,8 @@
  the CIA World Factobook website.  The "inflation" data set is still broken (on the CIA website).  (#441)
  * `read.file()` now uses functions from `readr` in some cases.  A message is produced indicating which reader is being used.  There are also some API changes.  In particular, character data will be returned as character rather than factor.  See `factorize()` for an easy way to convert things with few unique values into factors. (#442)
  * A major vignette housecleaning has happened.  Some vignettes have been removed from the package and vignettes inside the package are now compiled as part of package building to allow for more consistent checking of vignette contents.  "Less Volume, More Creativity" has been reformatted from slides into a more typical vignette format. (#438)
+ * `mutate()` is used in place of `transform()` in the examples. (#452)
+ * Some minor tidying of the markdown templates (#454)
 
 ## mosaic 0.9.2
 
