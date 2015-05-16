@@ -220,9 +220,6 @@ setMethod(
 			          min(x, na.rm=TRUE)
 			  }
 		   
-		    message(
-		      paste("n is missing; treating x as raw data with success =", success)
-		    ) 
 			  binom_test(x=factor(x), p=p, alternative=alternative, 
 						 conf.level=conf.level, 
 						 success=success, 

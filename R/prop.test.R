@@ -247,9 +247,7 @@ setMethod(
               if (0 %in% x) 0 else 
                 min(x, na.rm=TRUE)
         }
-		    message(
-		      paste("n is missing; treating x as raw data with success =", success)
-		    )
+		    
 			  prop_test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
 						success=success, 
