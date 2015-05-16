@@ -16,10 +16,11 @@ t.test(x, y=NULL, ..., data = parent.frame())
 
 \item{data}{a data frame}
 
-\item{groups}{\code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.}
-
 \item{\dots}{additional arguments, see \code{\link[stats]{t.test}} in the
-   \pkg{stats} package.}
+   \pkg{stats} package.
+  When \code{x} is a formula, \code{groups} can be used to compare groups:
+  \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
+  See the examples.}
 }
 \value{
 an object of class \code{htest}

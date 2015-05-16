@@ -32,11 +32,10 @@ or that two proportions are equal; ignored otherwise.}
 \item{success}{level of variable to be considered success.  All other levels are
       considered failure.}
 
-\item{...}{additional arguments (often ignored)}
-
-\item{groups}{when \code{x} is a formula, \code{groups} can be used to
-compare groups.  (This can also be done using by placing both variables into
-the formula.)  See the examples.}
+\item{...}{additional arguments (often ignored).
+  When \code{x} is a formula, \code{groups} can be used to compare groups:
+  \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
+  See the examples.}
 }
 \value{
 an \code{htest} object
@@ -68,9 +67,9 @@ faithful$long <- faithful$eruptions > 3
 prop.test( faithful$long )
 prop.test( ~long , faithful )
 if (require(mosaicData)) {
-prop.test( homeless ~ sex, data=HELPrct )
-prop.test( ~ homeless | sex, data=HELPrct )
-prop.test( ~ homeless, groups= sex, data=HELPrct )
+prop.test( homeless ~ sex, data = HELPrct )
+prop.test( ~ homeless | sex, data = HELPrct )
+prop.test( ~ homeless, groups = sex, data = HELPrct )
 }
 }
 \seealso{
