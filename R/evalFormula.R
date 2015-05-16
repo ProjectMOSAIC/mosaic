@@ -66,7 +66,7 @@ evalSubFormula <- function(x, data=NULL, ops=c('+','&'), env=parent.frame()){
   sx <- substitute(x)
   if (is.null(x)) return(NULL)
   if( is.name(x) || !(as.character(x[[1]]) %in% ops) ) {
-    res <- data.frame(eval(x, data, env))
+    res <- data.frame(eval(x, data, env), stringsAsFactors=FALSE)
     names(res) <- deparse(x)
     return( res )
   }
