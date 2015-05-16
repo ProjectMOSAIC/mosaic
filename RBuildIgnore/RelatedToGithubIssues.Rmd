@@ -19,3 +19,12 @@ prop.test(~category, data=midwest)
 
 Note:  For lazy loaded data, using `deparse(lazyeval::lazy(data)$expr)` 
 doesn't contain what we want, so I'm reverting to using `substitute()` here.
+
+# Error messages that could be improved
+
+## favstats error message (#458)
+
+```{r error=TRUE, purl=FALSE}
+require(mosaicData)
+favstats(~sex, data=HELPrct)
+```
