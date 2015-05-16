@@ -11,9 +11,12 @@
 #' @param x a formula or a non-empty numeric vector
 #' @param y an optional non-empty numeric vector or formula
 #' @param data a data frame
-#' @param groups \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
 #' @param \dots  additional arguments, see \code{\link[stats]{t.test}} in the
 #'    \pkg{stats} package.
+#'   When \code{x} is a formula, \code{groups} can be used to compare groups:  
+#'   \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
+#'   See the examples. 
+
 #' 
 #' @return an object of class \code{htest}
 #' 

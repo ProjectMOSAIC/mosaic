@@ -12,9 +12,7 @@
 #' @param x  count of successes, length 2 vector of success and failure counts, a formula,
 #'   			or a character, numeric, or factor vector containing raw data.
 #'     		
-#' @param groups when \code{x} is a formula, \code{groups} can be used to 
-#' compare groups.  (This can also be done using by placing both variables into
-#' the formula.)  See the examples.
+#'
 #' 
 #' @param n  sample size (successes + failures) or a data frame 
 #'   (for the formula interface) 
@@ -37,7 +35,10 @@
 #'
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' 
-#' @param ... additional arguments (often ignored) 
+#' @param ... additional arguments (often ignored).  
+#'   When \code{x} is a formula, \code{groups} can be used to compare groups:  
+#'   \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
+#'   See the examples. 
 #' 
 #' @note When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
 #' for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
@@ -60,9 +61,9 @@
 #' prop.test( faithful$long )
 #' prop.test( ~long , faithful )
 #' if (require(mosaicData)) {
-#' prop.test( homeless ~ sex, data=HELPrct )
-#' prop.test( ~ homeless | sex, data=HELPrct )
-#' prop.test( ~ homeless, groups= sex, data=HELPrct )
+#' prop.test( homeless ~ sex, data = HELPrct )
+#' prop.test( ~ homeless | sex, data = HELPrct )
+#' prop.test( ~ homeless, groups = sex, data = HELPrct )
 #' }
 #' 
 #' @keywords stats
