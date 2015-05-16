@@ -5,7 +5,7 @@
 \title{Exact and Approximate Tests for Proportions}
 \usage{
 prop.test(x, n, p = NULL, alternative = c("two.sided", "less", "greater"),
-  conf.level = 0.95, data = parent.frame(), ...)
+  conf.level = 0.95, data = parent.frame(), success = NULL, ...)
 }
 \arguments{
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,
@@ -29,14 +29,14 @@ or that two proportions are equal; ignored otherwise.}
 
 \item{data}{a data frame (if missing, \code{n} may be a data frame)}
 
+\item{success}{level of variable to be considered success.  All other levels are
+      considered failure.}
+
 \item{...}{additional arguments (often ignored)}
 
 \item{groups}{when \code{x} is a formula, \code{groups} can be used to
 compare groups.  (This can also be done using by placing both variables into
 the formula.)  See the examples.}
-
-\item{success}{level of variable to be considered success.  All other levels are
-      considered failure.}
 }
 \value{
 an \code{htest} object

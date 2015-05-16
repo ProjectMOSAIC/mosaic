@@ -73,7 +73,7 @@
  
 prop.test <- function( x, n, p = NULL, 
           alternative = c("two.sided", "less", "greater"), 
-          conf.level = 0.95, data = parent.frame(), ...) 
+          conf.level = 0.95, data = parent.frame(), success=NULL, ...) 
 {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
@@ -92,10 +92,12 @@ prop.test <- function( x, n, p = NULL,
  
   if (missing_n) {
     prop_test(x_eval, p = p, alternative = alternative, 
-            conf.level = conf.level, data=data, data.name = data.name, ...)
+            conf.level = conf.level, data=data, data.name = data.name, 
+            success = success, ...)
   } else {
     prop_test(x_eval, n, p = p, alternative = alternative, 
-            conf.level = conf.level, data=data, data.name = data.name, ...)
+            conf.level = conf.level, data=data, data.name = data.name, 
+            success=success, ...)
   }
 }
 
