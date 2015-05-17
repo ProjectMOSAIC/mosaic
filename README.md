@@ -28,6 +28,7 @@ If you want to try out our developmental code (the beta branch), use
 ```r
 devtools::install_github("ProjectMOSAIC/mosaic", ref="beta")
 ```
+Updates to the master github repository are more frequent than CRAN updates.
 Our beta branch is where we implement bug fixes most quickly and develop new features.
 We try to keep it pretty stable, but there may be a few rough edges, missing documentation, etc. while things are in progress.  
 
