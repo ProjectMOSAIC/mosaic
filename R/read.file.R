@@ -93,11 +93,17 @@ function (file, header = T, na.strings = "NA",
     if (!file.exists(file) && grepl("https://", file)) {  # assume we are reading a URL
       if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
       file <- textConnection(RCurl::getURL(file))
+      using_RCurl <- TRUE
     }
     
     if (filetype == "csv") {
-      message("Reading data with readr::read_csv()")
-      return(as.data.frame(readr::read_csv(file, col_names = header, na = na.strings, ...)))
+      if (using_RCurl) {
+        message("Reading data with read.csv()")
+        return(read.csv(file, header=header, na.strings = na.strings, ...))
+      } else {
+        message("Reading data with readr::read_csv()")
+        return(as.data.frame(readr::read_csv(file, col_names = header, na = na.strings, ...)))
+      }
     }
     
     if (filetype == "fw") {
