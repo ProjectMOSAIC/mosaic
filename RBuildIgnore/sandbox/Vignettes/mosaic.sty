@@ -1,0 +1,95 @@
+
+\ProvidesPackage{mosaic}
+\RequirePackage{relsize}
+\RequirePackage{xstring}
+\RequirePackage{xcolor}
+\RequirePackage{framed}
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+\newlength{\tempfmlength}
+\newsavebox{\fmbox}
+\newenvironment{fmpage}[1]
+     {
+	 \medskip
+	 \setlength{\tempfmlength}{#1}
+	 \begin{lrbox}{\fmbox}
+	   \begin{minipage}{#1}
+		 \vspace*{.02\tempfmlength}
+		 \hfill
+	   \begin{minipage}{.95 \tempfmlength}}
+		 {\end{minipage}\hfill
+		 \vspace*{.015\tempfmlength}
+		 \end{minipage}\end{lrbox}\fbox{\usebox{\fmbox}}
+	 \medskip
+	 }
+
+\newenvironment{boxedText}[1][.98\textwidth]%
+{%
+\begin{center}
+\begin{fmpage}{#1}
+}%
+{%
+\end{fmpage}
+\end{center}
+}
+
+\newenvironment{boxedTable}[2][tbp]%
+{%
+\begin{table}[#1]
+  \refstepcounter{table}
+  \begin{center}
+\begin{fmpage}{.98\textwidth}
+  \begin{center}
+	\sf \large Box~\expandafter\thetable. #2
+\end{center}
+\medskip
+}%
+{%
+\end{fmpage}
+\end{center}
+\end{table}		% need to do something about exercises that follow boxedTable
+}
+
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+
+\newcommand{\rterm}[1]{\textbf{#1}}
+
+
+% Looking for a consistent typography for variable names.
+% for consistency, we need to match all the verbatim uses elsewhere 
+% unless someone wants to recode all that.
+\newcommand{\VN}[1]{{\color{green!50!black}\texttt{#1}}}
+\newcommand{\vn}[1]{{\color{green!50!black}\texttt{#1}}}
+\newcommand{\DFN}[1]{{\color{blue!80!black}\texttt{#1}}}
+\newcommand{\dfn}[1]{{\color{blue!80!black}\texttt{#1}}}
+\newcommand{\variable}[1]{{\color{green!50!black}\texttt{#1}}}
+\newcommand{\dataframe}[1]{{\color{blue!80!black}\texttt{#1}}}
+\newcommand{\function}[1]{{\color{purple!75!blue}\texttt{\StrSubstitute{#1}{()}{}()}}}
+\newcommand{\option}[1]{{\color{brown!80!black}\texttt{#1}}}
+\newcommand{\pkg}[1]{{\color{red!80!black}\texttt{#1}}}
+\newcommand{\code}[1]{{\color{blue!80!black}\texttt{#1}}}
+% and for models
+\newcommand{\model}[2]{{$\,$\hbox{#1}\ \ensuremath{\sim}\ \hbox{#2}}}
+
+\newenvironment{comment}{%
+\begin{quote}
+\em
+}{%
+\end{quote}
+}
+		 
+\ifdefined\knitrout
+\renewenvironment{knitrout}{\small}{\normalsize}
+\else
+\fi
+

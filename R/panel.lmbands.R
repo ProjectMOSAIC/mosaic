@@ -49,10 +49,10 @@ function (x, y,
   band.lty <- inflate(band.lty, 2, 1)
 
   fit <- makeFun(model)
-	Clower <- function(x) {fit(x, interval="confidence")[,2]}
-	Cupper <- function(x) {fit(x, interval="confidence")[,3]}
-	Plower <- function(x) {fit(x, interval="prediction")[,2]}
-	Pupper <- function(x) {fit(x, interval="prediction")[,3]}
+	Clower <- function(x) {fit(x, interval="confidence", level=level)[,2]}
+	Cupper <- function(x) {fit(x, interval="confidence", level=level)[,3]}
+	Plower <- function(x) {fit(x, interval="prediction", level=level)[,2]}
+	Pupper <- function(x) {fit(x, interval="prediction", level=level)[,3]}
 
 	dots <- list(...)
   bandDots <- dots

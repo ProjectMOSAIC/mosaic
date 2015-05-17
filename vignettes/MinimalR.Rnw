@@ -1,0 +1,552 @@
+
+%\VignetteIndexEntry{Minimal R}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, vignettes, minimal}
+%\VignetteEngine{knitr::knitr} 
+
+\documentclass[10pt]{report}
+
+\usepackage[landscape,margin=.40in,top=.30in,bottom=.30in,includehead,includefoot]{geometry}
+
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\usepackage[utf8]{inputenc}
+
+%%%%  fancy family
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\renewcommand{\chaptermark}[1]{\thispagestyle{fancy}\markboth{{#1}}{}}
+\renewcommand{\sectionmark}[1]{\markright{{#1}}{}}
+
+\chead{}
+\lhead[\sf \thepage]{\sf \leftmark}
+\rhead[\sf \leftmark]{\sf \thepage}
+
+\pagestyle{fancy}
+
+
+%%% some local defs
+
+\newcounter{myenumi}
+\newcommand{\saveenumi}{\setcounter{myenumi}{\value{enumi}}}
+\newcommand{\reuseenumi}{\setcounter{enumi}{\value{myenumi}}}
+
+\def\R{{\sf R}}
+\def\Rstudio{{\sf RStudio}}
+\def\RStudio{{\sf RStudio}}
+\def\term#1{\textbf{#1}}
+\def\tab#1{{\sf #1}}
+
+\providecommand{\variable}[1]{}
+\renewcommand{\variable}[1]{{\color{green!50!black}\texttt{#1}}}
+\providecommand{\dataframe}[1]{}
+\renewcommand{\dataframe}[1]{{\color{blue!80!black}\texttt{#1}}}
+\providecommand{\function}[1]{}
+\renewcommand{\function}[1]{{\color{purple!75!blue}\texttt{\StrSubstitute{#1}{()}{}()}}}
+\providecommand{\option}[1]{}
+\renewcommand{\option}[1]{{\color{brown!80!black}\texttt{#1}}}
+\providecommand{\pkg}[1]{}
+\renewcommand{\pkg}[1]{{\color{red!80!black}\texttt{#1}}}
+\providecommand{\code}[1]{}
+\renewcommand{\code}[1]{{\color{blue!80!black}\texttt{#1}}}
+
+\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+\newcommand{\rterm}[1]{\textbf{#1}}
+
+\usepackage{textcomp}  % for \texttildelow
+\newcommand{\twiddle}{\raisebox{0.5ex}{\texttildelow}}
+
+
+\title{Minimal R for Intro Stats}
+
+\author{
+Randall Pruim, Project MOSAIC
+}
+
+\date{\today}
+
+
+\begin{document}
+\parindent=0pt
+
+\chead{\sf \bfseries \Large Enough R for Intro Stats}
+\rhead{May, 2015}
+\lhead{R. Pruim}
+
+<<setup,echo=FALSE,message=FALSE,include=FALSE>>=
+#source('setup.R')
+require(mosaic)
+require(mosaicData)
+require(parallel)
+trellis.par.set(theme=col.mosaic())
+set.seed(123)
+#knit_hooks$set(inline = function(x) {
+#	if (is.numeric(x)) return(knitr:::format_sci(x, 'latex'))
+#	x = as.character(x)
+#	h = knitr:::hilight_source(x, 'latex', list(prompt=FALSE, size='normalsize'))
+#	h = gsub("([_#$%&])", "\\\\\\1", h)
+#	h = gsub('(["\'])', '\\1{}', h)
+#	gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
+#})
+opts_chunk$set(
+	dev="pdf",
+	eval=FALSE,
+	tidy=FALSE,
+	fig.align='center',
+	fig.show='hold'
+	)
+@ 
+
+
+\let\oldchapter=\chapter
+\def\chapter{\setcounter{page}{1}\oldchapter}
+
+
+%\begin{center}
+%\section*{Enough R for Intro Stats}
+%\end{center}
+
+\def\opt#1{#1}
+\def\squeeze{\vspace*{-4ex}}
+
+\maketitle
+
+\newpage
+
+\vspace{1in}
+
+\begin{center}
+	\Large
+	``Less volume, more creativity." 
+
+	\medskip
+
+	\normalsize
+	Mike McCarthy, Head Coach, Green Bay Packers
+\end{center}
+
+\bigskip
+
+\begin{multicols}{2}
+	\parindent=.5cm
+	\parskip=4mm
+
+Mike McCarthy had signs proclaiming his ``Less volume, more creativity" mantra 
+hung on the office walls of all of his coordinators during one off-season.  When asked about it, he
+said,  ``A lot of times you end up putting in a lot more volume, because you are teaching fundamentals 
+and you are teaching concepts that you need to put in, but you may not necessarily use
+because they are building blocks for other concepts and variations that will come off of that \dots
+In the offseason you have a chance to take a step back and tailor it more specifically towards your 
+team and towards your players." % I think we've been able to accomplish that in Green Bay." 
+
+
+Statistics instructors using \R\ face a similar dilemma.  \R\ is capable of so much that it is tempting
+to include this, and then that, and then the other, and then one more thing.  Vectors and lists and
+recycling and coercion and functions and \dots  It all seems so fundamental to the way \R\ works.  And 
+when mastered, these concepts do become building blocks for other concepts and variations.
+
+
+But when looking back at the end of a term, we have to admit that some of these things really aren't 
+necessary to get the job done, and may do more harm than good for beginners.  We too need to take a step
+back and tailor things toward our students and their abilities and needs.
+The colored commands on the next page are sufficient for an Introductory Statistics course that includes 
+ANOVA, regression, and resampling techniques.  The others are optional extras.   
+This is followed by a 1-page sampler showing usage examples for some of the functions.
+
+
+Note: These pages are intended as a guide for instructors, not as a reference card for students.  Although they
+may also be useful for students, they would need supplementing with additional details.
+
+\columnbreak
+
+The list of functions we present are not the only sufficient set of functions, but they were carefully chosen to fit as much 
+as possible into a small number of paradigms.  In particular,
+\begin{enumerate}
+	\item
+		We make use of the ``formula interface" whenever possible.
+
+		Students will need the formula interface to do regression an ANOVA.  Since we are going 
+		to teach it anyway, we use formulas as consistently and as often as we can.
+		In some cases, my colleagues and I have written new functions or expanded the use of existing functions 
+		to serve this end.  These functions are available in the \pkg{mosaic} package and are
+		indicated in the comments in our palette.  Some of the data sets are from the 
+		\pkg{mosaicData} package.
+
+	\item 
+		We use \pkg{lattice} graphics.
+
+		\R\ has three separate high level plotting libraries (base,
+		\pkg{lattice}, and \pkg{ggplot2}).  Each has its advantages, but we
+		choose \pkg{lattice} because it uses the same formula interface used
+		elsewhere and because it encourages students to things about
+		disaggregating data according to the values of covariates by making
+		this very easy to do.
+\end{enumerate}
+
+
+Whether you use this list or some other list, we encourage you to make a complete list of the commands you
+want your students to learn over the course of a semester.  Organize them by topic.  Organize them again
+by syntactic structure.  Ask yourself how they look as a whole.  Have you chosen a set of functions that
+fit well together?  
+And most importantly: What is your creativity to volume quotient?
+
+
+\end{multicols}
+
+
+\newpage
+
+\lhead{\href{http://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
+\rhead{\href{http://mosaic-web.org}{mosaic-web.org}}
+
+\begin{multicols}{4}
+
+\iftrue
+\subsection*{Help}
+<<>>=
+apropos()  
+?
+??
+example()
+@
+\fi
+
+\subsection*{Basic Calculations}
+Basic calculation works like a calculator.
+<<>>=
+# basic ops: + - * / ^ ( )
+log(); exp(); sqrt()
+@
+\squeeze
+<<highlight=FALSE>>=
+log10(); abs(); choose()
+@
+% uniroot()   # root finder
+
+
+
+
+
+\subsection*{Formula Interface}
+The following syntax (often with 
+some parts omitted) is used for 
+graphical summaries, numerical summaries,
+and inference procedures.
+
+<<>>=
+goal(y ~ x | z, data=..., 
+                 groups=...)
+@
+
+For plots:
+\begin{itemize}
+	\item
+		\texttt{y}: is y-axis variable
+	\item
+		\texttt{x}: is x-axis variable
+	\item
+		\texttt{z}: conditioning variable 
+		
+		(separate panels)
+	\item
+		\texttt{groups}: conditioning variable 
+		
+		(overlaid graphs)
+\end{itemize}
+For other things:
+\medskip
+
+`\code{y \twiddle{} x | z}' can usually be
+read `\code{y} is modeled by (or depends on) \code{x} 
+differently for each \code{z}'.
+\medskip
+
+See the sampler for examples.
+
+
+
+\subsection*{Numerical Summaries}
+These functions have 
+a formula interface to match plotting.
+%
+<<>>=
+favstats()   # mosaic
+tally()      # mosaic
+mean()       # mosaic augmented
+median()     # mosaic augmented
+sd()         # mosaic augmented
+var()        # mosaic augmented
+diffmean()   # mosaic
+@
+\iftrue
+\squeeze
+<<highlight=FALSE>>=
+quantile()   # mosaic augmented
+prop()       # mosaic
+perc()       # mosaic
+rank()
+IQR()        # mosaic augmented
+min(); max() # mosaic augmented
+@
+\fi
+
+\subsection*{Graphics (mostly lattice)}
+
+%\medskip
+
+%\texttt{lattice} is not the only option,
+%but it works well because (a) it allows
+%for easy multi-variable plots with good default settings,
+%and (b) \texttt{lattice} uses the formula interface.
+%
+<<>>=
+bwplot()
+xyplot()
+histogram() # mosaic augmented
+densityplot()
+freqpolygon() # mosaic
+qqmath()
+makeFun()   # mosaic
+plotFun()   # mosaic
+@
+\squeeze
+<<highlight=FALSE>>=
+ladd()      # mosaic 
+dotPlot()   # mosaic
+bargraph()  # mosaic
+xqqmath()   # mosaic
+@
+\squeeze
+<<eval=FALSE>>=
+mplot(data=HELPrct, 'scatter')
+mplot(data=HELPrct, 'boxplot')
+mplot(data=HELPrct, 'histogram')
+@
+
+
+\subsection*{Randomization/Simulation}
+%
+<<>>=
+rflip()     # mosaic
+do()        # mosaic
+sample()    # mosaic augmented
+resample()  # with replacement
+shuffle()   # mosaic
+@
+\squeeze
+<<highlight=FALSE>>=
+rbinom()
+rnorm()     # etc, if needed
+@
+
+
+\subsection*{Distributions}
+%
+<<>>=
+pbinom(); pnorm();   
+xpnorm()    # mosaic augmented
+pchisq(); pt()
+qbinom(); qnorm(); 
+qchisq(); qt()
+plotDist()  # mosaic
+@
+
+\subsection*{Inference}
+%
+<<>>=
+t.test()      # mosaic augmented
+binom.test()  # mosaic augmented
+prop.test()   # mosaic augmented
+xchisq.test() # mosaic 
+fisher.test()
+pval()        # mosaic
+model <- lm() # linear models
+summary(model)
+coef(model)
+confint(model) # mosaic augmented
+anova(model)
+makeFun(model) # mosaic 
+resid(model); fitted(model)
+mplot(model)   # mosaic
+@
+%\squeeze
+<<highlight=FALSE>>=
+mplot(TukeyHSD(model))
+model <- glm() # logistic reg.
+@
+
+
+\subsection*{Data}
+<<>>=
+require(mosaicData)  # load package 
+read.file()    # mosaic
+nrow(); ncol(); dim()
+summary()
+str()
+names()
+head(); tail()
+with()
+factor()
+@
+\squeeze
+<<highlight=FALSE>>=
+ntiles()      # mosaic
+cut()
+c()
+cbind(); rbind()
+colnames()
+rownames()
+relevel()
+reorder()
+@
+\squeeze
+<<highlight=FALSE>>=
+rep()
+seq()
+sort()
+rank()
+@
+\subsection*{Data Transformation}
+<<highlight=FALSE>>=
+select()      # dplyr
+mutate()      # dplyr
+filter()      # dplyr
+arrange()     # dplyr
+summarise()   # dplyr
+group_by()    # dplyr
+left_join()   # dplyr
+inner_join()  # dplyr
+merge()    
+@
+
+\vfill
+
+\end{multicols}
+
+\newpage
+
+\chead{\sf \bfseries \Large R Sampler for Intro Stats}
+
+\def\opt#1{#1}
+\def\squeeze{\vspace*{-4ex}}
+%\noindent One key to success using \R\ in Intro Stats is keeping the volume low:
+%\hfill
+%``Less volume, more creativity" (Mike McCarthy, head coach, Green Bay Packers)
+
+<<more-hooks,eval=TRUE,echo=FALSE>>=
+opts_chunk$set(
+	eval=TRUE, 
+  size='small',
+	fig.width=4,
+	fig.height=1.9,
+	fig.align="center",
+	out.width=".25\\textwidth",
+	out.height=".125\\textwidth",
+	tidy=TRUE,
+	comment=NA
+)
+@
+
+\begin{multicols}{3}
+<<echo=FALSE>>=
+options(width=40)
+options(show.signif.stars=FALSE)
+@
+<<coins,fig.keep="last">>=
+rflip(6)
+do(2) * rflip(6)
+coins <- do(1000)* rflip(6)
+tally(~ heads, data=coins)
+@
+\vspace*{-.25in}
+<<>>=
+tally(~ heads, data=coins, format="perc")
+tally(~ (heads>=5 | heads<=1) , data=coins)
+@
+\vspace*{-.20in}
+<<coins-hist,fig.keep="last">>=
+histogram(~ heads, data=coins, width=1,
+            groups = (heads>=5 | heads<=1))
+@
+%\columnbreak
+<<tally>>=
+require(mosaicData)   # this package contains data sets used below
+tally(sex ~ substance, data=HELPrct)
+mean(age ~ sex, data=HELPrct)
+diffmean(age ~ sex, data=HELPrct)
+favstats(age ~ sex, data=HELPrct)
+@
+\vspace*{-.15in}
+<<densityplot,fig.height=2.4>>=
+densityplot(~ age | sex, groups=substance, 
+               data=HELPrct, auto.key=TRUE)
+@
+\vspace*{-.25in}
+<<bwplot>>=
+bwplot(age ~ substance | sex, data=HELPrct)
+@
+\columnbreak
+<<message=FALSE>>=
+pval(binom.test(~ sex, data=HELPrct))
+confint(t.test(~ age, data=HELPrct))
+@
+\iffalse
+<<tidy=FALSE>>=
+model <- lm(age ~ sex + substance, 
+			data=HELPrct) 
+anova(model)
+@
+\fi
+\iffalse
+<<tidy=FALSE>>=
+xyplot(Sepal.Length ~ Sepal.Width, 
+        groups=Species, data=iris) 
+@
+\fi
+\vspace{-.2in}
+<<fig.keep="last", tidy=FALSE, fig.height=2.3>>=
+model <- lm(weight ~ height + gender, 
+            data=Heightweight)
+wt <- makeFun(model)
+wt( height=72, gender="male")
+xyplot(weight ~ height, groups=gender, 
+       data=Heightweight)
+plotFun(wt(h,gender="male") ~ h, 
+        add=TRUE, col="skyblue")
+plotFun(wt(h,gender="female") ~ h, 
+        add=TRUE, col="navy")
+@
+\vspace{-.2in}
+<<fig.height=1.75>>=
+plotDist("chisq", df=4)
+@
+
+<<include=FALSE>>=
+tally(homeless ~ sex, data=HELPrct)
+@
+<<include=FALSE>>=
+chisq.test(tally(homeless ~ sex, data=HELPrct))
+prop.test(homeless ~ sex, data=HELPrct)
+@
+
+\iffalse
+Important things that I (mostly) avoid in Intro Stats:
+\begin{itemize}
+	\item missing data
+	\item reshaping data
+\end{itemize}
+\R\ has functions for these things as well.
+\fi
+
+\vfill
+\end{multicols}
+
+\end{document}
+
+

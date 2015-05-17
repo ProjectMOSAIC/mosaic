@@ -282,6 +282,7 @@ mUSMap <- function(data, key, fill=NULL,
 #' head(mergedData)
 #' @export
 CIAdata <- function (name = NULL) {
+  
   if (is.null(name)) return(CIA)  
   
   if (name %in% CIA$Name) {
@@ -297,11 +298,17 @@ CIAdata <- function (name = NULL) {
   code <- sub[["Code"]]
   url <- (paste0("https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_",
                  code, ".txt"))
+  message(paste("Retrieving data from", url))
   
   if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
+
+# it appears that the file format has moved from tab delimited to fixed width
+# parsing on two or more spaces seems to work, at least for some files.
   
-  table <- read.delim(textConnection(RCurl::getURL(url, ssl.verifypeer = FALSE)),
-                      header = FALSE, stringsAsFactors = FALSE)
+#  table <- read.delim(textConnection(RCurl::getURL(url, ssl.verifypeer = FALSE)),
+#                      header = FALSE, stringsAsFactors = FALSE)
+  lines <- readLines(textConnection(RCurl::getURL(url, ssl.verifypeer = FALSE)))
+  table <- as.data.frame(do.call(rbind, strsplit( lines, "  +")), stringsAsFactors=FALSE)
   table[, 1] <- NULL
   names(table) <- c("country", name)
   table[[2]] = as.numeric(gsub("[^.+[:digit:] ]", "",

@@ -27,7 +27,7 @@
 #' ediff(.leap.seconds)
 #' if (require(mosaicData)) {
 #' Men <- subset(SwimRecords, sex=="M")
-#' Men <- transform(Men, change=ediff(time), interval=ediff(year))
+#' Men <- mutate(Men, change=ediff(time), interval=ediff(year))
 #' head(Men) 
 #' }
 #' @export

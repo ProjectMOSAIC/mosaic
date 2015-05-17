@@ -3,10 +3,10 @@ title: "Untitled"
 author: ""
 date: ""
 output: 
-  pdf_document:
+  html_document:
     fig_height: 3
     fig_width: 5
-  html_document:
+  pdf_document:
     fig_height: 3
     fig_width: 5
   word_document:
@@ -15,13 +15,13 @@ output:
 ---
 
 
-```{r include=FALSE}
+```{r, include=FALSE}
 # Don't delete this chunk if you are using the mosaic package
 # This loads the mosaic and dplyr packages
 require(mosaic)
 ```
 
-```{r include=FALSE}
+```{r, include=FALSE}
 # Some customization.  You can alter or delete as desired (if you know what you are doing).
 
 # This changes the default colors in lattice plots.

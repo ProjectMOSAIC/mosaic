@@ -42,7 +42,8 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' \item{\code{sub}}{subtitle for plot }
 #' \item{\code{lwd}}{line width }
 #' \item{\code{lty}}{line type }
-#' \item{\code{col}}{a color } 
+#' \item{\code{col}}{a color or a (small) integer indicating which color in the current
+#' color scheme is desired.} 
 #' }
 #' Additionally, these arguments can be used to specify parameters for the function being 
 #' plotted and to specify the plotting window with natural names.  See the examples for such usage.
@@ -69,6 +70,9 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' plotFun( sin(x) ~ x, 
 #'    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
 #'    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
+#' plotFun( sin(x) ~ x, 
+#'    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
+#'    col=c(1,2), lty=2, lwd=3, xlim=c(-10,10) )
 #' ## plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t, k=2, P=.3)
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
@@ -78,12 +82,18 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' model <- lm(wage ~ poly(exper,degree=2), data=CPS85)
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
-#' plotFun(fit(exper) ~ exper, add=TRUE, lwd=8)
+#' plotFun(fit(exper) ~ exper, add=TRUE, lwd=3, col="red")
 #' # Can also just give fit since it is a "function of one variable"
 #' plotFun(fit, add=TRUE, lwd=2, col='white')
 #' }
 #' # Attempts to find sensible axis limits by default
 #' plotFun( sin(k*x)~x, k=0.01 )
+#' # Plotting a linear model with multiple predictors.
+#' mod <- lm(length ~ width * sex, data=KidsFeet)
+#' fitted.length <- makeFun(mod)
+#' xyplot(length ~ width, groups=sex, data=KidsFeet, auto.key=TRUE)
+#' plotFun(fitted.length(width, sex="B") ~ width, add=TRUE, col=1)
+#' plotFun(fitted.length(width, sex="G") ~ width, add=TRUE, col=2)
 #' @export
 
 plotFun <- function(object, ..., 

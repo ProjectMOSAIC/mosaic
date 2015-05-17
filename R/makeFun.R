@@ -326,8 +326,7 @@ setMethod(
 #' @export
 
 modelVars <- function(model) {
-  formula <- as.formula(model$call$formula)
-  all.vars(rhs(formula))
+  all.vars(rhs(model$terms))
 }
 
 #' Extract coefficients from a function
