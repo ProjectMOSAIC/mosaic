@@ -100,7 +100,7 @@ The following longer documents are available at
 \item \textit{Start Teaching Statistics Using R} includes 
 some strategies for teaching beginners, and introduction to the \pkg{mosaic} package,
 and some additional things that instructors should know about using \R.
-\item \textit{A Compendium of Commands to Teach Statistics with R} provides
+\item \textit{A Student's Guide to R} provides
 a brief introduction to 
 the \R commands needed for all the basic statistical procedures in 
 an Intro Stats course;
