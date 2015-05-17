@@ -50,28 +50,36 @@
 #' \dontrun{s = fetchGoogle(key="0Am13enSalO74dEVzMGJSMU5TbTc2eWlWakppQlpjcGc")}
 #' @export
 
-fetchGoogle <- function(URL,key=NULL){
+fetchGoogle <- function(URL, key=NULL){
 
+  message("fetchGoogle() is no longer actively supported.")
+  message("See the `googlesheets' package, which is dedicated to the R/Google interface.")
+  
   if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
 
-  if (missing(URL) & !is.null(key)) {
-    URL.old = paste("https://docs.google.com/spreadsheet/pub?key=",
-                key,"&single=TRUE&gid=0","&output=csv",sep="")
-    # https://docs.google.com/spreadsheets/d/<KEY>/export?format=csv&id=<KEY>
-    URL.new = paste("https://docs.google.com/spreadsheets/d/",
-              key, "/export?format=csv&id=", key, sep="")
+  if (missing(URL) && !is.null(key)) {
+    URL.old <- paste("https://docs.google.com/spreadsheet/pub?key=",
+                    key,"&single=TRUE&gid=0","&output=csv",sep="")
+    url_content <- RCurl::getURLContent(URL.old)
+    text_con <- textConnection(url_content)
+    result <- read.csv(text_con)
+    close(text_con)
+    if (ncol(result) == 1 & names(result)[1] == "X.HTML.") {
+      # Old style didn't work, try new style.
+      # https://docs.google.com/spreadsheets/d/<KEY>/export?format=csv&id=<KEY>
+      URL.new <- paste("https://docs.google.com/spreadsheets/d/",
+                      key, "/export?format=csv&id=", key, sep="")
+      url_content <- RCurl::getURLContent(URL.new)
+      text_con <- textConnection(url_content)
+      result <- read.csv(text_con)
+      close(text_con)
+    }
+  } else {
+      url_content <- RCurl::getURLContent(URL)
+      text_con = textConnection(url_content)
+      result <- read.csv(text_con)
+      close(text_con)
   }
-  
-  s = RCurl::getURLContent(URL.old)
-  foo = textConnection(s)
-  b = read.csv(foo)
-  close(foo)
-  
-  if (ncol(b) == 1 & names(b)[1] == "X.HTML.") {
-    s = RCurl::getURLContent(URL.new)
-    foo = textConnection(s)
-    b = read.csv(foo)
-    close(foo)
-  }
-  return(b)
+ 
+  result 
 }

@@ -1,6 +1,11 @@
 # mosaic package NEWS
 
 ## mosaic 0.9.3.9000+
+ * We are planning to remove `fetchGoogle()` (and perhaps `read.file()`) from future versions 
+ of the package.  More and more packages are providing utilities for bringing data into R and it
+ doesn't make sense for us to duplicate those efforts in this package.  For google sheets, you
+ might take a look at the `googlesheets` package which is avialable via github now and will be 
+ on CRAN soon.
  * Improved output to `binom.test()`, `prop.test()`, and `t.test()`, which have also undergone some internal restructuring.  The objects returned now do a 
  better job of reporting about the test conducted.  In particular, `binom.test()`
  and `prop.test()` will report the value of `success` used.(#450, #455)
