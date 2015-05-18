@@ -70,3 +70,18 @@ favstats(~ births, data=Births78)
 This file can be knit to HTML, PDF, or Word.  In RStudio, just select the desired output file type
 and click on `Knit HTML`, `Knit PDF`, or `Knit Word`.  Use the dropdown menu next to that to 
 change the desired file type.
+
+### Documenting file creation 
+
+It's useful to record some information about how your file was created.
+
+  * File creation date: `r Sys.Date()`
+  * `r R.version.string`
+  * R version (short form): `r getRversion()`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * Additional session information
+  
+```{r echo=FALSE}
+sessionInfo()  # could use devtools::session_info() if you prefer that
+```
+  
