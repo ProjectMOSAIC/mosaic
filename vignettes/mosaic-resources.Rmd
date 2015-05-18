@@ -123,6 +123,9 @@ but much of the code originally in the `fastR` package has been moved into the `
    *Technology Innovations in Statistics Education*, 2007, 1(1), 
    [www.escholarship.org/uc/item/6hb3k0nz](http://www.escholarship.org/uc/item/6hb3k0nz).
 
+ * NJ Horton, BS Baumer, and H Wickham, "Teaching precursors to data science in introductory and second courses in statistics," *CHANCE*, 2015, 28(2):40-50, 
+ [www3.amherst.edu/~nhorton/precursors](http://www3.amherst.edu/~nhorton/precursors)
+ 
  * D Nolan and D Temple Lang, "Computing in the statistics curricula", 
 *The American Statistician*, 2010, 64(2), 
 [www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf](http://www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf).
