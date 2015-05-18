@@ -7,7 +7,9 @@
 CIAdata(name = NULL)
 }
 \arguments{
-\item{name}{An optional parameter specifying the name of the desired dataset}
+\item{name}{An optional parameter specifying the name of the desired dataset.
+If multiple names are given, a merge will be attempted on the individual data
+sets.}
 }
 \description{
 This function can be used in two different ways. Without an argument, it returns a reference

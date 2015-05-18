@@ -271,7 +271,9 @@ mUSMap <- function(data, key, fill=NULL,
 #' available dataset. If this name is passed as an argument to the function, the function 
 #' will return the corresponding dataset.
 #' 
-#' @param name An optional parameter specifying the name of the desired dataset
+#' @param name An optional parameter specifying the name of the desired dataset.
+#' If multiple names are given, a merge will be attempted on the individual data
+#' sets.
 #' 
 #' @examples
 #' head(CIAdata())
@@ -284,6 +286,11 @@ mUSMap <- function(data, key, fill=NULL,
 CIAdata <- function (name = NULL) {
   
   if (is.null(name)) return(CIA)  
+  
+  if (length(name) > 1) {
+    return(Reduce(function(A,B) merge(A,B, by="country", all=TRUE), 
+                  Map(CIAdata, name=name)))
+  }
   
   if (name %in% CIA$Name) {
     sub <- subset(CIA, Name == name)

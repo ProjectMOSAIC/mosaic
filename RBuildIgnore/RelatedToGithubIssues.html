@@ -111,6 +111,24 @@ binom.test(~category, data=midwest)</code></pre>
 <pre><code>##  min Q1 median Q3 max     mean       sd   n missing
 ##    1  2      2  2   2 1.763797 0.425218 453       0</code></pre>
 </div>
+<div id="ciadata" class="section level2">
+<h2>CIAdata()</h2>
+<p>Adding in ability to select multiple names and get a merged data set.</p>
+<pre class="r"><code>World &lt;- CIAdata(c(&quot;pop&quot;, &quot;area&quot;, &quot;life&quot;, &quot;fert&quot;))</code></pre>
+<pre><code>## Retrieving data from https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_2119.txt
+## Loading required namespace: RCurl
+## Retrieving data from https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_2147.txt
+## Retrieving data from https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_2102.txt
+## Retrieving data from https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_2127.txt</code></pre>
+<pre class="r"><code>head(World)</code></pre>
+<pre><code>##          country      pop    area  life fert
+## 1    Afghanistan 31822848  652230 50.49 5.43
+## 2       Akrotiri       NA     123    NA   NA
+## 3        Albania  3020209   28748 77.96 1.50
+## 4        Algeria 38813722 2381741 76.39 2.78
+## 5 American Samoa    54517     199 74.91 2.98
+## 6        Andorra    85458     468 82.65 1.38</code></pre>
+</div>
 </div>
 
 

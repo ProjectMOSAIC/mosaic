@@ -29,3 +29,11 @@ This error message was previously cryptic.  Better now.
 require(mosaicData)
 favstats(~sex, data=HELPrct)
 ```
+
+## CIAdata()
+
+Adding in ability to select multiple names and get a merged data set.
+```{r}
+World <- CIAdata(c("pop", "area", "life", "fert"))
+head(World)
+```
