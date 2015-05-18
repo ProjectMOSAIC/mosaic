@@ -81,7 +81,7 @@ but much of the code originally in the `fastR` package has been moved into the `
 
     * [www.amherst.edu/~nhorton/sleuth](http://www.amherst.edu/~nhorton/sleuth)
 		
- * *Introduction to the Practice of Statistics in R* (NJ Horton)
+ * *Introduction to the Practice of Statistics in R* (NJ Horton and BS Baumer)
 		describes how to undertake analyses in R that are introduced as examples in the first
 		chapters of the Sixth Edition of *Introduction to the Practice of
 		Statistics* (2007), the excellent text by David Moore, George McCabe,
@@ -103,7 +103,7 @@ but much of the code originally in the `fastR` package has been moved into the `
     * [lock5stat.com](http://lock5stat.com) 
 		
 
- * *Introcution to Statistical Investigations* (Tintle *et al*) 
+ * *Introduction to Statistical Investigations* (Tintle *et al*) 
 		is another introductory statistics textbook that embraces a resampling approach. 
 		
     An annotated companion to the examples in the book implemented using R can be found at 
@@ -124,7 +124,7 @@ but much of the code originally in the `fastR` package has been moved into the `
    [www.escholarship.org/uc/item/6hb3k0nz](http://www.escholarship.org/uc/item/6hb3k0nz).
 
  * NJ Horton, BS Baumer, and H Wickham, "Teaching precursors to data science in introductory and second courses in statistics," *CHANCE*, 2015, 28(2):40-50, 
- [www3.amherst.edu/~nhorton/precursors](http://www3.amherst.edu/~nhorton/precursors)
+ [www.amherst.edu/~nhorton/precursors](http://www.amherst.edu/~nhorton/precursors)
  
  * D Nolan and D Temple Lang, "Computing in the statistics curricula", 
 *The American Statistician*, 2010, 64(2), 
