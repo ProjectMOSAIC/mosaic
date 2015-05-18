@@ -35,8 +35,8 @@
 #' \code{read.file} uses the (case insensitive) file extension to determine how to read
 #' data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
 #' \code{\link{load}} is used to load the file.  If \code{file}
-#' ends in \code{.csv}, then \code{\link[readr]{read_csv}} is used.  Otherwise,
-#' \code{\link{read.table}} is used.
+#' ends in \code{.csv}, then \code{\link[readr]{read_csv}} or \code{\link{read.csv}} is used.  
+#' Otherwise, \code{\link{read.table}} is used.
 #' @param package if specified, files will be search for among the documentation
 #' files provided by the package.
 #' 
@@ -61,7 +61,7 @@ function (file, header = T, na.strings = "NA",
     package=NULL, ...) 
 {
   
-  
+    using_readr <- FALSE
     if (!is.null(package)) {
       file <- docFile(file, package=package, character.only=TRUE)
     }
@@ -71,38 +71,48 @@ function (file, header = T, na.strings = "NA",
       if (regexpr("\\.csv$", tolower(file)) > 0) {
         filetype <- "csv"
       } 
+      
       if (regexpr("\\.tsv$", tolower(file)) > 0) {
         filetype <- "tsv"
       } 
+      
+      if (regexpr("\\.fw$", tolower(file)) > 0) {
+        using_readr <- TRUE
+      }
+      
       if ( regexpr("\\.rdata$", tolower(file)) > 0 || 
             regexpr("\\.rda", tolower(file)) >0 ){
         filetype <- "rdata"
       } 
     }
     
-    if( ! filetype=="txt") {
-      if (! is.null(comment.char)) message("comment.char is currently being ignored.")
-      
-      if (length(na.strings) > 1) {
-        message("Currently, only the first item in na.strings is used.")
-        message("Additional items will be ignored.")
-        na.strings = na.strings[1]
-      }
+    if (filetype %in% c("csv", "tsv", "fw")) {
+      # try to use readr for these
+      using_readr <- TRUE
     }
     
     if (!file.exists(file) && grepl("https://", file)) {  # assume we are reading a URL
       if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
       file <- textConnection(RCurl::getURL(file))
       using_RCurl <- TRUE
+      using_readr <- FALSE
     }
     
+    if (using_readr) { 
+      if (! is.null(comment.char)) message("comment.char is currently being ignored.")
+      if (length(na.strings) > 1) {
+        message("Currently, only the first item in na.strings is used.")
+        message("Additional items will be ignored.")
+        na.strings = na.strings[1]
+      } 
+    }
     if (filetype == "csv") {
-      if (using_RCurl) {
-        message("Reading data with read.csv()")
-        return(read.csv(file, header=header, na.strings = na.strings, ...))
-      } else {
+      if (using_readr) {
         message("Reading data with readr::read_csv()")
         return(as.data.frame(readr::read_csv(file, col_names = header, na = na.strings, ...)))
+      } else {
+        message("Reading data with read.csv()")
+        return(read.csv(file, header=header, na.strings = na.strings, ...))
       }
     }
     
@@ -117,12 +127,12 @@ function (file, header = T, na.strings = "NA",
     }
     
     if (filetype == "rdata") {
-      message("Reading data with load()")
+      message("Reading data with load(); ignoring extra arguments.")
       varNames <- load(file)  
       return(invisible(varNames))
     }
     
-    # fall through to read_table() for any other file format.
+    # fall through to read.table() for any other file format.
     message("Reading data with read.table()")
     return(
       read.table(file, header = header, na.strings = na.strings, stringsAsFactors=FALSE,...)
