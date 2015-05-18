@@ -52,8 +52,10 @@
 
 fetchGoogle <- function(URL, key=NULL){
 
-  message("fetchGoogle() is no longer actively supported.")
-  message("See the `googlesheets' package, which is dedicated to the R/Google interface.")
+  message(
+    "fetchGoogle() is no longer actively supported.\n",
+    "See the `googlesheets' package, which is dedicated to the R/Google interface.\n"
+    )
   
   if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
 
