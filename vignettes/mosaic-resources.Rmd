@@ -40,7 +40,7 @@ from within R or from
 ## Project MOSAIC Little Books
 
 The following longer documents are available at 
-[github.com/ProjectMOSAIC/LittleBooks](https://github.com/ProjectMOSAIC/LittleBooks).
+[github.com/ProjectMOSAIC/LittleBooks](https://github.com/ProjectMOSAIC/LittleBooks/blob/master/README.md).
 
  * *Start Teaching Statistics Using R* includes 
 some strategies for teaching beginners, and introduction to the `mosaic` package,
@@ -71,7 +71,7 @@ is an R-infused probability and mathematical statistics text that emphasizes
 connections between probability and statistics. The book predates the `mosaic` package, 
 but much of the code originally in the `fastR` package has been moved into the `mosaic` package.
 
-    * [http://www.ams.org/publications/authors/books/postpub/amstext-13](http://www.ams.org/publications/authors/books/postpub/amstext-13)
+    * [www.ams.org/publications/authors/books/postpub/amstext-13](http://www.ams.org/publications/authors/books/postpub/amstext-13)
 
  * *The Statistical Sleuth in R* (NJ Horton)
 		describes how to undertake analyses in R for the
@@ -91,25 +91,31 @@ but much of the code originally in the `fastR` package has been moved into the `
 
  * *Statistics: Unlocking the Power of Data* (Lock, Lock, Lock, Lock, and Lock) 
 		is an introductory statistics textbook that embraces a resampling approach. 
-		Additional information about the book and the approach used there can be found at
-		[lock5stat.com](http://lock5stat.com). 
 		
     An annotated companion to the examples in the book implemented using R can be found at 
 		
-    * [github.com/rpruim/Lock5withR/raw/master/Lock5withR.pdf](https://github.com/rpruim/Lock5withR/raw/master/Lock5withR.pdf)
+    * [github.com/rpruim/Lock5withR/](https://github.com/rpruim/Lock5withR/blob/master/README.md)
     
     and the `Lock5withR` R package provides all the data sets used in the text.
+		
+    Additional information about the book and the approach used there can be found at
+		
+    * [lock5stat.com](http://lock5stat.com) 
+		
 
  * *Introcution to Statistical Investigations* (Tintle *et al*) 
 		is another introductory statistics textbook that embraces a resampling approach. 
-		Additional information about the book and the approach used there can be found at
-		[math.hope.edu/isi/](http://math.hope.edu/isi/).
 		
     An annotated companion to the examples in the book implemented using R can be found at 
 		
-    * [github.com/rpruim/Tintle1/raw/master/Book/Tintle1.pdf](https://github.com/rpruim/Tintle1/raw/master/Book/Tintle1.pdf)
+    * [github.com/rpruim/Tintle1/](https://github.com/rpruim/Tintle1/blob/master/README.md)
     
     and the `Tintle1` R package provides all the data sets used in the text.
+    
+    Additional information about the book and the approach used there can be found at
+		
+    * [math.hope.edu/isi/](http://math.hope.edu/isi/)
+		
 			
 
 ## Articles
