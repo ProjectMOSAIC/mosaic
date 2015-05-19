@@ -30,3 +30,4 @@ vignettes-source$
 ^data-raw$
 ^NEWS\.md$
 ^revdep$
+^_output\.yaml$
