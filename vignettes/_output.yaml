@@ -1,5 +1,18 @@
   rmarkdown::html_vignette:
     keep_md: true
+    fig_height: 3
+    fig_width: 5
   md_document:
     variant: markdown_github
-    
+    fig_height: 3
+    fig_width: 5
+  html_document:
+    fig_height: 3
+    fig_width: 5
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+  

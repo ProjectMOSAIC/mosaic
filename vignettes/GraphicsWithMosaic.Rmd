@@ -1,23 +1,10 @@
 ---
-title: ""
-author: ""
-date: ""
-output: 
-  html_document:
-    fig_height: 3
-    fig_width: 5
-  pdf_document:
-    fig_height: 3
-    fig_width: 5
-  word_document:
-    fig_height: 3
-    fig_width: 5
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Graphics with the mosaic package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Graphics with the mosaic package}
--->
 
 # Graphics with the mosaic package
 
