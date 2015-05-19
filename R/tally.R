@@ -220,6 +220,7 @@ rows <- function(x, default=c()) {
 #' @param format one of \code{proportion}, \code{percent}, or \code{count},
 #'        possibly abbrevaited
 #' @param quiet a logical indicating whether messages should be supressed.
+#'   Currently ignored as no messages are produced.
 #'
 #' @note For 0-1 data, level is set to 1 by default since that a standard 
 #' coding scheme for success and failure.
