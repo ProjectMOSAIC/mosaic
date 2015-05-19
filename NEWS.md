@@ -118,14 +118,14 @@ change the default behavior to remove `NA`s and options(na.rm=NULL) to restore
 defaults.
  * `do()` has been largely rewritten with an eye toward improved 
 efficiency.  In particular, `do()` will take advantage of multiple cores
-if the `parallel` package is availalbe. At this point, sluggishness in applications of `do()` are 
+if the `parallel` package is available. At this point, sluggishness in applications of `do()` are 
 mostly likely due to the sluggishness of what is being done, not to `do()` itself.
- * Added an additional method to `deltaMethod()` from the `car` package to make it easier to do propagation of uncertainty is some situations
-that arrise commonly in the physical sciences and engineering.
+ * Added an additional method to `deltaMethod()` from the `car` package to make it easier to propagate uncertainty in some situations
+that commonly arise in the physical sciences and engineering.
  * Added `cdist()` to compute critical values for the central portion
 of a distribution.
- * Some changes to the API for `qdata()`.  For interactive use, this 
-not cause any problem, but old programmatic uses of `qdata()` should be 
+ * Some changes to the API for `qdata()`.  For interactive use, this should
+not cause any problems, but old programmatic uses of `qdata()` should be 
 checked as the object returned is now different.
  * Fixed a bug that caused aggregating functions (`sum()`, `mean()`, `sd()`, etc.) to produce counter-intuititve results (but with a warning).  The results are now what one would expect (and the warning is removed).
  * Added `rsquared()` for extracting r-squared from models and model-like objects (`r.squared()` has been deprecated).
