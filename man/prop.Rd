@@ -32,7 +32,8 @@ when there is a conditioning variable}
 \item{format}{one of \code{proportion}, \code{percent}, or \code{count},
 possibly abbrevaited}
 
-\item{quiet}{a logical indicating whether messages should be supressed.}
+\item{quiet}{a logical indicating whether messages should be supressed.
+  Currently ignored as no messages are produced.}
 
 \item{\dots}{arguments passed through to \code{\link{tally}}}
 }
