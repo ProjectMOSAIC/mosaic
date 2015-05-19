@@ -2,12 +2,7 @@
 title: "Resources Related to the mosaic Package"
 author: "Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton"
 date: "`r Sys.Date()`"
-output:  
-  rmarkdown::html_vignette:
-    keep_md: true
-  md_document:
-    variant: markdown_github
-    
+
   
 vignette: >
   %\VignetteIndexEntry{Resources Related to the mosaic Package}
