@@ -114,9 +114,9 @@ but much of the code originally in the `fastR` package has been moved into the `
 		
     An annotated companion to the examples in the book implemented using R can be found at 
 		
-    * [github.com/rpruim/Tintle1/](https://github.com/rpruim/Tintle1/blob/master/README.md)
+    * [github.com/rpruim/ISIwithR/](https://github.com/rpruim/ISIwithR/blob/master/README.md)
     
-    and the `Tintle1` R package provides all the data sets used in the text.
+    and the `ISIwithR` R package provides all the data sets used in the text.
     
     Additional information about the book and the approach used there can be found at
 		
