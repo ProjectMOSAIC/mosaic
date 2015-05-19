@@ -112,7 +112,8 @@ function (file, header = T, na.strings = "NA",
         return(as.data.frame(readr::read_csv(file, col_names = header, na = na.strings, ...)))
       } else {
         message("Reading data with read.csv()")
-        return(read.csv(file, header=header, na.strings = na.strings, ...))
+        return(read.csv(file, header=header, na.strings = na.strings, 
+                        stringsAsFactors = FALSE, ...))
       }
     }
     
