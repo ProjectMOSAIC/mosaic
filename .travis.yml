@@ -10,8 +10,8 @@ env:
 
 notifications:
   email:
-    on_success: change
-    on_failure: change
+    on_success: rpruim@gmail.com
+    on_failure: rpruim@gmail.com
 
 r_binary_packages:
   - XML
@@ -22,4 +22,4 @@ r_github_packages:
   - rstudio/rmarkdown
   - hadley/testthat
   - ProjectMOSAIC/NHANES
-  
+  - ProjectMOSAIC/mosaicData
