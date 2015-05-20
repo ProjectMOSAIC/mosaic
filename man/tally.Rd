@@ -45,8 +45,9 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{margins}{a logical indicating whether marginal distributions should be displayed.}
 
-\item{quiet}{a logical indicating whether messages about order in which marginal distributions
-are calculated should be surpressed.  See \code{\link{addmargins}}.}
+\item{quiet}{a logical indicating whether messages about order in which
+marginal distributions are calculated should be surpressed.
+See \code{\link{addmargins}}.}
 
 \item{subset}{an expression evaluating to a logical vector used to select a subset of \code{data}}
 

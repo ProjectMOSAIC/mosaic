@@ -7,7 +7,7 @@
 \title{Compute proportions, percents, or counts for a single level}
 \usage{
 prop(x, data = parent.frame(), useNA = "no", ..., level = NULL,
-  long.names = TRUE, sep = ".", format = "proportion", quiet = FALSE)
+  long.names = TRUE, sep = ".", format = "proportion", quiet = TRUE)
 
 count(x, data = parent.frame(), ..., format = "count")
 
@@ -32,8 +32,8 @@ when there is a conditioning variable}
 \item{format}{one of \code{proportion}, \code{percent}, or \code{count},
 possibly abbrevaited}
 
-\item{quiet}{a logical indicating whether messages should be supressed.
-  Currently ignored as no messages are produced.}
+\item{quiet}{a logical indicating whether messages regarding the
+  target level should be supressed.}
 
 \item{\dots}{arguments passed through to \code{\link{tally}}}
 }
