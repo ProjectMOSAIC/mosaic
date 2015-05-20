@@ -12,7 +12,6 @@ Depends:
     mosaicData
 Imports:
     lazyeval,
-    mosaicData,
     MASS,
     grid,
     reshape2,
