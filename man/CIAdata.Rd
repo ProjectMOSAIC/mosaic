@@ -20,10 +20,16 @@ will return the corresponding dataset.
 }
 \examples{
 head(CIAdata())
-gdpData <- CIAdata("pop")
-nrow(gdpData)
+Population <- CIAdata("pop")
+nrow(Population)
+head(Population)
 
-mergedData <- merge(CIAdata("pop"), CIAdata("fert"), by="country")
-head(mergedData)
+PopArea <- CIAdata(c("pop","area")) \%>\% mutate(density = pop / area)
+nrow(PopArea)
+head(PopArea)
+PopArea \%>\%
+  filter(!is.na(density)) \%>\%
+  arrange(density) \%>\%
+  tail
 }
 
