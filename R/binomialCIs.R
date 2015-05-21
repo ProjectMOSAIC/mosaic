@@ -28,8 +28,8 @@ plus4_ci <- function(x, n, conf.level = 0.95,
   p <- (x + 2)/(n + 4)
   zstar <- -qnorm(alpha/one_or_two)
   interval <- p + c(-1, 1) * zstar * sqrt(p * (1 - p)/(n + 4))
-  if (alternative == "less") interval[1] <- 0
-  if (alternative == "greater") interval[2] <- 1
+  if (alternative == "less" || interval[1] < 0) interval[1] <- 0
+  if (alternative == "greater" || interval[2] > 1) interval[2] <- 1
   
   attr(interval, "conf.level") <- conf.level
   attr(interval, "method") <- "plus4"
@@ -51,8 +51,8 @@ agresti_ci <- function (x, n, conf.level = 0.95,
   p_ <- (x + z2/2) / n_
   se_ <- sqrt( p_ * (1-p_) / n_ )
   interval <- p_ + c(-1,1) * zstar * se_
-  if (alternative == "less") interval[1] <- 0
-  if (alternative == "greater") interval[2] <- 1
+  if (alternative == "less" || interval[1] < 0) interval[1] <- 0
+  if (alternative == "greater" || interval[2] > 1) interval[2] <- 1
   
   attr(interval, "conf.level") <- conf.level
   attr(interval, "method") <- "Agresti-Coull"
