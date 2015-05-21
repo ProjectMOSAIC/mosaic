@@ -6,8 +6,8 @@ wald_ci <- function (x, n = 100, conf.level = 0.95,
   alternative <- match.arg(alternative)
   one_or_two <- if (alternative == "two.sided") 2 else 1
                
-  alpha = 1 - conf.level
-  p = x/n
+  alpha <- 1 - conf.level
+  p <- x/n
   zstar <- -qnorm(alpha/one_or_two)
   interval <- p + c(-1, 1) * zstar * sqrt(p * (1 - p)/n)
   if (alternative == "less") interval[1] <- 0
@@ -24,8 +24,8 @@ plus4_ci <- function(x, n, conf.level = 0.95,
   alternative <- match.arg(alternative)
   one_or_two <- if (alternative == "two.sided") 2 else 1
   
-  alpha = 1 - conf.level / one_or_two
-  p = (x + 2)/(n + 4)
+  alpha <- (1 - conf.level) 
+  p <- (x + 2)/(n + 4)
   zstar <- -qnorm(alpha/one_or_two)
   interval <- p + c(-1, 1) * zstar * sqrt(p * (1 - p)/(n + 4))
   if (alternative == "less") interval[1] <- 0
@@ -43,8 +43,8 @@ agresti_ci <- function (x, n, conf.level = 0.95,
   alternative <- match.arg(alternative)
   one_or_two <- if (alternative == "two.sided") 2 else 1
   
-  alpha = 1 - conf.level
-  p = (x + 2)/(n + 4)
+  alpha <- 1 - conf.level
+  p <- (x + 2)/(n + 4)
   zstar <- -qnorm(alpha/one_or_two)
   z2 <- zstar^2
   n_ <- n + z2
