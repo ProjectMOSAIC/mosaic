@@ -60,7 +60,7 @@
 binom.test <- function( x, n, p = 0.5, 
                         alternative = c("two.sided", "less", "greater"), 
                         conf.level = 0.95, 
-                        ci.method = c("Score", "Wald", "Agresti-Coull", "Plus4"), 
+                        ci.method = c("Score", "Wilson", "Wald", "Agresti-Coull", "Plus4"), 
                         data = parent.frame(),
                         success = NULL,
                         ...) 
