@@ -101,29 +101,46 @@ test_that("numbers work", {
   
 test_that("CI methods correct", {
 
+  # Clopper-Pearson, the default but with 3 names
+  
   expect_equivalent(
     interval(stats::binom.test(26,200)),
     interval(binom.test(26,200)))
   
   expect_equivalent(
     interval(stats::binom.test(26,200)),
+    interval(binom.test(26,200, ci.method="clopper-pearson")))
+  
+  expect_equivalent(
+    interval(binom.test(26,200, ci.method="clopper-pearson")),
+    interval(binom.test(26,200, ci.method="binom.test")))
+ 
+  # Score/Wilson/prop.test  
+  expect_equivalent(
+    interval(stats::prop.test(26,200)),
     interval(binom.test(26,200, ci.method="wilson")))
   
   expect_equivalent(
-    interval(stats::prop.test(26,200)),
-    interval(binom.test(26,200, ci.method = "score")))
+    interval(binom.test(26,200, ci.method="score")),
+    interval(binom.test(26,200, ci.method="wilson")))
   
+  expect_equivalent(
+    interval(binom.test(26,200, ci.method="score")),
+    interval(binom.test(26,200, ci.method="prop.test")))
+ 
+  # Clopper vs external reference 
   # NIST example from http://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm
   ci <- interval(binom.test(4, 20, ci.method="clopper", conf.level=.9))
   expect_equal(as.vector(ci[2:3]), c(0.071354, 0.401029), tolerance = 1e-5)
- 
+
+  # Wald vs external reference 
   # from http://www.stat.wmich.edu/s160/book/node47.html 
   ci <- interval(binom.test(15, 59, ci.method="Wald"))
   expect_equal(as.vector(ci[2:3]), c(.143, .365), tolerance = 1e-3)
-  
+ 
+  # Plus4 
   ci <- interval(binom.test(0, 100, ci.method="Plus4"))
   expect_equal(as.vector(ci[2:3]), c(0.0, .0456), tolerance = 1e-3)
-  
   
 })
   

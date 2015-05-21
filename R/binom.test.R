@@ -42,7 +42,7 @@
 #' \item{Clopper-Pearson, binom.test}{This is the interval produced when using \code{\link[stats]{binom.test}}
 #'   from the \code{stats} package.  It guarantees a coverage rate at least as large as 
 #'   the nominal coverage rate, but may produce wider intervals than some of the methods
-#'   below.  Those methods may either under- or over-cover depending on the data.}
+#'   below, which may either under- or over-cover depending on the data.}
 #' \item{Score, Wilson, prop.test}{This is the usual method used by \code{\link[stats]{prop.test}}
 #'   and is computed by inverting p-values from score tests. It is often atrributed to 
 #'   Edwin Wilson.}
@@ -86,7 +86,7 @@ binom.test <-
     x, n, p = 0.5, 
     alternative = c("two.sided", "less", "greater"), 
     conf.level = 0.95, 
-    ci.method = c("Clopper-Pearson", "Score", "Wilson", "Wald", "Agresti-Coull", "Plus4"), 
+    ci.method = c("Clopper-Pearson", "binom.test", "Score", "Wilson", "prop.test", "Wald", "Agresti-Coull", "Plus4"), 
     data = parent.frame(),
     success = NULL,
     ...) 
@@ -110,7 +110,11 @@ binom.test <-
   ci.method <- 
     match.arg(
       tolower(ci.method)[1], 
-      choices = c("clopper-pearson", "score", "wald", "agresti-coull", "plus4"))
+      choices = c("clopper-pearson", "binom.test", "prop.test", "score", "wilson", 
+                  "wald", "agresti-coull", "plus4"))
+  
+  if (ci.method %in% c("prop.test", "wilson")) ci.method <- "score"
+  if (ci.method %in% c("binom.test")) ci.method <- "clopper-pearson"
   
   res <- update_ci(
     binom_test( x = x_eval,
