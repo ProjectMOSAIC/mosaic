@@ -23,3 +23,4 @@ r_github_packages:
   - hadley/testthat
   - ProjectMOSAIC/NHANES
   - ProjectMOSAIC/mosaicData
+  - Rexamine/stringi
