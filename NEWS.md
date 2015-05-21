@@ -1,17 +1,19 @@
 # mosaic package NEWS
 
-## mosaic 0.9.3.9000+
- * At the request of several users, and with CRAN's reluctant approval, we have made `mosaicData` a dependency of `mosaic`.  This avoid the problem of students forgetting to 
- separately load the `mosaicData` package.
+## mosaic 0.10
+ * At the request of several users, and with CRAN's approval, we have made 
+ `mosaicData` a dependency of `mosaic`.  This avoid the problem of students 
+ forgetting to separately load the `mosaicData` package.
  * We are planning to remove `fetchGoogle()` (and perhaps `read.file()`) from future versions 
  of the package.  More and more packages are providing utilities for bringing data into R and it
  doesn't make sense for us to duplicate those efforts in this package.  For google sheets, you
  might take a look at the `googlesheets` package which is avialable via github now and will be 
  on CRAN soon.
- * Improved output to `binom.test()`, `prop.test()`, and `t.test()`, which have also undergone some internal restructuring.  The objects returned now do a 
- better job of reporting about the test conducted.  In particular, `binom.test()`
- and `prop.test()` will report the value of `success` used.(#450, #455)
- * `binom.test()` can now computer several different kinds of confidence intervals including the Wald, Plus-4 and Agresti-Coull intervals.  (#449)
+ * Improved output to `binom.test()`, `prop.test()`, and `t.test()`, which have
+ also undergone some internal restructuring.  The objects returned now do a 
+ better job of reporting about the test conducted.  In particular,
+ `binom.test()` and `prop.test()` will report the value of `success` used.(#450, #455)
+ * `binom.test()` can now compute several different kinds of confidence intervals including the Wald, Plus-4 and Agresti-Coull intervals.  (#449)
  * `derivedFactor()` now handles NAs without throwing a warning.  (#451)
  * Improved `pdist()`, `pdist()` and related functions now do a better (i.e., useful) job with discrete distributions (#417)
  * Bug fixes in several functions that use non-standard evaluation improve their robustness and scope.  This affects `t.test()` and all the "aggregating" functions like `mean()` and `favstats()`.  In particular, it is now possible to reference variables both in the `data` argument and in the calling environment.  (#435)
