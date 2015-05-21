@@ -20,15 +20,10 @@
 #'   	considered failure.
 #' @param data a data frame (if missing, \code{n} may be a data frame)
 #' @param ci.method a method to use for computing the confidence interval 
-#'   (case insensitive and may be abbreviated).
+#'   (case insensitive and may be abbreviated).  See details below.
 #' @param ... additional arguments (often ignored) 
 #' 
 #' @return an object of class \code{htest}
-#' 
-#' @details
-#' This is a wrapper around \code{\link{binom.test}} from the \code{base} package
-#' to simplify its use when the raw data are available, in which case 
-#' an extended syntax for \code{binom.test} is provided.
 #' 
 #' @note When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
 #' for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
@@ -36,6 +31,35 @@
 #'
 #' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
 #' 
+
+#' @details
+#' \code{binom.test} is a wrapper around \code{\link{binom.test}} from the \code{base} 
+#' package to simplify its use when the raw data are available, in which case 
+#' an extended syntax for \code{binom.test} is provided.  See the examples.
+#' 
+#' Also, five confidence interval methods are provided:
+#' \describe{
+#' \item{Clopper-Pearson, binom.test}{This is the interval produced when using \code{\link[stats]{binom.test}}
+#'   from the \code{stats} package.  It guarantees a coverage rate at least as large as 
+#'   the nominal coverage rate, but may produce wider intervals than some of the methods
+#'   below.  Those methods may either under- or over-cover depending on the data.}
+#' \item{Score, Wilson, prop.test}{This is the usual method used by \code{\link[stats]{prop.test}}
+#'   and is computed by inverting p-values from score tests. It is often atrributed to 
+#'   Edwin Wilson.}
+#'   \item{Wald}{This is the interval traditionally taught in entry level statistics courses.
+#'   It uses the sample proportion to estimate the standard error and uses normal
+#'   theory to determine how many standard deviations to add and/or substract from
+#'   the sample proportion to determine an interval.}
+#'   \item{Agresti-Coull}{
+#'   This is the Wald method after setting \eqn{n' = n + z^2} and 
+#'   \eqn{p'= (x + z^2/2) / n}' and using \eqn{x' = n' p'} and \eqn{n'}
+#'   in place of \eqn{x} and \eqn{n}.
+#'   }
+#'   \item{Plus4}{
+#'   This is Wald after adding in two artifical success and two artificial failures.  It 
+#'   is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
+#'   \eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.}
+#'   }
 #' 
 #' @examples
 #' # Several ways to get a confidence interval for the proportion of Old Faithful
@@ -57,14 +81,16 @@
 #' 
 #' @rdname binom.test
 #' @export
-binom.test <- function( x, n, p = 0.5, 
-                        alternative = c("two.sided", "less", "greater"), 
-                        conf.level = 0.95, 
-                        ci.method = c("Score", "Wilson", "Wald", "Agresti-Coull", "Plus4"), 
-                        data = parent.frame(),
-                        success = NULL,
-                        ...) 
-{
+binom.test <- 
+  function( 
+    x, n, p = 0.5, 
+    alternative = c("two.sided", "less", "greater"), 
+    conf.level = 0.95, 
+    ci.method = c("Clopper-Pearson", "Score", "Wilson", "Wald", "Agresti-Coull", "Plus4"), 
+    data = parent.frame(),
+    success = NULL,
+    ...) 
+  {
   x_lazy <- lazyeval::lazy(x)
   n_lazy <- lazyeval::lazy(n)
   data_lazy <- lazyeval::lazy(data)   # this behaves differently from substitute() when data is a promise to lazy load.
@@ -84,7 +110,7 @@ binom.test <- function( x, n, p = 0.5,
   ci.method <- 
     match.arg(
       tolower(ci.method)[1], 
-      choices = c("score", "wald", "agresti-coull", "plus4"))
+      choices = c("clopper-pearson", "score", "wald", "agresti-coull", "plus4"))
   
   res <- update_ci(
     binom_test( x = x_eval,

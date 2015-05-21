@@ -59,10 +59,18 @@ agresti_ci <- function (x, n, conf.level = 0.95,
   return(interval)
 }
 
-score_ci <- function(x, n, conf.level = 0.95, 
+clopper_ci <- function(x, n, conf.level = 0.95, 
                      alternative = c("two.sided", "less", "greater") ) 
 {
   interval <- stats::binom.test(x, n, conf.level = conf.level, alternative = alternative)$conf.int
+  attr(interval, "method") <- "Score"
+  interval
+}
+
+score_ci <- function(x, n, conf.level = 0.95, 
+                     alternative = c("two.sided", "less", "greater") ) 
+{
+  interval <- stats::prop.test(x, n, conf.level = conf.level, alternative = alternative)$conf.int
   attr(interval, "method") <- "Score"
   interval
 }
@@ -95,6 +103,11 @@ update_ci <- function( object, method = c("wald", "agresti-coull", "plus4", "sco
   
   object$conf.int <- 
     switch(method,
+           `clopper-pearson` =  
+             clopper_ci(x = object$statistic, 
+                     n = object$parameter, 
+                     conf.level = level,
+                     alternative = object$alternative),
            wald =  
              wald_ci(x = object$statistic, 
                      n = object$parameter, 
