@@ -1,3 +1,4 @@
   html_document:
-    keep_md: yes
-    
+    keep_md: true
+  md_document:
+    variant: markdown_github
