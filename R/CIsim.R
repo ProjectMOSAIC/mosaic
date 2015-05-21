@@ -84,7 +84,8 @@ CIsim <-
     plotG <- 
       ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper), data = cis) + 
         geom_errorbar(aes(color=cover)) +
-        geom_abline(slope=0, intercept=estimand, alpha=0.4)
+        geom_abline(slope=0, intercept=estimand, alpha=0.4) +
+        scale_colour_discrete(drop = FALSE)
       
     switch(plot,
            return = return(plotG),
