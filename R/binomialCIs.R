@@ -24,7 +24,7 @@ plus4_ci <- function(x, n, conf.level = 0.95,
   alternative <- match.arg(alternative)
   one_or_two <- if (alternative == "two.sided") 2 else 1
   
-  alpha = 1 - conf.level
+  alpha = 1 - conf.level / one_or_two
   p = (x + 2)/(n + 4)
   zstar <- -qnorm(alpha/one_or_two)
   interval <- p + c(-1, 1) * zstar * sqrt(p * (1 - p)/(n + 4))
@@ -111,6 +111,10 @@ update_ci <- function( object, method = c("wald", "agresti-coull", "plus4", "sco
                         conf.level = level,
                         alternative = object$alternative),
            score = 
+             score_ci(x = object$statistic, 
+                      n = object$parameter, 
+                      conf.level = level, alternative = object$alternative),
+           wilson =   # same as score
              score_ci(x = object$statistic, 
                       n = object$parameter, 
                       conf.level = level, alternative = object$alternative)
