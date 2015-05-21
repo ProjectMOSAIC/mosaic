@@ -4,7 +4,8 @@
 \alias{update_ci}
 \title{Update confidence interval}
 \usage{
-update_ci(object, method = c("wald", "agresti-coull", "plus4", "score"))
+update_ci(object, method = c("clopper-pearson", "wald", "agresti-coull",
+  "plus4", "score"))
 }
 \arguments{
 \item{object}{An \code{"htest"} object produced by \code{\link{binom.test}}}

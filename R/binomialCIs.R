@@ -87,7 +87,7 @@ score_ci <- function(x, n, conf.level = 0.95,
 #' @export
 #' @seealso \code{\link[mosaic]{binom.test}}
 #' 
-update_ci <- function( object, method = c("wald", "agresti-coull", "plus4", "score") ) {
+update_ci <- function( object, method = c("clopper-pearson", "wald", "agresti-coull", "plus4", "score") ) {
   if (! inherits(object, "htest") && !grepl("^Exact binomial test", object$method) )
     stop( "I don't know how to handle that type of object.")
   
