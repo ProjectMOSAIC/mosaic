@@ -31,3 +31,4 @@ vignettes-source$
 ^NEWS\.md$
 ^revdep$
 ^_output\.yaml$
+^cran-comments\.md$
