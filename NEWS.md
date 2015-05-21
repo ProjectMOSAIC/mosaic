@@ -1,6 +1,8 @@
 # mosaic package NEWS
 
 ## mosaic 0.9.3.9000+
+ * At the request of several users, and with CRAN's reluctant approval, we have made `mosaicData` a dependency of `mosaic`.  This avoid the problem of students forgetting to 
+ separately load the `mosaicData` package.
  * We are planning to remove `fetchGoogle()` (and perhaps `read.file()`) from future versions 
  of the package.  More and more packages are providing utilities for bringing data into R and it
  doesn't make sense for us to duplicate those efforts in this package.  For google sheets, you
