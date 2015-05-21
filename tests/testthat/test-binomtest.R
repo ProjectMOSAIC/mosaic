@@ -97,6 +97,21 @@ test_that("numbers work", {
     expect_equivalent(  
       interval(binom.test(X)), 
       interval(binom.test(x, 100)) )
-    expect_message(prop.test(X), "n is missing;")
   })  
+  
+test_that("CI methods correct", {
+
+  # NIST example from http://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm
+  ci <- interval(binom.test(4, 20, ci.method="score", conf.level=.9))
+  expect_equal(as.vector(ci[2:3]), c(0.071354, 0.401029), tolerance = 1e-5)
+ 
+  # from http://www.stat.wmich.edu/s160/book/node47.html 
+  ci <- interval(binom.test(15, 59, ci.method="Wald"))
+  expect_equal(as.vector(ci[2:3]), c(.143, .365), tolerance = 1e-3)
+  
+  ci <- interval(binom.test(0, 100, ci.method="Plus4"))
+  expect_equal(as.vector(ci[2:3]), c(0.0, .0456), tolerance = 1e-3)
+  
+  
+})
   
