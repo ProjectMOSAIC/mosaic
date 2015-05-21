@@ -119,7 +119,7 @@ but much of the code originally in the `fastR` package has been moved into the `
 		
   * [Open Intro Stats](https://www.openintro.org/stat/labs.php)
   
-    OpenIntro Stats now has versions of their text designed for 
+    OpenIntro Stats now has versions of their labs designed for 
     use with the `mosaic` package.  
     The `mosaic` labs were adapted by 
     Ben Baumer and Galen Long of Smith College.
