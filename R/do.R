@@ -430,119 +430,48 @@ print.repeater <- function(x, ...)
 #' @export
 
 setMethod("*",
-    signature(e1 = "repeater", e2="ANY"),
-    function (e1, e2) 
-    {
-    e2_lazy <- lazyeval::lazy(e2)
-#		e2unevaluated = substitute(e2)
-#		if ( ! is.function(e2) ) {
-#      frame <- parent.frame()
-#			e2 = function(){eval(e2unevaluated, envir=frame) }   
-#		}
-		n = e1@n
-
-		cull = e1@cull
-		if (is.null(cull)) {
-			cull <- .cull_for_do
-		}
-    
-		out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
-
-    if (e1@algorithm >= 1) {
-      resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
-        # requireNamespace("parallel", quietly=TRUE) )
-        message("Using `parallel'.  Set seed with set.rseed().")
-        parallel::mclapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
-      } else {
-        lapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
-      }
-          
-      if (out.mode=='default') {  # is there any reason to be fancier?
-        out.mode = 'data.frame'
-      }
-      
-      result <- switch(out.mode, 
-                    "list" = resultsList,
-                    "data.frame" = .list2tidy.data.frame( resultsList ),
-                    "matrix" = as.matrix( do.call( rbind, resultsList) ),
-                    "vector" = unlist(resultsList)  
-      ) 
-      class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
-	  if (inherits( result, "data.frame")) {
-		  names(result) <- nice_names(names(result))
-	  }
-      return(result)
-    }
-  
-    ## pre 1.0 algorithm...
-    message("Using older algorithm for do()")
-    
-		res1 = cull(e2())  # was (...)
-		nm = names(res1)
-
-		if (!is.null(e1@mode)) { 
-			out.mode <- e1@mode 
-		} else {
-			out.mode <- 'list'
-
-			if ( is.vector( res1) || is.data.frame(res1) ) {
-				if (is.null(nm)) { 
-					out.mode <- 'matrix' 
-				} else {
-					out.mode <- 'data.frame'
-				}
-			}
-		}
-
-
-		if ( out.mode == 'list' ) {
-			result <- list()
-			result[[1]] <- res1
-			if (n < 2) return (res1) 
-			for (k in 2:n) {
-				result[[k]] <- cull(e2()) # was (...)
-			}
-			return(result)
-		}
-
-		if (out.mode == 'data.frame') {
-			result <- .make.data.frame(res1)
-      result$do.ind <- 1
-      result$do.row <- 1:nrow(result)
-			if (n>1) {
-			  for (k in 2:n) {
-			  	res2 <- .make.data.frame(cull(e2()))
-          res2$do.ind <- k
-          res2$do.row <- 1:nrow(res2)
-				# print(res2)
-				# result <- rbind( result, cull(e2()) ) 
-				  result <- .merge_data_frames( result, res2)
-			  }
-			}
-			# rownames(result) <- 1:nrow(result)
-			# names(result) <- nm
-      # mark result as having originated with do()
-      if (all(result$do.row == 1)) { result[["do.row"]] <- NULL; result[["do.ind"]] <- NULL }
-      
-      class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
-			return(result)
-		}
-
-		result <- matrix(nrow=n,ncol=length(res1))
-		result[1,] <- res1
-
-		if (n > 1) {
-			for (k in 2:n) {
-				result[k,] <- cull(e2()) # was (...)
-			}
-		}
-
-		if (dim(result)[2] == 1 & is.null(nm) ) result <- data.frame(result=result[,1]) 
-
-    class(result) <- c(paste("do",class(result)[1], sep="."), class(result))
-	if (inherits( result, "data.frame")) { 
-		names(result) <- nice_names(names(result))
-	}
-    return(result)
-	}
+          signature(e1 = "repeater", e2="ANY"),
+          function (e1, e2) 
+          {
+            e2_lazy <- lazyeval::lazy(e2)
+            #		e2unevaluated = substitute(e2)
+            #		if ( ! is.function(e2) ) {
+            #      frame <- parent.frame()
+            #			e2 = function(){eval(e2unevaluated, envir=frame) }   
+            #		}
+            n = e1@n
+            
+            cull = e1@cull
+            if (is.null(cull)) {
+              cull <- .cull_for_do
+            }
+            
+            out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
+            
+            # no longer processing with pre-1.0 algorithm
+            #     if (e1@algorithm < 1) { }
+            
+            resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
+              # requireNamespace("parallel", quietly=TRUE) )
+              message("Using `parallel'.  Set seed with set.rseed().")
+              parallel::mclapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
+            } else {
+              lapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
+            }
+            
+            if (out.mode=='default') {  # is there any reason to be fancier?
+              out.mode = 'data.frame'
+            }
+            
+            result <- switch(out.mode, 
+                             "list" = resultsList,
+                             "data.frame" = .list2tidy.data.frame( resultsList ),
+                             "matrix" = as.matrix( do.call( rbind, resultsList) ),
+                             "vector" = unlist(resultsList)  
+            ) 
+            class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
+            if (inherits( result, "data.frame")) {
+              names(result) <- nice_names(names(result))
+            }
+            return(result)
 )
