@@ -538,6 +538,7 @@ secure in their ability to use these functions.
 
 ## Some other things
 The `mosaic` package includes some other things, too
+
  * data sets (they have now been moved to separate `mosaicData` and `NHANES` packages)
  * xtras: `xchisq.test()`, `xpnorm()`, `xqqmath()`
    * these functions add a bit of extra output to the similarly named functions that don't have a leading `x`
