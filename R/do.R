@@ -281,7 +281,7 @@ if(FALSE) {
       dfTotal=sum(object$Df)
     ) )
   }
-  if (any(class(object)=='table')){
+  if (inherits(object, 'table')){
     result <- data.frame(object)
     res <- result[[ncol(result)]]
     nms <- as.character(result[[1]])
@@ -293,14 +293,14 @@ if(FALSE) {
     names(res) <- nms
     return(res)
   }
-	if (any(class(object)=='aggregated.stat')) {
+	if (inherits(object, 'aggregated.stat')) {
 		result <- object
 		res <- as.vector(result[, "S"])  # ncol(result)]
 		names(res) <- paste( attr(object,'stat.name'), 
 						.squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
 		return(res)
 	} #
-	if (any(class(object)=='lme')){ # for mixed effects models
+	if (inherits(object, 'lme')){ # for mixed effects models
 		result <- object
 		names(result) <- nice_names(names(result))
 		return( object$coef$fixed )
@@ -347,13 +347,13 @@ if(FALSE) {
     if ( ! is.null( names(object$statistic) ) ) names(result)[1] <- names(object$statistic)
     return(result)
   }
-	if (any(class(object)=='table') ) {
+	if (inherits(object, 'table') ) {
 		nm <- names(object)
 		result <-  as.vector(object)
 		names(result) <- nm
 		return(result)
 	}
-	if (any(class(object)=='cointoss')) {
+	if (inherits(object, 'cointoss')) {
 		return( c(n=attr(object,'n'), 
 				heads=sum(attr(object,'sequence')=='H'),
 				tails=sum(attr(object,'sequence')=='T'),
