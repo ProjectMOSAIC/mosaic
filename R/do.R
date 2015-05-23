@@ -433,11 +433,12 @@ setMethod("*",
     signature(e1 = "repeater", e2="ANY"),
     function (e1, e2) 
     {
-		e2unevaluated = substitute(e2)
-		if ( ! is.function(e2) ) {
-      frame <- parent.frame()
-			e2 = function(){eval(e2unevaluated, envir=frame) }   
-		}
+    e2_lazy <- lazyeval::lazy(e2)
+#		e2unevaluated = substitute(e2)
+#		if ( ! is.function(e2) ) {
+#      frame <- parent.frame()
+#			e2 = function(){eval(e2unevaluated, envir=frame) }   
+#		}
 		n = e1@n
 
 		cull = e1@cull
@@ -451,9 +452,9 @@ setMethod("*",
       resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
         # requireNamespace("parallel", quietly=TRUE) )
         message("Using `parallel'.  Set seed with set.rseed().")
-        parallel::mclapply( integer(n), function(...) { cull(e2()) } )
+        parallel::mclapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
       } else {
-        lapply( integer(n), function(...) { cull(e2()) } )
+        lapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
       }
           
       if (out.mode=='default') {  # is there any reason to be fancier?
