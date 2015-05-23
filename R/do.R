@@ -153,6 +153,8 @@ nice_names <- function(x) {
 	return(x)
 }
 
+null2na <- function(x) if (is.null(x)) NA else x
+
 #' Repeater objects
 #'
 #' Repeater objects can be used with the \code{*} operator to repeat
@@ -319,21 +321,32 @@ if(FALSE) {
 		names(result) <- nice_names(names(result))
 		return(result)
 	}
-	if (any(class(object)=='htest') ) {
-		result <-  data.frame( 
-					  statistic = object$statistic, 
-		              parameter = object$parameter,
-					  p.value = object$p.value,
-					  conf.level = attr(object$conf.int,"conf.level"),
-					  lower = object$conf.int[1],
-					  upper = object$conf.int[2],
-					  method = object$method,
-					  alternative = object$alternative,
-					  data = object$data.name
-					  )
-		if ( ! is.null( names(object$statistic) ) ) names(result)[1] <- names(object$statistic)
-		return(result)
-	}
+  if (inherits(object,'htest')) {
+    if (is.null(object$conf.int)) {
+      result <-  data.frame( 
+        statistic = null2na(object$statistic), 
+        parameter = null2na(object$parameter),
+        p.value = null2na(object$p.value),
+        method = null2na(object$method),
+        alternative = null2na(object$alternative),
+        data = null2na(object$data.name)
+      )
+    } else {
+      result <-  data.frame( 
+        statistic = null2na(object$statistic), 
+        parameter = null2na(object$parameter),
+        p.value = null2na(object$p.value),
+        conf.level = attr(object$conf.int,"conf.level"),
+        lower = object$conf.int[1],
+        upper = object$conf.int[2],
+        method = null2na(object$method),
+        alternative = null2na(object$alternative),
+        data = null2na(object$data.name)
+      )
+    }
+    if ( ! is.null( names(object$statistic) ) ) names(result)[1] <- names(object$statistic)
+    return(result)
+  }
 	if (any(class(object)=='table') ) {
 		nm <- names(object)
 		result <-  as.vector(object)
