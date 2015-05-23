@@ -477,5 +477,7 @@ setMethod(
     if (inherits( result, "data.frame")) {
       names(result) <- nice_names(names(result))
     }
+    attr(result, "do.call") <- deparse(e2_lazy$expr)
+    attr(result, "do.lazy") <- e2_lazy
     return(result)
   })

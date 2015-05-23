@@ -69,18 +69,48 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
   result  
 }
 
+
+extract_data <- function(x) {
+  x_call <- attr(x, "do.call")
+  if (is.null(x_call)) return(NULL)
+  data_name <- sub( ".*(data = )([^ ,)]*)(.*)", "\\2", x_call )
+  eval( as.name(data_name), envir = attr(x, "lazy")$env )
+}
+
+
 #' @rdname confint
 #' @export
 confint.do.data.frame <- function(object, parm, level=0.95, ..., 
                                  method="stderr", 
                                  margin.of.error="stderr" %in% method,
-                                 df = Inf) {
+                                 df = NULL) {
   
   method <- match.arg(method, c("se", "stderr", "percentile", "quantile"), several.ok=TRUE) # which method was selected
   method[method=="percentile"] <- "quantile"
   method[method=='se'] <- 'stderr'
   method <- unique(method)
-  if ("stderr" %in% method && is.null(n)) { stop("sample size (n) must be provided") }
+  compute_t_df <-
+    grepl("^diffmean\\(|^mean\\(", attr(object, "do.call"))
+  
+  if ("stderr" %in% method && is.null(df) && compute_t_df) {
+    tryCatch({
+      orig_data <- extract_data(object)
+      df <- nrow(orig_data) - 1
+      if ( ! all(complete.cases(orig_data)) ) {
+        warning(
+          "confint: Some missingness in the data. Check to make sure df is correct.",
+          call. = FALSE)
+      }
+    },
+      error = function(e) warning(
+        "confint: I can't determine df from the original data.",
+        call. = FALSE) 
+    )
+  }
+  
+  if (is.null(df)) {
+    warning("confint: Using df=Inf.", call. = FALSE)
+  }
   
   if (missing(parm)) parm <- names(object)
   nms <- intersect(names(object),parm)
