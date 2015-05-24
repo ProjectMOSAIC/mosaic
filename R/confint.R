@@ -110,6 +110,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   
   if (is.null(df)) {
     warning("confint: Using df=Inf.", call. = FALSE)
+    df <- Inf
   }
   
   if (missing(parm)) parm <- names(object)
