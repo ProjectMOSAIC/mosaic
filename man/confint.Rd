@@ -11,7 +11,7 @@
   method = "stderr", margin.of.error = "stderr" \%in\% method == "stderr")
 
 \method{confint}{do.data.frame}(object, parm, level = 0.95, ...,
-  method = "stderr", margin.of.error = "stderr" \%in\% method, df = Inf)
+  method = "stderr", margin.of.error = "stderr" \%in\% method, df = NULL)
 
 \method{confint}{data.frame}(object, parm, level = 0.95, ...)
 
