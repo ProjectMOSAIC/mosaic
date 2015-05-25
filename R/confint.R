@@ -71,10 +71,9 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
 
 
 extract_data <- function(x) {
-  x_call <- attr(x, "do.call")
-  if (is.null(x_call)) return(NULL)
-  data_name <- sub( ".*(data = )([^ ,)]*)(.*)", "\\2", x_call )
-  eval( as.name(data_name), envir = attr(x, "lazy")$env )
+  x_lazy <- attr(x, "do.lazy")
+  if (is.null(x_lazy)) return(NULL)
+  eval( x_lazy$expr[["data"]], envir = x_lazy$env )
 }
 
 
