@@ -69,11 +69,21 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
   result  
 }
 
+dont_randomize <- list(
+  resample <- function(x, ...) x,
+  shuffle <- function(x, ...) x
+)
 
 extract_data <- function(x) {
-  x_lazy <- attr(x, "do.lazy")
+  x_lazy <- attr(x, "lazy")
   if (is.null(x_lazy)) return(NULL)
-  eval( x_lazy$expr[["data"]], envir = x_lazy$env )
+  eval( x_lazy$expr[["data"]], envir = dont_randomize, enclos = x_lazy$env )
+}
+
+extract_estimate <- function(x) {
+  x_lazy <- attr(x, "lazy")
+  if (is.null(x_lazy)) return(NA)
+  eval( x_lazy$expr, envir = dont_randomize, enclos = x_lazy$env )
 }
 
 
@@ -89,7 +99,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   method[method=='se'] <- 'stderr'
   method <- unique(method)
   compute_t_df <-
-    grepl("^diffmean\\(|^mean\\(", attr(object, "do.call"))
+    grepl("^diffmean$|^mean$", as.character(attr(object, "lazy")$expr[[1]]))
   
   if ("stderr" %in% method && is.null(df) && compute_t_df) {
     tryCatch({
@@ -117,18 +127,21 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   res <- data.frame( matrix( nrow=0, ncol=5) )
   names(res) <- c("name", "lower","upper","level","method")
   row <- 0
+  estiamte <- extract_estimate(object)
   for (k in 1:length(nms) ) {
     for (m in method) {
       for (l in level) {
         if (is.numeric( object[[nms[k]]] )) {
           row <- row + 1
-          vals <- .mosaic.get.ci2( object[[nms[k]]], l, m, df=df)
-          res[row,"name"] <- nms[k]
-          res[row,"lower"] <- vals[1]
-          res[row,"upper"] <- vals[2]
-          res[row,"level"] <- l
-          res[row,"method"] <- m
-          res[row,"estimate"] <- if(m == "stderr") mean(vals) else mean(object[[nms[k]]], na.rm=TRUE)
+          # vals <- .mosaic.get.ci2( object[[nms[k]]], l, m, df=df)
+          vals <- bootstrap_ci( object[[nms[k]]], level = l, method = m, df=df, 
+                                estimate = estimate[[ nms[k] ]])
+          res[row, "name"] <- nms[k]
+          res[row, "lower"] <- vals[1]
+          res[row, "upper"] <- vals[2]
+          res[row, "level"] <- l
+          res[row, "method"] <- m
+          res[row, "estimate"] <- if(m == "stderr") mean(vals) else mean(object[[nms[k]]], na.rm=TRUE)
         }
       }
     }
@@ -177,7 +190,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
 }
 
 .mosaic.get.ci2 <- function( vals, level, method, df=Inf) {
-  alpha <- (1-level)/2
+  alpha <- (1 - level) / 2
   if( method == "stderr" ) {
     res = mean(vals, na.rm=TRUE) + 
     c(-1,1) * sd(vals, na.rm=TRUE) * qt(1-alpha, df)
@@ -186,6 +199,33 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   else res = quantile(vals, c(alpha, 1-alpha) )
   return(res)
 }
+
+bootstrap_ci <- function( x, level = 0.95, method, df = Inf, ... ) {
+  switch(
+    method,
+    `stderr` = tse_bootstrap_ci(x, level = level, df=df, ...),
+    `quantile` = percentile_bootstrap_ci(x, level = level, ...),
+    `basic` = basic_bootstrap_ci(x, level = level, ...)
+  )
+}
+  
+basic_bootstrap_ci <- function( x, estimate, ..., df = Inf, level = 0.95 ) {
+  alpha <- (1 - level) / 2
+  2 * estimate - quantile(x, c(1-alpha, alpha))
+}
+
+percentile_bootstrap_ci <- function( x, ..., level = 0.95 ) {
+  alpha <- (1 - level) / 2
+  quantile(x, c(alpha, 1-alpha) )
+}
+
+tse_bootstrap_ci <- function( x, ..., df = Inf, level = 0.95 ) {
+  alpha <- (1 - level) / 2
+  mean(x, na.rm=TRUE) + 
+    c(-1,1) * sd(x, na.rm=TRUE) * qt(1-alpha, df)
+}
+
+
 
 #' @rdname confint
 #' @export
