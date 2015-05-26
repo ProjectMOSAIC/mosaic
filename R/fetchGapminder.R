@@ -14,7 +14,7 @@ tryCatch(utils::globalVariables( c('Var') ),
 #' and all available variables are fetched.
 #' @param \dots character strings naming desired variables
 #' @return A data frame
-#' @rdname fetchGapminder
+#' @rdname defunct-fetch
 #' @export
 
 fetchGapminder1 <- function(name,value.name=NULL){
@@ -34,7 +34,7 @@ fetchGapminder1 <- function(name,value.name=NULL){
   return(res)
 }
 
-#' @rdname fetchGapminder
+#' @rdname defunct-fetch
 #' @export
 fetchGapminder <- function(..., all.cases=TRUE, all.vars=FALSE) {
   .Defunct(msg="Use 'fetchGapminder' from the fetch package instead.")
