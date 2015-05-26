@@ -51,11 +51,7 @@
 #' @export
 
 fetchGoogle <- function(URL, key=NULL){
-
-  message(
-    "fetchGoogle() is no longer actively supported.\n",
-    "See the `googlesheets' package, which is dedicated to the R/Google interface.\n"
-    )
+  .Defunct(msg="Use 'fetchGoogle' from the fetch package instead. Or see the `googlesheets' package.")
   
   if (! requireNamespace("RCurl")) stop("Package `RCurl' must be installed.")
 

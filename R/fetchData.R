@@ -61,6 +61,7 @@ fetchData <- function(name=NULL,show.path=FALSE,
                          add.to.path = NULL, drop.from.path = NULL, 
                          cache = FALSE, verbose = TRUE) {
   # Deal with lack of https support
+  .Defunct(msg="Use 'fetchData' from the fetch package instead.")
   if( !is.null(name)) name <- .https2http(name)
   # Handle various actions
   if(show.path) return( get("path",envir=.fetchEnvironment))
