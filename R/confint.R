@@ -4,8 +4,9 @@
 #' on numerical vectors and numerical components of data frames.
 #' @rdname confint
 #'
-#' @param method either "stderr" (default) or "quantile".  ("se" and "percentile" are 
-#' allowed as aliases) or a vector containing both.
+#' @param method either "stderr" (default), "basic", or "quantile".  
+#' ("se" and "percentile" are allowed as aliases) or a vector 
+#' containing one or more of these.
 #'
 #' @param margin.of.error if true, report intervals as a center and margin of error.
 #' @param df degrees for freedom. This is required when \code{object} was produced using
@@ -30,8 +31,23 @@
 #' 
 #' @details
 #' The methods of producing confidence intervals from bootstrap distributions are currently
-#' quite naive.  In particular, when using the standard error, assistance is required with the 
+#' quite naive.  In particular, when using the standard error, assistance may be required with the 
 #' degrees of freedom, and it may not be possible to provide a correct value in all situations.
+#' 
+#' Let \eqn{q_a} be the \eqn{a} quantile of the bootstrap distribution,
+#' let \eqn{t_a, df} be the \eqn{a} quantile of the t distribution with \eqn{df} 
+#' degrees of freedom,
+#' let \eqn{SE_b} be the standard deviation of the bootsrap distribution,
+#' and let \eqn{\hat{\theta}} be the estimate computed from the original data.  
+#' Then the confidence intervals with confidence level \eqn{1 - 2a} are
+#' \describe{
+#' \item{quantile}{\eqn{(q_a, q_{1-a}) } }
+#' \item{basic}{ \eqn{( 2 \hat{\theta} - q_{1-a}, 2\hat{\theta} - q_{a} )}}
+#' \item{stderr}{\eqn{(\hat{\theta} - t_{1-a,df} SE_b, \hat{\theta} + t_{1-a,df} SE_b) }.
+#'  When \code{df} is not provided,
+#' at attempt is made to determine an appropriate value, but this should be double checked.
+#' In particular, missing data an lead to unreliable results. }
+#' }
 #' 
 #' @examples
 #' if (require(mosaicData)) {
