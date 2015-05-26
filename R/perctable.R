@@ -22,6 +22,7 @@
 
 perctable <- function(...) 
 {
+  .Deprecated("tally")
 	t <- table(...)
 	t/sum(t) * 100
 }
@@ -31,6 +32,7 @@ perctable <- function(...)
 
 proptable <- function(...) 
 {
+  .Deprecated("tally")
 	t <- table(...)
 	t/sum(t) 
 }
