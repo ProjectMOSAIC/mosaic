@@ -150,7 +150,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   if (is.null(names(estimate))) {
     # this fixes things for mean which isn't labeled.
     names(estimate) <- names(object)
-    warning("confint: estimate is unnamed; inferring names from `object'.")
+    # warning("confint: estimate is unnamed; inferring names from `object'.")
   }
   
   for (k in 1:length(nms) ) {
