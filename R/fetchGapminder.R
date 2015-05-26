@@ -20,7 +20,7 @@ tryCatch(utils::globalVariables( c('Var') ),
 fetchGapminder1 <- function(name,value.name=NULL){
   # reshape2::melt is imported, so require should not be necessary
   # if (! require(reshape2) ) { stop("reshape2 required for this function") }
-  .Defunct(msg="Use 'fetchGapminder1' from the fetch package instead.")
+  .Defunct(msg="Use fetchGapminder1() from the fetch package instead.")
   if( is.null(value.name) ) # Just the base name of the file --- no extension.
     value.name <- sub("\\.[^.]+$","",basename(name))
   dat <- fetchData(name)
@@ -37,7 +37,7 @@ fetchGapminder1 <- function(name,value.name=NULL){
 #' @rdname defunct-fetch
 #' @export
 fetchGapminder <- function(..., all.cases=TRUE, all.vars=FALSE) {
-  .Defunct(msg="Use 'fetchGapminder' from the fetch package instead.")
+  .Defunct(msg="Use fetchGapminder() from the `fetch' package instead.")
   datasets <- list()
   availableNames <- sort(c(
     'AidReceived', 'FemaleBMI', 

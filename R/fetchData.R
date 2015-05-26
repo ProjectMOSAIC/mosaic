@@ -8,5 +8,5 @@
 #' @export
 
 fetchData <- function(...) {
-  .Defunct(msg="Use 'fetchData' from the fetch package instead.")
+  .Defunct(msg="Use fetchData() from the `fetch' package instead.")
 }
