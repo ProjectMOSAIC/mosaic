@@ -41,7 +41,7 @@ Randall Pruim\thanks{rpruim@calvin.edu}
 \tableofcontents
 
 
-<<setupRnw,include=FALSE>>=
+<<setupRnw, include=FALSE>>=
 # source('../setup.R')
 ## @knitr setup
 #setCacheDir("cache")
@@ -145,7 +145,7 @@ use of the system.
 \subsection{Setup}
 The \pkg{mosaic} package is available over the Internet and can be installed
 into \R{} using the standard features of the system (this needs only be done once).  
-<<eval=FALSE,echo=TRUE>>=
+<<eval=FALSE, echo=TRUE>>=
 install.packages("mosaic")
 @ 
 
@@ -200,7 +200,7 @@ standard \R{} tools can be used for this.  We advocate the use of \pkg{lattice}-
 \item They use a syntax that is consistent with the syntax used in \pkg{mosaic}.  
 \item They extend naturally to more complicated settings.
 \end{enumerate}
-<<dot,fig.width=4, fig.height=2>>=
+<<dot, fig.width=4, fig.height=2>>=
 histogram(~Price, data=Mustangs)
 @
 
@@ -223,7 +223,7 @@ randomization and modeling.
 
 Resampling, also known as random selection with replacement, is an important operation in randomization.  The \function{resample} function performs this.  It can be illustrated in a very basic way on a small set of numbers:
 <<>>=
-simple=c(1,2,3,4,5)
+simple=c(1, 2, 3, 4, 5)
 resample(simple)
 resample(simple)
 resample(simple)
@@ -276,8 +276,8 @@ Mustangs.Price.boot <- do(1000) * mean(~Price, data=resample(Mustangs))
 
 
 Plotting this resampling distribution is straightforward, e.g.:
-<<hist,fig.width=4, fig.height=2>>=
-histogram(~ result, data=Mustangs.Price.boot, xlab="Mean Mustang Price (in thousand dollars)")
+<<hist, fig.width=4, fig.height=2>>=
+histogram(~ mean, data=Mustangs.Price.boot, xlab="Mean Mustang Price (in thousand dollars)")
 @ 
 
 The simplest way to translate this distribution into a confidence interval is to apply the operator for that purpose:
@@ -290,9 +290,9 @@ The \function{confint} function is a black box.  In introducing it, an instructo
 
 \item Calculation of the 90\% confidence interval using quantiles
 <<qdata>>=
-qdata(c(.05, .95), result, data=Mustangs.Price.boot)
+qdata(c(.05, .95), mean, data=Mustangs.Price.boot)
 # alternative
-cdata(.90, result, data=Mustangs.Price.boot)
+cdata(.90, mean, data=Mustangs.Price.boot)
 
 @ 
 
@@ -307,8 +307,8 @@ zstar <- qnorm(.95)
 The resulting
 margin of error will be
 <<margin>>=
-tstar * sd(~result,data=Mustangs.Price.boot)
-zstar * sd(~result,data=Mustangs.Price.boot)
+tstar * sd(~mean, data=Mustangs.Price.boot)
+zstar * sd(~mean, data=Mustangs.Price.boot)
 @ 
 
 \end{itemize}
@@ -382,11 +382,11 @@ do(1) * rflip(428)
 
 We'll do 1,000 trials, and count what fraction of the trials the
 coin toss winner (say, ``heads'') wins 240 or more of the 428 attempts:
-<<flips1,fig.width=4, fig.height=3>>=
+<<flips1, fig.width=4, fig.height=3>>=
 NFL.null <- do(1000) * rflip(428)
 prop(~ heads >= 240, data=NFL.null)
 @
-<<flips,fig.width=4, fig.height=2>>=
+<<flips, fig.width=4, fig.height=2>>=
 histogram(~ heads, groups=(heads >= 240), data=NFL.null)
 @ 
 
@@ -435,11 +435,11 @@ diff(mean(Words ~ shuffle(Group), data=Sleep))
 To get the distribution under the null
 hypothesis, we carry out many trials:
 
-<<setseed134,echo=FALSE>>=
+<<setseed134, echo=FALSE>>=
 set.seed(134) # make sure the result below is "typical"
 @
 
-<<sleep,tidy=FALSE,fig.width=4, fig.height=2>>=
+<<sleep, tidy=FALSE, fig.width=4, fig.height=2>>=
 Sleep.null <- do(1000) * diff(mean(Words ~ shuffle(Group), data=Sleep))
 histogram(~ Sleep, groups=(Sleep >= obs),  data=Sleep.null, width=0.4,
   xlab="Distribution of difference in means\nunder the null hypothesis")
@@ -476,12 +476,12 @@ cor(Price, Miles, data=Mustangs)
 
 <<>>=
 Mustangs.cor.boot <- do(1000) * cor(Price, Miles, data=resample(Mustangs))
-quantiles <- qdata(c(.025, .975), result, data=Mustangs.cor.boot); quantiles
+quantiles <- qdata(c(.025, .975), cor, data=Mustangs.cor.boot); quantiles
 @
 
-<<cor,fig.width=4, fig.height=2, tidy=FALSE>>=
-histogram(~ result, data=Mustangs.cor.boot,
-  groups=cut(result, c(-Inf, quantiles$quantile, Inf)),
+<<cor, fig.width=4, fig.height=2, tidy=FALSE>>=
+histogram(~ cor, data=Mustangs.cor.boot,
+  groups=cut(cor, c(-Inf, quantiles$quantile, Inf)),
   n=30) 
 confint(Mustangs.cor.boot)
 @ 
@@ -501,7 +501,7 @@ linear models.
 Usually, people think about linear models in the context of regression.  For instance, using the Lock Mustang price dataset, 
 there is presumably a relationship between the price of a car and its mileage.  Here's a graph:
 
-<<price-mileage-graph,fig.width=4, fig.height=3>>=
+<<price-mileage-graph, fig.width=4, fig.height=3>>=
 xyplot( Price ~ Miles, data=Mustangs )
 @
 There's a pretty clear relationship here, which in the Lock problems was quantified with the correlation coefficient.
