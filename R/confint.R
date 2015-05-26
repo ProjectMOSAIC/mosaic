@@ -70,6 +70,7 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
 }
 
 dont_randomize_data <- list(
+  sample = function(x, ...) x,
   resample = function(x, ...) x,
   shuffle = function(x, ...) x,
   rflip = function(n, prob = 0.5, quiet, verbose, ...) {
@@ -78,6 +79,7 @@ dont_randomize_data <- list(
 )
 
 dont_randomize_estimate <- list(
+  sample = function(x, ...) x,
   resample = function(x, ...) x,
   shuffle = function(x, ...) x,
   rflip = function(n, prob = 0.5, quiet, verbose, ...) {
@@ -134,8 +136,8 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   }
   
   if (is.null(df)) {
-    warning("confint: Using df=Inf.", call. = FALSE)
     df <- Inf
+    if ("stderr" %in% method) warning("confint: Using df=Inf.", call. = FALSE)
   }
   
   if (missing(parm)) parm <- names(object)
@@ -145,6 +147,12 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   row <- 0
   culler <- attr(object, "culler")
   estimate <- culler(extract_estimate(object))
+  if (is.null(names(estimate))) {
+    # this fixes things for mean which isn't labeled.
+    names(estimate) <- names(object)
+    warning("confint: estimate is unnamed; inferring names from `object'.")
+  }
+  
   for (k in 1:length(nms) ) {
     for (m in method) {
       for (l in level) {
@@ -167,8 +175,12 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
       }
     }
   }
+  if (prod(dim(res)) == 0L) {
+    warning("confint: Unable to compute any of the desired CIs", call. = FALSE)
+    return(res)
+  }
 #  res <- subset(res, !is.na(res$name) ) # get rid of non-quantitative variables
-  if( margin.of.error ) {
+  if( margin.of.error && prod(dim(res)) > 0 ) {
 #     res[, "estimate"] <- with( res, (upper+lower)/2 )
     res[, "margin.of.error"] <- with( res,  (res$upper-res$lower)/2 )
     res[ res$method!="stderr", "estimate"] <- NA
