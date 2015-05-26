@@ -69,21 +69,36 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
   result  
 }
 
-dont_randomize <- list(
-  resample <- function(x, ...) x,
-  shuffle <- function(x, ...) x
+dont_randomize_data <- list(
+  resample = function(x, ...) x,
+  shuffle = function(x, ...) x,
+  rflip = function(n, prob = 0.5, quiet, verbose, ...) {
+    c( x = round(prob * n), n = n ) 
+  }
+)
+
+dont_randomize_estimate <- list(
+  resample = function(x, ...) x,
+  shuffle = function(x, ...) x,
+  rflip = function(n, prob = 0.5, quiet, verbose, ...) {
+    c(prop = prob)
+  }
 )
 
 extract_data <- function(x) {
   x_lazy <- attr(x, "lazy")
   if (is.null(x_lazy)) return(NULL)
-  eval( x_lazy$expr[["data"]], envir = dont_randomize, enclos = x_lazy$env )
+  res <- eval( x_lazy$expr[["data"]], envir = dont_randomize_data, enclos = x_lazy$env )
+  if (is.null(res)) {
+    res <- eval( x_lazy$expr, envir = dont_randomize_data, enclos = x_lazy$env )
+  }
+  res
 }
 
 extract_estimate <- function(x) {
   x_lazy <- attr(x, "lazy")
   if (is.null(x_lazy)) return(NA)
-  eval( x_lazy$expr, envir = dont_randomize, enclos = x_lazy$env )
+  eval( x_lazy$expr, envir = dont_randomize_estimate, enclos = x_lazy$env )
 }
 
 
@@ -94,7 +109,8 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
                                  margin.of.error="stderr" %in% method,
                                  df = NULL) {
   
-  method <- match.arg(method, c("se", "stderr", "percentile", "quantile"), several.ok=TRUE) # which method was selected
+  method <- match.arg(method, c("se", "stderr", "basic", "percentile", "quantile"), 
+                      several.ok=TRUE) # which method was selected
   method[method=="percentile"] <- "quantile"
   method[method=='se'] <- 'stderr'
   method <- unique(method)
@@ -127,15 +143,20 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   res <- data.frame( matrix( nrow=0, ncol=5) )
   names(res) <- c("name", "lower","upper","level","method")
   row <- 0
-  estiamte <- extract_estimate(object)
+  culler <- attr(object, "culler")
+  estimate <- culler(extract_estimate(object))
   for (k in 1:length(nms) ) {
     for (m in method) {
       for (l in level) {
         if (is.numeric( object[[nms[k]]] )) {
+          if (! nms[k] %in% names(estimate) ) next
           row <- row + 1
           # vals <- .mosaic.get.ci2( object[[nms[k]]], l, m, df=df)
-          vals <- bootstrap_ci( object[[nms[k]]], level = l, method = m, df=df, 
-                                estimate = estimate[[ nms[k] ]])
+          vals <- 
+            bootstrap_ci( 
+              object[[nms[k]]], level = l, method = m, df=df, 
+              estimate =  estimate[[ nms[k] ]]
+          )
           res[row, "name"] <- nms[k]
           res[row, "lower"] <- vals[1]
           res[row, "upper"] <- vals[2]

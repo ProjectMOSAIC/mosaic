@@ -478,5 +478,6 @@ setMethod(
       names(result) <- nice_names(names(result))
     }
     attr(result, "lazy") <- e2_lazy
+    attr(result, "culler") <- cull
     return(result)
   })
