@@ -9,33 +9,16 @@
 \usage{
 fetchData(...)
 
-fetchGapminder1(name, value.name = NULL)
+fetchGapminder1(...)
 
-fetchGapminder(..., all.cases = TRUE, all.vars = FALSE)
+fetchGapminder(...)
 
 fetchGoogle(...)
 }
 \arguments{
 \item{...}{arguments}
-
-\item{name}{a character vector of length 1}
-
-\item{value.name}{name of variable in resulting data frame}
-
-\item{all.cases}{a logical indicating whether all cases should be included
-or only complete cases}
-
-\item{all.vars}{a logical, if \code{TRUE}, then \code{\dots} is ignored
-and all available variables are fetched.}
-
-\item{\dots}{character strings naming desired variables}
-}
-\value{
-A data frame
 }
 \description{
 These functions have been moved to the fetch package.
-
-Fetch data originally obtained from Gapminder.
 }
 
