@@ -1,8 +1,17 @@
 # mosaic package NEWS
 
+## mosaic 0.10.9000
+
+ * `fetchData()`, `fetchGoogle()`, and `fetchGapminder()` have been moved to a separate package, 
+ called `fetch()`.
+ * Improvements have been made that make it easier to use `do()` to create common 
+ bootstrap confidence intervals.  In particular, `confint()` can now calculate three
+ kinds of intervals in many common situations.
+ 
+
 ## mosaic 0.10
  * At the request of several users, and with CRAN's approval, we have made 
- `mosaicData` a dependency of `mosaic`.  This avoid the problem of students 
+ `mosaicData` a dependency of `mosaic`.  This avoids the problem of users 
  forgetting to separately load the `mosaicData` package.
  * We are planning to remove `fetchGoogle()` (and perhaps `read.file()`) from future versions 
  of the package.  More and more packages are providing utilities for bringing data into R and it
