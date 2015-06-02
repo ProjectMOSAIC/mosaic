@@ -308,6 +308,83 @@ sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 	return(data)
 }
 
+#' @export
+sample.lm <- 
+  function(
+    x, size, replace = FALSE, prob = NULL, groups=NULL, 
+    orig.ids=FALSE, drop.unused.levels = FALSE, 
+    parametric = FALSE, 
+    transformation = NULL,
+    ...) {
+   
+    if (!is.null(prob)) {
+      warning("Unused argument: groups")
+    }
+    if (!is.null(groups)) {
+      warning("Unused argument: groups")
+    }
+    
+    if (! replace) {
+      stop("Only resampling supported for linear model objects.")
+    }
+    # replace == TRUE
+   
+    orig_data <- eval( x$call[["data"]], environment(formula(x)) )
+    dfx <- orig_data[, all.vars(formula(x))]
+    complete_idx <- which(complete.cases(dfx))
+    res <- dfx[complete_idx, ]
+   
+    if (! missing(size)) {
+      if (size != nrow(res)) {
+        stop ("Invalid value for `size'.")
+      }
+      
+      warning("`size' is ignored when resampling an `lm' object.")
+    }
+    size <- nrow(res)
+    
+    res$resid <- resid(x)
+    if (parametric) {
+      res$new_resid <- rnorm(size, mean = 0, sd = summary(x)$sigma)
+    } else {
+      res$new_resid <- 
+        (1 - 2 * rbinom(size, 1, 0.5)) * resample(resid(x))
+    }
+    res$new_response <- fitted(x) + res$new_resid
+    
+    if (is.null(transformation)) {
+      transformation <- identity
+      left <- lhs(formula(x))
+      if (length(left) == 2) {       # foo ( stuff )
+        if (is.name(left[[2]])) {    # stuff is a name
+          transformation <- 
+            switch( 
+              as.character(left[[1]]),
+              "log" = exp,
+              "log10" = function(x) {10^x},
+              "log2" = function(x) {2^x},
+              "sqrt" = function(x) x^2,
+              identity
+            )
+        }   # could have identify if stuff is not a name or foo is not a known function
+        if (identical(transformation, identity)) {
+          warning("You may need to specify transformation to get the desired results.")
+        } 
+      }
+      if (length(left) > 2) {
+        warning("You may need to specify transformation to get the desired results.")
+      }
+    }
+    res[[1]] <- do.call(transformation, list(res$new_response))
+    res
+  }
+
+#' @export
+relm <- function(model, ...) {
+  lm(formula(model), data = resample(model, ...), ...)
+}
+
+#' 
 #' Simulate spinning a spinnner
 #' 
 #' This is essentially \code{rmultinom} with a different interface.

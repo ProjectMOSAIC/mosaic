@@ -87,7 +87,8 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
 
 dont_randomize_data <- list(
   sample = function(x, ...) x,
-  resample = function(x, ...) x,
+  resample = function(x, ...) 
+    if ( inherits(x, "lm") ) eval( x$call[["data"]], environment(formula(x)) ) else x,
   shuffle = function(x, ...) x,
   rflip = function(n, prob = 0.5, quiet, verbose, ...) {
     c( x = round(prob * n), n = n ) 
@@ -96,7 +97,8 @@ dont_randomize_data <- list(
 
 dont_randomize_estimate <- list(
   sample = function(x, ...) x,
-  resample = function(x, ...) x,
+  resample = function(x, ...) 
+    if ( inherits(x, "lm") ) eval( x$call[["data"]], environment(formula(x)) ) else x,
   shuffle = function(x, ...) x,
   rflip = function(n, prob = 0.5, quiet, verbose, ...) {
     c(prop = prob)
@@ -186,7 +188,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
           res[row, "upper"] <- vals[2]
           res[row, "level"] <- l
           res[row, "method"] <- m
-          res[row, "estimate"] <- if(m == "stderr") mean(vals) else mean(object[[nms[k]]], na.rm=TRUE)
+          res[row, "estimate"] <- estimate[[ nms[k] ]]
         }
       }
     }
@@ -199,11 +201,12 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   if( margin.of.error && prod(dim(res)) > 0 ) {
 #     res[, "estimate"] <- with( res, (upper+lower)/2 )
     res[, "margin.of.error"] <- with( res,  (res$upper-res$lower)/2 )
-    res[ res$method!="stderr", "estimate"] <- NA
+#    res[ res$method!="stderr", "estimate"] <- NA
     res[ res$method!="stderr", "margin.of.error"] <- NA
-  } else {
-    res <- res[ , setdiff(names(res), "estimate") ]
-  }
+  } 
+#  else {
+#    res <- res[ , setdiff(names(res), "estimate") ]
+#  }
 
   # Change the names to those given by confint.default
 #  colnames(res) <- 
