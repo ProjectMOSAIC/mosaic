@@ -479,6 +479,6 @@ setMethod(
       names(result)[names(result) == "..result.."] <- as.character(e2_lazy$expr[[1]])
     }
     attr(result, "lazy") <- e2_lazy
-    attr(result, "culler") <- cull
+    if (out.mode == "data.frame") attr(result, "culler") <- cull
     return(result)
   })
