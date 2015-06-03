@@ -40,9 +40,9 @@ t_test <- function(x, y=NULL, ..., data=parent.frame()) {
   x_lazy <- lazyeval::lazy(x)
   y_lazy <- lazyeval::lazy(y)
   dots_lazy <- lazyeval::lazy_dots(...)
-  x_eval <- tryCatch( lazyeval::lazy_eval(x_lazy, data=data),
+  x_eval <- tryCatch( lazyeval::lazy_eval(x_lazy, data=as.list(data)),
                       error = function(e) as.name(deparse(x_lazy$expr)))
-  y_eval <- tryCatch( lazyeval::lazy_eval(y_lazy, data=data),
+  y_eval <- tryCatch( lazyeval::lazy_eval(y_lazy, data=as.list(data)),
                       error = function(e) as.name(deparse(y_lazy$expr)))
   
   res <- ttest(x_eval, y_eval, ..., data=data) 
