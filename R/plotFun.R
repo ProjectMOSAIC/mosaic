@@ -34,6 +34,9 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param groups grouping argument ala lattice graphics
+#' @param discontinuity a positive number 1 determining how sensitive the plot is to 
+#'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
+#'   Use \code{discontinuity = Inf} to disable discontinuity detection.} 
 #' @param ... additional parameters, typically processed by \code{lattice} functions such as 
 #' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
 #' Frequently used parameters include 
@@ -109,7 +112,8 @@ plotFun <- function(object, ...,
           col = trellis.par.get('superpose.line')$col,
 					col.regions=topo.colors, 
 					type="l", 
-					alpha=NULL ) { 
+					alpha=NULL,
+					discontinuity = 1) { 
 
 	if ( is.function(object) ) { 
 		formula <- f(x) ~ x 
@@ -118,6 +122,9 @@ plotFun <- function(object, ...,
 	}
   
   if(is.null(add)) add <- under
+  
+  if (discontinuity <= 0 | length(discontinuity) != 1) 
+    stop("discontinuity should be a positive number or Inf.")
   
 	dots <- list(...)
 	# dots[['type']] <- type
@@ -175,6 +182,7 @@ plotFun <- function(object, ...,
 	          do.call(panel.plotFun1, 
 	                  c( list(..f..=fList,  
 	                          npts=npts, 
+	                          discontinuity = discontinuity,
 	                          filled=filled, levels=levels, 
 	                          nlevels=nlevels, surface=surface, 
 	                          col.regions=col.regions, 
@@ -187,7 +195,7 @@ plotFun <- function(object, ...,
 	  # message("2-D adding temporarily un-discontinued.")
 	  return( plot + latticeExtra::layer(
 	    do.call( panel.plotFun,
-	             c(list( object=object, npts=npts,
+	             c(list( object=object, npts=npts, discontinuity = discontinuity,
 	                     filled=filled, levels=levels, nlevels=nlevels, suface=surface,
 	                     col.regions=col.regions, type=type, alpha=alpha),
 	               dots) ),
@@ -259,7 +267,7 @@ plotFun <- function(object, ...,
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
 								panel="panel.plotFun1",
-                npts = npts,
+                npts = npts, discontinuity = discontinuity,
                 col=col ),
 								cleanDots
 								)
@@ -275,7 +283,7 @@ plotFun <- function(object, ...,
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
 								panel="panel.plotFun1",
-                npts=npts,
+                npts=npts, discontinuity = discontinuity,
                 col=col),
 								cleanDots)
 								)
@@ -400,6 +408,11 @@ plotFun <- function(object, ...,
 	stop("Bug alert: You should not get here.  Please report.")
 }
 
+jumpy_lengths <- function(x, y, discontinuity = 1) {
+  jumpiness <- zscore( diff(y) / diff(x), na.rm=TRUE )
+  jumpy <- which(is.na(jumpiness) | abs(jumpiness) > 5 * discontinuity)
+  diff(c(0, jumpy, length(x)))
+}
 
 #' Panel function for plotting functions
 #'
@@ -443,7 +456,8 @@ panel.plotFun1 <- function( ..f.., ...,
                            levels=NULL, 
                            nlevels=10,
                            surface=FALSE,
-                           alpha=NULL ) { 
+                           alpha=NULL,
+                           discontinuity = 1) { 
   dots <- list(...)
 
   if (is.function(..f..) ) ..f.. <- list(..f..)
@@ -499,9 +513,25 @@ panel.plotFun1 <- function( ..f.., ...,
     # cleandots[ intersect(names(cleandots), all.vars(object)) ] <- NULL
     cleandots[c('x','y','type','alpha','col')] <- NULL
     # use do.call to call the panel function so that the cleandots can be put back in
-    do.call(panel.xyplot,
-            c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=.getColor(idx,col)),  cleandots)
-    )
+    jumpiness <- zscore( diff(.yvals) / diff(.xvals), na.rm=TRUE )
+    jumpy <- which(is.na(jumpiness) | abs(jumpiness) > 5)
+    if (type == "l") {
+      do.call(
+        grid.polyline,
+        c(list(x=.xvals, y=.yvals, default.units = "native",
+               gp=do.call(
+                 gpar, 
+                 c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
+               ), 
+               id.lengths = jumpy_lengths(.xvals, .yvals, discontinuity) 
+        ))
+      )
+    } else {
+      do.call(
+        panel.xyplot,
+        c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=.getColor(idx,col)),  cleandots)
+      )
+    }
   }
 }
 
@@ -545,7 +575,7 @@ panel.plotFun <- function( object, ...,
                            nlevels=10,
                            surface=FALSE,
                            col.regions =topo.colors, 
-                           alpha=NULL ) { 
+                           alpha=NULL, discontinuity = 1 ) { 
   dots <- list(...)
   if ( is.function(object) ) { 
     formula <- f(x) ~ x 
@@ -596,8 +626,22 @@ panel.plotFun <- function( object, ...,
     cleandots = list(...)
     cleandots[ names(cleandots) %in% all.vars(object) ] <- NULL
     # use do.call to call the panel function so that the cleandots can be put back in
-    return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
-    #return(panel.xyplot(.xvals, .yvals, ...))
+    if (type == "l") {
+      return(
+        do.call(
+          grid.polyline,
+          c(list(x=.xvals, y=.yvals, default.units = "native",
+                 gp=do.call(
+                   gpar, 
+                   c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
+                 ), 
+                 id.lengths = jumpy_lengths(.xvals, .yvals, discontinuity) 
+          ))
+        )
+      )
+    } else {
+      return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
+    }
   }
   
   if (ndims == 2 ) {

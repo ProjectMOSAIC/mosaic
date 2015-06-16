@@ -9,7 +9,7 @@ plotFun(object, ..., plot = trellis.last.object(), add = NULL,
   xlab = NULL, zlab = NULL, filled = TRUE, levels = NULL,
   nlevels = 10, labels = TRUE, surface = FALSE, groups = NULL,
   col = trellis.par.get("superpose.line")$col, col.regions = topo.colors,
-  type = "l", alpha = NULL)
+  type = "l", alpha = NULL, discontinuity = 1)
 }
 \arguments{
 \item{object}{a mathematical expression or a function "of one variable" which will
