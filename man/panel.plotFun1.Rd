@@ -7,7 +7,7 @@
 panel.plotFun1(..f.., ..., x, y, type = "l",
   col = trellis.par.get("superpose.line")$col, npts = NULL, zlab = NULL,
   filled = TRUE, levels = NULL, nlevels = 10, surface = FALSE,
-  alpha = NULL)
+  alpha = NULL, discontinuities = NULL)
 }
 \arguments{
 \item{..f..}{an object (e.g., a formula) describing a function}

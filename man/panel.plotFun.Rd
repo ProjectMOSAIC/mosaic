@@ -6,7 +6,7 @@
 \usage{
 panel.plotFun(object, ..., type = "l", npts = NULL, zlab = NULL,
   filled = TRUE, levels = NULL, nlevels = 10, surface = FALSE,
-  col.regions = topo.colors, alpha = NULL)
+  col.regions = topo.colors, alpha = NULL, discontinuities = NULL)
 }
 \arguments{
 \item{object}{an object (e.g., a formula) describing a function}
