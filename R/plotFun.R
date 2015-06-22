@@ -34,9 +34,11 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param groups grouping argument ala lattice graphics
+#' @param discontinuities a vector of input values at which a function is discontinuous or \code{NULL} to use
+#'   a heuristic to auto-detect.
 #' @param discontinuity a positive number 1 determining how sensitive the plot is to 
 #'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
-#'   Use \code{discontinuity = Inf} to disable discontinuity detection.} 
+#'   Use \code{discontinuity = Inf} to disable discontinuity detection. 
 #' @param ... additional parameters, typically processed by \code{lattice} functions such as 
 #' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
 #' Frequently used parameters include 
@@ -408,10 +410,33 @@ plotFun <- function(object, ...,
 	stop("Bug alert: You should not get here.  Please report.")
 }
 
-jumpy_lengths <- function(x, y, discontinuity = 1) {
-  jumpiness <- zscore( diff(y) / diff(x), na.rm=TRUE )
-  jumpy <- which(is.na(jumpiness) | abs(jumpiness) > 5 * discontinuity)
-  diff(c(0, jumpy, length(x)))
+discontinuity_at <- function(x, y, threshold = 2) {
+  y[!is.finite(y)] <- NA
+  y_scaled <- (y - min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
+  x_scaled <- (x - min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
+  slope  <- diff(y_scaled) / diff(x_scaled)
+  jump <- diff(y_scaled)
+  left_jump <- c(0, jump)
+  right_jump <- c(jump, 0)
+  left_slope  <- c(slope[1], slope) 
+  right_slope  <- c(slope, slope[length(slope)]) 
+  x[which( is.na(y) | 
+             !is.finite(y) | 
+             ( 
+                 (abs(atan(left_slope) - atan(right_slope)) > 1) & 
+                 (abs(atan(left_slope)) > 1 | abs(atan(right_slope)) > 1)
+             )
+  )]
+}
+
+# lengths of points on one continuous branch of a function.
+
+branch_lengths <- function(x, y, discontinuities = NULL) {
+  if (is.null(discontinuities)) discontinuities <- discontinuity_at(x, y) 
+  if (length(discontinuities) < 1L) return( length(x) )
+  j <- sapply(x, function(x) sum(x > discontinuities))
+  k <- sapply(x, function(x) sum(x >= discontinuities))
+  diff( c( 0, which(diff(j+k) > 0), length(x) ) )
 }
 
 #' Panel function for plotting functions
@@ -457,7 +482,7 @@ panel.plotFun1 <- function( ..f.., ...,
                            nlevels=10,
                            surface=FALSE,
                            alpha=NULL,
-                           discontinuity = 1) { 
+                           discontinuities = NULL) { 
   dots <- list(...)
 
   if (is.function(..f..) ) ..f.. <- list(..f..)
@@ -513,17 +538,16 @@ panel.plotFun1 <- function( ..f.., ...,
     # cleandots[ intersect(names(cleandots), all.vars(object)) ] <- NULL
     cleandots[c('x','y','type','alpha','col')] <- NULL
     # use do.call to call the panel function so that the cleandots can be put back in
-    jumpiness <- zscore( diff(.yvals) / diff(.xvals), na.rm=TRUE )
-    jumpy <- which(is.na(jumpiness) | abs(jumpiness) > 5)
+
     if (type == "l") {
       do.call(
         grid.polyline,
         c(list(x=.xvals, y=.yvals, default.units = "native",
                gp=do.call(
-                 gpar, 
+                 grid::gpar, 
                  c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
                ), 
-               id.lengths = jumpy_lengths(.xvals, .yvals, discontinuity) 
+               id.lengths = branch_lengths(.xvals, .yvals, discontinuities)  
         ))
       )
     } else {
@@ -575,7 +599,7 @@ panel.plotFun <- function( object, ...,
                            nlevels=10,
                            surface=FALSE,
                            col.regions =topo.colors, 
-                           alpha=NULL, discontinuity = 1 ) { 
+                           alpha=NULL, discontinuities = NULL ) { 
   dots <- list(...)
   if ( is.function(object) ) { 
     formula <- f(x) ~ x 
@@ -632,10 +656,10 @@ panel.plotFun <- function( object, ...,
           grid.polyline,
           c(list(x=.xvals, y=.yvals, default.units = "native",
                  gp=do.call(
-                   gpar, 
+                   grid::gpar, 
                    c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
                  ), 
-                 id.lengths = jumpy_lengths(.xvals, .yvals, discontinuity) 
+                 id.lengths = branch_lengths(.xvals, .yvals, discontinuities) 
           ))
         )
       )
