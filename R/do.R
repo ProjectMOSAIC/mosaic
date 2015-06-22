@@ -306,11 +306,15 @@ if(FALSE) {
 	if (inherits(object,c('lm','groupwiseModel')) ) {
 		sobject <- summary(object)
     	Fstat <- sobject$fstatistic[1]
+    	DFE <- sobject$fstatistic["dendf"]
+    	DFM <- sobject$fstatistic["numdf"]
 		if (!is.null(Fstat)) {
 			names(Fstat) <- "F"
 			result <-  c(coef(object), sigma=sobject$sigma, 
 						 r.squared = sobject$r.squared, 
-						 Fstat)
+						 Fstat,
+						 DFM,
+						 DFE)
 		} else {
 			result <-  c(coef(object), sigma=sobject$sigma, 
 						 r.squared = sobject$r.squared
