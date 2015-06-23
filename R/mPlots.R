@@ -40,9 +40,8 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 .varsByType = function(data) {
   vnames = names(data)
   type = vnames
-  for (k in 1:length(data)) type[k] <- class(data[[k]])
-  numberNames <- .v2list(vnames[type %in% c("integer", "numeric")])
-  factorNames <- .v2list(vnames[type %in% c("factor", "character", "logical", "ordered")])
+  numberNames <- .v2list(vnames[sapply(data, function(x) inherits(x, c("integer", "numeric", "POSIXct")))])
+  factorNames <- .v2list(vnames[sapply(data, function(x) inherits(x, c("factor", "character", "logical", "ordered")))])
   return( list( c=factorNames, q=numberNames, all=.v2list(vnames) ) )
 }
 # Prepend a list with NA for optional items
@@ -110,20 +109,30 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' @export
 
 mPlot <- function(data, 
-  format = plotTypes,
+  format,
   default = format,
   system=c('lattice','ggplot2'),
   show=FALSE, 
   title="",
   ...) 
 {
-  
-  if (missing(default) & missing(format))  default <- 'scatter' 
   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
                 'density', 'frequency polygon', 'xyplot', 'map')
+  dataName <- substitute(data)  # lazy_data$expr
+  lazy_data <- lazyeval::lazy(data)
+  
+  if (missing(default) & missing(format)) {
+    choice <- 
+      menu(title = "Choose a plot type.",
+           choices = c(
+             "1-variable (histogram, density plot, etc.)",
+             "2-variable (scatter, boxplot, etc.)", 
+             "map")
+      )
+    default <- c("histogram", "scatter", "map") [choice]
+  }
   default <- match.arg(default, plotTypes)
   system <- match.arg(system)
-  dataName <- substitute(data)
   if (default == 'xyplot') default <- 'scatter'
   if (default %in% c('scatter','jitter','boxplot','violin')) {
     return( 
