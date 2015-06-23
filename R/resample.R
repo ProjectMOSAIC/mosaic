@@ -318,7 +318,7 @@ sample.lm <-
     ...) {
    
     if (!is.null(prob)) {
-      warning("Unused argument: groups")
+      warning("Unused argument: prob")
     }
     if (!is.null(groups)) {
       warning("Unused argument: groups")
