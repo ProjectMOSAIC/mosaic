@@ -18,7 +18,7 @@ mplot(object, ...)
   search(), par.settings = theme.mosaic(), level = 0.95,
   title = paste("model: ", deparse(object$call), "\\n"), rows = TRUE, ...)
 
-\method{mplot}{data.frame}(object, format = plotTypes, default = format,
+\method{mplot}{data.frame}(object, format, default = format,
   system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
 
 \method{mplot}{summary.lm}(object, system = c("lattice", "ggplot2"),

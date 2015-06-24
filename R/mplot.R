@@ -289,17 +289,25 @@ mplot.lm <- function(object, which=c(1:3, 7),
 #' }
 #' @export
 
-mplot.data.frame <- function (object, format = plotTypes, default = format, 
+mplot.data.frame <- function (object, format, default = format, 
                               system = c("lattice", "ggplot2"),  show = FALSE, 
                               title = "", ...
                               ) {
-  if (missing(default) & missing(format)) 
-    default <- "scatter"
-  plotTypes <- c("scatter", "jitter", "boxplot", "violin", 
-                 "histogram", "density", "frequency polygon", "xyplot", 
-                 "map")
+  plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
+                 'density', 'frequency polygon', 'xyplot', 'map')
+  if (missing(default) & missing(format)) {
+    choice <- 
+      menu(title = "Choose a plot type.",
+           choices = c(
+             "1-variable (histogram, density plot, etc.)",
+             "2-variable (scatter, boxplot, etc.)", 
+             "map")
+      )
+    default <- c("histogram", "scatter", "map") [choice]
+  }
   default <- match.arg(default, plotTypes)
   system <- match.arg(system)
+
   dataName <- substitute(object)
   if (default == "xyplot") 
     default <- "scatter"
@@ -319,6 +327,7 @@ mplot.data.frame <- function (object, format = plotTypes, default = format,
                  ", default=default, system=system, show=show, title=title)"))
   ))
 }
+
 
 #' Extract data from R objects
 #' 

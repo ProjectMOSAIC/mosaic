@@ -311,7 +311,7 @@ mMap <- function(data, default = 'map',
 #' @rdname mPlotting
 #' @export
 
-mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
+mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','line'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="") {
 
   .require_manipulate_namespace()
@@ -320,7 +320,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
   df <- substitute(data)
   variables <- .varsByType(head(data))
   # variables$q is the quantitative variables.
-  plotnames <- list("scatter", "jitter","boxplot", "violin")
+  plotnames <- list("scatter", "jitter","boxplot", "violin", "line")
   snames <- .NAprepend(variables$all)
   if (length(variables$all) < 2 || length(variables$q) < 1) {
     stop("data must have at least 2 variables, at least one of which is quantitative")
@@ -359,7 +359,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
 
 .doScatter <- function(dataName, variables, show=FALSE, 
 					  system=c('ggplot2','lattice'), 
-            plotType=c('scatter','jitter','boxplot','violin'),
+            plotType=c('scatter','jitter','boxplot','violin','line'),
 					  x=NA, y=NA, color=NA, 
 					  size=NA, facet=NA, logScales='none', flipCoords=FALSE,
 					  model="", key="right", title=title)
@@ -381,7 +381,8 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
 {
   #  res <- paste("ggplot(data=", s$data, ")", sep="")
   #    res<-paste(res, "+geom_point(aes(x=", s$x, ", y=", s$y, "))", sep="")
-  geom <- c(scatter="geom_point()", jitter="geom_jitter()", boxplot="geom_boxplot()", violin="geom_violin()")
+  geom <- c(scatter="geom_point()", jitter="geom_jitter()", boxplot="geom_boxplot()", 
+            violin="geom_violin()", line="geom_line()")
   system=match.arg(system)
   s$logx <- s$logScales %in% c('both','x')
   s$logy <- s$logScales %in% c('both','y')
@@ -410,7 +411,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
     }
     
   } else {
-    plotname <- c(scatter='xyplot', jitter='xyplot', boxplot='bwplot', violin='bwplot')
+    plotname <- c(scatter='xyplot', jitter='xyplot', boxplot='bwplot', violin='bwplot', line="xyplot")
     if (s$flipCoords) {
 	    res <- paste( plotname[s$plotType], "( ", s$x , " ~ ", s$y, sep="")
     } else {
@@ -428,6 +429,9 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
     if (s$plotType == "jitter") {
       res <- paste(res, ', jitter.x=TRUE, jitter.y=TRUE', sep="")
     }
+    if (s$plotType == "line" && ! s$model %in% c("linear", "smooth")) {
+      res <- paste(res, ', type="l"', sep="")
+    }
     scales <- character(0)
     if (s$logx)
       scales <- "x=list(log=TRUE)"
@@ -439,11 +443,15 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
 		  res <- paste( res, scales, sep="" )
 	  }
 	  if (s$model=="linear")
-		res <- paste(res, ', type=c("p","r")', sep ="")
+	    res <- paste(res, if (s$plotType == "line") ', type=c("l","r")' else ', type=c("p","r")', sep ="")
 	  if (s$model=="smooth")
-		res <- paste(res, ', type=c("p","smooth")', sep ="")
-    if (s$key %in% c('top','bottom','left','right')) {
-      res <- paste(res, ', auto.key=list(space="', s$key, '")', sep="")
+	    res <- paste(res, if (s$plotType == "line") ', type=c("l","smooth")' else ', type=c("p","smooth")', sep ="")
+	  if (s$key %in% c('top','bottom','left','right')) {
+	    res <- paste(res, 
+	                 ', auto.key=list(space="', s$key, '"',
+                   if (s$plotType == "line") ", lines=TRUE, points=FALSE" else "",
+                   if (s$key %in% c("top")) ", columns=3" else "",
+	                 ')', sep="")
     }
     if (s$key %in% c('N','NE','E','SE','S','SW','W','NW')) {
       dir2pos <- list(
@@ -456,7 +464,12 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin'),
         'W'  = 'c(0,.5)', 
         'NW' = 'c(0,1)'
         ) 
-      res <- paste(res, ', auto.key=list(corner=', dir2pos[[s$key]], ')', sep="")
+      res <- paste(res, ', auto.key=list(',
+                   'corner=', dir2pos[[s$key]], 
+                   if (s$plotType == "line") ", lines=TRUE, points=FALSE" else "",
+                   if (s$key %in% c("N", "S")) ", columns=3" else "",
+                   ")",
+                   sep="")
     }
 
 	  res <- paste(res, ")", sep="")
