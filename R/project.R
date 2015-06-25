@@ -112,6 +112,16 @@ setMethod(
 		type <- match.arg(type)
 		u <- rep(u, length.out=length(x))
 		
+		if(dot(u,u) <= 0) {
+		  return(
+		    switch(type, 
+		       vector = rep(0, length(u)),
+		       length = 0,
+		       coef   = 0
+		       )
+		  )
+		}
+		
 		switch(type, 
 		       vector = u * (dot(x, u)/dot(u, u)), 
 		       length = abs(dot(x, u))/sqrt(dot(u, u)), 
