@@ -10,13 +10,13 @@
 \alias{vlength}
 \title{Projections}
 \usage{
-project(x, u, data = parent.env(), ...)
+project(x, ...)
 
 \S4method{project}{formula}(x, u = NULL, data = parent.frame(),
   coefficients = TRUE, ...)
 
 \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector",
-  "length"), ...)
+  "length", "coef"), ...)
 
 \S4method{project}{matrix}(x, u, data = parent.frame())
 
@@ -28,11 +28,11 @@ dot(u, v)
 \item{x}{a numeric vector (all functions) or a formula (only for \code{project}).
 Left-hand sides of formulas should be a single quantity}
 
+\item{...}{additional arguments}
+
 \item{u}{a numeric vector}
 
 \item{data}{a data frame.}
-
-\item{...}{additional arguments}
 
 \item{coefficients}{For \code{project(y ~ x)} indicates whether the projection
 coeffients should be returned or the projection vector.}
@@ -98,8 +98,11 @@ sqrt(sum(resid(m)^2))
 }
 v <- c(1,1,1); w <- c(1,2,3)
 u <- v / vlength(v)  # make a unit vector
+The following should be the same:
+project(w,v, type="coef") * v
+project(w,v)
 # The following are equivalent
-dot( w, u )
+abs(dot( w, u ))
 vlength( project( w, u) )
 vlength( project( w, v) )
 project( w, v, type='length' )

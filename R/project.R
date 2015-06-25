@@ -43,7 +43,7 @@ tryCatch(utils::globalVariables(c('u')),
 
 setGeneric( 
 	"project", 
-	function(x, u, data=parent.env(), ... )  {
+	function(x, ... )  {
 		standardGeneric('project')
 	}
 )
@@ -71,7 +71,7 @@ setGeneric(
 
 setMethod(
 		  'project',
-		  signature=c('formula', 'ANY'),
+		  signature=c('formula'),
 		  function( x, u=NULL, data=parent.frame(), coefficients=TRUE, ...) {
 			  # x is the formula
 			  # u is just a placeholder
@@ -107,11 +107,16 @@ setMethod(
 
 setMethod(
 	'project',
-	signature=c('numeric','ANY'),
-	function (x, u = rep(1, length(x)), type = c("vector", "length"), ...) {
+	signature=c('numeric'),
+	function (x, u = rep(1, length(x)), type = c("vector", "length", "coef"), ...) {
 		type <- match.arg(type)
 		u <- rep(u, length.out=length(x))
-		switch(type, vector = u * (dot(x, u)/dot(u, u)), length = dot(x, u)/sqrt(dot(u, u)), )
+		
+		switch(type, 
+		       vector = u * (dot(x, u)/dot(u, u)), 
+		       length = abs(dot(x, u))/sqrt(dot(u, u)), 
+		       coef   =  dot(x, u)/dot(u, u) 
+		       )
 	}
 )
 
@@ -120,7 +125,7 @@ setMethod(
 
 setMethod(
 		  'project',
-		  signature=c('matrix', 'ANY'),
+		  signature=c('matrix'),
 		  function(x, u, data=parent.frame()) {
 			  A <- x; b <- u
 			  b <- cbind(b)
@@ -167,8 +172,11 @@ setMethod(
 #' }
 #' v <- c(1,1,1); w <- c(1,2,3)
 #' u <- v / vlength(v)  # make a unit vector
+#' The following should be the same:
+#' project(w,v, type="coef") * v 
+#' project(w,v)
 #' # The following are equivalent
-#' dot( w, u )
+#' abs(dot( w, u ))
 #' vlength( project( w, u) )
 #' vlength( project( w, v) )
 #' project( w, v, type='length' )
