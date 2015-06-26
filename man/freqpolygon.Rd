@@ -3,16 +3,23 @@
 \name{freqpolygon}
 \alias{freqpolygon}
 \alias{panel.freqpolygon}
+\alias{prepanel.default.freqpolygon}
 \title{Frequency Polygons}
 \usage{
-freqpolygon(x, ..., panel = "panel.freqpolygon")
+freqpolygon(x, ..., panel = "panel.freqpolygon",
+  prepanel = "prepanel.default.freqpolygon")
 
-panel.freqpolygon(x, plot.points = "jitter", ref = FALSE, groups = NULL,
+prepanel.default.freqpolygon(x, plot.points = FALSE, ref = FALSE,
+  groups = NULL, subscripts = TRUE, jitter.amount = 0.01 *
+  diff(current.panel.limits()$ylim), center = NULL, nint = NULL,
+  breaks = NULL, width = NULL, type = "density", ...)
+
+panel.freqpolygon(x, plot.points = FALSE, ref = FALSE, groups = NULL,
   weights = NULL, jitter.amount = 0.01 * diff(current.panel.limits()$ylim),
   type = "density", breaks = NULL, nint = NULL, center = NULL,
-  wdth = NULL, width = wdth, gcol = trellis.par.get("reference.line")$col,
+  width = NULL, gcol = trellis.par.get("reference.line")$col,
   glwd = trellis.par.get("reference.line")$lwd, h, v, ...,
-  identifier = "density")
+  identifier = "freqpoly")
 }
 \arguments{
 \item{x}{a formula or a numeric vector}
@@ -25,21 +32,19 @@ how points are to be displayed}
 \item{ref}{a logical indicating whether a horizontal reference line should be
 added (roughly equivalent to \code{h=0})}
 
-\item{groups,weights,jitter.amount,identifier}{as in \code{\link{densityplot}}
-or \code{\link{histogram}}}
+\item{groups}{as in other lattice plots}
 
-\item{type}{one of \code{'density'}, \code{'percent'}, or \code{'count'}}
-
-\item{breaks}{a vector of breaks for the frequency polygon bins}
-
-\item{nint}{an approximate number of bins for the frequency polygon}
+\item{subscripts}{as in other lattice prepanel functionsa}
 
 \item{center}{center of one of the bins}
 
-\item{wdth}{alternative to \code{width} to avoid conflict with \code{densityplot} argument
-names}
+\item{nint}{an approximate number of bins for the frequency polygon}
+
+\item{breaks}{a vector of breaks for the frequency polygon bins}
 
 \item{width}{width of the bins}
+
+\item{type}{one of \code{'density'}, \code{'percent'}, or \code{'count'}}
 
 \item{gcol}{color of guidelines}
 
@@ -49,6 +54,14 @@ names}
 
 \item{\dots}{additional arguments passed on to \code{\link{histogram}}
 and \code{panel}.}
+
+\item{darg}{a list of arguments for the function computing the frequency polygon.}
+
+\item{groups,weights,jitter.amount,identifier}{as in \code{\link{densityplot}}
+or \code{\link{histogram}}}
+
+\item{wdth}{alternative to \code{width} to avoid conflict with \code{densityplot} argument
+names}
 }
 \value{
 a trellis object
