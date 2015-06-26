@@ -98,7 +98,7 @@ sqrt(sum(resid(m)^2))
 }
 v <- c(1,1,1); w <- c(1,2,3)
 u <- v / vlength(v)  # make a unit vector
-The following should be the same:
+# The following should be the same:
 project(w,v, type="coef") * v
 project(w,v)
 # The following are equivalent
