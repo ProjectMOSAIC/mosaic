@@ -34,7 +34,7 @@ freqpolygon <- function(x,
                         panel="panel.freqpolygon",
                         prepanel="prepanel.default.freqpolygon"
                         ) {
-  histogram(x, ..., panel=panel, prepanel = prepanel)
+  densityplot(x, ..., panel=panel, prepanel = prepanel)
 }
 
 #' @rdname freqpolygon
@@ -44,10 +44,10 @@ freqpolygon <- function(x,
 #' @export
 #' 
 prepanel.default.freqpolygon <- function(
-  x, plot.points = FALSE, ref = FALSE,
+  x, darg = list(), plot.points = FALSE, ref = FALSE,
   groups = NULL, subscripts = TRUE, 
   jitter.amount = 0.01 * diff(current.panel.limits()$ylim), 
-  center = NULL, nint = NULL, breaks=NULL, width = NULL, type = "density",
+  center = NULL, nint = NULL, breaks=NULL, width = darg$width, type = "density",
   ...) 
 {
   if (!is.numeric(x)) 
@@ -76,7 +76,6 @@ prepanel.default.freqpolygon <- function(
       )
     quants <- quantile(x, c(0.15, 0.85), names = FALSE, na.rm = TRUE)
     ok <- h$mids > quants[1] & h$mids < quants[2]
-    print (breaks)
     list(xlim = range(h$mids), ylim = range(h$height), dx = diff(h$mids[ok]), 
          dy = diff(h$height[ok]))
   } else {
@@ -106,7 +105,6 @@ prepanel.default.freqpolygon <- function(
         dyl <- c(dyl, diff(h$height[ok]))
       }
     }
-    print(range(yl))
     list(xlim = range(xl, finite = TRUE), 
          ylim = range(yl, finite = TRUE), dx = dxl, dy = dyl)
   }
@@ -135,7 +133,7 @@ prepanel.default.freqpolygon <- function(
 
 panel.freqpolygon <- 
   function (
-    x, 
+    x, darg=list(),
     plot.points = FALSE, ref = FALSE, 
     groups = NULL, weights = NULL, 
     jitter.amount = 0.01 * diff(current.panel.limits()$ylim), 
@@ -144,24 +142,18 @@ panel.freqpolygon <-
     nint= NULL,
     center=NULL, 
 #    wdth=NULL,
-    width=NULL,
+#    width=NULL,
     gcol=trellis.par.get('reference.line')$col,
     glwd=trellis.par.get('reference.line')$lwd,
     h, v, 
     ..., identifier = "freqpoly") 
   {
-    print(data.frame(where = "panel", 
-                     w=if(is.null(width)) "NULL" else width, 
-                     c=if(is.null(center)) "NULL" else center, 
-                     nint= if(is.null(nint)) "NULL" else nint)
-    )
     if (missing(breaks) || is.null(breaks)) {
-      breaks <- xhistogramBreaks(x, center=center, width=width, nint=nint)
+      breaks <- xhistogramBreaks(x, center=center, width=darg$width, nint=nint)
     } 
     if (is.function(breaks) || is.character(breaks)) {
-      breaks <- do.call(breaks, list(x=x, center=center, width=width, nint=nint, ...) )
+      breaks <- do.call(breaks, list(x=x, center=center, width=darg$width, nint=nint, ...) )
     }
-    print(breaks)
     
 	if (ref) {
 		reference.line <- trellis.par.get("reference.line")
@@ -169,10 +161,10 @@ panel.freqpolygon <-
 					 lwd = reference.line$lwd, identifier = paste(identifier, "abline"))
 	}
 	if (!is.null(groups)) {
-		return(panel.superpose(x, plot.points = plot.points, 
+		return(panel.superpose(x, darg = darg, plot.points = plot.points, 
 						ref = FALSE, groups = groups, 
 						panel.groups = panel.freqpolygon, jitter.amount = jitter.amount, 
-						type = type, breaks=breaks, width = width, nint=nint, ...))
+						type = type, breaks=breaks, nint=nint, ...))
 	}
 	else {
 		switch(as.character(plot.points), 
@@ -217,3 +209,9 @@ panel.freqpolygon <-
 
 }
 
+# copied from lattice because it isn't exported there.
+prepanel.null <- function () 
+{
+  list(xlim = rep(NA_real_, 2), ylim = rep(NA_real_, 2), dx = NA_real_, 
+       dy = NA_real_)
+}

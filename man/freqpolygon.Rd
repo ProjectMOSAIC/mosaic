@@ -9,15 +9,16 @@
 freqpolygon(x, ..., panel = "panel.freqpolygon",
   prepanel = "prepanel.default.freqpolygon")
 
-prepanel.default.freqpolygon(x, plot.points = FALSE, ref = FALSE,
-  groups = NULL, subscripts = TRUE, jitter.amount = 0.01 *
+prepanel.default.freqpolygon(x, darg = list(), plot.points = FALSE,
+  ref = FALSE, groups = NULL, subscripts = TRUE, jitter.amount = 0.01 *
   diff(current.panel.limits()$ylim), center = NULL, nint = NULL,
-  breaks = NULL, width = NULL, type = "density", ...)
+  breaks = NULL, width = darg$width, type = "density", ...)
 
-panel.freqpolygon(x, plot.points = FALSE, ref = FALSE, groups = NULL,
-  weights = NULL, jitter.amount = 0.01 * diff(current.panel.limits()$ylim),
-  type = "density", breaks = NULL, nint = NULL, center = NULL,
-  width = NULL, gcol = trellis.par.get("reference.line")$col,
+panel.freqpolygon(x, darg = list(), plot.points = FALSE, ref = FALSE,
+  groups = NULL, weights = NULL, jitter.amount = 0.01 *
+  diff(current.panel.limits()$ylim), type = "density", breaks = NULL,
+  nint = NULL, center = NULL,
+  gcol = trellis.par.get("reference.line")$col,
   glwd = trellis.par.get("reference.line")$lwd, h, v, ...,
   identifier = "freqpoly")
 }
@@ -25,6 +26,8 @@ panel.freqpolygon(x, plot.points = FALSE, ref = FALSE, groups = NULL,
 \item{x}{a formula or a numeric vector}
 
 \item{panel}{a panel function}
+
+\item{darg}{a list of arguments for the function computing the frequency polygon.}
 
 \item{plot.points}{one of \code{TRUE}, \code{FALSE}, \code{"jitter"}, or \code{"rug"} indicating
 how points are to be displayed}
@@ -54,8 +57,6 @@ added (roughly equivalent to \code{h=0})}
 
 \item{\dots}{additional arguments passed on to \code{\link{histogram}}
 and \code{panel}.}
-
-\item{darg}{a list of arguments for the function computing the frequency polygon.}
 
 \item{groups,weights,jitter.amount,identifier}{as in \code{\link{densityplot}}
 or \code{\link{histogram}}}
