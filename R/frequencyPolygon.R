@@ -8,6 +8,7 @@
 #' @param \dots additional arguments passed on to \code{\link{histogram}} 
 #' and \code{panel}.
 #' @param panel a panel function
+#' @param prepanel a prepanel function
 #'
 #' @return a trellis object
 #' @note This function make use of \code{histogram} to determine overall layout.  Often 
@@ -38,9 +39,7 @@ freqpolygon <- function(x,
 }
 
 #' @rdname freqpolygon
-#' @param darg a list of arguments for the function computing the frequency polygon.
-#' @param groups as in other lattice plots
-#' @param subscripts as in other lattice prepanel functionsa
+
 #' @export
 #' 
 prepanel.default.freqpolygon <- function(
@@ -123,12 +122,13 @@ prepanel.default.freqpolygon <- function(
 #' @param nint an approximate number of bins for the frequency polygon
 #' @param center center of one of the bins
 #' @param width width of the bins
-#' @param wdth alternative to \code{width} to avoid conflict with \code{densityplot} argument
-#' names 
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param ref a logical indicating whether a horizontal reference line should be 
 #' added (roughly equivalent to \code{h=0})
-#' @details These functions are still under development.  Future improvements may be forthcoming.
+#' @param darg a list of arguments for the function computing the frequency polygon.
+#'   This exists primarily for compatibility with \code{densityplot} and is unlikely
+#'   to be needed by the end user.
+#' @param subscripts as in other lattice prepanel functions
 #' @export
 
 panel.freqpolygon <- 
@@ -141,18 +141,17 @@ panel.freqpolygon <-
     breaks=NULL, 
     nint= NULL,
     center=NULL, 
-#    wdth=NULL,
-#    width=NULL,
+    width = darg$width,
     gcol=trellis.par.get('reference.line')$col,
     glwd=trellis.par.get('reference.line')$lwd,
     h, v, 
     ..., identifier = "freqpoly") 
   {
     if (missing(breaks) || is.null(breaks)) {
-      breaks <- xhistogramBreaks(x, center=center, width=darg$width, nint=nint)
+      breaks <- xhistogramBreaks(x, center=center, width=width, nint=nint)
     } 
     if (is.function(breaks) || is.character(breaks)) {
-      breaks <- do.call(breaks, list(x=x, center=center, width=darg$width, nint=nint, ...) )
+      breaks <- do.call(breaks, list(x=x, center=center, width=width, nint=nint, ...) )
     }
     
 	if (ref) {

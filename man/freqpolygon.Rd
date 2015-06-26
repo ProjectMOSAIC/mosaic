@@ -17,7 +17,7 @@ prepanel.default.freqpolygon(x, darg = list(), plot.points = FALSE,
 panel.freqpolygon(x, darg = list(), plot.points = FALSE, ref = FALSE,
   groups = NULL, weights = NULL, jitter.amount = 0.01 *
   diff(current.panel.limits()$ylim), type = "density", breaks = NULL,
-  nint = NULL, center = NULL,
+  nint = NULL, center = NULL, width = darg$width,
   gcol = trellis.par.get("reference.line")$col,
   glwd = trellis.par.get("reference.line")$lwd, h, v, ...,
   identifier = "freqpoly")
@@ -27,7 +27,11 @@ panel.freqpolygon(x, darg = list(), plot.points = FALSE, ref = FALSE,
 
 \item{panel}{a panel function}
 
-\item{darg}{a list of arguments for the function computing the frequency polygon.}
+\item{prepanel}{a prepanel function}
+
+\item{darg}{a list of arguments for the function computing the frequency polygon.
+This exists primarily for compatibility with \code{densityplot} and is unlikely
+to be needed by the end user.}
 
 \item{plot.points}{one of \code{TRUE}, \code{FALSE}, \code{"jitter"}, or \code{"rug"} indicating
 how points are to be displayed}
@@ -35,9 +39,10 @@ how points are to be displayed}
 \item{ref}{a logical indicating whether a horizontal reference line should be
 added (roughly equivalent to \code{h=0})}
 
-\item{groups}{as in other lattice plots}
+\item{groups,weights,jitter.amount,identifier}{as in \code{\link{densityplot}}
+or \code{\link{histogram}}}
 
-\item{subscripts}{as in other lattice prepanel functionsa}
+\item{subscripts}{as in other lattice prepanel functions}
 
 \item{center}{center of one of the bins}
 
@@ -57,12 +62,6 @@ added (roughly equivalent to \code{h=0})}
 
 \item{\dots}{additional arguments passed on to \code{\link{histogram}}
 and \code{panel}.}
-
-\item{groups,weights,jitter.amount,identifier}{as in \code{\link{densityplot}}
-or \code{\link{histogram}}}
-
-\item{wdth}{alternative to \code{width} to avoid conflict with \code{densityplot} argument
-names}
 }
 \value{
 a trellis object
@@ -70,9 +69,6 @@ a trellis object
 \description{
 Frequency polygons are an alternative to histograms that make it simpler to overlay multiple
 distributions.
-}
-\details{
-These functions are still under development.  Future improvements may be forthcoming.
 }
 \note{
 This function make use of \code{histogram} to determine overall layout.  Often
