@@ -9,7 +9,7 @@ plotFun(object, ..., plot = trellis.last.object(), add = NULL,
   xlab = NULL, zlab = NULL, filled = TRUE, levels = NULL,
   nlevels = 10, labels = TRUE, surface = FALSE, groups = NULL,
   col = trellis.par.get("superpose.line")$col, col.regions = topo.colors,
-  type = "l", alpha = NULL, discontinuity = 1)
+  type = "l", alpha = NULL, discontinuities = NULL, discontinuity = 1)
 }
 \arguments{
 \item{object}{a mathematical expression or a function "of one variable" which will
@@ -70,12 +70,14 @@ If \code{NULL}, this will be determined by the value of \code{under}.}
 
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
 
-\item{discontinuity}{a positive number 1 determining how sensitive the plot is to
-potential discontinuity.  Larger values result in less sensitivity.  The default is 1.
-Use \code{discontinuity = Inf} to disable discontinuity detection.}
-
-\item{discontinuities}{a vector of input values at which a function is discontinuous or \code{NULL} to use
+\item{discontinuities}{a vector of input values at which a function is
+discontinuous or \code{NULL} to use
 a heuristic to auto-detect.}
+
+\item{discontinuity}{a positive number determining how sensitive the plot is to
+potential discontinuity.  Larger values result in less sensitivity.  The default is 1.
+Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
+uses a crude numerical heuristic and may not give the desired results in all cases.}
 }
 \value{
 a \code{trellis} object

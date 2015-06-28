@@ -34,11 +34,13 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param groups grouping argument ala lattice graphics
-#' @param discontinuities a vector of input values at which a function is discontinuous or \code{NULL} to use
+#' @param discontinuities a vector of input values at which a function is 
+#'   discontinuous or \code{NULL} to use
 #'   a heuristic to auto-detect.
-#' @param discontinuity a positive number 1 determining how sensitive the plot is to 
+#' @param discontinuity a positive number determining how sensitive the plot is to 
 #'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
-#'   Use \code{discontinuity = Inf} to disable discontinuity detection. 
+#'   Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
+#'   uses a crude numerical heuristic and may not give the desired results in all cases.
 #' @param ... additional parameters, typically processed by \code{lattice} functions such as 
 #' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
 #' Frequently used parameters include 
@@ -115,6 +117,7 @@ plotFun <- function(object, ...,
 					col.regions=topo.colors, 
 					type="l", 
 					alpha=NULL,
+					discontinuities = NULL,
 					discontinuity = 1) { 
 
 	if ( is.function(object) ) { 
@@ -185,6 +188,7 @@ plotFun <- function(object, ...,
 	                  c( list(..f..=fList,  
 	                          npts=npts, 
 	                          discontinuity = discontinuity,
+	                          discontinuities = discontinuities,
 	                          filled=filled, levels=levels, 
 	                          nlevels=nlevels, surface=surface, 
 	                          col.regions=col.regions, 
@@ -197,7 +201,8 @@ plotFun <- function(object, ...,
 	  # message("2-D adding temporarily un-discontinued.")
 	  return( plot + latticeExtra::layer(
 	    do.call( panel.plotFun,
-	             c(list( object=object, npts=npts, discontinuity = discontinuity,
+	             c(list( object=object, npts=npts, 
+	                     discontinuity = discontinuity, discontinuities = discontinuities,
 	                     filled=filled, levels=levels, nlevels=nlevels, suface=surface,
 	                     col.regions=col.regions, type=type, alpha=alpha),
 	               dots) ),
@@ -216,7 +221,7 @@ plotFun <- function(object, ...,
 	if( ndims == 1 ){
 		# message("One Dimension.")
 
-		npts <- ifelse( is.null(npts), 200, npts)
+		npts <- ifelse( is.null(npts), 500, npts)
 
 		# Set the axis labels
 		# deparse needed for lattice (not originally for plot)
@@ -253,8 +258,13 @@ plotFun <- function(object, ...,
 	
     .yvals <- c()
     for ( .f. in fList ) .yvals <- c( .yvals, sapply( .xvals, .f. ) )
-		localData <- data.frame(x = range(.xvals), y = range(.yvals))
-
+		localData <- data.frame(x = .xvals, y = .yvals, component = contintuous_components(.xvals, .yvals, adjust=discontinuity))
+	  localData$alone <- ediff(localData$component) * ediff(localData$component, pad="tail") != 0
+	  # don't let points that are not connected to neighbors affect default plot widnow.
+	  localData <- localData[!localData$alone, ]
+	  localData <- data.frame(x = range(localData$x, na.rm=TRUE, fintie=TRUE), 
+	                          y = range(localData$y, na.rm=TRUE, finite=TRUE))
+    
 		# note: passing ... through to the lattice functions currently conflicts with
 		# using ... to set values of "co-variates" of the function.
 
@@ -269,7 +279,9 @@ plotFun <- function(object, ...,
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
 								panel="panel.plotFun1",
-                npts = npts, discontinuity = discontinuity,
+                npts = npts, 
+								discontinuity = discontinuity,
+								discontinuities = discontinuities,
                 col=col ),
 								cleanDots
 								)
@@ -285,7 +297,9 @@ plotFun <- function(object, ...,
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
 								panel="panel.plotFun1",
-                npts=npts, discontinuity = discontinuity,
+                npts=npts, 
+								discontinuity = discontinuity,
+								discontinuities = discontinuities,
                 col=col),
 								cleanDots)
 								)
@@ -410,7 +424,14 @@ plotFun <- function(object, ...,
 	stop("Bug alert: You should not get here.  Please report.")
 }
 
-discontinuity_at <- function(x, y, threshold = 2) {
+guess_discontinuities <- function( f, xlim, ..., resolution = 10000, adjust = 1) {
+  x <- seq(xlim[1], xlim[2], length.out = resolution)
+  F <- Vectorize(f)
+  y <- F(x, ...)
+  discontinuity_at(x, y, adjust = adjust)
+}
+
+discontinuity_at <- function(x, y, adjust = 1) {
   y[!is.finite(y)] <- NA
   y_scaled <- (y - min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
   x_scaled <- (x - min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
@@ -423,17 +444,40 @@ discontinuity_at <- function(x, y, threshold = 2) {
   x[which( is.na(y) | 
              !is.finite(y) | 
              ( 
-                 (abs(atan(left_slope) - atan(right_slope)) > 1) & 
-                 (abs(atan(left_slope)) > 1 | abs(atan(right_slope)) > 1)
+                 (abs(atan(left_slope) - atan(right_slope)) > adjust / 2) & 
+                 (abs(atan(left_slope)) > adjust/2 | abs(atan(right_slope)) > adjust/2)
              )
   )]
 }
 
+contintuous_components <- function(x, y, adjust = 1) {
+  y[!is.finite(y)] <- NA
+  y_scaled <- (y - min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
+  x_scaled <- (x - min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
+  slope  <- diff(y_scaled) / diff(x_scaled)
+  jump <- diff(y_scaled)
+  left_jump <- c(0, jump)
+  right_jump <- c(jump, 0)
+  left_slope  <- c(slope[1], slope) 
+  right_slope  <- c(slope, slope[length(slope)]) 
+  discontinuities <- x[which( is.na(y) | 
+             !is.finite(y) | 
+             ( 
+               (abs(atan(left_slope) - atan(right_slope)) > adjust /2) & 
+                 (abs(atan(left_slope)) > adjust /2 | abs(atan(right_slope)) > adjust /2)
+             )
+  )]
+  j <- sapply(x, function(x) sum(x > discontinuities))
+  k <- sapply(x, function(x) sum(x >= discontinuities))
+  j + k
+}
+
 # lengths of points on one continuous branch of a function.
 
-branch_lengths <- function(x, y, discontinuities = NULL) {
-  if (is.null(discontinuities)) discontinuities <- discontinuity_at(x, y) 
+branch_lengths <- function(x, y, discontinuities = NULL, dicontinuity = 1) {
+  if (is.null(discontinuities)) discontinuities <- discontinuity_at(x, y, adjust = discontinuity) 
   if (length(discontinuities) < 1L) return( length(x) )
+  # check <  and <= in case a grid point is exactly a discontinuity.
   j <- sapply(x, function(x) sum(x > discontinuities))
   k <- sapply(x, function(x) sum(x >= discontinuities))
   diff( c( 0, which(diff(j+k) > 0), length(x) ) )
@@ -482,6 +526,7 @@ panel.plotFun1 <- function( ..f.., ...,
                            nlevels=10,
                            surface=FALSE,
                            alpha=NULL,
+                           discontinuity = NULL,
                            discontinuities = NULL) { 
   dots <- list(...)
 
@@ -540,8 +585,10 @@ panel.plotFun1 <- function( ..f.., ...,
     # use do.call to call the panel function so that the cleandots can be put back in
 
     if (type == "l") {
+      if (is.null(discontinuities)) 
+        discontinuities <- discontinuity_at(.xvals, .yvals, adjust = discontinuity)
       do.call(
-        grid.polyline,
+        grid::grid.polyline,
         c(list(x=.xvals, y=.yvals, default.units = "native",
                gp=do.call(
                  grid::gpar, 
@@ -599,7 +646,9 @@ panel.plotFun <- function( object, ...,
                            nlevels=10,
                            surface=FALSE,
                            col.regions =topo.colors, 
-                           alpha=NULL, discontinuities = NULL ) { 
+                           alpha=NULL,
+                           discontinuity = NULL,
+                           discontinuities = NULL ) { 
   dots <- list(...)
   if ( is.function(object) ) { 
     formula <- f(x) ~ x 
@@ -653,7 +702,7 @@ panel.plotFun <- function( object, ...,
     if (type == "l") {
       return(
         do.call(
-          grid.polyline,
+          grid::grid.polyline,
           c(list(x=.xvals, y=.yvals, default.units = "native",
                  gp=do.call(
                    grid::gpar, 
