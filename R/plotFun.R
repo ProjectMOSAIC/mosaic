@@ -474,7 +474,7 @@ contintuous_components <- function(x, y, adjust = 1) {
 
 # lengths of points on one continuous branch of a function.
 
-branch_lengths <- function(x, y, discontinuities = NULL, dicontinuity = 1) {
+branch_lengths <- function(x, y, discontinuities = NULL, discontinuity = 1) {
   if (is.null(discontinuities)) discontinuities <- discontinuity_at(x, y, adjust = discontinuity) 
   if (length(discontinuities) < 1L) return( length(x) )
   # check <  and <= in case a grid point is exactly a discontinuity.
