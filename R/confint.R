@@ -217,7 +217,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
 #  if (margin.of.error)  # Report as a center and margin of error
 #    res = .turn.to.margin(res)
 
-  if ("stderr" %in% method && df < Inf) {
+  if (("stderr" %in% method) && (df < Inf)) {
     res$df = df
     res$df[res$method != "stderr"] <- NA
   }
