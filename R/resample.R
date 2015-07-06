@@ -379,9 +379,18 @@ sample.lm <-
     res
   }
 
+#' Resample a Linear Model
+#' 
+#' Residual resampling from a linear model
+#' 
+#' @param model a linear model object produced using \code{\link{lm}}.
+#' @param ...  additional arguments passed through to \code{\link{resample}}.
+#' @param envir an environment in which to (re)evaluate the linear model.
 #' @export
-relm <- function(model, ...) {
-  lm(formula(model), data = resample(model, ...), ...)
+relm <- function(model, ..., envir = environment(formula(model))) {
+  mcall <- model$call
+  mcall[["data"]] <- resample(model, ...)
+  eval(mcall, envir)
 }
 
 #' 
