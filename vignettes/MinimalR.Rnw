@@ -13,6 +13,10 @@
 \usepackage{hyperref}
 \usepackage{longtable}
 
+\usepackage{datetime}
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
+
 \usepackage[utf8]{inputenc}
 
 %%%%  fancy family
@@ -76,7 +80,7 @@ Randall Pruim, Project MOSAIC
 \parindent=0pt
 
 \chead{\sf \bfseries \Large Enough R for Intro Stats}
-\rhead{May, 2015}
+\rhead{\monthyeardate\today}
 \lhead{R. Pruim}
 
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
@@ -214,6 +218,7 @@ apropos()
 ?
 ??
 example()
+help(package="mosaic")
 @
 \fi
 
@@ -222,9 +227,6 @@ Basic calculation works like a calculator.
 <<>>=
 # basic ops: + - * / ^ ( )
 log(); exp(); sqrt()
-@
-\squeeze
-<<highlight=FALSE>>=
 log10(); abs(); choose()
 @
 % uniroot()   # root finder
@@ -236,8 +238,9 @@ log10(); abs(); choose()
 \subsection*{Formula Interface}
 The following syntax (often with 
 some parts omitted) is used for 
-graphical summaries, numerical summaries,
-and inference procedures.
+graphical and numerical summaries,
+and inference procedures. 
+The \code{goal} is what you want.
 
 <<>>=
 goal(y ~ x | z, data=..., 
@@ -286,7 +289,7 @@ diffmean()   # mosaic
 @
 \iftrue
 \squeeze
-<<highlight=FALSE>>=
+<<>>=
 quantile()   # mosaic augmented
 prop()       # mosaic
 perc()       # mosaic
@@ -316,7 +319,7 @@ makeFun()   # mosaic
 plotFun()   # mosaic
 @
 \squeeze
-<<highlight=FALSE>>=
+<<>>=
 ladd()      # mosaic 
 dotPlot()   # mosaic
 bargraph()  # mosaic
@@ -340,12 +343,12 @@ resample()  # with replacement
 shuffle()   # mosaic
 @
 \squeeze
-<<highlight=FALSE>>=
+<<>>=
 rbinom()
 rnorm()     # etc, if needed
 @
 
-
+\squeeze
 \subsection*{Distributions}
 %
 <<>>=
@@ -356,7 +359,7 @@ qbinom(); qnorm();
 qchisq(); qt()
 plotDist()  # mosaic
 @
-
+\squeeze
 \subsection*{Inference}
 %
 <<>>=
@@ -375,8 +378,8 @@ makeFun(model) # mosaic
 resid(model); fitted(model)
 mplot(model)   # mosaic
 @
-%\squeeze
-<<highlight=FALSE>>=
+\squeeze
+<<>>=
 mplot(TukeyHSD(model))
 model <- glm() # logistic reg.
 @
@@ -395,7 +398,7 @@ with()
 factor()
 @
 \squeeze
-<<highlight=FALSE>>=
+<<>>=
 ntiles()      # mosaic
 cut()
 c()
@@ -406,14 +409,16 @@ relevel()
 reorder()
 @
 \squeeze
-<<highlight=FALSE>>=
+<<>>=
 rep()
 seq()
 sort()
 rank()
 @
+
+\squeeze
 \subsection*{Data Transformation}
-<<highlight=FALSE>>=
+<<>>=
 select()      # dplyr
 mutate()      # dplyr
 filter()      # dplyr
@@ -457,14 +462,18 @@ opts_chunk$set(
 <<echo=FALSE>>=
 options(width=40)
 options(show.signif.stars=FALSE)
+set.rseed(126666)
 @
-<<coins,fig.keep="last">>=
+<<coins>>=
 rflip(6)
-do(2) * rflip(6)
-coins <- do(1000)* rflip(6)
+@
+\vspace*{-.20in}
+<<>>=
+do(2) * rflip(20, prob=0.2)
+coins <- do(1000)* rflip(6, prob=0.5)
 tally(~ heads, data=coins)
 @
-\vspace*{-.25in}
+\vspace*{-.15in}
 <<>>=
 tally(~ heads, data=coins, format="perc")
 tally(~ (heads>=5 | heads<=1) , data=coins)
@@ -476,7 +485,7 @@ histogram(~ heads, data=coins, width=1,
 @
 %\columnbreak
 <<tally>>=
-require(mosaicData)   # this package contains data sets used below
+require(mosaicData)   # package data sets used below
 tally(sex ~ substance, data=HELPrct)
 mean(age ~ sex, data=HELPrct)
 diffmean(age ~ sex, data=HELPrct)
