@@ -221,7 +221,7 @@ example()
 help(package="mosaic")
 @
 \fi
-
+\squeeze
 \subsection*{Basic Calculations}
 Basic calculation works like a calculator.
 <<>>=
@@ -234,13 +234,14 @@ log10(); abs(); choose()
 
 
 
-
+\squeeze
 \subsection*{Formula Interface}
 The following syntax (often with 
 some parts omitted) is used for 
 graphical and numerical summaries,
 and inference procedures. 
-The \code{goal} is what you want.
+The \code{goal} is whatever
+function is needed to have R do what you want.
 
 <<>>=
 goal(y ~ x | z, data=..., 
