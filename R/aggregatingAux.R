@@ -50,11 +50,11 @@ mosaic_formula_q <- function( formula,
 ) {
   
   lazy_groups <- lazyeval::lazy(groups)
-  lazy_formula <- lazyeval::lazy(formula)
+  lazy_formula <- substitute(formula)
   
   if (! .is.formula(formula)) {
     formula <- ~ x
-    formula[[2]] <- lazy_formula$expr
+    formula[[2]] <- lazy_formula
     environment(formula) <- envir
   }
   
