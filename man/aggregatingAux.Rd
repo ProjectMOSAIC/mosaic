@@ -4,10 +4,11 @@
 \alias{maggregate}
 \title{Aggregate for mosaic}
 \usage{
-maggregate(formula, data = parent.frame(), FUN, subset,
-  overall = mosaic.par.get("aggregate.overall"), .format = c("default",
-  "table", "flat"), drop = FALSE, .multiple = FALSE, groups = NULL,
-  .name = deparse(substitute(FUN)), ...)
+maggregate(formula, data = parent.frame(), FUN, groups = NULL, subset,
+  drop = FALSE, ..., .format = c("default", "table", "flat"),
+  .overall = mosaic.par.get("aggregate.overall"), .multiple = FALSE,
+  .name = deparse(substitute(FUN)), .envir = if (is.list(data) ||
+  is.pairlist(data)) parent.frame() else baseenv())
 }
 \arguments{
 \item{formula}{a formula.  Left side provides variable to be summarized.  Right side and condition
@@ -24,20 +25,22 @@ in \code{formula}.}
 
 \item{FUN}{a function to apply to each subset}
 
-\item{subset}{a logical indicating a subset of \code{data} to be processed.}
-
-\item{overall}{currently unused}
-
-\item{.format}{format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.}
-
-\item{drop}{a logical indicating whether unused levels should be dropped.}
-
-\item{.multiple}{a logical indicating whether FUN returns multiple values}
-
 \item{groups}{grouping variable that will be folded into the formula (if there is room for it).
 This offers some additional flexibility in how formulas can be specified.}
 
+\item{subset}{a logical indicating a subset of \code{data} to be processed.}
+
+\item{drop}{a logical indicating whether unused levels should be dropped.}
+
+\item{.format}{format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.}
+
+\item{.overall}{currently unused}
+
+\item{.multiple}{a logical indicating whether FUN returns multiple values}
+
 \item{.name}{a name used for the resulting object}
+
+\item{.envir}{an environment in which to evaluate expressions}
 
 \item{\dots}{additional arguments passed to \code{FUN}}
 }
