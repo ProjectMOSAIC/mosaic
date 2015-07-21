@@ -457,11 +457,12 @@ setMethod(
     
     out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
     
-    # no longer processing with pre-1.0 algorithm
-    #     if (e1@algorithm < 1) { }
-    
     resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
-      message("Using `parallel'.  Set seed with set.rseed().")
+      if (getOption("mosaic:parallelMessage", TRUE)) {
+        message("Using parallel package.\n",
+                "  * Set seed with set.rseed().\n", 
+                "  * Disable this message with options(`mosaic:parallelMessage` = FALSE)\n")
+      }
       parallel::mclapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
     } else {
       lapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
