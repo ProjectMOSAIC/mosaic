@@ -1,21 +1,22 @@
 Package: mosaic
 Type: Package
-Title: Project MOSAIC (mosaic-web.org) statistics and mathematics teaching
-    utilities
-Version: 0.9.2-2
-Date: 2015-01-05
+Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
+Version: 0.10.9000
+Date: 2015-05-21
 Depends:
     R (>= 3.0.0),
     car,
     dplyr,
     lattice (>= 0.20-21),
-    ggplot2
+    ggplot2,
+    mosaicData
 Imports:
-    mosaicData,
+    lazyeval,
     MASS,
     grid,
     reshape2,
     plyr,
+    readr,
     methods,
     utils,
     splines,
@@ -23,6 +24,9 @@ Imports:
     gridExtra,
     ggdendro
 Suggests:
+    lubridate,
+    fastR, 
+    magrittr,
     NHANES,
     RCurl,
     sp,
@@ -31,12 +35,11 @@ Suggests:
     testthat,
     tidyr,
     knitr,
-    R.rsp,
     tools,
     parallel,
     mapproj
 Enhances: manipulate
-VignetteBuilder: knitr, R.rsp
+VignetteBuilder: knitr
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
     <kaplan@macalester.edu>, Nicholas Horton <nhorton@amherst.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>

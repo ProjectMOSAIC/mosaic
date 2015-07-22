@@ -58,8 +58,9 @@ logical2factor.data.frame  <- function( x, ... ) {
 #'        \code{'sparse'} additionally removes any rows with 0 counts.
 #'        
 #' @param subset an expression evaluating to a logical vector used to select a subset of \code{data}
-#' @param quiet a logical indicating whether messages about order in which marginal distributions
-#'        are calculated should be surpressed.  See \code{\link{addmargins}}.
+#' @param quiet a logical indicating whether messages about order in which 
+#'   marginal distributions are calculated should be surpressed.  
+#'   See \code{\link{addmargins}}.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
 #' @param envir an environment in which to evaluate
@@ -219,7 +220,8 @@ rows <- function(x, default=c()) {
 #'   ignored.
 #' @param format one of \code{proportion}, \code{percent}, or \code{count},
 #'        possibly abbrevaited
-#' @param quiet a logical indicating whether messages should be supressed.
+#' @param quiet a logical indicating whether messages regarding the 
+#'   target level should be supressed.
 #'
 #' @note For 0-1 data, level is set to 1 by default since that a standard 
 #' coding scheme for success and failure.
@@ -236,7 +238,7 @@ rows <- function(x, default=c()) {
 
 prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL, 
                  long.names=TRUE, sep=".", 
-                 format="proportion", quiet=FALSE) {
+                 format="proportion", quiet=TRUE) {
   T <- mosaic::tally(x, data=data, useNA = useNA, ..., format=format)
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   lnames <- dimnames(T)[[1]]
@@ -250,9 +252,10 @@ prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL,
   if (! level %in% lnames) stop(
     paste("I don't see any such level.  Only", paste(lnames, collapse=", "))
     )
-  if (! quiet) message(paste0( "    target level: ", level, 
-                              ";  other levels: ", 
-                              paste(setdiff(lnames,level), collapse=", "), "\n" ) )
+  if (! quiet) 
+    message(paste0( "    target level: ", level, 
+                    ";  other levels: ", 
+                    paste(setdiff(lnames,level), collapse=", "), "\n" ) )
   if ( length(dim(T)) == 2) {
     idx <- match(level, lnames)
     result <- T[idx,]

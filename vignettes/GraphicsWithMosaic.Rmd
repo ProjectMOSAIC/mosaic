@@ -1,23 +1,10 @@
 ---
-title: ""
-author: ""
-date: ""
-output: 
-  html_document:
-    fig_height: 3
-    fig_width: 5
-  pdf_document:
-    fig_height: 3
-    fig_width: 5
-  word_document:
-    fig_height: 3
-    fig_width: 5
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Graphics with the mosaic package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Graphics with the mosaic package}
--->
 
 # Graphics with the mosaic package
 
@@ -117,12 +104,18 @@ plotFun( L(length, sex="G") ~ length, add=TRUE, col=2 )
 For logistic regression, `makeFun()` handles the conversion back to
 probabilities by default.
 
-```{r, fig.keep="last"}
-mod <- glm( smoker=="yes" ~ age + sex, data=NHANES, family=binomial())
+```{r, label="logistic", fig.keep="last", fig.height=5}
+mod <- glm( SmokeNow =="Yes" ~ Age + Race3, data=NHANES, family=binomial())
 SmokerProb <- makeFun(mod)
-xyplot( smoker=="yes" ~ age, groups=sex, data=NHANES, alpha=.01 )
-plotFun(SmokerProb(age, sex="female") ~ age, col=1, add=TRUE)
-plotFun(SmokerProb(age, sex="male") ~ age, add=TRUE, col=2) 
+xyplot( SmokeNow=="Yes" ~ Age, groups=Race3, data=NHANES, alpha=.01, xlim=c(20,90) )
+plotFun(SmokerProb(Age, Race3="Black") ~ Age, col="black", add=TRUE)
+plotFun(SmokerProb(Age, Race3="White") ~ Age, col="red", add=TRUE) 
+ladd(grid.text("Black", x=25, y=SmokerProb(25, Race="Black"),hjust = 0, vjust=-0.2,
+               gp=gpar(col="black"),
+               default.units="native"))
+ladd(grid.text("White", x=25, y=SmokerProb(25, Race="White"),hjust = 0, vjust=-0.2,
+               gp=gpar(col="red"),
+               default.units="native"))
 ```
 
 ```{r}

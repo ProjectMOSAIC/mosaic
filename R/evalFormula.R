@@ -35,9 +35,9 @@ evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
 	}
 
 	result <- list(
-				 left      = evalSubFormula(      lhs(formula), ops=ops, data), 
-				 right     = evalSubFormula(      rhs(formula), ops=ops, data), 
-				 condition = evalSubFormula(condition(formula), ops=ops, data),
+				 left      = evalSubFormula(      lhs(formula), ops=ops, data, env=environment(formula)),
+				 right     = evalSubFormula(      rhs(formula), ops=ops, data, env=environment(formula)),
+				 condition = evalSubFormula(condition(formula), ops=ops, data, env=environment(formula)),
 				 index     = index 
 				 ) 
 	return(result)
@@ -47,10 +47,11 @@ evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
 
 #' Evaluate a part of a formula
 #'
-#' @param x an object appearing as a subformula (typically a call)
-#' @param data a data fram or environment in which things are evaluated
+#' @param x an object appearing as a subformula (typically a name or a call)
+#' @param data a data frame or environment in which things are evaluated
 #' @param ops a vector of operators that are not evaluated as operators but
 #'      instead used to further split \code{x}
+#' @param env an environment in which to search for objects not in \code{data}.
 #' @return a data frame containing the terms of the evaluated subformula
 #' @examples
 #' if (require(mosaicData)) {
@@ -61,10 +62,11 @@ evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
 #' }
 #' @export
 
-evalSubFormula <- function(x, data=parent.frame(), ops=c('+','&') ){
+evalSubFormula <- function(x, data=NULL, ops=c('+','&'), env=parent.frame()){
+  sx <- substitute(x)
   if (is.null(x)) return(NULL)
   if( is.name(x) || !(as.character(x[[1]]) %in% ops) ) {
-    res <- data.frame(eval(x, envir=data, enclos=parent.frame()))
+    res <- data.frame(eval(x, data, env), stringsAsFactors=FALSE)
     names(res) <- deparse(x)
     return( res )
   }

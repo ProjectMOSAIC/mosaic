@@ -1,10 +1,32 @@
 
+# Note: one of d, p, q, or n must be a **named** argument.  This allows other things to 
+# be in ... without causing issues for the d/p/q/r function called.
+#' Distribution wrapper
+#' 
+#' Utility function wrapping up the d/p/q/r distribution functions
+#' 
+#' @param dist a character discription of a distribution, for example 
+#'   \code{"norm"}, \code{"t"}, or \code{"chisq"}
+#' @param type one of \code{"x"}, \code{"p"}, \code{"q"}, or \code{"r"}
+#' @param ... additional arguments passed on to underlying distribution function.
+#'   Note that one of \code{d}, \code{p}, \code{q}, or \code{n} must 
+#'   be a named argument in ...
+#' @export
+#' @examples
+#' # 3 random draws from N(1,2)
+#' dpqrdist("norm", "r", n=3, mean = 1, sd = 2)
+#' # These should all be the same
+#' dpqrdist("norm", "d", x=0) == dnorm(x=0)
+#' dpqrdist("norm", "p", q=0, mean = 1, sd = 2) == pnorm(q=0, mean = 1, sd = 2)
+#' dpqrdist("norm", "q", p=0.5, mean = 1, sd = 2) == qnorm(p=0.5, mean = 1, sd = 2)
+#' 
 dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
   type <- match.arg(type)
   dots <- list(...)
-  distFunName <- paste0(type,dist)
+  distFunName <- paste0(type, dist)
+  distdots <- dots[names(dots) %in% names(formals(distFunName))]
 
-  do.call(distFunName, dots)
+  do.call(distFunName, distdots)
 }
 
 #' Illustrated probability calculations from distributions
@@ -23,6 +45,9 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' @param vlwd width of vertical lines
 #' @param vcol color of vertical lines
 #' @param rot angle for rotating text indicating probability
+#' @param resolution number of points used for detecting discreteness and generating plots.  
+#'        The defaut value of 5000 should work well except for discrete distributions
+#'        that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #' and additional options for the plot
 #' @details The most general function is \code{pdist} which can work with 
@@ -38,17 +63,23 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' @export
  
 pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE, 
-                   digits = 4, 
+                   digits = 4L, 
                    xlim, ylim,
-                   vlwd=2, 
+                   vlwd=NULL, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
+                   resolution = 5000L,
                    ...)
 {
   
   dots <- list(...)
   
-  p <- dpqrdist(dist, type="p", q, ...) 
+  if (is.null(vlwd)) {
+    vlwd <- if (is_discrete_dist( dist, ... )) 0 else 2
+  }
+  
+  p <- dpqrdist(dist, type="p", q=q, ...) 
+  
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
@@ -57,6 +88,7 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
     print(plot_multi_dist(dist=dist, p=p, 
                           xlim=xlim, ylim=ylim, 
                           digits=digits, 
+                          resolution=resolution,
                           vlwd=vlwd, vcol=vcol, rot=rot, ...))
   }
   if (invisible) { 
@@ -81,6 +113,9 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @param vlwd width of vertical lines
 #' @param vcol color of vertical lines
 #' @param rot angle for rotating text indicating probability
+#' @param resolution number of points used for detecting discreteness and generating plots.  
+#'        The defaut value of 5000 should work well except for discrete distributions
+#'        that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #' and additional options for the plot
 #' @details The most general function is \code{qdist} which can work with 
@@ -93,12 +128,15 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' qdist("unif", .5)
 #' xqgamma(.5, shape=3, scale=4)
 #' xqchisq(c(.25,.5,.75), df=3)
+#' xpbinom( c(480, 500, 510), size=1000, prob=0.48)
+#' xqpois( c(0.25, 0.5, 0.75), lambda=6, lwd=3, vlwd=2)
 #' @export 
 
 qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
-                   digits = 4, 
+                   resolution = 5000L,
+                   digits = 4L, 
                    xlim, ylim,
-                   vlwd=2, 
+                   vlwd=NULL, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
                    ...)
@@ -106,7 +144,13 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
   
   dots <- list(...)
   
-  q <- dpqrdist(dist, type="q", p, ...) 
+  if (is.null(vlwd)) {
+    vlwd <- if (is_discrete_dist( dist, ... )) 0 else 2
+  }
+  
+  q <- dpqrdist(dist, type="q", p=p, ...) 
+  # adjust probs for discrete dists where requested p's might not be (exactly) possible
+  p <- dpqrdist(dist, type="p", q=q, ...)  
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
@@ -115,6 +159,7 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
     print(plot_multi_dist(dist=dist, p=p, 
                           xlim=xlim, ylim=ylim, 
                           digits=digits, 
+                          resolution=resolution,
                           vlwd=vlwd, vcol=vcol, rot=rot, ...))
   }
   if (invisible) { 
@@ -124,11 +169,16 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
 }
 
 
-plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, dlwd=2, 
-                            vlwd=2, vcol=trellis.par.get('add.line')$col,
+plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
+                            dlwd=2, vlwd=if (discrete) 0 else 2, vcol=trellis.par.get('add.line')$col,
                             rot=0, ...) 
 {
   dots <- list(...)
+  latticedots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
+  distdots <- dots[ names(dots) %in% names(formals(paste0("p",dist))) ]
+  
+  discrete <- do.call(is_discrete_dist, c(list(dist), distdots))
+  
   if (missing(p)) {
     if (missing(q)) { stop( "one of p or q must be specified") }
     q <- sort(q)
@@ -141,14 +191,24 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, dlwd=2,
     q <- dpqrdist(dist, type="q", p=p, ...)
   }
   
-  if (! 'lty' %in% names(dots)) { dots$lty <- 1 }
+  if (! 'lty' %in% names(latticedots)) { latticedots$lty <- 1 }
+  if (! 'pch' %in% names(latticedots)) { latticedots$pch <- 16 }
   
   if (missing(xlim) || is.null(xlim)) {
     xlim <- dpqrdist(dist, type="q", p=c(0.001, .999), ...)
   }
-  xdata <- seq(xlim[1], xlim[2], length.out=400)
+  if (discrete) {
+    xdata <- unique(dpqrdist(dist, type="q", p=ppoints(resolution), ...))
+    step = min(diff(xdata))
+    fill <- seq( min(xdata) -1.5 * step , max(xdata) + 1.5*step, length.out=resolution)
+    xdata <- c(xdata, fill) 
+    xdata <- dpqrdist(dist, type="q", p=dpqrdist(dist, type="p", q=xdata, ...), ...)
+    xdata <- sort(unique(xdata))
+  } else {
+    xdata <- unique(seq(xlim[1], xlim[2], length.out=resolution))
+  }
   
-  ydata <- dpqrdist(dist, type="d", xdata, ...)
+  ydata <- dpqrdist(dist, type="d", x=xdata, ...)
   ymax <- max(ydata, na.rm=TRUE)
   if (missing(ylim)) {
     ylim = c(0, 1.4 * ymax)
@@ -160,25 +220,43 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, dlwd=2,
   p <- c(0, p, 1)
   q <- c(xlim[1], q, xlim[2])
   
-  latticedots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
+  if (discrete) {
+    if (is.null(latticedots$pch)) latticedots$pch = 16
+  }
   
   args <- c(
     list(
       ydata ~ xdata, 
       xlim = xlim, ylim = ylim, 
-      groups = groups, type='h',
-      xlab = "", ylab = "density", 
-      panel = function(x, y, ...) {
-        panel.xyplot(x,y,...)
-        panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
-                       col = vcol, lwd=vlwd)
-        grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
-                  rot=rot,
-                  check.overlap=TRUE,
-                  paste("", round(diff(p), 3), sep = ""), 
-                  just = c('center','center'),  gp=gpar(cex = 1.0))
-        panel.xyplot(x,y, type='l', lwd=dlwd, col="black")
-      } 
+      groups = sapply(xdata, function(x) {sum(x < q)}),
+      type= if (discrete) c('p','h') else 'h',
+      xlab = "", ylab = if (discrete) "probability" else "density", 
+      panel = 
+        if (discrete) {
+          function(x, y, ...) {
+            # panel.xyplot(x,y,...)
+            panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+                           col = vcol, lwd=vlwd)
+            grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
+                      rot=rot,
+                      check.overlap=TRUE,
+                      paste("", round(diff(p), 3), sep = ""), 
+                      just = c('center','center'),  gp=gpar(cex = 1.0))
+            panel.xyplot(x, y, ...)
+          } 
+        } else {
+          function(x, y, ...) {
+            panel.xyplot(x, y, ...)
+            panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+                           col = vcol, lwd=vlwd)
+            grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
+                      rot=rot,
+                      check.overlap=TRUE,
+                      paste("", round(diff(p), 3), sep = ""), 
+                      just = c('center','center'),  gp=gpar(cex = 1.0))
+            panel.xyplot(x,y, type='l', lwd=dlwd, col="black")
+          }
+        } 
     ), 
     latticedots
   )
@@ -217,3 +295,37 @@ xpf <- function(...)  pdist("f", ...)
 #' @rdname qdist
 #' @export
 xqf <- function(...)  qdist("f", ...)
+
+#' @rdname pdist
+#' @export
+xpbinom <- function(...)  pdist("binom", ...)
+#' @rdname qdist
+#' @export
+xqbinom <- function(...)  qdist("binom", ...)
+
+#' @rdname pdist
+#' @export
+xppois <- function(...)  pdist("pois", ...)
+#' @rdname qdist
+#' @export
+xqpois <- function(...)  qdist("pois", ...)
+
+#' @rdname pdist
+#' @export
+xpgeom <- function(...)  pdist("geom", ...)
+#' @rdname qdist
+#' @export
+xqgeom <- function(...)  qdist("geom", ...)
+
+#' @rdname pdist
+#' @export
+xpnbinom <- function(...)  pdist("nbinom", ...)
+#' @rdname qdist
+#' @export
+xqnbinom <- function(...)  qdist("nbinom", ...)
+
+
+is_discrete_dist <- function(dist, ... ) {
+  q <- dpqrdist(dist, type="q", p=ppoints(100), ...) 
+  length(q) * .9 >= length(unique(q))
+} 

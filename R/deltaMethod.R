@@ -15,7 +15,7 @@
 #'   # This is just wordier in this example, but would allow the uncertainties to vary 
 #'   # from row to row.
 #' 
-#'   HeatX3 <- transform(HeatX, 
+#'   HeatX3 <- mutate(HeatX, 
 #'                     u.cold.in=1, u.cold.out=1, u.hot.in=1, u.hot.out=1, 
 #'                     u.m.cold=0.5, u.m.hot=0.5)
 #'   deltaMethod( HeatX3[, c("T.cold.in","T.cold.out","m.cold")], exprforQ, 

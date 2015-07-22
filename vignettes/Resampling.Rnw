@@ -1,0 +1,765 @@
+%\VignetteIndexEntry{Randomization-based inference}
+%\VignettePackage{mosaic}
+%\VignetteKeywords{mosaic, resampling, bootstrapping, permutation}
+%\VignetteEngine{knitr::knitr} 
+
+\documentclass[11pt]{article}
+\usepackage{mosaic}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{color}
+\usepackage{url}
+\usepackage{hyperref} 
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\definecolor{green}{RGB}{0,127,0}
+\hypersetup{pdftitle={Resampling-based inference}, colorlinks=true, linkcolor=black, citecolor=black}
+\usepackage[bottom]{footmisc}
+\usepackage[round]{natbib}
+\bibliographystyle{abbrvnat}
+
+\frenchspacing{}
+
+\title{Randomization-based inference using the {\tt mosaic} package}
+\author{Daniel Kaplan\thanks{dtkaplan@gmail.com} \\ \footnotesize Macalester College \\
+\footnotesize St. Paul, MN
+\and Nicholas J. Horton\thanks{nhorton@amherst.edu} \\ \footnotesize Amherst College \\
+\footnotesize Amherst, MA \and 
+Randall Pruim\thanks{rpruim@calvin.edu}
+\\ \footnotesize Calvin College \\
+\footnotesize Grand Rapids, MI
+}
+\date{\today}
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+\tableofcontents
+
+
+<<setupRnw,include=FALSE>>=
+# source('../setup.R')
+## @knitr setup
+#setCacheDir("cache")
+require(grDevices) 
+require(datasets) 
+require(stats) 
+require(lattice)
+require(grid) 
+require(mosaic) 
+require(mosaicData) 
+trellis.par.set(theme=col.mosaic(bw=FALSE))
+trellis.par.set(fontsize=list(text=9))
+options(keep.blank.line=FALSE) 
+options(width=70)
+require(vcd)
+require(knitr)
+
+opts_chunk$set( 
+  fig.align="center",
+  fig.show="hold"
+)
+@
+
+
+\section{Introduction}
+
+The \pkg{mosaic} package is intended to support teaching statistics and modeling (as well as calculus) in a way that embraces the possibilities offered by modern computational techniques.
+Our goal is to make effective computation accessible to university-level students at an introductory level.  With the broad availability of inexpensive, fast computing and powerful, free software such as \R, the rate-limiting factor in accessibility is intellectual: providing a notation in which ideas can be expressed and understood clearly.  
+
+This document describes how to use the \pkg{mosaic} package to carry out randomization-based statistical inference.  The \pkg{mosaic} package supports an approach that is intended to be easy for students to learn and to generalize.  To this end, we adopt the following tenets:
+\begin{itemize}
+\item Students should be able to carry out useful statistics with only a very few lines of commands.
+\item Basic commands should relate to statistical operations rather than programming operations.  We seek to avoid programming overhead such as loops, counters, and accumulators.
+\item Black boxes should perform a conceptually straightforward operations.  Their output should be verifiable.
+\item Statements should demonstrate the logical structure of statistics, rather than merely naming high-level procedures.
+\item There should be a simple path to generalizing from simple descriptions --- means, counts, proportions --- to more complicated ones such as generalized linear models.
+\end{itemize}
+
+The \pkg{mosaic} operations allow students to implement each of the
+operations in what George Cobb calls the ``3 Rs'' of statistical
+inference: Randomization, Replication, and Rejection (Cobb, 2007). 
+By putting the 3 Rs together in various ways, students learn to
+generalize and internalize the logic of inference, rather than just
+to blindly follow formulaic methods.
+
+Terry Speed (2011) notes the changing role of simulation in statistics.  :
+\begin{quote}
+[Simulation used to be] something that people did when they can't do the math. $\ldots$ It now seems
+that we are heading into an era when all statistical analysis can be done by
+simulation.
+\end{quote}
+
+Arguably, the most important operation in statistics is sampling:
+ideally, selecting a random subset from a population.  Regrettably,
+sampling takes work and time, so instructors tend to de-emphasize the
+actual practice of sampling in favor of theoretical descriptions.
+What's more, the algebraic notation in which much of conventional
+textbook statistics is written does not offer an obvious notation for sampling.
+
+With the computer, however, these efficiency and notation obstacles
+can be overcome.  Sampling can be placed in its rightfully central
+place among the statistical concepts in our courses.
+
+Randomization-based inference using permutation testing and bootstrapping are an
+increasingly important set of techniques for introductory statistics and beyond.
+To help educators usefully compare different software approaches, 
+Robin Lock and colleagues posed a series of problems at USCOTS 2011 
+(United States Conference on Teaching Statistics), 
+as described at \url{http://www.causeweb.org/uscots/breakout/breakout3_6.php}, 
+relating to bootstrapping and permutation tests. 
+Bootstrapping and permutation testing are powerful and elegant approaches to
+estimation and testing that can be implemented even in many
+situations where asymptotic results are difficult to find or otherwise
+unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al 2005).
+Bootstrapping involves sampling \emph{with} replacement from a population,
+repeatedly calculating a sample statistic of interest to empirically construct
+the sampling distribution. Permutation testing for a two group comparison is
+done by \emph{permuting} the labels for the grouping variable, then calculating
+the sample statistic (e.g. difference between two groups using these new
+labels) to empirically construct the null distribution. 
+
+We will illustrate the use of the \pkg{mosaic} package using the Lock randomization 
+problems.  Then we will move beyond the simple settings of the Lock problems to 
+show how the \pkg{mosaic} operations makes it straightforward to generalize the 
+logic of randomization to more complicated models.
+
+
+\section{Background and setup}
+\subsection{R and RStudio}
+\bigskip
+
+\R{} is an open-source statistical environment that has been used at a number
+of institutions to teach introductory statistics.  Among other advantages, \R{}
+makes it easy to demonstrate the concepts of statistical inference through
+randomization while providing a sensible path for beginners to progress to
+advanced and professional statistics. \RStudio{} (\url{http://www.rstudio.org})
+is an open-source integrated development environment for \R{} which facilitates
+use of the system.
+
+
+\subsection{Setup}
+The \pkg{mosaic} package is available over the Internet and can be installed
+into \R{} using the standard features of the system (this needs only be done once).  
+<<eval=FALSE,echo=TRUE>>=
+install.packages("mosaic")
+@ 
+
+Once installed, the package must be loaded so that it is available (this must
+be done within each \R{} session).  In addition to loading the \pkg{mosaic} package, 
+the following commands also load the \pkg{mosaicData} package that contains a number 
+of data sets and set the number of digits to display by default.\footnote{If the \pkg{parallel} package is installed, loading it will allow the \function{do} function
+in the \pkg{mosaic} package to take advantage of multiple processors to speed up
+simulations.}
+
+<<moreSetup>>=
+require(mosaic)
+require(mosaicData) 
+options(digits=3)
+@ 
+
+Commands such as the above can be provided for students in a set-up file to be
+executed automatically each time an \R{} session is started.  
+
+The \pkg{mosaic} package works within \R{}, 
+so any of the data facilities within \R{} can be used to
+provide data sets to students.  In particular, \R{} functions 
+such as \function{read.csv} and \function{read.table} support 
+accessing data files via a website URL, avoiding the need to download data 
+files to individual student machines.  The \pkg{mosaic} package provides the function
+\function{read.file} that can read files of several different types and provides 
+a common set of defaults across these file types.  
+
+Here, one of the Lock data sets are read into \R{} via the Internet:
+<<>>=
+Mustangs <- read.file("http://www.mosaic-web.org/go/datasets/MustangPrice.csv")
+@
+
+\section{The Lock problems}
+
+The Lock problems are a series of short problems in statistical inference provided in 2011 by Robin Lock {et al.} to enable instructors to compare randomization software usability.
+
+\subsection*{Lock problem 1. Bootstrapping a mean (used Mustangs)}
+
+\begin{quotation}
+ {\em A student collected data on the selling prices for a sample of used
+  Mustang cars being offered for sale at an internet website. The
+  price (in \$1,000's), age (in years) and miles driven (in 1,000's)
+  for the 25 cars in the sample are given in the [file \code{MustangPrice.csv}].  
+  Use these data to construct a 90\% confidence interval for the mean
+  price (in \$1,000's) of used Mustangs.}
+\end{quotation}
+
+Students should learn to examine data before undertaking formal inference.  Any of the 
+standard \R{} tools can be used for this.  We advocate the use of \pkg{lattice}-style graphics functions for two reasons:
+\begin{enumerate}
+\item They use a syntax that is consistent with the syntax used in \pkg{mosaic}.  
+\item They extend naturally to more complicated settings.
+\end{enumerate}
+<<dot,fig.width=4, fig.height=2>>=
+histogram(~Price, data=Mustangs)
+@
+
+The basic \pkg{lattice} syntax here --- operator, ``formula" involving \verb+~+, and the use of \texttt{data=} to specify the relevant data set --- will be used throughout \pkg{mosaic}.  For example, here is the sample mean 
+<<meanmust>>=
+mean(~Price, data=Mustangs)
+@ 
+
+Those familiar with \R{} may wonder why the statement has not been written as 
+<<eval=FALSE>>=
+mean(Mustangs$Price)
+@
+You can, of course, carry out exactly the same calculation this way.  By using 
+<<eval=FALSE>>=
+mean(~Price, data=Mustangs)
+@
+we are making graphical and numerical summaries fit into a common template and 
+anticipating the next steps, including the introduction of additional operations such as 
+randomization and modeling.
+
+Resampling, also known as random selection with replacement, is an important operation in randomization.  The \function{resample} function performs this.  It can be illustrated in a very basic way on a small set of numbers:
+<<>>=
+simple=c(1,2,3,4,5)
+resample(simple)
+resample(simple)
+resample(simple)
+@
+
+When applied to a dataframe, \function{resample} selects random rows.  It's easy to demonstrate this with a statement such as:
+
+<<results="hide">>=
+resample(Mustangs)
+@
+<<echo=FALSE>>=
+set.seed(104)
+head(resample(Mustangs))
+cat("... and so on")
+@
+
+By reference to the case numbers in the left column, you can see that case 19 has been selected twice.
+
+One resampling trial of the mean can be carried out with
+<<>>=
+mean(~Price, data=resample(Mustangs))
+@
+Even though a single trial is of little use, it's a nice idea to have
+students do the calculation to show that they are 
+(usually) getting a different results with each resample.
+  
+
+Another trial can be carried out by repeating the command:
+<<>>=
+mean(~Price, data=resample(Mustangs))
+@ 
+Let's generate five more, with a single command: 
+<<>>=
+do(5) * mean(~Price, data=resample(Mustangs))
+@
+Now conduct 1000 resampling trials\footnote{1000 is a resonable number of trials 
+for illustration purposes, but Monte Carlo variability can be considerably reduced
+by using 10,000 or more.
+}, 
+saving the results in an object
+called \dataframe{Mustangs.Price.boot}:\footnote{It is a good idea to adopt a 
+naming convention for your bootstrap and randomization distributions.  Repeatedly using
+the same name (e.g., \texttt{Trials}) can become very confusing and lead to 
+errors from misidentifying which distribution one has.  The name we have chosen here
+makes it clear which data set an variable are beging considered and that we are 
+creating a bootstrap distribution (as opposed to simulating a null distribution).}
+<<>>=
+Mustangs.Price.boot <- do(1000) * mean(~Price, data=resample(Mustangs))
+@ 
+
+
+Plotting this resampling distribution is straightforward, e.g.:
+<<hist,fig.width=4, fig.height=2>>=
+histogram(~ result, data=Mustangs.Price.boot, xlab="Mean Mustang Price (in thousand dollars)")
+@ 
+
+The simplest way to translate this distribution into a confidence interval is to apply the operator for that purpose:
+<<confint>>=
+confint(Mustangs.Price.boot, level=0.90, method="quantile")
+confint(Mustangs.Price.boot, level=0.90, method="stderr")
+@
+The \function{confint} function is a black box.  In introducing it, an instructor might well want to show the calculations behind the confidence interval in some detail using general-purpose operations.  \function{confint} implements two basic approaches, one based on quantiles of the distribution and the other using normal theory.
+\begin{itemize}
+
+\item Calculation of the 90\% confidence interval using quantiles
+<<qdata>>=
+qdata(c(.05, .95), result, data=Mustangs.Price.boot)
+# alternative
+cdata(.90, result, data=Mustangs.Price.boot)
+
+@ 
+
+\item Using normal theory and the standard error.
+First calculate the critical value $t_\star$ for
+the appropriate degrees of freedom.  Or use $z_\star$, either for simplicity or to demonstrate how $t_\star$ differs.  In either case, the confidence level needs to be converted to the appropriate tail probability, e.g. a level of 90\% corresponds to a tail probability of 0.95.
+
+<<tstar>>=
+tstar <- qt(.95, df=24)
+zstar <- qnorm(.95)
+@ 
+The resulting
+margin of error will be
+<<margin>>=
+tstar * sd(~result,data=Mustangs.Price.boot)
+zstar * sd(~result,data=Mustangs.Price.boot)
+@ 
+
+\end{itemize}
+
+There's little reason to repeat this set of commands every time one needs a confidence interval.  That's where \function{confint} comes in, abstracting the operation, allowing the user to specify a \texttt{level} and a \texttt{method} 
+(\texttt{"quantile"} or \texttt{"stderr"}) and avoiding the need to convert the level into a tail probability.  The extent to which one should repeat the detailed steps of the margin-of-error calculation is a decision the instructor can make depending on local circumstances and the instructor's goals.  \R{} and \pkg{mosaic} supports both approaches.
+
+
+
+\subsection*{Lock problem 2: Testing a proportion (NFL Overtimes)}
+
+\begin{quotation}
+{\em The National Football League (NFL) uses an overtime
+period to determine a winner for games that are tied at the end of
+regulation time.  The first team to score in the overtime wins the
+game. A coin flip is used to determine which team gets the ball
+first.  Is there an advantage to winning the coin flip?  Data from the
+1974 through 2009 seasons show that the coin flip winner won 240 of
+the 428 games where a winner was determined in overtime.  Treat these
+as a sample of NFL games to test whether there is sufficient evidence
+to show that the proportion of overtime games won by the coin flip
+winner is more than one half.}
+\end{quotation}
+
+By and large, introductory students understand that, if first possession of the ball is unrelated to the game outcome, one would expect to see about half of the 428 games won by the team that won the coin flip.  The question is whether the observed 240 wins is ``about'' half of the 428 games.  Statistical inference compares the 240 to the $428/2 = 214$ in the context of sampling variation.
+
+\paragraph{Style 1} Using the built-in binomial distribution operators.
+
+Generate a simulation where each trial is a random sample of 428
+games from a world in which the null hypothesis holds true and see what proportion of 
+trials give a result as or more extreme as the observed 240.  
+
+<<proptable>>=
+prop(~ rbinom(1000, prob=0.5, size=428) >= 240)
+@
+
+The result indicates that it's very unlikely, if the null were true, that the coin flip winner would win 240 or more times.
+
+The exact result differs slightly from one simulation to the next, but that variation can be made small by making the number of trials large.
+
+<<proptable2>>=
+prop(~ rbinom(1000, prob=0.5, size=428) >= 240)
+@
+
+In this case, it is 
+tempting entirely to avoid the variation due to simulation by doing a deterministic
+probability calculation rather than the simulation.  This exact reproducibility comes at
+a cost, though, the need to customize the cut-off point to reflect which tail of the distribution corresponds to ``as or more extreme than 240."  On the right side, this means subtracting 1 from the observed number.
+<<pbinom>>=
+pbinom(239, prob=0.5, size=428)
+@ 
+
+Of course, \R{} can hanlde all of these little details and do the entire 
+calculation for us if we use the \function{binom.test} function.
+<<>>=
+binom.test(240, 248)
+@
+
+Even if you want to use the deterministic probability calculation (using either
+\function{pbinom} or \function{binom.test}), you might want to illustrate the logic with the random-number generator.
+
+\paragraph{Style 2} Explicitly simulating a coin flip.
+
+Recognizing that coin flips are a staple of statistics courses, the
+\pkg{mosaic} package offers a function that simulates random coin tosses
+without the need to refer to the binomial distribution.
+Here is one trial involving flipping 428 coins:
+<<coinflip>>=
+do(1) * rflip(428)
+@ 
+
+We'll do 1,000 trials, and count what fraction of the trials the
+coin toss winner (say, ``heads'') wins 240 or more of the 428 attempts:
+<<flips1,fig.width=4, fig.height=3>>=
+NFL.null <- do(1000) * rflip(428)
+prop(~ heads >= 240, data=NFL.null)
+@
+<<flips,fig.width=4, fig.height=2>>=
+histogram(~ heads, groups=(heads >= 240), data=NFL.null)
+@ 
+
+The observed pattern of 240 wins is not a likely outcome under the null hypothesis.
+The shading added through the \option{groups =} option helps to visually reinforce the result.
+
+
+
+\subsection*{Lock problem 3: Permutation test of means from two groups (sleep and memory)} 
+
+\begin{quotation}
+ {\em In an experiment on memory (Mednicj et al, 2008), students were given lists of 24 words
+  to memorize.  After hearing the words they were assigned at random
+  to different groups. One group of 12 students took a nap for 1.5
+  hours while a second group of 12 students stayed awake and was given
+  a caffeine pill.  The results below display the number of words each
+  participant was able to recall after the break.  Test whether the
+  data indicate a difference in mean number of words recalled between
+  the two treatments.}
+\end{quotation}
+<<fetchsleep>>=
+Sleep <- read.file("http://www.mosaic-web.org/go/datasets/SleepCaffeine.csv")
+@
+
+The Sleep group seems to have remembered somewhat more words on average:
+<<obsmean>>=
+mean(Words ~ Group, data=Sleep)
+obs <- diff(mean(Words ~ Group, data=Sleep))
+obs
+@ 
+
+<<fig.width=4, fig.height=2>>=
+bwplot(Group ~ Words, data=Sleep)
+@
+
+To implement the null hypothesis, scramble the Group with respect to the
+outcome, Words:
+<<>>=
+diff(mean(Words ~ shuffle(Group), data=Sleep))
+@ 
+
+That's just one trial.  Let's try again:
+<<>>=
+diff(mean(Words ~ shuffle(Group), data=Sleep))
+@
+To get the distribution under the null
+hypothesis, we carry out many trials:
+
+<<setseed134,echo=FALSE>>=
+set.seed(134) # make sure the result below is "typical"
+@
+
+<<sleep,tidy=FALSE,fig.width=4, fig.height=2>>=
+Sleep.null <- do(1000) * diff(mean(Words ~ shuffle(Group), data=Sleep))
+histogram(~ Sleep, groups=(Sleep >= obs),  data=Sleep.null, width=0.4,
+  xlab="Distribution of difference in means\nunder the null hypothesis")
+@ 
+
+The one-sided p-value for this test is the proportion of  
+trials which yielded a result as extreme or more extreme as the observed difference.
+We can calculate the one-sided p-value for this test by summing up the number of 
+trials which yielded a result as extreme or more extreme as the observed difference.
+Here only \Sexpr{sum(Sleep.null$Sleep >= obs)} of the 1000 trials gave a result that large, so the p-value is equal to \Sexpr{prop(~ Sleep.null$Sleep >= obs)}.  We conclude that
+it's unlikely that the two groups have the same mean word recall back in their respective populations.
+
+
+\subsection*{Lock problem 4: Bootstrapping a correlation}
+
+\begin{quotation}
+{\em The data on Mustang prices in Problem \#1 also contains the number
+ of miles each car had been driven (in thousands).  Find a
+ 95\% confidence interval for the correlation between price and mileage.}
+\end{quotation}
+
+We can fallow essentially the same workflow to obtain a confidence interval
+for other statistics, including the correlation coefficient.\footnote{Naive 
+confidence intervals based on percentiles or bootstrap standard errors from 
+small samples may not be
+as good as other methods (for example, the bootstrap t is preferred when
+generating a confidence interval for a mean), and the ability to easily 
+create simulated bootstrap distributions does not guarantee that the resulting
+intervals will have the desired properties.  Alternative methods and diagnostics
+are important topics not covered here.}
+<<>>=
+cor(Price, Miles, data=Mustangs)
+@
+
+<<>>=
+Mustangs.cor.boot <- do(1000) * cor(Price, Miles, data=resample(Mustangs))
+quantiles <- qdata(c(.025, .975), result, data=Mustangs.cor.boot); quantiles
+@
+
+<<cor,fig.width=4, fig.height=2, tidy=FALSE>>=
+histogram(~ result, data=Mustangs.cor.boot,
+  groups=cut(result, c(-Inf, quantiles$quantile, Inf)),
+  n=30) 
+confint(Mustangs.cor.boot)
+@ 
+
+
+
+
+
+\section{Moving beyond means and proportions}
+
+The Lock problems refer to the descriptive statistics encountered in many 
+introductory applied statistics courses: 
+means, proportions, differences in means and proportions. There are advantages, however, 
+in introducing such basic statistics in the context of a more general framework: 
+linear models.  
+
+Usually, people think about linear models in the context of regression.  For instance, using the Lock Mustang price dataset, 
+there is presumably a relationship between the price of a car and its mileage.  Here's a graph:
+
+<<price-mileage-graph,fig.width=4, fig.height=3>>=
+xyplot( Price ~ Miles, data=Mustangs )
+@
+There's a pretty clear relationship here, which in the Lock problems was quantified with the correlation coefficient.
+
+In regression, one finds a straight-line functional relationship between the two variables.
+The built-in \R{} \function{lm} function does the calculations:
+<<mustangregression>>=
+lm(Price ~ Miles, data=Mustangs)
+@
+The notation used is the same as used to produce a scatter plot.  
+The result indicates that for every additional 1000 miles driven, the price of a car 
+typically decreases by \$219 dollars (or, given the units of the data, 0.2188 thousand 
+dollars).  In other words, the value of a Mustang goes down by about 22 cents per mile 
+driven.
+
+This number, 22 cents decrease per mile, can be thought of as an ``effect size.''  It's likely much more meaningful to students (and car buyers!) than the correlation coefficient of $-0.82$.  The ability to give a description in terms of an effect size is an advantage of using regression as a description rather than correlation.  There are more such advantages to regression, which we will describe later.  But for now, our emphasis is on the use of regression as a framework for the traditional sorts of calculations of means, proportions, and differences of means and proportions.
+
+The mean price of the Mustangs is, calculated in the ordinary way:
+<<>>=
+mean( Price, data=Mustangs )
+@
+
+The same result can be had via a linear model:
+<<>>=
+lm( Price ~ 1, data=Mustangs)
+@
+
+This may seem obscure.  In \function{lm}, the \verb+~+ notation is used to identify the
+response variable and the explanatory variables.  In \verb+Price ~ Miles+, the response variable is \texttt{Price} and \texttt{Miles} is being used as the explantory variable.  
+The mileage varies from car to car; this variation in mileage is used to explain the variation in price.
+
+In \verb+Price ~ 1+, the \texttt{1} can be thought of as signifying that there are no explanatory variables, or, from a slightly different perspective, that the cars are all the same. The \function{mean} function is set up to accept this same notation:
+<<>>=
+mean( Price ~ 1, data=Mustangs)
+@
+Why?  So that the notation can be extended to include calculating the mean for different groups.  To illustrate, consider the Lock \texttt{Sleep} data which compares the ability to memorize words after a nap versus after taking caffeine.
+
+The mean number of words memorized, ignoring the explanatory group, is:
+<<>>=
+mean( Words ~ 1, data=Sleep )
+@
+To break this down by groups, use an explanatory variable:
+<<>>=
+mean( Words ~ Group, data=Sleep )
+@
+
+Conventionally, regression is introduced as a technique for working with quantitative explanatory variables, e.g. the \texttt{Miles} in the Mustang data, while groupwise means are used for categorical variables such as \texttt{Group} in the sleep data.  But the regression technique applies to categorical data as well:
+<<>>=
+lm( Words ~ Group, data=Sleep )
+@
+What's different between the information reported from \function{mean} and the result of \function{lm} is the format of the results.  The \texttt{GroupSleep} coefficient from \function{lm} gives the {\em difference} between the two groups.
+<<>>=
+diffmean( Words ~ Group, data=Sleep )
+@
+
+The \function{lm} function also can be used to calculate proportions and differences in proportions.  We'll illustrate with the \texttt{HELPrct} data which contains information about patients in the Health Evaluation and Linkage to Primary Care randomized clinical trial.  Consider the proportion of people who are reported as homeless:
+<<>>=
+prop( homeless ~ 1, data=HELPrct)
+@
+
+The proportion of patients who are homeless differs somewhat between the sexes; males are somewhat more likely to be homeless.
+<<>>=
+prop( homeless ~ sex, data=HELPrct )
+
+@
+
+The difference between these two proportions is:
+<<>>=
+diffprop( homeless ~ sex, data=HELPrct )
+@
+
+The \texttt{lm} function gives the same results. (You have to specify which level you want the proportion of, ``homeless" or ``housed".)
+<<>>=
+lm( homeless=="homeless" ~ 1, data=HELPrct )
+@
+
+Why use \function{lm} when \function{mean} and \function{prop} and 
+(and \function{diffmean} and \function{diffprop}) will give the same result?  
+Because \function{lm} can be generalized.  It works for both categorical and 
+quantitative explanatory variables and, very importantly, \function{lm} 
+allows multiple explanatory variables to be used.
+
+Even when using \function{mean} and \function{prop}, there's a reason to prefer the \verb+~1+ notation.  It emphasizes that the calculation is not trying to explain the variability in the response variable; there are no explanatory variables being used.  
+
+
+<<>>=
+lm(homeless=="homeless" ~ sex, data=HELPrct)
+@
+
+\subsection{Randomization with linear models}
+
+Randomization can be performed with \function{lm} in the same style as with \function{mean} and \function{prop}.  Here, for instance, is a resampling confidence interval on the 
+price change with mileage in the Mustang data:
+<<>>=
+Mustangs.lm.boot <- do(1000) * lm(Price ~ Miles, data=resample(Mustangs))
+confint(Mustangs.lm.boot)
+@
+
+
+Or, we can calculate a permutation test on the difference between homeless rates among men and women using the \texttt{HELPrct} data:
+
+<<>>=
+HELPrct.null <- do(1000) * lm(homeless=="homeless" ~ shuffle(sex), data=HELPrct)
+prop(~ abs(sexmale) > 0.1146, data=HELPrct.null)
+@
+
+\subsection{Multiple explanatory variables}
+
+The regression framework allows more than one explanatory to be used.  For instance, one can examine how each of \texttt{Age} and \texttt{Miles} is related to the \texttt{Price} of the Mustangs.
+
+<<>>=
+Mustangs.boot1 <- do(1000) * lm( Price ~ Age, data=resample(Mustangs))
+Mustangs.boot2 <- do(1000) * lm( Price ~ Miles, data=resample(Mustangs))
+Mustangs.boot3 <- do(1000) * lm( Price ~ Miles + Age, data=resample(Mustangs))
+@
+The first model suggests that \texttt{Price} goes down by about one to two thousand dollars per year of \texttt{Age}. 
+
+<<>>=
+confint(Mustangs.boot1)
+@
+The second model indicates that \texttt{Price} goes down by about 16 to 28 cents per mile driven.
+<<>>=
+confint(Mustangs.boot2)
+@
+
+The third model puts each explanatory variable in the context of the other, and suggests that \texttt{Age} may just be a proxy for \texttt{Miles}.
+<<>>=
+confint(Mustangs.boot3)
+@
+One way to interpret this result is that, adjusting for \texttt{Miles}, 
+there is little 
+evidence for an \texttt{Age} effect.  The inflation of the confidence intervals for 
+\texttt{Miles} and \texttt{Age} is a result of the colinearity 
+between those explanatory variables. 
+
+\subsection{Simulation and {\sc Anova}}
+
+One way to think about {\sc Anova} is a way of quantifying the extent to which a model term, in the context of other model terms, is better than random ``junk.'' Consider, for example, the role of \texttt{Age} in a model of the Mustang prices that includes \texttt{Miles}.  Here's one {\sc Anova} report:
+<<>>=
+anova( lm( Price ~ Miles + Age, data=Mustangs))
+@
+The p-value on \texttt{Age} suggests that \texttt{Age} is not contributing to the model.  But there's a different {\sc Anova} report available that suggests a different conclusion.
+<<>>=
+anova( lm( Price ~ Age + Miles, data=Mustangs))
+@
+The difference between the two {\sc Anova} reports can be explained in 
+several ways, for example by regarding {\sc Anova} as a sequential report 
+on a nested sequence of models, so that the order of model terms makes 
+a difference.  For instance, the $R^2$ from this sequence of models suggests 
+that \texttt{Age} doesn't add much to \texttt{Miles}.
+
+<<>>=
+do(1) * lm( Price ~ Miles, data=Mustangs)
+do(1) * lm( Price ~ Miles + Age, data=Mustangs)
+@
+
+Here, \function{do} has been used without any randomization, merely to format the results in a way that allows them be readily compared.  Note that the addition of \texttt{Age} as an explanatory variable has increased $R^2$ by a little bit, from $0.680$ to $0.681$.  
+
+Shuffling \texttt{Age} allows the actual change in $R^2$ to be compared to what would be expected under the null hypothesis:
+<<>>=
+Mustangs.Age.boot <- do(1000) * lm( Price ~ Miles + shuffle(Age), data=Mustangs )
+confint(Mustangs.Age.boot)
+@
+
+The observed $R^2$ from \verb-Price ~ Miles + Age- falls right in the middle of the 
+observed range when \texttt{Age} is shuffled.
+
+The result is very different when \texttt{Miles} is shuffled instead.
+<<>>=
+Mustangs.Miles.boot <- do(1000) * lm( Price ~ shuffle(Miles) + Age, data=Mustangs )
+confint(Mustangs.Miles.boot)
+@
+The observed value of $R^2 = 0.681$ falls well above the confidence interval, 
+leading to a rejection of a null hypothesis on \texttt{Miles}.
+
+\section{Using simulations in other ways}
+
+The basic technology of resampling and shuffling can be used to
+demonstrate many other concepts in statistics than the generation of
+confidence intervals and p-values.  For example, it is very useful for
+showing the origins of distributions such as t and F.  
+
+For the sake of illustration, consider a $\chi^2$-test of the independence of \texttt{homeless} and \texttt{sex} in the \texttt{HELPrct} data.
+To illustrate, here is a simulation to construct the distribution of p-values from a simple test under the null hypothesis.  The 
+
+\begin{enumerate}
+\item Carry out the test, e.g.
+<<>>=
+chisq.test( tally( ~ homeless + sex, 
+                   data=HELPrct, margins=FALSE))
+@
+
+\item Modify the statement to extract the portion of interest.  
+In this case, the p-value:
+<<>>=
+pval( chisq.test( tally( ~ homeless + sex, 
+                   data=HELPrct, margins=FALSE)) )
+@
+
+\item Insert randomization to implement the null hypothesis:
+<<>>=
+pval( chisq.test( tally( ~ shuffle(homeless) + sex, 
+                         data=HELPrct, margins=FALSE)))
+@
+
+\item Iterate to get the distribution under the null:
+<<>>=
+Chisq.null <- do(1000)* pval( chisq.test( tally( ~ shuffle(homeless) + sex, 
+                         data=HELPrct, margins=FALSE)))
+@
+\end{enumerate}
+Strictly speaking, only the last step is needed.  The others are merely to 
+illustrate construction of the statement and how each individual component
+fits into the whole.
+
+Students often think that when the null hypothesis is true, p-values should be large.
+They can be surprised to see that the distribution of p-values under the null hypothesis is uniform from 0 to 1, or that there is a roughly 5\% chance of rejecting the null (at $p < 0.05$) even when the null hypothesis is true.\footnote{
+We can also observe in this data the challenges of approximating a discrete 
+distribution that takes on relatively few values with a continuous distribution
+like the Chi-squared distribution.}
+
+<<fig.width=4, fig.height=2>>=
+prop( ~(p.value < 0.05), data=Chisq.null)
+histogram( ~p.value, data=Chisq.null, width=0.10 )
+qqmath( ~p.value, data=Chisq.null, dist=qunif)
+@
+
+Perhaps more important, with the simulation approach it's straightforward to segue into more advanced and appropriate models and tests.  So, rather than the esteemed $\chi^2$ test, perhaps something a bit more modern and flexible such as logistic regression with \texttt{age} as a covariate:
+<<>>=
+HELP.logistic.boot <- do(1000) * 
+   glm( homeless=="homeless" ~ age + sex, 
+     data=resample(HELPrct), family="binomial")
+confint(HELP.logistic.boot)
+@
+
+\section{Acknowledgments}
+
+Thanks to Sarah Anoke for comments on a draft, as well as to Robin
+Lock of St. Lawrence University for organizing the resampling demonstration
+session at USCOTS 2011.
+
+Project MOSAIC is supported by the US National Science Foundation (DUE-0920350).
+More information about the package and this initiative can be 
+found at the Project MOSAIC website: \url{www.mosaic-web.org}.
+
+\section{Technical Information}
+This document was produced using \Sexpr{sessionInfo()$R.version$version.string} and version
+\Sexpr{sessionInfo()$otherPkgs$mosaic$Version} of the \pkg{mosaic} package.
+
+\section{References}
+\begin{itemize}
+\item G. W. Cobb, The introductory statistics course: a Ptolemaic curriculum?, 
+   \emph{Technology Innovations in Statistics Education}, 2007, 1(1).
+\item B. Efron \& R. J. Tibshirani, {\em An Introduction to the Bootstrap}, 1993, Chapman \& Hall, New York.
+\item T. Hesterberg, D. S. Moore, S. Monaghan, A. Clipson \& R. Epstein.  {\em Bootstrap Methods and Permutation Tests (2nd edition)}, (2005), W.H. Freeman, New York.
+\item D.T. Kaplan, {\em Statistical Modeling: A Fresh Approach}, 2nd edition, \url{http://www.mosaic-web.org/StatisticalModeling}.
+\item S.C. Mednicj, D. J. Cai, J. Kanady, S. P. Drummond.  ``Comparing the benefits of caffeine, naps and placebo on verbal, motor and perceptual memory", {\em Behavioural Brain Research}, 2008, 193(1):79-86.
+\item T. Speed, ``Simulation", \emph{IMS Bulletin}, 2011, 40(3):18.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,5 @@
+plotFun(sin(x) ~x, xlim=c(-2*pi, 2*pi))
+plotFun(sin, xlim=c(-2*pi, 2*pi))
+plotFun( cos(x) ~ x, col="red", add=TRUE)
+plotFun( sin(x) ~ x, xlim=c(-2*pi, 2*pi), col="navy" )
+plotFun(D(sin(x) ~ x), add=TRUE, col="red")

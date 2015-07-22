@@ -3,10 +3,10 @@ title: "Untitled"
 author: ""
 date: ""
 output: 
-  pdf_document:
+  html_document:
     fig_height: 3
     fig_width: 5
-  html_document:
+  pdf_document:
     fig_height: 3
     fig_width: 5
   word_document:
@@ -15,13 +15,13 @@ output:
 ---
 
 
-```{r include=FALSE}
+```{r, include=FALSE}
 # Don't delete this chunk if you are using the mosaic package
 # This loads the mosaic and dplyr packages
 require(mosaic)
 ```
 
-```{r include=FALSE}
+```{r, include=FALSE}
 # Some customization.  You can alter or delete as desired (if you know what you are doing).
 
 # This changes the default colors in lattice plots.
@@ -70,3 +70,18 @@ favstats(~ births, data=Births78)
 This file can be knit to HTML, PDF, or Word.  In RStudio, just select the desired output file type
 and click on `Knit HTML`, `Knit PDF`, or `Knit Word`.  Use the dropdown menu next to that to 
 change the desired file type.
+
+### Documenting file creation 
+
+It's useful to record some information about how your file was created.
+
+  * File creation date: `r Sys.Date()`
+  * `r R.version.string`
+  * R version (short form): `r getRversion()`
+  * `mosaic` package version: `r packageVersion("mosaic")`
+  * Additional session information
+  
+```{r echo=FALSE}
+sessionInfo()  # could use devtools::session_info() if you prefer that
+```
+  

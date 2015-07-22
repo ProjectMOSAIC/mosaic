@@ -1,6 +1,34 @@
 tryCatch(utils::globalVariables(c('.row')), 
          error=function(e) message('Looks like you should update R.'))
 
+#' Set seed in parallel compatible way
+#'
+#' When the parallel package is used, setting the RNG seed for reproducibility
+#' involves more than simply calling \code{\link{set.seed}}. \code{set.rseed} takes
+#' care of the additional overhead.
+#'
+#' @param seed seed for the random number generator
+#' @details
+#' If the \code{parallel} package is not on the search path, then \code{\link{set.seed}} is called.
+#' If \code{parallel} is on the search path, then the RNG kind is set to \code{"L'Ecuyer-CMRG"},
+#' the seed is set and \code{mc.reset.stream} is called.
+#' 
+#' @examples
+#' # These should give identical results, even if the `parallel' package is loaded.
+#' set.rseed(123); do(3) * resample(1:10, 2)
+#' set.rseed(123); do(3) * resample(1:10, 2)
+#' @export
+
+set.rseed <- function(seed) {
+  if ("package:parallel" %in% search()) {
+    set.seed(seed, kind = "L'Ecuyer-CMRG")
+    parallel::mc.reset.stream()
+  } else {
+    set.seed(seed) 
+  }
+}
+
+
 #' Do Things Repeatedly
 #' 
 #' \code{do()} provides a natural syntax for repetition tuned to assist 
@@ -27,7 +55,7 @@ tryCatch(utils::globalVariables(c('.row')),
 #'   use an older algorithm and numbers >=1 use a newer algorithm which is faster in some 
 #'   situations.
 #' @param parallel a logical indicating whether parallel computation should be attempted
-#'   using the \pkg{parallel} package (if it is installed).
+#'   using the \pkg{parallel} package (if it is installed and loaded).
 #' 
 #' @param e1 an object (in cases documented here, the result of running \code{do})
 #' @param e2 an object (in cases documented here, an expression to be repeated)
@@ -41,7 +69,7 @@ tryCatch(utils::globalVariables(c('.row')),
 #' @author Daniel Kaplan (\email{kaplan@@macalaster.edu})
 #'   and Randall Pruim (\email{rpruim@@calvin.edu})
 #'
-#' @seealso \code{\link{replicate}}
+#' @seealso \code{\link{replicate}}, \code{\link{set.rseed}}
 #' 
 #' @examples
 #' do(3) * rnorm(1)
@@ -49,10 +77,13 @@ tryCatch(utils::globalVariables(c('.row')),
 #' do(3) * 1:4
 #' do(3) * mean(rnorm(25))
 #' if (require(mosaicData)) {
-#' do(3) * lm(shuffle(height) ~ sex + mother, Galton)
-#' do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
-#' do(3) * c(sample.mean = mean(rnorm(25)))
-#' do(3) * tally( ~sex|treat, data=resample(HELPrct))
+#'   do(3) * lm(shuffle(height) ~ sex + mother, Galton)
+#'   do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
+#'   do(3) * c(sample.mean = mean(rnorm(25)))
+#'   set.rseed(1234)
+#'   do(3) * tally( ~sex|treat, data=resample(HELPrct))
+#'   set.rseed(1234)  # re-using seed gives same results again
+#'   do(3) * tally( ~sex|treat, data=resample(HELPrct))
 #' }
 #' @keywords iteration 
 #' @export
@@ -275,11 +306,15 @@ if(FALSE) {
 	if (inherits(object,c('lm','groupwiseModel')) ) {
 		sobject <- summary(object)
     	Fstat <- sobject$fstatistic[1]
+    	DFE <- sobject$fstatistic["dendf"]
+    	DFM <- sobject$fstatistic["numdf"]
 		if (!is.null(Fstat)) {
 			names(Fstat) <- "F"
 			result <-  c(coef(object), sigma=sobject$sigma, 
 						 r.squared = sobject$r.squared, 
-						 Fstat)
+						 Fstat,
+						 DFM,
+						 DFE)
 		} else {
 			result <-  c(coef(object), sigma=sobject$sigma, 
 						 r.squared = sobject$r.squared
@@ -404,10 +439,13 @@ setMethod("*",
 		out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
 
     if (e1@algorithm >= 1) {
-      resultsList <- if( e1@parallel && requireNamespace("parallel", quietly=TRUE) )
+      resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
+        # requireNamespace("parallel", quietly=TRUE) )
+        message("Using `parallel'.  Set seed with set.rseed().")
         parallel::mclapply( integer(n), function(...) { cull(e2()) } )
-      else 
+      } else {
         lapply( integer(n), function(...) { cull(e2()) } )
+      }
           
       if (out.mode=='default') {  # is there any reason to be fancier?
         out.mode = 'data.frame'

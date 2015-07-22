@@ -34,6 +34,11 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param groups grouping argument ala lattice graphics
+#' @param discontinuities a vector of input values at which a function is discontinuous or \code{NULL} to use
+#'   a heuristic to auto-detect.
+#' @param discontinuity a positive number 1 determining how sensitive the plot is to 
+#'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
+#'   Use \code{discontinuity = Inf} to disable discontinuity detection. 
 #' @param ... additional parameters, typically processed by \code{lattice} functions such as 
 #' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
 #' Frequently used parameters include 
@@ -42,7 +47,8 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' \item{\code{sub}}{subtitle for plot }
 #' \item{\code{lwd}}{line width }
 #' \item{\code{lty}}{line type }
-#' \item{\code{col}}{a color } 
+#' \item{\code{col}}{a color or a (small) integer indicating which color in the current
+#' color scheme is desired.} 
 #' }
 #' Additionally, these arguments can be used to specify parameters for the function being 
 #' plotted and to specify the plotting window with natural names.  See the examples for such usage.
@@ -69,6 +75,9 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' plotFun( sin(x) ~ x, 
 #'    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
 #'    col=c('blue','green'), lty=2, lwd=3, xlim=c(-10,10) )
+#' plotFun( sin(x) ~ x, 
+#'    groups=cut(x, findZeros(sin(x) ~ x, within=10)$x), 
+#'    col=c(1,2), lty=2, lwd=3, xlim=c(-10,10) )
 #' ## plotFun( sin(2*pi*x/P)*exp(-k*t)~x+t, k=2, P=.3)
 #' f <- rfun( ~ u & v )
 #' plotFun( f(u=u,v=v) ~ u & v, u.lim=range(-3,3), v.lim=range(-3,3) )
@@ -78,12 +87,18 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' model <- lm(wage ~ poly(exper,degree=2), data=CPS85)
 #' fit <- makeFun(model)
 #' xyplot(wage ~ exper, data=CPS85)
-#' plotFun(fit(exper) ~ exper, add=TRUE, lwd=8)
+#' plotFun(fit(exper) ~ exper, add=TRUE, lwd=3, col="red")
 #' # Can also just give fit since it is a "function of one variable"
 #' plotFun(fit, add=TRUE, lwd=2, col='white')
 #' }
 #' # Attempts to find sensible axis limits by default
 #' plotFun( sin(k*x)~x, k=0.01 )
+#' # Plotting a linear model with multiple predictors.
+#' mod <- lm(length ~ width * sex, data=KidsFeet)
+#' fitted.length <- makeFun(mod)
+#' xyplot(length ~ width, groups=sex, data=KidsFeet, auto.key=TRUE)
+#' plotFun(fitted.length(width, sex="B") ~ width, add=TRUE, col=1)
+#' plotFun(fitted.length(width, sex="G") ~ width, add=TRUE, col=2)
 #' @export
 
 plotFun <- function(object, ..., 
@@ -99,7 +114,8 @@ plotFun <- function(object, ...,
           col = trellis.par.get('superpose.line')$col,
 					col.regions=topo.colors, 
 					type="l", 
-					alpha=NULL ) { 
+					alpha=NULL,
+					discontinuity = 1) { 
 
 	if ( is.function(object) ) { 
 		formula <- f(x) ~ x 
@@ -108,6 +124,9 @@ plotFun <- function(object, ...,
 	}
   
   if(is.null(add)) add <- under
+  
+  if (discontinuity <= 0 | length(discontinuity) != 1) 
+    stop("discontinuity should be a positive number or Inf.")
   
 	dots <- list(...)
 	# dots[['type']] <- type
@@ -165,6 +184,7 @@ plotFun <- function(object, ...,
 	          do.call(panel.plotFun1, 
 	                  c( list(..f..=fList,  
 	                          npts=npts, 
+	                          discontinuity = discontinuity,
 	                          filled=filled, levels=levels, 
 	                          nlevels=nlevels, surface=surface, 
 	                          col.regions=col.regions, 
@@ -177,7 +197,7 @@ plotFun <- function(object, ...,
 	  # message("2-D adding temporarily un-discontinued.")
 	  return( plot + latticeExtra::layer(
 	    do.call( panel.plotFun,
-	             c(list( object=object, npts=npts,
+	             c(list( object=object, npts=npts, discontinuity = discontinuity,
 	                     filled=filled, levels=levels, nlevels=nlevels, suface=surface,
 	                     col.regions=col.regions, type=type, alpha=alpha),
 	               dots) ),
@@ -249,7 +269,7 @@ plotFun <- function(object, ...,
 								xlim=limits$xlim, 
 								xlab=xlab, ylab=ylab,
 								panel="panel.plotFun1",
-                npts = npts,
+                npts = npts, discontinuity = discontinuity,
                 col=col ),
 								cleanDots
 								)
@@ -265,7 +285,7 @@ plotFun <- function(object, ...,
 								ylim=limits$ylim, 
 								xlab=xlab,ylab=ylab,
 								panel="panel.plotFun1",
-                npts=npts,
+                npts=npts, discontinuity = discontinuity,
                 col=col),
 								cleanDots)
 								)
@@ -390,6 +410,34 @@ plotFun <- function(object, ...,
 	stop("Bug alert: You should not get here.  Please report.")
 }
 
+discontinuity_at <- function(x, y, threshold = 2) {
+  y[!is.finite(y)] <- NA
+  y_scaled <- (y - min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
+  x_scaled <- (x - min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
+  slope  <- diff(y_scaled) / diff(x_scaled)
+  jump <- diff(y_scaled)
+  left_jump <- c(0, jump)
+  right_jump <- c(jump, 0)
+  left_slope  <- c(slope[1], slope) 
+  right_slope  <- c(slope, slope[length(slope)]) 
+  x[which( is.na(y) | 
+             !is.finite(y) | 
+             ( 
+                 (abs(atan(left_slope) - atan(right_slope)) > 1) & 
+                 (abs(atan(left_slope)) > 1 | abs(atan(right_slope)) > 1)
+             )
+  )]
+}
+
+# lengths of points on one continuous branch of a function.
+
+branch_lengths <- function(x, y, discontinuities = NULL) {
+  if (is.null(discontinuities)) discontinuities <- discontinuity_at(x, y) 
+  if (length(discontinuities) < 1L) return( length(x) )
+  j <- sapply(x, function(x) sum(x > discontinuities))
+  k <- sapply(x, function(x) sum(x >= discontinuities))
+  diff( c( 0, which(diff(j+k) > 0), length(x) ) )
+}
 
 #' Panel function for plotting functions
 #'
@@ -433,7 +481,8 @@ panel.plotFun1 <- function( ..f.., ...,
                            levels=NULL, 
                            nlevels=10,
                            surface=FALSE,
-                           alpha=NULL ) { 
+                           alpha=NULL,
+                           discontinuities = NULL) { 
   dots <- list(...)
 
   if (is.function(..f..) ) ..f.. <- list(..f..)
@@ -489,9 +538,24 @@ panel.plotFun1 <- function( ..f.., ...,
     # cleandots[ intersect(names(cleandots), all.vars(object)) ] <- NULL
     cleandots[c('x','y','type','alpha','col')] <- NULL
     # use do.call to call the panel function so that the cleandots can be put back in
-    do.call(panel.xyplot,
-            c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=.getColor(idx,col)),  cleandots)
-    )
+
+    if (type == "l") {
+      do.call(
+        grid.polyline,
+        c(list(x=.xvals, y=.yvals, default.units = "native",
+               gp=do.call(
+                 grid::gpar, 
+                 c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
+               ), 
+               id.lengths = branch_lengths(.xvals, .yvals, discontinuities)  
+        ))
+      )
+    } else {
+      do.call(
+        panel.xyplot,
+        c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=.getColor(idx,col)),  cleandots)
+      )
+    }
   }
 }
 
@@ -535,7 +599,7 @@ panel.plotFun <- function( object, ...,
                            nlevels=10,
                            surface=FALSE,
                            col.regions =topo.colors, 
-                           alpha=NULL ) { 
+                           alpha=NULL, discontinuities = NULL ) { 
   dots <- list(...)
   if ( is.function(object) ) { 
     formula <- f(x) ~ x 
@@ -586,8 +650,22 @@ panel.plotFun <- function( object, ...,
     cleandots = list(...)
     cleandots[ names(cleandots) %in% all.vars(object) ] <- NULL
     # use do.call to call the panel function so that the cleandots can be put back in
-    return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
-    #return(panel.xyplot(.xvals, .yvals, ...))
+    if (type == "l") {
+      return(
+        do.call(
+          grid.polyline,
+          c(list(x=.xvals, y=.yvals, default.units = "native",
+                 gp=do.call(
+                   grid::gpar, 
+                   c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
+                 ), 
+                 id.lengths = branch_lengths(.xvals, .yvals, discontinuities) 
+          ))
+        )
+      )
+    } else {
+      return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
+    }
   }
   
   if (ndims == 2 ) {

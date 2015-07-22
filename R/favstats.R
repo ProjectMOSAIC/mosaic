@@ -20,7 +20,13 @@ fav_stats <- function (x, ..., na.rm = TRUE)
 {
   if (!is.null(dim(x)) && min(dim(x)) != 1) 
     warning("Not respecting matrix dimensions.  Hope that's OK.")
-  x <- as.vector(x)
+  # x <- as.vector(x)
+  if (! is.numeric(x)) {
+    warning("Auto-converting ", class(x), " to numeric.")
+    x <- as.numeric(x)
+    if (!is.numeric(x)) stop("Auto-conversion to numeric failed.")
+  }
+  
   qq <- quantile(x, na.rm = na.rm)
   val <- data.frame(qq[1],  qq[2], qq[3], qq[4], qq[5],
                     base::mean(x, na.rm = na.rm), 

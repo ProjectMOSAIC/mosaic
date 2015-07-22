@@ -1,5 +1,14 @@
 \name{NEWS}
 \title{NEWS file for the mosaic package}
+
+\section{As of version 0.9.3, this file is obsolete}{
+\itemize{
+\item
+We are no longer maintaining NEWS in this file.  Instead, see our NEWS.md file on github for the updated version.
+}
+}
+
+
 \section{Changes in version 0.9.2}{
 \itemize{
 \item \code{tally} now produces counts by default for all formula shapes.  Proportions or percentages must be requested explicitly.  This is to avoid common errors, especially when feeding the results into \code{chisq.test}.

@@ -3,7 +3,7 @@
 #' Wrappers around \code{diff(mean(...))} and \code{diff(prop(...))} that 
 #' facilitate better naming of the result
 #' 
-#' @param ... arguments passed to \code{mean}
+#' @param x,data,... as in \code{\link[mosaic]{mean}} or \code{\link[mosaic]{prop}}
 #' @param only.2 a logical indicating whether differences should only be computed
 #'   between two groups.
 #' @examples
@@ -16,8 +16,8 @@
 #' do(3) * diffmean(age ~ shuffle(sex), data=HELPrct)
 #' }
 #' @export
-diffmean <- function( ..., only.2=TRUE ) {
-  m <- mean(...)
+diffmean <- function( x, ..., data=parent.frame(), only.2=TRUE ) {
+  m <- mean(x, ..., data=data)
   nms <- names(m)
   res <- diff(m)
   names(res) <- 
@@ -30,8 +30,8 @@ diffmean <- function( ..., only.2=TRUE ) {
 
 #' @rdname diffmean
 #' @export
-diffprop<- function( ..., only.2 = TRUE ) {
-  p <- prop(...)
+diffprop<- function( x, ..., data=parent.frame(), only.2 = TRUE ) {
+  p <- prop(x, ..., data=data)
   nms <- names(p)
   res <- diff(p)
   names(res) <- if (length(nms) < 3) "diffprop" else paste(tail(nms,-1), head(nms, -1), sep="-")
