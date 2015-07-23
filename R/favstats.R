@@ -27,7 +27,7 @@ fav_stats <- function (x, ..., na.rm = TRUE)
     if (!is.numeric(x)) stop("Auto-conversion to numeric failed.")
   }
   
-  qq <- quantile(x, na.rm = na.rm)
+  qq <- stats::quantile(x, na.rm = na.rm)
   val <- data.frame(qq[1],  qq[2], qq[3], qq[4], qq[5],
                     base::mean(x, na.rm = na.rm), 
                     stats::sd(x, na.rm = na.rm), 
