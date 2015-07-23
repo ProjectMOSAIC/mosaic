@@ -27,7 +27,7 @@
 #' foo( y ~ x , groups = g)
 #' @export
 
-mosaic_formula <- function( 
+mosaic_formula_ <- function( 
   formula, 
   groups=NULL, 
   envir=parent.frame(),
@@ -41,22 +41,30 @@ mosaic_formula <- function(
     max.slots=max.slots)
 }
 
+#' @export
+formularise <- function(lazy_formula, envir = parent.frame()) {
+  safe_formula <- 
+    tryCatch(eval(lazy_formula$expr, parent.frame(2)),
+             error = function(e) e)
+  
+  new_formula <- ~ placeholder
+  new_formula[[2]] <- lazy_formula$expr
+  environment(new_formula) <- lazy_formula$env
+  
+  if (inherits(safe_formula, "formula")) 
+    safe_formula else new_formula
+}
+
+
 #' @rdname mosaicformula
 #' @export
 mosaic_formula_q <- function( formula, 
                               groups=NULL, 
-                              envir = parent.frame(),
-                              max.slots = 3
+                              # envir = parent.frame(),
+                              max.slots = 3,
+                              ...
 ) {
-  
   lazy_groups <- lazyeval::lazy(groups)
-  lazy_formula <- substitute(formula)
-  
-  if (! .is.formula(formula)) {
-    formula <- ~ x
-    formula[[2]] <- lazy_formula
-    environment(formula) <- envir
-  }
   
   slots <- alist()
   slots <- c(slots, 
@@ -87,6 +95,16 @@ mosaic_formula_q <- function( formula,
   environment(res) <- environment(formula)
   res
 }
+
+
+# evaluate a lazy object and return the unevaluated expression if the expression
+# doesn't evaluate to an existing object.
+
+safe_eval <- function(x) {
+  tryCatch(lazyeval::lazy_eval(x), 
+           error = function(e) x$expr)
+}
+
 
 .fetchFromDots <- function( dots, name, class='data.frame', n=1, default=NULL ) {
   result <- dots[[name]]
@@ -211,11 +229,10 @@ maggregate <-
     .overall=mosaic.par.get("aggregate.overall"), 
     .multiple=FALSE, 
     .name = deparse(substitute(FUN)), 
-    .envir = if (is.list(data) || is.pairlist(data)) parent.frame() else baseenv() 
+    .envir = parent.frame () # if (is.list(data) || is.pairlist(data)) parent.frame() else baseenv() 
     ) {
-  formula <- 
-    mosaic:::mosaic_formula_q(
-      formula, groups = groups, envir = .envir) 
+  
+  formula <- mosaic_formula_q(formula, groups=groups, envir = .envir)
   
   if (length(formula) == 2) { 
     return(FUN( eval(formula[[2]], data, .envir), ...))
@@ -225,13 +242,6 @@ maggregate <-
   groupName <- ".group"  # gets changed to something better later when possible.
   
   .format <- match.arg(.format)
-  
-#   return(
-#     data %>% 
-#       dplyr::group_by_(rhs(formula)) %>%
-#       dplyr::do_(result = FUN( eval(lhs(formula), envir = ., enclos = .envir)))
-#   )
-  
   evalF <- evalFormula(formula, data=data)
   
   if (!missing(subset)) {

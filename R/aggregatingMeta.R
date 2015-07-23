@@ -31,6 +31,9 @@
 #'   foo( length ~ sex, data=KidsFeet )
 #' } 
 #' @export
+# 
+# Testing a possible replacement for aggregatingFunction1.  See below.
+#
 aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
                                   envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
   result <- function( x, ..., data, groups=NULL) {
@@ -92,6 +95,53 @@ aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FAL
   formals(result) <- c(formals(result), ..fun.. = substitute(fun), na.rm=substitute(na.rm))
   return(result)
 }
+
+
+# Testing a possible replacement for aggregatingFunction1
+
+aggregatingFunction1 <- 
+  function( fun, 
+            input.multiple=FALSE, output.multiple=FALSE, 
+            envir=parent.frame(), 
+            na.rm=getOption("na.rm",FALSE)
+  ) {
+    fun <- deparse(substitute(fun))
+    template <- 
+      function(
+        x, ..., 
+        data = NULL,
+        groups = NULL, 
+        na.rm = getOption("na.rm", FALSE)) 
+      {
+        subst_x <- substitute(x)
+        lazy_formula <- 
+          tryCatch(
+            lazyeval::lazy(x),
+            error = function(e) {
+              if (grepl("Promise has already been forced", e$message))
+                structure(list(expr=subst_x, envir=parent.frame()), 
+                          class="lazy")
+              else 
+                stop(e)
+            }
+          )
+                                 
+        if (is.null(data)) {
+          result <-
+            tryCatch(base::mean(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 
+          if (! inherits(result, c("error", "warning")))  return(result) 
+          data <- parent.frame()
+        }
+        formula <- formularise(lazy_formula) 
+        formula <- mosaic_formula_q(formula, groups=groups, max.slots=3) 
+        maggregate(formula, data=data, FUN = base::mean, ..., .multiple = output.multiple)
+      }
+    
+    fun_text <- deparse(template)
+    fun_text <- gsub("base::mean", fun, fun_text) 
+    fun_text <- gsub("output.multiple", output.multiple, fun_text)
+    eval(parse( text = fun_text))
+  }    
 
 #' 2-ary Aggregating functions
 #' 

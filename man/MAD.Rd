@@ -5,11 +5,9 @@
 \alias{SAD}
 \title{All pairs mean and sum of absolute differences}
 \usage{
-MAD(x, ..., data, groups = NULL, ..fun.. = MAD_,
-  na.rm = getOption("na.rm", FALSE))
+MAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-SAD(x, ..., data, groups = NULL, ..fun.. = SAD_,
-  na.rm = getOption("na.rm", FALSE))
+SAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 }
 \arguments{
 \item{x}{a numeric vector or a formula.}
@@ -28,10 +26,10 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{groups}{a grouping variable, typically a name of a variable in \code{data}}
 
-\item{..fun..}{the underlying function used in the computation}
-
 \item{na.rm}{a logical indicating whether NAs should be removed before
 calculaing.}
+
+\item{..fun..}{the underlying function used in the computation}
 }
 \value{
 the mean or sum of the absolute differences between each pair

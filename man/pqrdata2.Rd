@@ -15,23 +15,28 @@
 \usage{
 qdata_v(x, p = seq(0, 1, 0.25), na.rm = TRUE, ...)
 
-qdata_f(x, ..., data, groups = NULL, ..fun.. = qdata_v, na.rm = TRUE)
+qdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 cdata_v(x, p = 0.95, na.rm = TRUE, ...)
 
-cdata_f(x, ..., data, groups = NULL, ..fun.. = cdata_v, na.rm = TRUE)
+cdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 pdata_v(x, q, lower.tail = TRUE, ...)
 
-pdata_f(x, ..., data, groups = NULL, ..fun.. = pdata_v, na.rm = TRUE)
+pdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 rdata_v(vals, n, replace = TRUE, ...)
 
-rdata_f(x, ..., data, groups = NULL, ..fun.. = rdata_v, na.rm = TRUE)
+rdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 ddata_v(vals, q, ..., data = NULL, log = FALSE, na.rm = TRUE)
 
-ddata_f(x, ..., data, groups = NULL, ..fun.. = ddata_v, na.rm = TRUE)
+ddata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 }
 \arguments{
 \item{x}{an object}
@@ -44,8 +49,6 @@ ddata_f(x, ..., data, groups = NULL, ..fun.. = ddata_v, na.rm = TRUE)
 
 \item{groups}{a grouping variable, typically the name of a variable in \code{data}}
 
-\item{..fun..}{a function.  Most users will not need to change the default value.}
-
 \item{q}{a vector of quantiles}
 
 \item{lower.tail}{a logical indicating whether to use the lower or upper tail probability}
@@ -57,6 +60,8 @@ ddata_f(x, ..., data, groups = NULL, ..fun.. = ddata_v, na.rm = TRUE)
 \item{replace}{a logical indicating whether to sample with replacement}
 
 \item{log}{a logical indicating whether the result should be log transformed}
+
+\item{..fun..}{a function.  Most users will not need to change the default value.}
 
 \item{\dots}{additional arguments passed to \code{quantile} or \code{sample}}
 }
