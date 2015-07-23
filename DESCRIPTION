@@ -15,7 +15,6 @@ Imports:
     MASS,
     grid,
     reshape2,
-    plyr,
     readr,
     methods,
     utils,
