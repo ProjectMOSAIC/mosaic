@@ -12,7 +12,7 @@
 \usage{
 project(x, ...)
 
-\S4method{project}{formula}(x, u = NULL, data = parent.frame(),
+\S4method{project}{formula}(x, u = NULL, data = parent.frame(2),
   coefficients = TRUE, ...)
 
 \S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector",
