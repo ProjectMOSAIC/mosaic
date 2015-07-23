@@ -4,14 +4,12 @@
 \alias{aggregatingFunction1}
 \title{1-ary Aggregating functions}
 \usage{
-aggregatingFunction1(fun, input.multiple = FALSE, output.multiple = FALSE,
-  envir = parent.frame(), na.rm = getOption("na.rm", FALSE))
+aggregatingFunction1(fun, output.multiple = FALSE, envir = parent.frame(),
+  na.rm = getOption("na.rm", FALSE))
 }
 \arguments{
 \item{fun}{a function that takes a numeric vector and computes a summary statistic,
 returning a numeric vector of length 1.}
-
-\item{input.multiple}{a boolean indicating whether \code{..fun..} can accept 2 vectors (e.g., \code{var})}
 
 \item{output.multiple}{a boolean indicating whether \code{..fun..} returns multiple values}
 

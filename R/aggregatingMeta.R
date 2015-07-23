@@ -18,7 +18,6 @@
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
 #' returning a numeric vector of length 1.
 #' @param output.multiple a boolean indicating whether \code{..fun..} returns multiple values
-#' @param input.multiple a boolean indicating whether \code{..fun..} can accept 2 vectors (e.g., \code{var})
 #' @param envir an environment in which evaluation takes place.
 #' @param na.rm the default value for na.rm in the resulting function.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
@@ -32,76 +31,13 @@
 #' } 
 #' @export
 # 
-# Testing a possible replacement for aggregatingFunction1.  See below.
-#
-aggregatingFunction1 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
-                                  envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
-  result <- function( x, ..., data, groups=NULL) {
-    orig.call <- match.call()
-    fun.call <- orig.call 
-    fun.call[[1]] <- substitute(..fun..)
-    fun.call[[2]] <- substitute(x)
-
-    # if data is not given, we will try to evaluate fun()
-    missingData <- FALSE  
-    if ( missing(data) ) {
-      missingData <- TRUE
-      data=parent.frame()
-
-      result <- tryCatch( eval(fun.call, envir=parent.frame()) , 
-                error=function(e) {e} ,
-                warning=function(w) {w} ) 
-      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
-        return(result) 
-      }
-    }
-    # either data was specified or fun() generated an error.
-    # so we will generate a new call.
-    maggregate.call <- orig.call  
-    x_name <- substitute(x)
-    if (! .is.formula(x) ) {
-      if ( !missingData) {
-         fun.call[['data']] <- NULL
-      }
-      if (input.multiple) {
-        result <- tryCatch( eval(fun.call, envir=data, enclos=parent.frame()),
-                            error = function(e) {e},
-                            warning = function(w) {w} ) 
-        if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
-          return(result) 
-        }
-      }
-      
-      x <- eval( substitute( 
-        mosaic_formula_q( .x, groups=quote(groups)), 
-        list(.x=substitute(x) , .g=substitute(groups))
-      ) )
-      
-      if ("groups" %in% names(maggregate.call)) maggregate.call[['groups']] <- NULL
-    
-    }
-    # now x is a formula
-    
-    maggregate.call[[1]] <- quote(maggregate)
-    maggregate.call$formula <- x
-    maggregate.call$data <- data 
-    maggregate.call$x <- NULL
-    maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
-    maggregate.call$.multiple <- output.multiple
-    maggregate.call$na.rm <- substitute(na.rm)
-#    print(maggregate.call)
-    return( eval(maggregate.call, envir=envir) )
-  }
-  formals(result) <- c(formals(result), ..fun.. = substitute(fun), na.rm=substitute(na.rm))
-  return(result)
-}
 
 
 # Testing a possible replacement for aggregatingFunction1
 
 aggregatingFunction1 <- 
   function( fun, 
-            input.multiple=FALSE, output.multiple=FALSE, 
+            output.multiple=FALSE, 
             envir=parent.frame(), 
             na.rm=getOption("na.rm",FALSE)
   ) {
@@ -141,7 +77,72 @@ aggregatingFunction1 <-
     fun_text <- gsub("base::mean", fun, fun_text) 
     fun_text <- gsub("output.multiple", output.multiple, fun_text)
     eval(parse( text = fun_text))
-  }    
+  } 
+
+# don't bother exporting this one (for now)
+
+aggregatingFunction1or2 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
+                                     envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
+  result <- function( x, ..., data, groups=NULL) {
+    orig.call <- match.call()
+    fun.call <- orig.call 
+    fun.call[[1]] <- substitute(..fun..)
+    fun.call[[2]] <- substitute(x)
+    
+    # if data is not given, we will try to evaluate fun()
+    missingData <- FALSE  
+    if ( missing(data) ) {
+      missingData <- TRUE
+      data=parent.frame()
+      
+      result <- tryCatch( eval(fun.call, envir=parent.frame()) , 
+                          error=function(e) {e} ,
+                          warning=function(w) {w} ) 
+      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
+        return(result) 
+      }
+    }
+    # either data was specified or fun() generated an error.
+    # so we will generate a new call.
+    maggregate.call <- orig.call  
+    x_name <- substitute(x)
+    if (! .is.formula(x) ) {
+      if ( !missingData) {
+        fun.call[['data']] <- NULL
+      }
+      if (input.multiple) {
+        result <- tryCatch( eval(fun.call, envir=data, enclos=parent.frame()),
+                            error = function(e) {e},
+                            warning = function(w) {w} ) 
+        if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
+          return(result) 
+        }
+      }
+      
+      x <- eval( substitute( 
+        mosaic_formula_q( .x, groups=quote(groups)), 
+        list(.x=substitute(x) , .g=substitute(groups))
+      ) )
+      
+      if ("groups" %in% names(maggregate.call)) maggregate.call[['groups']] <- NULL
+      
+    }
+    # now x is a formula
+    
+    maggregate.call[[1]] <- quote(maggregate)
+    maggregate.call$formula <- x
+    maggregate.call$data <- data 
+    maggregate.call$x <- NULL
+    maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
+    maggregate.call$.multiple <- output.multiple
+    maggregate.call$na.rm <- substitute(na.rm)
+    #    print(maggregate.call)
+    return( eval(maggregate.call, envir=envir) )
+  }
+  formals(result) <- c(formals(result), ..fun.. = substitute(fun), na.rm=substitute(na.rm))
+  return(result)
+}
+
 
 #' 2-ary Aggregating functions
 #' 
@@ -260,7 +261,7 @@ quantile <- aggregatingFunction1(stats::quantile, output.multiple=TRUE,
                                  na.rm=getOption("na.rm", FALSE))
 #' @rdname aggregating
 #' @export
-var <- aggregatingFunction1( stats::var, input.multiple=TRUE )
+var <- aggregatingFunction1or2( stats::var, input.multiple=TRUE )
 #' @rdname aggregating
 #' @export
 cor <- aggregatingFunction2( stats::cor )
