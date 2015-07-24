@@ -28,8 +28,6 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{na.rm}{a logical indicating whether NAs should be removed before
 calculaing.}
-
-\item{..fun..}{the underlying function used in the computation}
 }
 \value{
 the mean or sum of the absolute differences between each pair

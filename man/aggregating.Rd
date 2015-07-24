@@ -75,8 +75,6 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{na.rm}{a logical indicating whether \code{NA}s should be removed before computing}
 
-\item{..fun..}{the underlyin function used in the computation}
-
 \item{y}{an object, often a numeric vector}
 
 \item{\dots}{additional arguments}
