@@ -249,9 +249,9 @@ plotFun <- function(object, ...,
     .f. <- fList[[1]]
 		.xvals <- 
 			if ('h' %in% type)  
-				seq(min(limits$xlim), max(limits$xlim), length.out=npts)
+				seq(base::min(limits$xlim), base::max(limits$xlim), length.out=npts)
 			else 
-				adapt_seq(min(limits$xlim), max(limits$xlim), 
+				adapt_seq(base::min(limits$xlim), base::max(limits$xlim), 
 										   f=function(xxqq){ .f.(xxqq) }, 
                        length.out=npts,
                        quiet=TRUE)
@@ -324,8 +324,8 @@ plotFun <- function(object, ...,
 		else 
 			limits$ylim <- range(limits$ylim)
 
-		.xvals <- seq(min(limits$xlim),max(limits$xlim),length=npts)
-		.yvals <- seq(min(limits$ylim),max(limits$ylim),length=npts)
+		.xvals <- seq(base::min(limits$xlim),base::max(limits$xlim),length=npts)
+		.yvals <- seq(base::min(limits$ylim),base::max(limits$ylim),length=npts)
 		zvals <- tryCatch(
       outer(.xvals, .yvals, function(x,y){..f..(x,y)} ),
       warning = function(w) {} )
@@ -433,8 +433,8 @@ guess_discontinuities <- function( f, xlim, ..., resolution = 10000, adjust = 1)
 
 discontinuity_at <- function(x, y, adjust = 1) {
   y[!is.finite(y)] <- NA
-  y_scaled <- (y - min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
-  x_scaled <- (x - min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
+  y_scaled <- (y - base::min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
+  x_scaled <- (x - base::min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
   slope  <- diff(y_scaled) / diff(x_scaled)
   jump <- diff(y_scaled)
   left_jump <- c(0, jump)
@@ -452,8 +452,8 @@ discontinuity_at <- function(x, y, adjust = 1) {
 
 contintuous_components <- function(x, y, adjust = 1) {
   y[!is.finite(y)] <- NA
-  y_scaled <- (y - min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
-  x_scaled <- (x - min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
+  y_scaled <- (y - base::min(y, na.rm = TRUE)) / diff(range(y[is.finite(y)]))
+  x_scaled <- (x - base::min(x, na.rm = TRUE)) / diff(range(x[is.finite(x)]))
   slope  <- diff(y_scaled) / diff(x_scaled)
   jump <- diff(y_scaled)
   left_jump <- c(0, jump)
@@ -567,9 +567,9 @@ panel.plotFun1 <- function( ..f.., ...,
     } else {
       # Evaluate the function on appropriate inputs to help figure out y limits.
       .xvals <-  if ('h' %in% type)  
-        seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+        seq(base::min(parent.xlim), base::max(parent.xlim), length.out=npts)
       else 
-        adapt_seq(min(parent.xlim), max(parent.xlim), 
+        adapt_seq(base::min(parent.xlim), base::max(parent.xlim), 
                   f=function(xxqq){ .f.(xxqq) }, 
                   length.out=npts,
                   quiet=TRUE)
@@ -684,9 +684,9 @@ panel.plotFun <- function( object, ...,
       # Evaluate the function on appropriate inputs.
       .xvals <- 
         if ('h' %in% type)  
-          seq(min(parent.xlim), max(parent.xlim), length.out=npts)
+          seq(base::min(parent.xlim), base::max(parent.xlim), length.out=npts)
       else 
-        adapt_seq(min(parent.xlim), max(parent.xlim), 
+        adapt_seq(base::min(parent.xlim), base::max(parent.xlim), 
                   f=function(xxqq){ ..f..(xxqq) }, 
                   length.out=npts,
                   quiet=TRUE)
@@ -728,8 +728,8 @@ panel.plotFun <- function( object, ...,
     
     if( length(zlab) == 0 ) zlab <- deparse(lhs(object) )
     
-    .xvals <- seq(min(parent.xlim),max(parent.xlim),length=npts)
-    .yvals <- seq(min(parent.ylim),max(parent.ylim),length=npts)
+    .xvals <- seq(base::min(parent.xlim),base::max(parent.xlim),length=npts)
+    .yvals <- seq(base::min(parent.ylim),base::max(parent.ylim),length=npts)
     zvals <- tryCatch( 
       outer(.xvals, .yvals, function(x,y){..f..(x,y)} ),
       warning=function(w) {} )
