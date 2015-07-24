@@ -5,7 +5,7 @@
 \title{1-ary Aggregating functions}
 \usage{
 aggregatingFunction1(fun, output.multiple = FALSE, envir = parent.frame(),
-  na.rm = getOption("na.rm", FALSE))
+  na.rm = getOption("na.rm", FALSE), style = c("flexible", "formula"))
 }
 \arguments{
 \item{fun}{a function that takes a numeric vector and computes a summary statistic,

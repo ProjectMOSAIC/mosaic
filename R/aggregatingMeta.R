@@ -39,10 +39,13 @@ aggregatingFunction1 <-
   function( fun, 
             output.multiple=FALSE, 
             envir=parent.frame(), 
-            na.rm=getOption("na.rm",FALSE)
+            na.rm=getOption("na.rm",FALSE),
+            style = c("flexible", "formula")
   ) {
     fun <- deparse(substitute(fun))
-    template <- 
+    style = match.arg(style)
+    templates <- list(
+      flexible = 
       function(
         x, ..., 
         data = NULL,
@@ -71,9 +74,27 @@ aggregatingFunction1 <-
         formula <- formularise(lazy_formula) 
         formula <- mosaic_formula_q(formula, groups=groups, max.slots=3) 
         maggregate(formula, data=data, FUN = base::mean, ..., .multiple = output.multiple)
+      },
+      formula = 
+      function(
+        x, ..., 
+        data = NULL,
+        groups = NULL, 
+        na.rm = getOption("na.rm", FALSE)) 
+      {
+        if (is.null(data)) {
+          result <-
+            tryCatch(base::mean(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 
+          if (! inherits(result, c("error", "warning")))  return(result) 
+          data <- parent.frame()
+        }
+        if (! inherits(x, "formula")) stop( "`x' must be a formula")
+        formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
+        maggregate(formula, data=data, FUN = base::mean, ..., .multiple = output.multiple)
       }
+    )
     
-    fun_text <- deparse(template)
+    fun_text <- deparse(templates[[style]])
     fun_text <- gsub("base::mean", fun, fun_text) 
     fun_text <- gsub("output.multiple", output.multiple, fun_text)
     eval(parse( text = fun_text))
@@ -205,7 +226,6 @@ aggregatingFunction2 <- function( fun ) {
 #' @aliases sum min max mean median sd var cov cor favstats
 #' @param x an object, often a formula
 #' @param y an object, often a numeric vector 
-#' @param ..fun.. the underlyin function used in the computation
 #' @param groups a grouping variable, typically a name of a variable in \code{data}
 #' @param data a data frame in which to evaluate formulas (or bare names).
 #' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
@@ -333,7 +353,6 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #'   interpret the formala in a data frame.
 #' @param na.rm a logical indicating whether NAs should be removed before
 #'   calculaing.
-#' @param ..fun.. the underlying function used in the computation
 #' @param groups a grouping variable, typically a name of a variable in \code{data}
 #' @param data a data frame in which to evaluate formulas (or bare names).
 #'   Note that the default is \code{data=parent.frame()}.  This makes it convenient to
