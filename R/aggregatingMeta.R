@@ -17,7 +17,7 @@
 #' @aliases aggregatingFunction1 
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
 #' returning a numeric vector of length 1.
-#' @param output.multiple a boolean indicating whether \code{..fun..} returns multiple values
+#' @param output.multiple a boolean indicating whether \code{fun} returns multiple values
 #' @param envir an environment in which evaluation takes place.
 #' @param na.rm the default value for na.rm in the resulting function.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
@@ -57,14 +57,12 @@ aggregatingFunction1 <-
           tryCatch(
             lazyeval::lazy(x),
             error = function(e) {
-              if (grepl("Promise has already been forced", e$message))
-                structure(list(expr=subst_x, envir=parent.frame()), 
-                          class="lazy")
+              if (grepl("Promise has already been forced", e$message)) 
+                structure(list(expr=subst_x, env=parent_frame), class="lazy")
               else 
                 stop(e)
             }
           )
-                                 
         if (is.null(data)) {
           result <-
             tryCatch(base::mean(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 

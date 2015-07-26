@@ -11,7 +11,7 @@ aggregatingFunction1(fun, output.multiple = FALSE, envir = parent.frame(),
 \item{fun}{a function that takes a numeric vector and computes a summary statistic,
 returning a numeric vector of length 1.}
 
-\item{output.multiple}{a boolean indicating whether \code{..fun..} returns multiple values}
+\item{output.multiple}{a boolean indicating whether \code{fun} returns multiple values}
 
 \item{envir}{an environment in which evaluation takes place.}
 
