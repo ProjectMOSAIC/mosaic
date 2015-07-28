@@ -61,8 +61,6 @@ ddata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
 
 \item{log}{a logical indicating whether the result should be log transformed}
 
-\item{..fun..}{a function.  Most users will not need to change the default value.}
-
 \item{\dots}{additional arguments passed to \code{quantile} or \code{sample}}
 }
 \description{

@@ -45,7 +45,6 @@ qdata <- function( p, vals, data=NULL, ...) {
 #' @param n number of values to sample
 #' @param replace  a logical indicating whether to sample with replacement
 #' @param groups a grouping variable, typically the name of a variable in \code{data}
-#' @param ..fun.. a function.  Most users will not need to change the default value.
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
 #' @param na.rm a logical indicating whether \code{NA}s should be removed before computing.
 #' @param log  a logical indicating whether the result should be log transformed
