@@ -27,7 +27,7 @@
 #' foo( y ~ x , groups = g)
 #' @export
 
-mosaic_formula_ <- function( 
+mosaic_formula <- function( 
   formula, 
   groups=NULL, 
   envir=parent.frame(),
@@ -57,6 +57,7 @@ formularise <- function(lazy_formula, envir = parent.frame()) {
 
 
 #' @rdname mosaicformula
+#' @param ... additional arguments (currently ignored)
 #' @export
 mosaic_formula_q <- function( formula, 
                               groups=NULL, 
