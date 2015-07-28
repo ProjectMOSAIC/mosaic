@@ -497,6 +497,13 @@ branch_lengths <- function(x, y, discontinuities = NULL, discontinuity = 1) {
 #' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param discontinuities a vector of input values at which a function is 
+#'   discontinuous or \code{NULL} to use
+#'   a heuristic to auto-detect.
+#' @param discontinuity a positive number determining how sensitive the plot is to 
+#'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
+#'   Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
+#'   uses a crude numerical heuristic and may not give the desired results in all cases.
 #' @param ... additional arguments, typically processed by \code{lattice} panel functions
 #'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
 #'        Frequently used arguments include
@@ -619,6 +626,13 @@ panel.plotFun1 <- function( ..f.., ...,
 #' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
 #' @param type type of plot (\code{"l"} by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
+#' @param discontinuities a vector of input values at which a function is 
+#'   discontinuous or \code{NULL} to use
+#'   a heuristic to auto-detect.
+#' @param discontinuity a positive number determining how sensitive the plot is to 
+#'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
+#'   Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
+#'   uses a crude numerical heuristic and may not give the desired results in all cases.
 #' @param ... additional arguments, typically processed by \code{lattice} panel functions
 #'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
 #'        Frequently used arguments include
