@@ -86,6 +86,11 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
 }
 
 dont_randomize_data <- list(
+  mean = function(x, ...) x,
+  median = function(x, ...) x,
+  sd = function(x, ...) x,
+  max = function(x, ...) x,
+  min = function(x, ...) x,
   sample = function(x, ...) x,
   resample = function(x, ...) 
     if ( inherits(x, "lm") ) eval( x$call[["data"]], environment(formula(x)) ) else x,
@@ -112,7 +117,7 @@ extract_data <- function(x) {
   if (is.null(res)) {
     res <- eval( x_lazy$expr, envir = dont_randomize_data, enclos = x_lazy$env )
   }
-  res
+  as.data.frame(res)
 }
 
 extract_estimate <- function(x) {
@@ -153,7 +158,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
     )
   }
   
-  if (is.null(df)) {
+  if (is.null(df) || length(df) != 1) {
     df <- Inf
     if ("stderr" %in% method) warning("confint: Using df=Inf.", call. = FALSE)
   }
