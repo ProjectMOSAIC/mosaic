@@ -53,7 +53,7 @@ and modeling to students in colleges and universities.
  * more information at [mosaic-web.org](http://mosaic-web.org)
  
  * the `mosaic` package is available via 
-     * [CRAN](http://cran.r-project.org/web/packages/mosaic/index.html)
+     * [CRAN](http://cran.r-project.org/package=mosaic)
      * [github](https://github.com/ProjectMOSAIC/mosaic) 
          * updates more frequently than CRAN
          * use `devtools::install_github(ProjectMOSAIC/mosaic)` to install 
