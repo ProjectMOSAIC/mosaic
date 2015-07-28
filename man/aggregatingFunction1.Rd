@@ -16,6 +16,10 @@ returning a numeric vector of length 1.}
 \item{envir}{an environment in which evaluation takes place.}
 
 \item{na.rm}{the default value for na.rm in the resulting function.}
+
+\item{style}{one of \code{"flexible"} or \code{"formula"}.  In the latter case, the first
+argument must be a formula or evaluate to an object.  In the former case, bare names will
+be converted into formulas.}
 }
 \value{
 a function that generalizes \code{fun} to handle a formula/data frame interface.

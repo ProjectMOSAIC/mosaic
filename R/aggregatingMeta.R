@@ -20,6 +20,9 @@
 #' @param output.multiple a boolean indicating whether \code{fun} returns multiple values
 #' @param envir an environment in which evaluation takes place.
 #' @param na.rm the default value for na.rm in the resulting function.
+#' @param style one of \code{"flexible"} or \code{"formula"}.  In the latter case, the first
+#' argument must be a formula or evaluate to an object.  In the former case, bare names will
+#' be converted into formulas.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @examples
@@ -58,7 +61,7 @@ aggregatingFunction1 <-
             lazyeval::lazy(x),
             error = function(e) {
               if (grepl("Promise has already been forced", e$message)) 
-                structure(list(expr=subst_x, env=parent_frame), class="lazy")
+                structure(list(expr=subst_x, env=parent.frame()), class="lazy")
               else 
                 stop(e)
             }
@@ -95,7 +98,9 @@ aggregatingFunction1 <-
     fun_text <- deparse(templates[[style]])
     fun_text <- gsub("base::mean", fun, fun_text) 
     fun_text <- gsub("output.multiple", output.multiple, fun_text)
-    eval(parse( text = fun_text))
+    res <- eval(parse( text = fun_text))
+    environment(res) <- parent.frame()
+    res
   } 
 
 # don't bother exporting this one (for now)
@@ -232,6 +237,8 @@ aggregatingFunction2 <- function( fun ) {
 #' When programming, it is best to use an explicit \code{data} argument
 #' -- ideally supplying a data frame that contains the variables mentioned.
 #' @param \dots additional arguments
+#' @param ..fun.. the underlying function.  It would be very unusual to change 
+#' this from its default value.
 #' @param na.rm a logical indicating whether \code{NA}s should be removed before computing
 #' @export
 mean <- aggregatingFunction1( base::mean )
