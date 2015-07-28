@@ -41,7 +41,6 @@ mosaic_formula <- function(
     max.slots=max.slots)
 }
 
-#' @export
 formularise <- function(lazy_formula, envir = parent.frame()) {
   safe_formula <- 
     tryCatch(eval(lazy_formula$expr, parent.frame(2)),
