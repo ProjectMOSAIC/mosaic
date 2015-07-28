@@ -127,7 +127,7 @@ setMethod(
 	    warning(paste("Implicit variables without default values (dangerous!): ", 
 	                  paste(varsDangerous, collapse=", ") ))
 
-	  result <- function(){}
+	  result <- function(...){}
 	  body(result) <- parse( text=deparse(lhs) ) 
 	  formals(result) <- 
 		 eval(parse( 
@@ -158,9 +158,9 @@ setMethod(
     dnames <- names(eval(object$call$data, parent.frame(1)))
 	  vars <- modelVars(object)
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
-	  result <- function(){}
+	  result <- function(...){}
 	  if ( length( vars ) <  1 ) {
-		  result <- function( ... ) {
+		  result <- function(...) {
 			  dots <- list(...)
 			  if (length(dots) > 0) {
 				  x <- dots[[1]] 
@@ -213,9 +213,9 @@ setMethod(
    function( object, ..., type=c('response','link'), transform=identity ) {
 	  type <- match.arg(type)
 	  vars <- modelVars(object)
-	  result <- function(){}
+	  result <- function(...){}
 	  if ( length( vars ) <  1 ) {
-		  result <- function( ... ) {
+		  result <- function(...) {
 			  dots <- list(...)
 			  if (length(dots) > 0) {
 				  x <- dots[[1]] 
@@ -278,9 +278,9 @@ setMethod(
     vars <- all.vars(rhs(eval(object$m$formula())))
     vars <- setdiff(vars, cvars) 
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
-    result <- function(){}
+    result <- function(...){}
     if ( length( vars ) <  1 ) {
-      result <- function( ... ) {
+      result <- function(...) {
         dots <- list(...)
         if (length(dots) > 0) {
           x <- dots[[1]] 
