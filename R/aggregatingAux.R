@@ -41,9 +41,20 @@ mosaic_formula <- function(
     max.slots=max.slots)
 }
 
+#' Convert lazy object into formulas
+#' 
+#' Convert lazy object into formulas
+#' 
+#' @examples
+#' formularise(lazyeval::lazy(foo))
+#' formularise(lazyeval::lazy(y ~ x))
+#' bar <- a ~ b
+#' formularise(lazyeval::lazy(bar))
+#' @export
+ 
 formularise <- function(lazy_formula, envir = parent.frame()) {
   safe_formula <- 
-    tryCatch(eval(lazy_formula$expr, parent.frame(2)),
+    tryCatch(eval(lazy_formula$expr, envir),
              error = function(e) e)
   
   new_formula <- ~ placeholder

@@ -72,7 +72,7 @@ aggregatingFunction1 <-
           if (! inherits(result, c("error", "warning")))  return(result) 
           data <- parent.frame()
         }
-        formula <- formularise(lazy_formula) 
+        formula <- formularise(lazy_formula, parent.frame(2)) 
         formula <- mosaic_formula_q(formula, groups=groups, max.slots=3) 
         maggregate(formula, data=data, FUN = base::mean, ..., .multiple = output.multiple)
       },
