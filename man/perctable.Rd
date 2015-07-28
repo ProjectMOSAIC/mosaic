@@ -26,11 +26,8 @@ contingency table of the percents or proportions at each combination of factor l
 See \code{\link{table}}.
 }
 \examples{
-perctable(rbinom(1000,10,.5))
-with(airquality,
-   perctable(OzHi=Ozone > 80, Month, useNA="ifany"))
-with(airquality,
-   perctable(OzHi=Ozone > 80, Month, useNA="always"))
+# perctable() has been deprecated.  Use tally() instead
+example(tally)
 }
 \keyword{manipulate}
 
