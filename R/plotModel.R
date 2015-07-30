@@ -1,11 +1,11 @@
 #' Plot a regression model
 #' 
-#' Visualize a regression model amid the data that generated it. 
+#' @description Visualize a regression model amid the data that generated it. 
 #' 
 #' @param mod A model of type \code{\link{lm}} or \code{\link{glm}}
 #' @param \dots arguments passed to \code{\link{xyplot}} or \code{\link{plot3d}}
 #'
-#' @description The goal of this function is to assist with visualization
+#' @details The goal of this function is to assist with visualization
 #' of statistical models. Namely, to plot the model on top of the data
 #' from which the model was fit. 
 #' 
