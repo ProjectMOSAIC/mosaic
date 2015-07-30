@@ -37,7 +37,7 @@
 #' but an RGL window will pop up.
 #' 
 #' @seealso \code{\link{plotPloints}, \link{plotFun}}
-#' @author Ben Baumer
+#' @author Ben Baumer, Galen Long
 #' @export
 #' @examples
 #' 
