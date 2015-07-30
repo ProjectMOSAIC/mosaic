@@ -2,150 +2,230 @@
 #' 
 #' Visualize a regression model amid the data that generated it. 
 #' 
-#' @param x A model of type \code{lm} or \code{glm}
+#' @param mod A model of type \code{\link{lm}} or \code{\link{glm}}
+#' @param \dots arguments passed to \code{\link{xyplot}} or \code{\link{plot3d}}
 #'
-#' @param \dots additional arguments
+#' @description The goal of this function is to assist with visualization
+#' of statistical models. Namely, to plot the model on top of the data
+#' from which the model was fit. 
 #' 
-#' @return A lattice graphics object
+#' To do this we need to understand the geometry upon which the model 
+#' was fit. \code{\link{plotModel}} will attempt to determine from a model object
+#' how many quantitative and categorical explanatory variables the model 
+#' contains. 
+#' 
+#' If the model was fit on zero quantiative variables (e.g. ANOVA), then
+#' the repsonse variable is plotted against a constant, and horizontal 
+#' lines represents the various levels of the model. 
+#' 
+#' If the model was fit on one quantitative variable (e.g. SLR), then
+#' a scatter plot is drawn, and the model is realized as parallel or
+#' non-parallel lines, depending on whether interaction terms are present.
+#' 
+#' If the model was fit on two quantitative variables (e.g. MLR), then
+#' if \code{\link{rgl}} is present, the data points are drawn in 3-space,
+#' and the model is realized as a series of planes. 
+#' 
+#' Currently, only linear regression models and 
+#' generalized linear regression models are supported. 
+#' 
+#' Interaction terms are supported for lines, but not planes. 
+#' 
+#' Polynomial terms are currently unsupported. 
+#'
+#' @return A lattice graphics object, or in the case of a 3D model, nothing
+#' but an RGL window will pop up.
 #' 
 #' @seealso \code{\link{plotPloints}, \link{plotFun}}
+#' @author Ben Baumer
 #' @export
 #' @examples
-#' mod = lm( width ~ length + sex + length*sex, data=KidsFeet)
+#' 
+#' require(mosaic)
+#' mod = lm( mpg ~ 1, data=mtcars)
 #' plotModel(mod)
-# 
-# https://github.com/rpruim/mosaic/issues/40
+#' 
+#' # not work -- not sure why -- should work...
+#' mod = lm( mpg ~ factor(cyl), data=mtcars)
+#' plotModel(mod, auto.key=TRUE)
+#' 
+#' # SLR
+#' mod = lm( mpg ~ wt, data=mtcars)
+#' plotModel(mod, pch = 19)
+#' 
+#' # parallel slopes
+#' mod = lm( mpg ~ wt + factor(cyl), data=mtcars)
+#' plotModel(mod, auto.key=TRUE)
+#' 
+#' # multiple categorical vars
+#' mod = lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data=mtcars)
+#' plotModel(mod, auto.key=TRUE)
+#' 
+#' # interaction
+#' mod = lm( mpg ~ wt + factor(cyl) + wt*factor(cyl), data=mtcars)
+#' plotModel(mod)
+#' 
+#' # polynomial terms
+#' # not work -- doesn't understand that wt^2 is a squared term
+#' mod = lm( mpg ~ wt + I(wt^2), data=mtcars)
+#' plotModel(mod)
+#' 
+#' # 3D model
+#' mod <- lm( mpg ~ wt + hp, data = mtcars)
+#' plotModel(mod)
+#' 
+#' # parallel planes
+#' mod <- lm( mpg ~ wt + hp + factor(cyl) + factor(vs), data = mtcars)
+#' plotModel(mod)
+#' 
+#' # interaction planes
+#' # not work -- need better logic in function
+#' mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
+#' plotModel(mod)
+#' 
+#' # GLM
+#' mod <- glm(vs ~ wt, data=mtcars, family = 'binomial')
+#' plotModel(mod)
+#' 
+#' # GLM with interaction
+#' mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
+#' plotModel(mod)
+
+
 # ------------------------------------------------------------------------------
 # TODO
 #
-# work with interaction terms
-# error accounting (variables don't exis etc.)
-# draw optional legend for line colors
-# generate enough colors for all regression lines
-# test with glm
-#
-# error accounting
-#
-# variables in model don't exist
-# model doesn't exist
-# not enough colors for all regression lines
-# categorical variables aren't factors
-# warning for too many categories, graph will be crowded with lines
+# support for polynomial terms
+# support for interaction in planes
+# ... pass-through to xyplot()
+# 
 # ------------------------------------------------------------------------------
 
-plotModel <- function(mod, data=parent.frame(), ...) { UseMethod("plotModel") }
+plotModel <- function(mod, ...) { UseMethod("plotModel") }
 
-# plotModel.default <- function(mod, data=parent.frame(), ...) {
-#   # make sure model is class lm or glm
-#   if (!(class(mod) %in% c("lm", "glm"))) {
-#     stop(paste("plotModel takes object of class lm or glm, not", class(mod)))
-#   }
-#   
-#   # determine number of each variable type (categorical or quantitative)
-#   var.classes = attr(terms(mod), "dataClasses")
-#   response.name = as.character(lhs(terms(mod)))
-#   numeric.names = setdiff(names(which(var.classes == "numeric")), response.name)
-#   
-#   # get palette to color each regression line
-#   palette = trellis.par.get("superpose.symbol")$col
-#   palette = rep(palette, 5) # HACK - need way to generate new colors
-#   
-#   # if one numeric explanatory variable, draw 2D plot
-#   if (length(numeric.names) == 1) {
-#     numeric.name = numeric.names[1]
-#     modelFunc = makeFun(mod)
-#     myplot = xyplot(as.formula(paste(response.name, "~", numeric.name)), data=mod$model, ...) # plot data
-#     categories = expand.grid(mod$xlevels) # all category combinations
-#     
-#     if (nrow(categories) == 0) {
-#       return(myplot)
-#     }
-#     
-#     template = getFormulaTemplate(attr(terms(mod), "dataClasses"))
-#     
-#     # plot parallel regression lines for each category combination
-#     for (row in 1:nrow(categories)) {
-#       formStr = template
-#       for (col in 1:ncol(categories)) {
-#         category = as.character(categories[row, col])
-#         formStr = sub(CATEGORICAL_REPLACE_STR, category, formStr)
-#       }
-#       form = as.formula(formStr)
-#       
-#       # plot regression line of formula
-#       myplot = plotFun(form, plot=myplot, col=palette[row], add=TRUE)
-#     }
-#     
-#   } else if (length(numeric.names) == 2) {
-#     # if 2 numeric explanatory variables, draw 3D plot
-#     stop("Currently no support for 3D plots with 2 numeric variables.")
-#   } else if (length(numeric.names) > 2) {
-#     stop("Cannot visualize model in 3D space if more than 2 numeric variables")
-#   }
-#   
-#   # display plot
-#   return(myplot)
-# }
-# 
-# 
-# plotModel.lm <- function(mod, data=parent.frame(), ...) {
-#   # determine number of each variable type (categorical or quantitative)
-#   var.classes = attr(terms(mod), "dataClasses")
-#   response.name = as.character(lhs(terms(mod)))
-#   numeric.names = setdiff(names(which(var.classes == "numeric")), response.name)
-#   
-#   # get palette to color each regression line
-#   palette = trellis.par.get("superpose.symbol")$col
-#   palette = rep(palette, 5) # HACK - need way to generate new colors
-#   
-#   # if one numeric explanatory variable, draw 2D plot
-#   if (length(numeric.names) == 1) {
-#     numeric.name = numeric.names[1]
-#     modelFunc = makeFun(mod)
-#     myplot = xyplot(as.formula(paste(response.name, "~", numeric.name)), data=mod$model, ...) # plot data
-#     categories = expand.grid(mod$xlevels) # all category combinations
-#     
-#     if (nrow(categories) == 0) {
-#       return(myplot)
-#     }
-#     
-#     template = getFormulaTemplate(attr(terms(mod), "dataClasses"))
-#     
-#     # plot parallel regression lines for each category combination
-#     for (row in 1:nrow(categories)) {
-#       formStr = template
-#       for (col in 1:ncol(categories)) {
-#         category = as.character(categories[row, col])
-#         formStr = sub(CATEGORICAL_REPLACE_STR, category, formStr)
-#       }
-#       form = as.formula(formStr)
-#       
-#       # plot regression line of formula
-#       myplot = plotFun(form, plot=myplot, col=palette[row], add=TRUE)
-#     }
-#     
-#   } else if (length(numeric.names) == 2) {
-#     # if 2 numeric explanatory variables, draw 3D plot
-#     stop("Currently no support for 3D plots with 2 numeric variables.")
-#   } else if (length(numeric.names) > 2) {
-#     stop("Cannot visualize model in 3D space if more than 2 numeric variables")
-#   }
-#   
-#   # display plot
-#   return(myplot)
-# }
-# 
-# CATEGORICAL_REPLACE_STR = "#%#" # chosen b/c no regex chars
-# 
-# getFormulaTemplate = function(vars) {
-#   # takes all numeric and categorical explanatory variables
-#   # returns template to fill in categorical variables for formula, e.g.
-#   # "numeric", "factor", "factor" -> "modelFunc(mod, '%#%', '%#%') ~ mod"
-#   vars = vars[2:length(vars)] # ignore response variable
-#   vars[vars=="numeric"] = "mod"
-#   vars[vars=="factor"] = paste("'", CATEGORICAL_REPLACE_STR, "'", sep="")
-#   template = paste(vars,  collapse=", ")
-#   template = paste("modelFunc(", template, ") ~ mod", sep="")
-#   return(template)
-# }
-# 
+plotModel.default <- function(mod, ...) {
+  plotModel(parseModel(mod))
+}
+
+plotModel.mhyperplanes <- function(mod, ...) {
+  stop("Sorry, but you can't plot in higher-dimensional space.")
+}
+
+plotModel.mplanes <- function(mod, ...) {
+  # do something with rgl
+  if (!require(rgl)) {
+    stop("Please install rgl for 3D support")
+  }
+  xName = mod$numericNames[1] 
+  yName = mod$numericNames[2] 
+  zName = mod$responseName 
+  # get better default axis labels
+  # if (is.null(match.arg("xlab"))) { xlab = "mod$numericNames[1]"; }
+  plot3d(x = mod$model[, xName], 
+         y = mod$model[, yName], 
+         z = mod$model[, zName], 
+         ...)
+  
+  # all combinations of categorical levels
+  categories = expand.grid(mod$xlevels) 
+  
+  coefs <- coef(mod)
+  levels <- coefs[!names(coefs) %in% c(xName, yName)]
+  
+  # sort of a hack -- ideally there is a better solution
+  varNames <- gsub("factor|\\(|\\)", "", attr(terms(mod), "term.labels"))
+  # drop all interactions, since the linear terms should be there
+  varNames <- varNames[!grepl(":", varNames)]
+  
+  categories <- cbind(x = rep(0, nrow(categories)), y = rep(0, nrow(categories)), categories)
+  names(categories) <- varNames
+  intercepts <- predict(mod, newdata = categories)
+  
+  if (nrow(categories) == 0) {
+    planes3d(coefs[xName], coefs[yName], -1, coefs["(Intercept)"], alpha = 0.5, col = "lightgray")
+  } else {
+    for (intercept in intercepts) {
+      planes3d(coefs[xName], coefs[yName], -1, intercept, alpha = 0.5, col = "lightgray")
+    }
+  }
+}
+
+plotModel.mlines <- function(mod, ...) {
+  # plot data
+  myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), data = mod$model, ...) 
+  
+  # remove the extra class
+  class(mod) <- setdiff(class(mod), "mlines")
+  
+  # convert the model into a function
+  modelFunc = makeFun(mod)
+  
+  # all combinations of categorical levels
+  categories = expand.grid(mod$xlevels) 
+  
+  levels <- apply(categories, MARGIN = 1, paste, collapse = ",")
+  levelForms <- paste0("modelFunc(x, ", levels, ") ~ x")
+  
+  if (nrow(categories) == 0) {
+    myplot <- plotFun(as.formula(modelFunc(x) ~ x), plot = myplot, add = TRUE)
+  } else {
+    for (i in 1:length(levelForms)) {
+      myplot <- plotFun(as.formula(levelForms[i]), plot = myplot, add = TRUE, col = i)
+    }
+  }
+  
+  # display plot
+  return(myplot)
+}
+
+
+plotModel.mpoints <- function(mod, ...) {
+  # plot data
+  myplot <- xyplot(as.formula(paste(mod$responseName, "~ 1")), data = mod$model, ...) 
+  
+  # remove the extra class
+  class(mod) <- setdiff(class(mod), "mpoints")
+  
+  # conver the model into a function
+  modelFunc = makeFun(mod)
+  
+  # all combinations of categorical levels
+  categories = expand.grid(mod$xlevels) 
+  
+  levels <- apply(categories, MARGIN = 1, paste, collapse = ",")
+  levelForms <- paste0("modelFunc(", levels, ") ~ x")
+  
+  if (nrow(categories) == 0) {
+    myplot <- plotFun(as.formula(modelFunc(x) ~ x), plot = myplot, add = TRUE)
+  } else {
+    for (i in 1:length(levelForms)) {
+      # not sure why this doesn't work...
+      myplot <- plotFun(as.formula(levelForms[i]), plot = myplot, add = TRUE, col = i)
+    }
+  }
+  
+  # display plot
+  return(myplot)
+}
+
+parseModel <- function(x) {
+  # determine number of each variable type (categorical or quantitative)
+  varClasses <- attr(terms(x), "dataClasses")
+  x$responseName <- as.character(lhs(terms(x)))
+  # need to do something more clever here to recognize polynomial terms
+  x$numericNames <- setdiff(names(which(varClasses == "numeric")), x$responseName)
+  x$catNames <- setdiff(names(which(varClasses != "numeric")), x$responseName)
+  if (length(x$numericNames) == 0) {
+    modClass <- "mpoints"
+  } else if (length(x$numericNames) == 1) {
+    modClass <- "mlines"
+  } else if (length(x$numericNames) == 2) {
+    modClass <- "mplanes"
+  } else if (length(x$numericNames) > 2) {
+    modClass <- "mhyperplanes"
+  }
+  class(x) <- union(modClass, class(x))
+  return(x)
+}
+
+
