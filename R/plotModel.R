@@ -103,14 +103,17 @@
 
 plotModel <- function(mod, ...) { UseMethod("plotModel") }
 
+#' @export
 plotModel.default <- function(mod, ...) {
   plotModel(parseModel(mod))
 }
 
+#' @export
 plotModel.mhyperplanes <- function(mod, ...) {
   stop("Sorry, but you can't plot in higher-dimensional space.")
 }
 
+#' @export
 plotModel.mplanes <- function(mod, ...) {
   # do something with rgl
   if (!require(rgl)) {
@@ -150,6 +153,7 @@ plotModel.mplanes <- function(mod, ...) {
   }
 }
 
+#' @export
 plotModel.mlines <- function(mod, ...) {
   # plot data
   myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), data = mod$model, ...) 
@@ -179,6 +183,7 @@ plotModel.mlines <- function(mod, ...) {
 }
 
 
+#' @export
 plotModel.mpoints <- function(mod, ...) {
   # plot data
   myplot <- xyplot(as.formula(paste(mod$responseName, "~ 1")), data = mod$model, ...) 
@@ -224,7 +229,7 @@ parseModel <- function(x) {
   } else if (length(x$numericNames) > 2) {
     modClass <- "mhyperplanes"
   }
-  class(x) <- union(modClass, class(x))
+  class(x) <- c(modClass, class(x))
   return(x)
 }
 
