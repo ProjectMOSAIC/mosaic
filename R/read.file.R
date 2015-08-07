@@ -37,7 +37,7 @@
 #' \code{\link{load}} is used to load the file.  If \code{file}
 #' ends in \code{.csv}, then \code{\link[readr]{read_csv}} or \code{\link{read.csv}} is used.  
 #' Otherwise, \code{\link{read.table}} is used.
-#' @param package if specified, files will be search for among the documentation
+#' @param package if specified, files will be searched for among the documentation
 #' files provided by the package.
 #' 
 #' @return A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
