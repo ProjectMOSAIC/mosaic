@@ -98,6 +98,7 @@
 # support for polynomial terms
 # support for interaction in planes
 # ... pass-through to xyplot()
+# improved efficiency by avoiding ladd() / add = TRUE
 # 
 # ------------------------------------------------------------------------------
 
@@ -154,18 +155,15 @@ plotModel.mplanes <- function(mod, ...) {
 }
 
 #' @export
-plotModel.mlines <- function(mod, ...) {
+plotModel_old.mlines <- function(mod, ...) {
   # plot data
   myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), data = mod$model, ...) 
   
-  # remove the extra class
-  class(mod) <- setdiff(class(mod), "mlines")
-  
   # convert the model into a function
-  modelFunc = makeFun(mod)
+  modelFunc <- makeFun(mod)
   
   # all combinations of categorical levels
-  categories = expand.grid(mod$xlevels) 
+  categories <- expand.grid(mod$xlevels) 
   
   levels <- apply(categories, MARGIN = 1, paste, collapse = ",")
   levelForms <- paste0("modelFunc(x, ", levels, ") ~ x")
@@ -180,6 +178,50 @@ plotModel.mlines <- function(mod, ...) {
   
   # display plot
   return(myplot)
+}
+
+#' @export
+plotModel2 <- function(mod, ...) { UseMethod("plotModel2") }
+
+#' @export
+plotModel2.default <- function(mod, ...) {
+  plotModel2(parseModel(mod))
+}
+
+#' @export
+plotModel.mlines <- function(mod, ...) {
+  
+  # convert the model into a function
+  modelFunc <- makeFun(mod)
+  
+  # all combinations of categorical levels
+  categories <- expand.grid(mod$xlevels) 
+ 
+  if (nrow(categories) < 1L) {
+    levelFuns <- list(modelFunc)
+  } else {
+    levels <- apply(categories, MARGIN = 1, paste, collapse = ",")
+    levelForms <- 
+      sapply(paste0('modelFunc(x, "', paste(levels, sep='", "'), '") ~ x'), as.formula)
+    levelFuns <- lapply(levelForms, 
+                        function(form) { 
+                          f <- makeFun(form)
+                          environment(f)$modelFunc <- modelFunc
+                          environment(f)$mod <- mod
+                          f
+                        })
+  }
+  
+  # create panel function
+  mypanel <- 
+    function(x, y, ...) {
+      panel.xyplot(x, y, ...)
+      panel.plotFun1(levelFuns)
+    }
+  
+  xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), 
+           data = mod$model, ...,
+           panel = mypanel) 
 }
 
 
@@ -209,8 +251,7 @@ plotModel.mpoints <- function(mod, ...) {
     }
   }
   
-  # display plot
-  return(myplot)
+  myplot
 }
 
 parseModel <- function(x) {
