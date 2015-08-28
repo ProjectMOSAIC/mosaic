@@ -1,6 +1,6 @@
 
 tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','elev','slider','manipulate','colorList')), 
-		 error=function(e) message('Looks like you should update R.'))
+         error=function(e) message('Looks like you should update R.'))
 
 #' Plotting mathematical expressions
 #'
@@ -104,57 +104,57 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @export
 
 plotFun <- function(object, ..., 
-          plot=trellis.last.object(),
-					add=NULL,
-          under=FALSE,
-					xlim=NULL, ylim=NULL, npts=NULL,
-					ylab=NULL, xlab=NULL, zlab=NULL, 
-					filled=TRUE, 
-					levels=NULL, nlevels=10,labels=TRUE,
-					surface=FALSE,
-					groups=NULL,
-          col = trellis.par.get('superpose.line')$col,
-					col.regions=topo.colors, 
-					type="l", 
-					alpha=NULL,
-					discontinuities = NULL,
-					discontinuity = 1) { 
-
-	if ( is.function(object) ) { 
-		formula <- f(x) ~ x 
-		formula[[2]] <- as.call( list(substitute(object), quote(x)))
-		object <- formula
-	}
+                    plot=trellis.last.object(),
+                    add=NULL,
+                    under=FALSE,
+                    xlim=NULL, ylim=NULL, npts=NULL,
+                    ylab=NULL, xlab=NULL, zlab=NULL, 
+                    filled=TRUE, 
+                    levels=NULL, nlevels=10,labels=TRUE,
+                    surface=FALSE,
+                    groups=NULL,
+                    col = trellis.par.get('superpose.line')$col,
+                    col.regions=topo.colors, 
+                    type="l", 
+                    alpha=NULL,
+                    discontinuities = NULL,
+                    discontinuity = 1) { 
+  
+  if ( is.function(object) ) { 
+    formula <- f(x) ~ x 
+    formula[[2]] <- as.call( list(substitute(object), quote(x)))
+    object <- formula
+  }
   
   if(is.null(add)) add <- under
   
   if (discontinuity <= 0 | length(discontinuity) != 1) 
     stop("discontinuity should be a positive number or Inf.")
   
-	dots <- list(...)
-	# dots[['type']] <- type
-	# dots[['alpha']] <- alpha
-	
-	..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame()) 
-
+  dots <- list(...)
+  # dots[['type']] <- type
+  # dots[['alpha']] <- alpha
+  
+  ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame()) 
+  
   if ( is.vector(col.regions ) ) col.regions  <- makeColorscheme(col.regions )
-
+  
   if (length(unique(levels))==1) levels = c(levels,Inf) # make sure there's a range
-	
-	# funny names (like ..f..) are to avoid names that might be used by the user
-	# not sure whether this precaution is necessary in current implementation
-
-	vars <- formals(..f..)
+  
+  # funny names (like ..f..) are to avoid names that might be used by the user
+  # not sure whether this precaution is necessary in current implementation
+  
+  vars <- formals(..f..)
   # print(formals(..f..))
   # print(..f..)
-	rhsVars <- all.vars(rhs(object))
-	otherVars <- setdiff(names(vars), rhsVars)
-	ndims <- length(rhsVars)
-	cleanDots <- dots
-	for (v in otherVars) {
-		cleanDots[[v]] <- NULL
-	}
-
+  rhsVars <- all.vars(rhs(object))
+  otherVars <- setdiff(names(vars), rhsVars)
+  ndims <- length(rhsVars)
+  cleanDots <- dots
+  for (v in otherVars) {
+    cleanDots[[v]] <- NULL
+  }
+  
   pgArgs <- list()
   # print(otherVars)
   otherGroups <- if (length(otherVars) > 0 ) paste(otherVars,"",sep="") else c()
@@ -167,70 +167,70 @@ plotFun <- function(object, ...,
   for (param in otherVars) pgArgs[[param]] <- dots[[paste(param,"",sep="")]]
   paramGrid <- do.call( "expand.grid", pgArgs )
   
-	fList <- if (nrow(paramGrid) < 1) list(..f..) else list()
-	for (r in rows(paramGrid) ) {
+  fList <- if (nrow(paramGrid) < 1) list(..f..) else list()
+  for (r in rows(paramGrid) ) {
     rowAsList <- as.list( paramGrid[r,])
     names(rowAsList) <- otherVars
     # print( c( object, c(dots, rowAsList, strict.declaration=FALSE) ) )
-	  fList <- c( fList, do.call ( "makeFun", 
-	                               c( object, c(dots, rowAsList,
-	                                           strict.declaration=FALSE, envir= parent.frame()) ) 
-	  ))
-	}
-
-
-	if (add) { 
-	  if (ndims==1) {
-	    return( 
-	      plot + 
-	        latticeExtra::layer( 
-	          do.call(panel.plotFun1, 
-	                  c( list(..f..=fList,  
-	                          npts=npts, 
-	                          discontinuity = discontinuity,
-	                          discontinuities = discontinuities,
-	                          filled=filled, levels=levels, 
-	                          nlevels=nlevels, surface=surface, 
-	                          col.regions=col.regions, 
-	                          type=type, alpha=alpha, col=col), 
-	                     dots )), 
-	          data=as.list(environment()), 
-	          under=under )
-	    ) 
-	  }
-	  # message("2-D adding temporarily un-discontinued.")
-	  return( plot + latticeExtra::layer(
-	    do.call( panel.plotFun,
-	             c(list( object=object, npts=npts, 
-	                     discontinuity = discontinuity, discontinuities = discontinuities,
-	                     filled=filled, levels=levels, nlevels=nlevels, suface=surface,
-	                     col.regions=col.regions, type=type, alpha=alpha),
-	               dots) ),
-	             data=as.list(environment()),
-	             under=under )
-	  )
+    fList <- c( fList, do.call ( "makeFun", 
+                                 c( object, c(dots, rowAsList,
+                                              strict.declaration=FALSE, envir= parent.frame()) ) 
+    ))
+  }
+  
+  
+  if (add) { 
+    if (ndims==1) {
+      return( 
+        plot + 
+          latticeExtra::layer( 
+            do.call(panel.plotFun1, 
+                    c( list(..f..=fList,  
+                            npts=npts, 
+                            discontinuity = discontinuity,
+                            discontinuities = discontinuities,
+                            filled=filled, levels=levels, 
+                            nlevels=nlevels, surface=surface, 
+                            col.regions=col.regions, 
+                            type=type, alpha=alpha, col=col), 
+                       dots )), 
+            data=as.list(environment()), 
+            under=under )
+      ) 
+    }
+    # message("2-D adding temporarily un-discontinued.")
+    return( plot + latticeExtra::layer(
+      do.call( panel.plotFun,
+               c(list( object=object, npts=npts, 
+                       discontinuity = discontinuity, discontinuities = discontinuities,
+                       filled=filled, levels=levels, nlevels=nlevels, suface=surface,
+                       col.regions=col.regions, type=type, alpha=alpha),
+                 dots) ),
+      data=as.list(environment()),
+      under=under )
+    )
     
-# 		return( ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
-# 		                     filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
-# 		                     col.regions=col.regions, type=type, alpha=alpha, ...)) )
-# 		# return(invisible(NULL))
-	}   # end if(add)
-	
-	limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
-
-	if( ndims == 1 ){
-		# message("One Dimension.")
-
-		npts <- ifelse( is.null(npts), 500, npts)
-
-		# Set the axis labels
-		# deparse needed for lattice (not originally for plot)
-
-		if( is.null(ylab) ) ylab <- deparse( lhs(object) ) # deparse(..f..$sexpr)
-		if( is.null(xlab) ) xlab <- rhsVars
-
+    # 		return( ladd( panel.plotFun( object, npts=npts, # lwd=lwd, #col=col, 
+    # 		                     filled=filled, levels=levels, nlevels=nlevels, surface=surface, 
+    # 		                     col.regions=col.regions, type=type, alpha=alpha, ...)) )
+    # 		# return(invisible(NULL))
+  }   # end if(add)
+  
+  limits <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim, ylim=ylim) )
+  
+  if( ndims == 1 ){
+    # message("One Dimension.")
+    
+    npts <- ifelse( is.null(npts), 500, npts)
+    
+    # Set the axis labels
+    # deparse needed for lattice (not originally for plot)
+    
+    if( is.null(ylab) ) ylab <- deparse( lhs(object) ) # deparse(..f..$sexpr)
+    if( is.null(xlab) ) xlab <- rhsVars
+    
     # need to handle range detection for list of functions
-		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) {
+    if (is.null(limits$xlim) || length(limits$xlim) < 2 ) {
       zeros <- c() #empty
       tryCatch( zeros <- findZeros( object, nearest=6, ... )[[1]], 
                 error=function(e){e},warning=function(e){} )
@@ -239,189 +239,189 @@ plotFun <- function(object, ...,
                             "1" = c(-1.5,1.5) * (zeros+ifelse(zeros==0,1,0)),
                             c(-.1,.1) * diff(range(zeros)) + range(zeros)
       )
-		} 
-
-		limits$xlim <- range(limits$xlim)
-
-		if (length(limits$xlim) !=2) stop ("Invalid limits.")
-
-		# Evaluate the function on appropriate inputs.
+    } 
+    
+    limits$xlim <- range(limits$xlim)
+    
+    if (length(limits$xlim) !=2) stop ("Invalid limits.")
+    
+    # Evaluate the function on appropriate inputs.
     .f. <- fList[[1]]
-		.xvals <- 
-			if ('h' %in% type)  
-				seq(base::min(limits$xlim), base::max(limits$xlim), length.out=npts)
-			else 
-				adapt_seq(base::min(limits$xlim), base::max(limits$xlim), 
-										   f=function(xxqq){ .f.(xxqq) }, 
-                       length.out=npts,
-                       quiet=TRUE)
-	
+    .xvals <- 
+      if ('h' %in% type)  
+        seq(base::min(limits$xlim), base::max(limits$xlim), length.out=npts)
+    else 
+      adapt_seq(base::min(limits$xlim), base::max(limits$xlim), 
+                f=function(xxqq){ .f.(xxqq) }, 
+                length.out=npts,
+                quiet=TRUE)
+    
     .yvals <- c()
     for ( .f. in fList ) .yvals <- c( .yvals, sapply( .xvals, .f. ) )
-		localData <- data.frame(x = .xvals, y = .yvals, component = contintuous_components(.xvals, .yvals, adjust=discontinuity))
-	  localData$alone <- ediff(localData$component) * ediff(localData$component, pad="tail") != 0
-	  # don't let points that are not connected to neighbors affect default plot widnow.
-	  localData <- localData[!localData$alone, ]
-	  localData <- data.frame(x = range(localData$x, na.rm=TRUE, fintie=TRUE), 
-	                          y = range(localData$y, na.rm=TRUE, finite=TRUE))
+    localData <- data.frame(x = .xvals, y = .yvals, component = contintuous_components(.xvals, .yvals, adjust=discontinuity))
+    localData$alone <- ediff(localData$component) * ediff(localData$component, pad="tail") != 0
+    # don't let points that are not connected to neighbors affect default plot widnow.
+    localData <- localData[!localData$alone, ]
+    localData <- data.frame(x = range(localData$x, na.rm=TRUE, fintie=TRUE), 
+                            y = range(localData$y, na.rm=TRUE, finite=TRUE))
     
-		# note: passing ... through to the lattice functions currently conflicts with
-		# using ... to set values of "co-variates" of the function.
-
-		if( length(limits$ylim) != 2 ) {
+    # note: passing ... through to the lattice functions currently conflicts with
+    # using ... to set values of "co-variates" of the function.
     
-			thePlot <- do.call(lattice::xyplot,
-							 c( list(y ~ x, 
-                 ..f.. = fList,
-								data=localData,
-								# groups=eval(substitute(groups),localData),
-								groups=substitute(groups),
-								xlim=limits$xlim, 
-								xlab=xlab, ylab=ylab,
-								panel="panel.plotFun1",
-                npts = npts, 
-								discontinuity = discontinuity,
-								discontinuities = discontinuities,
-                col=col ),
-								cleanDots
-								)
-			)
-		} else { 
-			thePlot <- do.call(lattice::xyplot, c(list(
-							    y ~ x,
-                  ..f.. = fList,
-								data=localData,
-								# groups=eval(substitute(groups),localData),
-								groups=substitute(groups),
-								xlim=limits$xlim, 
-								ylim=limits$ylim, 
-								xlab=xlab,ylab=ylab,
-								panel="panel.plotFun1",
-                npts=npts, 
-								discontinuity = discontinuity,
-								discontinuities = discontinuities,
-                col=col),
-								cleanDots)
-								)
-		}
-		return((thePlot))
-	}  # end ndims == 1
-
-	if (ndims == 2 ) {
-		# message("Two Dimensions.")
-		npts <- ifelse( is.null(npts), 40, npts)
-		if( length(ylab) == 0 ) ylab <- rhsVars[2]
-		if( length(xlab) == 0 ) xlab <- rhsVars[1]
-		if( length(zlab) == 0 ) zlab <- deparse(lhs(object))
-
-		if (is.null(limits$xlim) || length(limits$xlim) < 2 ) 
-			limits$xlim <- c(0,1)  # temporary default
-		else 
-			limits$xlim <- range(limits$xlim)
-
-		if (is.null(limits$ylim) || length(limits$ylim) < 2 ) 
-			limits$ylim <- c(0,1)  # temporary default
-		else 
-			limits$ylim <- range(limits$ylim)
-
-		.xvals <- seq(base::min(limits$xlim),base::max(limits$xlim),length=npts)
-		.yvals <- seq(base::min(limits$ylim),base::max(limits$ylim),length=npts)
-		zvals <- tryCatch(
+    if( length(limits$ylim) != 2 ) {
+      
+      thePlot <- do.call(lattice::xyplot,
+                         c( list(y ~ x, 
+                                 ..f.. = fList,
+                                 data=localData,
+                                 # groups=eval(substitute(groups),localData),
+                                 groups=substitute(groups),
+                                 xlim=limits$xlim, 
+                                 xlab=xlab, ylab=ylab,
+                                 panel="panel.plotFun1",
+                                 npts = npts, 
+                                 discontinuity = discontinuity,
+                                 discontinuities = discontinuities,
+                                 col=col ),
+                            cleanDots
+                         )
+      )
+    } else { 
+      thePlot <- do.call(lattice::xyplot, c(list(
+        y ~ x,
+        ..f.. = fList,
+        data=localData,
+        # groups=eval(substitute(groups),localData),
+        groups=substitute(groups),
+        xlim=limits$xlim, 
+        ylim=limits$ylim, 
+        xlab=xlab,ylab=ylab,
+        panel="panel.plotFun1",
+        npts=npts, 
+        discontinuity = discontinuity,
+        discontinuities = discontinuities,
+        col=col),
+        cleanDots)
+      )
+    }
+    return((thePlot))
+  }  # end ndims == 1
+  
+  if (ndims == 2 ) {
+    # message("Two Dimensions.")
+    npts <- ifelse( is.null(npts), 40, npts)
+    if( length(ylab) == 0 ) ylab <- rhsVars[2]
+    if( length(xlab) == 0 ) xlab <- rhsVars[1]
+    if( length(zlab) == 0 ) zlab <- deparse(lhs(object))
+    
+    if (is.null(limits$xlim) || length(limits$xlim) < 2 ) 
+      limits$xlim <- c(0,1)  # temporary default
+    else 
+      limits$xlim <- range(limits$xlim)
+    
+    if (is.null(limits$ylim) || length(limits$ylim) < 2 ) 
+      limits$ylim <- c(0,1)  # temporary default
+    else 
+      limits$ylim <- range(limits$ylim)
+    
+    .xvals <- seq(base::min(limits$xlim),base::max(limits$xlim),length=npts)
+    .yvals <- seq(base::min(limits$ylim),base::max(limits$ylim),length=npts)
+    zvals <- tryCatch(
       outer(.xvals, .yvals, function(x,y){..f..(x,y)} ),
       warning = function(w) {} )
-		grid <- expand.grid( .xvals, .yvals )
-		grid$height <- c(zvals)
-		localData <- grid
-		names(localData) <- c(rhsVars, '.height')
-
-		if( surface ) { 
-			if (add) {
-				stop('Should not get here, but no add option for surface plots yet anyway.')
-				return(invisible(NULL))
-			}
-			zcuts = pretty(grid$height,50)
-			zcolors = col.regions (length(zcuts),alpha=.5*alpha)
-			if( rstudio_is_available() ) {
-				return(manipulate::manipulate(
-						   wireframe(height ~ Var1 + Var2, 
-											xlab=xlab,ylab=ylab,
-											zlab=list(zlab,rot=90),
-											#data=localData, 
-											data=grid,
-											groups = eval(substitute(groups), localData),
-											drape=filled,
-											shade=FALSE, colorkey=FALSE,
-											scales=list(arrows=FALSE),
-											screen=c(z=rot,x=elev-90),
-											distance=dist,
-											at = zcuts, #col=rgb(1,1,1,0),
-											col.regions= zcolors
-											#...
-											),
-						   rot=manipulate::slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
-						   elev=manipulate::slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
-						   dist=manipulate::slider(min=0,max=1,step=.01,initial=.2,label="Distance")
-						   ))
-			} else {  # without manipulate
-				return((wireframe(height ~ Var1 + Var2, 
-								 xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
-								 data=grid,
-								 groups=eval(substitute(groups), localData),
-								 drape=filled,shade=FALSE,colorkey=FALSE,
-								 scales=list(arrows=FALSE),
-								 col.regions= zcolors,
-								 # col=rgb(1,1,1,0),
-								 at=zcuts
-								 ) ) )
-			}
-
-		} else {  # i.e., surface==FALSE
-			# a convenience wrapper around levelplot when a contour plot
-			# is being drawn de novo
-		  funPlot.draw.contour <- function(x,y,z,ncontours=6,at=NULL,
-		                                   filled=TRUE, col.regions=topo.colors,labels=TRUE,
-		                                   showlabels=TRUE, contours=TRUE, groups=NULL, label=TRUE,
-		                                   xlab="",ylab="", ...){
-		    if (is.null(at)) at = pretty(z,ncontours)
-		    argsToPass <- list(z~x*y,at=at, xlab=xlab,ylab=ylab,
-		                       panel=panel.levelcontourplot,
-		                       groups=substitute(groups),col.regions=col.regions(60),
-		                       contour=contours, labels=labels, colorkey=FALSE,
-		                       retion=TRUE, filled=filled, ...)
-		    # kill off arguments we don't want going to levelplot:
-		    argsToPass[["k"]] <- NULL
-		    return(( do.call( levelplot, argsToPass) ))                                                           
-		  }
-		  
-			if( is.null(alpha) ) alpha <- 1
-			fillcolors <- col.regions (length(levels)+2, alpha=alpha)
-
-			if( all (is.logical(zvals) ) ){  # it's a constraint function
-					fillcolors <- col.regions (4, alpha=alpha)
-				  nlevels <- 2
-			}
+    grid <- expand.grid( .xvals, .yvals )
+    grid$height <- c(zvals)
+    localData <- grid
+    names(localData) <- c(rhsVars, '.height')
+    
+    if( surface ) { 
+      if (add) {
+        stop('Should not get here, but no add option for surface plots yet anyway.')
+        return(invisible(NULL))
+      }
+      zcuts = pretty(grid$height,50)
+      zcolors = col.regions (length(zcuts),alpha=.5*alpha)
+      if( rstudio_is_available() ) {
+        return(manipulate::manipulate(
+          wireframe(height ~ Var1 + Var2, 
+                    xlab=xlab,ylab=ylab,
+                    zlab=list(zlab,rot=90),
+                    #data=localData, 
+                    data=grid,
+                    groups = eval(substitute(groups), localData),
+                    drape=filled,
+                    shade=FALSE, colorkey=FALSE,
+                    scales=list(arrows=FALSE),
+                    screen=c(z=rot,x=elev-90),
+                    distance=dist,
+                    at = zcuts, #col=rgb(1,1,1,0),
+                    col.regions= zcolors
+                    #...
+          ),
+          rot=manipulate::slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
+          elev=manipulate::slider(min=-90,max=90,step=5,initial=30,label="Elevation"),
+          dist=manipulate::slider(min=0,max=1,step=.01,initial=.2,label="Distance")
+        ))
+      } else {  # without manipulate
+        return((wireframe(height ~ Var1 + Var2, 
+                          xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
+                          data=grid,
+                          groups=eval(substitute(groups), localData),
+                          drape=filled,shade=FALSE,colorkey=FALSE,
+                          scales=list(arrows=FALSE),
+                          col.regions= zcolors,
+                          # col=rgb(1,1,1,0),
+                          at=zcuts
+        ) ) )
+      }
+      
+    } else {  # i.e., surface==FALSE
+      # a convenience wrapper around levelplot when a contour plot
+      # is being drawn de novo
+      funPlot.draw.contour <- function(x,y,z,ncontours=6,at=NULL,
+                                       filled=TRUE, col.regions=topo.colors,labels=TRUE,
+                                       showlabels=TRUE, contours=TRUE, groups=NULL, label=TRUE,
+                                       xlab="",ylab="", ...){
+        if (is.null(at)) at = pretty(z,ncontours)
+        argsToPass <- list(z~x*y,at=at, xlab=xlab,ylab=ylab,
+                           panel=panel.levelcontourplot,
+                           groups=substitute(groups),col.regions=col.regions(60),
+                           contour=contours, labels=labels, colorkey=FALSE,
+                           retion=TRUE, filled=filled, ...)
+        # kill off arguments we don't want going to levelplot:
+        argsToPass[["k"]] <- NULL
+        return(( do.call( levelplot, argsToPass) ))                                                           
+      }
+      
+      if( is.null(alpha) ) alpha <- 1
+      fillcolors <- col.regions (length(levels)+2, alpha=alpha)
+      
+      if( all (is.logical(zvals) ) ){  # it's a constraint function
+        fillcolors <- col.regions (4, alpha=alpha)
+        nlevels <- 2
+      }
       if (add) {
         return( ladd( 
           panel.levelcontourplot(grid$Var1, grid$Var2, grid$height, subscripts=1, 
-                          at = levels, labels = labels, 
-                          filled=filled, 
-                          groups=eval(substitute(groups),localData),
-                          col.regions = col.regions ,
-                          contour = TRUE, 
-                          region = FALSE, 
-                          ...)
-          ) )
+                                 at = levels, labels = labels, 
+                                 filled=filled, 
+                                 groups=eval(substitute(groups),localData),
+                                 col.regions = col.regions ,
+                                 contour = TRUE, 
+                                 region = FALSE, 
+                                 ...)
+        ) )
       }
-			return((funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
-											 xlab=xlab, ylab=ylab, at=levels,
-											 filled=filled, labels=labels,
-											 groups=eval(substitute(groups),localData),
-											 col.regions = col.regions ,
-											 #col=col, 
-											 ...) ) )
-		}
-	}
-	stop("Bug alert: You should not get here.  Please report.")
+      return((funPlot.draw.contour(grid$Var1, grid$Var2, grid$height, 
+                                   xlab=xlab, ylab=ylab, at=levels,
+                                   filled=filled, labels=labels,
+                                   groups=eval(substitute(groups),localData),
+                                   col.regions = col.regions ,
+                                   #col=col, 
+                                   ...) ) )
+    }
+  }
+  stop("Bug alert: You should not get here.  Please report.")
 }
 
 guess_discontinuities <- function( f, xlim, ..., resolution = 10000, adjust = 1) {
@@ -444,7 +444,7 @@ discontinuity_at <- function(x, y, adjust = 1) {
   x[which( is.na(y) | 
              !is.finite(y) | 
              ( 
-                 (abs(atan(left_slope) - atan(right_slope)) > adjust / 2) & 
+               (abs(atan(left_slope) - atan(right_slope)) > adjust / 2) & 
                  (abs(atan(left_slope)) > adjust/2 | abs(atan(right_slope)) > adjust/2)
              )
   )]
@@ -461,11 +461,11 @@ contintuous_components <- function(x, y, adjust = 1) {
   left_slope  <- c(slope[1], slope) 
   right_slope  <- c(slope, slope[length(slope)]) 
   discontinuities <- x[which( is.na(y) | 
-             !is.finite(y) | 
-             ( 
-               (abs(atan(left_slope) - atan(right_slope)) > adjust /2) & 
-                 (abs(atan(left_slope)) > adjust /2 | abs(atan(right_slope)) > adjust /2)
-             )
+                                !is.finite(y) | 
+                                ( 
+                                  (abs(atan(left_slope) - atan(right_slope)) > adjust /2) & 
+                                    (abs(atan(left_slope)) > adjust /2 | abs(atan(right_slope)) > adjust /2)
+                                )
   )]
   j <- sapply(x, function(x) sum(x > discontinuities))
   k <- sapply(x, function(x) sum(x >= discontinuities))
@@ -523,20 +523,20 @@ branch_lengths <- function(x, y, discontinuities = NULL, discontinuity = 1) {
 #' @export
 
 panel.plotFun1 <- function( ..f.., ...,
-                           x, y,
-                           type="l", 
-                           col = trellis.par.get('superpose.line')$col,
-                           npts=NULL,
-                           zlab=NULL, 
-                           filled=TRUE, 
-                           levels=NULL, 
-                           nlevels=10,
-                           surface=FALSE,
-                           alpha=NULL,
-                           discontinuity = NULL,
-                           discontinuities = NULL) { 
+                            x, y,
+                            type="l", 
+                            col = trellis.par.get('superpose.line')$col,
+                            npts=NULL,
+                            zlab=NULL, 
+                            filled=TRUE, 
+                            levels=NULL, 
+                            nlevels=10,
+                            surface=FALSE,
+                            alpha=NULL,
+                            discontinuity = NULL,
+                            discontinuities = NULL) { 
   dots <- list(...)
-
+  
   if (is.function(..f..) ) ..f.. <- list(..f..)
   if (! is.list(..f..) || length(..f..) < 1) {
     print(str(..f..))
@@ -548,7 +548,7 @@ panel.plotFun1 <- function( ..f.., ...,
     col <- trellis.par.get('superpose.line')$col[col]
   }
   
-    
+  
   # funny names (like ..f..) are to avoid names that might be used by the user
   # not sure whether this precaution is necessary in current implementation
   
@@ -567,7 +567,7 @@ panel.plotFun1 <- function( ..f.., ...,
     parent.ylim <- current.panel.limits()$ylim
     
     npts <- ifelse( is.null(npts), 200, npts)
-
+    
     if (! missing(x) && !missing(y) && length(x) >= npts && length(y) == length(x)) {
       .xvals <- x
       .yvals <- y
@@ -590,7 +590,7 @@ panel.plotFun1 <- function( ..f.., ...,
     # cleandots[ intersect(names(cleandots), all.vars(object)) ] <- NULL
     cleandots[c('x','y','type','alpha','col')] <- NULL
     # use do.call to call the panel function so that the cleandots can be put back in
-
+    
     if (type == "l") {
       if (is.null(discontinuities)) 
         discontinuities <- discontinuity_at(.xvals, .yvals, adjust = discontinuity)
@@ -612,6 +612,119 @@ panel.plotFun1 <- function( ..f.., ...,
     }
   }
 }
+
+panel.plotFun1a <- function( ..f.., ...,
+                             x, y,
+                             type="l", 
+                             col = trellis.par.get('superpose.line')$col,
+                             npts=NULL,
+                             zlab=NULL, 
+                             filled=TRUE, 
+                             levels=NULL, 
+                             nlevels=10,
+                             surface=FALSE,
+                             alpha=NULL,
+                             discontinuity = NULL,
+                             discontinuities = NULL) { 
+  dots <- list(...)
+  
+  if (is.function(..f..) ) ..f.. <- list(..f..)
+  if (! is.list(..f..) || length(..f..) < 1) {
+    print(str(..f..))
+    stop("Empty or malformed list of functions.")
+  }
+  
+  if (is.numeric(col)) {
+    message('converting numerical color value into a color using lattice settings')
+    col <- trellis.par.get('superpose.line')$col[col]
+  }
+  
+  
+  # funny names (like ..f..) are to avoid names that might be used by the user
+  # not sure whether this precaution is necessary in current implementation
+  
+  # perhaps use environment(object)?
+  # ..f.. <- do.call( "makeFun", c(object, dots, strict.declaration=FALSE), envir= parent.frame())  
+  
+  parent.xlim <- current.panel.limits()$xlim
+  parent.ylim <- current.panel.limits()$ylim
+  points_data <- data.frame() 
+  groups_data <- data.frame()
+  id_lengths <- integer(0)
+  idx <- 0L
+  
+  for (.f. in ..f..) {
+    idx <- idx + 1
+    # print(.f.)
+    vars <- formals(.f.)
+    #  rhsVars <- all.vars(rhs(object))
+    #  ndims <- length(rhsVars)
+    
+    npts <- ifelse( is.null(npts), 200, npts)
+    
+    if (! missing(x) && !missing(y) && length(x) >= npts && length(y) == length(x)) {
+      .xvals <- x
+      .yvals <- y
+    } else {
+      # Evaluate the function on appropriate inputs to get y values.
+      .xvals <-  if ('h' %in% type)  
+        seq(base::min(parent.xlim), base::max(parent.xlim), length.out=npts)
+      else 
+        adapt_seq(base::min(parent.xlim), base::max(parent.xlim), 
+                  f=function(xxqq){ .f.(xxqq) }, 
+                  length.out=npts,
+                  quiet=TRUE)
+      
+      tryCatch(.yvals <- sapply( .xvals, .f. ), warning=function(w) {} )
+    }
+    
+    if (is.null(discontinuities)) 
+      discontinuities <- discontinuity_at(.xvals, .yvals, adjust = discontinuity)
+    groups_data <-
+      dplyr::bind_rows(
+        groups_data, 
+        data.frame(
+          length = branch_lengths(.xvals, .yvals, discontinuities),
+          id = idx
+          )
+      )
+    
+    points_data <- 
+      dplyr::bind_rows(points_data, 
+                       data.frame(x = .xvals, y = .yvals, id=idx))
+    
+  }
+  
+  # points_data is now a data frame with x, y, and an id showing which function
+  # is being described.
+  
+  # need to strip out any components of ... that are in the object so they
+  # don't get passed to the panel function.
+  cleandots = list(...)
+  # cleandots[ intersect(names(cleandots), all.vars(object)) ] <- NULL
+  cleandots[c('x','y','type','alpha','col')] <- NULL
+  # use do.call to call the panel function so that the cleandots can be put back in
+  
+  if (type == "l") {
+    do.call(
+      grid::grid.polyline,
+      c(list(x=points_data$x, y=points_data$y, default.units = "native",
+             gp=do.call(
+               grid::gpar, 
+               c(list(alpha=alpha, col=.getColor(groups_data$id, col)), cleandots)
+             ), 
+             id.lengths = groups_data$length
+      ))
+    )
+  } else {
+    do.call(
+      panel.xyplot,
+      c(list(x=points_data$x, y=points_data$y, type=type,  
+             alpha=alpha, col=.getColor(points_data$id, col)),  cleandots)
+    )
+  }
+}
+
 
 #' Panel function for plotting functions
 #'
@@ -693,19 +806,19 @@ panel.plotFun <- function( object, ...,
   
   if( ndims == 1 ){
     npts <- ifelse( is.null(npts), 200, npts)
-
     
-      # Evaluate the function on appropriate inputs.
-      .xvals <- 
-        if ('h' %in% type)  
-          seq(base::min(parent.xlim), base::max(parent.xlim), length.out=npts)
-      else 
-        adapt_seq(base::min(parent.xlim), base::max(parent.xlim), 
-                  f=function(xxqq){ ..f..(xxqq) }, 
-                  length.out=npts,
-                  quiet=TRUE)
-      .yvals <- tryCatch( sapply( .xvals, ..f.. ), 
-                          warning=function(w) {} )
+    
+    # Evaluate the function on appropriate inputs.
+    .xvals <- 
+      if ('h' %in% type)  
+        seq(base::min(parent.xlim), base::max(parent.xlim), length.out=npts)
+    else 
+      adapt_seq(base::min(parent.xlim), base::max(parent.xlim), 
+                f=function(xxqq){ ..f..(xxqq) }, 
+                length.out=npts,
+                quiet=TRUE)
+    .yvals <- tryCatch( sapply( .xvals, ..f.. ), 
+                        warning=function(w) {} )
     
     
     # need to strip out any components of ... that are in the object so they
@@ -801,25 +914,25 @@ panel.plotFun <- function( object, ...,
 #' @export
 
 inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants=c('.lim','lim') ) {
-	limNames <- names(defaults)
-	if (length(vars) > length(limNames)) 
-		stop( paste("Can only infer", 
-					paste(limNames, sep=""), 
-					"; but you provided", 
-					length(vars)),
-			 		" variables to search for.", 
-					sep="")
-	result <-defaults
-
-	for (slot in 1:length(vars)) {
-		for (variant in rev(variants)){
-			var.lim <- paste(vars[slot],variant,sep="")
-			if (! is.null(dots[[var.lim]]) ) {
-				result[[limNames[slot]]] <- dots[[var.lim]]
-			}
-		}
-	}
-	return(result)
+  limNames <- names(defaults)
+  if (length(vars) > length(limNames)) 
+    stop( paste("Can only infer", 
+                paste(limNames, sep=""), 
+                "; but you provided", 
+                length(vars)),
+          " variables to search for.", 
+          sep="")
+  result <-defaults
+  
+  for (slot in 1:length(vars)) {
+    for (variant in rev(variants)){
+      var.lim <- paste(vars[slot],variant,sep="")
+      if (! is.null(dots[[var.lim]]) ) {
+        result[[limNames[slot]]] <- dots[[var.lim]]
+      }
+    }
+  }
+  return(result)
 }
 
 # =============================
@@ -857,17 +970,17 @@ panel.levelcontourplot <- function(x, y, z, subscripts=1,
                                    contour = FALSE, 
                                    region = TRUE,
                                    col = add.line$col, 
-				   lty = add.line$lty,
+                                   lty = add.line$lty,
                                    lwd = add.line$lwd, 
                                    border = "transparent", ...,
                                    col.regions = regions$col,
                                    filled=TRUE, 
                                    alpha.regions = regions$alpha
-                                   )
+)
 {
   add.line <- trellis.par.get('add.line')
   regions <- trellis.par.get('regions')
-
+  
   if(filled) panel.levelplot(x, y, z, subscripts, 
                              at = pretty(z,5*length(at)), shrink, 
                              labels = FALSE, 
@@ -877,11 +990,11 @@ panel.levelcontourplot <- function(x, y, z, subscripts=1,
                              border = border, ..., 
                              col.regions = col.regions #, 
                              #                  alpha.regions = regions$alpha
-                             )
-	if( all(is.logical(z)) ) {  # it's a constraint function
-	  at <- c(0,1) 
+  )
+  if( all(is.logical(z)) ) {  # it's a constraint function
+    at <- c(0,1) 
     labels <- FALSE
-	}
+  }
   panel.levelplot(x, y, z, subscripts, 
                   at = at, shrink, labels = labels, 
                   label.style = label.style, 
@@ -903,13 +1016,13 @@ panel.levelcontourplot <- function(x, y, z, subscripts=1,
 #' @export
 
 makeColorscheme <- function(col) {
-	result <- function(n, alpha=1, ...)  {
-		idx <-  0.5 + (0:n)/(n+0.001) * (length(colorList))  
-		return( apply(col2rgb(col[ round(idx) ]), 2, 
-					  function(x) { rgb(x[1],x[2],x[3], alpha=round(alpha*255), maxColorValue=255) } ) )
-	}
-	e <- new.env()
-	e[['colorList']] <- col
-	environment(result) <- e
-	return(result)
+  result <- function(n, alpha=1, ...)  {
+    idx <-  0.5 + (0:n)/(n+0.001) * (length(colorList))  
+    return( apply(col2rgb(col[ round(idx) ]), 2, 
+                  function(x) { rgb(x[1],x[2],x[3], alpha=round(alpha*255), maxColorValue=255) } ) )
+  }
+  e <- new.env()
+  e[['colorList']] <- col
+  environment(result) <- e
+  return(result)
 }
