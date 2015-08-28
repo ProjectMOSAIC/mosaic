@@ -200,9 +200,9 @@ plotModel.mlines <- function(mod, ...) {
   if (nrow(categories) < 1L) {
     levelFuns <- list(modelFunc)
   } else {
-    levels <- apply(categories, MARGIN = 1, paste, collapse = ",")
+    levels <- apply(categories, MARGIN = 1, paste, collapse = '", "')
     levelForms <- 
-      sapply(paste0('modelFunc(x, "', paste(levels, sep='", "'), '") ~ x'), as.formula)
+      sapply(paste0('modelFunc(x, "', levels,  '") ~ x'), as.formula)
     levelFuns <- lapply(levelForms, 
                         function(form) { 
                           f <- makeFun(form)
@@ -216,7 +216,7 @@ plotModel.mlines <- function(mod, ...) {
   mypanel <- 
     function(x, y, ...) {
       panel.xyplot(x, y, ...)
-      panel.plotFun1(levelFuns)
+      panel.plotFun1a(levelFuns)
     }
   
   xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), 
@@ -255,12 +255,20 @@ plotModel.mpoints <- function(mod, ...) {
 }
 
 parseModel <- function(x) {
+  data <- eval(x$call$data, environment(x$call$formula))[modelVars(x)]
+  fit <- makeFun(x)
+  inputs <- head(formals(fit), -2)  # remove ... and transform
+ 
+  discreteOrContinuous <- function(x) {
+    if (is.factor(x) || length(unique(x)) < 4L) "discrete" else "continuous"
+  }
+  
   # determine number of each variable type (categorical or quantitative)
-  varClasses <- attr(terms(x), "dataClasses")
+  varClasses <- lapply(data, discreteOrContinuous) 
+  # varClasses <- attr(terms(x), "dataClasses")[modelVars(x)]
   x$responseName <- as.character(lhs(terms(x)))
-  # need to do something more clever here to recognize polynomial terms
-  x$numericNames <- setdiff(names(which(varClasses == "numeric")), x$responseName)
-  x$catNames <- setdiff(names(which(varClasses != "numeric")), x$responseName)
+  x$numericNames <- names(which(varClasses == "continuous")) # , x$responseName)
+  x$catNames <- names(which(varClasses == "discrete")) # , x$responseName)
   if (length(x$numericNames) == 0) {
     modClass <- "mpoints"
   } else if (length(x$numericNames) == 1) {
