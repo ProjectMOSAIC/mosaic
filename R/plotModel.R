@@ -157,7 +157,8 @@ plotModel.mplanes <- function(mod, ...) {
 #' @export
 plotModel_old.mlines <- function(mod, ...) {
   # plot data
-  myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), data = mod$model, ...) 
+  myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), 
+                   data = mod$call$data, ...) 
   
   # convert the model into a function
   modelFunc <- makeFun(mod)
@@ -219,8 +220,8 @@ plotModel.mlines <- function(mod, ...) {
       panel.plotFun1a(levelFuns)
     }
   
-  xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), 
-           data = mod$model, ...,
+  xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1]), env=parent.frame()), 
+           data = eval(mod$call$data, parent.frame()), ...,
            panel = mypanel) 
 }
 
