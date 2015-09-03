@@ -232,9 +232,9 @@ plotModel.mpoints <- function(mod, ...) {
   myplot <- xyplot(as.formula(paste(mod$responseName, "~ 1")), data = mod$model, ...) 
   
   # remove the extra class
-  class(mod) <- setdiff(class(mod), "mpoints")
+  # class(mod) <- setdiff(class(mod), "mpoints")
   
-  # conver the model into a function
+  # convert the model into a function
   modelFunc = makeFun(mod)
   
   # all combinations of categorical levels
@@ -265,11 +265,22 @@ parseModel <- function(x) {
   }
   
   # determine number of each variable type (categorical or quantitative)
-  varClasses <- lapply(data, discreteOrContinuous) 
-  # varClasses <- attr(terms(x), "dataClasses")[modelVars(x)]
+  x$varTypes <- lapply(data, discreteOrContinuous) 
+  # varTypes <- attr(terms(x), "dataClasses")[modelVars(x)]
   x$responseName <- as.character(lhs(terms(x)))
-  x$numericNames <- names(which(varClasses == "continuous")) # , x$responseName)
-  x$catNames <- names(which(varClasses == "discrete")) # , x$responseName)
+  x$numericNames <- names(which(x$varTypes == "continuous")) # , x$responseName)
+  x$catNames <- names(which(x$varTypes == "discrete")) # , x$responseName)
+  
+  # cases (w, x are cont; a, b are disc):
+  #   y ~ x + other
+  #     xyplot (with groups for other)
+  #   y ~ x + y + other
+  #     3d plot (groups?)
+  #   y ~ a + other
+  #     xyplot with jitter (with groups for other)
+  #   y ~ a + b + other
+  #     xyplot with jitter and facets? (and groups for other)
+  
   if (length(x$numericNames) == 0) {
     modClass <- "mpoints"
   } else if (length(x$numericNames) == 1) {
