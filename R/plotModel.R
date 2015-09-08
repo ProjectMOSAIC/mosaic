@@ -133,7 +133,7 @@ plotModel.parsedModel <-
     }
     
     # convert the model into a function
-    modelFunc <- makeFun(mod)
+    modelFunc <- makeFun(x$model)
     
     if (key == "continuous") {
       p <- xyplot(
@@ -144,20 +144,22 @@ plotModel.parsedModel <-
     } else {
       x_points <- unique( x$data[[names(key)]] )
     }
+    
     if( nrow(categories) > 0L) {
       # categories[["id"]] <- factor(1:nrow(categories))
       categories <- categories %>% mutate(id = interaction(categories))
       other_data <- other_data %>% inner_join(categories)
       point_data <- x$data %>% inner_join(categories)
       line_data <- bind_rows(lapply(1:length(x_points), function(x) categories))
+      line_data[["x"]] <-
+        line_data[[names(key)]] <- 
+          rep(x_points, times = nrow(categories))
     } else {
       point_data <- x$data 
-      point_data[["id"]] <- factor("1")
-      line_data <- point_data
+      point_data[["id"]] <- factor(" ")
+      line_data <- data.frame(x = x_points, id=factor(" ")) 
+      line_data[[names(key)]] <- x_points
     }
-    line_data[["x"]] <-
-      line_data[[names(key)]] <- 
-      rep(x_points, times = nrow(categories))
     
     line_data[["y"]] <- 
       line_data[[x$responseName]] <- 
