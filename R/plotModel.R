@@ -9,68 +9,70 @@
 #' of statistical models. Namely, to plot the model on top of the data
 #' from which the model was fit. 
 #' 
-#' To do this we need to understand the geometry upon which the model 
-#' was fit. \code{\link{plotModel}} will attempt to determine from a model object
-#' how many quantitative and categorical explanatory variables the model 
-#' contains. 
-#' 
-#' If the model was fit on zero quantiative variables (e.g. ANOVA), then
-#' the repsonse variable is plotted against a constant, and horizontal 
-#' lines represents the various levels of the model. 
+#' The primary plot type is a scatter plot.  The x-axis can be assigned
+#' to one of the predictors in the model.  Additional predictors are thought
+#' of as co-variates.  The data and fitted curves are partitioned by
+#' these covariates.  When the number of components to this partition is large,
+#' a random subset of the fitted curves is displayed to avoid visual clutter.
 #' 
 #' If the model was fit on one quantitative variable (e.g. SLR), then
 #' a scatter plot is drawn, and the model is realized as parallel or
 #' non-parallel lines, depending on whether interaction terms are present.
 #' 
-#' If the model was fit on two quantitative variables (e.g. MLR), then
-#' if \code{\link{rgl}} is present, the data points are drawn in 3-space,
-#' and the model is realized as a series of planes. 
+#' Eventually we hope to support 3-d visualizations of models with 2 quantitative
+#' predictors using \code{\link{rgl}}.
+#' 
+# If \code{key} indicates two quantitative variables, then
+# if \code{\link{rgl}} is present, the data points are drawn in 3-space,
+# and the model is realized as a series of planes.
 #' 
 #' Currently, only linear regression models and 
 #' generalized linear regression models are supported. 
 #' 
-#' Interaction terms are supported for lines, but not planes. 
+#' @return A lattice or ggplot2 graphics object.
 #' 
-#' Polynomial terms are currently unsupported. 
-#'
-#' @return A lattice graphics object, or in the case of a 3D model, nothing
-#' but an RGL window will pop up.
+# or in the case of a 3D model, nothing
+# but an RGL window will pop up.
 #' 
 #' @seealso \code{\link{plotPloints}, \link{plotFun}}
-#' @author Ben Baumer, Galen Long
+#' @author Ben Baumer, Galen Long, Randall Pruim
 #' @export
 #' @examples
 #' 
 #' require(mosaic)
-#' # This case is not currently handled.
-#' # mod = lm( mpg ~ 1, data=mtcars)
-#' # plotModel(mod)
 #' 
-#' # not work -- not sure why -- should work...
-#' mod = lm( mpg ~ factor(cyl), data=mtcars)
-#' plotModel(mod, auto.key=TRUE)
+#' mod <- lm( mpg ~ factor(cyl), data = mtcars)
+#' plotModel(mod)
 #' 
 #' # SLR
-#' mod = lm( mpg ~ wt, data=mtcars)
+#' mod <- lm( mpg ~ wt, data = mtcars)
 #' plotModel(mod, pch = 19)
 #' 
 #' # parallel slopes
-#' mod = lm( mpg ~ wt + factor(cyl), data=mtcars)
-#' plotModel(mod, auto.key=TRUE)
+#' mod <- lm( mpg ~ wt + factor(cyl), data=mtcars)
+#' plotModel(mod)
 #' 
 #' # multiple categorical vars
-#' mod = lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data=mtcars)
-#' plotModel(mod, auto.key=TRUE)
+#' mod <- lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data = mtcars)
+#' plotModel(mod)
+#' plotModel(mod, key = ~am)
 #' 
 #' # interaction
-#' mod = lm( mpg ~ wt + factor(cyl) + wt*factor(cyl), data=mtcars)
+#' mod <- lm( mpg ~ wt + factor(cyl) + wt:factor(cyl), data = mtcars)
 #' plotModel(mod)
 #' 
 #' # polynomial terms
-#' # not work -- doesn't understand that wt^2 is a squared term
-#' mod = lm( mpg ~ wt + I(wt^2), data=mtcars)
+#' mod <- lm( mpg ~ wt + I(wt^2), data = mtcars)
 #' plotModel(mod)
 #' 
+#' # GLM
+#' mod <- glm(vs ~ wt, data=mtcars, family = 'binomial')
+#' plotModel(mod)
+#' 
+#' # GLM with interaction
+#' mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
+#' plotModel(mod)
+
 #' # 3D model
 #' mod <- lm( mpg ~ wt + hp, data = mtcars)
 #' plotModel(mod)
@@ -84,22 +86,12 @@
 #' mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
 #' plotModel(mod)
 #' 
-#' # GLM
-#' mod <- glm(vs ~ wt, data=mtcars, family = 'binomial')
-#' plotModel(mod)
-#' 
-#' # GLM with interaction
-#' mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
-#' plotModel(mod)
-
 
 # ------------------------------------------------------------------------------
 # TODO
 #
-# support for polynomial terms
+# detect and pass through 3-d models
 # support for interaction in planes
-# ... pass-through to xyplot()
-# improved efficiency by avoiding ladd() / add = TRUE
 # 
 # ------------------------------------------------------------------------------
 
@@ -107,38 +99,39 @@ plotModel <- function(mod, ...) { UseMethod("plotModel") }
 
 #' @export
 plotModel.default <- function(mod, ...) {
-  plotModel(parseModel(mod))
+  plotModel(parseModel(mod), ...)
 }
 
 plotModel.parsedModel <- 
-  function(x, key=1, ..., max.levels = 9L, system=c("ggplot2", "lattice")) {
-  system <- match.arg(system)
-  
-  if (inherits(key, "formula")) {
-    key <- all.vars(rhs(key))
-  }
-  
-  if (length(key) > 1L) 
-    stop("Only one key variable allowed (so far).")
- 
-  if (length(x$varTypes) < 2L) 
-    stop("Only models with explanatory variables can be plotted (so far).")
-  
-  key <- x$varTypes[-1][key]
-  formula <- y ~ x
+  function(x, key=1, ..., max.levels = 9L, system=c("lattice", "ggplot2")) {
+    
+    system <- match.arg(system)
+    
+    if (inherits(key, "formula")) {
+      key <- all.vars(rhs(key))
+    }
+    
+    if (length(key) > 1L) 
+      stop("Only one key variable allowed (so far).")
+    
+    if (length(x$varTypes) < 2L) 
+      stop("Only models with explanatory variables can be plotted (so far).")
+    
+    key <- x$varTypes[-1][key]
+    formula <- y ~ x
     formula[[2]] <- as.name(x$responseName)
     formula[[3]] <- as.name(names(key))
-  other_data <- x$data[, -1, drop=FALSE]
-  other_data[[names(key)]] <- NULL
-  categories <- expand.grid(lapply(other_data, unique))
-  if (nrow(categories) > max.levels) { 
-    warning("Randomly sampling some of the ", 
-            nrow(categories), 
-            " levels of the fit function for you.",
-            call. = FALSE) 
-    categories <- categories %>% sample_n(max.levels)
-  }
-  
+    other_data <- x$data[, -1, drop=FALSE]
+    other_data[[names(key)]] <- NULL
+    categories <- expand.grid(lapply(other_data, unique))
+    if (nrow(categories) > max.levels) { 
+      warning("Randomly sampling some of the ", 
+              nrow(categories), 
+              " levels of the fit function for you.",
+              call. = FALSE) 
+      categories <- categories %>% sample_n(max.levels)
+    }
+    
     # convert the model into a function
     modelFunc <- makeFun(mod)
     
@@ -155,38 +148,51 @@ plotModel.parsedModel <-
       # categories[["id"]] <- factor(1:nrow(categories))
       categories <- categories %>% mutate(id = interaction(categories))
       other_data <- other_data %>% inner_join(categories)
+      point_data <- x$data %>% inner_join(categories)
+      line_data <- bind_rows(lapply(1:length(x_points), function(x) categories))
     } else {
-      categories[["id"]] <- factor("1")
+      point_data <- x$data 
+      point_data[["id"]] <- factor("1")
+      line_data <- point_data
     }
-    point_data <- x$data %>% inner_join(categories)
+    line_data[["x"]] <-
+      line_data[[names(key)]] <- 
+      rep(x_points, times = nrow(categories))
     
-    line_data <- bind_rows(lapply(1:length(x_points), function(x) categories))
-    line_data[[names(key)]] <- rep(x_points, times = nrow(categories))
-    
-    # Calls <- lapply(1:nrow(line_data), function(r) {
-    #   args <- line_data[r, , drop=FALSE] %>% as.list()
-    #   args <- lapply(args, function(x) if (is.factor(x)) as.character(x) else x)
-    #   do.call( "call", c( list("modelFunc") , args ) )
-    # })
-    line_data[[x$responseName]] <- 
+    line_data[["y"]] <- 
+      line_data[[x$responseName]] <- 
       predict(x$model, newdata=line_data, type="response")
-    # sapply(Calls, function(c) eval(c))
-   
-    return( 
+    
+    mypanel <- 
+      function(x, y, line_data, ...) {
+        panel.xyplot(x, y, type = "p", ...)
+        line_data <- line_data %>% arrange(id, x)
+        grid::grid.polyline(
+          x = line_data$x, 
+          y = line_data$y, 
+          default.units = "native",
+          id = as.numeric(line_data$id),
+          gp = gpar(col = trellis.par.get("superpose.line")$col)
+        )
+      }
+    
+    if (system == "ggplot2") {
       ggplot() +
         geom_point(aes_string(y = x$responseName, x = names(key), colour="id"), size=1.2,
                    data = point_data) +
         geom_line (aes_string(y = x$responseName, x = names(key), colour="id"), size=0.5,
                    data = line_data)
-    )
+    } else {
+      xyplot(formula, 
+             data = point_data,
+             line_data = line_data,
+             groups = id,
+             ...,
+             panel = mypanel) 
+    } 
     
-    return(line_data)
     
-    xyplot(formula, 
-           data = x$data,
-           ...,
-           panel = mypanel) 
-}
+  }
 
 #' @export
 plotModel0.mhyperplanes <- function(mod, ...) {
