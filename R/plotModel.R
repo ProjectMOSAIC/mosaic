@@ -92,6 +92,7 @@
 #
 # detect and pass through 3-d models
 # support for interaction in planes
+# key = ~ x | z for faceting one covariate?
 # 
 # ------------------------------------------------------------------------------
 
@@ -103,7 +104,7 @@ plotModel.default <- function(mod, ...) {
 }
 
 plotModel.parsedModel <- 
-  function(x, key=1, ..., max.levels = 9L, system=c("lattice", "ggplot2")) {
+  function(x, key=1, ..., drop = TRUE, max.levels = 9L, system=c("lattice", "ggplot2")) {
     
     system <- match.arg(system)
     
@@ -123,13 +124,14 @@ plotModel.parsedModel <-
     formula[[3]] <- as.name(names(key))
     other_data <- x$data[, -1, drop=FALSE]
     other_data[[names(key)]] <- NULL
-    categories <- expand.grid(lapply(other_data, unique))
-    if (nrow(categories) > max.levels) { 
+    categories_all <- expand.grid(lapply(other_data, unique))
+    categories_shown <- categories_all
+    if (nrow(categories_all) > max.levels) { 
       warning("Randomly sampling some of the ", 
-              nrow(categories), 
+              nrow(categories_all), 
               " levels of the fit function for you.",
               call. = FALSE) 
-      categories <- categories %>% sample_n(max.levels)
+      categories_shown <- categories_all %>% sample_n(max.levels)
     }
     
     # convert the model into a function
@@ -145,15 +147,16 @@ plotModel.parsedModel <-
       x_points <- unique( x$data[[names(key)]] )
     }
     
-    if( nrow(categories) > 0L) {
+    if( nrow(categories_shown) > 0L) {
       # categories[["id"]] <- factor(1:nrow(categories))
-      categories <- categories %>% mutate(id = interaction(categories))
-      other_data <- other_data %>% inner_join(categories)
-      point_data <- x$data %>% inner_join(categories)
-      line_data <- bind_rows(lapply(1:length(x_points), function(x) categories))
+      categories_all <- categories_all %>% mutate(id = interaction(categories_all, drop = drop))
+      categories_shown <- categories_shown %>% mutate(id = interaction(categories_shown, drop = drop))
+      other_data <- suppressMessages(other_data %>% left_join(categories_all))
+      point_data <- suppressMessages(x$data %>% left_join(categories_all))
+      line_data <- bind_rows(lapply(1:length(x_points), function(x) categories_shown))
       line_data[["x"]] <-
         line_data[[names(key)]] <- 
-          rep(x_points, times = nrow(categories))
+          rep(x_points, times = nrow(categories_shown))
     } else {
       point_data <- x$data 
       point_data[["id"]] <- factor(" ")
