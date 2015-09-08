@@ -142,36 +142,6 @@ plotModel.parsedModel <-
     # convert the model into a function
     modelFunc <- makeFun(mod)
     
-    # if (nrow(categories) < 1L) {
-    #   levelFuns <- list(modelFunc)
-    # } else {
-    #   Calls <- lapply(1:nrow(categories), function(r) {
-    #     args <- categories[r, , drop=FALSE] %>% unlist() %>% as.list()
-    #     do.call( "call", c( list("modelFunc") , alist(as.name(names(key))), args ) )
-    #   })
-    #   levelForms <- 
-    #     lapply( Calls, function(c) {
-    #       formula <- y ~ x 
-    #       formula[[2]] <- c 
-    #       formula[[3]] <- as.name(names(key))
-    #       formula} )
-    #   levelFuns <- lapply(levelForms, 
-    #                       function(form) { 
-    #                         f <- makeFun(form)
-    #                         environment(f)$modelFunc <- modelFunc
-    #                         environment(f)$mod <- mod
-    #                         f
-    #                       })
-    # }
-    
-    # create panel function
-    # mypanel <- 
-    #   function(x, y, ...) {
-    #     panel.xyplot(x, y, ...)
-    #     mosaic:::panel.plotFun1a(levelFuns)
-    #   }
-   
-    
     if (key == "continuous") {
       p <- xyplot(
         formula, 
@@ -186,17 +156,18 @@ plotModel.parsedModel <-
       categories <- categories %>% mutate(id = interaction(categories))
       other_data <- other_data %>% inner_join(categories)
     } else {
-      other_data[["id"]] <- factor("1")
+      categories[["id"]] <- factor("1")
     }
     point_data <- x$data %>% inner_join(categories)
     
-    line_data <- bind_rows(lapply(1:length(x_points), function(x) other_data))
-    line_data[[names(key)]] <- rep(x_points, times = nrow(other_data))
-    Calls <- lapply(1:nrow(line_data), function(r) {
-      args <- line_data[r, , drop=FALSE] %>% as.list()
-      args <- lapply(args, function(x) if (is.factor(x)) as.character(x) else x)
-      do.call( "call", c( list("modelFunc") , args ) )
-    })
+    line_data <- bind_rows(lapply(1:length(x_points), function(x) categories))
+    line_data[[names(key)]] <- rep(x_points, times = nrow(categories))
+    
+    # Calls <- lapply(1:nrow(line_data), function(r) {
+    #   args <- line_data[r, , drop=FALSE] %>% as.list()
+    #   args <- lapply(args, function(x) if (is.factor(x)) as.character(x) else x)
+    #   do.call( "call", c( list("modelFunc") , args ) )
+    # })
     line_data[[x$responseName]] <- 
       predict(x$model, newdata=line_data, type="response")
     # sapply(Calls, function(c) eval(c))
