@@ -42,8 +42,9 @@
 #' @examples
 #' 
 #' require(mosaic)
-#' mod = lm( mpg ~ 1, data=mtcars)
-#' plotModel(mod)
+#' # This case is not currently handled.
+#' # mod = lm( mpg ~ 1, data=mtcars)
+#' # plotModel(mod)
 #' 
 #' # not work -- not sure why -- should work...
 #' mod = lm( mpg ~ factor(cyl), data=mtcars)
@@ -109,13 +110,120 @@ plotModel.default <- function(mod, ...) {
   plotModel(parseModel(mod))
 }
 
+plotModel.parsedModel <- 
+  function(x, key=1, ..., max.levels = 9L, system=c("ggplot2", "lattice")) {
+  system <- match.arg(system)
+  
+  if (inherits(key, "formula")) {
+    key <- all.vars(rhs(key))
+  }
+  
+  if (length(key) > 1L) 
+    stop("Only one key variable allowed (so far).")
+ 
+  if (length(x$varTypes) < 2L) 
+    stop("Only models with explanatory variables can be plotted (so far).")
+  
+  key <- x$varTypes[-1][key]
+  formula <- y ~ x
+    formula[[2]] <- as.name(x$responseName)
+    formula[[3]] <- as.name(names(key))
+  other_data <- x$data[, -1, drop=FALSE]
+  other_data[[names(key)]] <- NULL
+  categories <- expand.grid(lapply(other_data, unique))
+  if (nrow(categories) > max.levels) { 
+    warning("Randomly sampling some of the ", 
+            nrow(categories), 
+            " levels of the fit function for you.",
+            call. = FALSE) 
+    categories <- categories %>% sample_n(max.levels)
+  }
+  
+    # convert the model into a function
+    modelFunc <- makeFun(mod)
+    
+    # if (nrow(categories) < 1L) {
+    #   levelFuns <- list(modelFunc)
+    # } else {
+    #   Calls <- lapply(1:nrow(categories), function(r) {
+    #     args <- categories[r, , drop=FALSE] %>% unlist() %>% as.list()
+    #     do.call( "call", c( list("modelFunc") , alist(as.name(names(key))), args ) )
+    #   })
+    #   levelForms <- 
+    #     lapply( Calls, function(c) {
+    #       formula <- y ~ x 
+    #       formula[[2]] <- c 
+    #       formula[[3]] <- as.name(names(key))
+    #       formula} )
+    #   levelFuns <- lapply(levelForms, 
+    #                       function(form) { 
+    #                         f <- makeFun(form)
+    #                         environment(f)$modelFunc <- modelFunc
+    #                         environment(f)$mod <- mod
+    #                         f
+    #                       })
+    # }
+    
+    # create panel function
+    # mypanel <- 
+    #   function(x, y, ...) {
+    #     panel.xyplot(x, y, ...)
+    #     mosaic:::panel.plotFun1a(levelFuns)
+    #   }
+   
+    
+    if (key == "continuous") {
+      p <- xyplot(
+        formula, 
+        data = x$data
+      )
+      x_points <- seq(p$x.limits[1], p$x.limits[2], length.out = 40)
+    } else {
+      x_points <- unique( x$data[[names(key)]] )
+    }
+    if( nrow(categories) > 0L) {
+      # categories[["id"]] <- factor(1:nrow(categories))
+      categories <- categories %>% mutate(id = interaction(categories))
+      other_data <- other_data %>% inner_join(categories)
+    } else {
+      other_data[["id"]] <- factor("1")
+    }
+    point_data <- x$data %>% inner_join(categories)
+    
+    line_data <- bind_rows(lapply(1:length(x_points), function(x) other_data))
+    line_data[[names(key)]] <- rep(x_points, times = nrow(other_data))
+    Calls <- lapply(1:nrow(line_data), function(r) {
+      args <- line_data[r, , drop=FALSE] %>% as.list()
+      args <- lapply(args, function(x) if (is.factor(x)) as.character(x) else x)
+      do.call( "call", c( list("modelFunc") , args ) )
+    })
+    line_data[[x$responseName]] <- 
+      predict(x$model, newdata=line_data, type="response")
+    # sapply(Calls, function(c) eval(c))
+   
+    return( 
+      ggplot() +
+        geom_point(aes_string(y = x$responseName, x = names(key), colour="id"), size=1.2,
+                   data = point_data) +
+        geom_line (aes_string(y = x$responseName, x = names(key), colour="id"), size=0.5,
+                   data = line_data)
+    )
+    
+    return(line_data)
+    
+    xyplot(formula, 
+           data = x$data,
+           ...,
+           panel = mypanel) 
+}
+
 #' @export
-plotModel.mhyperplanes <- function(mod, ...) {
+plotModel0.mhyperplanes <- function(mod, ...) {
   stop("Sorry, but you can't plot in higher-dimensional space.")
 }
 
 #' @export
-plotModel.mplanes <- function(mod, ...) {
+plotModel0.mplanes <- function(mod, ...) {
   # do something with rgl
   if (!require(rgl)) {
     stop("Please install rgl for 3D support")
@@ -155,7 +263,7 @@ plotModel.mplanes <- function(mod, ...) {
 }
 
 #' @export
-plotModel_old.mlines <- function(mod, ...) {
+plotModel0_old.mlines <- function(mod, ...) {
   # plot data
   myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), 
                    data = mod$call$data, ...) 
@@ -182,22 +290,22 @@ plotModel_old.mlines <- function(mod, ...) {
 }
 
 #' @export
-plotModel2 <- function(mod, ...) { UseMethod("plotModel2") }
+plotModel0 <- function(mod, ...) { UseMethod("plotModel0") }
 
 #' @export
-plotModel2.default <- function(mod, ...) {
-  plotModel2(parseModel(mod))
+plotModel0.default <- function(mod, ...) {
+  plotModel0(parseModel0(mod))
 }
 
 #' @export
-plotModel.mlines <- function(mod, ...) {
+plotModel0.mlines <- function(mod, ...) {
   
   # convert the model into a function
   modelFunc <- makeFun(mod)
   
   # all combinations of categorical levels
   categories <- expand.grid(mod$xlevels) 
- 
+  
   if (nrow(categories) < 1L) {
     levelFuns <- list(modelFunc)
   } else {
@@ -221,13 +329,13 @@ plotModel.mlines <- function(mod, ...) {
     }
   
   xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1]), env=parent.frame()), 
-           data = eval(mod$call$data, parent.frame()), ...,
-           panel = mypanel) 
+         data = eval(mod$call$data, parent.frame()), ...,
+         panel = mypanel) 
 }
 
 
 #' @export
-plotModel.mpoints <- function(mod, ...) {
+plotModel0.mpoints <- function(mod, ...) {
   # plot data
   myplot <- xyplot(as.formula(paste(mod$responseName, "~ 1")), data = mod$model, ...) 
   
@@ -255,11 +363,11 @@ plotModel.mpoints <- function(mod, ...) {
   myplot
 }
 
-parseModel <- function(x) {
+parseModel0 <- function(x) {
   data <- eval(x$call$data, environment(x$call$formula))[modelVars(x)]
   fit <- makeFun(x)
   inputs <- head(formals(fit), -2)  # remove ... and transform
- 
+  
   discreteOrContinuous <- function(x) {
     if (is.factor(x) || length(unique(x)) < 4L) "discrete" else "continuous"
   }
@@ -294,4 +402,40 @@ parseModel <- function(x) {
   return(x)
 }
 
-
+parseModel <- function(x) {
+  res <- list(model = x)
+  res$data <- eval(x$call$data, environment(x$call$formula))[all.vars(x$call$formula)]
+  res$fit <- makeFun(x)
+  inputs <- head(formals(res$fit), -2)  # remove ... and transform
+  
+  discreteOrContinuous <- function(n, data, model) {
+    if (is.factor(data[[n]])    || 
+        is.character(data[[n]]) ||
+        is.logical(data[[n]])   ||
+        paste0("factor(", n, ")" ) %in% names(attr(terms(model), "dataClasses"))
+    )
+      "discrete" else "continuous"
+  }
+  
+  # determine number of each variable type (categorical or quantitative)
+  res$varTypes <- sapply(names(res$data), function(n) discreteOrContinuous(n, res$data, x)) 
+  names(res$varTypes) <- names(res$data)
+  
+  # varTypes <- attr(terms(x), "dataClasses")[modelVars(x)]
+  res$responseName <- as.character(lhs(terms(x)))
+  res$numericNames <- names(which(x$varTypes == "continuous")) # , x$responseName)
+  res$catNames <- names(which(x$varTypes == "discrete")) # , x$responseName)
+  
+  # cases (w, x are cont; a, b are disc):
+  #   y ~ x + other
+  #     xyplot (with groups for other)
+  #   y ~ x + y + other
+  #     3d plot (groups?)
+  #   y ~ a + other
+  #     xyplot with jitter (with groups for other)
+  #   y ~ a + b + other
+  #     xyplot with jitter and facets? (and groups for other)
+  
+  class(res) <- c("parsedModel")
+  return(res)
+}
