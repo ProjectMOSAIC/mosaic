@@ -73,9 +73,6 @@ If \code{NULL}, this will be determined by the value of \code{under}.}
 \item{discontinuity}{a positive number 1 determining how sensitive the plot is to
 potential discontinuity.  Larger values result in less sensitivity.  The default is 1.
 Use \code{discontinuity = Inf} to disable discontinuity detection.}
-
-\item{discontinuities}{a vector of input values at which a function is discontinuous or \code{NULL} to use
-a heuristic to auto-detect.}
 }
 \value{
 a \code{trellis} object

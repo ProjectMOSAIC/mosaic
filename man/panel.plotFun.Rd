@@ -37,6 +37,9 @@ panel.plotFun(object, ..., type = "l", npts = NULL, zlab = NULL,
 \item{col.regions}{a vector of colors or a function (\code{topo.colors} by default) for generating such}
 
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
+
+\item{discontinuities}{a vector of input values at which a function is discontinuous or \code{NULL} to use
+a heuristic to auto-detect.}
 }
 \description{
 Panel function for plotting functions

@@ -40,6 +40,9 @@ panel.plotFun1(..f.., ..., x, y, type = "l",
 \item{surface}{a logical indicating whether to draw a surface plot rather than a contour plot}
 
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
+
+\item{discontinuities}{a vector of input values at which a function is discontinuous or \code{NULL} to use
+a heuristic to auto-detect.}
 }
 \description{
 Panel function for plotting functions
