@@ -290,9 +290,9 @@ The \function{confint} function is a black box.  In introducing it, an instructo
 
 \item Calculation of the 90\% confidence interval using quantiles
 <<qdata>>=
-qdata(c(.05, .95), mean, data=Mustangs.Price.boot)
+qdata(c(.05, .95), ~mean, data=Mustangs.Price.boot)
 # alternative
-cdata(.90, mean, data=Mustangs.Price.boot)
+cdata(.90, ~mean, data=Mustangs.Price.boot)
 
 @ 
 
@@ -476,7 +476,7 @@ cor(Price, Miles, data=Mustangs)
 
 <<>>=
 Mustangs.cor.boot <- do(1000) * cor(Price, Miles, data=resample(Mustangs))
-quantiles <- qdata(c(.025, .975), cor, data=Mustangs.cor.boot); quantiles
+quantiles <- qdata(c(.025, .975), ~cor, data=Mustangs.cor.boot); quantiles
 @
 
 <<cor, fig.width=4, fig.height=2, tidy=FALSE>>=
@@ -521,7 +521,7 @@ This number, 22 cents decrease per mile, can be thought of as an ``effect size.'
 
 The mean price of the Mustangs is, calculated in the ordinary way:
 <<>>=
-mean( Price, data=Mustangs )
+mean( ~Price, data=Mustangs )
 @
 
 The same result can be had via a linear model:
