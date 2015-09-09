@@ -20,7 +20,7 @@
 #' @importFrom utils head modifyList
 #' @importFrom stats TukeyHSD nls
 #' @importFrom gridExtra grid.arrange arrangeGrob
-#' @importFrom ggdendro segment label dendro_data dendro_data.hclust
+#' @importFrom ggdendro segment label dendro_data 
 #' @importFrom reshape2 melt acast dcast
 #' @import methods
 #' @importFrom MASS fitdistr fractions
