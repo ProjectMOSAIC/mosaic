@@ -104,7 +104,7 @@ plotModel.default <- function(mod, ...) {
 }
 
 plotModel.parsedModel <- 
-  function(x, key=1, ..., drop = TRUE, max.levels = 9L, system=c("lattice", "ggplot2")) {
+  function(x, key=1, ..., auto.key = NULL, drop = TRUE, max.levels = 9L, system=c("lattice", "ggplot2")) {
     
     system <- match.arg(system)
     
@@ -148,16 +148,18 @@ plotModel.parsedModel <-
     }
     
     if( nrow(categories_shown) > 0L) {
+      if (is.null(auto.key)) auto.key <- list(points = TRUE, lines=TRUE, columns = 3)
       # categories[["id"]] <- factor(1:nrow(categories))
       categories_all <- categories_all %>% mutate(id = interaction(categories_all, drop = drop))
       categories_shown <- categories_shown %>% mutate(id = interaction(categories_shown, drop = drop))
       other_data <- suppressMessages(other_data %>% left_join(categories_all))
       point_data <- suppressMessages(x$data %>% left_join(categories_all))
-      line_data <- bind_rows(lapply(1:length(x_points), function(x) categories_shown))
+      line_data <- bind_rows(lapply(1:length(x_points), function(x) categories_shown)) 
       line_data[["x"]] <-
         line_data[[names(key)]] <- 
           rep(x_points, times = nrow(categories_shown))
     } else {
+      if (is.null(auto.key)) auto.key <- FALSE
       point_data <- x$data 
       point_data[["id"]] <- factor(" ")
       line_data <- data.frame(x = x_points, id=factor(" ")) 
@@ -184,14 +186,15 @@ plotModel.parsedModel <-
     if (system == "ggplot2") {
       ggplot() +
         geom_point(aes_string(y = x$responseName, x = names(key), colour="id"), size=1.2,
-                   data = point_data) +
+                   data = point_data %>% droplevels()) +
         geom_line (aes_string(y = x$responseName, x = names(key), colour="id"), size=0.5,
-                   data = line_data)
+                   data = line_data %>% droplevels())
     } else {
       xyplot(formula, 
-             data = point_data,
-             line_data = line_data,
+             data = point_data %>% droplevels(),
+             line_data = line_data %>% droplevels(),
              groups = id,
+             auto.key = auto.key,
              ...,
              panel = mypanel) 
     } 
