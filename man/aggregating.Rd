@@ -19,46 +19,40 @@
 \alias{var}
 \title{Aggregating functions}
 \usage{
-mean(x, ..., data, groups = NULL, ..fun.. = base::mean,
-  na.rm = getOption("na.rm", FALSE))
+mean(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
-median(x, ..., data, groups = NULL, ..fun.. = stats::median,
-  na.rm = getOption("na.rm", FALSE))
+median(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
-range(x, ..., data, groups = NULL, ..fun.. = base::range,
-  na.rm = getOption("na.rm", FALSE))
+range(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
-sd(x, ..., data, groups = NULL, ..fun.. = stats::sd,
-  na.rm = getOption("na.rm", FALSE))
+sd(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-max(x, ..., data, groups = NULL, ..fun.. = base::max,
-  na.rm = getOption("na.rm", FALSE))
+max(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-min(x, ..., data, groups = NULL, ..fun.. = base::min,
-  na.rm = getOption("na.rm", FALSE))
+min(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-sum(x, ..., data, groups = NULL, ..fun.. = base::sum,
-  na.rm = getOption("na.rm", FALSE))
+sum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-IQR(x, ..., data, groups = NULL, ..fun.. = stats::IQR,
-  na.rm = getOption("na.rm", FALSE))
+IQR(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-fivenum(x, ..., data, groups = NULL, ..fun.. = stats::fivenum,
-  na.rm = getOption("na.rm", FALSE))
+fivenum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
-iqr(x, ..., data, groups = NULL, ..fun.. = stats::IQR,
-  na.rm = getOption("na.rm", FALSE))
+iqr(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-prod(x, ..., data, groups = NULL, ..fun.. = base::prod,
-  na.rm = getOption("na.rm", FALSE))
+prod(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
-sum(x, ..., data, groups = NULL, ..fun.. = base::sum,
-  na.rm = getOption("na.rm", FALSE))
+sum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-favstats(x, ..., data, groups = NULL, ..fun.. = fav_stats, na.rm = TRUE)
+favstats(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
-quantile(x, ..., data, groups = NULL, ..fun.. = stats::quantile,
-  na.rm = getOption("na.rm", FALSE))
+quantile(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 var(x, ..., data, groups = NULL, ..fun.. = stats::var,
   na.rm = getOption("na.rm", FALSE))
@@ -79,10 +73,10 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{groups}{a grouping variable, typically a name of a variable in \code{data}}
 
+\item{na.rm}{a logical indicating whether \code{NA}s should be removed before computing}
+
 \item{..fun..}{the underlying function.  It would be very unusual to change
 this from its default value.}
-
-\item{na.rm}{a logical indicating whether \code{NA}s should be removed before computing}
 
 \item{y}{an object, often a numeric vector}
 

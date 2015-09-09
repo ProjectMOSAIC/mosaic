@@ -15,23 +15,28 @@
 \usage{
 qdata_v(x, p = seq(0, 1, 0.25), na.rm = TRUE, ...)
 
-qdata_f(x, ..., data, groups = NULL, ..fun.. = qdata_v, na.rm = TRUE)
+qdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 cdata_v(x, p = 0.95, na.rm = TRUE, ...)
 
-cdata_f(x, ..., data, groups = NULL, ..fun.. = cdata_v, na.rm = TRUE)
+cdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 pdata_v(x, q, lower.tail = TRUE, ...)
 
-pdata_f(x, ..., data, groups = NULL, ..fun.. = pdata_v, na.rm = TRUE)
+pdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 rdata_v(vals, n, replace = TRUE, ...)
 
-rdata_f(x, ..., data, groups = NULL, ..fun.. = rdata_v, na.rm = TRUE)
+rdata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
 ddata_v(vals, q, ..., data = NULL, log = FALSE, na.rm = TRUE)
 
-ddata_f(x, ..., data, groups = NULL, ..fun.. = ddata_v, na.rm = TRUE)
+ddata_f(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 }
 \arguments{
 \item{x}{an object}
