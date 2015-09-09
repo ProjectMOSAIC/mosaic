@@ -210,7 +210,7 @@ plotModel0.mhyperplanes <- function(mod, ...) {
 #' @export
 plotModel0.mplanes <- function(mod, ...) {
   # do something with rgl
-  if (!require(rgl)) {
+  if (!requireNamespace(rgl)) {
     stop("Please install rgl for 3D support")
   }
   xName = mod$numericNames[1] 
@@ -218,7 +218,7 @@ plotModel0.mplanes <- function(mod, ...) {
   zName = mod$responseName 
   # get better default axis labels
   # if (is.null(match.arg("xlab"))) { xlab = "mod$numericNames[1]"; }
-  plot3d(x = mod$model[, xName], 
+  rgl::plot3d(x = mod$model[, xName], 
          y = mod$model[, yName], 
          z = mod$model[, zName], 
          ...)
@@ -239,15 +239,15 @@ plotModel0.mplanes <- function(mod, ...) {
   intercepts <- predict(mod, newdata = categories)
   
   if (nrow(categories) == 0) {
-    planes3d(coefs[xName], coefs[yName], -1, coefs["(Intercept)"], alpha = 0.5, col = "lightgray")
+    rgl::planes3d(coefs[xName], coefs[yName], -1, coefs["(Intercept)"], alpha = 0.5, col = "lightgray")
   } else {
     for (intercept in intercepts) {
-      planes3d(coefs[xName], coefs[yName], -1, intercept, alpha = 0.5, col = "lightgray")
+      rgl::planes3d(coefs[xName], coefs[yName], -1, intercept, alpha = 0.5, col = "lightgray")
     }
   }
 }
 
-#' @export
+ 
 plotModel0_old.mlines <- function(mod, ...) {
   # plot data
   myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), 
@@ -274,15 +274,15 @@ plotModel0_old.mlines <- function(mod, ...) {
   return(myplot)
 }
 
-#' @export
+
 plotModel0 <- function(mod, ...) { UseMethod("plotModel0") }
 
-#' @export
+
 plotModel0.default <- function(mod, ...) {
   plotModel0(parseModel0(mod))
 }
 
-#' @export
+
 plotModel0.mlines <- function(mod, ...) {
   
   # convert the model into a function
@@ -319,7 +319,7 @@ plotModel0.mlines <- function(mod, ...) {
 }
 
 
-#' @export
+
 plotModel0.mpoints <- function(mod, ...) {
   # plot data
   myplot <- xyplot(as.formula(paste(mod$responseName, "~ 1")), data = mod$model, ...) 
