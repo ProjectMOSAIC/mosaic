@@ -37,6 +37,7 @@
 
 
 # Testing a possible replacement for aggregatingFunction1
+# Might be masked below by the old one -- be sure to check.
 
 aggregatingFunction1 <- 
   function( fun, 
@@ -103,6 +104,67 @@ aggregatingFunction1 <-
     res
   } 
 
+# Old version -- append a to name to use the new one above.
+aggregatingFunction1 <-
+  function (fun, input.multiple = FALSE, output.multiple = FALSE, 
+          envir = parent.frame(), na.rm = getOption("na.rm", FALSE)) 
+{
+  result <- function(x, ..., data, groups = NULL) {
+    orig.call <- match.call()
+    fun.call <- orig.call
+    fun.call[[1]] <- substitute(..fun..)
+    fun.call[[2]] <- substitute(x)
+    missingData <- FALSE
+    if (missing(data)) {
+      missingData <- TRUE
+      data = parent.frame()
+      result <- tryCatch(eval(fun.call, envir = parent.frame()), 
+                         error = function(e) {
+                           e
+                         }, warning = function(w) {
+                           w
+                         })
+      if (!inherits(result, "warning") && !inherits(result, 
+                                                    "error")) {
+        return(result)
+      }
+    }
+    maggregate.call <- orig.call
+    x_name <- substitute(x)
+    if (!.is.formula(x)) {
+      if (!missingData) {
+        fun.call[["data"]] <- NULL
+      }
+      if (input.multiple) {
+        result <- tryCatch(eval(fun.call, envir = data, 
+                                enclos = parent.frame()), error = function(e) {
+                                  e
+                                }, warning = function(w) {
+                                  w
+                                })
+        if (!inherits(result, "warning") && !inherits(result, 
+                                                      "error")) {
+          return(result)
+        }
+      }
+      x <- eval(substitute(mosaic_formula_q(.x, groups = quote(groups)), 
+                           list(.x = substitute(x), .g = substitute(groups))))
+      if ("groups" %in% names(maggregate.call)) 
+        maggregate.call[["groups"]] <- NULL
+    }
+    maggregate.call[[1]] <- quote(maggregate)
+    maggregate.call$formula <- x
+    maggregate.call$data <- data
+    maggregate.call$x <- NULL
+    maggregate.call$FUN <- substitute(..fun..)
+    maggregate.call$.multiple <- output.multiple
+    maggregate.call$na.rm <- substitute(na.rm)
+    return(eval(maggregate.call, envir = envir))
+  }
+  formals(result) <- c(formals(result), ..fun.. = substitute(fun), 
+                       na.rm = substitute(na.rm))
+  return(result)
+}
 # don't bother exporting this one (for now)
 
 aggregatingFunction1or2 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
