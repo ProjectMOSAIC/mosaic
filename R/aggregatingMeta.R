@@ -105,7 +105,7 @@ aggregatingFunction1 <-
   } 
 
 # Old version -- append a to name to use the new one above.
-aggregatingFunction1 <-
+aggregatingFunction1a <-
   function (fun, input.multiple = FALSE, output.multiple = FALSE, 
           envir = parent.frame(), na.rm = getOption("na.rm", FALSE)) 
 {
