@@ -5,12 +5,10 @@ Version: 0.10.2
 Date: 2015-09-09
 Depends:
     R (>= 3.0.0),
-    car,
     dplyr,
     lattice (>= 0.20-21),
     ggplot2,
     mosaicData,
-    ggdendro
 Imports:
     lazyeval,
     MASS,
@@ -22,6 +20,8 @@ Imports:
     utils,
     splines,
     latticeExtra,
+    car,
+    ggdendro,
     gridExtra
 Suggests:
     lubridate,
