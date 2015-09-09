@@ -5,7 +5,6 @@ Version: 0.10.9003
 Date: 2015-07-31
 Depends:
     R (>= 3.0.0),
-    car,
     dplyr,
     lattice (>= 0.20-21),
     ggplot2,
@@ -21,6 +20,7 @@ Imports:
     splines,
     latticeExtra,
     gridExtra,
+    car,
     ggdendro
 Suggests:
     lubridate,
