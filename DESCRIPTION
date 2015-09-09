@@ -8,6 +8,7 @@ Depends:
     dplyr,
     lattice (>= 0.20-21),
     ggplot2,
+    car,
     mosaicData
 Imports:
     lazyeval,
@@ -20,7 +21,6 @@ Imports:
     splines,
     latticeExtra,
     gridExtra,
-    car,
     ggdendro
 Suggests:
     lubridate,
