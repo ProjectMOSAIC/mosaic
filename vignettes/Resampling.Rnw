@@ -535,6 +535,8 @@ The mileage varies from car to car; this variation in mileage is used to explain
 
 In \verb+Price ~ 1+, the \texttt{1} can be thought of as signifying that there are no explanatory variables, or, from a slightly different perspective, that the cars are all the same. The \function{mean} function is set up to accept this same notation:
 <<>>=
+KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2
+KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2
 mean( Price ~ 1, data=Mustangs)
 @
 Why?  So that the notation can be extended to include calculating the mean for different groups.  To illustrate, consider the Lock \texttt{Sleep} data which compares the ability to memorize words after a nap versus after taking caffeine.

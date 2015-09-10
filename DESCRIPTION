@@ -1,7 +1,7 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 0.10.9004
+Version: 0.10.9005
 Date: 2015-09-09
 Depends:
     R (>= 3.0.0),
@@ -20,8 +20,8 @@ Imports:
     utils,
     splines,
     latticeExtra,
-    gridExtra,
-    ggdendro
+    ggdendro,
+    gridExtra
 Suggests:
     lubridate,
     fastR, 
