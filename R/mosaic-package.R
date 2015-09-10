@@ -18,7 +18,6 @@
 #' @keywords package
 #' @importFrom car deltaMethod
 #' @importFrom utils head modifyList
-#' @importFrom stats TukeyHSD nls
 #' @importFrom gridExtra grid.arrange arrangeGrob
 #' @importFrom ggdendro segment label dendro_data
 #' @importFrom reshape2 melt acast dcast
@@ -30,4 +29,13 @@
 #' @import ggplot2
 #' @import splines 
 #' @import mosaicData
+#' @importFrom grDevices col2rgb colorRampPalette gray heat.colors rgb topo.colors
+#' @importFrom graphics hist plot stem
+#' @importFrom stats TukeyHSD nls
+#' @importFrom stats addmargins aggregate anova aov approxfun as.formula chisq.test coef
+#' @importFrom stats complete.cases confint cutree dbeta dcauchy dchisq dexp dgamma dist dlnorm dnorm
+#' @importFrom stats dpois dt dweibull formula lm loess loess.control lsfit model.frame model.matrix
+#' @importFrom stats  model.response na.omit pnorm ppoints predict printCoefmat qnorm qt rbinom resid
+#' @importFrom stats rmultinom rnorm runif setNames splinefun terms uniroot update vcov wilcox.test xtabs
+#' @importFrom utils browseURL capture.output menu read.csv read.table str tail head
 NA
