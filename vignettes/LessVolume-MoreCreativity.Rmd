@@ -418,7 +418,8 @@ xyplot( births ~ date, data=Births78,
             pch=16, cex=1.2, alpha=.8)))
 ```
 
-**Notes:** 
+**Notes** 
+
  * `wday()` is in the `lubridate` package
  * This version of the plot reveals a clear weekend (and holiday) pattern.  Typically, I like to have students conjecture about the "double wave" pattern and see if we can build plots to test their conjectures.
 
