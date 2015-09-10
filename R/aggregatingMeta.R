@@ -63,7 +63,10 @@ aggregatingFunction1 <-
           tryCatch(
             lazyeval::lazy(x),
             error = function(e) {
-              if (grepl("Promise has already been forced", e$message)) 
+              if (grepl("Promise has already been forced", e$message) ||
+                  # next line can be deleted when lazyeval updates on CRAN
+                  grepl("e of NULL environment", e$message) 
+                  ) 
                 NULL
               else 
                 stop(e)
