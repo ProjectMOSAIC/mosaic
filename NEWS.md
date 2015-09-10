@@ -1,14 +1,17 @@
 # mosaic package NEWS
 
-## mosaic 0.10.9000+
+## mosaic 0.11
 
  * `mplot()` on a data frame now (a) prompts the user for the type of plot to create and (b) has an added option to make line plots for time series and the like.
  * `resample()` can now do residual resampling from a linear model.
  * Improvements have been made that make it easier to use `do()` to create common 
  bootstrap confidence intervals.  In particular, `confint()` can now 
  calculate three kinds of intervals in many common situations.
- * `fetchData()`, `fetchGoogle()`, and `fetchGapminder()` have been moved to a separate package, 
- called `fetch()`.
+ * `fetchData()`, `fetchGoogle()`, and `fetchGapminder()` have been moved to a 
+ separate package, called `fetch()`.
+ * `plotModel()` can be used to show data and model fits for a variety of models
+ created with `lm()` or `glm()`.
+ 
  
 
 ## mosaic 0.10
