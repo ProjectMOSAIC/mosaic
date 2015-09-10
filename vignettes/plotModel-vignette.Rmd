@@ -1,0 +1,90 @@
+---
+title: "Visualizing Models with plotModel()"
+author: "Ben Baumer"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(mosaic)
+```
+
+For now this is just a dump of a bunch of plots.  It needs to be turned into a vignette.
+
+## lattice
+
+```{r}
+mod <- lm( mpg ~ factor(cyl), data = mtcars)
+plotModel(mod)
+
+# SLR
+mod <- lm( mpg ~ wt, data = mtcars)
+plotModel(mod, pch = 19)
+
+# parallel slopes
+mod <- lm( mpg ~ wt + factor(cyl), data=mtcars)
+plotModel(mod)
+
+# multiple categorical vars
+mod <- lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data = mtcars)
+plotModel(mod)
+plotModel(mod, key = ~am)
+
+# interaction
+mod <- lm( mpg ~ wt + factor(cyl) + wt:factor(cyl), data = mtcars)
+plotModel(mod)
+
+# polynomial terms
+mod <- lm( mpg ~ wt + I(wt^2), data = mtcars)
+plotModel(mod)
+
+# GLM
+mod <- glm(vs ~ wt, data=mtcars, family = 'binomial')
+plotModel(mod)
+
+# GLM with interaction
+mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
+plotModel(mod)
+```
+
+
+## ggplot2
+
+```{r}
+mod <- lm( mpg ~ factor(cyl), data = mtcars)
+plotModel(mod, system="g")
+
+# SLR
+mod <- lm( mpg ~ wt, data = mtcars)
+plotModel(mod, system="g")
+
+# parallel slopes
+mod <- lm( mpg ~ wt + factor(cyl), data=mtcars)
+plotModel(mod, system = "g")
+
+# multiple categorical vars
+mod <- lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data = mtcars)
+plotModel(mod, system="g")
+plotModel(mod, key = ~am, system="g")
+
+# interaction
+mod <- lm( mpg ~ wt + factor(cyl) + wt:factor(cyl), data = mtcars)
+plotModel(mod, system="g")
+
+# polynomial terms
+mod <- lm( mpg ~ wt + I(wt^2), data = mtcars)
+plotModel(mod, system="g")
+
+# GLM
+mod <- glm(vs ~ wt, data=mtcars, family = 'binomial')
+plotModel(mod, system="g")
+
+# GLM with interaction
+mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
+plotModel(mod, system="g")
+```
