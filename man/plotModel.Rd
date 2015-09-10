@@ -9,7 +9,7 @@ plotModel(mod, ...)
 \arguments{
 \item{mod}{A model of type \code{\link{lm}} or \code{\link{glm}}}
 
-\item{\dots}{arguments passed to \code{\link{xyplot}} or \code{\link{plot3d}}}
+\item{\dots}{arguments passed to \code{\link{xyplot}} or \code{rgl::plot3d}.}
 }
 \value{
 A lattice or ggplot2 graphics object.
@@ -33,7 +33,7 @@ a scatter plot is drawn, and the model is realized as parallel or
 non-parallel lines, depending on whether interaction terms are present.
 
 Eventually we hope to support 3-d visualizations of models with 2 quantitative
-predictors using \code{\link{rgl}}.
+predictors using the \code{rgl} package.
 
 
 Currently, only linear regression models and
@@ -90,6 +90,6 @@ plotModel(mod)
 Ben Baumer, Galen Long, Randall Pruim
 }
 \seealso{
-\code{\link{plotPloints}, \link{plotFun}}
+\code{\link{plotPoints}}, \code{\link{plotFun}}
 }
 

@@ -3,7 +3,7 @@
 #' @description Visualize a regression model amid the data that generated it. 
 #' 
 #' @param mod A model of type \code{\link{lm}} or \code{\link{glm}}
-#' @param \dots arguments passed to \code{\link{xyplot}} or \code{\link{plot3d}}
+#' @param \dots arguments passed to \code{\link{xyplot}} or \code{rgl::plot3d}.
 #'
 #' @details The goal of this function is to assist with visualization
 #' of statistical models. Namely, to plot the model on top of the data
@@ -20,10 +20,10 @@
 #' non-parallel lines, depending on whether interaction terms are present.
 #' 
 #' Eventually we hope to support 3-d visualizations of models with 2 quantitative
-#' predictors using \code{\link{rgl}}.
+#' predictors using the \code{rgl} package.
 #' 
 # If \code{key} indicates two quantitative variables, then
-# if \code{\link{rgl}} is present, the data points are drawn in 3-space,
+# if the \code{rgl} package is available, the data points are drawn in 3-space,
 # and the model is realized as a series of planes.
 #' 
 #' Currently, only linear regression models and 
@@ -34,7 +34,7 @@
 # or in the case of a 3D model, nothing
 # but an RGL window will pop up.
 #' 
-#' @seealso \code{\link{plotPloints}, \link{plotFun}}
+#' @seealso \code{\link{plotPoints}}, \code{\link{plotFun}}
 #' @author Ben Baumer, Galen Long, Randall Pruim
 #' @export
 #' @examples
