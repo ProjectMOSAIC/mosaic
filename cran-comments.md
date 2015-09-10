@@ -5,8 +5,13 @@
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
-
+  
+  * Sometimes win-builder throws an error on example(CIAdata) which accesses the CIA world factbook.  I've submitted the same package multiple times and this failure is intermittent.  It does not occur on my local machine.
+  
 There was 1 NOTE:
 
 ## Downstream dependencies
+
+I've informed all of the maintainers and rebuilt their packages locally from source, but given the rush to get this to CRAN, the checking has been less complete than it might otherwise have been.
+
 
