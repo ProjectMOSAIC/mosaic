@@ -14,9 +14,8 @@ There were no ERRORs or WARNINGs.
 
 ## Downstream dependencies
 
-I've informed all of the maintainers and rebuilt their packages locally from source, but 
-given the rush to get this to CRAN, the checking has been less complete than it might 
-otherwise have been.
+I've informed all of the maintainers, rebuilt their packages locally from source, and
+checked with devtools::revdep_check().  FDRreg doesn't install in revdep_check(), but does when I install manually.
 
 ## Note
 
