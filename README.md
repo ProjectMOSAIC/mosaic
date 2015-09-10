@@ -1,7 +1,7 @@
 ---
 ---
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mosaic)](http://cran.r-project.org/web/package=mosaic)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mosaic)](http://cran.r-project.org/package=mosaic)
 [![Travis-CI Build Status](https://travis-ci.org/ProjectMOSAIC/mosaic.svg?branch=master)](https://travis-ci.org/ProjectMOSAIC/mosaic/)
 
 ## Purpose and design
