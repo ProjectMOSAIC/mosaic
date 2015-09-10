@@ -56,26 +56,32 @@ aggregatingFunction1 <-
         groups = NULL, 
         na.rm = getOption("na.rm", FALSE)) 
       {
+        pframe <- parent.frame()
         subst_x <- substitute(x)
         lazy_formula <- 
           tryCatch(
             lazyeval::lazy(x),
             error = function(e) {
               if (grepl("Promise has already been forced", e$message)) 
-                structure(list(expr=subst_x, env=parent.frame()), class="lazy")
+                NULL
               else 
                 stop(e)
             }
           )
+        if (is.null(lazy_formula)) {
+          lazy_formula <- structure(list(expr=subst_x, env=pframe), class="lazy")
+        }
         if (is.null(data)) {
           result <-
-            tryCatch(base::mean(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 
+            tryCatch(FUNCTION_TBD(x, ..., na.rm = na.rm), 
+                     error=function(e) {e} , 
+                     warning=function(w) {w} ) 
           if (! inherits(result, c("error", "warning")))  return(result) 
           data <- parent.frame()
         }
         formula <- formularise(lazy_formula, parent.frame(2)) 
         formula <- mosaic_formula_q(formula, groups=groups, max.slots=3) 
-        maggregate(formula, data=data, FUN = base::mean, ..., .multiple = output.multiple)
+        maggregate(formula, data=data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
       },
       formula = 
       function(
@@ -86,18 +92,18 @@ aggregatingFunction1 <-
       {
         if (is.null(data)) {
           result <-
-            tryCatch(base::mean(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 
+            tryCatch(FUNCTION_TBD(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 
           if (! inherits(result, c("error", "warning")))  return(result) 
           data <- parent.frame()
         }
         if (! inherits(x, "formula")) stop( "`x' must be a formula")
         formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
-        maggregate(formula, data=data, FUN = base::mean, ..., .multiple = output.multiple)
+        maggregate(formula, data=data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
       }
     )
     
     fun_text <- deparse(templates[[style]])
-    fun_text <- gsub("base::mean", fun, fun_text) 
+    fun_text <- gsub("FUNCTION_TBD", fun, fun_text) 
     fun_text <- gsub("output.multiple", output.multiple, fun_text)
     res <- eval(parse( text = fun_text))
     environment(res) <- parent.frame()
