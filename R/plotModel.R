@@ -124,6 +124,7 @@ plotModel.parsedModel <-
     formula[[3]] <- as.name(names(key))
     other_data <- x$data[, -1, drop=FALSE]
     other_data[[names(key)]] <- NULL
+    
     categories_all <- expand.grid(lapply(other_data, unique))
     categories_shown <- categories_all
     if (nrow(categories_all) > max.levels) { 
@@ -198,19 +199,32 @@ plotModel.parsedModel <-
              ...,
              panel = mypanel) 
     } 
-    
-    
   }
 
-#' @export
-plotModel0.mhyperplanes <- function(mod, ...) {
-  stop("Sorry, but you can't plot in higher-dimensional space.")
+# revise this later.
+plotModel_planes <- function(pmod, key, ...) {
+  # do something with rgl
+  if (!requireNamespace("rgl")) {
+    stop("Please install rgl for 3D support")
+  }
+  xName = names(key)[1] # pmod$numericNames[1] 
+  yName = names(key)[2] # pmod$numericNames[2] 
+  zName = pmod$responseName 
+  # get better default axis labels
+  # if (is.null(match.arg("xlab"))) { xlab = "mod$numericNames[1]"; }
+  rgl::plot3d(x = pmod$data[, xName], 
+              y = pmod$data[, yName], 
+              z = pmod$data[, zName], 
+              ...)
+  
+  # Now need to add the planes...
+
 }
 
-#' @export
+# original version of above
 plotModel0.mplanes <- function(mod, ...) {
   # do something with rgl
-  if (!requireNamespace(rgl)) {
+  if (!requireNamespace("rgl")) {
     stop("Please install rgl for 3D support")
   }
   xName = mod$numericNames[1] 
@@ -247,146 +261,6 @@ plotModel0.mplanes <- function(mod, ...) {
   }
 }
 
- 
-plotModel0_old.mlines <- function(mod, ...) {
-  # plot data
-  myplot <- xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1])), 
-                   data = mod$call$data, ...) 
-  
-  # convert the model into a function
-  modelFunc <- makeFun(mod)
-  
-  # all combinations of categorical levels
-  categories <- expand.grid(mod$xlevels) 
-  
-  levels <- apply(categories, MARGIN = 1, paste, collapse = ",")
-  levelForms <- paste0("modelFunc(x, ", levels, ") ~ x")
-  
-  if (nrow(categories) == 0) {
-    myplot <- plotFun(as.formula(modelFunc(x) ~ x), plot = myplot, add = TRUE)
-  } else {
-    for (i in 1:length(levelForms)) {
-      myplot <- plotFun(as.formula(levelForms[i]), plot = myplot, add = TRUE, col = i)
-    }
-  }
-  
-  # display plot
-  return(myplot)
-}
-
-
-plotModel0 <- function(mod, ...) { UseMethod("plotModel0") }
-
-
-plotModel0.default <- function(mod, ...) {
-  plotModel0(parseModel0(mod))
-}
-
-
-plotModel0.mlines <- function(mod, ...) {
-  
-  # convert the model into a function
-  modelFunc <- makeFun(mod)
-  
-  # all combinations of categorical levels
-  categories <- expand.grid(mod$xlevels) 
-  
-  if (nrow(categories) < 1L) {
-    levelFuns <- list(modelFunc)
-  } else {
-    levels <- apply(categories, MARGIN = 1, paste, collapse = '", "')
-    levelForms <- 
-      sapply(paste0('modelFunc(x, "', levels,  '") ~ x'), as.formula)
-    levelFuns <- lapply(levelForms, 
-                        function(form) { 
-                          f <- makeFun(form)
-                          environment(f)$modelFunc <- modelFunc
-                          environment(f)$mod <- mod
-                          f
-                        })
-  }
-  
-  # create panel function
-  mypanel <- 
-    function(x, y, ...) {
-      panel.xyplot(x, y, ...)
-      panel.plotFun1a(levelFuns)
-    }
-  
-  xyplot(as.formula(paste(mod$responseName, "~", mod$numericNames[1]), env=parent.frame()), 
-         data = eval(mod$call$data, parent.frame()), ...,
-         panel = mypanel) 
-}
-
-
-
-plotModel0.mpoints <- function(mod, ...) {
-  # plot data
-  myplot <- xyplot(as.formula(paste(mod$responseName, "~ 1")), data = mod$model, ...) 
-  
-  # remove the extra class
-  # class(mod) <- setdiff(class(mod), "mpoints")
-  
-  # convert the model into a function
-  modelFunc = makeFun(mod)
-  
-  # all combinations of categorical levels
-  categories = expand.grid(mod$xlevels) 
-  
-  levels <- apply(categories, MARGIN = 1, paste, collapse = ",")
-  levelForms <- paste0("modelFunc(", levels, ") ~ x")
-  
-  if (nrow(categories) == 0) {
-    myplot <- plotFun(as.formula(modelFunc(x) ~ x), plot = myplot, add = TRUE)
-  } else {
-    for (i in 1:length(levelForms)) {
-      # not sure why this doesn't work...
-      myplot <- plotFun(as.formula(levelForms[i]), plot = myplot, add = TRUE, col = i)
-    }
-  }
-  
-  myplot
-}
-
-parseModel0 <- function(x) {
-  data <- eval(x$call$data, environment(x$call$formula))[modelVars(x)]
-  fit <- makeFun(x)
-  inputs <- head(formals(fit), -2)  # remove ... and transform
-  
-  discreteOrContinuous <- function(x) {
-    if (is.factor(x) || length(unique(x)) < 4L) "discrete" else "continuous"
-  }
-  
-  # determine number of each variable type (categorical or quantitative)
-  x$varTypes <- lapply(data, discreteOrContinuous) 
-  # varTypes <- attr(terms(x), "dataClasses")[modelVars(x)]
-  x$responseName <- as.character(lhs(terms(x)))
-  x$numericNames <- names(which(x$varTypes == "continuous")) # , x$responseName)
-  x$catNames <- names(which(x$varTypes == "discrete")) # , x$responseName)
-  
-  # cases (w, x are cont; a, b are disc):
-  #   y ~ x + other
-  #     xyplot (with groups for other)
-  #   y ~ x + y + other
-  #     3d plot (groups?)
-  #   y ~ a + other
-  #     xyplot with jitter (with groups for other)
-  #   y ~ a + b + other
-  #     xyplot with jitter and facets? (and groups for other)
-  
-  if (length(x$numericNames) == 0) {
-    modClass <- "mpoints"
-  } else if (length(x$numericNames) == 1) {
-    modClass <- "mlines"
-  } else if (length(x$numericNames) == 2) {
-    modClass <- "mplanes"
-  } else if (length(x$numericNames) > 2) {
-    modClass <- "mhyperplanes"
-  }
-  class(x) <- c(modClass, class(x))
-  return(x)
-}
-
 parseModel <- function(x) {
   res <- list(model = x)
   res$data <- eval(x$call$data, environment(x$call$formula))[all.vars(x$call$formula)]
@@ -410,16 +284,6 @@ parseModel <- function(x) {
   res$responseName <- as.character(lhs(terms(x)))
   res$numericNames <- names(which(x$varTypes == "continuous")) # , x$responseName)
   res$catNames <- names(which(x$varTypes == "discrete")) # , x$responseName)
-  
-  # cases (w, x are cont; a, b are disc):
-  #   y ~ x + other
-  #     xyplot (with groups for other)
-  #   y ~ x + y + other
-  #     3d plot (groups?)
-  #   y ~ a + other
-  #     xyplot with jitter (with groups for other)
-  #   y ~ a + b + other
-  #     xyplot with jitter and facets? (and groups for other)
   
   class(res) <- c("parsedModel")
   return(res)
