@@ -1,3 +1,4 @@
+globalVariables("FUNCTION_TBD")
 # 
 # issues to deal with
 #   * var() is hybrid of 1-ary, 2-ary
