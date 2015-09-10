@@ -36,7 +36,8 @@ Suggests:
     knitr,
     tools,
     parallel,
-    mapproj
+    mapproj,
+    rgl
 Enhances: manipulate
 VignetteBuilder: knitr
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel Kaplan
