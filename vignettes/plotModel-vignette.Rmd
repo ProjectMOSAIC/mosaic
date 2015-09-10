@@ -3,6 +3,7 @@ title: "Visualizing Models with plotModel()"
 author: "Ben Baumer"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: refs.bib
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -14,7 +15,118 @@ knitr::opts_chunk$set(echo = TRUE)
 require(mosaic)
 ```
 
-For now this is just a dump of a bunch of plots.  It needs to be turned into a vignette.
+#### Introduction
+
+Intuitively, visualizing a statistical model seems an effective way of understanding what a model **is**. For many people, a geometric presentation of a abstract concept -- such as a statistical model -- enables a conceptual grasp that remains elusive from an algebraic presentation alone. To aid in model comprehension, educators have advocated persuasively for displaying "models in the data space." [@wickham2015visualizing]. For the case of simple linear regression, the geometric presentation of the model as a line in the place that cuts through the data points in the plane is ubiquitous. But what about other kinds of models? What about multipl regression models, non-linear models, higher-dimensional models, generalized linear models, and models that contain interaction terms? Wouldn't it be helpful to visualize these models in the data space as well? 
+
+Of course, existing packages in R provide the functionality to do all of these things. But in most of the non-trivial cases, overlaying the model and the data in the same plot requires far more advanced programming ability than introductory and intermediate statistics students are likely to have. But these students are precisely those who would benefit most from seeing their models in the data space. The `plotModel()` function in the `mosaic` package provides functionality to effortlessly visualize a variety of non-trivial statistical models on top of the data upon which the model was fit.  
+
+#### Motivation
+
+Consider the following hypothetical exchange between a student in an introductory statistics class and her instructor. 
+
+> Student: I want to build a model for $y$ in terms of $x$. How do I do that in R? 
+
+Instructor: That's easy, just type:
+
+```{r, eval=FALSE}
+mod <- lm(y ~ x, data=ds)
+```
+
+> Student: What does my model look like? 
+
+Instructor: That's easy, it's a *line* in the $xy$-plane:
+
+```{r, eval=FALSE}
+xyplot(y ~ x, data=ds, type=c("p", "r"))
+```
+
+> Student: I also want to control for the binary variable $z$. How do I add that to my model?
+
+Instructor: That's easy, just add it to the formula:
+
+```{r, eval=FALSE}
+mod <- lm(y ~ x + z, data=ds)
+```
+
+> Student: Oh cool, what does my model look like now?
+
+Instructor: That's easy, it's now *two parallel lines*!
+
+> Student: Neat. How do I plot that in R?
+
+Instructor: [baffled] Um...well...it's somewhat complicated...you have to grab the right colors from the trellis palette...and then figure out the equations for the lines...
+
+**Instead**
+
+Instructor: That's easy, just type:
+
+```{r, eval=FALSE}
+plotModel(mod)
+```
+
+#### Example: Regression to the Mean
+
+Consider Francis Galton's famous data set about the beights of adult children and their parents, made available in the `mosaicData` package. 
+
+As a first inquiry, we might consider a model for an adult's `height` as a function of their `father`'s height. 
+
+```{r, slr}
+slr <- lm(height ~ father, data = Galton)
+```
+
+Since the resulting `lm` object contains all of the data on which the model was fit, the model object contains all the information we need to plot this model in the data space. 
+
+```{r, slr-plot}
+plotModel(slr)
+```
+
+The default underlying graphics engine is `lattice`, but if we prefer a `ggplot` graphic instead, we can specify the graphics library using the `system` argument. 
+
+```{r, slr-plot-ggplot}
+plotModel(slr, system = "g")
+```
+
+We know that Galton's time, in general, men tend to be taller than women. Thus it is plausible to think that the binary variable `sex` might play a role here. It is easy to add this to our model, but we can now as easily plot the model in the data space with no additional effort. 
+
+```{r, parallel}
+pslopes <- lm(height ~ father + sex, data = Galton)
+plotModel(pslopes)
+```
+
+The geometric term for such a model -- a "parallel slopes" model -- is now obvious from the plot in a way that it was not necessarily obvious from the algebraic specfication for the model. 
+
+We can also pass additional parameters to the underlying `panel.xyplot()` function if we want to gussy up our plot. 
+
+```{r, parallel-dots}
+plotModel(pslopes, alpha = 0.3, pch = 19, cex = 0.8)
+```
+
+We could of course, have one parallel line for each level of a categorical variable. 
+
+```{r}
+mslopes <- lm(height ~ father + sex + nkids, data = Galton)
+plotModel(mslopes)
+```
+
+Or, we could combine multiple categorical variables. 
+
+```{r}
+library(magrittr)
+Galton %<>%
+  mutate(onlyChild = ifelse(nkids == 1, TRUE, FALSE))
+mslopes <- lm(height ~ father + sex + onlyChild, data = Galton)
+plotModel(mslopes)
+```
+
+If two explanatory variables be associated with the response in a non-linear fashion, then an interaction term could be included in our model. In this case, we might consider an interaction between the father's height and the gender of the child. 
+
+```{r, non-parallel}
+npslopes <- lm(height ~ father + sex + father:sex, data = Galton)
+plotModel(npslopes)
+```
+
+It may be hard to see in the plot, but these lines are in fact *not* parallel. 
 
 ## lattice
 
@@ -88,3 +200,5 @@ plotModel(mod, system="g")
 mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
 plotModel(mod, system="g")
 ```
+
+## References
