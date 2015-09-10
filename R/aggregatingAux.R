@@ -41,9 +41,16 @@ mosaic_formula <- function(
     max.slots=max.slots)
 }
 
-#' Convert lazy object into formulas
+#' Convert lazy objects into formulas
 #' 
-#' Convert lazy object into formulas
+#' Convert lazy objects into a formula
+#' 
+#' @param lazy_formula an object of class \code{lazy}
+#' @param envir an environment that will be come the environment of the returned formula
+#' @return a formula
+#' @details The expression of the lazy object is evaluated in its environment.  If the
+#' result is not a formula, then the formula is created with an empty left hand side
+#' and the expression on the right hand side.
 #' 
 #' @examples
 #' formularise(lazyeval::lazy(foo))
@@ -54,12 +61,12 @@ mosaic_formula <- function(
  
 formularise <- function(lazy_formula, envir = parent.frame()) {
   safe_formula <- 
-    tryCatch(eval(lazy_formula$expr, envir),
+    tryCatch(eval(lazy_formula$expr, lazy_formula$env),
              error = function(e) e)
   
   new_formula <- ~ placeholder
   new_formula[[2]] <- lazy_formula$expr
-  environment(new_formula) <- lazy_formula$env
+  environment(new_formula) <- envir  # lazy_formula$env
   
   if (inherits(safe_formula, "formula")) 
     safe_formula else new_formula
