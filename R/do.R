@@ -481,7 +481,7 @@ setMethod(
     class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
     if (inherits( result, "data.frame")) {
       names(result) <- nice_names(names(result))
-      names(result)[names(result) == "..result.."] <- as.character(e2_lazy$expr[[1]])
+      names(result)[names(result) == "..result.."] <- "result" # as.character(e2_lazy$expr[[1]])
     }
     attr(result, "lazy") <- e2_lazy
     if (out.mode == "data.frame") attr(result, "culler") <- cull
