@@ -141,6 +141,7 @@ Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 #' @export
  
 nice_names <- function(x) {
+	x <- gsub('%>%', '.result.', x)
 	x <- gsub('\\(Intercept\\)','Intercept', x)
 	x <- gsub('resample\\(','', x)
 	x <- gsub('sample\\(','', x)
@@ -432,6 +433,172 @@ print.repeater <- function(x, ...)
   return( l )
 }
 
+#' @export cull_for_do
+
+cull_for_do <- function(object, ...) {
+  UseMethod("cull_for_do")
+}
+
+cull_for_do.default <- function(object, ...) {
+  object
+}
+
+cull_for_do.aov <- function(object, ...) {
+  cull_for_do(anova(object))
+}
+  
+cull_for_do.anova <- function(object, ...) {  
+    res <- as.data.frame(object)
+    res <- cbind (data.frame(source=row.names(res)), res)
+    names(res)[names(res) == "Df"] <- "df"
+    names(res)[names(res) == "Sum Sq"] <- "SS"
+    names(res)[names(res) == "Mean Sq"] <- "MS"
+    names(res)[names(res) == "F value"] <- "F"
+    names(res)[names(res) == "Pr(>F)"] <- "pval"
+    names(res)[names(res) == "Sum of Sq"] <- "diff.SS"
+    names(res)[names(res) == "Res.Df"] <- "res.df"
+    return(res)
+    return( data.frame(
+      SSTotal= sum(object$`Sum Sq`),
+      SSModel= object$`Sum Sq`[1],
+      SSError= object$`Sum Sq`[2],
+      MSTotal= sum(object$`Sum Sq`),
+      MSModel= object$`Mean Sq`[1],
+      MSError= object$`Mean Sq`[2],
+      F=object$`F value`[1],
+      dfModel=object$Df[1],
+      dfError=object$Df[2],
+      dfTotal=sum(object$Df)
+    ) )
+}
+
+cull_for_do.table <- function(object, ...) {
+  result <- data.frame(object)
+  res <- result[[ncol(result)]]
+  nms <- as.character(result[[1]])
+  if (ncol(result) > 2) {
+    for (k in 2:(ncol(result)-1)) {
+      nms <- paste(nms, result[[k]],sep=".")
+    }
+  }
+  names(res) <- nms
+  return(res)
+}
+
+cull_for_do.aggregated.stat <- function(object, ...) {
+  result <- object
+  res <- as.vector(result[, "S"])  # ncol(result)]
+  names(res) <- paste( attr(object,'stat.name'), 
+                       .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
+  return(res)
+} 
+
+cull_for_do.lme <- function(object, ...) {
+  result <- object
+  names(result) <- nice_names(names(result))
+  return( object$coef$fixed )
+}
+
+cull_for_do.lm <- function(object, ...) {
+  sobject <- summary(object)
+  Fstat <- sobject$fstatistic[1]
+  DFE <- sobject$fstatistic["dendf"]
+  DFM <- sobject$fstatistic["numdf"]
+  if (!is.null(Fstat)) {
+    names(Fstat) <- "F"
+    result <-  c(coef(object), sigma=sobject$sigma, 
+                 r.squared = sobject$r.squared, 
+                 Fstat,
+                 DFM,
+                 DFE)
+  } else {
+    result <-  c(coef(object), sigma=sobject$sigma, 
+                 r.squared = sobject$r.squared
+    )
+  }
+  names(result) <- nice_names(names(result))
+  return(result)
+}
+
+cull_for_do.groupwiseModel <- function(object, ...) {
+  sobject <- summary(object)
+  Fstat <- sobject$fstatistic[1]
+  DFE <- sobject$fstatistic["dendf"]
+  DFM <- sobject$fstatistic["numdf"]
+  if (!is.null(Fstat)) {
+    names(Fstat) <- "F"
+    result <-  c(coef(object), sigma=sobject$sigma, 
+                 r.squared = sobject$r.squared, 
+                 Fstat,
+                 DFM,
+                 DFE)
+  } else {
+    result <-  c(coef(object), sigma=sobject$sigma, 
+                 r.squared = sobject$r.squared
+    )
+  }
+  names(result) <- nice_names(names(result))
+  return(result)
+}
+  
+  
+cull_for_do.htest <- function(object, ...) {
+  if (is.null(object$conf.int)) {
+    result <-  data.frame( 
+      statistic = null2na(object$statistic), 
+      parameter = null2na(object$parameter),
+      p.value = null2na(object$p.value),
+      method = null2na(object$method),
+      alternative = null2na(object$alternative),
+      data = null2na(object$data.name)
+    )
+  } else {
+    result <-  data.frame( 
+      statistic = null2na(object$statistic), 
+      parameter = null2na(object$parameter),
+      p.value = null2na(object$p.value),
+      conf.level = attr(object$conf.int,"conf.level"),
+      lower = object$conf.int[1],
+      upper = object$conf.int[2],
+      method = null2na(object$method),
+      alternative = null2na(object$alternative),
+      data = null2na(object$data.name)
+    )
+  }
+  if ( !is.null(names(object$statistic)) ) 
+    names(result)[1] <-  names(object$statistic)
+  if ( !is.null(names(object$parameter)) ) 
+    names(result)[2] <- names(object$parameter)
+  return(result)
+}
+
+#   if (inherits(object, 'table') ) {
+#     nm <- names(object)
+#     result <-  as.vector(object)
+#     names(result) <- nm
+#     return(result)
+#   }
+
+cull_for_do.cointoss <- function(object, ...) {
+  return( c(n=attr(object,'n'), 
+            heads=sum(attr(object,'sequence')=='H'),
+            tails=sum(attr(object,'sequence')=='T'),
+            prop=sum(attr(object,'sequence')=="H") / attr(object,'n')
+  ) )
+}
+
+cull_for_do.matrix <- function(object, ...) {
+  if (ncol(object) == 1) {
+    nn <- rownames(object)
+    object <- as.vector(object)
+    if (is.null(nn)) {
+      names(object) <- paste('v',1:length(object),sep="")
+    } else {
+      names(object) <- nn
+    }
+    return(object)
+  }
+}
 
 #' @rdname do
 #' @aliases *,repeater,ANY-method
@@ -452,7 +619,7 @@ setMethod(
     
     cull = e1@cull
     if (is.null(cull)) {
-      cull <- .cull_for_do
+      cull <- cull_for_do
     }
     
     out.mode <- if (!is.null(e1@mode)) e1@mode else 'default'
@@ -480,8 +647,10 @@ setMethod(
     ) 
     class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
     if (inherits( result, "data.frame")) {
+      alt_name <- as.character(e2_lazy$expr[[1]])
       names(result) <- nice_names(names(result))
-      names(result)[names(result) == "..result.."] <- as.character(e2_lazy$expr[[1]])
+      names(result)[names(result) == "..result.."] <- 
+        if(nice_names(alt_name) == alt_name) alt_name else "result"
     }
     attr(result, "lazy") <- e2_lazy
     if (out.mode == "data.frame") attr(result, "culler") <- cull
