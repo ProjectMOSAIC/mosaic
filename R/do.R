@@ -247,139 +247,139 @@ if(FALSE) {
 		
 }
 
-#' @rdname mosaic-internal
-#' @keywords internal
-#' @details
-#' \code{.cull_for_do} handles objects like models to do the right thing for \code{do}
+# #' @rdname mosaic-internal
+# #' @keywords internal
+# #' @details
+# #' \code{.cull_for_do} handles objects like models to do the right thing for \code{do}
+# # 
+# #' @return an object reflecting some of the information contained in \code{object}
 # 
-#' @return an object reflecting some of the information contained in \code{object}
-
-.cull_for_do = function(object) {
-  if (inherits(object, "aov")) {
-    object <- anova(object)
-  }
-  if (inherits(object, "anova")) {
-    res <- as.data.frame(object)
-    res <- cbind (data.frame(source=row.names(res)), res)
-    names(res)[names(res) == "Df"] <- "df"
-    names(res)[names(res) == "Sum Sq"] <- "SS"
-    names(res)[names(res) == "Mean Sq"] <- "MS"
-    names(res)[names(res) == "F value"] <- "F"
-    names(res)[names(res) == "Pr(>F)"] <- "pval"
-    names(res)[names(res) == "Sum of Sq"] <- "diff.SS"
-    names(res)[names(res) == "Res.Df"] <- "res.df"
-    return(res)
-    return( data.frame(
-      SSTotal= sum(object$`Sum Sq`),
-      SSModel= object$`Sum Sq`[1],
-      SSError= object$`Sum Sq`[2],
-      MSTotal= sum(object$`Sum Sq`),
-      MSModel= object$`Mean Sq`[1],
-      MSError= object$`Mean Sq`[2],
-      F=object$`F value`[1],
-      dfModel=object$Df[1],
-      dfError=object$Df[2],
-      dfTotal=sum(object$Df)
-    ) )
-  }
-  if (inherits(object, 'table')){
-    result <- data.frame(object)
-    res <- result[[ncol(result)]]
-    nms <- as.character(result[[1]])
-    if (ncol(result) > 2) {
-      for (k in 2:(ncol(result)-1)) {
-        nms <- paste(nms, result[[k]],sep=".")
-      }
-    }
-    names(res) <- nms
-    return(res)
-  }
-  if (inherits(object, 'aggregated.stat')) {
-    result <- object
-    res <- as.vector(result[, "S"])  # ncol(result)]
-    names(res) <- paste( attr(object,'stat.name'), 
-                         .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
-    return(res)
-  } #
-  if (inherits(object, 'lme')){ # for mixed effects models
-    result <- object
-    names(result) <- nice_names(names(result))
-    return( object$coef$fixed )
-  }
-  if (inherits(object,c('lm','groupwiseModel')) ) {
-    sobject <- summary(object)
-    Fstat <- sobject$fstatistic[1]
-    DFE <- sobject$fstatistic["dendf"]
-    DFM <- sobject$fstatistic["numdf"]
-    if (!is.null(Fstat)) {
-      names(Fstat) <- "F"
-      result <-  c(coef(object), sigma=sobject$sigma, 
-                   r.squared = sobject$r.squared, 
-                   Fstat,
-                   DFM,
-                   DFE)
-    } else {
-      result <-  c(coef(object), sigma=sobject$sigma, 
-                   r.squared = sobject$r.squared
-      )
-    }
-    names(result) <- nice_names(names(result))
-    return(result)
-  }
-  if (inherits(object,'htest')) {
-    if (is.null(object$conf.int)) {
-      result <-  data.frame( 
-        statistic = null2na(object$statistic), 
-        parameter = null2na(object$parameter),
-        p.value = null2na(object$p.value),
-        method = null2na(object$method),
-        alternative = null2na(object$alternative),
-        data = null2na(object$data.name)
-      )
-    } else {
-      result <-  data.frame( 
-        statistic = null2na(object$statistic), 
-        parameter = null2na(object$parameter),
-        p.value = null2na(object$p.value),
-        conf.level = attr(object$conf.int,"conf.level"),
-        lower = object$conf.int[1],
-        upper = object$conf.int[2],
-        method = null2na(object$method),
-        alternative = null2na(object$alternative),
-        data = null2na(object$data.name)
-      )
-    }
-    if ( !is.null(names(object$statistic)) ) 
-      names(result)[1] <-  names(object$statistic)
-    if ( !is.null(names(object$parameter)) ) 
-      names(result)[2] <- names(object$parameter)
-    return(result)
-  }
-  if (inherits(object, 'table') ) {
-    nm <- names(object)
-    result <-  as.vector(object)
-    names(result) <- nm
-    return(result)
-  }
-  if (inherits(object, 'cointoss')) {
-    return( c(n=attr(object,'n'), 
-              heads=sum(attr(object,'sequence')=='H'),
-              tails=sum(attr(object,'sequence')=='T'),
-              prop=sum(attr(object,'sequence')=="H") / attr(object,'n')
-    ) )
-  }
-  if (is.matrix(object) && ncol(object) == 1) {
-    nn <- rownames(object)
-    object <- as.vector(object)
-    if (is.null(nn)) {
-      names(object) <- paste('v',1:length(object),sep="")
-    } else {
-      names(object) <- nn
-    }
-    return(object)
-  }
-  return(object) 
-}
+# .cull_for_do = function(object) {
+#   if (inherits(object, "aov")) {
+#     object <- anova(object)
+#   }
+#   if (inherits(object, "anova")) {
+#     res <- as.data.frame(object)
+#     res <- cbind (data.frame(source=row.names(res)), res)
+#     names(res)[names(res) == "Df"] <- "df"
+#     names(res)[names(res) == "Sum Sq"] <- "SS"
+#     names(res)[names(res) == "Mean Sq"] <- "MS"
+#     names(res)[names(res) == "F value"] <- "F"
+#     names(res)[names(res) == "Pr(>F)"] <- "pval"
+#     names(res)[names(res) == "Sum of Sq"] <- "diff.SS"
+#     names(res)[names(res) == "Res.Df"] <- "res.df"
+#     return(res)
+#     return( data.frame(
+#       SSTotal= sum(object$`Sum Sq`),
+#       SSModel= object$`Sum Sq`[1],
+#       SSError= object$`Sum Sq`[2],
+#       MSTotal= sum(object$`Sum Sq`),
+#       MSModel= object$`Mean Sq`[1],
+#       MSError= object$`Mean Sq`[2],
+#       F=object$`F value`[1],
+#       dfModel=object$Df[1],
+#       dfError=object$Df[2],
+#       dfTotal=sum(object$Df)
+#     ) )
+#   }
+#   if (inherits(object, 'table')){
+#     result <- data.frame(object)
+#     res <- result[[ncol(result)]]
+#     nms <- as.character(result[[1]])
+#     if (ncol(result) > 2) {
+#       for (k in 2:(ncol(result)-1)) {
+#         nms <- paste(nms, result[[k]],sep=".")
+#       }
+#     }
+#     names(res) <- nms
+#     return(res)
+#   }
+#   if (inherits(object, 'aggregated.stat')) {
+#     result <- object
+#     res <- as.vector(result[, "S"])  # ncol(result)]
+#     names(res) <- paste( attr(object,'stat.name'), 
+#                          .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
+#     return(res)
+#   } #
+#   if (inherits(object, 'lme')){ # for mixed effects models
+#     result <- object
+#     names(result) <- nice_names(names(result))
+#     return( object$coef$fixed )
+#   }
+#   if (inherits(object,c('lm','groupwiseModel')) ) {
+#     sobject <- summary(object)
+#     Fstat <- sobject$fstatistic[1]
+#     DFE <- sobject$fstatistic["dendf"]
+#     DFM <- sobject$fstatistic["numdf"]
+#     if (!is.null(Fstat)) {
+#       names(Fstat) <- "F"
+#       result <-  c(coef(object), sigma=sobject$sigma, 
+#                    r.squared = sobject$r.squared, 
+#                    Fstat,
+#                    DFM,
+#                    DFE)
+#     } else {
+#       result <-  c(coef(object), sigma=sobject$sigma, 
+#                    r.squared = sobject$r.squared
+#       )
+#     }
+#     names(result) <- nice_names(names(result))
+#     return(result)
+#   }
+#   if (inherits(object,'htest')) {
+#     if (is.null(object$conf.int)) {
+#       result <-  data.frame( 
+#         statistic = null2na(object$statistic), 
+#         parameter = null2na(object$parameter),
+#         p.value = null2na(object$p.value),
+#         method = null2na(object$method),
+#         alternative = null2na(object$alternative),
+#         data = null2na(object$data.name)
+#       )
+#     } else {
+#       result <-  data.frame( 
+#         statistic = null2na(object$statistic), 
+#         parameter = null2na(object$parameter),
+#         p.value = null2na(object$p.value),
+#         conf.level = attr(object$conf.int,"conf.level"),
+#         lower = object$conf.int[1],
+#         upper = object$conf.int[2],
+#         method = null2na(object$method),
+#         alternative = null2na(object$alternative),
+#         data = null2na(object$data.name)
+#       )
+#     }
+#     if ( !is.null(names(object$statistic)) ) 
+#       names(result)[1] <-  names(object$statistic)
+#     if ( !is.null(names(object$parameter)) ) 
+#       names(result)[2] <- names(object$parameter)
+#     return(result)
+#   }
+#   if (inherits(object, 'table') ) {
+#     nm <- names(object)
+#     result <-  as.vector(object)
+#     names(result) <- nm
+#     return(result)
+#   }
+#   if (inherits(object, 'cointoss')) {
+#     return( c(n=attr(object,'n'), 
+#               heads=sum(attr(object,'sequence')=='H'),
+#               tails=sum(attr(object,'sequence')=='T'),
+#               prop=sum(attr(object,'sequence')=="H") / attr(object,'n')
+#     ) )
+#   }
+#   if (is.matrix(object) && ncol(object) == 1) {
+#     nn <- rownames(object)
+#     object <- as.vector(object)
+#     if (is.null(nn)) {
+#       names(object) <- paste('v',1:length(object),sep="")
+#     } else {
+#       names(object) <- nn
+#     }
+#     return(object)
+#   }
+#   return(object) 
+# }
 
 # #' @aliases print,repeater-method
 #' @rdname do
@@ -433,20 +433,47 @@ print.repeater <- function(x, ...)
   return( l )
 }
 
-#' @export cull_for_do
+#' Cull objects used with do()
+#' 
+#' The \code{\link{do}} function facilitates easy repliaction for
+#' randomization tests and bootstrapping (among other things).  Part of what
+#' makes this particularly useful is the ability to cull from the objects
+#' produced those elements that are useful for subsequent analysis. 
+#' \code{cull_for_do} does this culling.  It is generic, and users
+#' can add new methods to either change behavoir or to hanlde additional
+#' classes of objects.
+#' 
+#' @param object an object to be culled
+#' @param ... additional arguments (currently ignored)
+#' 
+#' @details When \code{do(n) * expression} is evaluated, \code{expression}
+#' is evaluated \code{n} times to produce a list of \code{n} result objects.
+#' \code{cull_for_do} is then applied to each element of this list to 
+#' extract from it the information that should be stored.  For example,
+#' when applied to a object of class \code{"lm"},
+#' the default \code{cull_for_do} extracts the coefficients, coefficient
+#' of determinism and the estimate for the variance.
+#' 
+#' @export 
+#' @examples
+#' cull_for_do(lm(length ~ width, data = KidsFeet))
 
 cull_for_do <- function(object, ...) {
   UseMethod("cull_for_do")
 }
 
+
+#' @export 
 cull_for_do.default <- function(object, ...) {
   object
 }
 
+#' @export 
 cull_for_do.aov <- function(object, ...) {
   cull_for_do(anova(object))
 }
   
+#' @export 
 cull_for_do.anova <- function(object, ...) {  
     res <- as.data.frame(object)
     res <- cbind (data.frame(source=row.names(res)), res)
@@ -472,6 +499,7 @@ cull_for_do.anova <- function(object, ...) {
     ) )
 }
 
+#' @export 
 cull_for_do.table <- function(object, ...) {
   result <- data.frame(object)
   res <- result[[ncol(result)]]
@@ -485,6 +513,7 @@ cull_for_do.table <- function(object, ...) {
   return(res)
 }
 
+#' @export 
 cull_for_do.aggregated.stat <- function(object, ...) {
   result <- object
   res <- as.vector(result[, "S"])  # ncol(result)]
@@ -493,12 +522,14 @@ cull_for_do.aggregated.stat <- function(object, ...) {
   return(res)
 } 
 
+#' @export 
 cull_for_do.lme <- function(object, ...) {
   result <- object
   names(result) <- nice_names(names(result))
   return( object$coef$fixed )
 }
 
+#' @export 
 cull_for_do.lm <- function(object, ...) {
   sobject <- summary(object)
   Fstat <- sobject$fstatistic[1]
@@ -520,6 +551,7 @@ cull_for_do.lm <- function(object, ...) {
   return(result)
 }
 
+#' @export 
 cull_for_do.groupwiseModel <- function(object, ...) {
   sobject <- summary(object)
   Fstat <- sobject$fstatistic[1]
@@ -542,6 +574,7 @@ cull_for_do.groupwiseModel <- function(object, ...) {
 }
   
   
+#' @export 
 cull_for_do.htest <- function(object, ...) {
   if (is.null(object$conf.int)) {
     result <-  data.frame( 
@@ -579,6 +612,7 @@ cull_for_do.htest <- function(object, ...) {
 #     return(result)
 #   }
 
+#' @export 
 cull_for_do.cointoss <- function(object, ...) {
   return( c(n=attr(object,'n'), 
             heads=sum(attr(object,'sequence')=='H'),
@@ -587,6 +621,7 @@ cull_for_do.cointoss <- function(object, ...) {
   ) )
 }
 
+#' @export 
 cull_for_do.matrix <- function(object, ...) {
   if (ncol(object) == 1) {
     nn <- rownames(object)
