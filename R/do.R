@@ -150,6 +150,7 @@ nice_names <- function(x) {
 	x <- gsub(':','.', x)
 	x <- gsub('\\)','', x)
 	x <- gsub(' ','.', x)
+	x <- gsub('^([0-9])','X\\1', x)
 	return(x)
 }
 
