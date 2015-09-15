@@ -49,8 +49,6 @@ situations.}
 \item{e1}{an object (in cases documented here, the result of running \code{do})}
 
 \item{e2}{an object (in cases documented here, an expression to be repeated)}
-
-\item{x}{an object}
 }
 \value{
 \code{do} returns an object of class \code{repeater} which is only useful in
