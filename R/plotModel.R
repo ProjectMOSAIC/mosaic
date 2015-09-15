@@ -125,14 +125,22 @@ plotModel.parsedModel <-
     other_data <- x$data[, -1, drop=FALSE]
     other_data[[names(key)]] <- NULL
     
-    categories_all <- expand.grid(lapply(other_data, unique))
-    categories_shown <- categories_all
-    if (nrow(categories_all) > max.levels) { 
+    
+    
+    some_levels <- function(x) {
+      if (is.numeric(x)) 
+        return( sort(unique(ntiles(x, 3, format = "median"))) )
+      return(sort(unique(x)))
+    }
+    
+    levels_all <- expand.grid(lapply(other_data, some_levels))
+    levels_shown <- levels_all
+    if (nrow(levels_all) > max.levels) { 
       warning("Randomly sampling some of the ", 
-              nrow(categories_all), 
+              nrow(levels_all), 
               " levels of the fit function for you.",
               call. = FALSE) 
-      categories_shown <- categories_all %>% sample_n(max.levels)
+      levels_shown <- levels_all %>% sample_n(max.levels)
     }
     
     # convert the model into a function
@@ -148,17 +156,17 @@ plotModel.parsedModel <-
       x_points <- unique( x$data[[names(key)]] )
     }
     
-    if( nrow(categories_shown) > 0L) {
+    if( nrow(levels_shown) > 0L) {
       if (is.null(auto.key)) auto.key <- list(points = TRUE, lines=TRUE, columns = 3)
       # categories[["id"]] <- factor(1:nrow(categories))
-      categories_all <- categories_all %>% mutate(id = interaction(categories_all, drop = drop))
-      categories_shown <- categories_shown %>% mutate(id = interaction(categories_shown, drop = drop))
-      other_data <- suppressMessages(other_data %>% left_join(categories_all))
-      point_data <- suppressMessages(x$data %>% left_join(categories_all))
-      line_data <- bind_rows(lapply(1:length(x_points), function(x) categories_shown)) 
+      levels_all <- levels_all %>% mutate(id = interaction(levels_all, drop = drop))
+      levels_shown <- levels_shown %>% mutate(id = interaction(levels_shown, drop = drop))
+      other_data <- suppressMessages(other_data %>% left_join(levels_all))
+      point_data <- suppressMessages(x$data %>% left_join(levels_all))
+      line_data <- bind_rows(lapply(1:length(x_points), function(x) levels_shown)) 
       line_data[["x"]] <-
         line_data[[names(key)]] <- 
-          rep(x_points, times = nrow(categories_shown))
+          rep(x_points, times = nrow(levels_shown))
     } else {
       if (is.null(auto.key)) auto.key <- FALSE
       point_data <- x$data 
