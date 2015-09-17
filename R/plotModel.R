@@ -104,7 +104,7 @@ plotModel.default <- function(mod, ...) {
 }
 
 plotModel.parsedModel <- 
-  function(x, key=1, ..., auto.key = NULL, drop = TRUE, max.levels = 9L, system=c("lattice", "ggplot2")) {
+  function(x, key=1, formula = NULL, ..., auto.key = NULL, drop = TRUE, max.levels = 9L, system=c("lattice", "ggplot2")) {
     
     system <- match.arg(system)
     
@@ -119,13 +119,30 @@ plotModel.parsedModel <-
       stop("Only models with explanatory variables can be plotted (so far).")
     
     key <- x$varTypes[-1][key]
-    formula <- y ~ x
-    formula[[2]] <- as.name(x$responseName)
-    formula[[3]] <- as.name(names(key))
+    if (is.null(formula)) {
+      formula <- y ~ x
+      formula[[2]] <- as.name(x$responseName)
+      formula[[3]] <- as.name(names(key))
+    }
     other_data <- x$data[, -1, drop=FALSE]
     other_data[[names(key)]] <- NULL
     
+    discretePart <- function(data, varTypes = x$varTypes) {
+      data[ , intersect(names(data), names(varTypes[varTypes == "discrete"])), drop=FALSE]
+    }
     
+    if (prod(dim(discretePart(other_data))) > 0) {
+    x$data <-
+      x$data %>%
+      mutate(
+        .color = interaction(discretePart(other_data)),
+        .group = interaction(other_data)
+      )
+    } else {
+      x$data <- 
+        x$data %>% 
+        mutate(.color = " ", .group = " ")
+    }
     
     some_levels <- function(x) {
       if (is.numeric(x)) 
@@ -147,22 +164,41 @@ plotModel.parsedModel <-
     modelFunc <- makeFun(x$model)
     
     if (key == "continuous") {
-      p <- xyplot(
-        formula, 
-        data = x$data
-      )
+      p <- xyplot( formula,  data = x$data )
       x_points <- seq(p$x.limits[1], p$x.limits[2], length.out = 40)
     } else {
       x_points <- unique( x$data[[names(key)]] )
     }
     
-    if( nrow(levels_shown) > 0L) {
-      if (is.null(auto.key)) auto.key <- list(points = TRUE, lines=TRUE, columns = 3)
+    if( prod(dim(levels_shown)) > 0L) {
+      if (is.null(auto.key)) 
+        auto.key <- list(points = TRUE, lines=TRUE, 
+                         columns = min(length(unique(x$data$.color)), 3))
       # categories[["id"]] <- factor(1:nrow(categories))
-      levels_all <- levels_all %>% mutate(id = interaction(levels_all, drop = drop))
-      levels_shown <- levels_shown %>% mutate(id = interaction(levels_shown, drop = drop))
+      if (prod(dim(levels_all)) > 0) {
+      levels_all <- 
+        levels_all %>% 
+        mutate(
+          .color = interaction(discretePart(levels_all), drop = drop),
+          .group = interaction(levels_all, drop = drop)
+          )
+      levels_shown <- 
+        levels_shown %>% 
+        mutate( 
+          .color = interaction(discretePart(levels_shown), drop = drop),
+          .group = interaction(levels_shown, drop = drop)
+          )
+      } else {
+        levels_all <- 
+          levels_all %>% 
+          mutate(.color = " ", .group = " ") 
+        levels_shown <- 
+          levels_shown %>% 
+          mutate(.color = " ", .group = " ") 
+      }
+        
       other_data <- suppressMessages(other_data %>% left_join(levels_all))
-      point_data <- suppressMessages(x$data %>% left_join(levels_all))
+      point_data <- x$data # suppressMessages(x$data %>% left_join(levels_all))
       line_data <- bind_rows(lapply(1:length(x_points), function(x) levels_shown)) 
       line_data[["x"]] <-
         line_data[[names(key)]] <- 
@@ -170,8 +206,9 @@ plotModel.parsedModel <-
     } else {
       if (is.null(auto.key)) auto.key <- FALSE
       point_data <- x$data 
-      point_data[["id"]] <- factor(" ")
-      line_data <- data.frame(x = x_points, id=factor(" ")) 
+      point_data[[".color"]] <- factor(" ")
+      point_data[[".group"]] <- factor(" ")
+      line_data <- data.frame(x = x_points, .color=factor(" "), .group=factor(" ")) 
       line_data[[names(key)]] <- x_points
     }
     
@@ -182,27 +219,31 @@ plotModel.parsedModel <-
     mypanel <- 
       function(x, y, line_data, ...) {
         panel.xyplot(x, y, type = "p", ...)
-        line_data <- line_data %>% arrange(id, x)
+        line_data <- line_data %>% arrange(.color, .group, x)
+        ncolors <- length(unique(line_data$.color))
+        ngroups <- length(unique(line_data$.group))
         grid::grid.polyline(
           x = line_data$x, 
           y = line_data$y, 
           default.units = "native",
-          id = as.numeric(line_data$id),
-          gp = gpar(col = trellis.par.get("superpose.line")$col)
+          id = as.numeric(line_data$.group),
+          gp = gpar(
+            col = trellis.par.get("superpose.line")$col[rep(1:ncolors, each=ngroups/ncolors)]
+          )
         )
       }
     
     if (system == "ggplot2") {
       ggplot() +
-        geom_point(aes_string(y = x$responseName, x = names(key), colour="id"), size=1.2,
+        geom_point(aes_string(y = x$responseName, x = names(key), colour=".color", group=".group"), size=1.2,
                    data = point_data %>% droplevels()) +
-        geom_line (aes_string(y = x$responseName, x = names(key), colour="id"), size=0.5,
+        geom_line (aes_string(y = x$responseName, x = names(key), colour=".color", group = ".group"), size=0.5,
                    data = line_data %>% droplevels())
     } else {
       xyplot(formula, 
              data = point_data %>% droplevels(),
              line_data = line_data %>% droplevels(),
-             groups = id,
+             groups = .color,
              auto.key = auto.key,
              ...,
              panel = mypanel) 
