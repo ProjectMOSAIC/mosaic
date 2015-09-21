@@ -85,7 +85,7 @@ aggregatingFunction1 <-
         }
         formula <- formularise(lazy_formula, parent.frame(2)) 
         formula <- mosaic_formula_q(formula, groups=groups, max.slots=3) 
-        maggregate(formula, data=data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
+        maggregate(formula, data=data, FUN = FUNCTION_TBD, na.rm = na.rm, ..., .multiple = output.multiple)
       },
       formula = 
       function(
