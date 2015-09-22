@@ -90,6 +90,7 @@ utils::globalVariables(c(".group", ".color"))
 #' # interaction planes
 #' mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
 #' plotModel(mod)
+#' plotModel(mod, system="g") + facet_wrap( ~ .color )
 #' 
 
 # ------------------------------------------------------------------------------
@@ -230,9 +231,16 @@ plotModel.parsedModel <-
       predict(x$model, newdata=line_data, type="response")
     
     mypanel <- 
-      function(x, y, line_data, ...) {
+      function(x, y, line_data, point_data, 
+               group.number = NULL, group.value = NULL, type = "p",
+               ...) {
         panel.xyplot(x, y, type = "p", ...)
-        line_data <- line_data %>% arrange(.color, .group, x)
+        line_data <- 
+          line_data %>% 
+          arrange(.color, .group, x) 
+        if (! is.null(group.value) ) {
+          line_data <- line_data %>% filter(.color == group.value)
+        }
         ncolors <- length(unique(line_data$.color))
         ngroups <- length(unique(line_data$.group))
         grid::grid.polyline(
@@ -241,7 +249,7 @@ plotModel.parsedModel <-
           default.units = "native",
           id = as.numeric(line_data$.group),
           gp = gpar(
-            col = trellis.par.get("superpose.line")$col[rep(1:ncolors, each=ngroups/ncolors)]
+            col = trellis.par.get("superpose.line")$col[group.number]
           )
         )
       }
@@ -256,10 +264,12 @@ plotModel.parsedModel <-
       xyplot(formula, 
              data = point_data %>% droplevels(),
              line_data = line_data %>% droplevels(),
+             point_data = point_data %>% droplevels(),
              groups = .color,
              auto.key = auto.key,
              ...,
-             panel = mypanel) 
+             panel = panel.superpose,
+             panel.groups = mypanel) 
     } 
   }
 
