@@ -114,7 +114,7 @@ mplot.lm <- function(object, which=c(1:3, 7),
   g1 <- ggplot(fdata, aes(.fitted, .resid)) +
     geom_point()  +
     geom_smooth(se=FALSE) +
-    geom_hline(linetype=2, size=.2) +
+    geom_hline(linetype=2, size=.2, yintercept=0) +
     scale_x_continuous("Fitted Values") +
     scale_y_continuous("Residual") +
     labs(title="Residuals vs Fitted")
@@ -201,7 +201,7 @@ mplot.lm <- function(object, which=c(1:3, 7),
   g5 <- ggplot(fdata, aes(.hat, .stdresid)) +
     geom_point() +
     geom_smooth(se=FALSE) +
-    geom_hline(linetype=2, size=.2) +
+    geom_hline(linetype=2, size=.2, yintercept = 0) +
     scale_x_continuous("Leverage") +
     scale_y_continuous("Standardized Residuals") +
     labs(title="Residuals vs Leverage")
@@ -427,7 +427,7 @@ mplot.summary.lm <- function(object,
                   ymin=lower, ymax=upper, 
                   color=signif)) + # (pval < (1-level)/2))) + 
     geom_pointrange(size=1.2) + 
-    geom_hline(x=0, color="red", alpha=.5, linetype=2) + 
+    geom_hline(yintercept = 0, color = "red", alpha = .5, linetype = 2) + 
     labs(x="coefficient", title = paste0(format(100*level), "% confidence intervals") ) +
     theme(legend.position="none") +
     coord_flip()
