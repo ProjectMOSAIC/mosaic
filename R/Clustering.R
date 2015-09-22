@@ -96,7 +96,8 @@ mplot.hclust <- function(object, data, colorize = TRUE, k=1,
                          labels = FALSE,
                          heatmap = 0, 
                          enumerate="white", ...) {
-  ggenv <- list(h=5)
+  ggenv <- parent.frame()
+  ggenv$h=5
   p <- ggplot( environment = ggenv ) 
   if (colorize && k > 1) { 
     p <- p + 
