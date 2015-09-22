@@ -7,6 +7,8 @@
 \alias{do}
 \alias{do.default}
 \alias{do.numeric}
+\alias{print,repeater-method}
+\alias{print.repeater}
 \title{Do Things Repeatedly}
 \usage{
 do(object, ...)
@@ -17,6 +19,8 @@ do(object, ...)
 
 Do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
   parallel = TRUE)
+
+\method{print}{repeater}(x, ...)
 
 \S4method{*}{repeater,ANY}(e1, e2)
 }
@@ -57,6 +61,8 @@ situations.}
 \description{
 \code{do()} provides a natural syntax for repetition tuned to assist
 with replication and resampling methods.
+
+#
 }
 \note{
 \code{do} is a thin wrapper around \code{Do} to avoid collision with

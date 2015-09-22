@@ -247,12 +247,12 @@ if(FALSE) {
 		
 }
 
-# #' @rdname mosaic-internal
-# #' @keywords internal
-# #' @details
-# #' \code{.cull_for_do} handles objects like models to do the right thing for \code{do}
-# # 
-# #' @return an object reflecting some of the information contained in \code{object}
+# # @rdname mosaic-internal
+# # @keywords internal
+# # @details
+# # \code{.cull_for_do} handles objects like models to do the right thing for \code{do}
+# #
+# # @return an object reflecting some of the information contained in \code{object}
 # 
 # .cull_for_do = function(object) {
 #   if (inherits(object, "aov")) {
