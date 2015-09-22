@@ -43,6 +43,11 @@ plotModel(mod)
 mod <- lm( mpg ~ wt + I(wt^2), data = mtcars)
 plotModel(mod)
 
+# polynomial terms and covariate
+mod <- lm( mpg ~ wt + I(wt^2) * factor(cyl), data = mtcars)
+plotModel(mod)
+plotModel(mod, formula = mpg ~ wt | cyl)
+
 # GLM
 mod <- glm(vs ~ wt, data=mtcars, family = 'binomial')
 plotModel(mod)
