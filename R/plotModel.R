@@ -122,7 +122,7 @@ plotModel.parsedModel <-
       stop("Only one key variable allowed (so far).")
     
     if (length(x$varTypes) < 2L) 
-      stop("Only models with explanatory variables can be plotted (so far).")
+      stop("Only models with explanatory variables can be plotted.")
     
     key <- x$varTypes[-1][key]
     if (is.null(formula)) {
