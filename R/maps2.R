@@ -388,10 +388,11 @@ theme_map <- function (base_size=12) {
     theme(
       axis.title = element_blank (),
       axis.text = element_blank (),
+      axis.text = element_text(margin = unit(0, "cm")),
       panel.background = element_blank (),
       panel.grid = element_blank (),
       axis.ticks.length = unit (0,"cm"),
-      axis.ticks.margin = unit (0.01,"cm"),
+      # axis.ticks.margin = unit (0.01,"cm"),
       panel.margin = unit (0,"lines"),
       plot.margin = unit(c(0,0,0,0),"lines"),
       complete = TRUE
