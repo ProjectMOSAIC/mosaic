@@ -88,7 +88,6 @@ utils::globalVariables(c(".group", ".color"))
 #' plotModel(mod)
 #' 
 #' # interaction planes
-#' # not work -- need better logic in function
 #' mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
 #' plotModel(mod)
 #' 
