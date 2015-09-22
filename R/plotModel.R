@@ -136,14 +136,21 @@ plotModel.parsedModel <-
     discretePart <- function(data, varTypes = x$varTypes) {
       res <- data[ , intersect(names(data), names(varTypes[varTypes == "discrete"])), drop=FALSE]
       if (ncol(res) == 0L) res$blank <- ""
+      res
     }
+    
+    nonEmpty <- function(data, varTypes = x$varTypes) {
+        if (ncol(data) == 0L) data$blank <- ""
+        data
+      }
+    
     
     if (prod(dim(discretePart(other_data))) > 0) {
     x$data <-
       x$data %>%
       mutate(
         .color = interaction(discretePart(other_data)),
-        .group = interaction(other_data)
+        .group = interaction(nonEmpty(other_data))
       )
     } else {
       x$data <- 
@@ -187,13 +194,13 @@ plotModel.parsedModel <-
         levels_all %>% 
         mutate(
           .color = interaction(discretePart(levels_all), drop = drop),
-          .group = interaction(levels_all, drop = drop)
+          .group = interaction(nonEmpty(levels_all), drop = drop)
           )
       levels_shown <- 
         levels_shown %>% 
         mutate( 
           .color = interaction(discretePart(levels_shown), drop = drop),
-          .group = interaction(levels_shown, drop = drop)
+          .group = interaction(nonEmpty(levels_shown), drop = drop)
           )
       } else {
         levels_all <- 
