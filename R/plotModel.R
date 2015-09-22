@@ -1,3 +1,5 @@
+utils::globalVariables(c(".group", ".color"))
+
 #' Plot a regression model
 #' 
 #' @description Visualize a regression model amid the data that generated it. 
@@ -5,6 +7,10 @@
 #' @param mod A model of type \code{\link{lm}} or \code{\link{glm}}
 #' @param \dots arguments passed to \code{\link{xyplot}} or \code{rgl::plot3d}.
 #'
+#' @section Caution:
+#' This is still underdevelopment.  The API is subject to change, and some
+#' use cases may not work yet.  Watch for improvments in subsequent versions of the package.
+#' 
 #' @details The goal of this function is to assist with visualization
 #' of statistical models. Namely, to plot the model on top of the data
 #' from which the model was fit. 
@@ -128,7 +134,8 @@ plotModel.parsedModel <-
     other_data[[names(key)]] <- NULL
     
     discretePart <- function(data, varTypes = x$varTypes) {
-      data[ , intersect(names(data), names(varTypes[varTypes == "discrete"])), drop=FALSE]
+      res <- data[ , intersect(names(data), names(varTypes[varTypes == "discrete"])), drop=FALSE]
+      if (ncol(res) == 0L) res$blank <- ""
     }
     
     if (prod(dim(discretePart(other_data))) > 0) {
