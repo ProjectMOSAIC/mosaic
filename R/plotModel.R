@@ -110,125 +110,124 @@ plotModel.default <- function(mod, ...) {
 }
 
 plotModel.parsedModel <- 
-  function(x, key=1, formula = NULL, ..., auto.key = NULL, drop = TRUE, max.levels = 9L, system=c("lattice", "ggplot2")) {
+  function(x, formula = NULL, ..., auto.key = NULL, drop = TRUE, 
+           max.levels = 9L, system=c("lattice", "ggplot2")) {
     
     system <- match.arg(system)
-    
-    if (inherits(key, "formula")) {
-      key <- all.vars(rhs(key))
-    }
-    
-    if (length(key) > 1L) 
-      stop("Only one key variable allowed (so far).")
-    
+  
     if (length(x$varTypes) < 2L) 
       stop("Only models with explanatory variables can be plotted.")
     
-    key <- x$varTypes[-1][key]
-    if (is.null(formula)) {
+    if (! inherits(formula, "formula")) { 
+      key <- x$varTypes[-1][1]
       formula <- y ~ x
       formula[[2]] <- as.name(x$responseName)
       formula[[3]] <- as.name(names(key))
     }
-    other_data <- x$data[, -1, drop=FALSE]
-    other_data[[names(key)]] <- NULL
+   
+    # variable groups
+    #  * keyVar = x-axis variable
+    #  * coVars = other rhs vars
+    #  * condVars = variables in condition
+    #  * restVars: other variables in the model
     
-    discretePart <- function(data, varTypes = x$varTypes) {
-      res <- data[ , intersect(names(data), names(varTypes[varTypes == "discrete"])), drop=FALSE]
-      if (ncol(res) == 0L) res$blank <- ""
-      res
-    }
+    key <- all.vars(rhs(formula))[1]
+    coVars <- intersect( setdiff(all.vars(rhs(formula)), key), names(x$varTypes) )
+    condVars <- intersect( all.vars(condition(formula)), names(x$varTypes) )
+    other_data <- x$data[, -1, drop=FALSE]
+    other_data[[key]] <- NULL
+    restVars <- setdiff( names(other_data), union(coVars, condVars) )
+    discreteVars <- names(x$varTypes[x$varTypes == "discrete"])
+    
+    print(list(f= formula, k=key))
     
     nonEmpty <- function(data, varTypes = x$varTypes) {
         if (ncol(data) == 0L) data$blank <- ""
         data
       }
     
-    
-    if (prod(dim(discretePart(other_data))) > 0) {
-    x$data <-
-      x$data %>%
-      mutate(
-        .color = interaction(discretePart(other_data)),
-        .group = interaction(nonEmpty(other_data))
-      )
-    } else {
-      x$data <- 
-        x$data %>% 
-        mutate(.color = " ", .group = " ")
+    discretePart <- function(data, varTypes = x$varTypes) {
+      data[ , intersect(names(data), names(varTypes[varTypes == "discrete"])), drop=FALSE]
     }
     
+    my_interaction <- function( data, drop = TRUE, sep = ":", lex.order = TRUE ) {
+      if (ncol(data) == 0L) {
+        factor(rep("", nrow(data)))
+      } else {
+        interaction( data, drop = drop, sep = sep, lex.order = TRUE )
+      }
+    }
+      
+
+# Some aux variables:
+#   .color: one for each combination of discrete co-vars
+#       this determines the color of the lines
+#   .group: one for each combination of co-vars (selected levels of contintuous too)
+#       this determins which points are connected to make curves
+#   .cond:  one for each combination of discrete cond-vars
+#       this determines which lines show up in which panels
+    
+    point_data <- 
+      x$data %>%
+      mutate(
+        .color = my_interaction(x$data[, intersect(discreteVars, restVars), 
+                                       drop = FALSE]),
+        .group = my_interaction(x$data[, c(coVars, restVars), drop = FALSE]),
+        .cond = my_interaction(x$data[, condVars, drop = FALSE])
+      )
+   
+    
+# create data for lines
+    # utility function 
     some_levels <- function(x) {
       if (is.numeric(x)) 
         return( sort(unique(ntiles(x, 3, format = "median"))) )
       return(sort(unique(x)))
     }
+   
+    # a few values of each explanatory variable
     
     levels_all <- expand.grid(lapply(other_data, some_levels))
     levels_shown <- levels_all
-    if (nrow(levels_all) > max.levels) { 
-      warning("Randomly sampling some of the ", 
-              nrow(levels_all), 
-              " levels of the fit function for you.",
-              call. = FALSE) 
-      levels_shown <- levels_all %>% sample_n(max.levels)
-    }
     
     # convert the model into a function
     modelFunc <- makeFun(x$model)
+   
+    # eplanatory variable
     
-    if (key == "continuous") {
+    if (x$varTypes[key] == "continuous") {
       p <- xyplot( formula,  data = x$data )
       x_points <- seq(p$x.limits[1], p$x.limits[2], length.out = 40)
     } else {
-      x_points <- unique( x$data[[names(key)]] )
+      x_points <- unique( x$data[[key]] )
     }
     
-    if( prod(dim(levels_shown)) > 0L) {
-      if (is.null(auto.key)) 
-        auto.key <- list(points = TRUE, lines=TRUE, 
-                         columns = min(length(unique(x$data$.color)), 3))
-      # categories[["id"]] <- factor(1:nrow(categories))
-      if (prod(dim(levels_all)) > 0) {
-      levels_all <- 
-        levels_all %>% 
-        mutate(
-          .color = interaction(discretePart(levels_all), drop = drop),
-          .group = interaction(nonEmpty(levels_all), drop = drop)
-          )
-      levels_shown <- 
-        levels_shown %>% 
-        mutate( 
-          .color = interaction(discretePart(levels_shown), drop = drop),
-          .group = interaction(nonEmpty(levels_shown), drop = drop)
-          )
-      } else {
-        levels_all <- 
-          levels_all %>% 
-          mutate(.color = " ", .group = " ") 
-        levels_shown <- 
-          levels_shown %>% 
-          mutate(.color = " ", .group = " ") 
-      }
-        
-      other_data <- suppressMessages(other_data %>% left_join(levels_all))
-      point_data <- x$data # suppressMessages(x$data %>% left_join(levels_all))
-      line_data <- bind_rows(lapply(1:length(x_points), function(x) levels_shown)) 
-      line_data[["x"]] <-
-        line_data[[names(key)]] <- 
-          rep(x_points, times = nrow(levels_shown))
-    } else {
+    if (length(restVars) > 0L && is.null(auto.key)) {
+      auto.key <- 
+        list(points = TRUE, lines=TRUE, 
+             columns = min(length(unique(point_data$.color)), 3))
+    } else { 
       if (is.null(auto.key)) auto.key <- FALSE
-      point_data <- x$data 
-      point_data[[".color"]] <- factor(" ")
-      point_data[[".group"]] <- factor(" ")
-      line_data <- data.frame(x = x_points, .color=factor(" "), .group=factor(" ")) 
-      line_data[[names(key)]] <- x_points
     }
+      
+    line_data <- bind_rows(lapply(1:length(x_points), function(x) levels_shown)) 
+    
+    line_data[["x"]] <-
+      line_data[[key]] <- 
+      rep(x_points, times = nrow(levels_shown))
     
     line_data[["y"]] <- 
       line_data[[x$responseName]] <- 
       predict(x$model, newdata=line_data, type="response")
+    
+    line_data <- 
+      line_data %>%
+      mutate(
+        .color = my_interaction(line_data[, restVars, drop = FALSE]),
+        .group = my_interaction(line_data[, c(coVars, restVars, condVars), drop = FALSE]),
+        .cond = my_interaction(line_data[, condVars, drop = FALSE])
+      )
+    
     
     mypanel <- 
       function(x, y, line_data, point_data, 
@@ -239,8 +238,18 @@ plotModel.parsedModel <-
           line_data %>% 
           arrange(.color, .group, x) 
         if (! is.null(group.value) ) {
-          line_data <- line_data %>% filter(.color == group.value)
+          line_data <- line_data %>% filter(as.numeric(.cond) == packet.number())
         }
+        print(list(g.v = group.value, 
+                   g.n = group.number,
+                   .color = levels(line_data$.color), 
+                   .group = levels(line_data$.group), 
+                   .cond = levels(line_data$.cond), 
+                   l_d = names(line_data),
+                   packet = packet.number(),
+                   panel = panel.number()
+                   ) )
+        print(dim(line_data))
         ncolors <- length(unique(line_data$.color))
         ngroups <- length(unique(line_data$.group))
         grid::grid.polyline(
@@ -249,16 +258,17 @@ plotModel.parsedModel <-
           default.units = "native",
           id = as.numeric(line_data$.group),
           gp = gpar(
-            col = trellis.par.get("superpose.line")$col[group.number]
+            col = trellis.par.get("superpose.line")$col[1:base::max(as.numeric(line_data$.color))]
           )
         )
       }
-    
+    View(point_data)
+    View(line_data)
     if (system == "ggplot2") {
       ggplot() +
-        geom_point(aes_string(y = x$responseName, x = names(key), colour=".color", group=".group"), size=1.2,
+        geom_point(aes_string(y = x$responseName, x = key, colour=".color", group=".group"), size=1.2,
                    data = point_data %>% droplevels()) +
-        geom_line (aes_string(y = x$responseName, x = names(key), colour=".color", group = ".group"), size=0.5,
+        geom_line (aes_string(y = x$responseName, x = key, colour=".color", group = ".group"), size=0.5,
                    data = line_data %>% droplevels())
     } else {
       xyplot(formula, 
@@ -270,6 +280,19 @@ plotModel.parsedModel <-
              ...,
              panel = panel.superpose,
              panel.groups = mypanel) 
+#       xyplot( formula, data = point_data,
+#               groups = .group,
+#               auto.key = TRUE,
+#               ...) +
+#         latticeExtra::as.layer(
+#           xyplot(formula, data = line_data,
+#                  type = 'l',
+#                  groups = .group,
+#                  auto.key = TRUE,
+#                  ...
+#           ))
+#                  
+      
     } 
   }
 
