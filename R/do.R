@@ -551,28 +551,28 @@ cull_for_do.lm <- function(object, ...) {
   return(result)
 }
 
-#' @export 
-cull_for_do.groupwiseModel <- function(object, ...) {
-  sobject <- summary(object)
-  Fstat <- sobject$fstatistic[1]
-  DFE <- sobject$fstatistic["dendf"]
-  DFM <- sobject$fstatistic["numdf"]
-  if (!is.null(Fstat)) {
-    names(Fstat) <- "F"
-    result <-  c(coef(object), sigma=sobject$sigma, 
-                 r.squared = sobject$r.squared, 
-                 Fstat,
-                 DFM,
-                 DFE)
-  } else {
-    result <-  c(coef(object), sigma=sobject$sigma, 
-                 r.squared = sobject$r.squared
-    )
-  }
-  names(result) <- nice_names(names(result))
-  return(result)
-}
-  
+# #' @export 
+# cull_for_do.groupwiseModel <- function(object, ...) {
+#   sobject <- summary(object)
+#   Fstat <- sobject$fstatistic[1]
+#   DFE <- sobject$fstatistic["dendf"]
+#   DFM <- sobject$fstatistic["numdf"]
+#   if (!is.null(Fstat)) {
+#     names(Fstat) <- "F"
+#     result <-  c(coef(object), sigma=sobject$sigma, 
+#                  r.squared = sobject$r.squared, 
+#                  Fstat,
+#                  DFM,
+#                  DFE)
+#   } else {
+#     result <-  c(coef(object), sigma=sobject$sigma, 
+#                  r.squared = sobject$r.squared
+#     )
+#   }
+#   names(result) <- nice_names(names(result))
+#   return(result)
+# }
+#   
   
 #' @export 
 cull_for_do.htest <- function(object, ...) {

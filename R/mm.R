@@ -77,7 +77,7 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
   }
   res <- structure( list(coefs=coefs, resids=resids, fitted=fitted, 
                          ncases=ncases, groupsd=groupsd, call=formula, df=df),
-                    class = c("groupwiseModel")
+                    class = c("groupwiseModel-old")
   )
   return(res)
 }
@@ -89,97 +89,97 @@ mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
 #' @param margin Whether to present the margin of error rather than the lower and upper bounds
 #' @export
 
-confint.groupwiseModel <- function(object, parm, level=0.95, ..., pooled=TRUE, margin=FALSE) {
-  n <- length(object$fitted)
-  # Find the standard error of each group
-  mns <- object$coefs[[2]] # the groupwise means
-  margin.of.error <- if (pooled) {
-    sqrt( (n-1)/(n-object$df))* sd( object$resids) / sqrt(object$ncases) *
-    abs(qt((1-level)/2, df=n-object$df))
-  }
-  else {
-    (object$groupsd / sqrt(object$ncases))*abs(qt((1-level)/2, df=object$ncases-1))
-  }
-  
-  if( margin ) {
-    res <- data.frame(center=object$coefs, margin.of.error=margin.of.error)
-    colnames(res) <- c("group", "center","margin.of.error")
-  }
-  else {
-    res <- data.frame(name=object$coefs[[1]], L=mns-margin.of.error,R=mns+margin.of.error)
-    # Change the names to those given by confint.default
-    colnames(res) <- c("group", paste(c((1-level)/2, 1-(1-level)/2)*100, "%" ))
-  }
-  return(res)
-}
-
-#' @rdname mm
-#' @export
-
-coef.groupwiseModel <- function(object, ...) {
-  x <- object$coefs
-  if( is.numeric(x)) return(x)
-  v <- x$value
-  #nms <- paste( names(x)[1], x[[1]], sep="")
-  #if (length(x) > 2) for (k in 2:(length(x)-1)) {
-  #  nms <- paste(nms, paste(names(x)[k],x[[k]],sep=""), sep=":")
-  #}
-  #names(v) <- nms
-  names(v) <- x$group
-  return(v)
-}
-# Methods
-#' @rdname mm
-#' @param x Object to be printed
-#' @param digits number of digits to display
-#' @export
-print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) ) {
-  # directly copied from print.lm, but since this isn't an lm object, it
-  # doesn't make sense to call print.lm on it.
-  cat("\nGroupwise Model Call:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
-      "\n\n", sep = "")
-  if (length(coef(x))) {
-    cat("Coefficients:\n")
-    print(format(coef(x), digits = digits), print.gap = 2L, 
-                  quote = FALSE)
-  }
-  else cat("No coefficients\n")
-  cat("\n")
-  invisible(x)
-}
-#' @rdname mm
-#' @param object groupwiseMean object from which to extract the residuals
-#' @export
-
-residuals.groupwiseModel <- function(object, ...) {object$resids}
-#' @rdname mm
-#' @export
-
-fitted.groupwiseModel <- function(object, ...) {object$fitted}
-#' @rdname mm
-#' @export
-summary.groupwiseModel <- 
-          function(object, ... ){
-            resids <- resid(object)
-            sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
-            r2 <- var(resids)/var(resids+fitted(object))
-            ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
-            res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
-                                   df=object$df,coefs=confint(object)), 
-                              class= "summary_groupwiseModel"
-            )
-            return(res)
-          }
-
-
-#' @rdname mm
-#' @export
-
-print.summary_groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {
-  cat("Groupwise Model\n")
-  cat(paste("Call: ", deparse(x$call), "\n"))
-  cat("\n"); print(x$coefs); cat("\n")
-  cat(paste("sigma: ", signif(x$sigma, digits=digits),"\n"))
-  cat(paste("r-squared:", signif(x$r.squared, digits=digits),"\n"))
-  cat(paste("Adj. r-squared:", signif(x$adj.r.squared, digits=digits),"\n"))
-}
+# confint.groupwiseModel <- function(object, parm, level=0.95, ..., pooled=TRUE, margin=FALSE) {
+#   n <- length(object$fitted)
+#   # Find the standard error of each group
+#   mns <- object$coefs[[2]] # the groupwise means
+#   margin.of.error <- if (pooled) {
+#     sqrt( (n-1)/(n-object$df))* sd( object$resids) / sqrt(object$ncases) *
+#     abs(qt((1-level)/2, df=n-object$df))
+#   }
+#   else {
+#     (object$groupsd / sqrt(object$ncases))*abs(qt((1-level)/2, df=object$ncases-1))
+#   }
+#   
+#   if( margin ) {
+#     res <- data.frame(center=object$coefs, margin.of.error=margin.of.error)
+#     colnames(res) <- c("group", "center","margin.of.error")
+#   }
+#   else {
+#     res <- data.frame(name=object$coefs[[1]], L=mns-margin.of.error,R=mns+margin.of.error)
+#     # Change the names to those given by confint.default
+#     colnames(res) <- c("group", paste(c((1-level)/2, 1-(1-level)/2)*100, "%" ))
+#   }
+#   return(res)
+# }
+# 
+# #' @rdname mm
+# #' @export
+# 
+# coef.groupwiseModel <- function(object, ...) {
+#   x <- object$coefs
+#   if( is.numeric(x)) return(x)
+#   v <- x$value
+#   #nms <- paste( names(x)[1], x[[1]], sep="")
+#   #if (length(x) > 2) for (k in 2:(length(x)-1)) {
+#   #  nms <- paste(nms, paste(names(x)[k],x[[k]],sep=""), sep=":")
+#   #}
+#   #names(v) <- nms
+#   names(v) <- x$group
+#   return(v)
+# }
+# # Methods
+# #' @rdname mm
+# #' @param x Object to be printed
+# #' @param digits number of digits to display
+# #' @export
+# print.groupwiseModel <- function(x, ..., digits=max(3, getOption("digits") -3) ) {
+#   # directly copied from print.lm, but since this isn't an lm object, it
+#   # doesn't make sense to call print.lm on it.
+#   cat("\nGroupwise Model Call:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
+#       "\n\n", sep = "")
+#   if (length(coef(x))) {
+#     cat("Coefficients:\n")
+#     print(format(coef(x), digits = digits), print.gap = 2L, 
+#                   quote = FALSE)
+#   }
+#   else cat("No coefficients\n")
+#   cat("\n")
+#   invisible(x)
+# }
+# #' @rdname mm
+# #' @param object groupwiseMean object from which to extract the residuals
+# #' @export
+# 
+# residuals.groupwiseModel <- function(object, ...) {object$resids}
+# #' @rdname mm
+# #' @export
+# 
+# fitted.groupwiseModel <- function(object, ...) {object$fitted}
+# #' @rdname mm
+# #' @export
+# summary.groupwiseModel <- 
+#           function(object, ... ){
+#             resids <- resid(object)
+#             sigma <- sqrt(sum(resids^2)/(length(resids)-object$df))
+#             r2 <- var(resids)/var(resids+fitted(object))
+#             ar2 <- r2*(length(resids)-1)/(length(resids)-object$df)
+#             res <- structure( list(sigma=sigma,r.squared=1-r2,call=object$call,adj.r.squared=1-ar2,
+#                                    df=object$df,coefs=confint(object)), 
+#                               class= "summary_groupwiseModel"
+#             )
+#             return(res)
+#           }
+# 
+# 
+# #' @rdname mm
+# #' @export
+# 
+# print.summary_groupwiseModel <- function(x, digits = max(3, getOption("digits")-3), ...) {
+#   cat("Groupwise Model\n")
+#   cat(paste("Call: ", deparse(x$call), "\n"))
+#   cat("\n"); print(x$coefs); cat("\n")
+#   cat(paste("sigma: ", signif(x$sigma, digits=digits),"\n"))
+#   cat(paste("r-squared:", signif(x$r.squared, digits=digits),"\n"))
+#   cat(paste("Adj. r-squared:", signif(x$adj.r.squared, digits=digits),"\n"))
+# }
