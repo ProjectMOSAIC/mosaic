@@ -4,7 +4,12 @@
 \alias{MSPE}
 \title{Mean Squared Prediction Error}
 \usage{
-MSPE(mod, test_data)
+MSPE(model, data)
+}
+\arguments{
+\item{model}{a model produced by \code{lm}, \code{glm}, or \code{gwm}.}
+
+\item{data}{a data frame}
 }
 \description{
 Mean Squared Prediction Error

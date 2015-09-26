@@ -147,6 +147,9 @@ predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
 #' 
 #' Mean Squared Prediction Error
 #' 
+#' @param model a model produced by \code{lm}, \code{glm}, or \code{gwm}.
+#' @param data a data frame
+#' 
 #' @export
 #' @examples
 #' HELP <- HELPrct %>% sample_frac(.3)
@@ -157,16 +160,16 @@ predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
 #' MSPE( gwm( sex ~ homeless, data = HELP), HELPrct)
 #' MSPE( gwm( sex ~ homeless + substance, data = HELP), HELPrct)
 
-MSPE <- function(mod, test_data){
+MSPE <- function(model, data){
   #  was <- options("warn")
   #  on.exit(options(warn = was))
   options(warn = -3)
-  formula <- mod$call[[2]]
-  actual <- eval(formula[[2]], envir = test_data)
+  formula <- model$call[[2]]
+  actual <- eval(formula[[2]], envir = data)
   # adjust for categorical response
   if (!is.numeric(actual)) { actual <- 1}
-  mod_vals <- predict(mod, newdata = test_data)
-  stats::var(actual - mod_vals, na.rm=TRUE)
+  model_vals <- predict(model, newdata = data)
+  stats::var(actual - model_vals, na.rm=TRUE)
 }
 
 #' @export
