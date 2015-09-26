@@ -41,6 +41,7 @@ intercept term.  See the examples.
 \examples{
 gwm( wage ~ sex, data=CPS85 )
 gwm( wage ~ sex + married, data = CPS85 )
+# The same model, fit using lm() instead
 lm( wage ~ sex * married - 1, data = CPS85)
 do(5) * gwm( wage ~ sex + married, data = resample(CPS85))
 mod <- gwm( width ~ domhand, data=KidsFeet)
