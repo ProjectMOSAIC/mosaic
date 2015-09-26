@@ -11,11 +11,11 @@ Mean Squared Prediction Error
 }
 \examples{
 HELP <- HELPrct \%>\% sample_frac(.3)
-MSPE( group_mod( age ~ sex, data = HELP), HELPrct)
-MSPE( group_mod( age ~ 1, data = HELP), HELPrct)
-MSPE( group_mod( age ~ sex + homeless, data = HELP), HELPrct)
-MSPE( group_mod( sex ~ 1, data = HELP), HELPrct)
-MSPE( group_mod( sex ~ homeless, data = HELP), HELPrct)
-MSPE( group_mod( sex ~ homeless + substance, data = HELP), HELPrct)
+MSPE( gwm( age ~ sex, data = HELP), HELPrct)
+MSPE( gwm( age ~ 1, data = HELP), HELPrct)
+MSPE( gwm( age ~ sex + homeless, data = HELP), HELPrct)
+MSPE( gwm( sex ~ 1, data = HELP), HELPrct)
+MSPE( gwm( sex ~ homeless, data = HELP), HELPrct)
+MSPE( gwm( sex ~ homeless + substance, data = HELP), HELPrct)
 }
 
