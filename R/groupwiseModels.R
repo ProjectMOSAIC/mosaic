@@ -1,6 +1,53 @@
-require(dplyr)
+#' Groupwise models
+#'  
+#' Construct a model based on groupwise means or proportions
+#' 
+#' @rdname gwm
+#' 
+#' @param formula A formula.  The left-hand side specifies the response variable 
+#' over which the mean or proportion will be taken.  The right-hand side gives 
+#' the explanatory variables, separated by \code{+}.  Means or proportions are
+#' computed for every combination of the levels of the explanatory variables.
+#' 
+#' @param data A data frame in which to evaluate variables in \code{formula}.  
+#' If omitted, refer.  If not specified, variables 
+#' will be taken from the current environment.
+#' 
+#' @param drop Logical flag indicating whether to drop unoccupied groups.  
+#' Default \code{FALSE}.  NOT YET IMPLEMENTED.
+#' 
+#' @param \dots Additional arguments; currently ignored.
+#' 
+#' @return \code{mm} returns an object of class \code{groupwiseModel}.  The functions 
+#' \code{fitted.values}, \code{residuals}, \code{coefficients}, and \code{summary} 
+#' are useful for extracting various features of the value returned by \code{mm}
+#' 
+#' @details 
+#' \code{gwm} (groupwise model) is a sort of training function for 
+#' \code{lm}, meant to provide a basis for discussing inference and introducing 
+#' resampling in a simple, intuitive setting 
+#' of groupwise means or proportions.  \code{lm} provides a better, more general facility. 
+#' When using \code{lm} to recreate the results of \code{gwm}, include all the 
+#' interaction terms (i.e., use \code{*} instead of \code{+}) and remove the 
+#' intercept term.  See the examples.
+#' 
+#' @seealso 
+#' \code{\link{lm}}, 
+#' \code{\link{do}}
+#' @export
+#' @examples
+#' 
+#' gwm( wage ~ sex, data=CPS85 )
+#' gwm( wage ~ sex + married, data = CPS85 )
+#' # The same model, fit using lm() instead
+#' lm( wage ~ sex * married - 1, data = CPS85)
+#' do(5) * gwm( wage ~ sex + married, data = resample(CPS85))
+#' mod <- gwm( width ~ domhand, data=KidsFeet)
+#' summary(mod)
+#' resid(mod)
+#' fitted(mod)
 
-group_mod <- function(formula, data = parent.frame()) {
+gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
   # if response categorical, a proportion, listing the response
   # if response quantitative, a mean but don't list the response
   orig.call <- match.call()
@@ -53,8 +100,8 @@ group_mod <- function(formula, data = parent.frame()) {
     class = "groupwiseModel"
   )
 }
-# ==========================
 
+#' @export
 print.groupwiseModel <-
   function (x, ..., digits = max(3, getOption("digits") - 3)) 
 {
@@ -63,8 +110,25 @@ print.groupwiseModel <-
   print(format(x$coefficients, digits = digits))
   cat("\n")
   invisible(x)
+  }
+
+#' @export
+summary.groupwiseModel <- function( object, ...) {
+  structure(
+    list(model = object),
+    class = "summary.groupwiseModel"
+  )
 }
 
+# summary() doesn't do anything exciting at the moment.  This is just a placeholder
+# for future functionality.
+
+#' @export
+print.summary.groupwiseModel <- function( x, ...) {
+  print(x$model)
+}
+
+#' @export
 predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
   if (is.null(newdata)) 
     return(object$fitted.values)
@@ -81,6 +145,7 @@ predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
 #' 
 #' Mean Squared Prediction Error
 #' 
+#' @export
 #' @examples
 #' HELP <- HELPrct %>% sample_frac(.3)
 #' MSPE( group_mod( age ~ sex, data = HELP), HELPrct)
@@ -89,17 +154,20 @@ predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
 #' MSPE( group_mod( sex ~ 1, data = HELP), HELPrct)
 #' MSPE( group_mod( sex ~ homeless, data = HELP), HELPrct)
 #' MSPE( group_mod( sex ~ homeless + substance, data = HELP), HELPrct)
-#' 
+
 MSPE <- function(mod, test_data){
   #  was <- options("warn")
   #  on.exit(options(warn = was))
   options(warn = -3)
-  # get the model values from predict()
-  # and the actual values from the test_data
   formula <- mod$call[[2]]
   actual <- eval(formula[[2]], envir = test_data)
+  # adjust for categorical response
   if (!is.numeric(actual)) { actual <- 1}
   mod_vals <- predict(mod, newdata = test_data)
-  # get rid of missing model values
   stats::var(actual - mod_vals, na.rm=TRUE)
+}
+
+#' @export
+cull_for_do.groupwiseModel <- function( object, ... ) {
+  object$coefficients
 }
