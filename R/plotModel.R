@@ -242,16 +242,6 @@ plotModel.parsedModel <-
         if (! is.null(group.value) ) {
           line_data <- line_data %>% filter(as.numeric(.cond) == packet.number())
         }
-        print(list(g.v = group.value, 
-                   g.n = group.number,
-                   .color = levels(line_data$.color), 
-                   .group = levels(line_data$.group), 
-                   .cond = levels(line_data$.cond), 
-                   l_d = names(line_data),
-                   packet = packet.number(),
-                   panel = panel.number()
-                   ) )
-        print(dim(line_data))
         ncolors <- length(unique(line_data$.color))
         ngroups <- length(unique(line_data$.group))
         grid::grid.polyline(
@@ -264,8 +254,6 @@ plotModel.parsedModel <-
           )
         )
       }
-    View(point_data)
-    View(line_data)
     if (system == "ggplot2") {
       ggplot() +
         geom_point(aes_string(y = x$responseName, x = key, colour=".color", group=".group"), size=1.2,
