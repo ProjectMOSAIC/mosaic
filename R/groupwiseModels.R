@@ -112,6 +112,10 @@ print.groupwiseModel <-
   invisible(x)
   }
 
+
+# summary() doesn't do anything exciting at the moment.  This is just a placeholder
+# for future functionality.
+
 #' @export
 summary.groupwiseModel <- function( object, ...) {
   structure(
@@ -120,8 +124,6 @@ summary.groupwiseModel <- function( object, ...) {
   )
 }
 
-# summary() doesn't do anything exciting at the moment.  This is just a placeholder
-# for future functionality.
 
 #' @export
 print.summary.groupwiseModel <- function( x, ...) {
