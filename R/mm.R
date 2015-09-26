@@ -47,6 +47,9 @@
 #' @export
  
 mm <- function(formula, data=parent.frame(), fun=mean, drop=TRUE, ... ) {
+  .Deprecated("gwm")
+  return(gwm(formula, data = data, drop = drop, ...))
+  
   evalF <- evalFormula(formula, data)
   # placeholder for the response values
   fitted <- vals <- evalF$left[[1]]
