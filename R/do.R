@@ -551,7 +551,7 @@ cull_for_do.lm <- function(object, ...) {
   return(result)
 }
 
-# #' @export 
+#  @export 
 # cull_for_do.groupwiseModel <- function(object, ...) {
 #   sobject <- summary(object)
 #   Fstat <- sobject$fstatistic[1]
