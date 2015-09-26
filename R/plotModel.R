@@ -139,8 +139,6 @@ plotModel.parsedModel <-
     restVars <- setdiff( names(other_data), union(coVars, condVars) )
     discreteVars <- names(x$varTypes[x$varTypes == "discrete"])
     
-    print(list(f= formula, k=key))
-    
     nonEmpty <- function(data, varTypes = x$varTypes) {
         if (ncol(data) == 0L) data$blank <- ""
         data
@@ -208,6 +206,10 @@ plotModel.parsedModel <-
              columns = min(length(unique(point_data$.color)), 3))
     } else { 
       if (is.null(auto.key)) auto.key <- FALSE
+    }
+    
+    if (nrow(levels_shown) == 0L) {
+      levels_shown <- data.frame( matrix(nrow = length(x_points), ncol=0) )
     }
       
     line_data <- bind_rows(lapply(1:length(x_points), function(x) levels_shown)) 
