@@ -61,7 +61,7 @@ plotModel(mod)
 # multiple categorical vars
 mod <- lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data = mtcars)
 plotModel(mod)
-plotModel(mod, key = ~am)
+plotModel(mod, mpg ~ am)
 
 # interaction
 mod <- lm( mpg ~ wt + factor(cyl) + wt:factor(cyl), data = mtcars)
