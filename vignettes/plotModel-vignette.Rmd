@@ -1,13 +1,14 @@
 ---
 title: "Visualizing Models with plotModel()"
-author: "Ben Baumer"
+author: "Ben Baumer and Randall Pruim"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Using plotModel}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -55,6 +56,10 @@ plotModel(mod)
 # GLM with interaction
 mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
 plotModel(mod)
+
+# facets
+mod <- lm(mpg ~ poly(wt,2) + factor(cyl) * factor(am), data=mtcars)
+plotModel(mod, mpg ~ wt | factor(cyl))
 ```
 
 
@@ -78,8 +83,9 @@ plotModel(mod, system="g")
 plotModel(mod, mpg ~ am, system="g")
 
 # interaction
-mod <- lm( mpg ~ wt + factor(cyl) + wt:factor(cyl), data = mtcars)
+mod <- lm( mpg ~ wt + factor(cyl) + wt:factor(cyl) + factor(am), data = mtcars)
 plotModel(mod, system="g")
+plotModel(mod, system="g") + facet_grid( . ~ cyl)
 
 # polynomial terms
 mod <- lm( mpg ~ wt + I(wt^2), data = mtcars)
@@ -92,4 +98,5 @@ plotModel(mod, system="g")
 # GLM with interaction
 mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
 plotModel(mod, system="g")
+plotModel(mod, system="g") + facet_grid(. ~ cyl)
 ```
