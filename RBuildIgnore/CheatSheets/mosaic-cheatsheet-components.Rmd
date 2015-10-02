@@ -1,0 +1,72 @@
+---
+title: "Cheat Sheet Components"
+author: "R Pruim"
+date: "October 2, 2015"
+output: 
+  pdf_document: 
+    fig_height: 1
+    fig_width: 1
+---
+
+```{r, include=FALSE}
+require(knitr)
+require(mosaic)
+opts_chunk$set(echo=FALSE, dev=c("pdf", "png"), fig.path = "Figures/")
+
+trellis.par.set(theme = col.mosaic())
+trellis.par.set(plot.symbol = list(cex=0.4, alpha=0.6))
+trellis.par.set(
+  superpose.symbol = 
+    list(cex=0.4, alpha=0.6, 
+         pch=c(16, 21), 
+         col=c("navy", "skyblue"), 
+         fill=c("transparent", "transparent"))
+)
+trellis.par.set(par.strip.text = list(col="transparnt"))
+trellis.par.set(fontsize.text = 8)
+trellis.par.set(layout.heights=list(strip=0.5))
+trellis.par.set(box.dot = list(cex=0.2))
+trellis.par.set(box.rectangle = list(lwd=0.6))
+trellis.par.set(box.umbrella = list(lty=1, lwd=0.6))
+trellis.par.set( 
+  strip = strip.custom(
+    style=1, 
+    par.strip.text=list(col="transparent"))
+)
+noscales = list(draw = FALSE)
+```
+
+```{r, xyplot}
+xyplot( riders ~ highT, data = Riders, 
+        scales=noscales, xlab="", ylab="")
+```
+
+```{r, xyplot-facets}
+xyplot( riders ~ hi | weekday, data = Riders, 
+        scales=noscales, xlab="", ylab="", 
+        strip = 
+          strip.custom(style=1, 
+                       par.strip.text=list(col="transparent")) )
+```
+
+```{r, xyplot-groups}
+xyplot( riders ~ highT, groups = weekday, 
+        data = Riders, 
+        scales=noscales, xlab="", ylab="") 
+```
+
+```{r, bwplot}
+bwplot( riders ~ weekday, data = Riders, 
+        scales=noscales, xlab="", ylab="" 
+       )
+```
+
+```{r, bwplot-facets}
+bwplot( riders ~ weekday | ntiles(clouds), data = Riders, 
+        scales=noscales, xlab="", ylab="", coef = 3,
+        layout = c(3,1),
+        strip = 
+          strip.custom(style=1, 
+                       par.strip.text=list(col="transparent")) 
+       )
+```
