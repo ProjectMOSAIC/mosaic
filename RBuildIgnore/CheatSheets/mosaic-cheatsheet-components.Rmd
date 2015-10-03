@@ -11,8 +11,8 @@ output:
 ```{r, include=FALSE}
 require(knitr)
 require(mosaic)
-opts_chunk$set(echo=FALSE, dev=c("pdf", "png"), fig.path = "Figures/")
-
+opts_chunk$set(dev=c("pdf", "png"), fig.path = "Figures/")
+options(digits=2)
 trellis.par.set(theme = col.mosaic())
 trellis.par.set(plot.symbol = list(cex=0.4, alpha=0.6))
 trellis.par.set(
@@ -70,3 +70,32 @@ bwplot( riders ~ weekday | ntiles(clouds), data = Riders,
                        par.strip.text=list(col="transparent")) 
        )
 ```
+
+```{r}
+do(3) * mean(ct ~ shuffle(wday), data = Riders)
+```
+
+```{r, diffmean-shuffle}
+diffmean(ct ~ wday, data = Riders)
+Riders.Null <- 
+  do(1000) * diffmean(ct ~ shuffle(wday), data = Riders)
+histogram( ~ diffmean, data = Riders.Null, v=-80)
+```
+
+```{r, diffmean-bootstrap}
+Riders.Boot <- 
+  do(1000) * diffmean(ct ~ wday, data = resample(Riders, group=wday))
+histogram( ~ diffmean, data = Riders.Boot)
+confint(Riders.Boot)
+confint(Riders.Boot, method = "quantile")
+```
+
+```{r}
+model <- lm(ct ~ hi + clouds, data = Riders)
+lm.Boot <- do(1000) * relm(model)
+head(lm.Boot, 3)
+histogram(~hi, data = lm.Boot)
+confint(model)
+confint(lm.Boot)
+```
+
