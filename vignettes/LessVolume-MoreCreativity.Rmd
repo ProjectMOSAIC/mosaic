@@ -744,13 +744,13 @@ do(3) *
 Null <- do(5000) * 
   lm( width ~ length + shuffle(sex), 
                        data=KidsFeet)
-histogram( ~ sexG, data=Null, 
+histogram( ~ sex.G, data=Null, 
            v=-0.2325, glwd=4)
 ```
 
 ```{r}
-histogram(~sexG, data=Null, 
+histogram(~sex.G, data=Null, 
            v=-0.2325, glwd=4)
-prop(~ (sexG <= -0.2325), data=Null)
+prop(~ (sex.G <= -0.2325), data=Null)
 ```
 
