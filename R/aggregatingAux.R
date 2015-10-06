@@ -249,7 +249,15 @@ maggregate <-
     .name = deparse(substitute(FUN)), 
     .envir = parent.frame () # if (is.list(data) || is.pairlist(data)) parent.frame() else baseenv() 
     ) {
-  
+ 
+  if (! inherits(data, c("environment", "data.frame")) ) {
+    if (inherits(data, c("tbl")))
+      stop ("Your tbl is not a data.frame.  Perhaps you need dplyr functions here.",
+            call. = FALSE)
+    else 
+      stop("data must be an environment or data.frame.", call. = FALSE)
+  }
+      
   formula <- mosaic_formula_q(formula, groups=groups, envir = .envir)
   
   if (length(formula) == 2) { 
