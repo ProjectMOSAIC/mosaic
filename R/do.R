@@ -139,20 +139,22 @@ Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 #' nice_names( c("bad name", "name (crazy)", "a:b", "two-way") )
 #' @export
  
-nice_names <- function(x) {
+nice_names <- function(x, unique=TRUE) {
 	x <- gsub('%>%', '.result.', x)
 	x <- gsub('\\(Intercept\\)','Intercept', x)
 	x <- gsub('resample\\(','', x)
 	x <- gsub('sample\\(','', x)
 	x <- gsub('shuffle\\(','', x)
-	x <- gsub('\\(','.', x)
-	x <- gsub('-','.', x)
-	x <- gsub(':','.', x)
-	x <- gsub('\\)','', x)
-	x <- gsub(' ','.', x)
-	x <- gsub('^([0-9])','X\\1', x)
-	return(x)
+#	x <- gsub('\\(','.', x)
+#	x <- gsub('-','.', x)
+#	x <- gsub(':','.', x)
+#	x <- gsub('\\)','', x)
+#	x <- gsub(' ','.', x)
+#	x <- gsub('^([0-9])','X\\1', x)
+	return(make.names(x, unique = unique))
 }
+
+
 
 null2na <- function(x) if (is.null(x)) NA else x
 
