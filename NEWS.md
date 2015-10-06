@@ -2,6 +2,7 @@
 
 ## mosaic 0.12
 
+ * Aggregating functions now generate user friendly errors when the `data` argument is not an environment or data frame.
  * We have fixed some bugs that arose in the "emergency" release of 0.11
  * `mm()` has been deprecated and replaced with `gwm()` which does groupwise models where the response may be either categorical or quantitative.
  * Improvements have been made to `plotModel()`.
