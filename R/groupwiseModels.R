@@ -46,6 +46,7 @@
 #' summary(mod)
 #' resid(mod)
 #' fitted(mod)
+#' 
 
 gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
   # if response categorical, a proportion, listing the response
