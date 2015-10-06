@@ -607,7 +607,7 @@ Or, we can calculate a permutation test on the difference between homeless rates
 
 <<>>=
 HELPrct.null <- do(1000) * lm(homeless=="homeless" ~ shuffle(sex), data=HELPrct)
-prop(~ abs(sexmale) > 0.1146, data=HELPrct.null)
+prop(~ abs(sex.male) > 0.1146, data=HELPrct.null)
 @
 
 \subsection{Multiple explanatory variables}
