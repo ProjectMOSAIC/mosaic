@@ -36,18 +36,6 @@ of groupwise means.  \code{lm} provides a better, more general facility. When us
 \code{lm} to recreate the results of \code{mm}, include all the interaction terms,
 that is, use \code{*} instead of \code{&}.  See the examples.
 }
-\examples{
-if (require(mosaicData)) {
-mm( wage ~ sex, data=CPS85 )
-mm( wage ~ sex & married, data=CPS85 )
-lm( wage ~ sex*married-1, data=CPS85)
-do(5) * mm( wage ~ sex & married, data=resample(CPS85))
-mod <- mm( width ~ domhand, data=KidsFeet)
-summary(mod)
-resid(mod)
-fitted(mod)
-}
-}
 \seealso{
 \code{\link{lm}},
 \code{\link{do}}
