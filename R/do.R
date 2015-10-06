@@ -250,152 +250,15 @@ if(FALSE) {
 		
 }
 
-# # @rdname mosaic-internal
-# # @keywords internal
-# # @details
-# # \code{.cull_for_do} handles objects like models to do the right thing for \code{do}
-# #
-# # @return an object reflecting some of the information contained in \code{object}
-# 
-# .cull_for_do = function(object) {
-#   if (inherits(object, "aov")) {
-#     object <- anova(object)
-#   }
-#   if (inherits(object, "anova")) {
-#     res <- as.data.frame(object)
-#     res <- cbind (data.frame(source=row.names(res)), res)
-#     names(res)[names(res) == "Df"] <- "df"
-#     names(res)[names(res) == "Sum Sq"] <- "SS"
-#     names(res)[names(res) == "Mean Sq"] <- "MS"
-#     names(res)[names(res) == "F value"] <- "F"
-#     names(res)[names(res) == "Pr(>F)"] <- "pval"
-#     names(res)[names(res) == "Sum of Sq"] <- "diff.SS"
-#     names(res)[names(res) == "Res.Df"] <- "res.df"
-#     return(res)
-#     return( data.frame(
-#       SSTotal= sum(object$`Sum Sq`),
-#       SSModel= object$`Sum Sq`[1],
-#       SSError= object$`Sum Sq`[2],
-#       MSTotal= sum(object$`Sum Sq`),
-#       MSModel= object$`Mean Sq`[1],
-#       MSError= object$`Mean Sq`[2],
-#       F=object$`F value`[1],
-#       dfModel=object$Df[1],
-#       dfError=object$Df[2],
-#       dfTotal=sum(object$Df)
-#     ) )
-#   }
-#   if (inherits(object, 'table')){
-#     result <- data.frame(object)
-#     res <- result[[ncol(result)]]
-#     nms <- as.character(result[[1]])
-#     if (ncol(result) > 2) {
-#       for (k in 2:(ncol(result)-1)) {
-#         nms <- paste(nms, result[[k]],sep=".")
-#       }
-#     }
-#     names(res) <- nms
-#     return(res)
-#   }
-#   if (inherits(object, 'aggregated.stat')) {
-#     result <- object
-#     res <- as.vector(result[, "S"])  # ncol(result)]
-#     names(res) <- paste( attr(object,'stat.name'), 
-#                          .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
-#     return(res)
-#   } #
-#   if (inherits(object, 'lme')){ # for mixed effects models
-#     result <- object
-#     names(result) <- nice_names(names(result))
-#     return( object$coef$fixed )
-#   }
-#   if (inherits(object,c('lm','groupwiseModel')) ) {
-#     sobject <- summary(object)
-#     Fstat <- sobject$fstatistic[1]
-#     DFE <- sobject$fstatistic["dendf"]
-#     DFM <- sobject$fstatistic["numdf"]
-#     if (!is.null(Fstat)) {
-#       names(Fstat) <- "F"
-#       result <-  c(coef(object), sigma=sobject$sigma, 
-#                    r.squared = sobject$r.squared, 
-#                    Fstat,
-#                    DFM,
-#                    DFE)
-#     } else {
-#       result <-  c(coef(object), sigma=sobject$sigma, 
-#                    r.squared = sobject$r.squared
-#       )
-#     }
-#     names(result) <- nice_names(names(result))
-#     return(result)
-#   }
-#   if (inherits(object,'htest')) {
-#     if (is.null(object$conf.int)) {
-#       result <-  data.frame( 
-#         statistic = null2na(object$statistic), 
-#         parameter = null2na(object$parameter),
-#         p.value = null2na(object$p.value),
-#         method = null2na(object$method),
-#         alternative = null2na(object$alternative),
-#         data = null2na(object$data.name)
-#       )
-#     } else {
-#       result <-  data.frame( 
-#         statistic = null2na(object$statistic), 
-#         parameter = null2na(object$parameter),
-#         p.value = null2na(object$p.value),
-#         conf.level = attr(object$conf.int,"conf.level"),
-#         lower = object$conf.int[1],
-#         upper = object$conf.int[2],
-#         method = null2na(object$method),
-#         alternative = null2na(object$alternative),
-#         data = null2na(object$data.name)
-#       )
-#     }
-#     if ( !is.null(names(object$statistic)) ) 
-#       names(result)[1] <-  names(object$statistic)
-#     if ( !is.null(names(object$parameter)) ) 
-#       names(result)[2] <- names(object$parameter)
-#     return(result)
-#   }
-#   if (inherits(object, 'table') ) {
-#     nm <- names(object)
-#     result <-  as.vector(object)
-#     names(result) <- nm
-#     return(result)
-#   }
-#   if (inherits(object, 'cointoss')) {
-#     return( c(n=attr(object,'n'), 
-#               heads=sum(attr(object,'sequence')=='H'),
-#               tails=sum(attr(object,'sequence')=='T'),
-#               prop=sum(attr(object,'sequence')=="H") / attr(object,'n')
-#     ) )
-#   }
-#   if (is.matrix(object) && ncol(object) == 1) {
-#     nn <- rownames(object)
-#     object <- as.vector(object)
-#     if (is.null(nn)) {
-#       names(object) <- paste('v',1:length(object),sep="")
-#     } else {
-#       names(object) <- nn
-#     }
-#     return(object)
-#   }
-#   return(object) 
-# }
 
-# #' @aliases print,repeater-method
 #' @rdname do
+#' @param x an object created by \code{do}.
 #' @export
-# setMethod("print",
-#     signature(x = "repeater"),
-#     function (x, ...) 
 print.repeater <- function(x, ...) 
     {
   		message(paste('This repeats a command',x@n,'times. Use with *.'))
   		return(invisible(x))
     }
-# )
 
 .list2tidy.data.frame <- function (l) {
   
