@@ -24,7 +24,7 @@
 #' @import methods
 #' @importFrom MASS fitdistr fractions
 #' @import dplyr
-#' @importFrom grid grid.polyline grid.text grid.line grid.points grid.rect
+#' @importFrom grid grid.polyline grid.text grid.lines grid.points grid.rect
 #' @import lattice
 #' @import ggplot2
 #' @import splines 
