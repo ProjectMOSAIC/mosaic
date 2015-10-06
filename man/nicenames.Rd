@@ -8,6 +8,8 @@ nice_names(x, unique = TRUE)
 }
 \arguments{
 \item{x}{a character vector}
+
+\item{unique}{a logical indicating whether returned values should be uniquified.}
 }
 \value{
 a character vector
