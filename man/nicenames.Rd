@@ -4,7 +4,7 @@
 \alias{nice_names}
 \title{Nice names}
 \usage{
-nice_names(x)
+nice_names(x, unique = TRUE)
 }
 \arguments{
 \item{x}{a character vector}

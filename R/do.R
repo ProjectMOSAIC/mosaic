@@ -134,6 +134,7 @@ Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 #'
 #' @rdname nicenames
 #' @param x a character vector
+#' @param unique a logical indicating whether returned values should be uniquified.
 #' @return a character vector
 #' @examples
 #' nice_names( c("bad name", "name (crazy)", "a:b", "two-way") )
