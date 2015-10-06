@@ -1,5 +1,12 @@
 # mosaic package NEWS
 
+## mosaic 0.12
+
+ * We have fixed some bugs that arose in the "emergency" release of 0.11
+ * `mm()` has been deprecated and replaced with `gwm()` which does groupwise models where the response may be either categorical or quantitative.
+ * Improvements have been made to `plotModel()`.
+ * Improvements have been made to naming in objects created with `do()`.
+ 
 ## mosaic 0.11
 
  * `mplot()` on a data frame now (a) prompts the user for the type of plot to create and (b) has an added option to make line plots for time series and the like.
