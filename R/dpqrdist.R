@@ -108,7 +108,8 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @param verbose a logical
 #' @param invisible a logical
 #' @param digits the number of digits desired
-#' @param xlim x limits.  By default, these are chosen to show the central 99.95% of the distribution.
+#' @param xlim x limits.  By default, these are chosen to show the central 99.8\% 
+#'   of the distribution.
 #' @param ylim y limits
 #' @param vlwd width of vertical lines
 #' @param vcol color of vertical lines
@@ -121,6 +122,7 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @details The most general function is \code{qdist} which can work with 
 #' any distribution for which a q-function exists.  As a convenience, wrappers are 
 #' provided for several common distributions.
+#' 
 #' @return a vector of quantiles; a plot is printed as a side effect
 #' @examples
 #' qdist("norm", seq(.2, .8, by = 0.10))

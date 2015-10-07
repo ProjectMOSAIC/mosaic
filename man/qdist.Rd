@@ -50,7 +50,8 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{digits}{the number of digits desired}
 
-\item{xlim}{x limits.  By default, these are chosen to show the central 99.95% of the distribution.}
+\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\%
+of the distribution.}
 
 \item{ylim}{y limits}
 
