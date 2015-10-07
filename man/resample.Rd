@@ -83,7 +83,7 @@ tally(~ sex, data=resample(Small))
 tally(~ sex, data=Small)
 tally(~ sex, data=resample(Small, groups=sex))
 # shuffled can be used to reshuffle some variables within groups
-# orig.ids shows where the values were in original data frame.
+# orig.id shows where the values were in original data frame.
 Small <- mutate(Small,
    id1 = paste(sex,1:10, sep=":"),
    id2 = paste(sex,1:10, sep=":"))
