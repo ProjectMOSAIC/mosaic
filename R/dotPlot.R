@@ -27,7 +27,7 @@
 #' dotPlot( ~ age, data = HELPrct)
 #' dotPlot( ~ age, nint=42, data = HELPrct)
 #' dotPlot( ~ height | voice.part, data = singer, nint = 17,
-#'           endpoints = c(59.5, 76.5), layout = c(2,4), aspect = 1,
+#'           endpoints = c(59.5, 76.5), layout = c(4,2), aspect = 1,
 #'           xlab = "Height (inches)")
 #' }
 #' @keywords graphics 
@@ -107,7 +107,8 @@ panel.dotPlot <-
                 yvals <- 1:(h$counts[bin])
                 xvals <- rep( h$mids[bin], h$counts[bin] )
                 grid.points( 
-                  size= cex * unit( 0.9 / max(h$counts), "snpc"),  
+                  size= cex * unit( 0.9 / current.panel.limits()$ylim[2], 
+                                    "snpc"),  
                   pch = pch, 
                   gp = gpar(fill = col, alpha = alpha, col = col, lty = lty, lwd = lwd), 
 				  		    x = xvals,
