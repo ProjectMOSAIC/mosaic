@@ -150,7 +150,6 @@ integrateODE = function(dyn,...,tdur) {
 #'
 #' @details
 #' This is mainly for internal use by integrateODE.
-#' @export
 
 rkintegrate <- function(fun,x0,tstart=0,tend=1,dt=NULL) {
   if (is.null(dt)) {
