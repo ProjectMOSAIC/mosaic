@@ -214,8 +214,6 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
     ylim = c(0, 1.4 * ymax)
   }
   
-  groups <- sapply(xdata, function(x) {sum(x < q)})
-  
   # this could be funny if limits don't span q
   p <- c(0, p, 1)
   q <- c(xlim[1], q, xlim[2])
@@ -228,7 +226,7 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
     list(
       ydata ~ xdata, 
       xlim = xlim, ylim = ylim, 
-      groups = sapply(xdata, function(x) {sum(x < q)}),
+      groups = sapply(xdata, function(x) {sum(x <= q)}),
       type= if (discrete) c('p','h') else 'h',
       xlab = "", ylab = if (discrete) "probability" else "density", 
       panel = 
