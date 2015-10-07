@@ -4,7 +4,7 @@
 \alias{cdist}
 \title{Central portion of a distribution}
 \usage{
-cdist(dist, p, ...)
+cdist(dist, p, ..., verbose = FALSE)
 }
 \arguments{
 \item{dist}{a character string naming a distribution family (e.g., "norm").
@@ -15,6 +15,13 @@ in either "tail".}
 
 \item{...}{additional arguments passed to the distribution functions.  Typically
 these specify the parameters of the particular distribution desired.  See the examples.}
+
+\item{verbose}{a logical indicating whether a more verbose output value should be returned.}
+}
+\value{
+a pair of numbers indicating the upper and lower bounds, unless \code{verbose} is
+  \code{TRUE}, in which case a 1-row data frame is returned containing these bounds,
+  the central probability, the tail probabilities, and the name of the distribution.
 }
 \description{
 This function determines the critial values for isolating
@@ -30,9 +37,14 @@ formats are possible in future versions of the package.
 cdist( "norm", .95)
 cdist( "t", c(.90, .95, .99), df=5)
 cdist( "t", c(.90, .95, .99), df=50)
-cdist( "t", .95, df=c(3,5,10,20) )
+cdist( "t", .95, df=c(3,5,10,20), verbose = TRUE )
 cdist( "norm", .95, mean=500, sd=100 )
 cdist( "chisq", c(.90, .95), df=3 )
-cdist( "chisq", c(.90, .95), df=3, tail="lower" )
+# CI
+x <- rnorm(23, mean = 10, sd = 2)
+cdist("t", p = 0.95, df=22)
+mean(x) + cdist("t", p = 0.95, df=22) * sd(x) / sqrt(23)
+confint(t.test(x))
+cdist("t", p = 0.95, df=22, verbose = TRUE)
 }
 
