@@ -108,7 +108,7 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @param verbose a logical
 #' @param invisible a logical
 #' @param digits the number of digits desired
-#' @param xlim x limits
+#' @param xlim x limits.  By default, these are chosen to show the central 99.95% of the distribution.
 #' @param ylim y limits
 #' @param vlwd width of vertical lines
 #' @param vcol color of vertical lines
@@ -123,13 +123,14 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' provided for several common distributions.
 #' @return a vector of quantiles; a plot is printed as a side effect
 #' @examples
-#' qdist("norm", seq(.2, .8, by=.10))
-#' xqnorm(seq(.2, .8, by=.10), mean=100, sd=10)
+#' qdist("norm", seq(.2, .8, by = 0.10))
+#' xqnorm(seq(.2, .8, by = 0.10), mean = 100, sd = 10)
 #' qdist("unif", .5)
-#' xqgamma(.5, shape=3, scale=4)
-#' xqchisq(c(.25,.5,.75), df=3)
-#' xpbinom( c(480, 500, 510), size=1000, prob=0.48)
-#' xqpois( c(0.25, 0.5, 0.75), lambda=6, lwd=3, vlwd=2)
+#' xqgamma(.5, shape = 3, scale = 4)
+#' xqchisq(c(.25,.5,.75), df = 3)
+#' xpbinom( c(480, 500, 510), size = 1000, prob = 0.48)
+#' xpbinom( c(40, 60), size = 100, prob = 0.5)
+#' xqpois( c(0.25, 0.5, 0.75), lambda = 6, lwd = 3, vlwd = 2)
 #' @export 
 
 qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
@@ -200,6 +201,7 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
   if (discrete) {
     xdata <- unique(dpqrdist(dist, type="q", p=ppoints(resolution), ...))
     step = min(diff(xdata))
+    xlim = c(-step/2, step/2) + xlim  # widen by half step in each direction
     fill <- seq( min(xdata) -1.5 * step , max(xdata) + 1.5*step, length.out=resolution)
     xdata <- c(xdata, fill) 
     xdata <- dpqrdist(dist, type="q", p=dpqrdist(dist, type="p", q=xdata, ...), ...)

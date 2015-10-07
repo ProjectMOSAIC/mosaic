@@ -50,7 +50,7 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{digits}{the number of digits desired}
 
-\item{xlim}{x limits}
+\item{xlim}{x limits.  By default, these are chosen to show the central 99.95% of the distribution.}
 
 \item{ylim}{y limits}
 
@@ -75,12 +75,13 @@ any distribution for which a q-function exists.  As a convenience, wrappers are
 provided for several common distributions.
 }
 \examples{
-qdist("norm", seq(.2, .8, by=.10))
-xqnorm(seq(.2, .8, by=.10), mean=100, sd=10)
+qdist("norm", seq(.2, .8, by = 0.10))
+xqnorm(seq(.2, .8, by = 0.10), mean = 100, sd = 10)
 qdist("unif", .5)
-xqgamma(.5, shape=3, scale=4)
-xqchisq(c(.25,.5,.75), df=3)
-xpbinom( c(480, 500, 510), size=1000, prob=0.48)
-xqpois( c(0.25, 0.5, 0.75), lambda=6, lwd=3, vlwd=2)
+xqgamma(.5, shape = 3, scale = 4)
+xqchisq(c(.25,.5,.75), df = 3)
+xpbinom( c(480, 500, 510), size = 1000, prob = 0.48)
+xpbinom( c(40, 60), size = 100, prob = 0.5)
+xqpois( c(0.25, 0.5, 0.75), lambda = 6, lwd = 3, vlwd = 2)
 }
 
