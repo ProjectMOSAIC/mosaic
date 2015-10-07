@@ -11,10 +11,10 @@
 #' in either "tail".
 #' @param ... additional arguments passed to the distribution functions.  Typically
 #' these specify the parameters of the particular distribution desired.  See the examples.
-#' @param tail one of \code{"upper"} or \code{"lower"} specifying whether 
-#' the lower or upper critical value is returned.  
-#' @param warn a logical indicating whether a warning should be given when
-#' using a distribution that is not symmetric.
+# @param tail one of \code{"upper"} or \code{"lower"} specifying whether 
+# the lower or upper critical value is returned.  
+# @param warn a logical indicating whether a warning should be given when
+# using a distribution that is not symmetric.
 #' @note This function is still experimental and changes the input or output
 #' formats are possible in future versions of the package.
 #' 
@@ -27,8 +27,16 @@
 #' cdist( "chisq", c(.90, .95), df=3 )
 #' cdist( "chisq", c(.90, .95), df=3, tail="lower" )
 #' @export
+# another possible implementation
+cdist <- function( dist, p, ... ) {
+  alpha <- (1-p)/2
+  lo <- alpha
+  hi <- 1 - alpha
+  qdist <- paste0("q", dist)
+  data.frame( prob=p, lo= do.call( qdist, c(list(lo), ... ) ), hi=do.call( qdist, c(list(hi), ... ) ) )
+}
 
-cdist <- function( dist, p, ... , tail=c("upper","lower"), warn=TRUE) {
+.cdist <- function( dist, p, ... , tail=c("upper","lower"), warn=TRUE) {
   tail = match.arg(tail)
   alpha <- (1-p)/2
   lo <- alpha
@@ -47,11 +55,4 @@ cdist <- function( dist, p, ... , tail=c("upper","lower"), warn=TRUE) {
     )
   )
 }
-# another possible implementation
-.cdist <- function( dist, p, ... ) {
-  alpha <- (1-p)/2
-  lo <- alpha
-  hi <- 1 - alpha
-  qdist <- paste0("q", dist)
-  data.frame( prob=p, lo= do.call( qdist, c(list(lo), ... ) ), hi=do.call( qdist, c(list(hi), ... ) ) )
-}
+

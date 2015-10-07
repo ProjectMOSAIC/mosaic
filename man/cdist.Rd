@@ -4,7 +4,7 @@
 \alias{cdist}
 \title{Central portion of a distribution}
 \usage{
-cdist(dist, p, ..., tail = c("upper", "lower"), warn = TRUE)
+cdist(dist, p, ...)
 }
 \arguments{
 \item{dist}{a character string naming a distribution family (e.g., "norm").
@@ -15,12 +15,6 @@ in either "tail".}
 
 \item{...}{additional arguments passed to the distribution functions.  Typically
 these specify the parameters of the particular distribution desired.  See the examples.}
-
-\item{tail}{one of \code{"upper"} or \code{"lower"} specifying whether
-the lower or upper critical value is returned.}
-
-\item{warn}{a logical indicating whether a warning should be given when
-using a distribution that is not symmetric.}
 }
 \description{
 This function determines the critial values for isolating
