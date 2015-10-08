@@ -66,9 +66,9 @@ displayed together.}
 \code{"histogram"},
 \code{"density"},
 \code{"frequency polygon"},
-\code{"xyplot"},
 or
-\code{"map"}.  Unique prefixes suffice.}
+\code{"map"}.
+Unique prefixes suffice.}
 
 \item{show}{a logical, if \code{TRUE}, the code will be displayed each time the plot is
 changed.}
@@ -77,13 +77,7 @@ changed.}
 
 \item{xlab}{label for x-axis}
 
-\item{data}{a data frame containing the variables that might be used in the plot.
-Note that for maps, the data frame must contain coordinates of the polygons
-comprising the map and a variable for determining which corodiantes are part
-of the same region.  See \code{\link{sp2df}} for one way to create such
-a data frame.  Typically \code{\link{merge}} will be used to combine the map
-data with some auxilliary data to be displayed as fill color on the map, although
-this is not necessary if all one wants is a map.}
+\item{data}{a data frame containing the variables that might be used in the plot.}
 }
 \value{
 Nothing.  Just for side effects.
