@@ -84,7 +84,7 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
   if (length(group_vars) > 0L) {
     fitted.values <- suppressMessages(left_join(data, Res))$model_value
   } else {
-    fitted.values <- rep(Res$model_value, ncol(data))
+    fitted.values <- rep(Res$model_value, nrow(data))
   }
  
   residuals <- observed - fitted.values
