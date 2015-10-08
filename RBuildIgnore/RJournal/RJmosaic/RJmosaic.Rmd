@@ -1,0 +1,242 @@
+---
+title: The mosaic package
+author:
+  - name: Randall Pruim
+    affiliation: Calvin College
+    address:
+    - 3201 Burton St SE
+    - Grand Rapids, MI 49546
+    email:  rpruim@calvin.edu
+  - name: Daniel T Kaplan
+    affiliation: Macalester College
+    address:
+    - address 1
+    - address 2
+    email:  dtkaplan@macalester.edu
+  - name: Nicholas J Horton
+    affiliation: Amherst College
+    address:
+    - address 1
+    - address 2
+    email:  nhorton@amherst.edu
+abstract: >
+  An abstract of less than 150 words.
+preamble: >
+  % Any extra latex you need in the preamble
+output: rticles::rjournal_article
+---
+
+```{r, include=FALSE}
+require(mosaic)
+```
+
+The \CRANpkg{mosaic} package originated in early attempts by each of the authors to 
+ease new users into using R, primarily in the context of 
+undergraduate statistics courses, and, in one case, also in calculus.
+
+
+## Less volume, more creativity
+
+One of the guiding principles behind the development of the \CRANpkg{mosaic} package
+has been ``Less volume, more creativity".  Beginners are easily overwhelmed by the 
+scope of R and its many packages.  Often there are multiple ways to accomplish the 
+same task, and authors of the many packages are not required to follow any particular
+style guidelines.  Early on in the development of \CRANpkg{mosaic}, we decided to
+reduce the number of code templates that users would need to know to as few as possible,
+while still providing them with substantial power to be creative within the templates provided.
+
+Our most important template makes use what we call the ``formula-interface'' and is modeled
+after \code{lm()} and the plotting functions in \CRANpkg{lattice}.  We present the template as
+
+```{r, eval=FALSE}
+goal( y ~ x | z, data=mydata )
+```
+
+or even more simply as
+
+```{r, eval=FALSE}
+goal( formula, data=mydata )
+```
+
+This emphasizes that functions in R are typically named after the object they 
+produce (the goal) and that a wide variety of goals can be achieved using a 
+single template.  Having learned the formula interface to make \CRANpkg{lattice} plots, 
+new users are well prepared for modeling with
+\code{lm()} and \code{glm()} when the time comes. 
+
+# Adding the formula interface to existing functions
+
+Although this formula interface works well for graphical summaries of data, the
+same is not true of the standard numerical summary functions (\code{mean()}, 
+\code{median()}, \code{sd()}, etc.).  One of our initial
+difficult decisions was whether to add such a formula interface to these
+standard functions (by masking them) or to create new functions.  We decided on the former 
+option because the standard names are natural and familiar and because 
+having two sets of functions for essentially the same task would be unnecessarily 
+complicated for new users.  
+The \CRANpkg{mosaic} 
+versions of these functions can still be used as in \CRANpkg{stats} and \CRANpkg{base} so that
+existing code should not be affected.
+
+```{r}
+mean( HELPrct$age )
+mean( ~ age, data = HELPrct )      # same result as above 
+mean( age ~ sex, data = HELPrct )  # additional features are possible
+```
+
+There are, of course, other ways to achieve this last result, including the use of 
+\code{aggregate()}, or \code{summary()} from \CRANpkg{Hmisc}, or the functions in 
+\CRANpkg{plyr}.   But each of these solutions would require learning additional coding 
+templates.  In our approach, the following (and many more) are all identical except for 
+the specification of the desired result via the function name.
+
+```{r, tidy=FALSE, eval=FALSE}
+   bwplot( age ~ sex, data=HELPrct )
+     mean( age ~ sex, data=HELPrct )
+       sd( age ~ sex, data=HELPrct )
+       lm( age ~ sex, data=HELPrct )
+   t.test( age ~ sex, data=HELPrct )   # formula interface exists in stats
+```
+
+Similarly, for one-variable situations we have 
+
+```{r, tidy=FALSE, eval=FALSE}
+      mean( ~ age, data=HELPrct )
+        sd( ~ age, data=HELPrct )
+ histogram( ~ age, data=HELPrct )
+    t.test( ~ age, data=HELPrct )       # formula interface added in mosaic
+binom.test( ~ sex, data=HELPrct )       # formula interface added in mosaic
+ prop.test( ~ sex, data=HELPrct )       # formula interface added in mosaic
+```
+
+And for plots and numerical summaries, we can add covariates into the mix as well:
+```{r, tidy=FALSE, eval=FALSE}
+     mean( ~ age | sex, data=HELPrct )
+       sd( ~ age | sex, data=HELPrct )
+histogram( ~ age | sex, data=HELPrct )
+   t.test( ~ age | sex, data=HELPrct )
+```
+
+## Some things that we didn't change
+
+The formula interface is powerful and flexible.  Nevertheless, there are some
+sticky issues that we have chosen not to address.
+
+##	The geometry of \CRANpkg{lattice} formulas
+
+		In \code{lm()}, \code{glm()} and the numerical summary functions, \code{y ~ x} can
+		typically be read as 
+		``\code{y} depends on \code{x}'' or
+		``\code{y} is modeled by \code{x}''.  From this perspective,
+		
+```{r eval=FALSE}
+histogram(age ~ sex, data=HELPrct)
+```
+
+would be perfectly reasonable.  But \CRANpkg{lattice}, for the most part, 
+uses the \code{y} and \code{x} slots to indicate which axis of the plot is used 
+for which variable. So the correct \CRANpkg{lattice} command for the desired
+pair of histograms is 
+
+```{r, eval=FALSE}
+histogram(~ age | sex, data=HELPrct)
+```
+
+and for overlaid density plots it is 
+
+```{r eval=FALSE}
+histogram(~ age, groups=sex, data=HELPrct)
+```
+
+While this can produce some initial challenges for users, clearly explaining the roles 
+of the components of the variables for plotting, for numerical summaries, and for model 
+fitting helps demystify the situation.  Furthermore, in several functions we promote formulas
+of the form \code{~ x | z} to \code{x ~ z} to allow either format.  Similarly, the \code{groups}
+argument can often be used, for example
+
+```{r}
+mean( ~ age, groups = sex, data=HELPrct )  
+```
+
+## Handling missing data
+
+When there are missing values,
+the numerical summary functions in \CRANpkg{base} and \CRANpkg{stats} return
+results that surprise and confuse new users.
+```{r}
+mean( HELPmiss$dayslink )
+```
+We offer two solutions to this situtation.  Our favorite is the `favstats()` function
+which computes a number of our favorite numerical summaries and reports the number of 
+missing values.
+```{r}
+favstats( dayslink ~ sex, data = HELPmiss )
+```
+
+
+## Other stuff as we think of it
+
+
+# Extracting information
+
+Modeled on functions like \code{resid()}, a number of additional functions have
+been added to \CRANpkg{mosaic} to facilitate extracting information from more
+complicated objects.  Some examples include
+
+```{r, extractors}
+confint(t.test(~age, data=HELPrct))      # works for "htest" objects
+pval( t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
+stat( t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
+r.squared( lm( age ~ sex, data=HELPrct))
+```
+
+\section{Simplifying randomization}
+
+\subsection{Using do() for repetition}
+
+\subsection{sample(), resample(), and shuffle()}
+
+\subsection{do() and confint()}
+
+\subsection{statTally()}
+
+
+\section{Calculus in R}
+
+\section{Some additional bells and whistles}
+
+
+
+
+## Introduction
+
+Introductory section which may include references in parentheses
+\citep{R}, or cite a reference such as \citet{R} in the text.
+
+## Section title in sentence case
+
+This section may contain a figure such as Figure \ref{figure:rlogo}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics{Rlogo}
+  \caption{The logo of R.}
+  \label{figure:rlogo}
+\end{figure}
+
+## Another section
+
+There will likely be several sections, perhaps including code snippets, such as:
+
+```{r}
+x <- 1:10
+x
+```
+
+
+## Summary
+
+This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](http://journal.r-project.org/latex/RJauthorguide.pdf).
+
+\bibliography{RJreferences}
+%\bibliography{pruim-horton-kaplan}
