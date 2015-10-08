@@ -48,8 +48,7 @@ prod(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
 
 sum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-favstats(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+favstats(x, ..., data = NULL, groups = NULL, na.rm = TRUE)
 
 quantile(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
   FALSE))

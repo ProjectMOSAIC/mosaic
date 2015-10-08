@@ -44,7 +44,7 @@ aggregatingFunction1 <-
   function( fun, 
             output.multiple=FALSE, 
             envir=parent.frame(), 
-            na.rm=getOption("na.rm",FALSE),
+            na.rm = getOption("na.rm", FALSE),
             style = c("flexible", "formula")
   ) {
     fun <- deparse(substitute(fun))
@@ -55,7 +55,7 @@ aggregatingFunction1 <-
         x, ..., 
         data = NULL,
         groups = NULL, 
-        na.rm = getOption("na.rm", FALSE)) 
+        na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
       {
         pframe <- parent.frame()
         subst_x <- substitute(x)
@@ -92,7 +92,7 @@ aggregatingFunction1 <-
         x, ..., 
         data = NULL,
         groups = NULL, 
-        na.rm = getOption("na.rm", FALSE)) 
+        na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
       {
         if (is.null(data)) {
           result <-
@@ -109,6 +109,11 @@ aggregatingFunction1 <-
     fun_text <- deparse(templates[[style]])
     fun_text <- gsub("FUNCTION_TBD", fun, fun_text) 
     fun_text <- gsub("output.multiple", output.multiple, fun_text)
+    if (missing(na.rm)) {
+      fun_text <- gsub("NA.RM", deparse(substitute(getOption("na.rm", FALSE))), fun_text)
+    } else {
+      fun_text <- gsub("NA.RM", deparse(substitute(na.rm)), fun_text)
+    }
     res <- eval(parse( text = fun_text))
     environment(res) <- parent.frame()
     res
@@ -350,8 +355,7 @@ prod <- aggregatingFunction1( base::prod )
 sum <- aggregatingFunction1( base::sum)
 #' @rdname aggregating
 #' @export
-favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE, 
-                                 na.rm=TRUE)
+favstats <- aggregatingFunction1(fav_stats, output.multiple=TRUE, na.rm=TRUE)
 #' @rdname aggregating
 #' @export
 quantile <- aggregatingFunction1(stats::quantile, output.multiple=TRUE, 
