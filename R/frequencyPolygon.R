@@ -19,7 +19,6 @@
 #' plot.
 #' 
 #' @examples
-#' if (require(mosaicData)) {
 #' freqpolygon(~age | substance, data=HELPrct, v=35)
 #' freqpolygon(~age, data=HELPrct, labels=TRUE, type='count')
 #' freqpolygon(~age | substance, data=HELPrct, groups=sex)
@@ -27,7 +26,6 @@
 #' ## comparison of histogram and frequency polygon
 #' histogram(~eruptions, faithful, type='density', width=.5)
 #' ladd( panel.freqpolygon(faithful$eruptions, width=.5 ))
-#' }
 #' @export
 
 freqpolygon <- function(x, 
