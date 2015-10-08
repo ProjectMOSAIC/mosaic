@@ -26,6 +26,7 @@ Introductory section which may include references in parentheses
 
 \section{Project MOSAIC}
 
+\iffalse
 Project MOSAIC is an NSF-funded initiative to provide a broader approach to
 quantitative studies that provides better support for work in science and
 technology. The focus of the project has been to tie together better diverse aspects
@@ -45,10 +46,11 @@ components of a quantitative education:
 \item{Calculus.}
 The traditional mathematical entry point for college and university students and a subject that still has the potential to provide important insights to today’s students.
 \end{description}
+\fi
 
 The \pkg{mosaic} package originated in early attempts by each of the authors to 
-ease new users (student, primarily) into using R, primarily in the context of 
-other scientific disciplines.  
+ease new users into using R, primarily in the context of 
+undergraduate statistics courses, and, in one case, also in calculus.
 
 \section{Expanding the formula interface}
 
