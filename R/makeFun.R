@@ -136,7 +136,8 @@ makeFun.formula <-
 #' @export
 
 makeFun.lm <- 
-   function( object, ... , transform=identity) {
+   function( object, ... , transform=NULL) {
+    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
     dnames <- names(eval(object$call$data, parent.frame(1)))
 	  vars <- modelVars(object)
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
@@ -188,7 +189,8 @@ makeFun.lm <-
 #' @export
 
 makeFun.glm <-
-   function( object, ..., type=c('response','link'), transform=identity ) {
+   function( object, ..., type=c('response','link'), transform=NULL ) {
+    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
 	  type <- match.arg(type)
 	  vars <- modelVars(object)
 	  result <- function(...){}

@@ -17,10 +17,10 @@ makeFun(object, ...)
 \method{makeFun}{formula}(object, ..., strict.declaration = TRUE,
   use.environment = TRUE, suppress.warnings = FALSE)
 
-\method{makeFun}{lm}(object, ..., transform = identity)
+\method{makeFun}{lm}(object, ..., transform = NULL)
 
 \method{makeFun}{glm}(object, ..., type = c("response", "link"),
-  transform = identity)
+  transform = NULL)
 
 \method{makeFun}{nls}(object, ..., transform = identity)
 }
