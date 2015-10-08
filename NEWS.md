@@ -5,9 +5,12 @@
  * Aggregating functions now generate user friendly errors when the `data` argument is not an environment or data frame.
  * We have fixed some bugs that arose in the "emergency" release of 0.11
  * `mm()` has been deprecated and replaced with `gwm()` which does groupwise models where the response may be either categorical or quantitative.
- * Improvements have been made to `plotModel()`.
+ * Improvements have been made to `plotModel()`.  This is likely still not the final version,
+ but we are getting closer.
  * Improvements have been made to naming in objects created with `do()`.
- 
+ * Dots in `dotPlot()` are now the same size in all panels of multi-panel plots.
+ * `cdist()` has been rewritten.
+ * 
 ## mosaic 0.11
 
  * `mplot()` on a data frame now (a) prompts the user for the type of plot to create and (b) has an added option to make line plots for time series and the like.
