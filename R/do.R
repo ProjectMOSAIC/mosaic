@@ -548,7 +548,9 @@ setMethod(
     ) 
     class(result) <- c(paste('do', class(result)[1], sep="."), class(result))
     if (inherits( result, "data.frame")) {
-      alt_name <- as.character(e2_lazy$expr[[1]])
+      # we get mutliple parts here if expression involves, for example, ::
+      # just grab last part. (paste()ing would be out of order
+      alt_name <- tail(as.character(e2_lazy$expr[[1]]), 1)
       names(result) <- nice_names(names(result))
       names(result)[names(result) == "..result.."] <- 
         if(nice_names(alt_name) == alt_name) alt_name else "result"
