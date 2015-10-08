@@ -27,9 +27,10 @@ is evaluated \code{n} times to produce a list of \code{n} result objects.
 extract from it the information that should be stored.  For example,
 when applied to a object of class \code{"lm"},
 the default \code{cull_for_do} extracts the coefficients, coefficient
-of determinism and the estimate for the variance.
+of determinism, an the estimate for the variance, etc.
 }
 \examples{
 cull_for_do(lm(length ~ width, data = KidsFeet))
+do(1) * lm(length ~ width, data = KidsFeet)
 }
 
