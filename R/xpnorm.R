@@ -1,5 +1,5 @@
 utils::globalVariables( 
-  c(".plot_one_norm", 'button','picker','slider','checkbox','SD','Q','MEAN','slider','manipulate'))
+  c('button','picker','slider','checkbox','SD','Q','MEAN','slider','manipulate'))
 
 #' Augmented versions of pnorm and qnorm
 #' 
