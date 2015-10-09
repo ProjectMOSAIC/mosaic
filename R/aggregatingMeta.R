@@ -72,7 +72,8 @@ aggregatingFunction1 <-
                 stop(e)
             }
           )
-        if (is.null(lazy_formula)) {
+        ## See issue #531 for problem with using lazy_formula.
+        if (is.null(lazy_formula) || ! inherits(lazy_formula$expr, "formula")) {
           lazy_formula <- structure(list(expr=subst_x, env=pframe), class="lazy")
         }
         if (is.null(data)) {
