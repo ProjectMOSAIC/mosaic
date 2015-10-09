@@ -90,7 +90,7 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 #' # interaction planes
 #' mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
 #' plotModel(mod)
-#' plotModel(mod, system="g") + facet_wrap( ~ .color )
+#' plotModel(mod, system="g") + facet_wrap( ~ cyl )
 #' 
 
 # ------------------------------------------------------------------------------

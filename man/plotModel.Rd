@@ -89,7 +89,7 @@ plotModel(mod)
 # interaction planes
 mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
 plotModel(mod)
-plotModel(mod, system="g") + facet_wrap( ~ .color )
+plotModel(mod, system="g") + facet_wrap( ~ cyl )
 }
 \author{
 Ben Baumer, Galen Long, Randall Pruim
