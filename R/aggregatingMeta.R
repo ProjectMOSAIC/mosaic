@@ -1,4 +1,4 @@
-globalVariables("FUNCTION_TBD")
+globalVariables(c("FUNCTION_TBD", "NA.RM"))
 # 
 # issues to deal with
 #   * var() is hybrid of 1-ary, 2-ary
