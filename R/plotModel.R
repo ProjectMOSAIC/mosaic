@@ -1,4 +1,4 @@
-utils::globalVariables(c(".group", ".color", "mypanel"))
+utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 
 #' Plot a regression model
 #' 
