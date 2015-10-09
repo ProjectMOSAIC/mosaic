@@ -1,5 +1,6 @@
-tryCatch(utils::globalVariables( c('button','picker','slider','checkbox','SD','Q','MEAN','slider','manipulate')),
-		 error=function(e) message('Looks like you should update R.'))
+utils::globalVariables( 
+  c(".plot_one_norm", 'button','picker','slider','checkbox','SD','Q','MEAN','slider','manipulate'))
+
 #' Augmented versions of pnorm and qnorm
 #' 
 #' These functions behave similarly to the functions with the initial \code{x}
