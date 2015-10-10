@@ -110,9 +110,9 @@ function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sid
 						xlim = xlim, ...,
 						panel = function(x,...){
 							panel.histogram(x,...)
-							grid.rect( x=unit(lo,'native'), y=0.5, hjust=1,
+							grid.rect( x=grid::unit(lo,'native'), y=0.5, hjust=1,
 									  gp=gpar(fill='navy',col='navy', alpha=.05))
-							grid.rect( x=unit(hi,'native'), y=0.5, hjust=0,
+							grid.rect( x=grid::unit(hi,'native'), y=0.5, hjust=0,
 									  gp=gpar(fill='navy',col='navy', alpha=.05))
 						}
 						) , error = function(e) NULL

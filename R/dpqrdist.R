@@ -237,9 +237,9 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
         if (discrete) {
           function(x, y, ...) {
             # panel.xyplot(x,y,...)
-            panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+            panel.segments(q, 0, q, grid::unit(ymax,'native') + grid::unit(.2,'lines'), 
                            col = vcol, lwd=vlwd)
-            grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
+            grid.text(x=mid(q), y=grid::unit(ymax,'native') + grid::unit(1.0,'lines'), default.units='native',
                       rot=rot,
                       check.overlap=TRUE,
                       paste("", round(diff(p), 3), sep = ""), 
@@ -249,9 +249,9 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
         } else {
           function(x, y, ...) {
             panel.xyplot(x, y, ...)
-            panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+            panel.segments(q, 0, q, grid::unit(ymax,'native') + grid::unit(.2,'lines'), 
                            col = vcol, lwd=vlwd)
-            grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), default.units='native',
+            grid.text(x=mid(q), y=grid::unit(ymax,'native') + grid::unit(1.0,'lines'), default.units='native',
                       rot=rot,
                       check.overlap=TRUE,
                       paste("", round(diff(p), 3), sep = ""), 

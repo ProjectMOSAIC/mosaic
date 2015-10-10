@@ -1,5 +1,8 @@
 utils::globalVariables( 
-  c('button','picker','slider','checkbox','SD','Q','MEAN','slider','manipulate'))
+  c('button','picker','slider','checkbox','SD','Q','MEAN','slider','manipulate',
+    '.plot_one_norm', '.plot_multi_norm'
+  )
+)
 
 #' Augmented versions of pnorm and qnorm
 #' 
@@ -169,9 +172,9 @@ mid <- function(x) {
 		xlab = "", ylab = "density", 
 		panel = function(x, y, ...) {
 			panel.xyplot(x,y,...)
-			panel.segments(q, 0, q, unit(ymax,'native') + unit(.2,'lines'), 
+			panel.segments(q, 0, q, grid::unit(ymax,'native') + grid::unit(.2,'lines'), 
 			  col = vcol, lwd=vlwd)
-			grid.text(x=mid(q), y=unit(ymax,'native') + unit(1.0,'lines'), 
+			grid.text(x=mid(q), y=grid::unit(ymax,'native') + grid::unit(1.0,'lines'), 
                 default.units='native', rot=rot, check.overlap=TRUE,
 			  	paste("", round(diff(p), 3), sep = ""), 
 				just = c('center','center'),  gp=gpar(cex = 1.0))
@@ -218,41 +221,41 @@ mid <- function(x) {
 			  textloc = c(q, 1.2 * ymax)
 			}
       # vertical line
-			panel.segments(q, 0, q, unit(ymax,'native') + unit(0.6,'lines'), 
+			panel.segments(q, 0, q, grid::unit(ymax,'native') + grid::unit(0.6,'lines'), 
 			  col = vcol, lwd=vlwd)
 			#panel.segments(q, textloc[2] + 0.1 * ymax, q, 
 			#  ylim[2], col = "forestgreen")
       # quantile
-			grid.text(x=q, y=unit(ymax,'native') + unit(1.8,'lines'),  
+			grid.text(x=q, y=grid::unit(ymax,'native') + grid::unit(1.8,'lines'),  
                 default.units='native',
 				paste(round(q, digits)), 
 				just = c('center','bottom'), gp=gpar(cex = 1.0))
       # z score
-			grid.text(x=q, y=unit(ymax,'native') + unit(1.8,'lines'), default.units='native',
+			grid.text(x=q, y=grid::unit(ymax,'native') + grid::unit(1.8,'lines'), default.units='native',
 			  paste("(z=", round(z, 3), ")", sep = ""), 
 				just = c('center','top'),  gp=gpar(cex = 0.9))
       # arrow <- 
 			grid.lines( gp=gpar(lwd=1.5),
-				x=unit.c( unit(q,'native'), unit(q,'native') - unit(2,'char') ),
-				y=unit(ymax,'native') + unit(.2,'lines'),
-				arrow=arrow(angle=20,length=unit(.75,'char'))
+				x=unit.c( grid::unit(q,'native'), grid::unit(q,'native') - grid::unit(2,'char') ),
+				y=grid::unit(ymax,'native') + grid::unit(.2,'lines'),
+				arrow=grid::arrow(angle=20,length=grid::unit(.75,'char'))
 				)
       # left prob
 			grid.text(
-				x=unit(q,'native') - unit(3,'char'), 
-				y=unit(ymax,'native') + unit(.2,'lines'), default.units='native',
+				x=grid::unit(q,'native') - grid::unit(3,'char'), 
+				y=grid::unit(ymax,'native') + grid::unit(.2,'lines'), default.units='native',
 				paste(round(p, digits), ""), 
 				just = c('right','bottom'),  gp=gpar(cex = 0.9))
       # arrow ->
 			grid.lines( gp=gpar(lwd=1.5),
-				x=unit.c( unit(q,'native'), unit(q,'native') + unit(2,'char') ),
-				y=unit(ymax,'native') + unit(.2,'lines'),
-				arrow=arrow(angle=20,length=unit(.75,'char'))
+				x=unit.c( grid::unit(q,'native'), grid::unit(q,'native') + grid::unit(2,'char') ),
+				y=grid::unit(ymax,'native') + grid::unit(.2,'lines'),
+				arrow=grid::arrow(angle=20,length=grid::unit(.75,'char'))
 				)
       # left prob
 			grid.text(
-				x=unit(q,'native') + unit(3,'char'), 
-				y=unit(ymax,'native') + unit(.2,'lines'), default.units='native',
+				x=grid::unit(q,'native') + grid::unit(3,'char'), 
+				y=grid::unit(ymax,'native') + grid::unit(.2,'lines'), default.units='native',
 				paste("", round(1 - p, digits)), 
 				just = c('left','bottom'),  gp=gpar(cex = 0.9))
 		}, ...)
