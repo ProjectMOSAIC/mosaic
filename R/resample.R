@@ -357,6 +357,8 @@ sample.lm <-
       transformation <- inferTransformation(formula(x))
     }
     res[[1]] <- do.call(transformation, list(res$new_response))
+    # remove "scratch columns"
+    res <- res %>% select( -resid, -new_resid, -new_response)
     res
   }
 
