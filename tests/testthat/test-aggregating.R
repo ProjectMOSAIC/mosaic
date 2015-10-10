@@ -64,7 +64,16 @@ test_that("sum( a + x ) works, etc.", {
   expect_equivalent( median( a + x) , stats::median( a + x) )
 })
 
-
+test_that("bare names work", {
+  expect_equivalent( mean(   age, data = HELPrct), 
+                     mean( ~ age, data = HELPrct) )
+  expect_equivalent( cor( age,  cesd, data = HELPrct), 
+                     cor( age ~ cesd, data = HELPrct) )
+  expect_equivalent( var(  age, data = HELPrct), 
+                     var( ~ age, data = HELPrct) )
+  expect_equivalent( favstats(   age, data = HELPrct), 
+                     favstats( ~ age, data = HELPrct) )
+})
 
 
 
