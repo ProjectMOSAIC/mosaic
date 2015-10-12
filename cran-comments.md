@@ -1,7 +1,6 @@
 ## Test environments
 
-* local OS X install: R version 3.2.2 Patched (2015-09-08 r69333)
-* ubuntu 12.04 (on travis-ci), R 3.2.2
+* local OS X install: R version 3.2.2 Patched (2015-10-06 r69484)
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -14,13 +13,12 @@ There were no ERRORs or WARNINGs.
 
 ## Downstream dependencies
 
-I've informed all of the maintainers, rebuilt their packages locally from source, and
-checked with devtools::revdep_check().  FDRreg doesn't install in revdep_check(), but does when I install manually.
+I've informed all of the maintainers and checked with devtools::revdep_check().  
 
-## Note
+FDRreg doesn't install in revdep_check(), but does when I install manually.
 
-We will likely make another CRAN submission relatively soon after testing more thoroughly
-and finishing some work we were prepping for a CRAN submission in the near future.  (Some
-of these have been included in the current submission, so this is more than just a minimal 
-fix of the immediate problems due to changes to ggdendro.)
+In userfriendlyscience, there appears to be an error passing arguments to a ggplot2 geom
+(Error: Unknown parameters: size)  This does not appear to be related to the mosaic package.
+
+
 
