@@ -49,7 +49,14 @@ makeFun.function <-
 #' @param suppress.warnings A logical indicating whether warnings should be suppressed.
 #' @param transform a function used to transform the response.
 #' This can be useful to invert a transformation used on the response
-#' when creating the model.
+#' when creating the model.  If \code{NULL}, an attempt will be made to infer
+#' the transformation from the model formula. A few simple transformations 
+#' (\code{log}, \code{log2}, \code{sqrt}) are recognized.  For other transformations,
+#' \code{transform} should be provided explicitly.
+#' @details When creating a function from a model created with \code{lm}, \code{glm}, or \code{nls},
+#'   the function produced is a wrapper around the corresponding version of \code{predict}.  
+#'   This means that having variables in the model with names that match arguments of 
+#'   \code{predict} will lead to potentially ambiguous situations and should be avoided.
 #' @examples
 #' if (require(mosaicData)) {
 #' model <- lm( log(length) ~ log(width), data=KidsFeet)
@@ -147,10 +154,10 @@ makeFun.lm <-
 			  dots <- list(...)
 			  if (length(dots) > 0) {
 				  x <- dots[[1]] 
-				  dots[[1]] <- NULL
 			  } else {
 				  x <- 1
 			  }
+			  dots <- dots[names(dots) != ""] 
 			  transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
 		  }
 	  } else {
@@ -199,10 +206,10 @@ makeFun.glm <-
 			  dots <- list(...)
 			  if (length(dots) > 0) {
 				  x <- dots[[1]] 
-				  dots[[1]] <- NULL
 			  } else {
 				  x <- 1
 			  }
+			  dots <- dots[names(dots) != ""] 
 			  transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
 		  }
 	  } else {
@@ -248,7 +255,8 @@ makeFun.glm <-
 #' @export
 
 makeFun.nls <- 
-  function( object, ... , transform=identity) {
+  function( object, ... , transform = NULL) {
+    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
     dnames <- names(eval(object$call$data, parent.frame(1)))
     cvars <- names(coef(object))
     vars <- all.vars(rhs(eval(object$m$formula())))
@@ -259,11 +267,11 @@ makeFun.nls <-
       result <- function(...) {
         dots <- list(...)
         if (length(dots) > 0) {
-          x <- dots[[1]] 
           dots[[1]] <- NULL
         } else {
           x <- 1
         }
+			  dots <- dots[names(dots) != ""] 
         transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
       }
     } else {

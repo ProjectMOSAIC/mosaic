@@ -22,7 +22,7 @@ makeFun(object, ...)
 \method{makeFun}{glm}(object, ..., type = c("response", "link"),
   transform = NULL)
 
-\method{makeFun}{nls}(object, ..., transform = identity)
+\method{makeFun}{nls}(object, ..., transform = NULL)
 }
 \arguments{
 \item{object}{an object from which to create a function.  This should generally
@@ -43,7 +43,10 @@ unless \code{suppress.warnings} is \code{TRUE}.}
 
 \item{transform}{a function used to transform the response.
 This can be useful to invert a transformation used on the response
-when creating the model.}
+when creating the model.  If \code{NULL}, an attempt will be made to infer
+the transformation from the model formula. A few simple transformations
+(\code{log}, \code{log2}, \code{sqrt}) are recognized.  For other transformations,
+\code{transform} should be provided explicitly.}
 
 \item{type}{one of \code{'response'} (default) or \code{'link'} specifying scale to be used
 for value of function returned.}
@@ -62,6 +65,11 @@ The inputs to the function are all variables appearing on either the left
 or right sides of the formula.  Those appearing in the right side will
 occur in the order specified.  Those not appearing in the right side will
 appear in an unspecified order.
+
+When creating a function from a model created with \code{lm}, \code{glm}, or \code{nls},
+  the function produced is a wrapper around the corresponding version of \code{predict}.
+  This means that having variables in the model with names that match arguments of
+  \code{predict} will lead to potentially ambiguous situations and should be avoided.
 }
 \examples{
 f <- makeFun( sin(x^2 * b) ~ x & y & a); f
