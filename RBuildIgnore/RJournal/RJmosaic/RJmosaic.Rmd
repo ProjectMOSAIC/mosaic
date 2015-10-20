@@ -98,30 +98,6 @@ all three forms can be brought together into a single template:
 goal( formula, data=mydata, ... )
 ```
 
-The formula template emphasizes that functions in R are typically named after the 
-object they produce (the goal) and that a wide variety of goals can be achieved using a 
-single template.  
-```{r, results = "hide"}
-  histogram(~age, data = HELPrct)
-densityplot(~age, data = HELPrct)
-     bwplot(~age, data = HELPrct)
-     qqmath(~age, data = HELPrct)
-    dotPlot(~age, data = HELPrct)
-freqpolygon(~age, data = HELPrct)
-       mean(~age, data = HELPrct)
-         sd(~age, data = HELPrct)
-     median(~age, data = HELPrct)
-   favstats(~age, data = HELPrct)
-```
-
-```{r, results = "hide"}
-  xyplot(length ~ width, data = KidsFeet)
-  bwplot(length ~ sex,   data = KidsFeet)
-    mean(length ~ sex,   data = KidsFeet)
-      sd(length ~ sex,   data = KidsFeet)
-favstats(length ~ sex,   data = KidsFeet)
-```
-
 The formula template allows us to very quickly introduce students to 
 thinking about relationships between and among two or more variables.
 Having learned the formula interface to graphical and numerical
@@ -142,7 +118,9 @@ having two sets of functions for essentially the same task would be unnecessaril
 complicated for new users.  
 The \CRANpkg{mosaic} 
 versions of these functions can still be used as in the \CRANpkg{stats} and \CRANpkg{base} packages so that existing code should not be affected, even when
-the \CRANpkg{mosaic} package is attached.
+the \CRANpkg{mosaic} package is attached.  (There is, however, a performance penalty
+to paid, so when performance is crucial, it may be best to avoid using the \CRANpkg{mosaic}
+versions of the standard numerical summary functions.
 
 ```{r}
 mean( HELPrct$age )
@@ -152,7 +130,7 @@ mean( age ~ sex, data = HELPrct )  # additional features are possible
 
 There are, of course, other ways to achieve this last result, including the use of 
 \code{aggregate()}, or \code{summary()} from \CRANpkg{Hmisc}, or the functions in 
-\CRANpkg{plyr}.   But each of these solutions would require learning additional coding 
+\CRANpkg{plyr}.   But each of these solutions would require learning additional
 templates.  In our approach, the following (and many more) are all identical except for 
 the specification of the desired result via the function name.
 
@@ -164,11 +142,13 @@ bwplot( age ~ sex, data=HELPrct )
 t.test( age ~ sex, data=HELPrct )   
 ```
 
-Similarly, for one-variable situations we have 
+Similarly, by adding additional formula interfaces to `t.test()`,
+`binom.test()`, and `prop.test()`, for one-variable situations we have 
 
 ```{r, tidy=FALSE, eval=FALSE}
       mean( ~ age, data=HELPrct )
         sd( ~ age, data=HELPrct )
+  favstats( ~ age, data=HELPrct )
  histogram( ~ age, data=HELPrct )
     t.test( ~ age, data=HELPrct )       # formula interface added in mosaic
 binom.test( ~ sex, data=HELPrct )       # formula interface added in mosaic
@@ -303,6 +283,21 @@ x
 ## Summary
 
 This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](http://journal.r-project.org/latex/RJauthorguide.pdf).
+
+## Scrap
+
+This template allows us to create scatterplots and side-by-side box plots
+```{r, fig.keep = "none"}
+xyplot(length ~ width, data = KidsFeet)
+bwplot(length ~ sex,   data = KidsFeet)
+```
+to create numerical summaries like
+```{r}
+mean(length ~ sex, data = KidsFeet)
+sd(length ~ sex, data = KidsFeet)
+favstats(length ~ sex, data = KidsFeet)
+```
+
 
 \bibliography{RJreferences}
 %\bibliography{pruim-horton-kaplan}
