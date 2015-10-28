@@ -20,7 +20,11 @@ author:
     - address 2
     email:  nhorton@amherst.edu
 abstract: >
-  An abstract of less than 150 words.
+  The mosaic package provides a simplified and systematic introduction to the core
+  functionality required in typical first and second courses in statistics.  This 
+  introduction to the package describes some of the guiding principles behind the 
+  design of the package and provides illustrative examples of several of the most 
+  important functions it provides.
 preamble: >
   % Any extra latex you need in the preamble
 output: rticles::rjournal_article
@@ -28,11 +32,12 @@ output: rticles::rjournal_article
 
 ```{r, include=FALSE}
 require(mosaic)
-knitr::opts_chunk$set(fig.width = 3, fig.height = 2)
+knitr::opts_chunk$set(fig.width = 3, fig.height = 2, fig.show="hold")
 options(digits = 3)
+trellis.par.set(theme = col.mosaic())
 ```
 
-# Less volume, more creativity
+# A guiding priciple: Less volume, more creativity
 
 The \CRANpkg{mosaic} package originated in early attempts by each of the authors to 
 ease new users into using R, primarily in the context of 
@@ -54,42 +59,108 @@ To successfully implement a "less volume, more creativity" approach, one must de
 which tasks are most important to accomplish.  We knew from the outset, that
 this would include graphical and numerical summaries of data and various models
 and inference procedures.  Because of this, 
-our most important template makes use what we call the "formula-interface'' and
-is modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice}. 
-
+our most important template makes use of a "formula-interface''
+modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice}. 
 
 We typically introduce the formula template in the context of exploring 
 two variables as 
 
 ```{r, eval=FALSE}
-goal( y ~ x, data=mydata )
+goal( y ~ x, data = mydata )
 ```
 \noindent
 This template allows us to create, for example, scatterplots and side-by-side box plots
-```{r, fig.keep = "none"}
+```{r}
 xyplot(length ~ width, data = KidsFeet)
 bwplot(length ~ sex,   data = KidsFeet)
 ```
 \noindent
-With the \CRANpkg{mosaic} we can use the same template to create numerical summaries like
+With the \CRANpkg{mosaic} package attached, we can use the same template to create 
+numerical summaries like
 ```{r}
 mean(length ~ sex, data = KidsFeet)
 mean(length ~ sex, data = KidsFeet, .format = "table")
 sd(length ~ sex, data = KidsFeet)
 favstats(length ~ sex, data = KidsFeet)
 ```
-
-The formula template can be modified to handle one variable:
-```{r, eval=FALSE}
-goal( ~ x, data=mydata )
+\noindent
+Formula interfaces have been introduced for 
+`mean()`, `median()`, 
+`sd()`, `var()`, `cor()`, `cov()`,
+`quantile()`, 
+`max()`, `min()`, `range()`, 
+`IQR()`, `iqr()`, `fivenum()`,
+`prod()`, and `sum()`.
+In each case we have been careful not to break behavior of the underlying functions from
+\CRANpkg{base} and \CRANpkg{stats}, but for applications where speed is of utmost 
+importance, it is better to avoid the \CRANpkg{mosaic} wrappers, which cannot be faster (since
+the call the underlying functions eventually) and may be quite a bit slower for simple 
+things.  In particular, using the formula interface requires parsing the formula and 
+creating a new object to contain the data described by the formula.
+```{r}
+microbenchmark::microbenchmark( 
+  base::mean(rnorm(1000)), 
+  mosaic::mean(rnorm(1000)), 
+  mosaic::mean(~ rnorm(1000)))
+microbenchmark::microbenchmark( 
+  base::mean(rnorm(10000)), 
+  mosaic::mean(rnorm(10000)), 
+  mosaic::mean(~ rnorm(10000)))
 ```
-or more variables
+
+On the other hand, for aggregated numerical summaries, the loss in performance may represent
+a small price to pay for the simplified syntax.
+```{r}
+microbenchmark::microbenchmark( 
+  with(iris, aggregate(Sepal.Length, list(Species), base::mean)),
+  iris %>% 
+    sample_frac(size = 1.0, replace = TRUE) %>% 
+    group_by(Species) %>% 
+    summarise(mean = base::mean(Sepal.Length)),
+  mean(Sepal.Length ~ Species, data = resample(iris))
+)
+```
+
+The formula template can be extended to handle one variable or more than two variables,
+but we recommend introducing it in the context of two-variable plots and summaries.  
+This is for several reasons: (1) two-variable plots and numerical summariesare are more
+``impressive" and less likely to be something students can as readily do with tools they 
+already know, (2) working with more than one variable from the start (correctly) suggests
+that the most interesting parts of statistics involve more than one variable, and 
+(3) the formula syntax for a single variable makes more sense in the context of two-sided
+formulas.  
+
+Once the two-variable summaries are understood, we can add a third and forth variable with
 ```{r, eval=FALSE}
 goal( y ~ x | z, groups = mygroups, data=mydata )
 ```
 \noindent
 When plotting, `z` is used to create plots with subpanels (or facets) and `groups` is
-used overlay multiple layers.  The \CRANpkg{mosaic} package
+used overlay multiple layers.  
+```{r}
+densityplot( ~ age | sex, groups = substance, data = HELPrct)
+```
+For numerical summaries, these play the same role which allows us to compute 
+numerical summaries by changing the name of the plot into the name of the desired
+summary.
+```{r}
+mean( ~ age | sex, groups = substance, data = HELPrct)
+```
+
+The one-variable template can be obtained by removing the left-hand side from a 
+two-variable template.
+```{r, eval=FALSE}
+goal( ~ x, data=mydata )
+```
+\noindent
+In the context of plotting, this makes sense since we are providing the data for the 
+$x$-axis and allowing R to compute values for the $y$-axis:
+```{r}
+histogram(~ age, data = HELPrct)
+```
+\noindent
+Numerical summaries fit this pattern by analogy (and because R formulas are required to
+have a right hand side).
 
 As students become familiar with the formula interface,
 all three forms can be brought together into a single template:
@@ -97,9 +168,10 @@ all three forms can be brought together into a single template:
 ```{r, eval=FALSE}
 goal( formula, data=mydata, ... )
 ```
-
+\noindent
 The formula template allows us to very quickly introduce students to 
-thinking about relationships between and among two or more variables.
+thinking about relationships between and among two or more variables and
+allows them to test conjectures using graphical and numerical summaries.
 Having learned the formula interface to graphical and numerical
 summaries ealy on, new users are well prepared for modeling with
 \code{lm()}, \code{glm()}, and various "test" functions such as
@@ -191,7 +263,7 @@ histogram(~ age | sex, data=HELPrct)
 and for overlaid density plots it is 
 
 ```{r eval=FALSE}
-histogram(~ age, groups=sex, data=HELPrct)
+densityplot(~ age, groups=sex, data=HELPrct)
 ```
 
 While this can produce some initial challenges for users, clearly explaining the roles 
@@ -236,20 +308,20 @@ stat( t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
 r.squared( lm( age ~ sex, data=HELPrct))
 ```
 
-\section{Simplifying randomization}
+# Simplifying randomization
 
-\subsection{Using do() for repetition}
+## Using do() for repetition
 
-\subsection{sample(), resample(), and shuffle()}
+## sample(), resample(), and shuffle()
 
-\subsection{do() and confint()}
+## do() and confint()
 
-\subsection{statTally()}
+## statTally()
 
 
-\section{Calculus in R}
+# Calculus in R
 
-\section{Some additional bells and whistles}
+# Some additional bells and whistles
 
 
 
