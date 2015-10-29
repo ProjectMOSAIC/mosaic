@@ -32,9 +32,10 @@ output: rticles::rjournal_article
 
 ```{r, include=FALSE}
 require(mosaic)
-knitr::opts_chunk$set(fig.width = 3, fig.height = 2, fig.show="hold")
+knitr::opts_chunk$set(fig.width = 3, fig.height = 2, fig.show="hold", cache=TRUE)
 options(digits = 3)
 trellis.par.set(theme = col.mosaic())
+set.seed(123)
 ```
 
 # A guiding priciple: Less volume, more creativity
@@ -379,8 +380,8 @@ confint(Boot.dist2, method = c("percentile", "stderr"))
 ```
 
 ```{r}
-Boot.dist3 <- do(1000) * favstats
-  
+Boot.dist3 <- do(1000) * favstats(age ~ sex, data = HELPrct)
+```  
 
 
 
