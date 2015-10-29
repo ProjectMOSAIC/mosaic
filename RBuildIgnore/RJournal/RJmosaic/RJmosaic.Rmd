@@ -84,7 +84,15 @@ sd(length ~ sex, data = KidsFeet)
 favstats(length ~ sex, data = KidsFeet)
 ```
 \noindent
-Formula interfaces have been introduced for 
+and we have introduced that `tally()` function for counting categorical variables.
+```{r}
+tally( sex ~ substance, data = HELPrct)
+tally( sex ~ substance, data = HELPrct, format = "proportion")
+tally( sex ~ substance, data = HELPrct, margins = TRUE)
+```
+
+\noindent
+Formula interfaces are provided for 
 `mean()`, `median()`, 
 `sd()`, `var()`, `cor()`, `cov()`,
 `quantile()`, 
@@ -177,34 +185,9 @@ summaries ealy on, new users are well prepared for modeling with
 \code{lm()}, \code{glm()}, and various "test" functions such as
 `t.test()` when the time comes. 
 
-## Adding the formula interface to existing functions
-
-Although this formula interface works well for graphical summaries of data
-using the \CRANpkg{lattice} package, the same is not true of the standard 
-numerical summary functions (\code{mean()}, 
-\code{median()}, \code{sd()}, etc.).  One of our initial
-difficult decisions was whether to add such a formula interface to these
-standard functions (by masking them) or to create new functions.  We decided on the former 
-option because the standard names are natural and familiar and because 
-having two sets of functions for essentially the same task would be unnecessarily 
-complicated for new users.  
-The \CRANpkg{mosaic} 
-versions of these functions can still be used as in the \CRANpkg{stats} and \CRANpkg{base} packages so that existing code should not be affected, even when
-the \CRANpkg{mosaic} package is attached.  (There is, however, a performance penalty
-to paid, so when performance is crucial, it may be best to avoid using the \CRANpkg{mosaic}
-versions of the standard numerical summary functions.
-
-```{r}
-mean( HELPrct$age )
-mean( ~ age, data = HELPrct )      # same result as above 
-mean( age ~ sex, data = HELPrct )  # additional features are possible
-```
-
-There are, of course, other ways to achieve this last result, including the use of 
-\code{aggregate()}, or \code{summary()} from \CRANpkg{Hmisc}, or the functions in 
-\CRANpkg{plyr}.   But each of these solutions would require learning additional
-templates.  In our approach, the following (and many more) are all identical except for 
-the specification of the desired result via the function name.
+By emphasizing the formula template, each of the following commands can be 
+viewed as instances of a common template, rather than as separate things 
+to learn.
 
 ```{r, tidy=FALSE, eval=FALSE}
 bwplot( age ~ sex, data=HELPrct )
@@ -215,19 +198,24 @@ t.test( age ~ sex, data=HELPrct )
 ```
 
 Similarly, by adding additional formula interfaces to `t.test()`,
-`binom.test()`, and `prop.test()`, for one-variable situations we have 
+`binom.test()`, and `prop.test()`, and adding some additional 
+plot types, for one-variable situations we have 
 
 ```{r, tidy=FALSE, eval=FALSE}
-      mean( ~ age, data=HELPrct )
-        sd( ~ age, data=HELPrct )
-  favstats( ~ age, data=HELPrct )
- histogram( ~ age, data=HELPrct )
-    t.test( ~ age, data=HELPrct )       # formula interface added in mosaic
-binom.test( ~ sex, data=HELPrct )       # formula interface added in mosaic
- prop.test( ~ sex, data=HELPrct )       # formula interface added in mosaic
+       mean( ~ age, data=HELPrct )
+         sd( ~ age, data=HELPrct )
+   favstats( ~ age, data=HELPrct )
+  histogram( ~ age, data=HELPrct )
+    dotPlot( ~ age, data=HELPrct )   # dot plots
+freqpolygon( ~ age, data=HELPrct )   # frequency polygon
+    ashplot( ~ age, data=HELPrct )   # average shifted histogram
+     t.test( ~ age, data=HELPrct )   # formula interface added in mosaic
+ binom.test( ~ sex, data=HELPrct )   # formula interface added in mosaic
+  prop.test( ~ sex, data=HELPrct )   # formula interface added in mosaic
 ```
 
-And for plots and numerical summaries, we can add covariates into the mix as well:
+Adding covariates to one or two variable graphically or numerical summaries
+fits readily into the template as well.
 ```{r, tidy=FALSE, eval=FALSE}
      mean( ~ age | sex, data=HELPrct )
        sd( ~ age | sex, data=HELPrct )
@@ -235,46 +223,10 @@ histogram( ~ age | sex, data=HELPrct )
    t.test( ~ age | sex, data=HELPrct )
 ```
 
-## Some things that we didn't change
+While creating the correct formula can produce some initial challenges for users, 
+clearly explaining the roles of the components of the variables for plotting, 
+for numerical summaries, and for model fitting helps demystify the situation.  
 
-The formula interface is powerful and flexible.  Nevertheless, there are some
-sticky issues that we have chosen not to address.
-
-###	The geometry of lattice formulas
-
-		In \code{lm()}, \code{glm()} and the numerical summary functions, \code{y ~ x} can
-		typically be read as 
-		``\code{y} depends on \code{x}'' or
-		``\code{y} is modeled by \code{x}''.  From this perspective,
-		
-```{r eval=FALSE}
-histogram(age ~ sex, data=HELPrct)
-```
-
-would be perfectly reasonable.  But \CRANpkg{lattice}, for the most part, 
-uses the \code{y} and \code{x} slots to indicate which axis of the plot is used 
-for which variable. So the correct \CRANpkg{lattice} command for the desired
-pair of histograms is 
-
-```{r, eval=FALSE}
-histogram(~ age | sex, data=HELPrct)
-```
-
-and for overlaid density plots it is 
-
-```{r eval=FALSE}
-densityplot(~ age, groups=sex, data=HELPrct)
-```
-
-While this can produce some initial challenges for users, clearly explaining the roles 
-of the components of the variables for plotting, for numerical summaries, and for model 
-fitting helps demystify the situation.  Furthermore, in several functions we promote formulas
-of the form \code{~ x | z} to \code{x ~ z} to allow either format.  Similarly, the \code{groups}
-argument can often be used, for example
-
-```{r}
-mean( ~ age, groups = sex, data=HELPrct )  
-```
 
 ### Handling missing data
 
@@ -282,7 +234,8 @@ When there are missing values,
 the numerical summary functions in \CRANpkg{base} and \CRANpkg{stats} return
 results that surprise and confuse new users.
 ```{r}
-mean( HELPmiss$dayslink )
+mean( ~ dayslink, data = HELPmiss)
+mean( ~ dayslink, data = HELPmiss, na.rm = TRUE)
 ```
 We offer two solutions to this situtation.  Our favorite is the `favstats()` function
 which computes a number of our favorite numerical summaries and reports the number of 
@@ -291,8 +244,145 @@ missing values.
 favstats( dayslink ~ sex, data = HELPmiss )
 ```
 
+Users also have the option of changing this default for `na.rm` if they like.
+This will, of course, only affect the \CRANpkg{mosaic} versions of these functions.
 
-## Other stuff as we think of it
+```{r}
+options(na.rm = TRUE)
+mean(~ dayslink, data = HELPmiss)
+base::mean(HELPmiss$dayslink, data = HELPmiss)
+```
+
+# Randomization and Resampling
+
+The \CRANpkg{mosaic} package also provides functionality to support teaching inference
+based on randomization tests and bootstrap methods.  Our goals was to focus attention
+on the important parts of these techniques (like where randomness enters in and how to
+use the resulting distribution) while hiding some of the technical details
+involved in creating loops and accumulating values.  
+
+
+As a first example, we often introduce the story of the lady tasting tea.  (See
+\cite{LadyTastingTea} for the details of this famous story.)  But here we will
+test a coin to see whether it is a "fair coin".  Suppose we flip the coin 20 times
+and observe only 6 heads, how suspicious should we be that the coin is not fair?
+The statistical  punchline is that we want to compute the p-value for a binomial 
+test via simulations rather than using formulas for the binomial distribution or 
+normal approximations. This allows us to introduce this example on the first day of class.
+
+Since students do not know about distributions yet, but do understand the idea of a coin
+toss, we have provided `rflip()` to simulate tossing a coin one or several times:
+```{r}
+rflip()
+rflip(20)
+```
+To test a null hypothesis of a fair coin, we need to simulate flipping 20 coins many times,
+recording for each simulation the number of heads that were observed.
+The `do()` function allows us to do just that using the following template
+
+```{r eval = FALSE}
+do(n) * {stuff to do}
+```
+\noindent
+where stuff to do is typically a single R command, but may be something more complicated.
+For example, we can flip 100 coins three times as follows.
+```{r}
+do(3) * rflip(100)
+```
+\noindent
+Notice that `do()` (technicaly `cull_for_do()`) has been clever about what information 
+is stored for each group of 100 coin tosses.  It is now a simple matter to do this many more
+times and use numerical or graphical summaries to investigate how unusual it is to get
+so few heads if the coin is indeed a fair coin.
+```{r}
+Sims <- do (1000) * rflip(20)
+histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
+tally ( ~(heads <= 6), data = Sims)
+```
+\noindent
+(If you are familiar with \CRANpkg{lattice}, you will notice that the \CRANpkg{mosaic} package
+also adds some additional arguments to the `histogram()` function.)
+
+## sample(), resample(), and shuffle()
+
+To faciliate randomization and bootrapping, \CRANpkg{mosaic} extends `sample()` to operate
+on data frames, `shuffle()` as an alternative name for `sample()`, and `resample()` which
+is `sample()` with `replace = TRUE`.  With these in hand, all of the tests and confidence
+intervals seen in traditional first course in statistics can be performed using a common
+outline:
+
+  1. Do it to your data
+  2. Do it to a randomized version of your data
+  3. Do it to lots of randomized versions of your data.
+  
+For example, we can use radomization in place of the two-sample t test to
+obtain an empirical p-value.
+```{r}
+pval(t.test( age ~ sex, data = HELPrct, alternative = "greater"))
+```
+
+```{r}
+D <- diffmean(age ~ sex, data = HELPrct); D
+do(1) * diffmean(age ~ shuffle(sex), data = HELPrct)
+Null.dist <- do(5000) * diffmean(age ~ shuffle(sex), data = HELPrct)
+histogram(~diffmean, data = Null.dist, v = D)
+prop( ~(diffmean < D), data = Null.dist, format = "prop")
+```
+The example above introduces three additional \CRANpkg{mosaic} functions.  
+`pval()` extracts the p-value from an object of class `"htest"`; 
+`prop()` computes the proportion of logical vector that is (by default) `TRUE` 
+or of a factor that is (by default) the first label;
+and
+`diffmean()` is similar to `diff(mean()`, but labels the result differently.
+`diffprop()` works similarly for differences in proportions.
+
+If we are interested in a confidence interval for the mean difference, we can use
+`resample()` and `do()` to generate a bootstrap distribution in one of two ways.
+```{r}
+Boot.dist1 <- do(1000) * diffmean( age ~ sex, data = resample(HELPrct))
+Boot.dist2 <- do(1000) * diffmean( age ~ sex, data = resample(HELPrct, groups = sex))
+```
+\noindent
+In the second example, the resampling happens within the sex groups so that the marginal
+counts for each sex remain fixed.
+
+```{r, include=FALSE}
+set.seed(123456)
+```
+```{r}
+favstats( age ~ sex, data = HELPrct)
+favstats( age ~ sex, data = resample(HELPrct))
+favstats( age ~ sex, data = resample(HELPrct, groups = sex))
+```
+
+Using either bootstrap distribution, we can compute a simple percentile interval
+by finding the range of a central portion of the bootstrap distribution.
+Visually inspecting the bootstrap distribution for skew and bias is an important
+step to make sure the percentile interval is not being applied in a situation where 
+it may perform poorly.
+```{r}
+histogram( ~diffmean, data = Boot.dist2, v = D)
+qqmath( ~diffmean, data = Boot.dist2 )
+cdata(0.95, ~diffmean, data = Boot.dist2)
+```
+
+Alternatively, we could compute a confidence interval based on a bootstrap 
+estimate of the standard error.
+```{r}
+SE <- sd( ~ diffmean, data = Boot.dist2); SE
+D + c(-1,1) * 2 * SE
+```
+
+Each of these can be further automated using and extension to `conf.int()`.
+```{r}
+confint(Boot.dist2, method = c("percentile", "stderr"))
+```
+
+```{r}
+Boot.dist3 <- do(1000) * favstats
+  
+
+
 
 
 # Extracting information
