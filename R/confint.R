@@ -144,7 +144,13 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   
   if ("stderr" %in% method && is.null(df) && compute_t_df) {
     tryCatch({
-      orig_data <- extract_data(object)
+      orig_data <- extract_data(object) 
+      orig_data <- 
+        orig_data %>%
+        select_(
+          .dots = intersect(names(orig_data), 
+                            attr(object, "lazy")$expr %>% all.vars())
+        )
       df <- nrow(orig_data) - 1
       if ( ! all(complete.cases(orig_data)) ) {
         warning(
