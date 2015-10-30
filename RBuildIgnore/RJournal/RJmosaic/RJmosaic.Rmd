@@ -52,7 +52,7 @@ One of the guiding principles behind the development of the \CRANpkg{mosaic} pac
 has been "Less volume, more creativity".  Beginners are easily overwhelmed by the 
 scope of R and its many packages.  Often there are multiple ways to accomplish the 
 same task, and authors of the many packages are not required to follow any particular
-style guidelines.  
+style guidelines.
 
 Early on in the development of \CRANpkg{mosaic}, we decided to
 reduce the number of code templates that users would need to know to as few as possible,
@@ -140,13 +140,13 @@ microbenchmark::microbenchmark(
 ```
 
 The formula template can be extended to handle one variable or more than two variables,
-but we recommend introducing it in the context of two-variable plots and summaries.  
+but we recommend introducing it in the context of two-variable plots and summaries.
 This is for several reasons: (1) two-variable plots and numerical summariesare are more
 "impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
 that the most interesting parts of statistics involve more than one variable, and 
 (3) the formula syntax for a single variable makes more sense in the context of two-sided
-formulas that it does in isolation.  
+formulas that it does in isolation.
 
 Once the two-variable summaries are understood, we can add a third and forth variable with
 ```{r, eval=FALSE}
@@ -154,7 +154,7 @@ goal( y ~ x | z, groups = mygroups, data=mydata )
 ```
 \noindent
 When plotting, `z` is used to create plots with subpanels (or facets) and `groups` is
-used overlay multiple layers.  
+used overlay multiple layers.
 ```{r}
 densityplot( ~ age | sex, groups = substance, data = HELPrct)
 ```
@@ -209,7 +209,7 @@ bwplot(age ~ sex, data=HELPrct)
   mean(age ~ sex, data=HELPrct)
     sd(age ~ sex, data=HELPrct)
     lm(age ~ sex, data=HELPrct)
-t.test(age ~ sex, data=HELPrct)   
+t.test(age ~ sex, data=HELPrct) 
 ```
 
 Similarly, by adding additional formula interfaces to `t.test()`,
@@ -274,13 +274,15 @@ base::mean(HELPmiss$dayslink, data = HELPmiss)
 
 Especially in calculus, but also in statistics, it is useful to create 
 functions defined by algebraic formulas.  With `makeFun()` we can construct
-such functions using a formaul interface, and use `plotFun()` to plot them.
+such functions using a formula interface, and use `plotFun()` to plot them.
+
 ```{r}
 f <- makeFun(A *x^2 + B*x + C ~ x, A = 1, B = 1, C = 1)
 f
 f(2)
 plotFun(f(x) ~ x, xlim = c(-2,2))
 ```
+
 More interestingly for statistics, we can use `makeFun()` to create functions from
 model objects created by `lm()` and `glm()`.
 ```{r, fig.keep = "last"}
@@ -293,8 +295,8 @@ plotFun(dist(s) ~ s, add = TRUE)
 ```
 
 \noindent
-For logisitic regression with factors, we need to adjust things slightly because
-the model functions returns values between 0 and 1, but 2-level factors are coded 
+For logisitic regression with factors, we need to adjust things slightly when plotting
+because the model functions returns values between 0 and 1, but 2-level factors are coded 
 as 1 and 2.
 ```{r}
 Feet.mod <- glm(sex ~ width, data = KidsFeet, family = binomial)
@@ -332,7 +334,7 @@ The \CRANpkg{mosaic} package also provides functionality to support teaching inf
 based on randomization tests and bootstrap methods.  Our goals was to focus attention
 on the important parts of these techniques (e.g., where randomness enters in and how to
 use the resulting distribution) while hiding some of the technical details
-involved in creating loops and accumulating values.  
+involved in creating loops and accumulating values.
 
 As a first example, we often introduce the story of the lady tasting tea.  (See
 \cite{LadyTastingTea} for the details of this famous story.)  But here we will
@@ -401,7 +403,7 @@ Null.dist <- do(5000) * diffmean(age ~ shuffle(sex), data = HELPrct)
 histogram(~diffmean, data = Null.dist, v = D)
 prop( ~(diffmean < D), data = Null.dist, format = "prop")
 ```
-The example above introduces three additional \CRANpkg{mosaic} functions.  
+The example above introduces three additional \CRANpkg{mosaic} functions.
 `pval()` extracts the p-value from an object of class `"htest"`; 
 `prop()` computes the proportion of logical vector that is (by default) `TRUE` 
 or of a factor that is (by default) the first label;
@@ -447,7 +449,7 @@ D + c(-1,1) * 2 * SE
 ```
 \noindent
 (How to replace 2 with an appropriate value to create more accurate intervals
-or to allow for different confidence levels is a matter of some subtlty.  
+or to allow for different confidence levels is a matter of some subtlty.
 See \cite{Hesterberg:2015}.
 
 Each of these can be further automated using an extension to `conf.int()`.
@@ -506,23 +508,10 @@ xqt(0.975, df = 20)
 
 
 
-## Summary
+## More about R Journal submissions
 
 This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](http://journal.r-project.org/latex/RJauthorguide.pdf).
 
-## Scrap
-
-This template allows us to create scatterplots and side-by-side box plots
-```{r, fig.keep = "none"}
-xyplot(length ~ width, data = KidsFeet)
-bwplot(length ~ sex,   data = KidsFeet)
-```
-to create numerical summaries like
-```{r}
-mean(length ~ sex, data = KidsFeet)
-sd(length ~ sex, data = KidsFeet)
-favstats(length ~ sex, data = KidsFeet)
-```
 
 
 \bibliography{RJreferences}
