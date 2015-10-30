@@ -6,6 +6,8 @@
 #' should be aggregated across various subsets of the data.
 #' @param x  numeric vector 
 #' @param na.rm  boolean indicating whether missing data should be ignored 
+#' @param type an integer between 1 and 9 selecting one of the nine quantile algorithms detailed
+#'  in the documentation for \code{\link[stats]{quantile}}
 #' @param ... additional arguments (currently ignored)
 #' 
 #' @return A vector of statistical summaries
@@ -16,7 +18,7 @@
 #' favstats(Sepal.Length ~ Species, data=iris)  # Note: this is favstats() rather than fav_stats()
 #' @export
 
-fav_stats <- function (x, ..., na.rm = TRUE) 
+fav_stats <- function (x, ..., na.rm = TRUE, type = 7) 
 {
   if (!is.null(dim(x)) && min(dim(x)) != 1) 
     warning("Not respecting matrix dimensions.  Hope that's OK.")
@@ -28,17 +30,23 @@ fav_stats <- function (x, ..., na.rm = TRUE)
   }
   
   qq <- if (na.rm) 
-    stats::quantile(x, na.rm = na.rm)
+    stats::quantile(x, na.rm = na.rm, type = type)
   else 
     rep(NA, 5)
-  val <- data.frame(qq[1],  qq[2], qq[3], qq[4], qq[5],
-                    base::mean(x, na.rm = na.rm), 
-                    stats::sd(x, na.rm = na.rm), 
-                    base::sum(! is.na(x)),
-                    base::sum( is.na(x) )
+  val <- data.frame(
+    min=qq[1],  
+    Q1 = qq[2], 
+    median = qq[3], 
+    Q3 = qq[4], 
+    max = qq[5],
+    iqr = stats::IQR(x, na.rm = na.rm, type =type),
+    mean = base::mean(x, na.rm = na.rm), 
+    sd = stats::sd(x, na.rm = na.rm), 
+    n = base::sum(! is.na(x)),
+    missing = base::sum( is.na(x) )
   )
   rownames(val) <- ""
-  names(val) <- c("min", "Q1", "median", "Q3", "max", "mean", "sd", "n", "missing")
+#  names(val) <- c("min", "Q1", "median", "Q3", "max", "iqr", "mean", "sd", "n", "missing")
   return(val)
 }
 

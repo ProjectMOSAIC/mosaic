@@ -4,7 +4,7 @@
 \alias{fav_stats}
 \title{Some favorite statistical summaries}
 \usage{
-fav_stats(x, ..., na.rm = TRUE)
+fav_stats(x, ..., na.rm = TRUE, type = 7)
 }
 \arguments{
 \item{x}{numeric vector}
@@ -12,6 +12,9 @@ fav_stats(x, ..., na.rm = TRUE)
 \item{...}{additional arguments (currently ignored)}
 
 \item{na.rm}{boolean indicating whether missing data should be ignored}
+
+\item{type}{an integer between 1 and 9 selecting one of the nine quantile algorithms detailed
+in the documentation for \code{\link[stats]{quantile}}}
 }
 \value{
 A vector of statistical summaries
