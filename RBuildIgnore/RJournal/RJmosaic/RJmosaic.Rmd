@@ -32,9 +32,14 @@ output: rticles::rjournal_article
 
 ```{r, include=FALSE}
 require(mosaic)
-knitr::opts_chunk$set(fig.width = 3, fig.height = 2, fig.show="hold", cache=TRUE)
+knitr::opts_chunk$set(
+  fig.width = 3, fig.height = 2, 
+  fig.show="hold", fig.align = "center",
+  cache=TRUE
+)
 options(digits = 3)
 trellis.par.set(theme = col.mosaic())
+trellis.par.set(fontsize = list(text=9, points = 5))
 set.seed(123)
 ```
 
@@ -60,7 +65,7 @@ To successfully implement a "less volume, more creativity" approach, one must de
 which tasks are most important to accomplish.  We knew from the outset, that
 this would include graphical and numerical summaries of data and various models
 and inference procedures.  Because of this, 
-our most important template makes use of a "formula-interface''
+our most important template makes use of a "formula interface''
 modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice}. 
 
 We typically introduce the formula template in the context of exploring 
@@ -70,29 +75,32 @@ two variables as
 goal( y ~ x, data = mydata )
 ```
 \noindent
+For a plot, `goal` will name the type of plot, `y` and `x` name the variables to be 
+mapped to the vertical and horizontal axes, and `mydata` is the data frame in which 
+these variables are found.
 This template allows us to create, for example, scatterplots and side-by-side box plots
 ```{r}
 xyplot(length ~ width, data = KidsFeet)
+```
+```{r}
 bwplot(length ~ sex,   data = KidsFeet)
+bwplot(sex ~ length,   data = KidsFeet)
 ```
 \noindent
 With the \CRANpkg{mosaic} package attached, we can use the same template to create 
 numerical summaries like
 ```{r}
 mean(length ~ sex, data = KidsFeet)
-mean(length ~ sex, data = KidsFeet, .format = "table")
 sd(length ~ sex, data = KidsFeet)
-favstats(length ~ sex, data = KidsFeet)
 ```
 \noindent
-and we have introduced that `tally()` function for counting categorical variables.
+and we have introduced a `tally()` function for counting categorical variables.
 ```{r}
-tally( sex ~ substance, data = HELPrct)
-tally( sex ~ substance, data = HELPrct, format = "proportion")
-tally( sex ~ substance, data = HELPrct, margins = TRUE)
+tally(sex ~ substance, data = HELPrct)
+tally(sex ~ substance, data = HELPrct, format = "proportion")
+tally(sex ~ substance, data = HELPrct, margins = TRUE)
 ```
 
-\noindent
 Formula interfaces are provided for 
 `mean()`, `median()`, 
 `sd()`, `var()`, `cor()`, `cov()`,
@@ -103,8 +111,9 @@ Formula interfaces are provided for
 In each case we have been careful not to break behavior of the underlying functions from
 \CRANpkg{base} and \CRANpkg{stats}, but for applications where speed is of utmost 
 importance, it is better to avoid the \CRANpkg{mosaic} wrappers, which cannot be faster (since
-the call the underlying functions eventually) and may be quite a bit slower for simple 
-things.  In particular, using the formula interface requires parsing the formula and 
+the call the underlying functions eventually) and may be noticible slower in contexs where
+they are called many times.
+In particular, using the formula interface requires parsing the formula and 
 creating a new object to contain the data described by the formula.
 ```{r}
 microbenchmark::microbenchmark( 
@@ -121,23 +130,23 @@ On the other hand, for aggregated numerical summaries, the loss in performance m
 a small price to pay for the simplified syntax.
 ```{r}
 microbenchmark::microbenchmark( 
-  with(iris, aggregate(Sepal.Length, list(Species), base::mean)),
-  iris %>% 
+  aggregate = with(iris, aggregate(Sepal.Length, list(Species), base::mean)),
+  dplyr = iris %>% 
     sample_frac(size = 1.0, replace = TRUE) %>% 
     group_by(Species) %>% 
     summarise(mean = base::mean(Sepal.Length)),
-  mean(Sepal.Length ~ Species, data = resample(iris))
+  mosaic = mean(Sepal.Length ~ Species, data = resample(iris))
 )
 ```
 
 The formula template can be extended to handle one variable or more than two variables,
 but we recommend introducing it in the context of two-variable plots and summaries.  
 This is for several reasons: (1) two-variable plots and numerical summariesare are more
-``impressive" and less likely to be something students can as readily do with tools they 
+"impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
 that the most interesting parts of statistics involve more than one variable, and 
 (3) the formula syntax for a single variable makes more sense in the context of two-sided
-formulas.  
+formulas that it does in isolation.  
 
 Once the two-variable summaries are understood, we can add a third and forth variable with
 ```{r, eval=FALSE}
@@ -149,6 +158,7 @@ used overlay multiple layers.
 ```{r}
 densityplot( ~ age | sex, groups = substance, data = HELPrct)
 ```
+
 For numerical summaries, these play the same role which allows us to compute 
 numerical summaries by changing the name of the plot into the name of the desired
 summary.
@@ -156,8 +166,8 @@ summary.
 mean( ~ age | sex, groups = substance, data = HELPrct)
 ```
 
-The one-variable template can be obtained by removing the left-hand side from a 
-two-variable template.
+The one-variable template can be obtained by removing the left-hand side from the formaula
+in a two-variable template.
 ```{r, eval=FALSE}
 goal( ~ x, data=mydata )
 ```
@@ -165,11 +175,14 @@ goal( ~ x, data=mydata )
 In the context of plotting, this makes sense since we are providing the data for the 
 $x$-axis and allowing R to compute values for the $y$-axis:
 ```{r}
-histogram(~ age, data = HELPrct)
+histogram( ~ age, data = HELPrct)
 ```
 \noindent
 Numerical summaries fit this pattern by analogy (and because R formulas are required to
 have a right hand side).
+```{r}
+mean( ~ age, data = HELPrct)
+```
 
 As students become familiar with the formula interface,
 all three forms can be brought together into a single template:
@@ -182,20 +195,21 @@ The formula template allows us to very quickly introduce students to
 thinking about relationships between and among two or more variables and
 allows them to test conjectures using graphical and numerical summaries.
 Having learned the formula interface to graphical and numerical
-summaries ealy on, new users are well prepared for modeling with
+summaries early on, new users are well prepared for modeling with
 \code{lm()}, \code{glm()}, and various "test" functions such as
-`t.test()` when the time comes. 
+`t.test()` when the time comes and they begin early to train their minds
+to ask questions of the form "How does this depend on that (and some otehr things)?". 
 
 By emphasizing the formula template, each of the following commands can be 
 viewed as instances of a common template, rather than as separate things 
 to learn.
 
 ```{r, tidy=FALSE, eval=FALSE}
-bwplot( age ~ sex, data=HELPrct )
-  mean( age ~ sex, data=HELPrct )
-    sd( age ~ sex, data=HELPrct )
-    lm( age ~ sex, data=HELPrct )
-t.test( age ~ sex, data=HELPrct )   
+bwplot(age ~ sex, data=HELPrct)
+  mean(age ~ sex, data=HELPrct)
+    sd(age ~ sex, data=HELPrct)
+    lm(age ~ sex, data=HELPrct)
+t.test(age ~ sex, data=HELPrct)   
 ```
 
 Similarly, by adding additional formula interfaces to `t.test()`,
@@ -203,35 +217,37 @@ Similarly, by adding additional formula interfaces to `t.test()`,
 plot types, for one-variable situations we have 
 
 ```{r, tidy=FALSE, eval=FALSE}
-       mean( ~ age, data=HELPrct )
-         sd( ~ age, data=HELPrct )
-   favstats( ~ age, data=HELPrct )
-  histogram( ~ age, data=HELPrct )
-    dotPlot( ~ age, data=HELPrct )   # dot plots
-freqpolygon( ~ age, data=HELPrct )   # frequency polygon
-    ashplot( ~ age, data=HELPrct )   # average shifted histogram
-     t.test( ~ age, data=HELPrct )   # formula interface added in mosaic
- binom.test( ~ sex, data=HELPrct )   # formula interface added in mosaic
-  prop.test( ~ sex, data=HELPrct )   # formula interface added in mosaic
+       mean( ~ age, data=HELPrct)
+         sd( ~ age, data=HELPrct)
+   favstats( ~ age, data=HELPrct)
+  histogram( ~ age, data=HELPrct)
+    dotPlot( ~ age, data=HELPrct)   # dot plots
+freqpolygon( ~ age, data=HELPrct)   # frequency polygon
+    ashplot( ~ age, data=HELPrct)   # average shifted histogram
+     t.test( ~ age, data=HELPrct)   # formula interface added in mosaic
+ binom.test( ~ sex, data=HELPrct)   # formula interface added in mosaic
+  prop.test( ~ sex, data=HELPrct)   # formula interface added in mosaic
 ```
 
 Adding covariates to one or two variable graphically or numerical summaries
 fits readily into the template as well.
 ```{r, tidy=FALSE, eval=FALSE}
-     mean( ~ age | sex, data=HELPrct )
-       sd( ~ age | sex, data=HELPrct )
-histogram( ~ age | sex, data=HELPrct )
-   t.test( ~ age | sex, data=HELPrct )
+     mean( ~ age | sex, data=HELPrct)
+       sd( ~ age | sex, data=HELPrct)
+histogram( ~ age | sex, data=HELPrct)
+   t.test( ~ age | sex, data=HELPrct)
 ```
 
 While creating the correct formula can produce some initial challenges for users, 
-clearly explaining the roles of the components of the variables for plotting, 
-for numerical summaries, and for model fitting helps demystify the situation.  
+clearly explaining the roles of each component for plotting, 
+for numerical summaries, and for model fitting helps demystify the situation. 
+We have also found that explicit, early, low-stakes assessment of student mastery
+of the formula interface greatly improves student performance.
 
 
-### Handling missing data
+## Handling missing data
 
-When there are missing values,
+When there are missing values, 
 the numerical summary functions in \CRANpkg{base} and \CRANpkg{stats} return
 results that surprise and confuse new users.
 ```{r}
@@ -239,13 +255,13 @@ mean( ~ dayslink, data = HELPmiss)
 mean( ~ dayslink, data = HELPmiss, na.rm = TRUE)
 ```
 We offer two solutions to this situtation.  Our favorite is the `favstats()` function
-which computes a number of our favorite numerical summaries and reports the number of 
-missing values.
+which computes a number of our favorite numerical summaries on the non-missing values
+but also reports the number of missing values.
 ```{r}
-favstats( dayslink ~ sex, data = HELPmiss )
+favstats( ~ dayslink, data = HELPmiss)
 ```
 
-Users also have the option of changing this default for `na.rm` if they like.
+Users also have the option of changing the default for `na.rm` if they like.
 This will, of course, only affect the \CRANpkg{mosaic} versions of these functions.
 
 ```{r}
@@ -254,20 +270,76 @@ mean(~ dayslink, data = HELPmiss)
 base::mean(HELPmiss$dayslink, data = HELPmiss)
 ```
 
+##  Creating and using functions
+
+Especially in calculus, but also in statistics, it is useful to create 
+functions defined by algebraic formulas.  With `makeFun()` we can construct
+such functions using a formaul interface, and use `plotFun()` to plot them.
+```{r}
+f <- makeFun(A *x^2 + B*x + C ~ x, A = 1, B = 1, C = 1)
+f
+f(2)
+plotFun(f(x) ~ x, xlim = c(-2,2))
+```
+More interestingly for statistics, we can use `makeFun()` to create functions from
+model objects created by `lm()` and `glm()`.
+```{r, fig.keep = "last"}
+cars.mod <- lm(dist ~ poly(speed,2), data = cars)
+dist <- makeFun(cars.mod)
+dist(speed = 15)
+dist(speed = 15, interval = "confidence")
+xyplot(dist ~ speed, data = cars)
+plotFun(dist(s) ~ s, add = TRUE)
+```
+
+\noindent
+For logisitic regression with factors, we need to adjust things slightly because
+the model functions returns values between 0 and 1, but 2-level factors are coded 
+as 1 and 2.
+```{r}
+Feet.mod <- glm(sex ~ width, data = KidsFeet, family = binomial)
+s <- makeFun(Feet.mod)
+s(width = 8.5)
+xyplot(sex ~ width, data = KidsFeet)
+plotFun(1 + s(w) ~ w, add = TRUE)
+```
+
+This wrapper around `predict()` is easier for beginners to use because 
+(a) it returns a function to which inputs can be supplied without creating a data frame, 
+(b) the resutling function returns values on the response scale by default, and (c) it 
+backtransforms a few common transformations of the response variable, 
+including `log()` and `sqrt()` (and allows the user to provide a custom value to
+the `transform` argument to handle other cases).
+```{r}
+mtcars.mod <- lm(log(mpg) ~ log(wt) + factor(cyl), data = mtcars)
+mileage <- makeFun(mtcars.mod)
+xyplot(mpg ~ wt, data = mtcars, groups = cyl)
+plotFun( mileage(w, cyl=4) ~ w, add = TRUE, col = 1)
+plotFun( mileage(w, cyl=6) ~ w, add = TRUE, col = 2)
+plotFun( mileage(w, cyl=8) ~ w, add = TRUE, col = 3)
+```
+
+For many simple models, creating a plot can be even simpler
+```{r}
+plotModel(cars.mod)
+mtcars.mod2 <- lm(mpg ~ log(wt) + factor(cyl) + factor(am), data = mtcars)
+plotModel(mtcars.mod2)
+```
+
 # Randomization and Resampling
 
 The \CRANpkg{mosaic} package also provides functionality to support teaching inference
 based on randomization tests and bootstrap methods.  Our goals was to focus attention
-on the important parts of these techniques (like where randomness enters in and how to
+on the important parts of these techniques (e.g., where randomness enters in and how to
 use the resulting distribution) while hiding some of the technical details
 involved in creating loops and accumulating values.  
-
 
 As a first example, we often introduce the story of the lady tasting tea.  (See
 \cite{LadyTastingTea} for the details of this famous story.)  But here we will
 test a coin to see whether it is a "fair coin".  Suppose we flip the coin 20 times
 and observe only 6 heads, how suspicious should we be that the coin is not fair?
-The statistical  punchline is that we want to compute the p-value for a binomial 
+The statistical punchline for either the lady tasting tea or testing a coin 
+is that we want to compute the p-value for a binomial 
 test via simulations rather than using formulas for the binomial distribution or 
 normal approximations. This allows us to introduce this example on the first day of class.
 
@@ -319,7 +391,7 @@ outline:
 For example, we can use radomization in place of the two-sample t test to
 obtain an empirical p-value.
 ```{r}
-pval(t.test( age ~ sex, data = HELPrct, alternative = "greater"))
+pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
 ```
 
 ```{r}
@@ -340,8 +412,8 @@ and
 If we are interested in a confidence interval for the mean difference, we can use
 `resample()` and `do()` to generate a bootstrap distribution in one of two ways.
 ```{r}
-Boot.dist1 <- do(1000) * diffmean( age ~ sex, data = resample(HELPrct))
-Boot.dist2 <- do(1000) * diffmean( age ~ sex, data = resample(HELPrct, groups = sex))
+Boot.dist1 <- do(1000) * diffmean(age ~ sex, data = resample(HELPrct))
+Boot.dist2 <- do(1000) * diffmean(age ~ sex, data = resample(HELPrct, groups = sex))
 ```
 \noindent
 In the second example, the resampling happens within the sex groups so that the marginal
@@ -351,9 +423,9 @@ counts for each sex remain fixed.
 set.seed(123456)
 ```
 ```{r}
-favstats( age ~ sex, data = HELPrct)
-favstats( age ~ sex, data = resample(HELPrct))
-favstats( age ~ sex, data = resample(HELPrct, groups = sex))
+favstats(age ~ sex, data = HELPrct)
+favstats(age ~ sex, data = resample(HELPrct))
+favstats(age ~ sex, data = resample(HELPrct, groups = sex))
 ```
 
 Using either bootstrap distribution, we can compute a simple percentile interval
@@ -362,9 +434,9 @@ Visually inspecting the bootstrap distribution for skew and bias is an important
 step to make sure the percentile interval is not being applied in a situation where 
 it may perform poorly.
 ```{r}
-histogram( ~diffmean, data = Boot.dist2, v = D)
-qqmath( ~diffmean, data = Boot.dist2 )
-cdata(0.95, ~diffmean, data = Boot.dist2)
+histogram( ~ diffmean, data = Boot.dist2, v = D)
+qqmath( ~ diffmean, data = Boot.dist2)
+cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
 ```
 
 Alternatively, we could compute a confidence interval based on a bootstrap 
@@ -373,17 +445,15 @@ estimate of the standard error.
 SE <- sd( ~ diffmean, data = Boot.dist2); SE
 D + c(-1,1) * 2 * SE
 ```
+\noindent
+(How to replace 2 with an appropriate value to create more accurate intervals
+or to allow for different confidence levels is a matter of some subtlty.  
+See \cite{Hesterberg:2015}.
 
-Each of these can be further automated using and extension to `conf.int()`.
+Each of these can be further automated using an extension to `conf.int()`.
 ```{r}
 confint(Boot.dist2, method = c("percentile", "stderr"))
 ```
-
-```{r}
-Boot.dist3 <- do(1000) * favstats(age ~ sex, data = HELPrct)
-```  
-
-
 
 
 # Extracting information
@@ -393,54 +463,47 @@ been added to \CRANpkg{mosaic} to facilitate extracting information from more
 complicated objects.  Some examples include
 
 ```{r, extractors}
-confint(t.test(~age, data=HELPrct))      # works for "htest" objects
-pval( t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
-stat( t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
-r.squared( lm( age ~ sex, data=HELPrct))
+confint(t.test(~age, data=HELPrct))     # works for "htest" objects
+pval(t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
+stat(t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
+r.squared(lm(age ~ sex, data=HELPrct))
 ```
-
-# Simplifying randomization
-
-## Using do() for repetition
-
-## sample(), resample(), and shuffle()
-
-## do() and confint()
-
-## statTally()
-
 
 # Calculus in R
 
 # Some additional bells and whistles
 
+## Visualizing distributions of random variables
 
-
-
-## Introduction
-
-Introductory section which may include references in parentheses
-\citep{R}, or cite a reference such as \citet{R} in the text.
-
-## Section title in sentence case
-
-This section may contain a figure such as Figure \ref{figure:rlogo}.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics{Rlogo}
-  \caption{The logo of R.}
-  \label{figure:rlogo}
-\end{figure}
-
-## Another section
-
-There will likely be several sections, perhaps including code snippets, such as:
-
+A number of functions make it simple to visualize random variables.  `plotDist()` creates
+displays for any distribution for which the standard d/p/q functions exist.
 ```{r}
-x <- 1:10
-x
+plotDist("norm", mean = 100, sd = 10)
+plotDist("binom", size = 100, prob = 0.3)
 ```
+\noindent
+Tail probabilities can be highlighted using the `groups` argument.
+```{r}
+plotDist("chisq", df = 4, groups = x > 9)
+plotDist("chisq", df = 4, groups = x > 9, type = "h")
+```
+\noindent
+Using the `kind` argument, we can obtain other types of plots, including cdfs and 
+probality histograms.
+```{r}
+plotDist("norm", mean = 100, sd = 10, kind = "cdf")
+plotDist("binom", size = 100, prob = 0.3, kind = "histogram")
+```
+
+For several distributions, we provide augmented versions of the distribution and 
+quantile functions that assist students in understanding what values are returned
+by functions like `pnorm()` and `qnorm()`.
+```{r}
+xpnorm(-2:2)
+xqt(0.975, df = 20)
+```
+
+
 
 
 ## Summary
