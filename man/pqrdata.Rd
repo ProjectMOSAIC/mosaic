@@ -8,20 +8,20 @@
 \alias{rdata}
 \title{The Data Distribution}
 \usage{
-qdata(p, vals, data = NULL, ...)
+qdata(formula, p = seq(0, 1, 0.25), data = NULL, ...)
 
-cdata(p, vals, data = NULL, ...)
+cdata(formula, p = 0.95, data = NULL, ...)
 
-pdata(q, vals, data = NULL, ...)
+pdata(formula, q, data = NULL, ...)
 
-rdata(n, vals, data = NULL, ...)
+rdata(formula, n, data = NULL, ...)
 
 ddata(q, vals, data = NULL, ...)
 }
 \arguments{
-\item{p}{a vector of probabilities}
+\item{formula}{a formula or a vector}
 
-\item{vals}{a vector containing the data}
+\item{p}{a vector of probabilities}
 
 \item{data}{a data frame in which to evaluate vals}
 
@@ -49,30 +49,30 @@ from data.
 }
 \examples{
 data(iris)
-qdata(.5, Sepal.Length ~ Species, data=iris)
-qdata(.5, ~Sepal.Length, groups=Species, data=iris)
-qdata(.5, iris$Sepal.Length)
-qdata(.5, Sepal.Length, data=iris)
-qdata(.5, Sepal.Length, groups=Species, data=iris)
+qdata(Sepal.Length ~ Species, 0.5, data=iris)
+qdata(~Sepal.Length, p = 0.5, groups=Species, data=iris)
+qdata(iris$Sepal.Length, p = 0.5)
+qdata(Sepal.Length, p = 0.5, data=iris)
+qdata(Sepal.Length, p = 0.5, groups=Species, data=iris)
 data(iris)
-cdata(.5, iris$Sepal.Length)
-cdata(.5, Sepal.Length, data=iris)
-cdata_f(~Sepal.Length, data=iris, p=.5)
-cdata_f(~Sepal.Length | Species, data=iris, p=.5)
+cdata(iris$Sepal.Length, 0.5)
+cdata(Sepal.Length, 0.5, data = iris)
+cdata( ~ Sepal.Length, 0.5, data = iris)
+cdata( ~ Sepal.Length | Species, data = iris, p = .5)
 data(iris)
-pdata(3:6, iris$Sepal.Length)
-pdata(3:6, Sepal.Length, data=iris)
-pdata(3:6, ~Sepal.Length, data=iris)
-pdata(3:6, Sepal.Length, data=iris)
+pdata(iris$Sepal.Length, 3:6)
+pdata(Sepal.Length, 3:6, data=iris)
+pdata(~Sepal.Length, 3:6, data=iris)
+pdata(Sepal.Length, 3:6, data=iris)
 data(iris)
-rdata(10,iris$Species)
-rdata(10, Species, data=iris)
-rdata(10, ~Species, data=iris)
-rdata(5, Sepal.Length~Species, data=iris)
+rdata(iris$Species, 10)
+rdata(Species, n = 10, data=iris)
+rdata(~Species, n = 10, data=iris)
+rdata(Sepal.Length~Species,  n = 5, data=iris)
 data(iris)
-ddata('setosa', iris$Species)
-ddata('setosa', Species, data=iris)
-ddata('setosa', ~Species, data=iris)
+ddata(iris$Species, 'setosa')
+ddata(Species, 'setosa', data=iris)
+ddata(~Species, 'setosa', data=iris)
 }
 \keyword{distribution}
 

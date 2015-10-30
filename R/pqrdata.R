@@ -8,21 +8,24 @@
 #' @keywords distribution 
 #' @param p a vector of probabilities
 #' @param q a vector of quantiles
-#' @param vals a vector containing the data
+#' @param formula a formula or a vector
 #' @param data a data frame in which to evaluate vals
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
 #' @return For \code{qdata}, a vector of quantiles
 #' @examples
 #' data(iris)
-#' qdata(.5, Sepal.Length ~ Species, data=iris)
-#' qdata(.5, ~Sepal.Length, groups=Species, data=iris)
-#' qdata(.5, iris$Sepal.Length)
-#' qdata(.5, Sepal.Length, data=iris)
-#' qdata(.5, Sepal.Length, groups=Species, data=iris)
+#' qdata(Sepal.Length ~ Species, 0.5, data=iris)
+#' qdata(~Sepal.Length, p = 0.5, groups=Species, data=iris)
+#' qdata(iris$Sepal.Length, p = 0.5)
+#' qdata(Sepal.Length, p = 0.5, data=iris)
+#' qdata(Sepal.Length, p = 0.5, groups=Species, data=iris)
 #' @export
 
-qdata <- function( p, vals, data=NULL, ...) { 
-  vals_call <- substitute(vals)
+qdata <- function( formula, p = seq(0, 1, 0.25), data = NULL, ...) { 
+  vals_call <- substitute(formula)
+  if (! is.numeric(p) || any(p < 0) || any(p > 1)) {
+    stop("Invalid values of p.  Are your arguments in the wrong order?")
+  }
   args <- eval(substitute(alist(vals_call, ...)))
   args [["p"]] <- p 
   args [["data"]] <- data
@@ -66,21 +69,25 @@ qdata_v <- function( x, p=seq(0, 1, 0.25), na.rm=TRUE, ... ) {
 #' @rdname pqrdata2
 #' @export
 
-qdata_f <- aggregatingFunction1(qdata_v, output.multiple=TRUE, na.rm=TRUE)
+qdata_f <- aggregatingFunction1(qdata_v, output.multiple = TRUE, na.rm = TRUE)
 
 #' @rdname pqrdata
 #' @return for \code{cdata}, a named numerical vector or a data frame giving
 #' upper and lower limits and the central proportion requested
 #' @examples
 #' data(iris)
-#' cdata(.5, iris$Sepal.Length)
-#' cdata(.5, Sepal.Length, data=iris)
-#' cdata_f(~Sepal.Length, data=iris, p=.5)
-#' cdata_f(~Sepal.Length | Species, data=iris, p=.5)
+#' cdata(iris$Sepal.Length, 0.5)
+#' cdata(Sepal.Length, 0.5, data = iris)
+#' cdata( ~ Sepal.Length, 0.5, data = iris)
+#' cdata( ~ Sepal.Length | Species, data = iris, p = .5)
 #' @export
 
-cdata <- function( p, vals, data=NULL, ...) { 
-  vals_call <- substitute(vals)
+cdata <- function( formula, p = 0.95, data = NULL, ...) { 
+  vals_call <- substitute(formula)
+  if (! is.numeric(p) || any(p < 0) || any(p > 1)) {
+    stop("Invalid values of p.  Are your arguments in the wrong order?")
+  }
+  
   args <- eval(substitute(alist(vals_call, ...)))
   args [["p"]] <- p # substitute(p, parent.frame())
   args [["data"]] <- data
@@ -89,7 +96,7 @@ cdata <- function( p, vals, data=NULL, ...) {
 #' @rdname pqrdata2
 #' @export
 
-cdata_v <- function( x, p=.95, na.rm=TRUE, ... ) {
+cdata_v <- function( x, p = .95, na.rm = TRUE, ... ) {
   lo_p <- (1-p)/2
   hi_p <- 1 - lo_p
   lo <- quantile( x, lo_p, na.rm=na.rm, ... )
@@ -105,22 +112,22 @@ cdata_v <- function( x, p=.95, na.rm=TRUE, ... ) {
 #' @rdname pqrdata2
 #' @export
 
-cdata_f <- aggregatingFunction1( cdata_v, output.multiple=TRUE, na.rm=TRUE )
+cdata_f <- aggregatingFunction1( cdata_v, output.multiple = TRUE, na.rm = TRUE )
 
   
 #' @rdname pqrdata
 #' @return For \code{pdata}, a vector of probabilities
 #' @examples
 #' data(iris)
-#' pdata(3:6, iris$Sepal.Length)
-#' pdata(3:6, Sepal.Length, data=iris)
-#' pdata(3:6, ~Sepal.Length, data=iris)
-#' pdata(3:6, Sepal.Length, data=iris)
+#' pdata(iris$Sepal.Length, 3:6)
+#' pdata(Sepal.Length, 3:6, data=iris)
+#' pdata(~Sepal.Length, 3:6, data=iris)
+#' pdata(Sepal.Length, 3:6, data=iris)
 #' @export
 
-pdata <- function (q, vals, data = NULL, ...) 
+pdata <- function (formula, q, data = NULL, ...) 
 {
-  vals_call <- substitute(vals)
+  vals_call <- substitute(formula)
   args <- eval(substitute(alist(vals_call, ...)))
   args[["q"]] <- q
   args[["data"]] <- data
@@ -157,15 +164,18 @@ pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' @return For \code{rdata}, a vector of values sampled from \code{vals} 
 #' @examples
 #' data(iris)
-#' rdata(10,iris$Species)
-#' rdata(10, Species, data=iris)
-#' rdata(10, ~Species, data=iris)
-#' rdata(5, Sepal.Length~Species, data=iris)
+#' rdata(iris$Species, 10)
+#' rdata(Species, n = 10, data=iris)
+#' rdata(~Species, n = 10, data=iris)
+#' rdata(Sepal.Length~Species,  n = 5, data=iris)
 #' @export
 
-rdata <- function (n, vals, data = NULL, ...) 
+rdata <- function (formula, n, data = NULL, ...) 
 {
-  vals_call <- substitute(vals)
+  vals_call <- substitute(formula)
+  if ( ! is.numeric(n) || n <= 0 ) {
+    stop("Invalid value of n.  Are our arguments in the correct order?")
+  }
   args <- eval(substitute(alist(vals_call, ...)))
   args[["n"]] <- n
   args[["data"]] <- data
@@ -188,9 +198,9 @@ rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' @return For \code{ddata}, a vector of probabilities (empirical densities)
 #' @examples
 #' data(iris)
-#' ddata('setosa', iris$Species)
-#' ddata('setosa', Species, data=iris)
-#' ddata('setosa', ~Species, data=iris)
+#' ddata(iris$Species, 'setosa')
+#' ddata(Species, 'setosa', data=iris)
+#' ddata(~Species, 'setosa', data=iris)
 #' @export
 
 ddata <- function (q, vals, data = NULL, ...) 
@@ -206,13 +216,13 @@ ddata <- function (q, vals, data = NULL, ...)
 #' @export
 
 ddata_v <- function(vals, q, ..., data=NULL, log=FALSE, na.rm=TRUE) {
-        if( !is.null(data) ) {
-         vals = eval( substitute(vals), data, enclos=parent.frame())
-        }
-	n <- sum( ! is.na(vals) )
-	probs <- sapply(q, function(x) { sum( vals == x, na.rm=na.rm) / n } )
-	if (log) { probs <- log(probs) }
-	return (probs)
+  if( !is.null(data) ) {
+    vals = eval( substitute(vals), data, enclos=parent.frame())
+  }
+  n <- sum( ! is.na(vals) )
+  probs <- sapply(q, function(x) { sum( vals == x, na.rm=na.rm) / n } )
+  if (log) { probs <- log(probs) }
+  return (probs)
 }
 
 #' @rdname pqrdata2
