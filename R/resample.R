@@ -63,7 +63,9 @@ print.cointoss <- function(x, ...) {
 	if (attributes(x)$verbose) {
 			cat('\n')
 			#print(other$sequence)
-			cat(strwrap( paste(other$sequence, sep=" ")))
+			cat(paste(
+			  strwrap( paste(other$sequence, collapse=" ") ), 
+			  collapse = "\n"))
 			cat('\n')
 			cat(paste('\nNumber of Heads: ', heads, ' [Proportion Heads: ', heads/other$n, ']\n\n', sep=""))
 	}
