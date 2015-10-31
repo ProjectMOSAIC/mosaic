@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 )
 options(digits = 3)
 trellis.par.set(theme = col.mosaic())
-trellis.par.set(fontsize = list(text=9, points = 5))
+trellis.par.set(fontsize = list(text=8, points = 5))
 set.seed(123)
 ```
 
@@ -267,7 +267,7 @@ This will, of course, only affect the \CRANpkg{mosaic} versions of these functio
 ```{r}
 options(na.rm = TRUE)
 mean(~ dayslink, data = HELPmiss)
-base::mean(HELPmiss$dayslink, data = HELPmiss)
+base::mean(HELPmiss[["dayslink"]], data = HELPmiss)
 ```
 
 ##  Creating and using functions
@@ -277,10 +277,10 @@ functions defined by algebraic formulas.  With `makeFun()` we can construct
 such functions using a formula interface, and use `plotFun()` to plot them.
 
 ```{r}
-f <- makeFun(A *x^2 + B*x + C ~ x, A = 1, B = 1, C = 1)
+f <- makeFun(A + B * log(x) ~ x, A = 1, B = 1)
 f
 f(2)
-plotFun(f(x) ~ x, xlim = c(-2,2))
+plotFun(f(x) ~ x, xlim = c(0,3))
 ```
 
 More interestingly for statistics, we can use `makeFun()` to create functions from
@@ -312,7 +312,7 @@ This wrapper around `predict()` is easier for beginners to use because
 backtransforms a few common transformations of the response variable, 
 including `log()` and `sqrt()` (and allows the user to provide a custom value to
 the `transform` argument to handle other cases).
-```{r}
+```{r, message = FALSE, fig.keep = "last"}
 mtcars.mod <- lm(log(mpg) ~ log(wt) + factor(cyl), data = mtcars)
 mileage <- makeFun(mtcars.mod)
 xyplot(mpg ~ wt, data = mtcars, groups = cyl)
@@ -450,9 +450,9 @@ D + c(-1,1) * 2 * SE
 \noindent
 (How to replace 2 with an appropriate value to create more accurate intervals
 or to allow for different confidence levels is a matter of some subtlty.
-See \cite{Hesterberg:2015}.
+See \cite{Hesterberg:2015}.)
 
-Each of these can be further automated using an extension to `conf.int()`.
+Each of these can be further automated using an extension to `confint()`.
 ```{r}
 confint(Boot.dist2, method = c("percentile", "stderr"))
 ```
@@ -465,13 +465,12 @@ been added to \CRANpkg{mosaic} to facilitate extracting information from more
 complicated objects.  Some examples include
 
 ```{r, extractors}
-confint(t.test(~age, data=HELPrct))     # works for "htest" objects
-pval(t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
-stat(t.test(age ~ sex, data=HELPrct))   # works for "htest" objects
+confint(t.test(~age, data=HELPrct))     # works for any "htest" object
+pval(t.test(age ~ sex, data=HELPrct))   # works for any "htest" object
+stat(t.test(age ~ sex, data=HELPrct))   # works for any "htest" object
 r.squared(lm(age ~ sex, data=HELPrct))
 ```
 
-# Calculus in R
 
 # Some additional bells and whistles
 
@@ -505,8 +504,23 @@ xpnorm(-2:2)
 xqt(0.975, df = 20)
 ```
 
+## What other things do we want to show?
 
+Some candidates:
 
+  * `bargraph()`
+  * `CIsim()`
+  * `mplot()`
+  * `panel.lmbands()`
+  * `plotPoints()`
+  * `statTally()`
+  * `TukeyHSD()`
+  * `xchisq.test()`
+  * `zscore()`
+
+# Calculus in R
+
+Need to decide what if anything to include about calculus.
 
 ## More about R Journal submissions
 
