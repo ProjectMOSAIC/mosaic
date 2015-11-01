@@ -46,7 +46,11 @@ set.seed(123)
 
 # Motivation
 
-Why is 
+Many have argued that students need additional facility to express statistical computations in order to make sense of the increasingly rich data that is available to them (CITE NOLAN AND TEMPLE LANG 2010; Ridgway 2015 ISR; Horton, Baumer, and Wickham 2015).
+
+To be able to "think with data" (as coined by Diane Lambert of Google), students need to access to commonplace tools for data management, exploratory analysis, visualization, and modeling.  We have demonstrated that it is feasible to integrate computing into our curricula: early and often.
+
+
 # A guiding principle: Less volume, more creativity
 
 The \CRANpkg{mosaic} package originated in early attempts by each of the authors to 
@@ -115,7 +119,7 @@ Formula interfaces are provided for
 In each case we have been careful not to break behavior of the underlying functions from
 \CRANpkg{base} and \CRANpkg{stats}, but for applications where speed is of utmost 
 importance, it is better to avoid the \CRANpkg{mosaic} wrappers, which cannot be faster (since
-the call the underlying functions eventually) and may be noticible slower in contexs where
+the call the underlying functions eventually) and may be noticeable slower in contexts where
 they are called many times.
 In particular, using the formula interface requires parsing the formula and 
 creating a new object to contain the data described by the formula.
@@ -145,7 +149,7 @@ microbenchmark::microbenchmark(
 
 The formula template can be extended to handle one variable or more than two variables,
 but we recommend introducing it in the context of two-variable plots and summaries.
-This is for several reasons: (1) two-variable plots and numerical summariesare are more
+This is for several reasons: (1) two-variable plots and numerical summaries are are more
 "impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
 that the most interesting parts of statistics involve more than one variable, and 
@@ -170,7 +174,7 @@ summary.
 mean( ~ age | sex, groups = substance, data = HELPrct)
 ```
 
-The one-variable template can be obtained by removing the left-hand side from the formaula
+The one-variable template can be obtained by removing the left-hand side from the formula
 in a two-variable template.
 ```{r, eval=FALSE}
 goal( ~ x, data=mydata )
@@ -202,7 +206,7 @@ Having learned the formula interface to graphical and numerical
 summaries early on, new users are well prepared for modeling with
 \code{lm()}, \code{glm()}, and various "test" functions such as
 `t.test()` when the time comes and they begin early to train their minds
-to ask questions of the form "How does this depend on that (and some otehr things)?". 
+to ask questions of the form "How does this depend on that (and some other things)?". 
 
 By emphasizing the formula template, each of the following commands can be 
 viewed as instances of a common template, rather than as separate things 
@@ -258,7 +262,7 @@ results that surprise and confuse new users.
 mean( ~ dayslink, data = HELPmiss)
 mean( ~ dayslink, data = HELPmiss, na.rm = TRUE)
 ```
-We offer two solutions to this situtation.  Our favorite is the `favstats()` function
+We offer two solutions to this situation.  Our favorite is the `favstats()` function
 which computes a number of our favorite numerical summaries on the non-missing values
 but also reports the number of missing values.
 ```{r}
@@ -299,7 +303,7 @@ plotFun(dist(s) ~ s, add = TRUE)
 ```
 
 \noindent
-For logisitic regression with factors, we need to adjust things slightly when plotting
+For logistic regression with factors, we need to adjust things slightly when plotting
 because the model functions returns values between 0 and 1, but 2-level factors are coded 
 as 1 and 2.
 ```{r}
@@ -312,8 +316,8 @@ plotFun(1 + s(w) ~ w, add = TRUE)
 
 This wrapper around `predict()` is easier for beginners to use because 
 (a) it returns a function to which inputs can be supplied without creating a data frame, 
-(b) the resutling function returns values on the response scale by default, and (c) it 
-backtransforms a few common transformations of the response variable, 
+(b) the resulting function returns values on the response scale by default, and (c) it 
+back transforms a few common transformations of the response variable, 
 including `log()` and `sqrt()` (and allows the user to provide a custom value to
 the `transform` argument to handle other cases).
 ```{r, message = FALSE, fig.keep = "last"}
@@ -369,7 +373,7 @@ For example, we can flip 100 coins three times as follows.
 do(3) * rflip(100)
 ```
 \noindent
-Notice that `do()` (technicaly `cull_for_do()`) has been clever about what information 
+Notice that `do()` (technically `cull_for_do()`) has been clever about what information 
 is stored for each group of 100 coin tosses.  It is now a simple matter to do this many more
 times and use numerical or graphical summaries to investigate how unusual it is to get
 so few heads if the coin is indeed a fair coin.
@@ -384,7 +388,7 @@ also adds some additional arguments to the `histogram()` function.)
 
 ## sample(), resample(), and shuffle()
 
-To faciliate randomization and bootrapping, \CRANpkg{mosaic} extends `sample()` to operate
+To facilitate randomization and bootstrapping, \CRANpkg{mosaic} extends `sample()` to operate
 on data frames, `shuffle()` as an alternative name for `sample()`, and `resample()` which
 is `sample()` with `replace = TRUE`.  With these in hand, all of the tests and confidence
 intervals seen in traditional first course in statistics can be performed using a common
@@ -394,7 +398,7 @@ outline:
   2. Do it to a randomized version of your data
   3. Do it to lots of randomized versions of your data.
   
-For example, we can use radomization in place of the two-sample t test to
+For example, we can use randomization in place of the two-sample t test to
 obtain an empirical p-value.
 ```{r}
 pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
@@ -453,7 +457,7 @@ D + c(-1,1) * 2 * SE
 ```
 \noindent
 (How to replace 2 with an appropriate value to create more accurate intervals
-or to allow for different confidence levels is a matter of some subtlty.
+or to allow for different confidence levels is a matter of some subtlety.
 See \cite{Hesterberg:2015}.)
 
 Each of these can be further automated using an extension to `confint()`.
@@ -494,7 +498,7 @@ plotDist("chisq", df = 4, groups = x > 9, type = "h")
 ```
 \noindent
 Using the `kind` argument, we can obtain other types of plots, including cdfs and 
-probality histograms.
+probability histograms.
 ```{r}
 plotDist("norm", mean = 100, sd = 10, kind = "cdf")
 plotDist("binom", size = 100, prob = 0.3, kind = "histogram")
