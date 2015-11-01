@@ -1,5 +1,5 @@
 ---
-title: The mosaic package
+title: The mosaic package; helping students to 'think with data' using R
 author:
   - name: Randall Pruim
     affiliation: Calvin College
@@ -16,15 +16,16 @@ author:
   - name: Nicholas J Horton
     affiliation: Amherst College
     address:
-    - address 1
-    - address 2
+    - Department of Mathematics and Statistics
+    - PO Box 5000  AC \#2239
+    - Amherst, MA 01002-5000
     email:  nhorton@amherst.edu
 abstract: >
-  The mosaic package provides a simplified and systematic introduction to the core
-  functionality required in typical first and second courses in statistics.  This 
+  Statistics students need to be able to express statistical computations if they are able to make sense of the data around them. The mosaic package provides a simplified and systematic introduction to the core
+  functionality related to descriptive statistics, graphical representations, and modeling required in first and second courses in statistics.  This 
   introduction to the package describes some of the guiding principles behind the 
-  design of the package and provides illustrative examples of several of the most 
-  important functions it provides.
+  design of the package, provides illustrative examples of several of the most 
+  important functions it implements, and describes ways to help students ``think with data" using R in their early course work.
 preamble: >
   % Any extra latex you need in the preamble
 output: rticles::rjournal_article
@@ -43,7 +44,10 @@ trellis.par.set(fontsize = list(text=8, points = 5))
 set.seed(123)
 ```
 
-# A guiding priciple: Less volume, more creativity
+# Motivation
+
+Why is 
+# A guiding principle: Less volume, more creativity
 
 The \CRANpkg{mosaic} package originated in early attempts by each of the authors to 
 ease new users into using R, primarily in the context of 
@@ -521,6 +525,12 @@ Some candidates:
 # Calculus in R
 
 Need to decide what if anything to include about calculus.
+
+# Acknowledgements
+
+Partial support for this work was provided by the National Science Foundation DUE 0920350 (Project MOSAIC).
+
+
 
 ## More about R Journal submissions
 
