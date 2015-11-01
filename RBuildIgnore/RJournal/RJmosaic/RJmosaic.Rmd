@@ -1,5 +1,5 @@
 ---
-title: The mosaic package; helping students to 'think with data' using R
+title: The mosaic package&#58; helping students to 'think with data' using R
 author:
   - name: Randall Pruim
     affiliation: Calvin College
@@ -91,7 +91,7 @@ This template allows us to create, for example, scatterplots and side-by-side bo
 xyplot(length ~ width, data = KidsFeet)
 ```
 ```{r}
-bwplot(length ~ sex,   data = KidsFeet); bwplot(sex ~ length,   data = KidsFeet)
+bwplot(length ~ sex,   data = KidsFeet);      bwplot(sex ~ length,   data = KidsFeet)
 ```
 \noindent
 With the \CRANpkg{mosaic} package attached (XX loaded? XX), the same template can be used to create 
@@ -117,7 +117,10 @@ Formula interfaces are provided for
 `IQR()`, `iqr()`, `fivenum()`,
 `prod()`, and `sum()`.
 In each case we have been careful not to break behavior of the underlying functions from
-\CRANpkg{base} and \CRANpkg{stats}, but for applications where speed is of utmost 
+\CRANpkg{base} and \CRANpkg{stats}.
+
+XX Consider moving this benchmarking subsection to the discussion as a limitation?  XX
+For applications where speed is of utmost 
 importance, it is better to avoid the \CRANpkg{mosaic} wrappers, which cannot be faster (since
 eventually they call the underlying functions) and may be noticeable slower in contexts where
 they are called many times.
@@ -149,20 +152,20 @@ microbenchmark::microbenchmark(
 
 The formula template can be extended to handle one variable or more than two variables,
 but we recommend introducing it in the context of two-variable plots and summaries.
-This is for several reasons: (1) two-variable plots and numerical summaries are are more
+This is for several reasons: (1) two-variable plots and numerical summaries are more
 "impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
-that the most interesting parts of statistics involve more than one variable, and 
+that the most interesting parts of statistics involve more than one variable (XX considing citing Wild CJ, Pfannkuch M, Regan M and Horton NJ.  Towards more accessible conceptions of statistical inference, Journal of the Royal Statistical Society: Series A (Statistics in Society), 2011; 174(part 2):247-295 XX), and 
 (3) the formula syntax for a single variable makes more sense in the context of two-sided
 formulas that it does in isolation.
 
-Once the two-variable summaries are understood, we can add a third and forth variable with
+Once the two-variable summaries are understood, we can add a third and fourth variable with
 ```{r, eval=FALSE}
 goal( y ~ x | z, groups = mygroups, data=mydata )
 ```
 \noindent
 When plotting, `z` is used to create plots with subpanels (or facets) and `groups` is
-used overlay multiple layers.
+used to overlay multiple layers.
 ```{r}
 densityplot( ~ age | sex, groups = substance, data = HELPrct)
 ```
@@ -210,7 +213,7 @@ to ask questions of the form "How does this depend on that (and some other thing
 
 By emphasizing the formula template, each of the following commands can be 
 viewed as instances of a common template, rather than as separate things 
-to learn.
+to learn. XX consider citing Minimal R and Less Volume, More Creativity vignettes in or around here?  XX
 
 ```{r, tidy=FALSE, eval=FALSE}
 bwplot(age ~ sex, data=HELPrct)
@@ -250,32 +253,38 @@ While creating the correct formula can produce some initial challenges for users
 clearly explaining the roles of each component for plotting, 
 for numerical summaries, and for model fitting helps demystify the situation. 
 We have also found that explicit, early, low-stakes assessment of student mastery
-of the formula interface greatly improves student performance.
+of the formula interface greatly improves student performance (XX see sample quiz and study guide at XX).
 
 
 ## Handling missing data
 
 When there are missing values, 
 the numerical summary functions in \CRANpkg{base} and \CRANpkg{stats} return
-results that surprise and confuse new users.
+results that may surprise and mystify new users.
 ```{r}
 mean( ~ dayslink, data = HELPmiss)
+```
+
+While there are workarounds using options to functions to drop values that are missing before performing the computation, these may be intimidating to new users.
+```{r}
 mean( ~ dayslink, data = HELPmiss, na.rm = TRUE)
 ```
-We offer two solutions to this situation.  Our favorite is the `favstats()` function
+We offer two other solutions to this situation.  Our favorite is the `favstats()` function
 which computes a number of our favorite numerical summaries on the non-missing values
 but also reports the number of missing values.
 ```{r}
 favstats( ~ dayslink, data = HELPmiss)
 ```
 
-Users also have the option of changing the default for `na.rm` if they like.
+The second solution is to change the default behavior of `na.rm`.  XX please review XX
+Users also have the option of changing the default for `na.rm` back if they like.
 This will, of course, only affect the \CRANpkg{mosaic} versions of these functions.
 
 ```{r}
 options(na.rm = TRUE)
 mean(~ dayslink, data = HELPmiss)
 base::mean(HELPmiss[["dayslink"]], data = HELPmiss)
+# XX what about with(HELPmiss, base::mean(dayslink)))?
 ```
 
 ##  Creating and using functions
@@ -332,13 +341,18 @@ plotFun( mileage(w, cyl=8) ~ w, add = TRUE, col = 3)
 For many simple models, creating a plot can be even simpler
 ```{r}
 plotModel(cars.mod)
+```
+
+The `plotModel()` function can also simplify visualization of more complex models.
+```{r}
 mtcars.mod2 <- lm(mpg ~ log(wt) + factor(cyl) + factor(am), data = mtcars)
 plotModel(mtcars.mod2)
 ```
 
 # Randomization and Resampling
 
-The \CRANpkg{mosaic} package also provides functionality to support teaching inference
+Resampling approaches have become increasingly important in statistical education (XX cite Hesterberg and Tintle papers in TAS 2015?  XX)
+The \CRANpkg{mosaic} package  provides simplified functionality to support teaching inference
 based on randomization tests and bootstrap methods.  Our goals was to focus attention
 on the important parts of these techniques (e.g., where randomness enters in and how to
 use the resulting distribution) while hiding some of the technical details
@@ -353,7 +367,7 @@ is that we want to compute the p-value for a binomial
 test via simulations rather than using formulas for the binomial distribution or 
 normal approximations. This allows us to introduce this example on the first day of class.
 
-Since students do not know about distributions yet, but do understand the idea of a coin
+Since students generally do not know about sampling distributions yet, but do understand the idea of a coin
 toss, we have provided `rflip()` to simulate tossing a coin one or several times:
 ```{r}
 rflip()
@@ -389,7 +403,7 @@ also adds some additional arguments to the `histogram()` function.)
 ## sample(), resample(), and shuffle()
 
 To facilitate randomization and bootstrapping, \CRANpkg{mosaic} extends `sample()` to operate
-on data frames, `shuffle()` as an alternative name for `sample()`, and `resample()` which
+on data frames.  The `shuffle()` function is  an alternative name for `sample()` while `resample()` 
 is `sample()` with `replace = TRUE`.  With these in hand, all of the tests and confidence
 intervals seen in traditional first course in statistics can be performed using a common
 outline:
@@ -476,7 +490,7 @@ complicated objects.  Some examples include
 confint(t.test(~age, data=HELPrct))     # works for any "htest" object
 pval(t.test(age ~ sex, data=HELPrct))   # works for any "htest" object
 stat(t.test(age ~ sex, data=HELPrct))   # works for any "htest" object
-r.squared(lm(age ~ sex, data=HELPrct))
+rsquared(lm(age ~ sex, data=HELPrct))
 ```
 
 
@@ -514,9 +528,14 @@ xqt(0.975, df = 20)
 
 ## What other things do we want to show?
 
+XX NH proposal: add mplot for regression diagnostics, coefficient plots, and dataset visualization (featuring "show expression")
+
+
+XX NH proposal: for others include a brief mention as a table XX
+
 Some candidates:
 
-  * `bargraph()`
+  * `bargraph()`  
   * `CIsim()`
   * `mplot()`
   * `panel.lmbands()`
@@ -529,6 +548,7 @@ Some candidates:
 # Calculus in R
 
 Need to decide what if anything to include about calculus.
+XX NH votes no, but I would have no objections to a paragraph that mentions the Start R in Calculus resources and a pointer to the Macalester course. XX
 
 # Acknowledgements
 
