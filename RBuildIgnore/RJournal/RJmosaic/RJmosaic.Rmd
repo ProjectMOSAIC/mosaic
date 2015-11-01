@@ -70,9 +70,9 @@ templates provided.
 # The formula template
 
 To successfully implement a "less volume, more creativity" approach, one must decide
-which tasks are most important to accomplish.  We knew from the outset, that
+which tasks are most important to accomplish.  We knew from the outset that
 this would include graphical and numerical summaries of data and various models
-and inference procedures.  Because of this, 
+and inference procedures.  Because of this goal, 
 our most important template makes use of a "formula interface''
 modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice}. 
 
@@ -86,23 +86,23 @@ goal( y ~ x, data = mydata )
 For a plot, `goal` will name the type of plot, `y` and `x` name the variables to be 
 mapped to the vertical and horizontal axes, and `mydata` is the data frame in which 
 these variables are found.
-This template allows us to create, for example, scatterplots and side-by-side box plots
+This template allows us to create, for example, scatterplots and side-by-side box plots.
 ```{r}
 xyplot(length ~ width, data = KidsFeet)
 ```
 ```{r}
-bwplot(length ~ sex,   data = KidsFeet)
-bwplot(sex ~ length,   data = KidsFeet)
+bwplot(length ~ sex,   data = KidsFeet); bwplot(sex ~ length,   data = KidsFeet)
 ```
 \noindent
-With the \CRANpkg{mosaic} package attached, we can use the same template to create 
-numerical summaries like
+With the \CRANpkg{mosaic} package attached (XX loaded? XX), the same template can be used to create 
+numerical summaries.
 ```{r}
 mean(length ~ sex, data = KidsFeet)
 sd(length ~ sex, data = KidsFeet)
+favstats(length ~ sex, data=KidsFeet)
 ```
 \noindent
-and we have introduced a `tally()` function for counting categorical variables.
+We introduced a `tally()` function for counting categorical variables.
 ```{r}
 tally(sex ~ substance, data = HELPrct)
 tally(sex ~ substance, data = HELPrct, format = "proportion")
@@ -119,10 +119,10 @@ Formula interfaces are provided for
 In each case we have been careful not to break behavior of the underlying functions from
 \CRANpkg{base} and \CRANpkg{stats}, but for applications where speed is of utmost 
 importance, it is better to avoid the \CRANpkg{mosaic} wrappers, which cannot be faster (since
-the call the underlying functions eventually) and may be noticeable slower in contexts where
+eventually they call the underlying functions) and may be noticeable slower in contexts where
 they are called many times.
-In particular, using the formula interface requires parsing the formula and 
-creating a new object to contain the data described by the formula.
+(In particular, using the formula interface requires parsing the formula and 
+creating a new object to contain the data described by the formula.)
 ```{r}
 microbenchmark::microbenchmark( 
   base::mean(rnorm(1000)), 
