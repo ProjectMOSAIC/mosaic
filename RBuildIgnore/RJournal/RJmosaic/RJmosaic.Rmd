@@ -94,7 +94,8 @@ goal( y ~ x, data = mydata )
 For a plot, `goal` names the type of plot, `y` and `x` name the variables to be 
 mapped to the vertical and horizontal axes, and `mydata` is the data frame in which 
 these variables are found.
-This template allows us to create, for example, scatterplots and side-by-side box plots.
+This template allows us to create, for example, scatterplots and side-by-side box plots
+using \CRANpkg{lattice} functions.
 ```{r}
 xyplot(length ~ width, data = KidsFeet)
 ```
@@ -102,7 +103,7 @@ xyplot(length ~ width, data = KidsFeet)
 bwplot(length ~ sex,   data = KidsFeet);      bwplot(sex ~ length,   data = KidsFeet)
 ```
 \noindent
-With the \CRANpkg{mosaic} package attached (XX loaded? XX), the same template can be used to create 
+With the \CRANpkg{mosaic} package attached, the same template can be used to create 
 numerical summaries.
 ```{r}
 mean(length ~ sex, data = KidsFeet)
@@ -163,7 +164,8 @@ but we recommend introducing it in the context of two-variable plots and summari
 This is for several reasons: (1) two-variable plots and numerical summaries are more
 "impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
-that the most interesting parts of statistics involve more than one variable (XX considing citing Wild CJ, Pfannkuch M, Regan M and Horton NJ.  Towards more accessible conceptions of statistical inference, Journal of the Royal Statistical Society: Series A (Statistics in Society), 2011; 174(part 2):247-295 XX), and 
+that the most interesting parts of statistics involve more than one variable \cite{Wildetal:2011}
+and 
 (3) the formula syntax for a single variable makes more sense in the context of two-sided
 formulas that it does in isolation.
 
@@ -569,6 +571,4 @@ Partial support for this work was provided by the National Science Foundation DU
 This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](http://journal.r-project.org/latex/RJauthorguide.pdf).
 
 
-
 \bibliography{RJreferences}
-%\bibliography{pruim-horton-kaplan}
