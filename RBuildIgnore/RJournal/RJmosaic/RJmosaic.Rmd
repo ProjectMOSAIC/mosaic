@@ -21,11 +21,9 @@ author:
     - Amherst, MA 01002-5000
     email:  nhorton@amherst.edu
 abstract: >
-  Statistics students need to be able to express statistical computations if they are able to make sense of the data around them. The mosaic package provides a simplified and systematic introduction to the core
-  functionality related to descriptive statistics, graphical representations, and modeling required in first and second courses in statistics.  This 
-  introduction to the package describes some of the guiding principles behind the 
-  design of the package, provides illustrative examples of several of the most 
-  important functions it implements, and describes ways to help students ``think with data" using R in their early course work.
+  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, graphical representations,  modeling, and simulation based inference required in first and second courses in  statistics. This introduction to the package describes some of the guiding principles  behind the design of the package and provides illustrative examples of several of the most  important functions it implements.  These can be combined to help students  ``think with data" using R in their early course work,  starting with simple, yet powerful, declarative commands.
+
+
 preamble: >
   % Any extra latex you need in the preamble
 output: rticles::rjournal_article
@@ -46,9 +44,19 @@ set.seed(123)
 
 # Motivation
 
-Many have argued that students need additional facility to express statistical computations in order to make sense of the increasingly rich data that is available to them (CITE NOLAN AND TEMPLE LANG 2010; Ridgway 2015 ISR; Horton, Baumer, and Wickham 2015).
-
-To be able to "think with data" (as coined by Diane Lambert of Google), students need to access to commonplace tools for data management, exploratory analysis, visualization, and modeling.  We have demonstrated that it is feasible to integrate computing into our curricula: early and often.
+Many have argued that 
+in order to make sense of the increasingly rich data that is
+available to them 
+students need additional facility to express statistical computations 
+(CITE NOLAN AND TEMPLE LANG 2010; Ridgway 2015 ISR; Horton,
+Baumer, and Wickham 2015).
+To be able to "think with data" (as coined by Diane Lambert of Google), students
+need to access tools for data management, exploratory analysis,
+visualization, and modeling.  Yet many students enter statistics courses
+with little or no computational experience.
+We have demonstrated that it is feasible to
+integrate computing into our curricula early and often,
+in a way that provides students with success and confidence.
 
 
 # A guiding principle: Less volume, more creativity
@@ -73,7 +81,7 @@ To successfully implement a "less volume, more creativity" approach, one must de
 which tasks are most important to accomplish.  We knew from the outset that
 this would include graphical and numerical summaries of data and various models
 and inference procedures.  Because of this goal, 
-our most important template makes use of a "formula interface''
+our most important template makes use of a "formula interface"
 modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice}. 
 
 We typically introduce the formula template in the context of exploring 
@@ -83,7 +91,7 @@ two variables as
 goal( y ~ x, data = mydata )
 ```
 \noindent
-For a plot, `goal` will name the type of plot, `y` and `x` name the variables to be 
+For a plot, `goal` names the type of plot, `y` and `x` name the variables to be 
 mapped to the vertical and horizontal axes, and `mydata` is the data frame in which 
 these variables are found.
 This template allows us to create, for example, scatterplots and side-by-side box plots.
