@@ -1,5 +1,11 @@
 # mosaic package NEWS
 
+## mosaic 0.13
+
+ * Arguments to `cdata()`, `ddata()`, `pdata()`, `qdata()` and `rdata()` have been reordered 
+ so that the formula comes first.
+ * The print method for objects created by `rflip()` has been improved.
+ * 
 ## mosaic 0.12
 
  * Aggregating functions now generate user friendly errors when the `data` argument is not an environment or data frame.
