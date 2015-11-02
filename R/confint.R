@@ -2,11 +2,14 @@
 #' 
 #' Methods for \code{confint} to compute confidence intervals
 #' on numerical vectors and numerical components of data frames.
+#' 
 #' @rdname confint
+#' @name confint
 #'
-#' @param method either "stderr" (default), "basic", or "quantile".  
-#' ("se" and "percentile" are allowed as aliases) or a vector 
-#' containing one or more of these.
+#' @param method a character vector of methods to use for creating confidence
+#' intervals.  Choices are "percentile" (or "quantile") which is the default, 
+#' "stderr" (or "se"), "bootstrap-t", and
+#' "reverse" (or "basic"))
 #'
 #' @param margin.of.error if true, report intervals as a center and margin of error.
 #' @param df degrees for freedom. This is required when \code{object} was produced using
@@ -33,7 +36,7 @@
 #' The methods of producing confidence intervals from bootstrap distributions are currently
 #' quite naive.  In particular, when using the standard error, assistance may be required with the 
 #' degrees of freedom, and it may not be possible to provide a correct value in all situations.
-#' 
+#' None of the methods include explicit bias correction.
 #' Let \eqn{q_a} be the \eqn{a} quantile of the bootstrap distribution,
 #' let \eqn{t_a, df} be the \eqn{a} quantile of the t distribution with \eqn{df} 
 #' degrees of freedom,
@@ -42,26 +45,34 @@
 #' Then the confidence intervals with confidence level \eqn{1 - 2a} are
 #' \describe{
 #' \item{quantile}{\eqn{(q_a, q_{1-a}) } }
-#' \item{basic}{ \eqn{( 2 \hat{\theta} - q_{1-a}, 2\hat{\theta} - q_{a} )}}
+#' \item{reverse}{ \eqn{( 2 \hat{\theta} - q_{1-a}, 2\hat{\theta} - q_{a} )}}
 #' \item{stderr}{\eqn{(\hat{\theta} - t_{1-a,df} SE_b, \hat{\theta} + t_{1-a,df} SE_b) }.
 #'  When \code{df} is not provided,
 #' at attempt is made to determine an appropriate value, but this should be double checked.
-#' In particular, missing data an lead to unreliable results. }
+#' In particular, missing data an lead to unreliable results. 
 #' }
+#' The bootstrap-t confidence interval is computed much like the reverse confidence interval
+#' but the bootstrap t distribution is used in place of a theoretical t distriubiton.  
+#' This interval has much better properties than the reverse (or basic) method, which 
+#' is here for comparison purposes only and is not recommended.
+#' }
+#' @references
+#' Tim C. Hesterberg (2015): What Teachers Should Know about the Bootstrap: 
+#' Resampling in the Undergraduate Statistics Curriculum, 
+#' The American Statistician, 
+#' \url{http://dx.doi.org/10.1080/00031305.2015.1089789}.
 #' 
 #' @examples
 #' if (require(mosaicData)) {
 #'   bootstrap <- do(500) * diffmean( age ~ sex, data=resample(HELPrct) )
 #'   confint(bootstrap)
-#'   confint(bootstrap, df=nrow(HELPrct) - 1)
-#'   confint(bootstrap, method="quantile")
-#'   confint(bootstrap, margin.of.error=FALSE, df=nrow(HELPrct) - 1)
-#'   confint(bootstrap, margin.of.error=TRUE, level=0.99, 
-#'     df=nrow(HELPrct) - 1, 
-#'     method=c("se", "quant") )
+#'   confint(bootstrap, method = "percentile")
+#'   confint(bootstrap, method = "boot")
+#'   confint(bootstrap, method = "se", df=nrow(HELPrct) - 1)
+#'   confint(bootstrap, margin.of.error = FALSE)
+#'   confint(bootstrap, margin.of.error = TRUE, level=0.99, method=c("boot", "se", "perc") )
 #'   bootstrap2 <- do(500)*mean( resample(1:10) ) 
 #'   confint(bootstrap2)
-#'   confint(bootstrap2, df=9)
 #' }
 #' @export
 
@@ -133,12 +144,17 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
                                  method="stderr", 
                                  margin.of.error="stderr" %in% method,
                                  df = NULL) {
-  
-  method <- match.arg(method, c("se", "stderr", "basic", "percentile", "quantile"), 
+ 
+  method <- tolower(method) 
+  method <- 
+    match.arg(method, 
+              c("percentile", "se", "stderr", "basic", "reverse", "quantile", "bootstrap-t"), 
                       several.ok=TRUE) # which method was selected
-  method[method=="percentile"] <- "quantile"
+  method[method=="quantile"] <- "percentile"
+  method[method=="basic"] <- "reverse"
   method[method=='se'] <- 'stderr'
   method <- unique(method)
+  
   compute_t_df <-
     grepl("^diffmean$|^mean$", as.character(attr(object, "lazy")$expr[[1]]))
   
@@ -177,9 +193,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   culler <- attr(object, "culler")
   estimate <- culler(extract_estimate(object))
   if (is.null(names(estimate))) {
-    # this fixes things for mean which isn't labeled.
     names(estimate) <- names(object)
-    # warning("confint: estimate is unnamed; inferring names from `object'.")
   }
   
   for (k in 1:length(nms) ) {
@@ -193,7 +207,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
             bootstrap_ci( 
               object[[nms[k]]], level = l, method = m, df=df, 
               estimate =  estimate[[ nms[k] ]]
-          )
+            )
           res[row, "name"] <- nms[k]
           res[row, "lower"] <- vals[1]
           res[row, "upper"] <- vals[2]
@@ -232,6 +246,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
     res$df = df
     res$df[res$method != "stderr"] <- NA
   }
+  res <- res %>% filter( !is.na(lower) & !is.na(upper) & !(lower == upper) )
   return( res )
 }
 
@@ -243,12 +258,12 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
 .mosaic.get.ci <- function( vals, level, method, df=NULL) {
   alpha <- (1-level)/2
   if( method == "stderr" ) {
-    if (is.null(n)) { df <- sum(!is.na(vals)) - 1 }
+    if (is.null(df)) { df <- sum(!is.na(vals)) - 1 }
     res = mean(vals, na.rm=TRUE) + 
       c(-1,1) * sd(vals, na.rm=TRUE) * qt(1-alpha, df)
   }
   # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
-  else res = quantile(vals, c(alpha, 1-alpha) )
+  else res = stats::quantile(vals, c(alpha, 1-alpha) )
   return(res)
 }
 
@@ -259,33 +274,43 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
     c(-1,1) * sd(vals, na.rm=TRUE) * qt(1-alpha, df)
   }
   # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
-  else res = quantile(vals, c(alpha, 1-alpha) )
+  else res = stats::quantile(vals, c(alpha, 1-alpha) )
   return(res)
 }
 
-bootstrap_ci <- function( x, level = 0.95, method, df = Inf, ... ) {
+bootstrap_ci <- function( x, level = 0.95, method, 
+                          df = Inf, t, ... ) {
   switch(
     method,
     `stderr` = tse_bootstrap_ci(x, level = level, df=df, ...),
-    `quantile` = percentile_bootstrap_ci(x, level = level, ...),
-    `basic` = basic_bootstrap_ci(x, level = level, ...)
+    `percentile` = percentile_bootstrap_ci(x, level = level, ...),
+    `reverse` = basic_bootstrap_ci(x, level = level, ...),
+    `bootstrap-t` = boott_bootstrap_ci(x, level = level, estimate, ...)
   )
 }
   
 basic_bootstrap_ci <- function( x, estimate, ..., df = Inf, level = 0.95 ) {
   alpha <- (1 - level) / 2
-  2 * estimate - quantile(x, c(1-alpha, alpha))
+  2 * estimate - stats::quantile(x, c(1-alpha, alpha))
 }
 
 percentile_bootstrap_ci <- function( x, ..., level = 0.95 ) {
   alpha <- (1 - level) / 2
-  quantile(x, c(alpha, 1-alpha) )
+  stats::quantile(x, c(alpha, 1-alpha) )
 }
 
 tse_bootstrap_ci <- function( x, ..., df = Inf, level = 0.95 ) {
   alpha <- (1 - level) / 2
   mean(x, na.rm=TRUE) + 
     c(-1,1) * sd(x, na.rm=TRUE) * qt(1-alpha, df)
+}
+
+boott_bootstrap_ci <- function( x,  ..., level = 0.95, estimate ) {
+  alpha <- (1-level)/2
+  SE <- stats::sd(x, na.rm = TRUE)
+  t <- (estimate - x) / SE
+  q <- stats::quantile(t, c(hi = 1 - alpha, lo=alpha), na.rm = TRUE)
+  as.vector(mean(x, na.rm = TRUE) - q * SE)
 }
 
 
