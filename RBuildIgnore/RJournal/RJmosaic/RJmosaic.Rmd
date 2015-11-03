@@ -49,9 +49,8 @@ mytheme <- theme_minimal()
 Many have argued that 
 in order to make sense of the increasingly rich data that is
 available to them 
-students need additional facility to express statistical computations 
-(CITE NOLAN AND TEMPLE LANG 2010; Ridgway 2015 ISR; Horton,
-Baumer, and Wickham 2015).
+students need additional facility to express statistical computations (e.g., 
+\cite{NolanTempleLang:2010, Ridgway:2015, HortonBaumerWickham:2015}).
 To be able to "think with data" (as coined by Diane Lambert of Google), students
 need to access tools for data management, exploratory analysis,
 visualization, and modeling.  Yet many students enter statistics courses
