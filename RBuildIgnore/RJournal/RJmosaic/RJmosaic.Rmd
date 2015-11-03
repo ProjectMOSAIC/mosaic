@@ -32,14 +32,16 @@ output: rticles::rjournal_article
 ```{r, include=FALSE}
 require(mosaic)
 knitr::opts_chunk$set(
-  fig.width = 3, fig.height = 2, 
+  fig.width = 4.5, fig.height = 3, 
+  out.width = ".45\\textwidth",
   fig.show="hold", fig.align = "center",
   cache=TRUE
 )
 options(digits = 3)
 trellis.par.set(theme = col.mosaic())
-trellis.par.set(fontsize = list(text=8, points = 5))
+# trellis.par.set(fontsize = list(text=8, points = 5))
 set.seed(123)
+mytheme <- theme_minimal() 
 ```
 
 # Motivation
@@ -128,43 +130,12 @@ Formula interfaces are provided for
 In each case we have been careful not to break behavior of the underlying functions from
 \CRANpkg{base} and \CRANpkg{stats}.
 
-XX Consider moving this benchmarking subsection to the discussion as a limitation?  XX
-For applications where speed is of utmost 
-importance, it is better to avoid the \CRANpkg{mosaic} wrappers, which cannot be faster (since
-eventually they call the underlying functions) and may be noticeable slower in contexts where
-they are called many times.
-(In particular, using the formula interface requires parsing the formula and 
-creating a new object to contain the data described by the formula.)
-```{r}
-microbenchmark::microbenchmark( 
-  base::mean(rnorm(1000)), 
-  mosaic::mean(rnorm(1000)), 
-  mosaic::mean(~ rnorm(1000)))
-microbenchmark::microbenchmark( 
-  base::mean(rnorm(10000)), 
-  mosaic::mean(rnorm(10000)), 
-  mosaic::mean(~ rnorm(10000)))
-```
-
-On the other hand, for aggregated numerical summaries, the loss in performance may represent
-a small price to pay for the simplified syntax.
-```{r}
-microbenchmark::microbenchmark( 
-  aggregate = with(iris, aggregate(Sepal.Length, list(Species), base::mean)),
-  dplyr = iris %>% 
-    sample_frac(size = 1.0, replace = TRUE) %>% 
-    group_by(Species) %>% 
-    summarise(mean = base::mean(Sepal.Length)),
-  mosaic = mean(Sepal.Length ~ Species, data = resample(iris))
-)
-```
-
 The formula template can be extended to handle one variable or more than two variables,
 but we recommend introducing it in the context of two-variable plots and summaries.
 This is for several reasons: (1) two-variable plots and numerical summaries are more
 "impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
-that the most interesting parts of statistics involve more than one variable \cite{Wildetal:2011}
+that the most interesting parts of statistics involve more than one variable \cite{Wild:RSS:2011}
 and 
 (3) the formula syntax for a single variable makes more sense in the context of two-sided
 formulas that it does in isolation.
@@ -223,7 +194,9 @@ to ask questions of the form "How does this depend on that (and some other thing
 
 By emphasizing the formula template, each of the following commands can be 
 viewed as instances of a common template, rather than as separate things 
-to learn. XX consider citing Minimal R and Less Volume, More Creativity vignettes in or around here?  XX
+to learn. 
+
+XX consider citing Minimal R and Less Volume, More Creativity vignettes in or around here?  XX
 
 ```{r, tidy=FALSE, eval=FALSE}
 bwplot(age ~ sex, data=HELPrct)
@@ -286,15 +259,17 @@ but also reports the number of missing values.
 favstats( ~ dayslink, data = HELPmiss)
 ```
 
-The second solution is to change the default behavior of `na.rm`.  XX please review XX
-Users also have the option of changing the default for `na.rm` back if they like.
+The second solution is to change the default behavior of `na.rm` using `options()`.  
 This will, of course, only affect the \CRANpkg{mosaic} versions of these functions.
-
 ```{r}
 options(na.rm = TRUE)
 mean(~ dayslink, data = HELPmiss)
-base::mean(HELPmiss[["dayslink"]], data = HELPmiss)
-# XX what about with(HELPmiss, base::mean(dayslink)))?
+with(HELPmiss, base::mean(dayslink))
+```
+Users also have the option of changing the default for `na.rm` back if they like.
+```{r}
+options(na.rm = NULL)
+mean(~ dayslink, data = HELPmiss)
 ```
 
 ##  Creating and using functions
@@ -361,7 +336,7 @@ plotModel(mtcars.mod2)
 
 # Randomization and Resampling
 
-Resampling approaches have become increasingly important in statistical education (XX cite Hesterberg and Tintle papers in TAS 2015?  XX)
+Resampling approaches have become increasingly important in statistical education (\cite{Tintle:TAS:2015})
 The \CRANpkg{mosaic} package  provides simplified functionality to support teaching inference
 based on randomization tests and bootstrap methods.  Our goals was to focus attention
 on the important parts of these techniques (e.g., where randomness enters in and how to
@@ -504,12 +479,35 @@ rsquared(lm(age ~ sex, data=HELPrct))
 ```
 
 
-# Some additional bells and whistles
+# Some additional visualization tools
+
+## Additional high-level lattice plots
+
+The \CRANpkg{mosaic} package provides several new high-level \CRANpkg{lattice} plots, including
+`bargraph()`, 
+`dotPlot()`, 
+`freqpolygon()`,
+`ashplot()`,
+`xqqmath()`,
+and `plotPoints()`.
+
+```{r}
+bargraph( ~ substance, data = HELPrct, main = "bargraph")
+dotPlot( ~ age, data = HELPrct, width = 1, main = "dotPlot")
+```
+```{r}
+freqpolygon( ~ age, data = HELPrct, width = 2, main = "freqpolygon")
+ashplot( ~ age, data = HELPrct, width = 2, main = "ashplot")
+```
+```{r}
+xqqmath( ~ age, data = HELPrct, main = "xqqmath")
+plotPoints(length ~ width, data = KidsFeet, main = "plotPoints")
+```
 
 ## Visualizing distributions of random variables
 
 A number of functions make it simple to visualize random variables.  `plotDist()` creates
-displays for any distribution for which the standard d/p/q functions exist.
+displays for any distribution for which standard d-, p-, and q- functions exist.
 ```{r}
 plotDist("norm", mean = 100, sd = 10)
 plotDist("binom", size = 100, prob = 0.3)
@@ -536,30 +534,130 @@ xpnorm(-2:2)
 xqt(0.975, df = 20)
 ```
 
-## What other things do we want to show?
+## mplot()
 
-XX NH proposal: add mplot for regression diagnostics, coefficient plots, and dataset visualization (featuring "show expression")
+The `mplot()` function has two primary use cases: 
+creating diagnostic plots for lm and glm objects, and
+interactively creating data visualizations using the variables in a data frame.
+Given an model object as its first argument, `mplot()` provides similar diagnostic plots to those
+produced via `plot()` but two primary differences: the user may select to use either \CRANpkg{lattice} or \CRANpkg{ggplot2} graphics insteado of base graphics, and an additional plot type is provided to visualize the 
+confidence intervals for the coefficients of the model.
 
+```{r, results = "hide"}
+mod <- lm(length ~ width * sex, data = KidsFeet)
+mplot(mod, system = "lattice", which = 1:7)
+mplot(mod, system = "ggplot2", which = 1:7)
+```
 
-XX NH proposal: for others include a brief mention as a table XX
+We can also use `mplot()` to visually represent the results of `TukeyHSD()`,
+which we can apply directly to objects produced by `lm()`.
+```{r}
+mplot(TukeyHSD(lm(age ~ substance, data = HELPrct)))
+mplot(TukeyHSD(lm(age ~ substance, data = HELPrct)), system = "ggplot2") 
+```
+\noindent
+Again, there are options to create either \CRANpkg{lattice} or \CRANpkg{ggplot2} plots, and 
+the resulting plots are usable in a wider range of scenarios than are those 
+produced using `plot()`.
 
-Some candidates:
+A second use for `mplot()` is to create \CRANpkg{lattice} and \CRANpkg{ggplot2} plots
+interactively within RStudio.  Issuing the following command in RStudio
+will bring up plot that can be modified by making choices interactively.
 
-  * `bargraph()`  
-  * `CIsim()`
-  * `mplot()`
-  * `panel.lmbands()`
-  * `plotPoints()`
-  * `statTally()`
-  * `TukeyHSD()`
-  * `xchisq.test()`
-  * `zscore()`
+```{r eval = FALSE}
+mplot(HELPrct)
+```
+
+\begin{figure}
+\includegraphics{half-mplot.png}
+\caption{In RStudio, \texttt{mplot()} can be used to interactively generate 
+plots using variables in a data frame.}
+\end{figure}
+
+\noindent
+The menu allows the user to choose either \CRANpkg{lattice} or \CRANpkg{ggplot2}
+graphics, to select the type of plot and the variables used, and to control
+a few of the most commonly used features that modify a plot (faceting, color, legends,
+log-scaling, fitting a linear model or LOESS smoother).  The "show expression" button
+exports the command used to create the plot into the console.  From there it can be edited
+or copied and pasted in an R Markdown document.
+
+# Additional features
+
+Table~\ref{tab:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
+not highlighted above.
+
+\begin{table}
+\begin{tabular}{lp{5in}}
+\hline
+function & uses
+\\
+\hline
+\texttt{bargraph()}  & create bar graphs from raw data without tabulating first
+\\
+\texttt{CIsim()} & demonstrate coverage rates of confidence intervals
+\\
+\texttt{panel.lmbands()} & add confidence and prediction bands to scatter plots
+\\
+\texttt{plotPoints()} &
+an alternative to \texttt{xyplot()} that can also be used to create additional layers in
+existing plots.
+\\
+\texttt{TukeyHSD()} & an extension to \texttt{stats::TukeyHSD()} that can take an lm object as input
+and offers some additional plotting options.
+\\
+\texttt{xchisq.test()} & an extension to \texttt{chisq.test()} that prints a table including
+observed and expected counts, contribution to the chi-squared statistics and residuals
+\\
+\texttt{zscore()} & convert a numeric vector into z-scores
+\\
+\hline
+\end{tabular}
+\end{table}
+
 
 # Calculus in R
 
 Need to decide what if anything to include about calculus.
 XX NH votes no, but I would have no objections to a paragraph that mentions the Start R in Calculus resources and a pointer to the Macalester course. XX
 
+# Discussion
+
+## Efficiency Issues
+
+For applications where speed is of utmost 
+importance, it is better to avoid some of the \CRANpkg{mosaic} wrappers. 
+For example, for the numerical summary functions, the \CRANpkg{mosaic} versions cannot be
+faster than their counterparts in \CRANpkg{base} or \CRANpkg{stats} (because 
+eventually they call the underlying functions) and may be noticeable slower in contexts where
+they are called many times.
+In particular, using the formula interface requires parsing the formula and 
+creating a new object to contain the data described by the formula.
+```{r}
+microbenchmark::microbenchmark( 
+  base::mean(rnorm(1000)), 
+  mosaic::mean(rnorm(1000)), 
+  mosaic::mean(~ rnorm(1000)))
+microbenchmark::microbenchmark( 
+  base::mean(rnorm(10000)), 
+  mosaic::mean(rnorm(10000)), 
+  mosaic::mean(~ rnorm(10000)))
+```
+
+On the other hand, for aggregated numerical summaries, the loss in performance may represent
+a small price to pay for the simplified syntax.
+```{r}
+microbenchmark::microbenchmark( 
+  aggregate = with(iris, aggregate(Sepal.Length, list(Species), base::mean)),
+  dplyr = iris %>% 
+    sample_frac(size = 1.0, replace = TRUE) %>% 
+    group_by(Species) %>% 
+    summarise(mean = base::mean(Sepal.Length)),
+  mosaic = mean(Sepal.Length ~ Species, data = resample(iris))
+)
+```
+
+Similarly, using `do()` comes at a price, although here the price has more to do with 
 # Acknowledgements
 
 Partial support for this work was provided by the National Science Foundation DUE 0920350 (Project MOSAIC).
