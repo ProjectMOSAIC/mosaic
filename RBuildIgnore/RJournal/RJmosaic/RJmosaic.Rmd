@@ -584,35 +584,46 @@ or copied and pasted in an R Markdown document.
 
 # Additional features
 
-Table~\ref{tab:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
+Table~\ref{tbl:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
 not highlighted above.
 
 \begin{table}
-\begin{tabular}{lp{5in}}
+\begin{tabular}{lp{4in}}
 \hline
 function & uses
 \\
 \hline
-\texttt{bargraph()}  & create bar graphs from raw data without tabulating first
-\\
 \texttt{CIsim()} & demonstrate coverage rates of confidence intervals
+\\
+\texttt{statTally()} & investigate test statistics and their empirical distributions
 \\
 \texttt{panel.lmbands()} & add confidence and prediction bands to scatter plots
 \\
-\texttt{plotPoints()} &
-an alternative to \texttt{xyplot()} that can also be used to create additional layers in
-existing plots.
-\\
-\texttt{TukeyHSD()} & an extension to \texttt{stats::TukeyHSD()} that can take an lm object as input
-and offers some additional plotting options.
+\texttt{ladd()} & simplified layering in \CRANpkg{lattice} plots
 \\
 \texttt{xchisq.test()} & an extension to \texttt{chisq.test()} that prints a table including
 observed and expected counts, contribution to the chi-squared statistics and residuals
 \\
 \texttt{zscore()} & convert a numeric vector into z-scores
 \\
-\hline
+\texttt{D()}, \texttt{antiD()} & derivative and antiderivative operators that take a function
+as input and return a function.   For simple functions, the operations are done symbolically.
+\\
+\texttt{col.mosaic()} & a \CRANpkg{lattice} theme with colors that project better that the 
+\CRANpkg{lattice} defaults.
+\\
+\texttt{dot()}, \texttt{project()}, \texttt{vlength()} & linear algebra on vectors
+\\
+\texttt{ediff()} & like \texttt{diff()}, but the returned vector is padded with \texttt{NA}s
+so that the length is the same as the input vector.
+\\
+\texttt{SAD()}, \texttt{MAD} & all pairs sum and mean of absolute differences
+\\
+\texttt{rgeo} & randomly sample latitidue, longitude pairs uniformly over the globe
+\\
 \end{tabular}
+\caption{Some additional functions in the \CRANpkg{mosaic} package.}
+\label{tbl:otherstuff}
 \end{table}
 
 
