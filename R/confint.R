@@ -346,12 +346,10 @@ confint.data.frame <- function(object, parm, level=0.95, ... )  {
   return(results)
 }
 
-#' @export
 boott <- function(object, ...) {
   UseMethod("boott")
 }
 
-#' @export
 boott.do.data.frame <- function( object, level = 0.95, ... ) {
   lz <- attr(object, "lazy")
   if ( ! lz$expr[[1]] == "favstats") stop( "Invalid object." )
