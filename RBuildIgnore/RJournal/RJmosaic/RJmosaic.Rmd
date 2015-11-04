@@ -21,7 +21,7 @@ author:
     - Amherst, MA 01002-5000
     email:  nhorton@amherst.edu
 abstract: >
-  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, graphical representations,  modeling, and simulation based inference required in first and second courses in  statistics. This introduction to the package describes some of the guiding principles  behind the design of the package and provides illustrative examples of several of the most  important functions it implements.  These can be combined to help students  ``think with data" using R in their early course work,  starting with simple, yet powerful, declarative commands.
+  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization,  modeling, and simulation based inference required in first and second courses in  statistics. This introduction to the package describes some of the guiding principles  behind the design of the package and provides illustrative examples of several of the most  important functions it implements.  These can be combined to help students  ``think with data" using R in their early course work,  starting with simple, yet powerful, declarative commands.
 
 
 preamble: >
@@ -57,7 +57,7 @@ visualization, and modeling.  Yet many students enter statistics courses
 with little or no computational experience.
 We have demonstrated that it is feasible to
 integrate computing into our curricula early and often,
-in a way that provides students with success and confidence.
+in a way that provides students with success, confidence, and room to grow.
 
 
 # A guiding principle: Less volume, more creativity
@@ -74,7 +74,11 @@ style guidelines.
 Early on in the development of \CRANpkg{mosaic}, we decided to
 reduce the number of code templates that users would need to know to as few as possible,
 while still providing them with substantial power to be creative within the
-templates provided. 
+templates provided.
+A one-page list of commands that are more than sufficient for a first course, originally
+presented as part of a roundtable discussion at the Joint Statistics Meetings in 2011 now
+appears as a vignette in the package, along with some additional material on the 
+less volume, more creativity approach.
 
 # The formula template
 
@@ -96,20 +100,23 @@ For a plot, `goal` names the type of plot, `y` and `x` name the variables to be
 mapped to the vertical and horizontal axes, and `mydata` is the data frame in which 
 these variables are found.
 This template allows us to create, for example, scatterplots and side-by-side box plots
-using \CRANpkg{lattice} functions.
+using \CRANpkg{lattice} functions.  Here we illustrate using the `Births78`
+data set from the `mosaicData` package, which, as the name suggests, contains data sets
+to accompany the `mosaic` package.
 ```{r}
-xyplot(length ~ width, data = KidsFeet)
+xyplot(births ~ date, data = Births78)
 ```
 ```{r}
-bwplot(length ~ sex,   data = KidsFeet);      bwplot(sex ~ length,   data = KidsFeet)
+bwplot(births ~ wday, data = Births78) 
+bwplot(wday ~ births, data = Births78)
 ```
 \noindent
 With the \CRANpkg{mosaic} package attached, the same template can be used to create 
 numerical summaries.
 ```{r}
-mean(length ~ sex, data = KidsFeet)
-sd(length ~ sex, data = KidsFeet)
-favstats(length ~ sex, data=KidsFeet)
+mean(births ~ wday, data = Births78)
+sd(births ~ wday, data = Births78)
+favstats(births ~ wday, data = Births78)
 ```
 \noindent
 We introduced a `tally()` function for counting categorical variables.
@@ -147,6 +154,8 @@ goal( y ~ x | z, groups = mygroups, data=mydata )
 When plotting, `z` is used to create plots with subpanels (or facets) and `groups` is
 used to overlay multiple layers.
 ```{r}
+xyplot(births ~ date, groups = wday, data = Births78, type = "l")
+densityplot( ~ births, groups = wday, data = Births78, auto.key=list(columns=3))
 densityplot( ~ age | sex, groups = substance, data = HELPrct)
 ```
 
@@ -195,7 +204,6 @@ By emphasizing the formula template, each of the following commands can be
 viewed as instances of a common template, rather than as separate things 
 to learn. 
 
-XX consider citing Minimal R and Less Volume, More Creativity vignettes in or around here?  XX
 
 ```{r, tidy=FALSE, eval=FALSE}
 bwplot(age ~ sex, data=HELPrct)
@@ -205,6 +213,7 @@ bwplot(age ~ sex, data=HELPrct)
 t.test(age ~ sex, data=HELPrct) 
 ```
 
+\noindent
 Similarly, by adding additional formula interfaces to `t.test()`,
 `binom.test()`, and `prop.test()`, and adding some additional 
 plot types, for one-variable situations we have 
@@ -222,7 +231,8 @@ freqpolygon( ~ age, data=HELPrct)   # frequency polygon
   prop.test( ~ sex, data=HELPrct)   # formula interface added in mosaic
 ```
 
-Adding covariates to one or two variable graphically or numerical summaries
+\noindent
+Adding covariates to one- or two- variable graphical or numerical summaries
 fits readily into the template as well.
 ```{r, tidy=FALSE, eval=FALSE}
      mean( ~ age | sex, data=HELPrct)
@@ -247,6 +257,7 @@ results that may surprise and mystify new users.
 mean( ~ dayslink, data = HELPmiss)
 ```
 
+\noindent
 While there are workarounds using options to functions to drop values that are missing before performing the computation, these may be intimidating to new users.
 ```{r}
 mean( ~ dayslink, data = HELPmiss, na.rm = TRUE)
@@ -265,6 +276,8 @@ options(na.rm = TRUE)
 mean(~ dayslink, data = HELPmiss)
 with(HELPmiss, base::mean(dayslink))
 ```
+
+\noindent
 Users also have the option of changing the default for `na.rm` back if they like.
 ```{r}
 options(na.rm = NULL)
@@ -327,10 +340,11 @@ For many simple models, creating a plot can be even simpler
 plotModel(cars.mod)
 ```
 
+\noindent
 The `plotModel()` function can also simplify visualization of more complex models.
 ```{r}
 mtcars.mod2 <- lm(mpg ~ log(wt) + factor(cyl) + factor(am), data = mtcars)
-plotModel(mtcars.mod2)
+plotModel(mtcars.mod2, mpg ~ wt | factor(am))
 ```
 
 # Randomization and Resampling
@@ -417,7 +431,7 @@ and
 `diffmean()` is similar to `diff(mean()`, but labels the result differently.
 `diffprop()` works similarly for differences in proportions.
 
-If we are interested in a confidence interval for the mean difference, we can use
+If we are interested in a confidence interval for the difference in group means, we can use
 `resample()` and `do()` to generate a bootstrap distribution in one of two ways.
 ```{r}
 Boot.dist1 <- do(1000) * diffmean(age ~ sex, data = resample(HELPrct))
@@ -425,7 +439,9 @@ Boot.dist2 <- do(1000) * diffmean(age ~ sex, data = resample(HELPrct, groups = s
 ```
 \noindent
 In the second example, the resampling happens within the sex groups so that the marginal
-counts for each sex remain fixed.
+counts for each sex remain fixed.  This can be especially important if one of the groups
+is small, because otherwise in some resamples might not include any observations of that
+group.
 
 ```{r, include=FALSE}
 set.seed(123456)
@@ -436,8 +452,12 @@ favstats(age ~ sex, data = resample(HELPrct))
 favstats(age ~ sex, data = resample(HELPrct, groups = sex))
 ```
 
-Using either bootstrap distribution, we can compute a simple percentile interval
-by finding the range of a central portion of the bootstrap distribution.
+Using either bootstrap distribution, two simple confidence intervals can be 
+computed.
+We typically introduce percentile confidence intervals first.
+A percentile confidence interval is calculated
+by determining the range of a central portion of the bootstrap distribution, which can
+be automated using `cdata()`.
 Visually inspecting the bootstrap distribution for skew and bias is an important
 step to make sure the percentile interval is not being applied in a situation where 
 it may perform poorly.
@@ -447,16 +467,22 @@ qqmath( ~ diffmean, data = Boot.dist2)
 cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
 ```
 
-Alternatively, we could compute a confidence interval based on a bootstrap 
+Alternatively, we can compute a confidence interval based on a bootstrap 
 estimate of the standard error.
 ```{r}
 SE <- sd( ~ diffmean, data = Boot.dist2); SE
 D + c(-1,1) * 2 * SE
 ```
 \noindent
-(How to replace 2 with an appropriate value to create more accurate intervals
-or to allow for different confidence levels is a matter of some subtlety.
-See \cite{Hesterberg:2015}.)
+How to replace the constant 2 with an appropriate value to create more accurate intervals
+or to allow for different confidence levels is a matter of some subtlety
+(see \cite{Hesterberg:2015}).  The simplest method is to use quantiles 
+of a normal distribution, but this will undercover.  Replacing the normal distribution
+with an appropriate t-distribution will widen intervals and can improve coverage, but 
+the t-distribution is only correct in a few cases -- such as when estimating the mean
+of a normal population -- and can perform badly when the population is skewed.
+The primary pedagogical value of the bootstrap standard error approach is its close
+connection to the standard formula-based confidence interval methods.
 
 Each of these can be further automated using an extension to `confint()`.
 ```{r}
@@ -550,9 +576,9 @@ mplot(mod, system = "ggplot2", which = 1:7)
 
 We can also use `mplot()` to visually represent the results of `TukeyHSD()`,
 which we can apply directly to objects produced by `lm()`.
-```{r}
-mplot(TukeyHSD(lm(age ~ substance, data = HELPrct)))
-mplot(TukeyHSD(lm(age ~ substance, data = HELPrct)), system = "ggplot2") 
+```{r, fig.height = 5}
+mplot(TukeyHSD(lm(births ~ wday, data = Births78)))
+mplot(TukeyHSD(lm(births ~ wday, data = Births78)), system = "ggplot2") 
 ```
 \noindent
 Again, there are options to create either \CRANpkg{lattice} or \CRANpkg{ggplot2} plots, and 
@@ -571,10 +597,11 @@ mplot(HELPrct)
 \includegraphics{half-mplot.png}
 \caption{In RStudio, \texttt{mplot()} can be used to interactively generate 
 plots using variables in a data frame.}
+\label{fig:mplot}
 \end{figure}
 
 \noindent
-The menu allows the user to choose either \CRANpkg{lattice} or \CRANpkg{ggplot2}
+The menu (see Figure~ref{fig:mplot}) allows the user to choose either \CRANpkg{lattice} or \CRANpkg{ggplot2}
 graphics, to select the type of plot and the variables used, and to control
 a few of the most commonly used features that modify a plot (faceting, color, legends,
 log-scaling, fitting a linear model or LOESS smoother).  The "show expression" button
@@ -583,8 +610,17 @@ or copied and pasted in an R Markdown document.
 
 # Additional features
 
-Table~\ref{tbl:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
-not highlighted above.
+Table \ref{tbl:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
+not highlighted above.  The package also contains three templates for creating 
+R Markdown documents in RStudio.  
+Each ensures that the \CRANpkg{mosaic} package 
+is attached, sets the default theme for \CRANpkg{lattice} graphics to 
+`theme.mosaic()`, chooses a somewhat smaller default size for graphics, and includes
+a comment reminding users to attach any packages they intend to use.
+The "fancy" template demonstrates several features of R Markdown, and the "plain" 
+templates allow users to start with a clean slate.
+See \cite{Baumer:RMarkdown:2014} for a discussion of how R Markdown can be used 
+in statistics courses.
 
 \begin{table}
 \begin{tabular}{lp{4in}}
@@ -592,18 +628,18 @@ not highlighted above.
 function & uses
 \\
 \hline
-\texttt{CIsim()} & demonstrate coverage rates of confidence intervals
+\texttt{CIsim()} & demonstrate coverage rates of confidence intervals.
 \\
-\texttt{statTally()} & investigate test statistics and their empirical distributions
+\texttt{statTally()} & investigate test statistics and their empirical distributions.
 \\
-\texttt{panel.lmbands()} & add confidence and prediction bands to scatter plots
+\texttt{panel.lmbands()} & add confidence and prediction bands to scatter plots.
 \\
-\texttt{ladd()} & simplified layering in \CRANpkg{lattice} plots
+\texttt{ladd()} & simplified layering in \CRANpkg{lattice} plots.
 \\
 \texttt{xchisq.test()} & an extension to \texttt{chisq.test()} that prints a table including
-observed and expected counts, contribution to the chi-squared statistics and residuals
+observed and expected counts, contribution to the chi-squared statistics and residuals.
 \\
-\texttt{zscore()} & convert a numeric vector into z-scores
+\texttt{zscore()} & convert a numeric vector into z-scores.
 \\
 \texttt{D()}, \texttt{antiD()} & derivative and antiderivative operators that take a function
 as input and return a function.   For simple functions, the operations are done symbolically.
@@ -611,7 +647,7 @@ as input and return a function.   For simple functions, the operations are done 
 \texttt{col.mosaic()} & a \CRANpkg{lattice} theme with colors that project better that the 
 \CRANpkg{lattice} defaults.
 \\
-\texttt{dot()}, \texttt{project()}, \texttt{vlength()} & linear algebra on vectors
+\texttt{dot()}, \texttt{project()}, \texttt{vlength()} & linear algebra on vectors.
 \\
 \texttt{ediff()} & like \texttt{diff()}, but the returned vector is padded with \texttt{NA}s
 so that the length is the same as the input vector.
@@ -626,12 +662,62 @@ so that the length is the same as the input vector.
 \end{table}
 
 
-# Calculus in R
-
-Need to decide what if anything to include about calculus.
-XX NH votes no, but I would have no objections to a paragraph that mentions the Start R in Calculus resources and a pointer to the Macalester course. XX
-
 # Discussion
+
+## Advantages of the mosaic approach
+
+One of the keys to successfully empowering students to think with data is providing them 
+both a conceptual framework that allows them to know what to look for and how to interpret
+what they find, and a computational toolbox that allows them to do the looking.
+The approach made possible with the \CRANpkg{mosaic} package simplifies 
+the transition from thinking to computing by reducing the number of computational templates
+students learn so that cognitative effort can be spent elsewhere, and 
+having those templates reflect, support, and deepen the underlying thinking \cite{Grolemund:ISR:2014}.
+Because of the connection between conceptual understanding and these computational tools,
+the use of R can also reveal misunderstandings that might otherwise go unnoticed.
+
+For students who take additional courses after the first course, R has the capability to
+support the increasing complexity of the data and analyses students encounter in subsequent
+courses and research projects.  Eventually, students will need to learn more about the 
+structure of R as a language, the types of objects it supports, and alternative ways of
+approaching the same task.  But early on, it is more important that students can successfully
+and independently exercise computational and statistical creativity.
+
+
+## Challenges of using R in introductory courses
+
+## Better bootstrap confidence intervals
+
+An improvementon to the "t with bootstrap standard error" interval is the bootstrap-t interval.
+Rather than attempting to determine the best degrees of freedom for a Student's t-distribution, 
+the bootstrap-t approximates the actual distribution of 
+$$
+t = \frac{\hat{\theta} - \theta}{SE}
+$$
+using the boostrap distribution of
+$$
+t^* = \frac{\hat{\theta^*} - \hat{\theta}}{SE^*} \; ,
+$$
+where $\hat{\theta^*}$ and $SE^*$ are the estimate and estimated standard error
+computed from each bootstrap distribution.
+Implementing the bootstrap-t interval requires either an extra level of conceptual 
+framework or much more calculation to determine the values of $SE^*$.  If a standard error 
+formula exists (e.g., $SE = s/\sqrt{n}$), this can be applied to each bootstrap
+sample along with the estimator.  An alternative is to iterate the bootstrap procedure
+(resampling from each resample) to estimate $SE^*$.  Since standard errors are easier 
+to estimate than confidence intervals, fewer resamples are required (per resample)
+at the second level; nevertheless, the additional computational overhead is significant.
+
+The \CRANpkg{mosaic} package does not attempt to provide a general framework for the bootstrap-t
+or other "second-order accurate" boostrap methods.  Packages such as \CRANpkg{resample}
+are more appropriate for situations where speed and accuracy are of utmost importance.
+But the bootstrap-t confidence interval can be computed using `confint()`, `do()` and `favstats()`
+in the case of estimating a single mean or the difference between two means.
+
+```{r}
+BootT <- do(1000) * favstats(age ~ sex, data = resample(HELPrct, groups = sex))
+confint(BootT, method = "boot")
+```
 
 ## Efficiency Issues
 
@@ -668,11 +754,28 @@ microbenchmark::microbenchmark(
 ```
 
 Similarly, using `do()` comes at a price, although here the price has more to do with 
+the extra work involved in culling the objects and reformatting the results.  The looping
+itself is as fast as using `replicate()` -- indeed the underlying code is very similar.  
+Furthermore, `do()` can take advantages of multiple cores if the \CRANpkg{parallel} package 
+is attached.
+
+```{r}
+microbenchmark::microbenchmark( times = 50,
+  do = do(500) * diffmean( age ~ shuffle(sex), data = HELPrct),
+  replicate = replicate(500, diffmean( age ~ shuffle(sex), data = HELPrct))
+)
+
+library(parallel)
+microbenchmark::microbenchmark( times = 50,
+  do = do(500) * diffmean( age ~ shuffle(sex), data = HELPrct),
+  replicate = replicate(500, diffmean( age ~ shuffle(sex), data = HELPrct))
+)
+```
+
 # Acknowledgements
 
-Partial support for this work was provided by the National Science Foundation DUE 0920350 (Project MOSAIC).
-
-
+Partial support for this work was provided by the National Science Foundation 
+DUE 0920350 (Project MOSAIC).
 
 ## More about R Journal submissions
 
