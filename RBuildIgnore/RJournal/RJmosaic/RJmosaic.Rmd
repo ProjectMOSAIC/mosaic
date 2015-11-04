@@ -570,15 +570,15 @@ confidence intervals for the coefficients of the model.
 
 ```{r, results = "hide"}
 mod <- lm(length ~ width * sex, data = KidsFeet)
-mplot(mod, system = "lattice", which = 1:7)
-mplot(mod, system = "ggplot2", which = 1:7)
+mplot(mod, system = "lattice", which = 1:4)
+mplot(mod, system = "ggplot2", which = 4:7)
 ```
 
 We can also use `mplot()` to visually represent the results of `TukeyHSD()`,
 which we can apply directly to objects produced by `lm()`.
 ```{r, fig.height = 5}
-mplot(TukeyHSD(lm(births ~ wday, data = Births78)))
-mplot(TukeyHSD(lm(births ~ wday, data = Births78)), system = "ggplot2") 
+mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval")
+mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval", system = "ggplot2") 
 ```
 \noindent
 Again, there are options to create either \CRANpkg{lattice} or \CRANpkg{ggplot2} plots, and 
@@ -685,6 +685,8 @@ and independently exercise computational and statistical creativity.
 
 
 ## Challenges of using R in introductory courses
+
+
 
 ## Better bootstrap confidence intervals
 
