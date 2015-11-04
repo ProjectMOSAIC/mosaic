@@ -581,7 +581,7 @@ panel.plotFun1 <- function( ..f.., ...,
                   length.out=npts,
                   quiet=TRUE)
       
-      tryCatch(.yvals <- sapply( .xvals, .f. ), warning=function(w) {} )
+      .yvals <- sapply( .xvals, .f. )  # , warning=function(w) {} )
     }
     
     # need to strip out any components of ... that are in the object so they
