@@ -481,37 +481,34 @@ mplot.summary.lm <- function(object,
 mplot.summary.glm <- mplot.summary.lm
 
 #' @rdname fortify
-#' @examples
-#' if (require(mosaicData)) {
-#' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
-#' }
-#' @export
- 
-fortify.TukeyHSD <- function(model, data, ...) {
-  nms <- names(model)
-  l <- length(model)
-  plotData <- do.call( 
-    rbind, 
-    lapply(seq_len(l), function(i) {
-      res <- transform(as.data.frame(model[[i]]), 
-                       var=nms[[i]], 
-                       pair=row.names(model[[i]]) ) 
-    } ) 
-  )
-  names(plotData) <- c("diff", "lwr", "upr", "pval", "var", "pair")
-  return(plotData)
-}  
-
-#' @rdname fortify
 #' @param model an R object
 #' @param data original data set, if needed
+#' @param order one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the 
+#'   order of the \code{pair} factor, which determines the order in which the differences
+#'   are displayed on the plot.
 #' @examples
 #' if (require(mosaicData)) {
-#' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+#'   fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
 #' }
 #' @export
  
-fortify.TukeyHSD <- function(model, data, ...) {
+# fortify.TukeyHSD <- function(model, data, ...) {
+#   nms <- names(model)
+#   l <- length(model)
+#   plotData <- do.call( 
+#     rbind, 
+#     lapply(seq_len(l), function(i) {
+#       res <- transform(as.data.frame(model[[i]]), 
+#                        var=nms[[i]], 
+#                        pair=row.names(model[[i]]) ) 
+#     } ) 
+#   )
+#   names(plotData) <- c("diff", "lwr", "upr", "pval", "var", "pair")
+#   return(plotData)
+# }  
+
+fortify.TukeyHSD <- function(model, data, order = c("asis", "pval", "difference"), ...) {
+  order <- match.arg(order)
   nms <- names(model)
   l <- length(model)
   plotData <- do.call( 
@@ -523,12 +520,25 @@ fortify.TukeyHSD <- function(model, data, ...) {
     } ) 
   )
   names(plotData) <- c("diff", "lwr", "upr", "pval", "var", "pair")
+  plotData <-
+    plotData %>%
+    mutate(pair = 
+             switch(order,
+                    "asis" = reorder(pair, 1:nrow(plotData)),
+                    "pval" = reorder(pair, pval),
+                    "difference" = reorder(pair, diff),
+                    )
+    )
+  
   return(plotData)
 }  
 
 #' @rdname mplot
 #' @param xlab label for x-axis
 #' @param ylab label for y-axis
+#' @param order one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the 
+#'   order of the \code{pair} factor, which determines the order in which the differences
+#'   are displayed on the plot.
 #' @examples
 #' if (require(mosaicData)) {
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
@@ -540,10 +550,11 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
                            ylab="", xlab="difference in means", 
                            title="Tukey's Honest Significant Differences",
                            par.settings = trellis.par.get(),
+                           order = c("asis", "pval", "difference"),
                            ...) {
-  
-  system = match.arg(system)
-  fdata <- fortify(object)
+  system <- match.arg(system)
+  order <- match.arg(order) 
+  fdata <- fortify(object, order = order)
   
   if (system=="ggplot2") {
     return(

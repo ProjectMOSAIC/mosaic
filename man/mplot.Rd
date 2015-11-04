@@ -27,7 +27,8 @@ mplot(object, ...)
 \method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
   ylab = "", xlab = "difference in means",
   title = "Tukey's Honest Significant Differences",
-  par.settings = trellis.par.get(), ...)
+  par.settings = trellis.par.get(), order = c("asis", "pval", "difference"),
+  ...)
 }
 \arguments{
 \item{object}{an R object from which a plot will be constructed.}
@@ -76,6 +77,10 @@ changed.}
 \item{ylab}{label for y-axis}
 
 \item{xlab}{label for x-axis}
+
+\item{order}{one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the
+order of the \code{pair} factor, which determines the order in which the differences
+are displayed on the plot.}
 
 \item{data}{a data frame containing the variables that might be used in the plot.}
 }

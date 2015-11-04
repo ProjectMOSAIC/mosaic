@@ -10,9 +10,8 @@
 
 \method{fortify}{summary.glm}(model, data = NULL, level = 0.95, ...)
 
-\method{fortify}{TukeyHSD}(model, data, ...)
-
-\method{fortify}{TukeyHSD}(model, data, ...)
+\method{fortify}{TukeyHSD}(model, data, order = c("asis", "pval",
+  "difference"), ...)
 }
 \arguments{
 \item{model}{an R object}
@@ -22,16 +21,17 @@
 \item{level}{confidence level}
 
 \item{...}{additional arguments}
+
+\item{order}{one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the
+order of the \code{pair} factor, which determines the order in which the differences
+are displayed on the plot.}
 }
 \description{
 Extract data from R objects
 }
 \examples{
 if (require(mosaicData)) {
-fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
-}
-if (require(mosaicData)) {
-fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+  fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
 }
 }
 
