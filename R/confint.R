@@ -155,6 +155,9 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   method[method=='se'] <- 'stderr'
   method <- unique(method)
   
+  bootT <- ("bootstrap-t" %in% method) & (attr(object, "lazy")$expr[[1]] == "favstats")
+  method <- setdiff(method, "bootstrap-t")
+  
   compute_t_df <-
     grepl("^diffmean$|^mean$", as.character(attr(object, "lazy")$expr[[1]]))
   
@@ -209,14 +212,17 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
               estimate =  estimate[[ nms[k] ]]
             )
           res[row, "name"] <- nms[k]
+          res[row, "estimate"] <- estimate[[ nms[k] ]]
           res[row, "lower"] <- vals[1]
           res[row, "upper"] <- vals[2]
           res[row, "level"] <- l
           res[row, "method"] <- m
-          res[row, "estimate"] <- estimate[[ nms[k] ]]
         }
       }
     }
+  }
+  if (bootT) {
+    res <- bind_rows(res, boott(object))
   }
   if (prod(dim(res)) == 0L) {
     warning("confint: Unable to compute any of the desired CIs", call. = FALSE)
@@ -247,7 +253,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
     res$df[res$method != "stderr"] <- NA
   }
   res <- res %>% filter( !is.na(lower) & !is.na(upper) & !(lower == upper) )
-  return( res )
+  return( as.data.frame(res) )
 }
 
 .turn.to.margin <- function(res) {
@@ -305,10 +311,9 @@ tse_bootstrap_ci <- function( x, ..., df = Inf, level = 0.95 ) {
     c(-1,1) * sd(x, na.rm=TRUE) * qt(1-alpha, df)
 }
 
-boott_bootstrap_ci <- function( x,  ..., level = 0.95, estimate ) {
+boott_bootstrap_ci <- function( x, se, ..., level = 0.95, estimate ) {
   alpha <- (1-level)/2
-  SE <- stats::sd(x, na.rm = TRUE)
-  t <- (estimate - x) / SE
+  t <- (x - mean(x)) / se
   q <- stats::quantile(t, c(hi = 1 - alpha, lo=alpha), na.rm = TRUE)
   as.vector(mean(x, na.rm = TRUE) - q * SE)
 }
@@ -339,4 +344,49 @@ confint.data.frame <- function(object, parm, level=0.95, ... )  {
   row.names(results) <- names(object) 
   
   return(results)
+}
+
+#' @export
+boott <- function(object, ...) {
+  UseMethod("boott")
+}
+
+#' @export
+boott.do.data.frame <- function( object, level = 0.95, ... ) {
+  lz <- attr(object, "lazy")
+  if ( ! lz$expr[[1]] == "favstats") stop( "Invalid object." )
+  if (base::max(object$.row) > 2) stop("Too many groups.")
+ 
+  estimate <- extract_estimate(object)$mean
+  
+  if (max(object$.row) == 1) {
+    parm <- "mean"
+    Boot <-
+      object %>%
+      mutate(estimate.star = mean, SE.star = sd / n, 
+             t = (estimate.star - mean(estimate.star)) / SE.star)
+  } 
+  
+  if (max(object$.row) == 2) {
+    parm <- "diffmean"
+    Boot <-
+      object %>%
+      group_by(.index) %>%
+      summarise(estimate.star = - diff(mean), SE.star = sqrt( sum( sd^2/ n))) %>% 
+      mutate(t = (estimate.star - mean(estimate.star)) / SE.star)
+    estimate <- - diff(estimate)
+  }
+  
+  q <- cdata( ~ t, level, data = Boot)
+  res <-
+    data.frame(
+      name = parm,
+      estimate = estimate,
+      lower = estimate - q[2] * sd(~ estimate.star, data = Boot),
+      upper = estimate - q[1] * sd(~ estimate.star, data = Boot),
+      level = level,
+      method = "bootstrap-t"
+    )
+  row.names(res) <- NULL
+  as.data.frame(res)
 }
