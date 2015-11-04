@@ -26,9 +26,9 @@
 #' plotFun(f(height) ~ height, add=TRUE)
 #'
 #' if (require(mosaicData)) {
-#' g <- fitSpline( height ~ weight, Heightweight, type='natural', df=5 )
-#' h <- fitSpline( height ~ weight, Heightweight, type='linear', df=5 )
-#' xyplot( height ~ weight, Heightweight, col='gray70', pch=16)
+#' g <- fitSpline( length ~ width, data = KidsFeet, type='natural', df=5 )
+#' h <- fitSpline( length ~ width, data = KidsFeet, type='linear', df=5 )
+#' xyplot( length ~ width, data = KidsFeet, col='gray70', pch=16)
 #' plotFun(g, add=TRUE, col='navy')
 #' plotFun(h, add=TRUE, col='red')
 #' }
