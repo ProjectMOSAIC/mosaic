@@ -25,30 +25,28 @@ pdata_v(x, q, lower.tail = TRUE, ...)
 
 pdata_f(x, ..., data = NULL, groups = NULL, na.rm = TRUE)
 
-rdata_v(vals, n, replace = TRUE, ...)
+rdata_v(x, n, replace = TRUE, ...)
 
 rdata_f(x, ..., data = NULL, groups = NULL, na.rm = TRUE)
 
-ddata_v(vals, q, ..., data = NULL, log = FALSE, na.rm = TRUE)
+ddata_v(x, q, ..., data = NULL, log = FALSE, na.rm = TRUE)
 
 ddata_f(x, ..., data = NULL, groups = NULL, na.rm = TRUE)
 }
 \arguments{
-\item{x}{an object}
+\item{x}{a vector containing the data}
 
 \item{p}{a vector of probabilities}
 
 \item{na.rm}{a logical indicating whether \code{NA}s should be removed before computing.}
 
-\item{data}{a data frame in which to evaluate vals}
+\item{data}{a data frame in which to evaluate \code{formula}}
 
 \item{groups}{a grouping variable, typically the name of a variable in \code{data}}
 
 \item{q}{a vector of quantiles}
 
 \item{lower.tail}{a logical indicating whether to use the lower or upper tail probability}
-
-\item{vals}{a vector containing the data}
 
 \item{n}{number of values to sample}
 

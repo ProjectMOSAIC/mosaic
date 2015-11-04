@@ -16,14 +16,14 @@ pdata(formula, q, data = NULL, ...)
 
 rdata(formula, n, data = NULL, ...)
 
-ddata(q, vals, data = NULL, ...)
+ddata(formula, q, data = NULL, ...)
 }
 \arguments{
 \item{formula}{a formula or a vector}
 
 \item{p}{a vector of probabilities}
 
-\item{data}{a data frame in which to evaluate vals}
+\item{data}{a data frame in which to evaluate \code{formula}}
 
 \item{q}{a vector of quantiles}
 
@@ -39,7 +39,7 @@ upper and lower limits and the central proportion requested
 
 For \code{pdata}, a vector of probabilities
 
-For \code{rdata}, a vector of values sampled from \code{vals}
+For \code{rdata}, a vector of sampled values.
 
 For \code{ddata}, a vector of probabilities (empirical densities)
 }

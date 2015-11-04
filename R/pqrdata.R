@@ -9,7 +9,7 @@
 #' @param p a vector of probabilities
 #' @param q a vector of quantiles
 #' @param formula a formula or a vector
-#' @param data a data frame in which to evaluate vals
+#' @param data a data frame in which to evaluate \code{formula}
 #' @param \dots additional arguments passed to \code{quantile} or \code{sample}
 #' @return For \code{qdata}, a vector of quantiles
 #' @examples
@@ -43,8 +43,8 @@ qdata <- function( formula, p = seq(0, 1, 0.25), data = NULL, ...) {
 #' \code{\link{rdata}}, \code{\link{cdata}}
 #' @param p a vector of probabilities
 #' @param q a vector of quantiles
-#' @param vals a vector containing the data
-#' @param data a data frame in which to evaluate vals
+#' @param x a vector containing the data
+#' @param data a data frame in which to evaluate \code{formula}
 #' @param n number of values to sample
 #' @param replace  a logical indicating whether to sample with replacement
 #' @param groups a grouping variable, typically the name of a variable in \code{data}
@@ -136,7 +136,6 @@ pdata <- function (formula, q, data = NULL, ...)
 
 
 
-#' @param x an object
 #' @param lower.tail a logical indicating whether to use the lower or upper tail probability
 #' @rdname pqrdata2
 #' @export
@@ -161,7 +160,7 @@ pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 
 #' @rdname pqrdata
 #' @param n number of values to sample
-#' @return For \code{rdata}, a vector of values sampled from \code{vals} 
+#' @return For \code{rdata}, a vector of sampled values.
 #' @examples
 #' data(iris)
 #' rdata(iris$Species, 10)
@@ -185,8 +184,8 @@ rdata <- function (formula, n, data = NULL, ...)
 #' @rdname pqrdata2
 #' @export
 
-rdata_v <- function(vals, n, replace=TRUE, ... ) {
-  sample( vals, n, replace=replace, ...)
+rdata_v <- function(x, n, replace=TRUE, ... ) {
+  sample( x, n, replace=replace, ...)
 }
 
 #' @rdname pqrdata2
@@ -203,9 +202,9 @@ rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' ddata(~Species, 'setosa', data=iris)
 #' @export
 
-ddata <- function (q, vals, data = NULL, ...) 
+ddata <- function (formula, q, data = NULL, ...) 
 {
-  vals_call <- substitute(vals)
+  vals_call <- substitute(formula)
   args <- eval(substitute(alist(vals_call, ...)))
   args[["q"]] <- q
   args[["data"]] <- data
@@ -215,9 +214,9 @@ ddata <- function (q, vals, data = NULL, ...)
 #' @rdname pqrdata2
 #' @export
 
-ddata_v <- function(vals, q, ..., data=NULL, log=FALSE, na.rm=TRUE) {
+ddata_v <- function(x, q, ..., data=NULL, log=FALSE, na.rm=TRUE) {
   if( !is.null(data) ) {
-    vals = eval( substitute(vals), data, enclos=parent.frame())
+    vals = eval( substitute(x), data, enclos=parent.frame())
   }
   n <- sum( ! is.na(vals) )
   probs <- sapply(q, function(x) { sum( vals == x, na.rm=na.rm) / n } )
