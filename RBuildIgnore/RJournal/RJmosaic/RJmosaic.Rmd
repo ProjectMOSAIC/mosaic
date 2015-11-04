@@ -357,7 +357,7 @@ use the resulting distribution) while hiding some of the technical details
 involved in creating loops and accumulating values.
 
 As a first example, we often introduce the story of the lady tasting tea.  (See
-\cite{LadyTastingTea} for the details of this famous story.)  But here we will
+\cite{Salsburg:2002} for the details of this famous story.)  But here we will
 test a coin to see whether it is a "fair coin".  Suppose we flip the coin 20 times
 and observe only 6 heads, how suspicious should we be that the coin is not fair?
 The statistical punchline for either the lady tasting tea or testing a coin 
