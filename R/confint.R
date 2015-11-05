@@ -1,3 +1,5 @@
+utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
+                       
 #' Confidence interval methods for output of resampling
 #' 
 #' Methods for \code{confint} to compute confidence intervals
