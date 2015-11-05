@@ -686,11 +686,27 @@ and independently exercise computational and statistical creativity.
 
 ## Challenges of using R in introductory courses
 
+But using R is not without some challenges.  The first challenge is to get all of the students
+up and running with R.  The use of an RStudio server allows an institution
+or instructor to install and configure R and its packages and students to work within a web 
+browser, essentially eliminating the start-up costs for the students.  Otherwise, instructors
+must assist students as they navigate installation of R and whichever additional packages
+are required.  
+
+Once students have access to R, the \CRANpkg{mosaic} packages reduces, but does not eliminate,
+the amount of syntax students need to learn.  Emphasizing the similarity among commands 
+within a template, reminding students that R is case sensitive, taking advantage of short cuts
+like tab completion and code history navigation, and explicitly teaching students
+how to interpret some of the most common R error messages go a long way toward smoothing
+the transition to a command line interface that is not as forgiving as Google search, which 
+may be many students' only other experience with a command line interface.
+
+For a course intended purely to provide statistical literacy, other options that 
 
 
 ## Better bootstrap confidence intervals
 
-An improvementon to the "t with bootstrap standard error" interval is the bootstrap-t interval.
+One improvement on to the "t with bootstrap standard error" interval is the bootstrap-t interval.
 Rather than attempting to determine the best degrees of freedom for a Student's t-distribution, 
 the bootstrap-t approximates the actual distribution of 
 $$
@@ -716,9 +732,31 @@ are more appropriate for situations where speed and accuracy are of utmost impor
 But the bootstrap-t confidence interval can be computed using `confint()`, `do()` and `favstats()`
 in the case of estimating a single mean or the difference between two means.
 
+In the example below, we consider the variable `i1` the average number of drinks (standard units)
+consumed per day for the 30 days prior to joining the HELP study.  This variable has 
+a skewed distribution.
+
 ```{r}
-BootT <- do(1000) * favstats(age ~ sex, data = resample(HELPrct, groups = sex))
-confint(BootT, method = "boot")
+densityplot( ~ i1, data = HELPrct)
+```
+
+```{r}
+BootT1 <- do(1000) * favstats(~ i1, data = resample(HELPrct))
+confint(BootT1, method = "boot")
+BootT2 <- do(1000) * favstats(i1 ~ sex, data = resample(HELPrct, groups = sex))
+confint(BootT2, method = "boot")
+```
+\noindent
+This can also be accomplished manually, although the computations are little bit involved
+for the 2-sample case.  Here are the manual computations for the 1-sample case:
+```{r}
+estimate <- mean( ~i1, data = HELPrct); estimate
+SE <- sd( ~ mean, data = BootT1); SE
+T <- with(BootT1, (mean - mean(mean)) / (sd/sqrt(n)))
+densityplot(~T)
+plotDist("norm", add = TRUE, col="gray50")
+q <- quantile(T, c(0.975, 0.025)); q
+estimate - q * SE
 ```
 
 ## Efficiency Issues
@@ -768,6 +806,7 @@ microbenchmark::microbenchmark( times = 50,
 )
 
 library(parallel)
+options(`mosaic:parallelMessage` = FALSE)
 microbenchmark::microbenchmark( times = 50,
   do = do(500) * diffmean( age ~ shuffle(sex), data = HELPrct),
   replicate = replicate(500, diffmean( age ~ shuffle(sex), data = HELPrct))
