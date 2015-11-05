@@ -216,7 +216,9 @@ ddata <- function (formula, q, data = NULL, ...)
 
 ddata_v <- function(x, q, ..., data=NULL, log=FALSE, na.rm=TRUE) {
   if( !is.null(data) ) {
-    vals = eval( substitute(x), data, enclos=parent.frame())
+    vals <- eval( substitute(x), data, enclos=parent.frame())
+  } else {
+    vals <- eval(substitute(x), parent.frame())
   }
   n <- sum( ! is.na(vals) )
   probs <- sapply(q, function(x) { sum( vals == x, na.rm=na.rm) / n } )
