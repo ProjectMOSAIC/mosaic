@@ -23,5 +23,5 @@ n_missing <- function( ..., type = c("any", "all")) {
   M <- cbind(...)
   base::sum(
     apply(M, 1, function(x) do.call(type, list(is.na(x)))), 
-          na.rm = TRUE)
+    na.rm = TRUE)
 }
