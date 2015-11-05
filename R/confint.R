@@ -317,7 +317,7 @@ boott_bootstrap_ci <- function( x, se, ..., level = 0.95, estimate ) {
   alpha <- (1-level)/2
   t <- (x - mean(x)) / se
   q <- stats::quantile(t, c(hi = 1 - alpha, lo=alpha), na.rm = TRUE)
-  as.vector(mean(x, na.rm = TRUE) - q * SE)
+  as.vector( estimate - q * SE)
 }
 
 
@@ -363,7 +363,7 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
     parm <- "mean"
     Boot <-
       object %>%
-      mutate(estimate.star = mean, SE.star = sd / n, 
+      mutate(estimate.star = mean, SE.star = sd / sqrt(n), 
              t = (estimate.star - mean(estimate.star)) / SE.star)
   } 
   
@@ -372,9 +372,9 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
     Boot <-
       object %>%
       group_by(.index) %>%
-      summarise(estimate.star = - diff(mean), SE.star = sqrt( sum( sd^2/ n))) %>% 
+      summarise(estimate.star = diff(mean), SE.star = sqrt( sum( sd^2/ n))) %>% 
       mutate(t = (estimate.star - mean(estimate.star)) / SE.star)
-    estimate <- - diff(estimate)
+    estimate <- diff(estimate)
   }
   
   q <- cdata( ~ t, level, data = Boot)
