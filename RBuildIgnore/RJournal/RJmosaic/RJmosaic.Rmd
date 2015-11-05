@@ -796,15 +796,17 @@ microbenchmark::microbenchmark(
 Similarly, using `do()` comes at a price, although here the price has more to do with 
 the extra work involved in culling the objects and reformatting the results.  The looping
 itself is as fast as using `replicate()` -- indeed the underlying code is very similar.  
-Furthermore, `do()` can take advantages of multiple cores if the \CRANpkg{parallel} package 
-is attached.
 
 ```{r}
 microbenchmark::microbenchmark( times = 50,
   do = do(500) * diffmean( age ~ shuffle(sex), data = HELPrct),
   replicate = replicate(500, diffmean( age ~ shuffle(sex), data = HELPrct))
 )
-
+```
+\noindent
+Furthermore, `do()` can take advantages of multiple cores if the \CRANpkg{parallel} package 
+is attached.  Even on a laptop with a single quad-core processor, the speed-up is noticible.
+```{r}
 library(parallel)
 options(`mosaic:parallelMessage` = FALSE)
 microbenchmark::microbenchmark( times = 50,
