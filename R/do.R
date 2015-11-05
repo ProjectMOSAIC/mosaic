@@ -529,9 +529,8 @@ setMethod(
     
     resultsList <- if( e1@parallel && "package:parallel" %in% search() ) {
       if (getOption("mosaic:parallelMessage", TRUE)) {
-        message("Using parallel package.\n",
-                "  * Set seed with set.rseed().\n", 
-                "  * Disable this message with options(`mosaic:parallelMessage` = FALSE)\n")
+        message("Using parallel package.  Set seed with set.rseed().\n")
+        options(`mosaic:parallelMessage` = FALSE)
       }
       parallel::mclapply( integer(n), function(...) { cull(lazyeval::lazy_eval(e2_lazy)) } )
     } else {
