@@ -808,7 +808,7 @@ Furthermore, `do()` can take advantages of multiple cores if the \CRANpkg{parall
 is attached.  Even on a laptop with a single quad-core processor, the speed-up is noticible.
 ```{r}
 library(parallel)
-options(`mosaic:parallelMessage` = FALSE)
+options("mosaic:parallelMessage" = FALSE)
 microbenchmark::microbenchmark( times = 50,
   do = do(500) * diffmean( age ~ shuffle(sex), data = HELPrct),
   replicate = replicate(500, diffmean( age ~ shuffle(sex), data = HELPrct))
