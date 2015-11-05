@@ -701,12 +701,20 @@ how to interpret some of the most common R error messages go a long way toward s
 the transition to a command line interface that is not as forgiving as Google search, which 
 may be many students' only other experience with a command line interface.
 
-For a course intended purely to provide statistical literacy, other options that 
+In our experience, the most commonly occuring issues for students using \CRANpkg{mosaic}
+are
 
+  * thing #1
+  * thing #2
+  * thing #3
+  
 
 ## Better bootstrap confidence intervals
 
-One improvement on to the "t with bootstrap standard error" interval is the bootstrap-t interval.
+The percentile and "t with bootstrap standard error" confidence intervals have been 
+improved upon in a number of ways.  We generally do little more than mention this fact
+to students in a first course.
+One improvement is the bootstrap-t interval.
 Rather than attempting to determine the best degrees of freedom for a Student's t-distribution, 
 the bootstrap-t approximates the actual distribution of 
 $$
@@ -734,7 +742,7 @@ in the case of estimating a single mean or the difference between two means.
 
 In the example below, we consider the variable `i1` the average number of drinks (standard units)
 consumed per day for the 30 days prior to joining the HELP study.  This variable has 
-a skewed distribution.
+a skewed distribution and so highlights the differences between the methods.
 
 ```{r}
 densityplot( ~ i1, data = HELPrct)
@@ -749,7 +757,7 @@ confint(BootT2, method = "boot")
 \noindent
 This can also be accomplished manually, although the computations are little bit involved
 for the 2-sample case.  Here are the manual computations for the 1-sample case:
-```{r}
+```{r, fig.keep = "last"}
 estimate <- mean( ~i1, data = HELPrct); estimate
 SE <- sd( ~ mean, data = BootT1); SE
 T <- with(BootT1, (mean - mean(mean)) / (sd/sqrt(n)))
