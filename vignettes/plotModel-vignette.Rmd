@@ -66,6 +66,10 @@ plotModel(mod, mpg ~ wt | factor(cyl))
 ## ggplot2
 
 ```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+```{r}
 mod <- lm( mpg ~ factor(cyl), data = mtcars)
 plotModel(mod, system="g")
 
