@@ -47,8 +47,8 @@ inspect.factor <- function(object, ...) {
   data_frame(
     class = head(class(object),1),
     levels = length(levels(object)),
+    n = length(object) - n_missing(object),
     missing = n_missing(object),
-    n = length(object) - missing,
     distribution = popular
   )
 }
@@ -61,8 +61,8 @@ inspect.POSIXt <- function(object, ...) {
     last = max(object),
     min_diff = min(diff(sort(object))),
     max_diff = max(diff(sort(object))),
-    missing = n_missing(object),
-    n = length(object) - missing
+    n = length(object) - n_missing(object),
+    missing = n_missing(object)
   )
 }
 
