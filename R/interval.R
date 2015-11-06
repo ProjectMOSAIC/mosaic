@@ -48,13 +48,17 @@ confint.htest <- function (object, parm, level, ...){
 	  cat( format(object$estimate, getOption('digits',3)) )
 	  cat( paste("\n", lev * 100, "% confidence interval: ", sep = "") )
 	  cat( paste(format(as.vector(int), getOption('digits',3)), collapse=" ") )
-  	  return(invisible(int))
   }
   interv <- as.vector(int) 
   names(interv) <- c('lower','upper')
   level <- c(level=lev)
   int <- c(object$estimate, interv, level )
-  return(int)
+  int <- data_frame(object$estimate, interv[1], interv[2], level) %>% as.data.frame()
+  names(int) <- c(names(object$estimate), "lower", "upper", "level")
+  if (verbose) 
+    invisible(int) 
+  else 
+    int
 }
 
 #' @rdname interval
