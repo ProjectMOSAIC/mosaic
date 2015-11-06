@@ -6,6 +6,7 @@
  so that the formula comes first.
  * The print method for objects created by `rflip()` has been improved.
  * Bug fix in `dfapply()`, also default value for `select` changed to `TRUE`.
+ * Introduce `inspect()`, which is primarily intended to give an over view of the variables in a data frame, but handles some additional objects as well.
   
 ## mosaic 0.12
 
