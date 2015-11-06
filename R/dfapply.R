@@ -16,12 +16,13 @@
 #' @examples
 #' dfapply(iris, favstats)
 #' if (require(mosaicData)) {
-#' dfapply(HELPrct, table, select=is.factor)
+#'   dfapply(HELPrct, table, select=is.factor)
+#'   do.call(rbind, dfapply(HELPrct, favstats, select=is.numeric))
 #' }
 #' @export
 
 dfapply <-
-function (data, FUN, select = is.numeric, ...) 
+function (data, FUN, select = TRUE, ...) 
 {
     if (is.function(select)) {
         select <- sapply(data, select)

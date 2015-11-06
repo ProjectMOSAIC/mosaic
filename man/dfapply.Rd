@@ -4,7 +4,7 @@
 \alias{dfapply}
 \title{apply-type function for data frames}
 \usage{
-dfapply(data, FUN, select = is.numeric, ...)
+dfapply(data, FUN, select = TRUE, ...)
 }
 \arguments{
 \item{data}{data frame}
@@ -21,7 +21,8 @@ An \code{apply}-type function for data frames.
 \examples{
 dfapply(iris, favstats)
 if (require(mosaicData)) {
-dfapply(HELPrct, table, select=is.factor)
+  dfapply(HELPrct, table, select=is.factor)
+  do.call(rbind, dfapply(HELPrct, favstats, select=is.numeric))
 }
 }
 \seealso{

@@ -5,6 +5,7 @@
  * Arguments to `cdata()`, `ddata()`, `pdata()`, `qdata()` and `rdata()` have been reordered 
  so that the formula comes first.
  * The print method for objects created by `rflip()` has been improved.
+ * Bug fix in `dfapply()`, also default value for `select` changed to `TRUE`.
   
 ## mosaic 0.12
 
