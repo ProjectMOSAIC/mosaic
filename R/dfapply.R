@@ -33,5 +33,5 @@ function (data, FUN, select = is.numeric, ...)
     if (!is.numeric(select)) {
         stop("Unusable selection parameter.")
     }
-    apply(data[, select, drop = F], 2, FUN, ...)
+    lapply(data[, select, drop = F], FUN, ...)
 }
