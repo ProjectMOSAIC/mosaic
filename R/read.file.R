@@ -40,6 +40,8 @@
 #' Otherwise, \code{\link{read.table}} is used.
 #' @param package if specified, files will be searched for among the documentation
 #' files provided by the package.
+#' @param stringsAsFactors a logical indicating whether strings should be converted to factors.
+#'   This has no affect when using \code{readr}.
 #' 
 #' @return A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
 #' in which  case arbitrary objects may be loaded and a character vector
@@ -60,6 +62,7 @@ read.file <-
 function (file, header = T, na.strings = "NA",
     comment.char = NULL, 
     filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"), 
+    stringsAsFactors = FALSE,
     readr = FALSE,
     package=NULL, ...) 
 {
@@ -119,7 +122,7 @@ function (file, header = T, na.strings = "NA",
       } else {
         message("Reading data with read.csv()")
         return(read.csv(file, header=header, na.strings = na.strings, 
-                        stringsAsFactors = FALSE, ...))
+                        stringsAsFactors = stringsAsFactors, ...))
       }
     }
     
@@ -142,6 +145,6 @@ function (file, header = T, na.strings = "NA",
     # fall through to read.table() for any other file format.
     message("Reading data with read.table()")
     return(
-      read.table(file, header = header, na.strings = na.strings, stringsAsFactors=FALSE,...)
+      read.table(file, header = header, na.strings = na.strings, stringsAsFactors=stringsAsFactors,...)
     )
 }

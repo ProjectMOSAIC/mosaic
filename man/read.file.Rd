@@ -6,7 +6,7 @@
 \usage{
 read.file(file, header = T, na.strings = "NA", comment.char = NULL,
   filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"),
-  readr = FALSE, package = NULL, ...)
+  stringsAsFactors = FALSE, readr = FALSE, package = NULL, ...)
 }
 \arguments{
 \item{file}{character:
@@ -28,6 +28,9 @@ off the interpretation of comments altogether.}
 \item{filetype}{one of \code{"default"}, \code{"csv"}, \code{"txt"}, or \code{"rdata"}
 indicating the type of file being loaded.  The default is to use the filename
 to guess the type of file.}
+
+\item{stringsAsFactors}{a logical indicating whether strings should be converted to factors.
+  This has no affect when using \code{readr}.}
 
 \item{readr}{a logical indicating whether functions from the \code{readr} package should be
   used, if available.}
