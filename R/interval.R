@@ -53,7 +53,9 @@ confint.htest <- function (object, parm, level, ...){
   names(interv) <- c('lower','upper')
   level <- c(level=lev)
   int <- c(object$estimate, interv, level )
-  int <- data_frame(object$estimate, interv[1], interv[2], level) %>% as.data.frame()
+  int <- 
+    as.data.frame(
+      matrix(nrow = 1, c(object$estimate, lower = interv[1], upper = interv[2], level = level)))
   names(int) <- c(names(object$estimate), "lower", "upper", "level")
   if (verbose) 
     invisible(int) 
