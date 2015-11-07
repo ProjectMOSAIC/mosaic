@@ -23,13 +23,14 @@
 #' indicating the type of file being loaded.  The default is to use the filename
 #' to guess the type of file.
 #' 
+#' @param readr a logical indicating whether functions from the \code{readr} package should be
+#'   used, if available.
+#' 
 #' @param \dots  additional arguments passed on to 
 #'   \code{\link{read.table}}, or \code{\link{load}} or one of the functions
 #'   in the \code{readr} package.  Note that a message will indicate which 
 #'   underlying function is being used.
 #'   
-#' 
-#' 
 #' @details
 #' Unless \code{filetype} is specified,
 #' \code{read.file} uses the (case insensitive) file extension to determine how to read
@@ -43,8 +44,8 @@
 #' @return A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
 #' in which  case arbitrary objects may be loaded and a character vector
 #' holding the names of the loaded objects is returned invisibly.
-#' @seealso \code{\link[readr]{read_table}}, 
-#' \code{\link[readr]{read_csv}}, 
+#' @seealso \code{\link{read.csv}}, \code{\link{read.table}}, 
+#' \code{\link[readr]{read_table}}, \code{\link[readr]{read_csv}}, 
 #' \code{\link{load}}.
 #' 
 #' @keywords util 
@@ -57,11 +58,14 @@
 
 read.file <-
 function (file, header = T, na.strings = "NA",
-    comment.char = NULL, filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"), 
+    comment.char = NULL, 
+    filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"), 
+    readr = FALSE,
     package=NULL, ...) 
 {
-  
+    readr_available <- readr && requireNamespace("readr")
     using_readr <- FALSE
+    
     if (!is.null(package)) {
       file <- docFile(file, package=package, character.only=TRUE)
     }
@@ -98,6 +102,8 @@ function (file, header = T, na.strings = "NA",
       using_readr <- FALSE
     }
     
+    using_readr <- using_readr && readr_available
+    
     if (using_readr) { 
       if (! is.null(comment.char)) message("comment.char is currently being ignored.")
       if (length(na.strings) > 1) {
@@ -117,12 +123,12 @@ function (file, header = T, na.strings = "NA",
       }
     }
     
-    if (filetype == "fw") {
+    if (filetype == "fw" && readr_available) {
       message("Reading data with readr::read_table()")
       return(as.data.frame(readr::read_table(file, col_names = header, na = na.strings, ...)))
     }
     
-    if (filetype == "tsv") {
+    if (filetype == "tsv" && readr_available) {
       message("Reading data with readr::read_tsv()")
       return(as.data.frame(readr::read_tsv(file, col_names = header, na = na.strings, ...)))
     }

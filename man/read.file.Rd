@@ -6,7 +6,7 @@
 \usage{
 read.file(file, header = T, na.strings = "NA", comment.char = NULL,
   filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"),
-  package = NULL, ...)
+  readr = FALSE, package = NULL, ...)
 }
 \arguments{
 \item{file}{character:
@@ -28,6 +28,9 @@ off the interpretation of comments altogether.}
 \item{filetype}{one of \code{"default"}, \code{"csv"}, \code{"txt"}, or \code{"rdata"}
 indicating the type of file being loaded.  The default is to use the filename
 to guess the type of file.}
+
+\item{readr}{a logical indicating whether functions from the \code{readr} package should be
+  used, if available.}
 
 \item{package}{if specified, files will be searched for among the documentation
 files provided by the package.}
@@ -60,8 +63,8 @@ Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
 Mustangs <- read.file("MustangPrice.csv", package="mosaic")
 }
 \seealso{
-\code{\link[readr]{read_table}},
-\code{\link[readr]{read_csv}},
+\code{\link{read.csv}}, \code{\link{read.table}},
+\code{\link[readr]{read_table}}, \code{\link[readr]{read_csv}},
 \code{\link{load}}.
 }
 \keyword{util}
