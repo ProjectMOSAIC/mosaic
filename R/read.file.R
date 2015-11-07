@@ -131,9 +131,14 @@ function (file, header = T, na.strings = "NA",
       return(as.data.frame(readr::read_table(file, col_names = header, na = na.strings, ...)))
     }
     
-    if (filetype == "tsv" && readr_available) {
-      message("Reading data with readr::read_tsv()")
-      return(as.data.frame(readr::read_tsv(file, col_names = header, na = na.strings, ...)))
+    if (filetype == "tsv") {
+      if (using_readr) {
+        message("Reading data with readr::read_tsv()")
+        return(as.data.frame(readr::read_tsv(file, col_names = header, na = na.strings, ...)))
+      } else {
+        message("Reading data with read.delim()")
+        return(read.delim(file, header = header, na = na.strings, ...))
+      }
     }
     
     if (filetype == "rdata") {
