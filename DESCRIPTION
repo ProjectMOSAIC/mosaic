@@ -7,7 +7,7 @@ Depends:
     R (>= 3.0.0),
     dplyr,
     lattice (>= 0.20-21),
-    ggplot2, 
+    ggplot2,
     car,
     mosaicData
 Imports:
@@ -24,7 +24,7 @@ Imports:
     gridExtra
 Suggests:
     lubridate,
-    fastR, 
+    fastR,
     magrittr,
     NHANES,
     RCurl,
@@ -52,3 +52,4 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
+RoxygenNote: 5.0.1

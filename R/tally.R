@@ -87,9 +87,22 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ link, data=HELPrct, useNA="no")
 #' }
 #' @export
-
+#' 
 tally <- function(x, ...) {
-  UseMethod("tally")
+  lx <- lazyeval::lazy(x)
+  tryCatch(tally_internal(x, ...), error = function(e) { 
+    message( "First argument should be a formula... But I'll try to guess what you meant")
+    form <- substitute( ~ X, list(X = lx$expr))
+    class(form) <- "formula"
+    environment(form) <- lx$env
+    tally_internal(form, ...)
+  })
+} 
+#' 
+#' @rdname tally
+
+tally_internal <- function(x, ...) {
+  UseMethod("tally_internal")
 }
 
 #' @rdname tally
@@ -97,9 +110,8 @@ tally <- function(x, ...) {
 #'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
 #' @param sort a logical, 
 #'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
-#' @export
 
-tally.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
+tally_internal.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
   if (missing(wt)) {
     return(do.call(dplyr::tally, list(x, sort=sort), envir=envir))
   } else {
@@ -108,24 +120,24 @@ tally.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
 }
 
 #' @rdname tally
-#' @export
 
-tally.default <- function(x, data=parent.frame(), 
+tally_internal.data.frame <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
+  if (missing(wt)) {
+    return(do.call(dplyr::tally, list(x, sort=sort), envir=envir))
+  } else {
+    return(do.call(dplyr::tally, list(x, wt=substitute(wt), sort=sort), envir=envir))
+  }
+}
+
+#' @rdname tally
+
+tally_internal.formula <- function(x, data=parent.frame(), 
                       format=c('count', 'proportion', 'percent', 'data.frame', 'sparse', 'default'), 
                       margins=FALSE,
                       quiet=TRUE,
                       subset, 
                       useNA = "ifany", ...) {
-	format <- match.arg(format)
-  if (! .is.formula(x) ) {
-      formula <- ~ x
-      formula[[2]] <- substitute(x)
-      message( "First argument should be a formula... But I'll try to guess what you meant")
-      return(
-        do.call(mosaic::tally, list(formula, data=data, format=format, margins=margins, quiet=quiet, ...))
-      )  
-  }
-  
+ 	format <- match.arg(format)
 	formula <- x
 	evalF <- evalFormula(formula,data)
 
@@ -275,6 +287,10 @@ prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL,
 #' @export
 
 count <- function(x, data=parent.frame(), ..., format="count") {
+	prop(x, data=data, ..., format=format)
+}
+
+count_ <- function(x, data=parent.frame(), ..., format="count") {
 	prop(x, data=data, ..., format=format)
 }
 
