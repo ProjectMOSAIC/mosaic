@@ -21,7 +21,7 @@ author:
     - Amherst, MA 01002-5000
     email:  nhorton@amherst.edu
 abstract: >
-  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization,  modeling, and simulation based inference required in first and second courses in  statistics. This introduction to the package describes some of the guiding principles  behind the design of the package and provides illustrative examples of several of the most  important functions it implements.  These can be combined to help students  ``think with data" using R in their early course work,  starting with simple, yet powerful, declarative commands.
+  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization,  modeling, and simulation-based inference required in first and second courses in  statistics. This introduction to the package describes some of the guiding principles  behind the design of the package and provides illustrative examples of several of the most  important functions it implements.  These can be combined to help students  ``think with data" using R in their early course work,  starting with simple, yet powerful, declarative commands.
 
 
 preamble: >
@@ -108,7 +108,7 @@ xyplot(births ~ date, data = Births78)
 ```
 ```{r}
 bwplot(births ~ wday, data = Births78) 
-bwplot(wday ~ births, data = Births78)
+bwplot(wday ~ births, data = Births78, pch = "|")
 ```
 \noindent
 With the \CRANpkg{mosaic} package attached, the same template can be used to create 
@@ -119,11 +119,12 @@ sd(births ~ wday, data = Births78)
 favstats(births ~ wday, data = Births78)
 ```
 \noindent
-We introduced a `tally()` function for counting categorical variables.
+We introduced a `tally()` function for counting categorical variables.  Notice that in 
+final example, conditional proportions are calculated.
 ```{r}
 tally(sex ~ substance, data = HELPrct)
-tally(sex ~ substance, data = HELPrct, format = "proportion")
 tally(sex ~ substance, data = HELPrct, margins = TRUE)
+tally(sex ~ substance, data = HELPrct, margins = TRUE, format = "proportion")
 ```
 
 Formula interfaces are provided for 
@@ -423,6 +424,7 @@ Null.dist <- do(5000) * diffmean(age ~ shuffle(sex), data = HELPrct)
 histogram(~diffmean, data = Null.dist, v = D)
 prop( ~(diffmean < D), data = Null.dist, format = "prop")
 ```
+
 The example above introduces three additional \CRANpkg{mosaic} functions.
 `pval()` extracts the p-value from an object of class `"htest"`; 
 `prop()` computes the proportion of logical vector that is (by default) `TRUE` 
@@ -430,6 +432,14 @@ or of a factor that is (by default) the first label;
 and
 `diffmean()` is similar to `diff(mean()`, but labels the result differently.
 `diffprop()` works similarly for differences in proportions.
+
+It should be noted that one might prefer to calculate p-values by including the 
+observed data in the randomization distribution.  This avoids an emprical p-value of 0
+and guarantees that the actual type I error rate will not exceed the nominal type I error rate.
+```{r}
+count( ~ (diffmean < D), data = Null.dist)
+(1 + count( ~ (diffmean < D), data = Null.dist)) / (1 + nrow(Null.dist))  # p-value
+```
 
 If we are interested in a confidence interval for the difference in group means, we can use
 `resample()` and `do()` to generate a bootstrap distribution in one of two ways.
@@ -565,7 +575,7 @@ The `mplot()` function has two primary use cases:
 creating diagnostic plots for lm and glm objects, and
 interactively creating data visualizations using the variables in a data frame.
 Given an model object as its first argument, `mplot()` provides similar diagnostic plots to those
-produced via `plot()` but two primary differences: the user may select to use either \CRANpkg{lattice} or \CRANpkg{ggplot2} graphics insteado of base graphics, and an additional plot type is provided to visualize the 
+produced via `plot()` but two primary differences: the user may select to use either \CRANpkg{lattice} or \CRANpkg{ggplot2} graphics instead of base graphics, and an additional plot type is provided to visualize the 
 confidence intervals for the coefficients of the model.
 
 ```{r, results = "hide"}
@@ -601,7 +611,7 @@ plots using variables in a data frame.}
 \end{figure}
 
 \noindent
-The menu (see Figure~ref{fig:mplot}) allows the user to choose either \CRANpkg{lattice} or \CRANpkg{ggplot2}
+The menu (see Figure~\ref{fig:mplot}) allows the user to choose either \CRANpkg{lattice} or \CRANpkg{ggplot2}
 graphics, to select the type of plot and the variables used, and to control
 a few of the most commonly used features that modify a plot (faceting, color, legends,
 log-scaling, fitting a linear model or LOESS smoother).  The "show expression" button
@@ -693,7 +703,7 @@ browser, essentially eliminating the start-up costs for the students.  Otherwise
 must assist students as they navigate installation of R and whichever additional packages
 are required.  
 
-Once students have access to R, the \CRANpkg{mosaic} packages reduces, but does not eliminate,
+Once students have access to R, the \CRANpkg{mosaic} package reduces, but does not eliminate,
 the amount of syntax students need to learn.  Emphasizing the similarity among commands 
 within a template, reminding students that R is case sensitive, taking advantage of short cuts
 like tab completion and code history navigation, and explicitly teaching students
@@ -701,13 +711,65 @@ how to interpret some of the most common R error messages go a long way toward s
 the transition to a command line interface that is not as forgiving as Google search, which 
 may be many students' only other experience with a command line interface.
 
-In our experience, the most commonly occuring issues for students using \CRANpkg{mosaic}
+In our experience, the most commonly occuring struggles for students using \CRANpkg{mosaic}
 are
 
-  * thing #1
-  * thing #2
-  * thing #3
-  
+ 1. General axiety over typing commands.
+ 
+    Although students are very familiar with using computers and computerized devices like smart phones, 
+    many of them have little experience typing commands that require following syntax rules.  The 
+    "Less Volume, More Creativty" approach helps with this, by reducing the volume, but it remains
+    important to highlight repeatedly the similarities among commands and to help students learn to 
+    understand the most common error messages R produces so that they can quickly, easily, and comfortably
+    recover from innevitibale typing errors.  Even if a class does not typically meet in a computer laboratory
+    or invite students to bring laptops to class, it can be useful to arrange some sessions early in 
+    the course where students are using RStudio while someone is there to quickly help them when 
+    they get stuck.  Avoiding frustration in students' early experience with R goes a long way 
+    overcoming anxiety.
+    
+    As a bonus instructional method, the authors make frequent
+    typing mistakes in front of the class.  While we could not avoid this if we tried, it does serve to 
+    demonstrate both how to recover from errors and that nothing drastic has happened when an error 
+    message is displayed.
+    
+    One big advantage of the command line interface is that it is much easier to help students by email 
+    or in a discussion forum.  Encourage students to copy both their commands and the error messages or 
+    output that were produced.  We find students are much more capable of doing this than they are of 
+    correctly describing the chain of events they initiated in a menu-driven system.  (It is also much
+    easier to give detailed instructions and examples.)
+    
+ 2. Confusion over the tilde (`~`).
+ 
+    It is a small symbol, easily overlooked on the screen or on paper, so students
+    will sometimes omit it, or put it where it doesn't belong.  For several of our functions, 
+    we allow `x` in place of
+    `~ x` to help easy the pain of mistyping things.  But we recommend that
+    instructors teach the use of `~` in all situations.  A similar thing occurs
+    with `data = `, which is not required for the \CRANpkg{lattice} functions, but
+    is for several others.  Teaching the forms that work in all contexts is easier
+    than teaching which contexts allow which forms.
+ 
+ 3. Difficulty in setting up the R environment
+ 
+    This is all but eliminated when using and RStudio server, but in situations where instructors prefer
+    a local R installation for each student, there are often a few issues involved in getting all students
+    up and running.  Installation of R and RStudio is straightforward, but one should make sure that students
+    all have the latest version of each.  To use the \CRANpkg{mosaic} package, a number of additional packages
+    must be installed.  We recommend beginning with 
+```{r, eval = FALSE}
+update.packages()
+```
+or the eqivalent operation from the RStudio Packages tab to make sure all packages currently on the system
+are up to date.  In most cases,
+```{r, eval=FALSE}
+install.packages("mosaic")
+```
+(again, this can also be done via the Packages tab in RStudio) will take care of the rest.  But ocassionally
+some package will not install correctly on a particular student's computer. Installing that package
+directly rather than as part of the dependencies of \CRANpkg{mosaic} often solves this problem or at 
+least provides a useful diagnostic regarding what the problem might be.
+ 
+*Add/delete items here before final submission.* 
 
 ## Better bootstrap confidence intervals
 
