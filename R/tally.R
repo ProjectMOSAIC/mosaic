@@ -1,4 +1,5 @@
-
+#' Turn logicals into factors; leave other things alone
+#' 
 #' Turn logicals into factors; leave other things alone
 #'
 #' @param x a vector or data frame
@@ -14,6 +15,8 @@
 logical2factor  <- function(x, ...) { UseMethod('logical2factor') }
 
 #' @rdname logical2factor
+#' @export
+#' 
 logical2factor.default  <- function( x, ... ) {
 	if (is.logical(x)) {
 		x <- factor(x, levels=c(TRUE,FALSE), labels=c("TRUE","FALSE"))
