@@ -11,7 +11,9 @@ dfapply(data, FUN, select = TRUE, ...)
 
 \item{FUN}{a function to apply to (some) variables in the data frame}
 
-\item{select}{function used to select variables to which \code{FUN} is applied.  See examples.}
+\item{select}{a logical, character (naming variables), or numeric vector or a 
+function used to select variables to which \code{FUN} is applied.  If a function,
+it should take a vector as input and return a single logical. See examples.}
 
 \item{\dots}{arguments passed along to \code{FUN}}
 }
@@ -19,16 +21,18 @@ dfapply(data, FUN, select = TRUE, ...)
 An \code{apply}-type function for data frames.
 }
 \examples{
-dfapply(iris, favstats)
-if (require(mosaicData)) {
-  dfapply(HELPrct, table, select=is.factor)
-  do.call(rbind, dfapply(HELPrct, favstats, select=is.numeric))
-}
+dfapply(iris, favstats, select = is.numeric)
+dfapply(iris, favstats, select = c(TRUE, TRUE, FALSE, FALSE, FALSE))
+dfapply(iris, favstats, select = c(1,2))
+dfapply(iris, favstats, select = c("Sepal.Length", "Petal.Length"))
+dfapply(HELPrct, table, select = is.factor)
+do.call(rbind, dfapply(HELPrct, favstats, select = is.numeric))
 }
 \seealso{
 \code{\link{apply}},
 \code{\link{sapply}},
 \code{\link{tapply}},
-\code{\link{lapply}}
+\code{\link{lapply}},
+\code{\link{inspect}}
 }
 
