@@ -4,13 +4,14 @@
 #' get a quick overview of the variables in data frame.
 #' 
 #' @param object a data frame or a vector
-#' @param additional arguments passed along to methods
 #' @param max.level an integer giving the depth to which lists should be expanded
 #' @param digits and integer giving the number of digits to display
 #' @param select a logical, character (naming variables), or numeric vector or a 
 #'   function used to select variables to which \code{FUN} is applied.  If a function,
 #'   it should take a vector as input and return a single logical. See examples here and
 #'   at \code{link{dfapply}}.
+#' @param x an object
+#' @param ... additional arguments passed along to specific methods
 #'   
 #' @export
 #' @examples

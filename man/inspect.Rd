@@ -34,6 +34,8 @@ inspect(object, ...)
 \arguments{
 \item{object}{a data frame or a vector}
 
+\item{...}{additional arguments passed along to specific methods}
+
 \item{max.level}{an integer giving the depth to which lists should be expanded}
 
 \item{select}{a logical, character (naming variables), or numeric vector or a 
@@ -43,7 +45,7 @@ at \code{link{dfapply}}.}
 
 \item{digits}{and integer giving the number of digits to display}
 
-\item{additional}{arguments passed along to methods}
+\item{x}{an object}
 }
 \description{
 Print a short summary of the contents of an object.  Most useful as a way to
