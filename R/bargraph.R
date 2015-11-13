@@ -18,6 +18,8 @@
 #' will be evaluated within \code{data}.
 #' @param ylab a character vector of length one used for the y-axis label
 #' @param xlab a character vector of length one used for the x-axis label
+#' @param type one of \code{"frequency"}, \code{"count"}, \code{"percent"}, or \code{"proportion"}
+#'   indicating what type of scale to use.  Unique prefixes are sufficient.
 #' @return a trellis object describing the plot
 #' @seealso \code{\link[lattice]{barchart}}
 #' @details \code{bargraph(formula, data=data, ...)} works by creating a new data frame from \code{xtabs(formula, data=data)}
@@ -41,12 +43,14 @@
 #' @export
 
 bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0, 
-                     ylab=ifelse(horizontal,"","Frequency"), 
-                     xlab=ifelse(horizontal,"Frequency",""), 
+                     ylab=ifelse(horizontal,"", type), 
+                     xlab=ifelse(horizontal, type, ""), 
                      subset,
+                     type = c("count", "frequency", "proportion", "percent"),
                      ...) {
   haveGroups <- !missing(groups)
   sgroups <- substitute(groups)
+  type <- match.arg(type)
   
   # if ( .is.formula(x) ) formula <- x else formula <- paste("~", deparse(rhs(x)))
   formula <- paste("~", deparse(rhs(x)))
@@ -76,6 +80,12 @@ bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0,
 	  } else {
 		formula <- as.formula( paste(lastvar, " ~", deparse(rhs(x))) )
 	  }
+  }
+  if (type == "percent") {
+    xtab[[lastvar]] <- 100 * xtab[[lastvar]] / sum(xtab[[lastvar]], na.rm = TRUE)
+  }
+  if (type == "proportion") {
+    xtab[[lastvar]] <- xtab[[lastvar]] / sum(xtab[[lastvar]], na.rm = TRUE)
   }
   if (haveGroups)
     barchart( formula, data=xtab, groups=eval(sgroups), origin=origin, ylab=ylab, xlab=xlab, ... ) 
