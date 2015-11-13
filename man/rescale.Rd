@@ -9,25 +9,24 @@
 \alias{rescale.numeric}
 \title{Rescale}
 \usage{
-rescale(x, range, domain, ...)
+rescale(x, range, domain = NULL, ...)
 
-\method{rescale}{data.frame}(x, range = c(0, 1), domain, ...)
+\method{rescale}{data.frame}(x, range = c(0, 1), domain = NULL, ...)
 
-\method{rescale}{factor}(x, range, domain = range(1:nlevels(x)), ...)
+\method{rescale}{factor}(x, range, domain = NULL, ...)
 
-\method{rescale}{numeric}(x, range = c(0, 1), domain = range(x, na.rm =
-  TRUE), ...)
+\method{rescale}{numeric}(x, range = c(0, 1), domain = NULL, ...)
 
-\method{rescale}{default}(x, range = c(0, 1), domain, ...)
+\method{rescale}{default}(x, range = c(0, 1), domain = NULL, ...)
 
-\method{rescale}{character}(x, range = c(0, 1), domain, ...)
+\method{rescale}{character}(x, range = c(0, 1), domain = NULL, ...)
 }
 \arguments{
 \item{x}{an R object to rescale}
 
 \item{range}{a numeric vector of length 2}
 
-\item{domain}{a numeric vector of length 2}
+\item{domain}{a numeric vector of length 2 or \code{NULL}}
 
 \item{...}{additional arguments}
 }
