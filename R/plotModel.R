@@ -218,9 +218,15 @@ plotModel.parsedModel <-
       line_data[[key]] <- 
       rep(x_points, times = nrow(levels_shown))
     
-    line_data[["y"]] <- 
-      line_data[[x$responseName]] <- 
-      predict(x$model, newdata=line_data, type="response")
+    if (x$factorResponse) {
+      line_data[["y"]] <- 
+        line_data[[x$responseName]] <- 
+        1 + predict(x$model, newdata=line_data, type="response")
+    } else {
+      line_data[["y"]] <- 
+        line_data[[x$responseName]] <- 
+        predict(x$model, newdata=line_data, type="response")
+    }
     
     line_data <- 
       line_data %>%
@@ -369,7 +375,7 @@ parseModel <- function(x) {
   res$responseName <- as.character(lhs(terms(x)))
   res$numericNames <- names(which(x$varTypes == "continuous")) # , x$responseName)
   res$catNames <- names(which(x$varTypes == "discrete")) # , x$responseName)
-  
+  res$factorResponse <- is.factor(eval(lhs(terms(x)), res$data))
   class(res) <- c("parsedModel")
   return(res)
 }
