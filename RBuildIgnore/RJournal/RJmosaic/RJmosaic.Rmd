@@ -888,7 +888,7 @@ microbenchmark::microbenchmark( times = 50,
 # Acknowledgements
 
 Partial support for this work was provided by the National Science Foundation 
-DUE 0920350 (Project MOSAIC).
+DUE 0920350 (Project MOSAIC).  We thank Xiaofei (Susan) Wang for helpful comments and suggestions.
 
 ## More about R Journal submissions
 
