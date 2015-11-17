@@ -55,7 +55,12 @@ plotModel(mod)
 
 # GLM with interaction
 mod <- glm(vs ~ wt + factor(cyl), data=mtcars, family = 'binomial')
-plotModel(mod)
+plotModel(mod, jitter.y = TRUE)
+
+# GLM adjusted for factor response
+
+mod <- glm( sex ~ width, data = KidsFeet, family = binomial())
+plotModel(mod, jitter.y = TRUE)
 
 # facets
 mod <- lm(mpg ~ poly(wt,2) + factor(cyl) * factor(am), data=mtcars)
