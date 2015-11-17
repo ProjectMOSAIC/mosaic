@@ -93,12 +93,12 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' 
 tally <- function(x, ...) {
   lx <- lazyeval::lazy(x)
-  tryCatch(tally_internal(x, ...), error = function(e) { 
+  tryCatch(tally_internal(x, data = parent.frame(), ...), error = function(e) { 
     message( "First argument should be a formula... But I'll try to guess what you meant")
     form <- substitute( ~ X, list(X = lx$expr))
     class(form) <- "formula"
     environment(form) <- lx$env
-    tally_internal(form, ...)
+    tally_internal(form, data = data, ...)
   })
 } 
 #' 
@@ -190,6 +190,22 @@ tally_internal.formula <- function(x, data=parent.frame(),
 	return(res)
 }
 
+tally_internal.default <- 
+  function(x, format=c('count', 'proportion', 'percent', 'data.frame', 'sparse', 'default'), 
+           margins=FALSE,
+           quiet=TRUE,
+           subset, 
+           useNA = "ifany", 
+           data = parent.frame(),
+           ...) {
+    D <- data_frame(X = x)
+    tally_internal( 
+      ~ X, data = D, format = format, margins = margins, 
+      quiet = quiet, subset = subset, useNA = useNA,
+      ...)
+  }
+    
+  
 #' return a vector of row or column indices
 #'
 #' @param x an object that may or may not have any rows or columns
