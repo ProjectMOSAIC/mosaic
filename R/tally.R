@@ -98,7 +98,7 @@ tally <- function(x, ...) {
     form <- substitute( ~ X, list(X = lx$expr))
     class(form) <- "formula"
     environment(form) <- lx$env
-    tally_internal(form, data = data, ...)
+    tally_internal(form, ...)
   })
 } 
 #' 
@@ -134,7 +134,7 @@ tally_internal.data.frame <- function(x, wt, sort=FALSE, ..., envir=parent.frame
 
 #' @rdname tally
 
-tally_internal.formula <- function(x, data=parent.frame(), 
+tally_internal.formula <- function(x, data = parent.frame(), 
                       format=c('count', 'proportion', 'percent', 'data.frame', 'sparse', 'default'), 
                       margins=FALSE,
                       quiet=TRUE,
