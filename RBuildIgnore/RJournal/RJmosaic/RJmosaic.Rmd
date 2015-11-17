@@ -4,14 +4,16 @@ author:
   - name: Randall Pruim
     affiliation: Calvin College
     address:
+    - Department of Mathematics and Statistics
     - 3201 Burton St SE
     - Grand Rapids, MI 49546
     email:  rpruim@calvin.edu
   - name: Daniel T Kaplan
     affiliation: Macalester College
     address:
-    - address 1
-    - address 2
+    - Deptartment of Mathematics and Computer Science
+    - 1600 Grand Avenue 
+    - St. Paul, MN 55105 USA 
     email:  dtkaplan@macalester.edu
   - name: Nicholas J Horton
     affiliation: Amherst College
@@ -38,9 +40,10 @@ knitr::opts_chunk$set(
   cache=TRUE
 )
 options(digits = 3)
+options(width = 80)
 trellis.par.set(theme = col.mosaic())
 # trellis.par.set(fontsize = list(text=8, points = 5))
-set.seed(123)
+set.seed(1234)
 mytheme <- theme_minimal() 
 ```
 
@@ -119,8 +122,11 @@ sd(births ~ wday, data = Births78)
 favstats(births ~ wday, data = Births78)
 ```
 \noindent
-We introduced a `tally()` function for counting categorical variables.  Notice that in 
-final example, conditional proportions are calculated.
+We introduced a `tally()` function for counting categorical variables.  We illustrate 
+its use with another data set from \CRANpkg{mosaicData}:  `HELPrct` contains data from
+the Health Evaluation and Linkage to Primary care study, a clinical trial for adult 
+inpatients recruited from a detoxification unit. 
+Notice that in final example, conditional proportions are calculated.
 ```{r}
 tally(sex ~ substance, data = HELPrct)
 tally(sex ~ substance, data = HELPrct, margins = TRUE)
@@ -142,7 +148,7 @@ but we recommend introducing it in the context of two-variable plots and summari
 This is for several reasons: (1) two-variable plots and numerical summaries are more
 "impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
-that the most interesting parts of statistics involve more than one variable \cite{Wild:RSS:2011}
+that the most interesting parts of statistics involve more than one variable \citep{Wild:RSS:2011}
 and 
 (3) the formula syntax for a single variable makes more sense in the context of two-sided
 formulas that it does in isolation.
@@ -158,14 +164,22 @@ used to overlay multiple layers.
 xyplot(births ~ date, groups = wday, data = Births78, type = "l")
 densityplot( ~ births, groups = wday, data = Births78, auto.key=list(columns=3))
 densityplot( ~ age | sex, groups = substance, data = HELPrct)
+bwplot( age ~ substance | sex, data = HELPrct)
 ```
 
-For numerical summaries, these play the same role which allows us to compute 
-numerical summaries by changing the name of the plot into the name of the desired
-summary.
-```{r}
-mean( ~ age | sex, groups = substance, data = HELPrct)
+For numerical summaries the condition `z` and `groups` play essentially the same role, so
+each of the following produces an equivalent result.
+
+```{r, results = "hide"}
+mean( age ~ sex, data = HELPrct)
+mean( ~ age | sex, data = HELPrct)
 ```
+```{r}
+mean( ~ age, groups = sex, data = HELPrct)
+```
+\noindent
+This allows us to compute numerical summaries by replacing the name of the plot with 
+the name of the desired summary.
 
 The one-variable template can be obtained by removing the left-hand side from the formula
 in a two-variable template.
@@ -198,7 +212,7 @@ allows them to test conjectures using graphical and numerical summaries.
 Having learned the formula interface to graphical and numerical
 summaries early on, new users are well prepared for modeling with
 \code{lm()}, \code{glm()}, and various "test" functions such as
-`t.test()` when the time comes and they begin early to train their minds
+`t.test()` when the time comes, and they begin early to train their minds
 to ask questions of the form "How does this depend on that (and some other things)?". 
 
 By emphasizing the formula template, each of the following commands can be 
@@ -246,7 +260,10 @@ While creating the correct formula can produce some initial challenges for users
 clearly explaining the roles of each component for plotting, 
 for numerical summaries, and for model fitting helps demystify the situation. 
 We have also found that explicit, early, low-stakes assessment of student mastery
-of the formula interface greatly improves student performance (XX see sample quiz and study guide at XX).
+of the formula interface greatly improves student performance.  A first quiz
+consisting of a single item (What is the formula template?) followed by one or two
+simple pencil-and-paper quizzes asking students to write the commands to recreate
+a handful of numerical and graphical summaries suffices.
 
 
 ## Handling missing data
@@ -270,7 +287,7 @@ but also reports the number of missing values.
 favstats( ~ dayslink, data = HELPmiss)
 ```
 
-The second solution is to change the default behavior of `na.rm` using `options()`.  
+The second solution is to change the default behavior of `na.rm` using `options()`.
 This will, of course, only affect the \CRANpkg{mosaic} versions of these functions.
 ```{r}
 options(na.rm = TRUE)
@@ -284,6 +301,17 @@ Users also have the option of changing the default for `na.rm` back if they like
 options(na.rm = NULL)
 mean(~ dayslink, data = HELPmiss)
 ```
+
+## Inspecting a data frame
+
+Summaries of all variables in a data frame can be obtained using `inspect()`.  For quantitative 
+variables, the results of `favstats()` are displayed.  Other summaries are provided for 
+categorical and time variables.
+
+```{r}
+inspect(Births78)
+```
+
 
 ##  Creating and using functions
 
@@ -311,13 +339,13 @@ plotFun(dist(s) ~ s, add = TRUE)
 
 \noindent
 For logistic regression with factors, we need to adjust things slightly when plotting
-because the model functions returns values between 0 and 1, but 2-level factors are coded 
+because the model function returns values between 0 and 1, but 2-level factors are coded 
 as 1 and 2.
-```{r}
+```{r, fig.keep = "last"}
 Feet.mod <- glm(sex ~ width, data = KidsFeet, family = binomial)
 s <- makeFun(Feet.mod)
 s(width = 8.5)
-xyplot(sex ~ width, data = KidsFeet)
+xyplot(sex ~ width, data = KidsFeet, jitter.y = TRUE)
 plotFun(1 + s(w) ~ w, add = TRUE)
 ```
 
@@ -336,9 +364,12 @@ plotFun( mileage(w, cyl=6) ~ w, add = TRUE, col = 2)
 plotFun( mileage(w, cyl=8) ~ w, add = TRUE, col = 3)
 ```
 
-For many simple models, creating a plot can be even simpler
+For many simple models, creating a plot can be even simpler using
+`plotModel()`, which also eliminates the need to manually adjust
+logistic regression plots when the response is a factor.
 ```{r}
 plotModel(cars.mod)
+plotModel(Feet.mod, jitter.y = TRUE)
 ```
 
 \noindent
@@ -350,12 +381,14 @@ plotModel(mtcars.mod2, mpg ~ wt | factor(am))
 
 # Randomization and Resampling
 
-Resampling approaches have become increasingly important in statistical education (\cite{Tintle:TAS:2015})
+Resampling approaches have become increasingly important in statistical education \citep{Tintle:TAS:2015}.
 The \CRANpkg{mosaic} package  provides simplified functionality to support teaching inference
-based on randomization tests and bootstrap methods.  Our goals was to focus attention
+based on randomization tests and bootstrap methods.  Our goal was to focus attention
 on the important parts of these techniques (e.g., where randomness enters in and how to
 use the resulting distribution) while hiding some of the technical details
 involved in creating loops and accumulating values.
+
+## A first example
 
 As a first example, we often introduce the story of the lady tasting tea.  (See
 \cite{Salsburg:2002} for the details of this famous story.)  But here we will
@@ -364,10 +397,11 @@ and observe only 6 heads, how suspicious should we be that the coin is not fair?
 The statistical punchline for either the lady tasting tea or testing a coin 
 is that we want to compute the p-value for a binomial 
 test via simulations rather than using formulas for the binomial distribution or 
-normal approximations. This allows us to introduce this example on the first day of class.
+normal approximations. But we want to do this on the first day of class, and without
+using any of the terminology of the preceding sentence.
 
-Since students generally do not know about sampling distributions yet, but do understand the idea of a coin
-toss, we have provided `rflip()` to simulate tossing a coin one or several times:
+Because students do not know about sampling distributions yet, but do understand the idea 
+of a coin toss, we have provided `rflip()` to simulate tossing a coin one or several times:
 ```{r}
 rflip()
 rflip(20)
@@ -402,27 +436,31 @@ also adds some additional arguments to the `histogram()` function.)
 ## sample(), resample(), and shuffle()
 
 To facilitate randomization and bootstrapping, \CRANpkg{mosaic} extends `sample()` to operate
-on data frames.  The `shuffle()` function is  an alternative name for `sample()` while `resample()` 
+on data frames.  The `shuffle()` function is  an alternative name for `sample()` and `resample()` 
 is `sample()` with `replace = TRUE`.  With these in hand, all of the tests and confidence
-intervals seen in traditional first course in statistics can be performed using a common
+intervals seen in a traditional first course in statistics can be performed using a common
 outline:
 
   1. Do it to your data
   2. Do it to a randomized version of your data
   3. Do it to lots of randomized versions of your data.
-  
+ 
 For example, we can use randomization in place of the two-sample t test to
 obtain an empirical p-value.
 ```{r}
 pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
 ```
 
-```{r}
-D <- diffmean(age ~ sex, data = HELPrct); D
+```{r, include=FALSE}
+set.seed(12432)
+```
+
+```{r, do-diff-mean, digits = 3}
+D <- diffmean(age ~ sex, data = HELPrct); D 
 do(1) * diffmean(age ~ shuffle(sex), data = HELPrct)
 Null.dist <- do(5000) * diffmean(age ~ shuffle(sex), data = HELPrct)
-histogram(~diffmean, data = Null.dist, v = D)
-prop( ~(diffmean < D), data = Null.dist, format = "prop")
+histogram( ~ diffmean, data = Null.dist, v = D)
+prop( ~ (diffmean < D), data = Null.dist, format = "prop")
 ```
 
 The example above introduces three additional \CRANpkg{mosaic} functions.
@@ -430,7 +468,7 @@ The example above introduces three additional \CRANpkg{mosaic} functions.
 `prop()` computes the proportion of logical vector that is (by default) `TRUE` 
 or of a factor that is (by default) the first label;
 and
-`diffmean()` is similar to `diff(mean()`, but labels the result differently.
+`diffmean()` is similar to `diff(mean())`, but labels the result differently.
 `diffprop()` works similarly for differences in proportions.
 
 It should be noted that one might prefer to calculate p-values by including the 
@@ -450,7 +488,7 @@ Boot.dist2 <- do(1000) * diffmean(age ~ sex, data = resample(HELPrct, groups = s
 \noindent
 In the second example, the resampling happens within the sex groups so that the marginal
 counts for each sex remain fixed.  This can be especially important if one of the groups
-is small, because otherwise in some resamples might not include any observations of that
+is small, because otherwise some resamples might not include any observations of that
 group.
 
 ```{r, include=FALSE}
@@ -486,7 +524,7 @@ D + c(-1,1) * 2 * SE
 \noindent
 How to replace the constant 2 with an appropriate value to create more accurate intervals
 or to allow for different confidence levels is a matter of some subtlety
-(see \cite{Hesterberg:2015}).  The simplest method is to use quantiles 
+\citep{Hesterberg:2015}.  The simplest method is to use quantiles 
 of a normal distribution, but this will undercover.  Replacing the normal distribution
 with an appropriate t-distribution will widen intervals and can improve coverage, but 
 the t-distribution is only correct in a few cases -- such as when estimating the mean
@@ -507,9 +545,9 @@ been added to \CRANpkg{mosaic} to facilitate extracting information from more
 complicated objects.  Some examples include
 
 ```{r, extractors}
-confint(t.test(~age, data=HELPrct))     # works for any "htest" object
-pval(t.test(age ~ sex, data=HELPrct))   # works for any "htest" object
-stat(t.test(age ~ sex, data=HELPrct))   # works for any "htest" object
+confint(t.test( ~ age, data = HELPrct))    # works for any "htest" object
+pval(t.test(age ~ sex, data = HELPrct))    # works for any "htest" object
+stat(t.test(age ~ sex, data = HELPrct))    # works for any "htest" object
 rsquared(lm(age ~ sex, data=HELPrct))
 ```
 
@@ -592,8 +630,8 @@ mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval", system = "gg
 ```
 \noindent
 Again, there are options to create either \CRANpkg{lattice} or \CRANpkg{ggplot2} plots, and 
-the resulting plots are usable in a wider range of scenarios than are those 
-produced using `plot()`.
+the resulting plots are formatted in a way that makes them usable in a wider range of 
+scenarios than are those produced using `plot()`.
 
 A second use for `mplot()` is to create \CRANpkg{lattice} and \CRANpkg{ggplot2} plots
 interactively within RStudio.  Issuing the following command in RStudio
@@ -622,8 +660,7 @@ or copied and pasted in an R Markdown document.
 
 Table \ref{tbl:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
 not highlighted above.  The package also contains three templates for creating 
-R Markdown documents in RStudio.  
-Each ensures that the \CRANpkg{mosaic} package 
+R Markdown documents in RStudio.  Each ensures that the \CRANpkg{mosaic} package 
 is attached, sets the default theme for \CRANpkg{lattice} graphics to 
 `theme.mosaic()`, chooses a somewhat smaller default size for graphics, and includes
 a comment reminding users to attach any packages they intend to use.
@@ -662,9 +699,12 @@ as input and return a function.   For simple functions, the operations are done 
 \texttt{ediff()} & like \texttt{diff()}, but the returned vector is padded with \texttt{NA}s
 so that the length is the same as the input vector.
 \\
-\texttt{SAD()}, \texttt{MAD} & all pairs sum and mean of absolute differences
+\texttt{SAD()}, \texttt{MAD()} & all pairs sum and mean of absolute differences
 \\
-\texttt{rgeo} & randomly sample latitidue, longitude pairs uniformly over the globe
+\texttt{rgeo()} & randomly sample latitidue, longitude pairs uniformly over the globe
+\\
+\texttt{googleMap()} & show google maps in a browser.  Together with \texttt{rgeo()}, this can be 
+used to view maps of randomly selected points on the globe.
 \\
 \end{tabular}
 \caption{Some additional functions in the \CRANpkg{mosaic} package.}
@@ -682,7 +722,8 @@ what they find, and a computational toolbox that allows them to do the looking.
 The approach made possible with the \CRANpkg{mosaic} package simplifies 
 the transition from thinking to computing by reducing the number of computational templates
 students learn so that cognitative effort can be spent elsewhere, and 
-having those templates reflect, support, and deepen the underlying thinking \cite{Grolemund:ISR:2014}.
+by having those templates reflect, support, and deepen the underlying thinking 
+\citep{Grolemund:ISR:2014}.
 Because of the connection between conceptual understanding and these computational tools,
 the use of R can also reveal misunderstandings that might otherwise go unnoticed.
 
@@ -701,7 +742,7 @@ up and running with R.  The use of an RStudio server allows an institution
 or instructor to install and configure R and its packages and students to work within a web 
 browser, essentially eliminating the start-up costs for the students.  Otherwise, instructors
 must assist students as they navigate installation of R and whichever additional packages
-are required.  
+are required. 
 
 Once students have access to R, the \CRANpkg{mosaic} package reduces, but does not eliminate,
 the amount of syntax students need to learn.  Emphasizing the similarity among commands 
@@ -724,30 +765,33 @@ are
     recover from innevitibale typing errors.  Even if a class does not typically meet in a computer laboratory
     or invite students to bring laptops to class, it can be useful to arrange some sessions early in 
     the course where students are using RStudio while someone is there to quickly help them when 
-    they get stuck.  Avoiding frustration in students' early experience with R goes a long way 
+    they get stuck.  Avoiding frustration in students' early experience with R goes a long way in
     overcoming anxiety.
-    
+ 
     As a bonus instructional method, the authors make frequent
     typing mistakes in front of the class.  While we could not avoid this if we tried, it does serve to 
     demonstrate both how to recover from errors and that nothing drastic has happened when an error 
     message is displayed.
-    
+ 
     One big advantage of the command line interface is that it is much easier to help students by email 
     or in a discussion forum.  Encourage students to copy both their commands and the error messages or 
     output that were produced.  We find students are much more capable of doing this than they are of 
     correctly describing the chain of events they initiated in a menu-driven system.  (It is also much
     easier to give detailed instructions and examples.)
-    
+ 
  2. Confusion over the tilde (`~`).
  
-    It is a small symbol, easily overlooked on the screen or on paper, so students
+    The tilde is a small symbol, easily overlooked on the screen or on paper, so students
     will sometimes omit it, or put it where it doesn't belong.  For several of our functions, 
     we allow `x` in place of
-    `~ x` to help easy the pain of mistyping things.  But we recommend that
+    `~ x` to help ease the pain of mistyping things.  But we recommend that
     instructors teach the use of `~` in all situations.  A similar thing occurs
-    with `data = `, which is not required for the \CRANpkg{lattice} functions, but
-    is for several others.  Teaching the forms that work in all contexts is easier
+    with explicitly naming the `data` argument, which is not required for the \CRANpkg{lattice} functions, 
+    but is for several others.  Teaching the forms that work in all contexts is easier
     than teaching which contexts allow which forms.
+ 
+    As a visual aid, we recommend surrounding the `~` with a space on either side, even in 1-sided
+    formulas.
  
  3. Difficulty in setting up the R environment
  
@@ -769,7 +813,6 @@ some package will not install correctly on a particular student's computer. Inst
 directly rather than as part of the dependencies of \CRANpkg{mosaic} often solves this problem or at 
 least provides a useful diagnostic regarding what the problem might be.
  
-*Add/delete items here before final submission.* 
 
 ## Better bootstrap confidence intervals
 
@@ -817,13 +860,13 @@ BootT2 <- do(1000) * favstats(i1 ~ sex, data = resample(HELPrct, groups = sex))
 confint(BootT2, method = "boot")
 ```
 \noindent
-This can also be accomplished manually, although the computations are little bit involved
+This can also be accomplished manually, although the computations are a bit involved
 for the 2-sample case.  Here are the manual computations for the 1-sample case:
 ```{r, fig.keep = "last"}
-estimate <- mean( ~i1, data = HELPrct); estimate
+estimate <- mean( ~ i1, data = HELPrct); estimate
 SE <- sd( ~ mean, data = BootT1); SE
 T <- with(BootT1, (mean - mean(mean)) / (sd/sqrt(n)))
-densityplot(~T)
+densityplot( ~ T)
 plotDist("norm", add = TRUE, col="gray50")
 q <- quantile(T, c(0.975, 0.025)); q
 estimate - q * SE
@@ -865,7 +908,7 @@ microbenchmark::microbenchmark(
 
 Similarly, using `do()` comes at a price, although here the price has more to do with 
 the extra work involved in culling the objects and reformatting the results.  The looping
-itself is as fast as using `replicate()` -- indeed the underlying code is very similar.  
+itself is as fast as using `replicate()` -- indeed the underlying code is very similar. 
 
 ```{r}
 microbenchmark::microbenchmark( times = 50,
@@ -889,10 +932,5 @@ microbenchmark::microbenchmark( times = 50,
 
 Partial support for this work was provided by the National Science Foundation 
 DUE 0920350 (Project MOSAIC).  We thank Xiaofei (Susan) Wang for helpful comments and suggestions.
-
-## More about R Journal submissions
-
-This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](http://journal.r-project.org/latex/RJauthorguide.pdf).
-
 
 \bibliography{RJreferences}
