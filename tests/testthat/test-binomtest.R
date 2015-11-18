@@ -131,16 +131,19 @@ test_that("CI methods correct", {
   # Clopper vs external reference 
   # NIST example from http://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm
   ci <- interval(binom.test(4, 20, ci.method="clopper", conf.level=.9))
-  expect_equal(as.vector(ci[2:3]), c(0.071354, 0.401029), tolerance = 1e-5)
+  expect_equal(ci[1,2], 0.071354, tolerance = 1e-5)
+  expect_equal(ci[1,3], 0.401029, tolerance = 1e-5)
 
   # Wald vs external reference 
   # from http://www.stat.wmich.edu/s160/book/node47.html 
   ci <- interval(binom.test(15, 59, ci.method="Wald"))
-  expect_equal(as.vector(ci[2:3]), c(.143, .365), tolerance = 1e-3)
+  expect_equal(ci[1,2], 0.143, tolerance = 1e-3)
+  expect_equal(ci[1,3], 0.365, tolerance = 1e-3)
  
   # Plus4 
   ci <- interval(binom.test(0, 100, ci.method="Plus4"))
-  expect_equal(as.vector(ci[2:3]), c(0.0, .0456), tolerance = 1e-3)
+  expect_equal(ci[1,2], 0.0,    tolerance = 1e-3)
+  expect_equal(ci[1,3], 0.0456, tolerance = 1e-3)
   
 })
   
