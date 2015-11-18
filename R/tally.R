@@ -86,14 +86,14 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ sex, data=HELPrct, useNA="always")
 #' # show NAs if any are there
 #' tally( ~ link, data=HELPrct)
-#' # ignfore the NAs
+#' # ignore the NAs
 #' tally( ~ link, data=HELPrct, useNA="no")
 #' }
 #' @export
 #' 
 tally <- function(x, ...) {
   lx <- lazyeval::lazy(x)
-  tryCatch(tally_internal(x, data = parent.frame(), ...), error = function(e) { 
+  tryCatch(tally_internal(x, ...), error = function(e) { 
     message( "First argument should be a formula... But I'll try to guess what you meant")
     form <- substitute( ~ X, list(X = lx$expr))
     class(form) <- "formula"
@@ -134,7 +134,7 @@ tally_internal.data.frame <- function(x, wt, sort=FALSE, ..., envir=parent.frame
 
 #' @rdname tally
 
-tally_internal.formula <- function(x, data = parent.frame(), 
+tally_internal.formula <- function(x, data = parent.frame(2), 
                       format=c('count', 'proportion', 'percent', 'data.frame', 'sparse', 'default'), 
                       margins=FALSE,
                       quiet=TRUE,
@@ -196,7 +196,7 @@ tally_internal.default <-
            quiet=TRUE,
            subset, 
            useNA = "ifany", 
-           data = parent.frame(),
+           data = parent.frame(2),
            ...) {
     D <- data_frame(X = x)
     tally_internal( 

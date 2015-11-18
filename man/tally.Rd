@@ -18,7 +18,7 @@ tally_internal(x, ...)
 \method{tally_internal}{data.frame}(x, wt, sort = FALSE, ...,
   envir = parent.frame())
 
-\method{tally_internal}{formula}(x, data = parent.frame(),
+\method{tally_internal}{formula}(x, data = parent.frame(2),
   format = c("count", "proportion", "percent", "data.frame", "sparse",
   "default"), margins = FALSE, quiet = TRUE, subset, useNA = "ifany", ...)
 }
