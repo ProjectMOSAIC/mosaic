@@ -51,7 +51,7 @@ mytheme <- theme_minimal()
 
 Many have argued that 
 in order to make sense of the increasingly rich data that is
-available to them 
+available to them,
 students need additional facility to express statistical computations (e.g., 
 \cite{NolanTempleLang:2010, Ridgway:2015, HortonBaumerWickham:2015}).
 To be able to "think with data" (as coined by Diane Lambert of Google), students
@@ -122,7 +122,7 @@ sd(births ~ wday, data = Births78)
 favstats(births ~ wday, data = Births78)
 ```
 \noindent
-We introduced a `tally()` function for counting categorical variables.  We illustrate 
+We introduced the `tally()` function for counting categorical variables.  We illustrate 
 its use with another data set from \CRANpkg{mosaicData}.  `HELPrct` contains data from
 the Health Evaluation and Linkage to Primary care study, a clinical trial for adult 
 inpatients recruited from a detoxification unit. 
@@ -148,14 +148,14 @@ but we recommend introducing it in the context of two-variable plots and summari
 This is for several reasons: (1) two-variable plots and numerical summaries are more
 "impressive" and less likely to be something students can as readily do with tools they 
 already know, (2) working with more than one variable from the start (correctly) suggests
-that the most interesting parts of statistics involve more than one variable \citep{Wild:RSS:2011}
+that the most interesting parts of statistics involve more than one variable \citep{Wild:RSS:2011},
 and 
 (3) the formula syntax for a single variable makes more sense in the context of two-sided
 formulas that it does in isolation.
 
 Once the two-variable summaries are understood, we can add a third or fourth variable with
 ```{r, eval=FALSE}
-goal( y ~ x | z, groups = mygroups, data=mydata )
+goal( y ~ x | z, groups = mygroups, data=mydata )    # pseudo-code
 ```
 \noindent
 When plotting, `z` is used to create plots with subpanels (or facets) and `groups` indicates
@@ -188,7 +188,7 @@ the name of the desired summary.
 The one-variable template can be obtained by removing the left-hand side from the formula
 in a two-variable template.
 ```{r, eval=FALSE}
-goal( ~ x, data=mydata )
+goal( ~ x, data=mydata )               # psuedo-code
 ```
 \noindent
 In the context of plotting, this makes sense since we are providing the data for the 
@@ -207,7 +207,7 @@ As students become familiar with the formula interface,
 all three forms can be brought together into a single template:
 
 ```{r, eval=FALSE}
-goal( formula, data=mydata, ... )
+goal( formula, data=mydata, ... )      # psuedo-code
 ```
 \noindent
 The formula template allows students to 
@@ -334,13 +334,16 @@ plotFun(f(x) ~ x, xlim = c(0,3))
 
 More interestingly for statistics, we can use `makeFun()` to create functions from
 model objects created by `lm()` and `glm()`.
-```{r, fig.keep = "last"}
-cars.mod <- lm(dist ~ poly(speed,2), data = cars)
-dist <- makeFun(cars.mod)
-dist(speed = 15)
-dist(speed = 15, interval = "confidence")
-xyplot(dist ~ speed, data = cars)
-plotFun(dist(s) ~ s, add = TRUE)
+```{r, fig.keep = "last", message = FALSE}
+cars.mod1 <- lm(dist ~ speed, data = cars)
+cars.mod2 <- lm(dist ~ poly(speed,2), data = cars)
+dist1 <- makeFun(cars.mod1)
+dist2 <- makeFun(cars.mod2)
+dist2(speed = 15)
+dist2(speed = 15, interval = "confidence")
+xyplot(dist ~ speed, data = cars, alpha = 0.4)
+plotFun(dist1(s) ~ s, add = TRUE, col = 2, lwd = 2)
+plotFun(dist2(s) ~ s, add = TRUE, col = 3, lwd = 2)
 ```
 
 \noindent
@@ -407,8 +410,9 @@ test via simulations rather than using formulas for the binomial distribution or
 normal approximations. But we want to do this on the first day of class, and without
 using any of the jargon of the preceding sentence.
 
-Because students do not know about sampling distributions yet, but do understand the idea 
-of a coin toss, we have provided `rflip()` to simulate tossing a coin one or several times:
+Because students do not know about sampling distributions or random variables yet, 
+but do understand the idea of a coin toss, 
+we have provided `rflip()` to simulate tossing a coin one or several times:
 ```{r}
 rflip()
 rflip(20)
@@ -418,17 +422,17 @@ recording for each simulation the number of heads that were observed.
 The `do()` function allows us to do just that using the following template
 
 ```{r eval = FALSE}
-do(n) * {stuff to do}
+do(n) * {stuff to do}             # pseudo-code
 ```
 \noindent
-where stuff to do is typically a single R command, but may be something more complicated.
-For example, we can flip 100 coins three times as follows.
+where `{stuff to do}` is typically a single R command, but may be something more complicated.
+For example, we can flip 20 coins three times as follows.
 ```{r}
-do(3) * rflip(100)
+do(3) * rflip(20)
 ```
 \noindent
 Notice that `do()` (technically `cull_for_do()`) has been clever about what information 
-is stored for each group of 100 coin tosses.  It is now a simple matter to do this many more
+is stored for each group of 20 coin tosses.  It is now a simple matter to do this many more
 times and use numerical or graphical summaries to investigate how unusual it is to get
 so few heads if the coin is indeed a fair coin.
 ```{r}
@@ -443,7 +447,7 @@ also adds some additional arguments to the `histogram()` function.)
 ## sample(), resample(), and shuffle()
 
 To facilitate randomization and bootstrapping, \CRANpkg{mosaic} extends `sample()` to operate
-on data frames.  The `shuffle()` function is  an alternative name for `sample()` and `resample()` 
+on data frames.  The `shuffle()` function is  an alternative name for `sample()`, and `resample()` 
 is `sample()` with `replace = TRUE`.  With these in hand, all of the tests and confidence
 intervals seen in a traditional first course in statistics can be performed using a common
 outline:
@@ -454,10 +458,6 @@ outline:
  
 For example, we can use randomization in place of the two-sample t test to
 obtain an empirical p-value.
-```{r}
-pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
-```
-
 ```{r, include=FALSE}
 set.seed(12432)
 ```
@@ -470,15 +470,19 @@ histogram( ~ diffmean, data = Null.dist, v = D)
 prop( ~ (diffmean < D), data = Null.dist, format = "prop")
 ```
 
-The example above introduces three additional \CRANpkg{mosaic} functions.
-The `pval()` function extracts the p-value from an object of class `"htest"`; 
-`prop()` computes the proportion of logical vector that is (by default) `TRUE` 
-or of a factor that is (by default) the first label;
-and
-`diffmean()` is similar to `diff(mean())`, but labels the result differently
-(`diffprop()` works similarly for differences in proportions).
+```{r}
+pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
+```
 
-It should be noted that one might prefer to calculate p-values by including the 
+The example above introduces three additional \CRANpkg{mosaic} functions.
+The `prop()` function computes the proportion of logical vector that is (by default) `TRUE` 
+or of a factor that is (by default) the first label;
+`diffmean()` is similar to `diff(mean())`, but labels the result differently
+(`diffprop()` works similarly for differences in proportions); and 
+`pval()` extracts the p-value from an object of class `"htest"`. 
+
+It should be noted that although this is typically not done in simulation-based introductory 
+statistics texts, one might prefer to calculate p-values by including the 
 observed data in the randomization distribution.  This avoids an empirical p-value of 0
 and guarantees that the actual type I error rate will not exceed the nominal type I error rate.
 ```{r}
@@ -529,17 +533,19 @@ SE <- sd( ~ diffmean, data = Boot.dist2); SE
 D + c(-1,1) * 2 * SE
 ```
 \noindent
+The primary pedagogical value of the bootstrap standard error approach is its close
+connection to the standard formula-based confidence interval methods.
 How to replace the constant 2 with an appropriate value to create more accurate intervals
 or to allow for different confidence levels is a matter of some subtlety
 \citep{Hesterberg:2015}.  The simplest method is to use quantiles 
-of a normal distribution, but this will undercover.  Replacing the normal distribution
+of a normal distribution, but this will undercover. Replacing the normal distribution
 with an appropriate t-distribution will widen intervals and can improve coverage, but 
 the t-distribution is only correct in a few cases -- such as when estimating the mean
 of a normal population -- and can perform badly when the population is skewed.
-The primary pedagogical value of the bootstrap standard error approach is its close
-connection to the standard formula-based confidence interval methods.
+See the Discussion Section for more on this.
 
-Each of these can be further automated using an extension to `confint()`.
+
+Calculating simple confidence intervals can be further automated using an extension to `confint()`.
 ```{r}
 confint(Boot.dist2, method = c("percentile", "stderr"))
 ```
@@ -619,8 +625,10 @@ xqt(0.975, df = 20)
 The `mplot()` function has two primary use cases: 
 creating diagnostic plots for lm and glm objects, and
 interactively creating data visualizations using the variables in a data frame.
-Given an model object as its first argument, `mplot()` provides similar diagnostic plots to those
-produced via `plot()` but two primary differences: the user may select to use either \CRANpkg{lattice} or \CRANpkg{ggplot2} graphics instead of base graphics, and an additional plot type is provided to visualize the 
+Given a model object as its first argument, `mplot()` provides similar diagnostic plots to those
+produced via `plot()` but with two primary differences: the user may select to use either 
+\CRANpkg{lattice} or \CRANpkg{ggplot2} graphics instead of base graphics, 
+and an additional plot type is provided to visualize the 
 confidence intervals for the coefficients of the model.
 
 ```{r, results = "hide"}
@@ -644,7 +652,7 @@ scenarios than are those produced using `plot()`.
 
 A second use for `mplot()` is to create \CRANpkg{lattice} and \CRANpkg{ggplot2} plots
 interactively within RStudio.  Issuing the following command in RStudio
-will bring up plot that can be modified by making choices interactively.
+will bring up a plot that can be modified by making choices interactively.
 
 ```{r eval = FALSE}
 mplot(HELPrct)
@@ -668,6 +676,16 @@ This can be very useful for new users working to master the syntax for a particu
 graphical display.
 
 # Additional features
+
+The \CRANpkg{mosaic} package depends on \CRANpkg{lattice} and \CRANpkg{ggplot2} so that plots 
+can be made using either system whenever the \CRANpkg{mosaic} package is attached.  It also 
+depends on \CRANpkg{dplyr}, but for a different reason.  The functions in \CRANpkg{dplyr} 
+implement a "less volume, more creativity" approach to data transformation and we 
+encourage its use along side \CRANpkg{mosaic}.  Unfortunatley, there are several
+function names -- most notably `do()` and `tally()` -- that exist in both packages.
+After the release of \CRANpkg{dplyr} we modified the functions in \CRANpkg{mosaic} so
+that the two packages can coexist amicably as long as \CRANpkg{mosaic} comes before 
+\CRANpkg{dplyr} in the search path.
 
 Table \ref{tbl:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
 not highlighted above.  The package also contains three templates for creating 
@@ -775,7 +793,7 @@ are
     important to highlight repeatedly the similarities among commands and to help students learn to 
     understand the most common error messages R produces so that they can quickly, easily, and comfortably
     recover from innevitable typing errors.  Even if a class does not typically meet in a computer laboratory
-    or invite students to bring laptops to class, it can be useful to arrange some sessions early in 
+    or take advantage of studetn laptops, it can be useful to arrange some sessions early in 
     the course where students are using RStudio while someone is there to quickly help them when 
     they get stuck.  Avoiding frustration in students' early experience with R goes a long way in
     overcoming anxiety.
@@ -858,32 +876,54 @@ are more appropriate for situations where speed and accuracy are of utmost impor
 But the bootstrap-t confidence interval can be computed using `confint()`, `do()` and `favstats()`
 in the case of estimating a single mean or the difference between two means.
 
-In the example below, we consider the variable `i1` the average number of drinks (standard units)
-consumed per day for the 30 days prior to joining the HELP study.  This variable has 
-a skewed distribution and so highlights the differences between the methods.
-
+In the example below, we analyse a data set from the \CRANpkg{resample} package.  The 
+`Verizon` data set contains repair times for customers in CLEC (competitive) and ILEC (incumbant)
+local exchange carrior.
 ```{r}
-densityplot( ~ i1, data = HELPrct)
+# NB: the resample package has name collisions with mosaic, so we only load the data
+data(Verizon, package = "resample")          
+ILEC <- Verizon %>% filter(Group == "ILEC")       # dplyr is a dependency of mosaic
+favstats( ~ Time, groups = Group, data = ILEC)
+ ashplot( ~ Time, groups = Group, data = Verizon, auto.key = TRUE, width = 20)
 ```
+\noindent
+The skewed distributions of the repair times and unequal sample sizes highlight differences
+between the bootstrap-t and simpler methods.
 
 ```{r}
-BootT1 <- do(1000) * favstats(~ i1, data = resample(HELPrct))
+BootT1 <- do(1000) * favstats(~ Time, data = resample(ILEC))
 confint(BootT1, method = "boot")
-BootT2 <- do(1000) * favstats(i1 ~ sex, data = resample(HELPrct, groups = sex))
+BootT2 <- do(1000) * favstats( ~ Time, groups = Group, data = resample(Verizon, groups = Group))
 confint(BootT2, method = "boot")
 ```
 \noindent
 This can also be accomplished manually, although the computations are a bit involved
 for the 2-sample case.  Here are the manual computations for the 1-sample case:
 ```{r, fig.keep = "last"}
-estimate <- mean( ~ i1, data = HELPrct); estimate
+estimate <- mean( ~ Time, data = ILEC); estimate
 SE <- sd( ~ mean, data = BootT1); SE
-T <- with(BootT1, (mean - mean(mean)) / (sd/sqrt(n)))
-densityplot( ~ T)
-plotDist("norm", add = TRUE, col="gray50")
-q <- quantile(T, c(0.975, 0.025)); q
+BootT1a <- BootT1 %>% mutate( T = (mean - mean(mean)) / (sd/sqrt(n)))
+q <- quantile(~ T, p = c(0.975, 0.025), data = BootT1); q
 estimate - q * SE
+densityplot( ~ T, data = BootT1a)
+plotDist("norm", add = TRUE, col="gray50")
 ```
+
+For comparison, here are the intervals produced by `t.test()` and the percentile method.
+```{r}
+confint(t.test( ~ Time, data = ILEC))
+BootT1b <- 
+  do(1000) * mean( ~ Time, data = resample(ILEC))
+confint(BootT1b, method = "perc")
+
+confint(t.test(Time ~ Group, data = Verizon))
+BootT2b <- 
+  do(1000) * diffmean(Time ~ Group, data = resample(Verizon, groups = Group))
+confint(BootT2b, method = "perc")
+```
+\noindent
+The intervals produced by `t.test()` are narrower, do the least to compensate for skew,
+undercover, and miss more often in one direction than in the other \citep{Hesterberg:2015}.
 
 ## Efficiency Issues
 
