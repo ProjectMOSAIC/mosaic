@@ -65,16 +65,17 @@ in a way that provides students with success, confidence, and room to grow.
 
 # A guiding principle: Less volume, more creativity
 
-The \CRANpkg{mosaic} package originated in early attempts by each of the authors to 
+The \CRANpkg{mosaic} \citep{mosaic} package originated in early attempts by 
+each of the authors to 
 ease new users into using R, primarily in the context of 
 undergraduate statistics courses, and, in one case, also in calculus.
-One of the guiding principles behind the development of the \CRANpkg{mosaic} package
+One of the guiding principles behind the development of the \pkg{mosaic} package
 has been "Less volume, more creativity".  Beginners are easily overwhelmed by the 
 scope of R and its many packages.  Often there are multiple ways to accomplish the 
 same task, and authors of the many packages are not required to follow any particular
 style guidelines.
 
-Early on in the development of \CRANpkg{mosaic}, we decided to
+Early on in the development of \pkg{mosaic}, we decided to
 reduce the number of code templates that users would need to know to as few as possible,
 while still providing them with substantial power to be creative within the
 templates provided.
@@ -90,7 +91,7 @@ which tasks are most important to accomplish.  We knew from the outset that
 this would include graphical and numerical summaries of data and various models
 and inference procedures.  Because of this goal, 
 our most important template makes use of a "formula interface"
-modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice}. 
+modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice} \citep{lattice}. 
 
 We typically introduce the formula template in the context of exploring 
 two variables as 
@@ -103,7 +104,7 @@ For a plot, `goal` names the type of plot, `y` and `x` name the variables to be
 mapped to the vertical and horizontal axes, and `mydata` is the data frame in which 
 these variables are found.
 This template allows us to create, for example, scatterplots and side-by-side box plots
-using \CRANpkg{lattice} functions.  Here we illustrate using the `Births78`
+using \pkg{lattice} functions.  Here we illustrate using the `Births78`
 data set from the `mosaicData` package, which, as the name suggests, contains data sets
 to accompany the `mosaic` package.
 ```{r}
@@ -123,7 +124,8 @@ favstats(births ~ wday, data = Births78)
 ```
 \noindent
 We introduced the `tally()` function for counting categorical variables.  We illustrate 
-its use with another data set from \CRANpkg{mosaicData}.  `HELPrct` contains data from
+its use with another data set from \CRANpkg{mosaicData} \citep{mosaicData}.
+`HELPrct` contains data from
 the Health Evaluation and Linkage to Primary care study, a clinical trial for adult 
 inpatients recruited from a detoxification unit. 
 Notice that in the final example, conditional proportions are calculated.
@@ -141,7 +143,7 @@ Formula interfaces are provided for
 `IQR()`, `iqr()`, `fivenum()`,
 `prod()`, and `sum()`.
 In each case we have been careful not to break behavior of the underlying functions from
-\CRANpkg{base} and \CRANpkg{stats}.
+\pkg{base} and \pkg{stats}.
 
 The formula template can be extended to handle one variable or more than two variables,
 but we recommend introducing it in the context of two-variable plots and summaries.
@@ -275,7 +277,7 @@ a handful of numerical and graphical summaries suffices.
 ## Handling missing data
 
 When there are missing values, 
-the numerical summary functions in \CRANpkg{base} and \CRANpkg{stats} return
+the numerical summary functions in \pkg{base} and \pkg{stats} return
 results that may surprise and mystify new users.
 ```{r}
 mean( ~ dayslink, data = HELPmiss)
@@ -294,7 +296,7 @@ favstats( ~ dayslink, data = HELPmiss)
 ```
 
 The second solution is to change the default behavior of `na.rm` using `options()`.
-This will, of course, only affect the \CRANpkg{mosaic} versions of these functions.
+This will, of course, only affect the \pkg{mosaic} versions of these functions.
 ```{r}
 options(na.rm = TRUE)
 mean(~ dayslink, data = HELPmiss)
@@ -392,7 +394,7 @@ plotModel(mtcars.mod2, mpg ~ wt | factor(am))
 
 Resampling approaches have become increasingly important in statistical education 
 \citep{Tintle:TAS:2015, Hesterberg:2015}.
-The \CRANpkg{mosaic} package  provides simplified functionality to support teaching inference
+The \pkg{mosaic} package  provides simplified functionality to support teaching inference
 based on randomization tests and bootstrap methods.  Our goal was to focus attention
 on the important parts of these techniques (e.g., where randomness enters in and how to
 use the resulting distribution) while hiding some of the technical details
@@ -441,12 +443,12 @@ histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
 tally ( ~(heads <= 6), data = Sims)
 ```
 \noindent
-(If you are familiar with \CRANpkg{lattice}, you will notice that the \CRANpkg{mosaic} package
+(If you are familiar with \pkg{lattice}, you will notice that the \pkg{mosaic} package
 also adds some additional arguments to the `histogram()` function.)
 
 ## sample(), resample(), and shuffle()
 
-To facilitate randomization and bootstrapping, \CRANpkg{mosaic} extends `sample()` to operate
+To facilitate randomization and bootstrapping, \pkg{mosaic} extends `sample()` to operate
 on data frames.  The `shuffle()` function is  an alternative name for `sample()`, and `resample()` 
 is `sample()` with `replace = TRUE`.  With these in hand, all of the tests and confidence
 intervals seen in a traditional first course in statistics can be performed using a common
@@ -474,7 +476,7 @@ prop( ~ (diffmean < D), data = Null.dist, format = "prop")
 pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
 ```
 
-The example above introduces three additional \CRANpkg{mosaic} functions.
+The example above introduces three additional \pkg{mosaic} functions.
 The `prop()` function computes the proportion of logical vector that is (by default) `TRUE` 
 or of a factor that is (by default) the first label;
 `diffmean()` is similar to `diff(mean())`, but labels the result differently
@@ -554,7 +556,7 @@ confint(Boot.dist2, method = c("percentile", "stderr"))
 # Extracting information
 
 Modeled on functions like \code{resid()}, a number of additional functions have
-been added to \CRANpkg{mosaic} to facilitate extracting information from more
+been added to \pkg{mosaic} to facilitate extracting information from more
 complicated objects.  Some examples include
 
 ```{r, extractors}
@@ -569,7 +571,7 @@ rsquared(lm(age ~ sex, data=HELPrct))
 
 ## Additional high-level lattice plots
 
-The \CRANpkg{mosaic} package provides several new high-level \CRANpkg{lattice} plots, including
+The \pkg{mosaic} package provides several new high-level \pkg{lattice} plots, including
 `bargraph()`, 
 `dotPlot()`, 
 `freqpolygon()`,
@@ -627,7 +629,7 @@ creating diagnostic plots for lm and glm objects, and
 interactively creating data visualizations using the variables in a data frame.
 Given a model object as its first argument, `mplot()` provides similar diagnostic plots to those
 produced via `plot()` but with two primary differences: the user may select to use either 
-\CRANpkg{lattice} or \CRANpkg{ggplot2} graphics instead of base graphics, 
+\pkg{lattice} or \CRANpkg{ggplot2} \citep{ggplot2} graphics instead of base graphics, 
 and an additional plot type is provided to visualize the 
 confidence intervals for the coefficients of the model.
 
@@ -646,11 +648,11 @@ mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval")
 mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval", system = "ggplot2") 
 ```
 \noindent
-Again, there are options to create either \CRANpkg{lattice} or \CRANpkg{ggplot2} plots, and 
+Again, there are options to create either \pkg{lattice} or \pkg{ggplot2} plots, and 
 the resulting plots are formatted in a way that makes them usable in a wider range of 
 scenarios than are those produced using `plot()`.
 
-A second use for `mplot()` is to create \CRANpkg{lattice} and \CRANpkg{ggplot2} plots
+A second use for `mplot()` is to create \pkg{lattice} and \pkg{ggplot2} plots
 interactively within RStudio.  Issuing the following command in RStudio
 will bring up a plot that can be modified by making choices interactively.
 
@@ -666,7 +668,7 @@ plots using variables in a data frame.}
 \end{figure}
 
 \noindent
-The menu (see Figure~\ref{fig:mplot}) allows the user to choose either \CRANpkg{lattice} or \CRANpkg{ggplot2}
+The menu (see Figure~\ref{fig:mplot}) allows the user to choose either \pkg{lattice} or \pkg{ggplot2}
 graphics, to select the type of plot and the variables used, and to control
 a few of the most commonly used features that modify a plot (faceting, color, legends,
 log-scaling, fitting a linear model or LOESS smoother).  The "Show Expression" button
@@ -677,20 +679,20 @@ graphical display.
 
 # Additional features
 
-The \CRANpkg{mosaic} package depends on \CRANpkg{lattice} and \CRANpkg{ggplot2} so that plots 
-can be made using either system whenever the \CRANpkg{mosaic} package is attached.  It also 
-depends on \CRANpkg{dplyr}, but for a different reason.  The functions in \CRANpkg{dplyr} 
+The \pkg{mosaic} package depends on \pkg{lattice} and \pkg{ggplot2} so that plots 
+can be made using either system whenever the \pkg{mosaic} package is attached.  It also 
+depends on \CRANpkg{dplyr} \citep{dplyr}, but for a different reason.  The functions in \pkg{dplyr} 
 implement a "less volume, more creativity" approach to data transformation and we 
-encourage its use along side \CRANpkg{mosaic}.  Unfortunatley, there are several
+encourage its use along side \pkg{mosaic}.  Unfortunatley, there are several
 function names -- most notably `do()` and `tally()` -- that exist in both packages.
-After the release of \CRANpkg{dplyr} we modified the functions in \CRANpkg{mosaic} so
-that the two packages can coexist amicably as long as \CRANpkg{mosaic} comes before 
-\CRANpkg{dplyr} in the search path.
+After the release of \pkg{dplyr} we modified the functions in \pkg{mosaic} so
+that the two packages can coexist amicably as long as \pkg{mosaic} comes before 
+\pkg{dplyr} in the search path.
 
-Table \ref{tbl:otherstuff} lists some additional functions in the \CRANpkg{mosaic} package 
+Table \ref{tbl:otherstuff} lists some additional functions in the \pkg{mosaic} package 
 not highlighted above.  The package also contains three templates for creating 
-R Markdown documents in RStudio.  Each ensures that the \CRANpkg{mosaic} package 
-is attached, sets the default theme for \CRANpkg{lattice} graphics to 
+R Markdown documents in RStudio.  Each ensures that the \pkg{mosaic} package 
+is attached, sets the default theme for \pkg{lattice} graphics to 
 `theme.mosaic()`, chooses a somewhat smaller default size for graphics, and includes
 a comment reminding users to attach any packages they intend to use.
 The "fancy" template demonstrates several features of R Markdown, and the "plain" 
@@ -700,17 +702,17 @@ in statistics courses.
 
 \begin{table}
 \begin{tabular}{lp{4in}}
-\hline
+\toprule
 function & uses
 \\
-\hline
+\midrule
 \texttt{CIsim()} & demonstrate coverage rates of confidence intervals.
 \\
 \texttt{statTally()} & investigate test statistics and their empirical distributions.
 \\
 \texttt{panel.lmbands()} & add confidence and prediction bands to scatter plots.
 \\
-\texttt{ladd()} & simplified layering in \CRANpkg{lattice} plots.
+\texttt{ladd()} & simplified layering in \pkg{lattice} plots.
 \\
 \texttt{xchisq.test()} & an extension to \texttt{chisq.test()} that prints a table including
 observed and expected counts, contribution to the chi-squared statistics and residuals.
@@ -720,8 +722,8 @@ observed and expected counts, contribution to the chi-squared statistics and res
 \texttt{D()}, \texttt{antiD()} & derivative and antiderivative operators that take a function
 as input and return a function.   For simple functions, the operations are done symbolically.
 \\
-\texttt{col.mosaic()} & a \CRANpkg{lattice} theme with colors that project better than the 
-\CRANpkg{lattice} defaults.
+\texttt{col.mosaic()} & a \pkg{lattice} theme with colors that project better than the 
+\pkg{lattice} defaults.
 \\
 \texttt{dot()}, \texttt{project()}, \texttt{vlength()} & linear algebra on vectors.
 \\
@@ -735,8 +737,9 @@ so that the length is the same as the input vector.
 \texttt{googleMap()} & show google maps in a browser.  Together with \texttt{rgeo()}, this can be 
 used to view maps of randomly selected points on the globe.
 \\
+\bottomrule
 \end{tabular}
-\caption{Some additional functions in the \CRANpkg{mosaic} package.}
+\caption{Some additional functions in the \pkg{mosaic} package.}
 \label{tbl:otherstuff}
 \end{table}
 
@@ -748,7 +751,7 @@ used to view maps of randomly selected points on the globe.
 One of the keys to successfully empowering students to think with data is providing them 
 both a conceptual framework that allows them to know what to look for and how to interpret
 what they find, and a computational toolbox that allows them to do the looking.
-The approach made possible with the \CRANpkg{mosaic} package simplifies 
+The approach made possible with the \pkg{mosaic} package simplifies 
 the transition from thinking to computing by reducing the number of computational templates
 students learn so that cognitative effort can be spent elsewhere, and 
 by having those templates reflect, support, and deepen the underlying thinking 
@@ -773,7 +776,7 @@ browser, essentially eliminating the start-up costs for the students.  Otherwise
 must assist students as they navigate installation of R and whichever additional packages
 are required. 
 
-Once students have access to R, the \CRANpkg{mosaic} package reduces, but does not eliminate,
+Once students have access to R, the \pkg{mosaic} package reduces, but does not eliminate,
 the amount of syntax students need to learn.  It is important to emphasize the similarity 
 among commands within a template, to remind students that R is case sensitive, to show them
 how to take advantage of short cuts
@@ -782,7 +785,7 @@ how to interpret some of the most common R error messages.  This goes a long way
 the transition to a command line interface that is not as forgiving as Google search, which 
 may be many students' only other experience with a command line interface.
 
-In our experience, the most commonly occuring struggles for students using \CRANpkg{mosaic}
+In our experience, the most commonly occuring struggles for students using \pkg{mosaic}
 are
 
  1. General ainxiety over typing commands.
@@ -817,7 +820,7 @@ are
     we allow `x` in place of
     `~ x` to help ease the pain of mistyping things.  But we recommend that
     instructors teach the use of `~` in all situations.  A similar thing occurs
-    with explicitly naming the `data` argument, which is not required for the \CRANpkg{lattice} functions, 
+    with explicitly naming the `data` argument, which is not required for the \pkg{lattice} functions, 
     but is for several others.  Teaching the forms that work in all contexts is easier
     than teaching which contexts allow which forms.
  
@@ -829,7 +832,7 @@ are
     This is all but eliminated when using and RStudio server, but in situations where instructors prefer
     a local R installation for each student, there are often a few issues involved in getting all students
     up and running.  Installation of R and RStudio is straightforward, but one should make sure that students
-    all have the latest version of each.  To use the \CRANpkg{mosaic} package, a number of additional packages
+    all have the latest version of each.  To use the \pkg{mosaic} package, a number of additional packages
     must be installed.  We recommend beginning with 
 ```{r, eval = FALSE}
 update.packages()
@@ -841,7 +844,7 @@ install.packages("mosaic")
 ```
 (again, this can also be done via the Packages tab in RStudio) will take care of the rest.  But ocassionally
 some package will not install correctly on a particular student's computer. Installing that package
-directly rather than as part of the dependencies of \CRANpkg{mosaic} often solves this problem or at 
+directly rather than as part of the dependencies of \pkg{mosaic} often solves this problem or at 
 least provides a useful diagnostic regarding what the problem might be.
  
 
@@ -870,18 +873,19 @@ sample along with the estimator.  An alternative is to iterate the bootstrap pro
 to estimate than confidence intervals, fewer resamples are required (per resample)
 at the second level; nevertheless, the additional computational overhead is significant.
 
-The \CRANpkg{mosaic} package does not attempt to provide a general framework for the bootstrap-t
-or other "second-order accurate" boostrap methods.  Packages such as \CRANpkg{resample}
+The \pkg{mosaic} package does not attempt to provide a general framework for the bootstrap-t
+or other "second-order accurate" boostrap methods.
+Packages such as \CRANpkg{resample} citep{resample} 
 are more appropriate for situations where speed and accuracy are of utmost importance.
 But the bootstrap-t confidence interval can be computed using `confint()`, `do()` and `favstats()`
 in the case of estimating a single mean or the difference between two means.
 
-In the example below, we analyse a data set from the \CRANpkg{resample} package.  The 
+In the example below, we analyse a data set from the \pkg{resample} package.  The 
 `Verizon` data set contains repair times for customers in CLEC (competitive) and ILEC (incumbant)
 local exchange carrior.
 ```{r}
 # NB: the resample package has name collisions with mosaic, so we only load the data
-data(Verizon, package = "resample")          
+data(Verizon, package = "resample")
 ILEC <- Verizon %>% filter(Group == "ILEC")       # dplyr is a dependency of mosaic
 favstats( ~ Time, groups = Group, data = ILEC)
  ashplot( ~ Time, groups = Group, data = Verizon, auto.key = TRUE, width = 20)
@@ -928,9 +932,9 @@ undercover, and miss more often in one direction than in the other \citep{Hester
 ## Efficiency Issues
 
 For applications where speed is of utmost 
-importance, it is better to avoid some of the \CRANpkg{mosaic} wrappers. 
-For example, for the numerical summary functions, the \CRANpkg{mosaic} versions cannot be
-faster than their counterparts in \CRANpkg{base} or \CRANpkg{stats} (because 
+importance, it is better to avoid some of the \pkg{mosaic} wrappers. 
+For example, for the numerical summary functions, the \pkg{mosaic} versions cannot be
+faster than their counterparts in \pkg{base} or \pkg{stats} (because 
 eventually they call the underlying functions) and may be noticeable slower in contexts where
 they are called many times.
 In particular, using the formula interface requires parsing the formula and 
@@ -970,8 +974,9 @@ microbenchmark::microbenchmark( times = 50,
 )
 ```
 \noindent
-Furthermore, `do()` can take advantages of multiple cores if the \CRANpkg{parallel} package 
-is attached.  Even on a laptop with a single quad-core processor, the speed-up is noticible.
+Furthermore, `do()` can take advantages of multiple cores 
+if the \pkg{parallel} package is attached.
+Even on a laptop with a single quad-core processor, the speed-up is noticible.
 ```{r}
 library(parallel)
 options("mosaic:parallelMessage" = FALSE)
@@ -986,4 +991,4 @@ microbenchmark::microbenchmark( times = 50,
 Partial support for this work was provided by the National Science Foundation 
 DUE 0920350 (Project MOSAIC).  We thank Xiaofei (Susan) Wang for helpful comments and suggestions.
 
-\bibliography{RJreferences}
+\bibliography{pruim-horton-kaplan}
