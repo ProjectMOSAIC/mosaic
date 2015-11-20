@@ -36,8 +36,9 @@ require(mosaic)
 knitr::opts_chunk$set(
   fig.width = 4.5, fig.height = 3, 
   out.width = ".45\\textwidth",
-  fig.show="hold", fig.align = "center",
-  cache=TRUE
+  fig.show = "hold", fig.align = "center",
+  cache = FALSE,
+  comment = "##"
 )
 options(digits = 3)
 options(width = 80)
@@ -379,7 +380,7 @@ For many simple models, creating a plot can be even simpler using
 `plotModel()`, which also eliminates the need to manually adjust
 logistic regression plots when the response is a factor.
 ```{r}
-plotModel(cars.mod)
+plotModel(cars.mod2)
 plotModel(Feet.mod, jitter.y = TRUE)
 ```
 

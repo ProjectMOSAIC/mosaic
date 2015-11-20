@@ -110,28 +110,28 @@ The same template can be used to create numerical summaries.
 mean(births ~ wday, data = Births78)
 \end{Sinput}
 \begin{Soutput}
-#>   Sun   Mon  Tues   Wed Thurs   Fri   Sat 
-#>  7951  9371  9709  9498  9484  9626  8309
+##   Sun   Mon  Tues   Wed Thurs   Fri   Sat 
+##  7951  9371  9709  9498  9484  9626  8309
 \end{Soutput}
 \begin{Sinput}
 sd(births ~ wday, data = Births78)
 \end{Sinput}
 \begin{Soutput}
-#>   Sun   Mon  Tues   Wed Thurs   Fri   Sat 
-#>   410   608   527   461   551   488   390
+##   Sun   Mon  Tues   Wed Thurs   Fri   Sat 
+##   410   608   527   461   551   488   390
 \end{Soutput}
 \begin{Sinput}
 favstats(births ~ wday, data = Births78)
 \end{Sinput}
 \begin{Soutput}
-#>    wday  min   Q1 median    Q3   max mean  sd  n missing
-#> 1   Sun 7135 7691   7936  8196  8711 7951 410 53       0
-#> 2   Mon 7527 9097   9321  9838 10414 9371 608 52       0
-#> 3  Tues 8433 9304   9668 10084 10711 9709 527 52       0
-#> 4   Wed 8606 9196   9362  9880 10703 9498 461 52       0
-#> 5 Thurs 7915 9171   9397  9958 10499 9484 551 52       0
-#> 6   Fri 8892 9198   9544 10088 10438 9626 488 52       0
-#> 7   Sat 7527 8007   8260  8586  9170 8309 390 52       0
+##    wday  min   Q1 median    Q3   max mean  sd  n missing
+## 1   Sun 7135 7691   7936  8196  8711 7951 410 53       0
+## 2   Mon 7527 9097   9321  9838 10414 9371 608 52       0
+## 3  Tues 8433 9304   9668 10084 10711 9709 527 52       0
+## 4   Wed 8606 9196   9362  9880 10703 9498 461 52       0
+## 5 Thurs 7915 9171   9397  9958 10499 9484 551 52       0
+## 6   Fri 8892 9198   9544 10088 10438 9626 488 52       0
+## 7   Sat 7527 8007   8260  8586  9170 8309 390 52       0
 \end{Soutput}
 \end{Schunk}
 
@@ -148,30 +148,30 @@ that in the final example, conditional proportions are calculated.
 tally(sex ~ substance, data = HELPrct)
 \end{Sinput}
 \begin{Soutput}
-#>         substance
-#> sex      alcohol cocaine heroin
-#>   female      36      41     30
-#>   male       141     111     94
+##         substance
+## sex      alcohol cocaine heroin
+##   female      36      41     30
+##   male       141     111     94
 \end{Soutput}
 \begin{Sinput}
 tally(sex ~ substance, data = HELPrct, margins = TRUE)
 \end{Sinput}
 \begin{Soutput}
-#>         substance
-#> sex      alcohol cocaine heroin
-#>   female      36      41     30
-#>   male       141     111     94
-#>   Total      177     152    124
+##         substance
+## sex      alcohol cocaine heroin
+##   female      36      41     30
+##   male       141     111     94
+##   Total      177     152    124
 \end{Soutput}
 \begin{Sinput}
 tally(sex ~ substance, data = HELPrct, margins = TRUE, format = "proportion")
 \end{Sinput}
 \begin{Soutput}
-#>         substance
-#> sex      alcohol cocaine heroin
-#>   female   0.203   0.270  0.242
-#>   male     0.797   0.730  0.758
-#>   Total    1.000   1.000  1.000
+##         substance
+## sex      alcohol cocaine heroin
+##   female   0.203   0.270  0.242
+##   male     0.797   0.730  0.758
+##   Total    1.000   1.000  1.000
 \end{Soutput}
 \end{Schunk}
 
@@ -243,8 +243,8 @@ mean( ~ age | sex, data = HELPrct)
 mean( ~ age, groups = sex, data = HELPrct)
 \end{Sinput}
 \begin{Soutput}
-#> female   male 
-#>   36.3   35.5
+## female   male 
+##   36.3   35.5
 \end{Soutput}
 \end{Schunk}
 
@@ -285,7 +285,7 @@ are required to have a right hand side).
 mean( ~ age, data = HELPrct)
 \end{Sinput}
 \begin{Soutput}
-#> [1] 35.7
+## [1] 35.7
 \end{Soutput}
 \end{Schunk}
 
@@ -378,7 +378,7 @@ new users.
 mean( ~ dayslink, data = HELPmiss)
 \end{Sinput}
 \begin{Soutput}
-#> [1] NA
+## [1] NA
 \end{Soutput}
 \end{Schunk}
 
@@ -392,7 +392,7 @@ intimidating to new users.
 mean( ~ dayslink, data = HELPmiss, na.rm = TRUE)
 \end{Sinput}
 \begin{Soutput}
-#> [1] 257
+## [1] 257
 \end{Soutput}
 \end{Schunk}
 
@@ -406,8 +406,8 @@ missing values.
 favstats( ~ dayslink, data = HELPmiss)
 \end{Sinput}
 \begin{Soutput}
-#>  min Q1 median  Q3 max mean  sd   n missing
-#>    2 75    363 365 456  257 151 447      23
+##  min Q1 median  Q3 max mean  sd   n missing
+##    2 75    363 365 456  257 151 447      23
 \end{Soutput}
 \end{Schunk}
 
@@ -421,13 +421,13 @@ options(na.rm = TRUE)
 mean(~ dayslink, data = HELPmiss)
 \end{Sinput}
 \begin{Soutput}
-#> [1] 257
+## [1] 257
 \end{Soutput}
 \begin{Sinput}
 with(HELPmiss, base::mean(dayslink))
 \end{Sinput}
 \begin{Soutput}
-#> [1] NA
+## [1] NA
 \end{Soutput}
 \end{Schunk}
 
@@ -441,7 +441,7 @@ options(na.rm = NULL)
 mean(~ dayslink, data = HELPmiss)
 \end{Sinput}
 \begin{Soutput}
-#> [1] NA
+## [1] NA
 \end{Soutput}
 \end{Schunk}
 
@@ -457,19 +457,19 @@ categorical and time variables.
 inspect(Births78)
 \end{Sinput}
 \begin{Soutput}
-#> 
-#> categorical variables:  
-#>   name   class levels   n missing                                  distribution
-#> 1 wday ordered      7 365       0 Sun (14.5%), Mon (14.2%), Tues (14.2%) ...   
-#> 
-#> quantitative variables:  
-#>        name   class  min   Q1 median   Q3   max mean  sd   n missing
-#> 1    births integer 7135 8554   9218 9705 10711 9132 818 365       0
-#> 2 dayofyear integer    1   92    183  274   365  183 106 365       0
-#> 
-#> time variables:  
-#>   name   class      first       last min_diff max_diff   n missing
-#> 1 date POSIXct 1978-01-01 1978-12-31        1        1 365       0
+## 
+## categorical variables:  
+##   name   class levels   n missing                                  distribution
+## 1 wday ordered      7 365       0 Sun (14.5%), Mon (14.2%), Tues (14.2%) ...   
+## 
+## quantitative variables:  
+##        name   class  min   Q1 median   Q3   max mean  sd   n missing
+## 1    births integer 7135 8554   9218 9705 10711 9132 818 365       0
+## 2 dayofyear integer    1   92    183  274   365  183 106 365       0
+## 
+## time variables:  
+##   name   class      first       last min_diff max_diff   n missing
+## 1 date POSIXct 1978-01-01 1978-12-31        1        1 365       0
 \end{Soutput}
 \end{Schunk}
 
@@ -487,14 +487,14 @@ f <- makeFun(A + B * log(x) ~ x, A = 1, B = 1)
 f
 \end{Sinput}
 \begin{Soutput}
-#> function (x, A = 1, B = 1) 
-#> A + B * log(x)
+## function (x, A = 1, B = 1) 
+## A + B * log(x)
 \end{Soutput}
 \begin{Sinput}
 f(2)
 \end{Sinput}
 \begin{Soutput}
-#> [1] 1.69
+## [1] 1.69
 \end{Soutput}
 \begin{Sinput}
 plotFun(f(x) ~ x, xlim = c(0,3))
@@ -518,15 +518,15 @@ dist2 <- makeFun(cars.mod2)
 dist2(speed = 15)
 \end{Sinput}
 \begin{Soutput}
-#>    1 
-#> 38.7
+##    1 
+## 38.7
 \end{Soutput}
 \begin{Sinput}
 dist2(speed = 15, interval = "confidence")
 \end{Sinput}
 \begin{Soutput}
-#>    fit lwr  upr
-#> 1 38.7  33 44.3
+##    fit lwr  upr
+## 1 38.7  33 44.3
 \end{Soutput}
 \begin{Sinput}
 xyplot(dist ~ speed, data = cars, alpha = 0.4)
@@ -552,8 +552,8 @@ s <- makeFun(Feet.mod)
 s(width = 8.5)
 \end{Sinput}
 \begin{Soutput}
-#>     1 
-#> 0.704
+##     1 
+## 0.704
 \end{Soutput}
 \begin{Sinput}
 xyplot(sex ~ width, data = KidsFeet, jitter.y = TRUE)
@@ -594,7 +594,7 @@ logistic regression plots when the response is a factor.
 
 \begin{Schunk}
 \begin{Sinput}
-plotModel(cars.mod)
+plotModel(cars.mod2)
 plotModel(Feet.mod, jitter.y = TRUE)
 \end{Sinput}
 
@@ -653,23 +653,23 @@ times:
 rflip()
 \end{Sinput}
 \begin{Soutput}
-#> 
-#> Flipping 1 coin [ Prob(Heads) = 0.5 ] ...
-#> 
-#> H
-#> 
-#> Number of Heads: 1 [Proportion Heads: 1]
+## 
+## Flipping 1 coin [ Prob(Heads) = 0.5 ] ...
+## 
+## H
+## 
+## Number of Heads: 1 [Proportion Heads: 1]
 \end{Soutput}
 \begin{Sinput}
 rflip(20)
 \end{Sinput}
 \begin{Soutput}
-#> 
-#> Flipping 20 coins [ Prob(Heads) = 0.5 ] ...
-#> 
-#> T H T H H H H H H H T T T T H H T H H T
-#> 
-#> Number of Heads: 12 [Proportion Heads: 0.6]
+## 
+## Flipping 20 coins [ Prob(Heads) = 0.5 ] ...
+## 
+## T H T H H H H H H H T T T T H H T H H T
+## 
+## Number of Heads: 12 [Proportion Heads: 0.6]
 \end{Soutput}
 \end{Schunk}
 
@@ -694,10 +694,10 @@ three times as follows.
 do(3) * rflip(20)
 \end{Sinput}
 \begin{Soutput}
-#>    n heads tails prop
-#> 1 20    11     9 0.55
-#> 2 20     9    11 0.45
-#> 3 20     9    11 0.45
+##    n heads tails prop
+## 1 20    11     9 0.55
+## 2 20     9    11 0.45
+## 3 20     9    11 0.45
 \end{Soutput}
 \end{Schunk}
 
@@ -715,9 +715,9 @@ histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
 tally ( ~(heads <= 6), data = Sims)
 \end{Sinput}
 \begin{Soutput}
-#> 
-#>  TRUE FALSE 
-#>    56   944
+## 
+##  TRUE FALSE 
+##    58   942
 \end{Soutput}
 
 
@@ -760,15 +760,15 @@ to obtain an empirical p-value.
 D <- diffmean(age ~ sex, data = HELPrct); D 
 \end{Sinput}
 \begin{Soutput}
-#> diffmean 
-#>   -0.784
+## diffmean 
+##   -0.784
 \end{Soutput}
 \begin{Sinput}
 do(1) * diffmean(age ~ shuffle(sex), data = HELPrct)
 \end{Sinput}
 \begin{Soutput}
-#>   diffmean
-#> 1   -0.601
+##   diffmean
+## 1   -0.601
 \end{Soutput}
 \begin{Sinput}
 Null.dist <- do(5000) * diffmean(age ~ shuffle(sex), data = HELPrct)
@@ -776,8 +776,8 @@ histogram( ~ diffmean, data = Null.dist, v = D)
 prop( ~ (diffmean < D), data = Null.dist, format = "prop")
 \end{Sinput}
 \begin{Soutput}
-#>  TRUE 
-#> 0.176
+##  TRUE 
+## 0.176
 \end{Soutput}
 
 
@@ -790,8 +790,8 @@ prop( ~ (diffmean < D), data = Null.dist, format = "prop")
 pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
 \end{Sinput}
 \begin{Soutput}
-#> p.value 
-#>   0.177
+## p.value 
+##   0.177
 \end{Soutput}
 \end{Schunk}
 
@@ -816,15 +816,15 @@ rate.
 count( ~ (diffmean < D), data = Null.dist)
 \end{Sinput}
 \begin{Soutput}
-#> TRUE 
-#>  880
+## TRUE 
+##  880
 \end{Soutput}
 \begin{Sinput}
 (1 + count( ~ (diffmean < D), data = Null.dist)) / (1 + nrow(Null.dist))  # p-value
 \end{Sinput}
 \begin{Soutput}
-#>  TRUE 
-#> 0.176
+##  TRUE 
+## 0.176
 \end{Soutput}
 \end{Schunk}
 
@@ -850,25 +850,25 @@ some resamples might not include any observations of that group.
 favstats(age ~ sex, data = HELPrct)
 \end{Sinput}
 \begin{Soutput}
-#>      sex min Q1 median   Q3 max mean   sd   n missing
-#> 1 female  21 31     35 40.5  58 36.3 7.58 107       0
-#> 2   male  19 30     35 40.0  60 35.5 7.75 346       0
+##      sex min Q1 median   Q3 max mean   sd   n missing
+## 1 female  21 31     35 40.5  58 36.3 7.58 107       0
+## 2   male  19 30     35 40.0  60 35.5 7.75 346       0
 \end{Soutput}
 \begin{Sinput}
 favstats(age ~ sex, data = resample(HELPrct))
 \end{Sinput}
 \begin{Soutput}
-#>      sex min Q1 median Q3 max mean   sd   n missing
-#> 1 female  21 30     34 39  58 35.3 7.80  98       0
-#> 2   male  19 30     35 39  58 35.3 7.59 355       0
+##      sex min Q1 median Q3 max mean   sd   n missing
+## 1 female  21 30     34 39  58 35.3 7.80  98       0
+## 2   male  19 30     35 39  58 35.3 7.59 355       0
 \end{Soutput}
 \begin{Sinput}
 favstats(age ~ sex, data = resample(HELPrct, groups = sex))
 \end{Sinput}
 \begin{Soutput}
-#>      sex min Q1 median Q3 max mean   sd   n missing
-#> 1 female  21 31     37 40  58 37.2 7.93 107       0
-#> 2   male  19 30     35 41  60 35.7 7.95 346       0
+##      sex min Q1 median Q3 max mean   sd   n missing
+## 1 female  21 31     37 40  58 37.2 7.93 107       0
+## 2   male  19 30     35 41  60 35.7 7.95 346       0
 \end{Soutput}
 \end{Schunk}
 
@@ -888,8 +888,8 @@ qqmath( ~ diffmean, data = Boot.dist2)
 cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
 \end{Sinput}
 \begin{Soutput}
-#>       low        hi central.p 
-#>    -2.473     0.913     0.950
+##       low        hi central.p 
+##    -2.473     0.913     0.950
 \end{Soutput}
 
 
@@ -905,13 +905,13 @@ estimate of the standard error.
 SE <- sd( ~ diffmean, data = Boot.dist2); SE
 \end{Sinput}
 \begin{Soutput}
-#> [1] 0.867
+## [1] 0.867
 \end{Soutput}
 \begin{Sinput}
 D + c(-1,1) * 2 * SE
 \end{Sinput}
 \begin{Soutput}
-#> [1] -2.519  0.951
+## [1] -2.519  0.951
 \end{Soutput}
 \end{Schunk}
 
@@ -937,9 +937,9 @@ an extension to \texttt{confint()}.
 confint(Boot.dist2, method = c("percentile", "stderr"))
 \end{Sinput}
 \begin{Soutput}
-#>       name lower upper level     method estimate margin.of.error  df
-#> 1 diffmean -2.47 0.913  0.95 percentile   -0.784              NA  NA
-#> 2 diffmean -2.48 0.933  0.95     stderr   -0.784             1.7 452
+##       name lower upper level     method estimate margin.of.error  df
+## 1 diffmean -2.47 0.913  0.95 percentile   -0.784              NA  NA
+## 2 diffmean -2.48 0.933  0.95     stderr   -0.784             1.7 452
 \end{Soutput}
 \end{Schunk}
 
@@ -954,28 +954,28 @@ information from more complicated objects. Some examples include
 confint(t.test( ~ age, data = HELPrct))    # works for any "htest" object
 \end{Sinput}
 \begin{Soutput}
-#>   mean of x lower upper level
-#> 1      35.7  34.9  36.4  0.95
+##   mean of x lower upper level
+## 1      35.7  34.9  36.4  0.95
 \end{Soutput}
 \begin{Sinput}
 pval(t.test(age ~ sex, data = HELPrct))    # works for any "htest" object
 \end{Sinput}
 \begin{Soutput}
-#> p.value 
-#>   0.354
+## p.value 
+##   0.354
 \end{Soutput}
 \begin{Sinput}
 stat(t.test(age ~ sex, data = HELPrct))    # works for any "htest" object
 \end{Sinput}
 \begin{Soutput}
-#>    t 
-#> 0.93
+##    t 
+## 0.93
 \end{Soutput}
 \begin{Sinput}
 rsquared(lm(age ~ sex, data=HELPrct))
 \end{Sinput}
 \begin{Soutput}
-#> [1] 0.00187
+## [1] 0.00187
 \end{Soutput}
 \end{Schunk}
 
@@ -1077,28 +1077,28 @@ understanding what values are returned by functions like
 xpnorm(-2:2)
 \end{Sinput}
 \begin{Soutput}
-#> 
-#> If X ~ N(0,1), then 
-#> 
-#>  P(X <= -2) = P(Z <= -2) = 0.0228
-#>      P(X <= -1) = P(Z <= -1) = 0.1587
-#>      P(X <= 0) = P(Z <= 0) = 0.5
-#>      P(X <= 1) = P(Z <= 1) = 0.8413
-#>      P(X <= 2) = P(Z <= 2) = 0.9772
-#>  P(X >  -2) = P(Z >  -2) = 0.9772
-#>      P(X >  -1) = P(Z >  -1) = 0.8413
-#>      P(X >  0) = P(Z >  0) = 0.5
-#>      P(X >  1) = P(Z >  1) = 0.1587
-#>      P(X >  2) = P(Z >  2) = 0.0228
+## 
+## If X ~ N(0,1), then 
+## 
+##  P(X <= -2) = P(Z <= -2) = 0.0228
+##      P(X <= -1) = P(Z <= -1) = 0.1587
+##      P(X <= 0) = P(Z <= 0) = 0.5
+##      P(X <= 1) = P(Z <= 1) = 0.8413
+##      P(X <= 2) = P(Z <= 2) = 0.9772
+##  P(X >  -2) = P(Z >  -2) = 0.9772
+##      P(X >  -1) = P(Z >  -1) = 0.8413
+##      P(X >  0) = P(Z >  0) = 0.5
+##      P(X >  1) = P(Z >  1) = 0.1587
+##      P(X >  2) = P(Z >  2) = 0.0228
 \end{Soutput}
 \begin{Soutput}
-#> [1] 0.0228 0.1587 0.5000 0.8413 0.9772
+## [1] 0.0228 0.1587 0.5000 0.8413 0.9772
 \end{Soutput}
 \begin{Sinput}
 xqt(0.975, df = 20)
 \end{Sinput}
 \begin{Soutput}
-#> [1] 2.09
+## [1] 2.09
 \end{Soutput}
 
 
@@ -1438,9 +1438,9 @@ ILEC <- Verizon %>% filter(Group == "ILEC")       # dplyr is a dependency of mos
 favstats( ~ Time, groups = Group, data = ILEC)
 \end{Sinput}
 \begin{Soutput}
-#>   Group min   Q1 median   Q3 max mean   sd    n missing
-#> 1  CLEC  NA   NA     NA   NA  NA  NaN   NA    0       0
-#> 2  ILEC   0 0.73   3.59 7.08 192 8.41 14.7 1664       0
+##   Group min   Q1 median   Q3 max mean   sd    n missing
+## 1  CLEC  NA   NA     NA   NA  NA  NaN   NA    0       0
+## 2  ILEC   0 0.73   3.59 7.08 192 8.41 14.7 1664       0
 \end{Soutput}
 \begin{Sinput}
  ashplot( ~ Time, groups = Group, data = Verizon, auto.key = TRUE, width = 20)
@@ -1461,16 +1461,16 @@ BootT1 <- do(1000) * favstats(~ Time, data = resample(ILEC))
 confint(BootT1, method = "boot")
 \end{Sinput}
 \begin{Soutput}
-#>   name lower upper level      method estimate
-#> 1 mean  7.85  9.14  0.95 bootstrap-t     8.41
+##   name lower upper level      method estimate
+## 1 mean  7.85  9.14  0.95 bootstrap-t     8.41
 \end{Soutput}
 \begin{Sinput}
 BootT2 <- do(1000) * favstats( ~ Time, groups = Group, data = resample(Verizon, groups = Group))
 confint(BootT2, method = "boot")
 \end{Sinput}
 \begin{Soutput}
-#>       name lower upper level      method estimate
-#> 1 diffmean -22.3 -2.44  0.95 bootstrap-t     -8.1
+##       name lower upper level      method estimate
+## 1 diffmean -22.3 -2.44  0.95 bootstrap-t     -8.1
 \end{Soutput}
 \end{Schunk}
 
@@ -1484,28 +1484,28 @@ the 1-sample case:
 estimate <- mean( ~ Time, data = ILEC); estimate
 \end{Sinput}
 \begin{Soutput}
-#> [1] 8.41
+## [1] 8.41
 \end{Soutput}
 \begin{Sinput}
 SE <- sd( ~ mean, data = BootT1); SE
 \end{Sinput}
 \begin{Soutput}
-#> [1] 0.341
+## [1] 0.341
 \end{Soutput}
 \begin{Sinput}
 BootT1a <- BootT1 %>% mutate( T = (mean - mean(mean)) / (sd/sqrt(n)))
 q <- quantile(~ T, p = c(0.975, 0.025), data = BootT1); q
 \end{Sinput}
 \begin{Soutput}
-#> 97.5%  2.5% 
-#>     1     1
+## 97.5%  2.5% 
+##     1     1
 \end{Soutput}
 \begin{Sinput}
 estimate - q * SE
 \end{Sinput}
 \begin{Soutput}
-#> 97.5%  2.5% 
-#>  8.07  8.07
+## 97.5%  2.5% 
+##  8.07  8.07
 \end{Soutput}
 \begin{Sinput}
 densityplot( ~ T, data = BootT1a)
@@ -1525,8 +1525,8 @@ the percentile method.
 confint(t.test( ~ Time, data = ILEC))
 \end{Sinput}
 \begin{Soutput}
-#>   mean of x lower upper level
-#> 1      8.41  7.71  9.12  0.95
+##   mean of x lower upper level
+## 1      8.41  7.71  9.12  0.95
 \end{Soutput}
 \begin{Sinput}
 BootT1b <- 
@@ -1534,15 +1534,15 @@ BootT1b <-
 confint(BootT1b, method = "perc")
 \end{Sinput}
 \begin{Soutput}
-#>   name lower upper level     method estimate
-#> 1 mean  7.73  9.13  0.95 percentile     8.41
+##   name lower upper level     method estimate
+## 1 mean  7.73  9.13  0.95 percentile     8.41
 \end{Soutput}
 \begin{Sinput}
 confint(t.test(Time ~ Group, data = Verizon))
 \end{Sinput}
 \begin{Soutput}
-#>   mean in group CLEC mean in group ILEC  lower upper level
-#> 1               16.5               8.41 -0.362  16.6  0.95
+##   mean in group CLEC mean in group ILEC  lower upper level
+## 1               16.5               8.41 -0.362  16.6  0.95
 \end{Soutput}
 \begin{Sinput}
 BootT2b <- 
@@ -1550,8 +1550,8 @@ BootT2b <-
 confint(BootT2b, method = "perc")
 \end{Sinput}
 \begin{Soutput}
-#>       name lower upper level     method estimate
-#> 1 diffmean -16.6 -1.58  0.95 percentile     -8.1
+##       name lower upper level     method estimate
+## 1 diffmean -16.6 -1.58  0.95 percentile     -8.1
 \end{Soutput}
 \end{Schunk}
 
@@ -1579,11 +1579,11 @@ microbenchmark::microbenchmark(
   mosaic::mean(~ rnorm(1000)))
 \end{Sinput}
 \begin{Soutput}
-#> Unit: microseconds
-#>                        expr   min    lq mean median  uq  max neval cld
-#>     base::mean(rnorm(1000))  89.6  96.3  102   99.7 102  155   100 a  
-#>   mosaic::mean(rnorm(1000)) 232.9 243.6  265  256.0 269  640   100  b 
-#>  mosaic::mean(~rnorm(1000)) 710.1 734.3  776  749.5 776 1298   100   c
+## Unit: microseconds
+##                        expr   min    lq  mean median  uq  max neval cld
+##     base::mean(rnorm(1000))  89.7  92.9  95.6   94.6  96  126   100 a  
+##   mosaic::mean(rnorm(1000)) 230.6 239.6 250.9  244.4 260  342   100  b 
+##  mosaic::mean(~rnorm(1000)) 711.8 736.7 764.4  749.1 776 1175   100   c
 \end{Soutput}
 \begin{Sinput}
 microbenchmark::microbenchmark( 
@@ -1592,11 +1592,11 @@ microbenchmark::microbenchmark(
   mosaic::mean(~ rnorm(10000)))
 \end{Sinput}
 \begin{Soutput}
-#> Unit: microseconds
-#>                         expr  min   lq mean median   uq  max neval cld
-#>     base::mean(rnorm(10000))  800  811  901    843  926 1574   100 a  
-#>   mosaic::mean(rnorm(10000))  958  988 1113   1038 1157 2629   100  b 
-#>  mosaic::mean(~rnorm(10000)) 1410 1480 1680   1588 1777 3574   100   c
+## Unit: microseconds
+##                         expr  min   lq mean median   uq  max neval cld
+##     base::mean(rnorm(10000))  801  808  861    815  867 1357   100 a  
+##   mosaic::mean(rnorm(10000))  948  958 1073    967 1041 3916   100  b 
+##  mosaic::mean(~rnorm(10000)) 1420 1452 1655   1501 1700 3253   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1616,11 +1616,11 @@ microbenchmark::microbenchmark(
 )
 \end{Sinput}
 \begin{Soutput}
-#> Unit: microseconds
-#>       expr  min   lq mean median   uq  max neval cld
-#>  aggregate  745  785  929    851  948 4368   100 a  
-#>      dplyr 1225 1339 1557   1421 1603 4408   100  b 
-#>     mosaic 1470 1557 1768   1621 1793 4014   100   c
+## Unit: microseconds
+##       expr  min   lq mean median   uq  max neval cld
+##  aggregate  769  803  932    833  888 4315   100 a  
+##      dplyr 1238 1306 1435   1371 1437 3059   100  b 
+##     mosaic 1522 1593 1694   1635 1695 3243   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1637,10 +1637,10 @@ microbenchmark::microbenchmark( times = 50,
 )
 \end{Sinput}
 \begin{Soutput}
-#> Unit: milliseconds
-#>       expr min  lq mean median  uq max neval cld
-#>         do 694 706  757    727 790 979    50   a
-#>  replicate 677 697  743    744 775 920    50   a
+## Unit: milliseconds
+##       expr min  lq mean median  uq  max neval cld
+##         do 702 718  761    746 789 1031    50   a
+##  replicate 685 703  743    718 774  994    50   a
 \end{Soutput}
 \end{Schunk}
 
@@ -1659,10 +1659,10 @@ microbenchmark::microbenchmark( times = 50,
 )
 \end{Sinput}
 \begin{Soutput}
-#> Unit: milliseconds
-#>       expr min  lq mean median  uq  max neval cld
-#>         do 464 485  504    496 514  730    50  a 
-#>  replicate 673 747  778    773 799 1044    50   b
+## Unit: milliseconds
+##       expr min  lq mean median  uq  max neval cld
+##         do 498 517  525    523 534  592    50  a 
+##  replicate 685 743  785    778 818 1013    50   b
 \end{Soutput}
 \end{Schunk}
 
