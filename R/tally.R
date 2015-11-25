@@ -237,6 +237,8 @@ rows <- function(x, default=c()) {
 }
 
 #' Compute proportions, percents, or counts for a single level
+#' 
+#' Compute proportions, percents, or counts for a single level
 #'
 #' @rdname prop
 #' @param x an R object, usually a formula
@@ -251,11 +253,18 @@ rows <- function(x, default=c()) {
 #'   ignored.
 #' @param format one of \code{proportion}, \code{percent}, or \code{count},
 #'        possibly abbrevaited
+#' @param pval.adjust a logical indicating whether the "p-value" adjustment should be 
+#' applied.  This adjustment adds 1 to the numerator and denominator counts.
 #' @param quiet a logical indicating whether messages regarding the 
 #'   target level should be supressed.
 #'
 #' @note For 0-1 data, level is set to 1 by default since that a standard 
 #' coding scheme for success and failure.
+#' 
+#' @details
+#' \code{prop1} is intended for the computation of p-values from randomization
+#' distributions and differs from \code{prop} only in its default value of 
+#' \code{pval.adjust}.
 #' 
 #' @examples
 #' if (require(mosaicData)) {
@@ -267,10 +276,23 @@ rows <- function(x, default=c()) {
 #' }
 #' @export
 
-prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL, 
+prop <- function(x, data=parent.frame(), useNA = "no", ..., 
+                 level=NULL, 
                  long.names=TRUE, sep=".", 
-                 format="proportion", quiet=TRUE) {
-  T <- mosaic::tally(x, data=data, useNA = useNA, ..., format=format)
+                 format="proportion", 
+                 quiet=TRUE,
+                 pval.adjust = FALSE) {
+  T <- mosaic::tally(x, data=data, useNA = useNA, ...)
+  n <- sum(T)
+  if (pval.adjust) {
+    n <- n + 1
+    T <- T + 1
+  }
+  
+  if (format == "percent") {
+    T <- T * 100
+  }
+  
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   lnames <- dimnames(T)[[1]]
   if (is.null(level)) {
@@ -289,17 +311,23 @@ prop <- function(x, data=parent.frame(), useNA = "no", ..., level=NULL,
                     paste(setdiff(lnames,level), collapse=", "), "\n" ) )
   if ( length(dim(T)) == 2) {
     idx <- match(level, lnames)
-    result <- T[idx,]
+    result <- T[idx,] / n
     if (long.names)
       names(result) <- paste(level, names(result), sep=sep)
     return(result)
   }
   if ( length(dim(T)) == 1) {
     idx <- match(level, names(T))
-    result <- T[idx]
+    result <- T[idx] / n
     return(result)
   }
   stop(paste('Too many dimensions (', length(dim(T)), ")",sep=""))
+}
+
+#' @rdname prop
+#' @export
+prop1 <- function(..., pval.adjust = TRUE) {
+  prop(..., pval.adjust = pval.adjust)
 }
 
 #' @rdname prop
