@@ -4,10 +4,14 @@
 \alias{count}
 \alias{perc}
 \alias{prop}
+\alias{prop1}
 \title{Compute proportions, percents, or counts for a single level}
 \usage{
 prop(x, data = parent.frame(), useNA = "no", ..., level = NULL,
-  long.names = TRUE, sep = ".", format = "proportion", quiet = TRUE)
+  long.names = TRUE, sep = ".", format = "proportion", quiet = TRUE,
+  pval.adjust = FALSE)
+
+prop1(..., pval.adjust = TRUE)
 
 count(x, data = parent.frame(), ..., format = "count")
 
@@ -35,10 +39,18 @@ possibly abbrevaited}
 \item{quiet}{a logical indicating whether messages regarding the 
 target level should be supressed.}
 
+\item{pval.adjust}{a logical indicating whether the "p-value" adjustment should be 
+applied.  This adjustment adds 1 to the numerator and denominator counts.}
+
 \item{\dots}{arguments passed through to \code{\link{tally}}}
 }
 \description{
 Compute proportions, percents, or counts for a single level
+}
+\details{
+\code{prop1} is intended for the computation of p-values from randomization
+distributions and differs from \code{prop} only in its default value of 
+\code{pval.adjust}.
 }
 \note{
 For 0-1 data, level is set to 1 by default since that a standard 

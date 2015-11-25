@@ -85,7 +85,7 @@ tally( ~ substance & sex , data=HELPrct, format='percent')
 tally( ~ sex, data=HELPrct, useNA="always")
 # show NAs if any are there
 tally( ~ link, data=HELPrct)
-# ignfore the NAs
+# ignore the NAs
 tally( ~ link, data=HELPrct, useNA="no")
 }
 }
