@@ -4,17 +4,26 @@
 \alias{chisq}
 \alias{chisq.default}
 \alias{chisq.htest}
+\alias{chisq.table}
 \title{Extract Chi-squared statistic}
 \usage{
 chisq(x, ...)
 
 \method{chisq}{htest}(x, ...)
 
-\method{chisq}{default}(x, ...)
+\method{chisq}{table}(x, correct = FALSE, ...)
+
+\method{chisq}{default}(x, correct = FALSE, ...)
 }
 \arguments{
-\item{x, ...}{Either an object of class \code{"htest"} coming from a Chi-squared test or
-the inputs to \code{\link{chisq.test}}.}
+\item{x}{An object of class \code{"htest"} a coming from a Chi-squared test,
+an object of class \code{"table"}, or
+the inputs to \code{\link{tally}}.}
+
+\item{...}{additional arguments passed on to \code{tally} or \code{chisq.test}.}
+
+\item{correct}{a logical indicating whether a continuity correction should be 
+applied.}
 }
 \description{
 Extract Chi-squared statistic
