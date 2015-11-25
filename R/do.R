@@ -552,7 +552,10 @@ setMethod(
     if (inherits( result, "data.frame")) {
       # we get mutliple parts here if expression involves, for example, ::
       # just grab last part. (paste()ing would be out of order
-      alt_name <- tail(as.character(e2_lazy$expr[[1]]), 1)
+      alt_name <- tryCatch(
+        tail(as.character(e2_lazy$expr[[1]]), 1),
+        error = function(e) "result"
+      )
       names(result) <- nice_names(names(result))
       names(result)[names(result) == "..result.."] <- 
         if(nice_names(alt_name) == alt_name) alt_name else "result"
