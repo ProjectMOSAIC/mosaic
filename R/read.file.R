@@ -1,3 +1,7 @@
+#' @importFrom stats reorder
+#' @importFrom utils read.delim
+NA
+
 #' Read data files
 #' 
 #' A wrapper around various file reading functions.
