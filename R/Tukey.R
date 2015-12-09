@@ -1,4 +1,5 @@
-
+#' @importFrom stats reorder
+NA
 
 #' Additional interfaces to TukeyHSD
 #' 
