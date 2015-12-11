@@ -52,4 +52,6 @@ Description: Data sets and utilities from Project MOSAIC (mosaic-web.org) used
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
+URL: https://github.com/ProjectMOSAIC/mosaic
+BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
 RoxygenNote: 5.0.1
