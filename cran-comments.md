@@ -1,6 +1,9 @@
 ## Test environments
 
-  * local OS X install: R version 3.2.2 Patched (2015-10-06 r69484)
+  * local OS X install: 
+    *  R version 3.2.3 Patched (2015-12-10 r69760)
+    * Platform: x86_64-apple-darwin13.4.0 (64-bit)
+    * Running under: OS X 10.11.1 (El Capitan)
   
   * win-builder (devel and release) via devtools
 
@@ -10,11 +13,12 @@ There were no ERRORs or WARNINGs.
 
 ## Downstream dependencies
 
-I've informed all of the maintainers and checked with devtools::revdep_check().  
+updated versions of fastR and mosaicData are being submitted in conjunction with this release.
 
-FDRreg doesn't install in revdep_check(), but does when I install manually.
+FDRreg doesn't install in revdep_check() and hasn't been updated on CRAN in over 18 months, but my
+previously installed version appears to work.  (The package only has two functions and the 
+examples for each run with the new version of this package installed.)
 
-In userfriendlyscience, there appears to be an error passing unknown arguments 
-to a ggplot2 geom (Error: Unknown parameters: size)  This does not appear to be 
-related to the mosaic package.
+In userfriendlyscience, there appears to be errors related to ggplot2.  The maintainer
+has been notified by Hadley.  There do not appear to be mosaic-related issues.
 
