@@ -816,15 +816,15 @@ rate.
 count( ~ (diffmean < D), data = Null.dist)
 \end{Sinput}
 \begin{Soutput}
-## TRUE 
-##  880
+##  TRUE 
+## 0.176
 \end{Soutput}
 \begin{Sinput}
 (1 + count( ~ (diffmean < D), data = Null.dist)) / (1 + nrow(Null.dist))  # p-value
 \end{Sinput}
 \begin{Soutput}
-##  TRUE 
-## 0.176
+##     TRUE 
+## 0.000235
 \end{Soutput}
 \end{Schunk}
 
@@ -1580,10 +1580,10 @@ microbenchmark::microbenchmark(
 \end{Sinput}
 \begin{Soutput}
 ## Unit: microseconds
-##                        expr   min    lq  mean median  uq  max neval cld
-##     base::mean(rnorm(1000))  89.7  92.9  95.6   94.6  96  126   100 a  
-##   mosaic::mean(rnorm(1000)) 230.6 239.6 250.9  244.4 260  342   100  b 
-##  mosaic::mean(~rnorm(1000)) 711.8 736.7 764.4  749.1 776 1175   100   c
+##                        expr   min  lq  mean median    uq  max neval cld
+##     base::mean(rnorm(1000))  88.2  93  97.7   94.6  96.5  186   100 a  
+##   mosaic::mean(rnorm(1000)) 231.3 241 256.2  247.4 263.3  461   100  b 
+##  mosaic::mean(~rnorm(1000)) 710.5 732 760.2  742.6 756.0 1422   100   c
 \end{Soutput}
 \begin{Sinput}
 microbenchmark::microbenchmark( 
@@ -1594,9 +1594,9 @@ microbenchmark::microbenchmark(
 \begin{Soutput}
 ## Unit: microseconds
 ##                         expr  min   lq mean median   uq  max neval cld
-##     base::mean(rnorm(10000))  801  808  861    815  867 1357   100 a  
-##   mosaic::mean(rnorm(10000))  948  958 1073    967 1041 3916   100  b 
-##  mosaic::mean(~rnorm(10000)) 1420 1452 1655   1501 1700 3253   100   c
+##     base::mean(rnorm(10000))  798  802  887    805  854 2630   100 a  
+##   mosaic::mean(rnorm(10000))  945  954 1032    963 1015 1834   100  b 
+##  mosaic::mean(~rnorm(10000)) 1402 1423 1565   1446 1552 3167   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1618,9 +1618,9 @@ microbenchmark::microbenchmark(
 \begin{Soutput}
 ## Unit: microseconds
 ##       expr  min   lq mean median   uq  max neval cld
-##  aggregate  769  803  932    833  888 4315   100 a  
-##      dplyr 1238 1306 1435   1371 1437 3059   100  b 
-##     mosaic 1522 1593 1694   1635 1695 3243   100   c
+##  aggregate  745  798  914    820  889 5467   100 a  
+##      dplyr 1212 1297 1434   1343 1444 3997   100  b 
+##     mosaic 1496 1593 1700   1624 1718 3197   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1639,8 +1639,8 @@ microbenchmark::microbenchmark( times = 50,
 \begin{Soutput}
 ## Unit: milliseconds
 ##       expr min  lq mean median  uq  max neval cld
-##         do 702 718  761    746 789 1031    50   a
-##  replicate 685 703  743    718 774  994    50   a
+##         do 687 732  768    756 779  930    50   a
+##  replicate 671 728  753    745 763 1015    50   a
 \end{Soutput}
 \end{Schunk}
 
@@ -1661,8 +1661,8 @@ microbenchmark::microbenchmark( times = 50,
 \begin{Soutput}
 ## Unit: milliseconds
 ##       expr min  lq mean median  uq  max neval cld
-##         do 498 517  525    523 534  592    50  a 
-##  replicate 685 743  785    778 818 1013    50   b
+##         do 488 512  522    516 529  597    50  a 
+##  replicate 689 737  782    765 796 1194    50   b
 \end{Soutput}
 \end{Schunk}
 
