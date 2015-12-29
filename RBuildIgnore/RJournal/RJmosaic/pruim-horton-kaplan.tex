@@ -1580,10 +1580,10 @@ microbenchmark::microbenchmark(
 \end{Sinput}
 \begin{Soutput}
 ## Unit: microseconds
-##                        expr   min  lq  mean median    uq  max neval cld
-##     base::mean(rnorm(1000))  88.2  93  97.7   94.6  96.5  186   100 a  
-##   mosaic::mean(rnorm(1000)) 231.3 241 256.2  247.4 263.3  461   100  b 
-##  mosaic::mean(~rnorm(1000)) 710.5 732 760.2  742.6 756.0 1422   100   c
+##                        expr   min    lq  mean median  uq  max neval cld
+##     base::mean(rnorm(1000))  89.2  92.8  97.4   94.3  96  175   100 a  
+##   mosaic::mean(rnorm(1000)) 231.4 237.6 252.4  243.7 259  467   100  b 
+##  mosaic::mean(~rnorm(1000)) 701.9 719.7 761.7  729.2 745 1393   100   c
 \end{Soutput}
 \begin{Sinput}
 microbenchmark::microbenchmark( 
@@ -1594,9 +1594,9 @@ microbenchmark::microbenchmark(
 \begin{Soutput}
 ## Unit: microseconds
 ##                         expr  min   lq mean median   uq  max neval cld
-##     base::mean(rnorm(10000))  798  802  887    805  854 2630   100 a  
-##   mosaic::mean(rnorm(10000))  945  954 1032    963 1015 1834   100  b 
-##  mosaic::mean(~rnorm(10000)) 1402 1423 1565   1446 1552 3167   100   c
+##     base::mean(rnorm(10000))  798  802  868    806  820 2931   100 a  
+##   mosaic::mean(rnorm(10000))  943  953 1007    960  987 1865   100  b 
+##  mosaic::mean(~rnorm(10000)) 1392 1413 1555   1455 1535 3683   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1618,9 +1618,9 @@ microbenchmark::microbenchmark(
 \begin{Soutput}
 ## Unit: microseconds
 ##       expr  min   lq mean median   uq  max neval cld
-##  aggregate  745  798  914    820  889 5467   100 a  
-##      dplyr 1212 1297 1434   1343 1444 3997   100  b 
-##     mosaic 1496 1593 1700   1624 1718 3197   100   c
+##  aggregate  749  795  887    823  875 4136   100 a  
+##      dplyr 1214 1257 1465   1360 1474 5317   100  b 
+##     mosaic 1498 1570 1680   1631 1689 2583   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1638,9 +1638,9 @@ microbenchmark::microbenchmark( times = 50,
 \end{Sinput}
 \begin{Soutput}
 ## Unit: milliseconds
-##       expr min  lq mean median  uq  max neval cld
-##         do 687 732  768    756 779  930    50   a
-##  replicate 671 728  753    745 763 1015    50   a
+##       expr min  lq mean median  uq max neval cld
+##         do 684 699  740    744 763 895    50   b
+##  replicate 665 688  716    721 735 794    50  a
 \end{Soutput}
 \end{Schunk}
 
@@ -1660,9 +1660,9 @@ microbenchmark::microbenchmark( times = 50,
 \end{Sinput}
 \begin{Soutput}
 ## Unit: milliseconds
-##       expr min  lq mean median  uq  max neval cld
-##         do 488 512  522    516 529  597    50  a 
-##  replicate 689 737  782    765 796 1194    50   b
+##       expr min  lq mean median  uq max neval cld
+##         do 494 528  546    543 560 654    50  a 
+##  replicate 706 733  771    772 790 935    50   b
 \end{Soutput}
 \end{Schunk}
 
