@@ -37,3 +37,7 @@ vignettes/*.synctex.gz
 mosaic.Rproj
 .httr-oauth
 inst/doc
+vignettes/*.R
+vignettes/*.html
+vignettes/*.md
+vignettes/*.out
