@@ -279,9 +279,10 @@ rows <- function(x, default=c()) {
 prop <- function(x, data=parent.frame(), useNA = "no", ..., 
                  level=NULL, 
                  long.names=TRUE, sep=".", 
-                 format="proportion", 
+                 format=c("proportion", "percent", "count"), 
                  quiet=TRUE,
                  pval.adjust = FALSE) {
+  format <- match.arg(format)
   T <- mosaic::tally(x, data=data, useNA = useNA, ...)
   n <- sum(T)
   if (pval.adjust) {
@@ -292,6 +293,11 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
   if (format == "percent") {
     T <- T * 100
   }
+  
+  if (format == "count") {
+    n <- 1  # inhibits division by n below
+  }
+  
   
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   lnames <- dimnames(T)[[1]]
