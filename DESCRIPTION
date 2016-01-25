@@ -1,15 +1,16 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 0.13.0
-Date: 2015-12-09
+Version: 0.13.9999
+Date: 2016-01-23
 Depends:
     R (>= 3.0.0),
     dplyr,
     lattice (>= 0.20-21),
     ggplot2,
     car,
-    mosaicData
+    mosaicData,
+    Matrix
 Imports:
     lazyeval,
     MASS,
