@@ -319,13 +319,13 @@ aggregatingFunction2 <- function( fun ) {
 #' this from its default value.
 #' @param na.rm a logical indicating whether \code{NA}s should be removed before computing
 #' @export
-Mean <- aggregatingFunction1( base::mean )
+mean_ <- aggregatingFunction1( base::mean )
 
 #' @rdname aggregating
 #' @export
 mean <- function(x, ...) {
   the_call <- match.call()
-  the_call[[1]] <- as.name("Mean")
+  the_call[[1]] <- as.name("mean_")
   if (exists( deparse(substitute(x)) ) &&
       inherits(x, c("Matrix", "sparseMatrix", "sparseVector")) 
   ) return(Matrix::mean(x, ...))

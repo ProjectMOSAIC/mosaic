@@ -17,7 +17,7 @@
 #' }
 #' @export
 diffmean <- function( x, ..., data=parent.frame(), only.2=TRUE ) {
-  m <- Mean(x, ..., data=data)
+  m <- mean_(x, ..., data=data)
   nms <- names(m)
   res <- diff(m)
   names(res) <- 
