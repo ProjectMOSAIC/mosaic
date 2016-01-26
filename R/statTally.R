@@ -94,7 +94,12 @@ function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sid
 
     message(paste("\nTest statistic applied to sample data = ", signif(dstat, 4)))
     message("\nQuantiles of test statistic applied to random data:")
-    print(quantile(stats, q))
+    print(quantile(stats, q, na.rm = TRUE))
+    message("\n")
+    if (any( ! is.finite(stats))) {
+      message("** Note:  ", table(is.finite(stats))["FALSE"], " non-finite or missing values excluded.")
+      stats <- stats[is.finite(stats)]
+    }
     if (stemplot) {
         stem(stats)
     }
@@ -133,7 +138,6 @@ function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sid
     message("\n\t", paste(sum(stats >= hi), "(", round(100 * sum(stats >= hi)/length(stats), 2), 
 						  "% )", "had test stats >=", signif(hi, 4)))
 	}
-    message("\n")
 	
     return(plot1)
 }
