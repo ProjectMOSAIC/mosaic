@@ -553,20 +553,24 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
 {
   geom <- c(`histogram`='', `densityplot`=', geom="line"',    `frequency polygon`=', geom="line"')
   stat <- c(`histogram`='', `densityplot`=', stat="density"', `frequency polygon`=', stat="bin"')
+  gggeoms <- c(`histogram`='geom_histogram', 
+               `densityplot`='geom_density',    
+               `frequency polygon`='geom_freqpoly')
   
   system=match.arg(system)
   adjust <- 10 / s$nbins
   binwidth <- eval( parse( text= paste("diff(range( ~", s$x, ", data=", s$dataName,", na.rm=TRUE))"))) / s$nbins
   if ( any(is.na(binwidth)) || any(is.nan(binwidth)) ) binwidth <- NULL
   if (system == "ggplot2") {
-    res <- paste("qplot( data=", s$dataName, ", x=", s$x, sep="")
-    res <- paste(res, geom[s$plotType], stat[s$plotType], sep="")
-    if (s$plotType %in% c('histogram', 'frequency polygon')) {
-      res <- paste(res, ", binwidth=", signif(binwidth,2), sep="")
+    res <- paste0("ggplot( data = ", s$dataName, ", aes(x = ", s$x, "))", sep="")
+    
+    params <- if (s$plotType %in% c('histogram', 'frequency polygon')) {
+      paste("binwidth=", signif(binwidth,2), sep="")
     } else {
-      res <- paste(res, ", adjust=", signif(adjust,2), sep="")
+      paste("adjust=", signif(adjust,2), sep="")
     }
-    res <- paste( res, " )")
+    res <- paste0(res, " + " , gggeoms[s$plotType], "(", params, ")")
+    
     if (!is.null(s$color) && !is.na(s$color))
       res<-paste(res, " + aes(colour=", s$color, ")", sep="")
 #    if (!is.null(s$size) && !is.na(s$size))
