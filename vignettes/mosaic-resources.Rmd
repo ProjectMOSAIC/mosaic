@@ -76,19 +76,28 @@ but much of the code originally in the `fastR` package has been moved into the `
 
  * *The Statistical Sleuth in R* (NJ Horton)
 		describes how to undertake analyses in R for the
-		examples in the first 13 chapters of the Third Edition of the
+		examples in the Third Edition of the
 		*Statistical Sleuth: A Course in Methods of Data Analysis* (2013),
-		the excellent text by Fred Ramsey and Dan Schafer.
+		by Fred Ramsey and Dan Schafer.
 
     * [www.amherst.edu/~nhorton/sleuth](http://www.amherst.edu/~nhorton/sleuth)
+
 		
  * *Introduction to the Practice of Statistics in R* (NJ Horton and BS Baumer)
 		describes how to undertake analyses in R that are introduced as examples in the first
 		chapters of the Sixth Edition of *Introduction to the Practice of
-		Statistics* (2007), the excellent text by David Moore, George McCabe,
+		Statistics* (2007), by David Moore, George McCabe,
 		and Bruce Craig. 
 		
     * [www.amherst.edu/~nhorton/ips6e](http://www.amherst.edu/~nhorton/ips6e) 
+
+ * *Stats: Data and Models* (NJ Horton)
+		describes how to undertake analyses in R for the
+		examples in the Fourth Edition of the
+		*Stats: Data and Models* (2015),
+		by Dick De Veaux, Paul Velleman, and Dave Bock.
+
+    * [www.amherst.edu/~nhorton/sdm4](http://www.amherst.edu/~nhorton/sdm4)
 
  * *Statistics: Unlocking the Power of Data* (Lock, Lock, Lock, Lock, and Lock) 
 		is an introductory statistics textbook that embraces a resampling approach. 
@@ -131,6 +140,9 @@ but much of the code originally in the `fastR` package has been moved into the `
 
  * NJ Horton, BS Baumer, and H Wickham, "Teaching precursors to data science in introductory and second courses in statistics," *CHANCE*, 2015, 28(2):40-50, 
  [www.amherst.edu/~nhorton/precursors](http://www.amherst.edu/~nhorton/precursors)
+
+ * NJ Horton, and J Hardin, "Teaching the next generation of statistics students to "Think With Data": special issue on statistics and the undergraduate curriculum," *TAS*, 2015, 69(4):259-265, 
+ [http://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283](http://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283)
  
  * D Nolan and D Temple Lang, "Computing in the statistics curricula", 
 *The American Statistician*, 2010, 64(2), 
