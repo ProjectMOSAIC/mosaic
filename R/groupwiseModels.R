@@ -54,7 +54,7 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
   orig.call <- match.call()
   response_var <- formula[[2]]
   response <- eval(response_var, envir=data)
-  ResponseData <- data.frame(x = response) 
+  ResponseData <- data.frame(x = response, stringsAsFactors = FALSE) 
   names(ResponseData) <- as.character(response_var)
   group_vars <- all.vars(formula[[3]])
   if (is.numeric(response)) {
@@ -69,8 +69,13 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
     observed <- data[[as.character(response_var)]]
     
   } else {
-    Res <- data.frame(tally(formula, data=data, format="proportion"))
-    names(Res)[ncol(Res)] <- "model_value" 
+    tmp <- tally(formula, data = data, format = "proportion")
+    # keep the coefficients table with all categorical vars as character strings
+    Res <- expand.grid(dimnames(tmp), stringsAsFactors = FALSE)
+    Res$model_value <- c(tmp[])
+#    Res <- data.frame(tally(formula, data=data, format="proportion"),
+#                      stringsAsFactors = FALSE)
+#    names(Res)[ncol(Res)] <- "model_value" 
     if (length(all.vars(formula[[3]])) == 0) {
       # the constant model
       # get rid of any pseudo variables added by tally
@@ -94,6 +99,7 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
          residuals = residuals,
          fitted.values = fitted.values,
          response = observed,
+         terms = formula, # a kluge for makeVars()
          data = data,
          call = orig.call,
          type = ifelse(is.numeric(response), "mean", "probability")
@@ -113,6 +119,12 @@ print.groupwiseModel <-
   invisible(x)
   }
 
+residuals.groupwiseModel <- function(object, ...) {
+  object$residuals
+}
+fitted.groupwiseModel <- function(object, ...) {
+  object$fitted
+}
 
 # summary() doesn't do anything exciting at the moment.  This is just a placeholder
 # for future functionality.
@@ -148,7 +160,7 @@ predict.groupwiseModel <- function( object, newdata = object$data,
         likelihood <- suppressMessages(left_join(newdata, coef(object)))$model_value
         return(likelihood)
       } else { # the most likely in each group
-        tmp <- do.call(group_by_, list(coef(object), explan_var_names)) %>% 
+        tmp <- group_by_(coef(object), .dots = explan_var_names) %>% 
           filter(rank(desc(model_value), ties = "first") == 1) 
         fitted_values <- suppressMessages(
           left_join(newdata[,names(newdata) != response_name], tmp))
@@ -191,7 +203,7 @@ predict.groupwiseModel <- function( object, newdata = object$data,
 #' MSPE( gwm( sex ~ homeless, data = HELP), HELPrct)
 #' MSPE( gwm( sex ~ homeless + substance, data = HELP), HELPrct)
 
-MSPE <- function(model, data, LL = TRUE){
+MSPE <- function(model, data, LL = FALSE){
   #  was <- options("warn")
   #  on.exit(options(warn = was))
   #options(warn = -3)
