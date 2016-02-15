@@ -297,6 +297,10 @@ makeFun.nls <-
   }
 
 #' @rdname makeFun
+#' @examples 
+#' mod <- gwm(wage ~ sector, data = CPS85)
+#' modfun <- makeFun(mod)
+#' modfun(sector = "prof")
 #' @export
 makeFun.groupwiseModel <- 
   function( object, ... , transform=NULL) {

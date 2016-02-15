@@ -4,15 +4,23 @@
 \alias{MSPE}
 \title{Mean Squared Prediction Error}
 \usage{
-MSPE(model, data)
+MSPE(model, data, LL = FALSE)
 }
 \arguments{
 \item{model}{a model produced by \code{lm}, \code{glm}, or \code{gwm}.}
 
 \item{data}{a data frame}
+
+\item{LL}{if \code{TRUE}, for categorical responses replace mean square error 
+with minus mean log likelihood}
 }
 \description{
 Mean Squared Prediction Error
+}
+\details{
+For categorical responses, the mean square prediction error is not ideal.  Better
+to use the likelhood.  \code{LL = TRUE} turns the calculation into the mean log likelihood
+per case, negated so that large values mean poor predictions
 }
 \examples{
 HELP <- HELPrct \%>\% sample_frac(.3)

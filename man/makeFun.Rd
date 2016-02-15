@@ -5,6 +5,7 @@
 \alias{makeFun.formula}
 \alias{makeFun.function}
 \alias{makeFun.glm}
+\alias{makeFun.groupwiseModel}
 \alias{makeFun.lm}
 \alias{makeFun.nls}
 \title{Create a function from a formula}
@@ -23,6 +24,8 @@ makeFun(object, ...)
   transform = NULL)
 
 \method{makeFun}{nls}(object, ..., transform = NULL)
+
+\method{makeFun}{groupwiseModel}(object, ..., transform = NULL)
 }
 \arguments{
 \item{object}{an object from which to create a function.  This should generally
@@ -98,5 +101,8 @@ fit <- makeFun(model)
 xyplot(wage ~ exper, data=CPS85)
 plotFun(fit(exper) ~ exper, add=TRUE)
 }
+mod <- gwm(wage ~ sector, data = CPS85)
+modfun <- makeFun(mod)
+modfun(sector = "prof")
 }
 
