@@ -296,6 +296,50 @@ makeFun.nls <-
     return(result)
   }
 
+#' @rdname makeFun
+#' @export
+makeFun.groupwiseModel <- 
+  function( object, ... , transform=NULL) {
+    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
+    dnames <- names(eval(object$call$data, parent.frame(1)))
+    vars <- modelVars(object)
+    if (! is.null(dnames) ) vars <- intersect(vars, dnames)
+    result <- function(...){}
+    if ( length( vars ) <  1 ) {
+      result <- function(...) {
+        dots <- list(...)
+        if (length(dots) > 0) {
+          x <- dots[[1]] 
+        } else {
+          x <- 1
+        }
+        dots <- dots[names(dots) != ""] 
+        transform( do.call(predict, c(list(model, newdata=data_frame(x=x)), dots)) )
+      }
+    } else {
+      body(result) <- 
+        parse( text=paste(
+          "return(transform(predict(model, newdata=data.frame(",
+          paste(vars, "= ", vars, collapse=",", sep=""), 
+          ", stringsAsFactors = FALSE), ...)))"
+        )
+        )
+      args <- paste("alist(", paste(vars, "=", collapse=",", sep=""),")")
+      args <- eval(parse(text=args))
+      args['pi'] <- NULL
+      args <- c(args, alist('...'=), list(transform=substitute(transform)))
+      formals(result) <- args
+    }
+    
+    # myenv <- parent.frame()
+    # myenv$model <- object
+    # environment(result) <- myenv
+    environment(result) <- list2env( list(model=object, transform=transform) )
+    attr(result,"coefficients") <- coef(object)
+    return(result)
+  }
+
+
 #' extract predictor variables from a model
 #' 
 #' @param model a model, typically of class \code{lm} or \code{glm}

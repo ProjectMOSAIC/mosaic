@@ -163,7 +163,7 @@ predict.groupwiseModel <- function( object, newdata = object$data,
         tmp <- group_by_(coef(object), .dots = explan_var_names) %>% 
           filter(rank(desc(model_value), ties = "first") == 1) 
         fitted_values <- suppressMessages(
-          left_join(newdata[,names(newdata) != response_name], tmp))
+          left_join(newdata[,names(newdata) != response_name, drop=FALSE], tmp))
         if( what == "class")
           fitted_values <- fitted_values[[response_name]]# fitted_values[, c(response_name, "model_value")]
         # for what == "prob", return both the prediction and the probability assigned
