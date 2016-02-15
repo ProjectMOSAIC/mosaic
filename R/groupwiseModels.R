@@ -132,16 +132,39 @@ print.summary.groupwiseModel <- function( x, ...) {
 }
 
 #' @export
-predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
-  if (is.null(newdata)) 
-    return(object$fitted.values)
- 
+predict.groupwiseModel <- function( object, newdata = object$data, 
+                                    what = c("class", "likelihood", "prob", "prob_vector"), ... ) {
+  what <- match.arg(what)
+  vnames <- names(coef(object))
+  response_name <- vnames[1]
+  explan_var_names <- vnames[c(-1,-length(vnames))]
+  
   if (ncol(object$coefficients) >= 2L) {
-    fitted.values <- 
-      suppressMessages(left_join(newdata, object$coefficients))$model_value
+    if (object$type == "probability") {
+      if (what == "prob_vector") {
+        Wide <- tidyr::spread_(coef(object), key = response_name, value = "model_value", fill = 0)
+        fitted_values <- suppressMessages(left_join(newdata, Wide))[,-(1:ncol(newdata))]
+      } else if (what == "likelihood") { 
+        likelihood <- suppressMessages(left_join(newdata, coef(object)))$model_value
+        return(likelihood)
+      } else { # the most likely in each group
+        tmp <- do.call(group_by_, list(coef(object), explan_var_names)) %>% 
+          filter(rank(desc(model_value), ties = "first") == 1) 
+        fitted_values <- suppressMessages(
+          left_join(newdata[,names(newdata) != response_name], tmp))
+        if( what == "class")
+          fitted_values <- fitted_values[[response_name]]# fitted_values[, c(response_name, "model_value")]
+        # for what == "prob", return both the prediction and the probability assigned
+      }
+    } else {
+      fitted_values <- 
+        suppressMessages(left_join(newdata, coef(object)))$model_value
+    }
   } else {  # only happens for null model with quant. reponse
-    fitted.values <- rep(object$coefficients$model_value, ncol(newdata))
+    fitted_values <- rep(object$coefficients$model_value, nrow(newdata))
   } 
+  
+  fitted_values # return
 }
 
 #' Mean Squared Prediction Error
@@ -150,7 +173,14 @@ predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
 #' 
 #' @param model a model produced by \code{lm}, \code{glm}, or \code{gwm}.
 #' @param data a data frame
-#' 
+#' @param LL if \code{TRUE}, for categorical responses replace mean square error 
+#' with minus mean log likelihood
+#' @details
+#' For categorical responses, the mean square prediction error is not ideal.  Better
+#' to use the likelhood.  \code{LL = TRUE} turns the calculation into the mean log likelihood
+#' per case, negated so that large values mean poor predictions
+
+
 #' @export
 #' @examples
 #' HELP <- HELPrct %>% sample_frac(.3)
@@ -161,16 +191,18 @@ predict.groupwiseModel <- function( object, newdata = NULL, ... ) {
 #' MSPE( gwm( sex ~ homeless, data = HELP), HELPrct)
 #' MSPE( gwm( sex ~ homeless + substance, data = HELP), HELPrct)
 
-MSPE <- function(model, data){
+MSPE <- function(model, data, LL = TRUE){
   #  was <- options("warn")
   #  on.exit(options(warn = was))
-  options(warn = -3)
+  #options(warn = -3)
   formula <- model$call[[2]]
   actual <- eval(formula[[2]], envir = data)
   # adjust for categorical response
   if (!is.numeric(actual)) { actual <- 1}
-  model_vals <- predict(model, newdata = data)
-  stats::var(actual - model_vals, na.rm=TRUE)
+  model_vals <- predict(model, newdata = data, what = "likelihood")
+
+  if (is.numeric(actual) && LL) - mean(log(model_vals))
+  else stats::var(actual - model_vals, na.rm=TRUE)
 }
 
 #' @export
