@@ -8,7 +8,6 @@ Depends:
     dplyr,
     lattice (>= 0.20-21),
     ggplot2,
-    car,
     mosaicData,
     Matrix
 Imports:

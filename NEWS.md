@@ -1,5 +1,9 @@
 # mosaic package NEWS
 
+## mosaic 0.14
+ 
+ * `deltaMethod()` has been moved to a separate package (called `deltaMethod`) to reduce package dependencies
+ 
 ## mosaic 0.13
 
  * Arguments to `cdata()`, `ddata()`, `pdata()`, `qdata()` and `rdata()` have been reordered 
