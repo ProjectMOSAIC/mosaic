@@ -47,13 +47,24 @@ t_test <- function(x, y=NULL, ..., data=parent.frame()) {
   
   res <- ttest(x_eval, y_eval, ..., data=data) 
  
-  res$data.name <- sub("^x$", deparse(x_lazy$expr), res$data.name)
+  
+  res$data.name <- sub("^x$", first_one(deparse(x_lazy$expr)), res$data.name)
   res$data.name <- sub("^x and y$", 
-                       paste(deparse(x_lazy$expr), "and", deparse(y_lazy$expr)), 
+                       paste(first_one(deparse(x_lazy$expr)), "and", first_one(deparse(y_lazy$expr))), 
                        res$data.name)
   res
 }
 
+# If x has length > 1, create a character string with
+# the first component of x followed by ...
+first_one <- function(x) {
+  if (length(x) > 1) {
+    paste(x[1], "...")
+  } else {
+    x
+  }
+}
+  
 #' @rdname ttest
 #' @export t.test
 #' @usage t.test(x, y=NULL, ..., data = parent.frame())
