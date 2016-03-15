@@ -1,5 +1,5 @@
 globalVariables(c("FUNCTION_TBD", "NA.RM"))
-# 
+ 
 # issues to deal with
 #   * var() is hybrid of 1-ary, 2-ary
 #     * var( age ~ sex + substance, data=HELPrct ) doesn't work if using aggregatingFunction2()
