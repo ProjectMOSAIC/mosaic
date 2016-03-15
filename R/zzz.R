@@ -9,12 +9,17 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
 }
 
 .onAttach <- function(libname, pkgname) {
-	# have histogram use xhistogram stuff by default
+  # have histogram use xhistogram stuff by default
   origLatticeOptions <- lattice::lattice.options(
     histogram.breaks = xhistogramBreaks,
     prepanel.default.histogram = prepanel.xhistogram,
     panel.histogram = panel.xhistogram)
   assign("original.lattice.options", origLatticeOptions, envir = .mosaicEnv)
+  packageStartupMessage(
+    paste0("\nThe 'mosaic' package masks several functions from core packages ",
+           "in order to add additional features.  ",
+           "\nThe old behavior of these functions should not be affected by this."),
+    appendLF = TRUE)
 }
 
 .noGenerics <- FALSE
