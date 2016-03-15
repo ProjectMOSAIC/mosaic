@@ -8,13 +8,17 @@
   type = c("class", "likelihood", "prob"), level = NULL, ...)
 }
 \arguments{
+\item{object}{a groupwise model}
+
+\item{newdata}{new data from which to compute fitted valeus.}
+
 \item{type}{one of "class", "likelihood", or "prob"}
 
 \item{level}{an optional character string specifying the level for which probabilities are to be reported. Defaults
 to the first class of the potential outputs. Set to \code{".all"} to see probabilities for all levels.}
 }
 \description{
-If \code{newdata} is not specified, the data originally used for fitting will be.
+If \code{newdata} is not specified, the data originally used for fitting will be used.
 }
 \details{
 setting the \code{type} is needed only for classifiers. \code{"class"} will give just the 

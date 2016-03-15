@@ -145,24 +145,26 @@ print.summary.groupwiseModel <- function( x, ...) {
 
 #' Evaluate a groupwise model given new data
 #' 
-#' If \code{newdata} is not specified, the data originally used for fitting will be.
+#' If \code{newdata} is not specified, the data originally used for fitting will be used.
 
+#' @param object a groupwise model
 #' @param type one of "class", "likelihood", or "prob"
 #' @param level an optional character string specifying the level for which probabilities are to be reported. Defaults
 #' to the first class of the potential outputs. Set to \code{".all"} to see probabilities for all levels.
+#' @param newdata new data from which to compute fitted valeus.
 #' 
 #' @details setting the \code{type} is needed only for classifiers. \code{"class"} will give just the 
 #' class as output. \code{"likelihood"} will give the probability of the observed outcome (in \code{newdata}) 
 #' given the model. \code{"prob"} will give the probability of the class named in \code{level}
 #' 
 #' @export
-predict.groupwiseModel <- function( object, newdata = object$data, 
-                                    type = c("class", "likelihood", "prob"), level = NULL, ... ) {
+predict.groupwiseModel <- 
+  function( object, newdata = object$data, 
+            type = c("class", "likelihood", "prob"), level = NULL, ... ) {
   type <- match.arg(type)
   vnames <- names(coef(object))
   response_name <- vnames[1]
-  explan_var_names <- vnames[c(-1,-length(vnames))]
-
+  explan_var_names <- vnames[c(-1, -length(vnames))]
   
   if (ncol(object$coefficients) >= 2L) {
     if (object$type == "probability") {
@@ -180,7 +182,7 @@ predict.groupwiseModel <- function( object, newdata = object$data,
         return(likelihood)
       } else { # the most likely in each group
         tmp <- group_by_(coef(object), .dots = explan_var_names) %>% 
-          filter(rank(desc(model_value), ties = "first") == 1) 
+          filter(rank(desc(model_value), ties.method = "first") == 1) 
         fitted_values <- suppressWarnings(
           left_join(newdata[,names(newdata) != response_name, drop=FALSE], tmp))
         if( type == "class")
@@ -238,7 +240,7 @@ MSPE <- function(model, data, LL = TRUE){
         if (LL) { 
           - mean(log(model_vals))
         } else {
-          res <- stats::var(1 - model_value, na.rm = TRUE)
+          res <- stats::var(1 - model_vals, na.rm = TRUE)
         }
     } else {
       stop("For classifiers, only set up for groupwiseModels ")
