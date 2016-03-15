@@ -165,17 +165,8 @@ plotDist("norm", mean=0, col="red", kind='histogram', under=TRUE)  # add, but un
 The `mosaic` package now provides facilities for producing choropleth maps.  The API is still under developement and may change in future releases.
 
 ```{r}
-# we need to get state names into the data frame and then fix two of them with
-# wrong state abbreviations.  Then we are ready to make maps
-sAnscombe <- car::Anscombe %>%
-group_by(state = rownames(car::Anscombe)) %>%
-summarise(income = sum(income)) %>%
-mutate(state = standardName(state, c(IO = "IA", KA = "KS"), quiet=TRUE))
-
-mUSMap(sAnscombe, key="state", fill="income")
-mUSMap(sAnscombe, key="state", fill="income", style="real") 
-
 # A sillier example
+
 if (require(mapproj)) {
 Countries %>% mutate( nletters = nchar(gapminder) ) %>%
   mWorldMap( key="gapminder", fill="nletters") + coord_map()
