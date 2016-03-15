@@ -16,25 +16,17 @@ output:
 
 
 ```{r, include=FALSE}
-# Don't delete this chunk if you are using the mosaic package
-# This loads the mosaic and dplyr packages
+# Load required packages here.
 require(mosaic)
 ```
 
 ```{r, include=FALSE}
 # Some customization.  You can alter or delete as desired (if you know what you are doing).
-
-# This changes the default colors in lattice plots.
-trellis.par.set(theme=theme.mosaic())  
-
-# knitr settings to control how R chunks work.
-require(knitr)
-opts_chunk$set(
+trellis.par.set(theme=theme.mosaic())   # This changes the default colors in lattice plots.
+knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small"    # slightly smaller font for code
 )
-# This loads the mosaic data sets.  (Could be deleted if you are not using them.)
-require(mosaicData)                
 ```
 
 ## Using RMarkdown

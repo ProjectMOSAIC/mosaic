@@ -14,30 +14,18 @@ output:
     fig_width: 5
 ---
 
-
 ```{r, include=FALSE}
-# Don't delete this chunk if you are using the mosaic package
-# This loads the mosaic and dplyr packages
+# Load required packages here
 require(mosaic)
 ```
 
 ```{r, include=FALSE}
 # Some customization.  You can alter or delete as desired (if you know what you are doing).
-
-# This changes the default colors in lattice plots.
-trellis.par.set(theme=theme.mosaic())  
-
-# knitr settings to control how R chunks work.
-require(knitr)
-opts_chunk$set(
+trellis.par.set(theme=theme.mosaic()) # change default color scheme for lattice
+knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small"    # slightly smaller font for code
 )
-```
-
-```{r, include=FALSE}
-# Load additional packages here.  Uncomment the line below to use Project MOSAIC data sets.
-# require(mosaicData)   
 ```
 
 Delete this sentence and enter your text here.
