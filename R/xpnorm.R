@@ -69,11 +69,11 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     z = (q - mean)/sd
     if (verbose) {
 		cat("\n")
-		cat(paste("If X ~ N(",mean,",",sd,"), then \n\n",sep=""))
-        cat(paste("\tP(X <= ", q, ") = P(Z <= ", round(z, 3), 
-            ") = ", round(p,digits), "\n", sep = ""))
-        cat(paste("\tP(X >  ", q, ") = P(Z >  ", round(z, 3), 
-            ") = ", round(1 - p,digits), "\n", sep = ""))
+		cat(paste("If X ~ N(",format(mean),", ", format(sd),"), then \n\n",sep=""))
+        cat(paste("\tP(X <= ", format(q), ") = P(Z <= ", format(z), 
+            ") = ", format(p), "\n", sep = ""))
+        cat(paste("\tP(X >  ", format(q), ") = P(Z >  ", format(z), 
+            ") = ", format(1 - p), "\n", sep = ""))
         cat("\n")
     }
     if (plot & length(q) == 1) {
