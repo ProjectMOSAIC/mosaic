@@ -4,6 +4,7 @@
  
  * `deltaMethod()` has been moved to a separate package (called `deltaMethod`) to reduce package dependencies
  * `cull_for_do.lm()` now returns a data frame instead of a vector.  This makes it easier for `do()` to bind things together by column name.
+ * `makeMap()` updated to work with new version of `ggplot2`.
  
  
 ## mosaic 0.13
