@@ -232,9 +232,11 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' projection.
 #'  
 #' @examples
-#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "UrbanPop")
+#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "UrbanPop") +
+#'   coord_map()
 #' # Looks like it is safer to live in the North:
-#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "Murder")
+#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "Murder") +
+#'   coord_map()
 #' @export 
 mUSMap <- function(data, key, fill=NULL, 
                    plot=c("borders", "frame", "none"),
