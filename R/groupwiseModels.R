@@ -1,3 +1,4 @@
+utils::globalVariables("model_value")
 #' Groupwise models
 #'  
 #' Construct a model based on groupwise means or proportions
@@ -152,6 +153,7 @@ print.summary.groupwiseModel <- function( x, ...) {
 #' @param level an optional character string specifying the level for which probabilities are to be reported. Defaults
 #' to the first class of the potential outputs. Set to \code{".all"} to see probabilities for all levels.
 #' @param newdata new data from which to compute fitted valeus.
+#' @param ... additional arguments (currently ignored)
 #' 
 #' @details setting the \code{type} is needed only for classifiers. \code{"class"} will give just the 
 #' class as output. \code{"likelihood"} will give the probability of the observed outcome (in \code{newdata}) 

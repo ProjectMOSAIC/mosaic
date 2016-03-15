@@ -16,6 +16,8 @@
 
 \item{level}{an optional character string specifying the level for which probabilities are to be reported. Defaults
 to the first class of the potential outputs. Set to \code{".all"} to see probabilities for all levels.}
+
+\item{...}{additional arguments (currently ignored)}
 }
 \description{
 If \code{newdata} is not specified, the data originally used for fitting will be used.
