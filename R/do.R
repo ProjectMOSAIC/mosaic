@@ -223,7 +223,7 @@ if(FALSE) {
   missing.from.a = setdiff(names(b),names(a))
   for (var in missing.from.b) b[[var]] = NA
   for (var in missing.from.a) a[[var]] = NA
-  rbind(a,b)
+  dplyr::bind_rows(a,b)
 }
 
 
@@ -276,7 +276,7 @@ print.repeater <- function(x, ...)
     tryCatch( 
       return ( 
         transform( 
-          do.call( rbind, lapply ( l, function(x) { transform(x, .row= 1:nrow(x)) }) ),
+          do.call( dplyr::bind_rows, lapply ( l, function(x) { transform(x, .row= 1:nrow(x)) }) ),
           .index = c(1, 1 + cumsum( diff(.row) != 1 )) 
         )
       ), error=function(e) {} 
@@ -299,6 +299,33 @@ print.repeater <- function(x, ...)
   return( l )
 }
 
+#' Convert a vector to a data frame
+#' 
+#' Convert a vector into a 1-raw data frame using the names of the vector as
+#' column names for the data frame
+#' 
+#' @param x a vector
+#' @param nice_names a logical indicating whether names should be nicified
+#' @return a data frame
+#' @export
+#' @examples
+#' vector2df(c(1, b = 2, `(Intercept)` = 3))
+#' vector2df(c(1, b = 2, `(Intercept)` = 3), nice_names = TRUE)
+#' 
+vector2df <- function(x, nice_names = FALSE) {
+  if (!is.vector(x)) {
+    error("x is not a vector")
+    return(x)
+  }
+  nn <- names(x)
+  if (is.null(nn)) { nn <- list() }
+  result <- data.frame(t(matrix(x, dimnames = list(nn, list()))), check.names = FALSE)
+  if (nice_names) {
+    names(result) <- nice_names(names(result))
+  }
+  result
+}
+  
 #' Cull objects used with do()
 #' 
 #' The \code{\link{do}} function facilitates easy repliaction for
@@ -385,8 +412,9 @@ cull_for_do.table <- function(object, ...) {
 cull_for_do.aggregated.stat <- function(object, ...) {
   result <- object
   res <- as.vector(result[, "S"])  # ncol(result)]
-  names(res) <- paste( attr(object,'stat.name'), 
-                       .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
+  names(res) <- 
+    paste( attr(object, 'stat.name'), 
+           .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
   return(res)
 } 
 
@@ -415,8 +443,7 @@ cull_for_do.lm <- function(object, ...) {
                  r.squared = sobject$r.squared
     )
   }
-  names(result) <- nice_names(names(result))
-  return(result)
+  vector2df(result, nice_names = TRUE)
 }
 
 #  @export 

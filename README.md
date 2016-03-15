@@ -41,6 +41,10 @@ vignettes
 ([*Resources Related to the mosaic package*](vignettes/mosaic-resources.Rmd)) includes a list of many resources, both within the
 package and external to it.  That's a good place to start.
 
+## Getting Help
+
+Need help?  Try posting a question on Stack Overflow using the tag [r-mosaic](http://stackoverflow.com/questions/tagged/r-mosaic).
+
 
 ## Project MOSAIC
 

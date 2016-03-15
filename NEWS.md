@@ -1,5 +1,11 @@
 # mosaic package NEWS
 
+## mosaic 0.14
+ 
+ * `deltaMethod()` has been moved to a separate package (called `deltaMethod`) to reduce package dependencies
+ * `cull_for_do.lm()` now returns a data frame instead of a vector.  This makes it easier for `do()` to bind things together by column name.
+ 
+ 
 ## mosaic 0.13
 
  * Arguments to `cdata()`, `ddata()`, `pdata()`, `qdata()` and `rdata()` have been reordered 
