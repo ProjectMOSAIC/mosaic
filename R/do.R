@@ -412,8 +412,9 @@ cull_for_do.table <- function(object, ...) {
 cull_for_do.aggregated.stat <- function(object, ...) {
   result <- object
   res <- as.vector(result[, "S"])  # ncol(result)]
-  names(res) <- paste( attr(object,'stat.name'), 
-                       .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
+  names(res) <- 
+    paste( attr(object, 'stat.name'), 
+           .squash_names(object[,1:(ncol(object)-3),drop=FALSE]), sep=".")
   return(res)
 } 
 
