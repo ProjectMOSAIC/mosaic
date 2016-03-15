@@ -314,7 +314,7 @@ print.repeater <- function(x, ...)
 #' 
 vector2df <- function(x, nice_names = FALSE) {
   if (!is.vector(x)) {
-    error("x is not a vector")
+    stop("x is not a vector")
     return(x)
   }
   nn <- names(x)
