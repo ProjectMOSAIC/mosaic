@@ -16,7 +16,6 @@
 #' \url{http://mosaic-web.org}
 #'
 #' @keywords package
-#' @importFrom car deltaMethod
 #' @importFrom utils head modifyList
 #' @importFrom gridExtra grid.arrange arrangeGrob
 #' @importFrom ggdendro segment label dendro_data
