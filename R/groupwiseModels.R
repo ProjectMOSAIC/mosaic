@@ -174,7 +174,7 @@ predict.groupwiseModel <- function( object, newdata = object$data,
 
         if ( ! level %in% c(".all", names(Wide))) 
           stop("level '", level, "' is not one of the output categories.")
-        if (level != ".all") fitted_values <- fitted_values[level]
+        if (level != ".all") fitted_values <- fitted_values[[level]]
       } else if (type == "likelihood") { 
         likelihood <- suppressWarnings(left_join(newdata, coef(object)))$model_value
         return(likelihood)
@@ -184,7 +184,7 @@ predict.groupwiseModel <- function( object, newdata = object$data,
         fitted_values <- suppressWarnings(
           left_join(newdata[,names(newdata) != response_name, drop=FALSE], tmp))
         if( type == "class")
-          fitted_values <- fitted_values[[response_name]]# fitted_values[, c(response_name, "model_value")]
+          fitted_values <- fitted_values[[response_name]]
       }
     } else {
       fitted_values <- 
