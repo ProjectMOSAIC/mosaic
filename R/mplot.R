@@ -266,10 +266,12 @@ mplot.lm <- function(object, which=c(1:3, 7),
       names(dots) 
     )
     dots <- dots[ nn ]
+    return(do.call(grid.arrange, c(plots, dots)))
     result <-  do.call(
       arrangeGrob, 
-      c(plots, c(list(main=title), dots))
+      c(plots, dots) # , c(list(main=title), dots))
     )
+    plot(result)
     return(result)
   }
 
