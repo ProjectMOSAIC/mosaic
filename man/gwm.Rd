@@ -15,7 +15,7 @@ the explanatory variables, separated by \code{+}.  Means or proportions are
 computed for every combination of the levels of the explanatory variables.}
 
 \item{data}{A data frame in which to evaluate variables in \code{formula}.
-If omitted, refer.  If not specified, variables 
+If not specified, variables 
 will be taken from the current environment.}
 
 \item{drop}{Logical flag indicating whether to drop unoccupied groups.

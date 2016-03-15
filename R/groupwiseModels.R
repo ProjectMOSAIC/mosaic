@@ -10,7 +10,7 @@
 #' computed for every combination of the levels of the explanatory variables.
 #' 
 #' @param data A data frame in which to evaluate variables in \code{formula}.  
-#' If omitted, refer.  If not specified, variables 
+#' If not specified, variables 
 #' will be taken from the current environment.
 #' 
 #' @param drop Logical flag indicating whether to drop unoccupied groups.  
@@ -87,7 +87,7 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
   
   # Compute fitted, and residuals
   if (length(group_vars) > 0L) {
-    fitted.values <- suppressMessages(left_join(data, Res))$model_value
+    fitted.values <- suppressMessages(suppressWarnings(left_join(data, Res))$model_value)
   } else {
     fitted.values <- rep(Res$model_value, nrow(data))
   }
@@ -143,34 +143,52 @@ print.summary.groupwiseModel <- function( x, ...) {
   print(x$model)
 }
 
+#' Evaluate a groupwise model given new data
+#' 
+#' If \code{newdata} is not specified, the data originally used for fitting will be.
+
+#' @param type one of "class", "likelihood", or "prob"
+#' @param level an optional character string specifying the level for which probabilities are to be reported. Defaults
+#' to the first class of the potential outputs. Set to \code{".all"} to see probabilities for all levels.
+#' 
+#' @details setting the \code{type} is needed only for classifiers. \code{"class"} will give just the 
+#' class as output. \code{"likelihood"} will give the probability of the observed outcome (in \code{newdata}) 
+#' given the model. \code{"prob"} will give the probability of the class named in \code{level}
+#' 
 #' @export
 predict.groupwiseModel <- function( object, newdata = object$data, 
-                                    what = c("class", "likelihood", "prob", "prob_vector"), ... ) {
-  what <- match.arg(what)
+                                    type = c("class", "likelihood", "prob"), level = NULL, ... ) {
+  type <- match.arg(type)
   vnames <- names(coef(object))
   response_name <- vnames[1]
   explan_var_names <- vnames[c(-1,-length(vnames))]
+
   
   if (ncol(object$coefficients) >= 2L) {
     if (object$type == "probability") {
-      if (what == "prob_vector") {
+      if ( ! is.null(level)) type = "prob"
+      if (type == "prob") {
         Wide <- tidyr::spread_(coef(object), key = response_name, value = "model_value", fill = 0)
-        fitted_values <- suppressMessages(left_join(newdata, Wide))[,-(1:ncol(newdata))]
-      } else if (what == "likelihood") { 
-        likelihood <- suppressMessages(left_join(newdata, coef(object)))$model_value
+        fitted_values <- suppressWarnings(left_join(newdata, Wide))[,-(1:ncol(newdata))]
+        if (type == "prob" && is.null(level)) level <- names(fitted_values)[1]
+
+        if ( ! level %in% c(".all", names(Wide))) 
+          stop("level '", level, "' is not one of the output categories.")
+        if (level != ".all") fitted_values <- fitted_values[level]
+      } else if (type == "likelihood") { 
+        likelihood <- suppressWarnings(left_join(newdata, coef(object)))$model_value
         return(likelihood)
       } else { # the most likely in each group
         tmp <- group_by_(coef(object), .dots = explan_var_names) %>% 
           filter(rank(desc(model_value), ties = "first") == 1) 
-        fitted_values <- suppressMessages(
+        fitted_values <- suppressWarnings(
           left_join(newdata[,names(newdata) != response_name, drop=FALSE], tmp))
-        if( what == "class")
+        if( type == "class")
           fitted_values <- fitted_values[[response_name]]# fitted_values[, c(response_name, "model_value")]
-        # for what == "prob", return both the prediction and the probability assigned
       }
     } else {
       fitted_values <- 
-        suppressMessages(left_join(newdata, coef(object)))$model_value
+        suppressWarnings(left_join(newdata, coef(object)))$model_value
     }
   } else {  # only happens for null model with quant. reponse
     fitted_values <- rep(object$coefficients$model_value, nrow(newdata))
@@ -181,15 +199,15 @@ predict.groupwiseModel <- function( object, newdata = object$data,
 
 #' Mean Squared Prediction Error
 #' 
-#' Mean Squared Prediction Error
+#' A one-step calculation of mean square prediction error
 #' 
 #' @param model a model produced by \code{lm}, \code{glm}, or \code{gwm}.
-#' @param data a data frame
+#' @param data a data frame. 
 #' @param LL if \code{TRUE}, for categorical responses replace mean square error 
 #' with minus mean log likelihood
 #' @details
 #' For categorical responses, the mean square prediction error is not ideal.  Better
-#' to use the likelhood.  \code{LL = TRUE} turns the calculation into the mean log likelihood
+#' to use the likelhood.  \code{LL = TRUE} (the default) turns the calculation into the mean log likelihood
 #' per case, negated so that large values mean poor predictions
 
 
@@ -203,18 +221,30 @@ predict.groupwiseModel <- function( object, newdata = object$data,
 #' MSPE( gwm( sex ~ homeless, data = HELP), HELPrct)
 #' MSPE( gwm( sex ~ homeless + substance, data = HELP), HELPrct)
 
-MSPE <- function(model, data, LL = FALSE){
+MSPE <- function(model, data, LL = TRUE){
   #  was <- options("warn")
   #  on.exit(options(warn = was))
   #options(warn = -3)
   formula <- model$call[[2]]
   actual <- eval(formula[[2]], envir = data)
-  # adjust for categorical response
-  if (!is.numeric(actual)) { actual <- 1}
-  model_vals <- predict(model, newdata = data, what = "likelihood")
-
-  if (is.numeric(actual) && LL) - mean(log(model_vals))
-  else stats::var(actual - model_vals, na.rm=TRUE)
+  if (is.numeric(actual)) {
+    model_vals <- predict(model, newdata = data)
+    res <- stats::var(actual - model_vals, na.rm = TRUE)
+  } else {
+    # categorical response
+    if (inherits(model, "groupwiseModel")) {
+      model_vals <- predict(model, newdata = data, type = "likelihood")
+      res <- 
+        if (LL) { 
+          - mean(log(model_vals))
+        } else {
+          res <- stats::var(1 - model_value, na.rm = TRUE)
+        }
+    } else {
+      stop("For classifiers, only set up for groupwiseModels ")
+    }
+  }
+  res
 }
 
 #' @export
