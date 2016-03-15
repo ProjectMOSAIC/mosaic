@@ -36,4 +36,9 @@ that includes geographical coordinate information. Depending on the
 arguments passed, it returns this data or a ggplot object constructed
 with the data.
 }
+\examples{
+mUSMap(USArrests \%>\% mutate(state = row.names(.)), key="state", fill = "UrbanPop")
+# Looks like it is safer to live in the North:
+mUSMap(USArrests \%>\% mutate(state = row.names(.)), key="state", fill = "Murder")
+}
 

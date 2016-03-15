@@ -144,10 +144,10 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
     data <- merge(data, map, by.x=key[1], by.y=key[2])
   }
   switch(plot, 
-         borders = ggplot(data, aes(x=long, y=lat, group=group, order=order)) +
+         borders = ggplot(data %>% arrange(order), aes(x=long, y=lat, group=group)) +
            geom_polygon(color="darkgray", fill=NA) + theme_map() +
            labs(x="", y=""),
-         frame = ggplot(data, aes(x=long, y=lat, group=group, order=order)),
+         frame = ggplot(data %>% arrange(order), aes(x=long, y=lat, group=group)),
          none = data)
 }
 
@@ -231,6 +231,10 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' \code{real} gives the real size and position of all states without any
 #' projection.
 #'  
+#' @examples
+#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "UrbanPop")
+#' # Looks like it is safer to live in the North:
+#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "Murder")
 #' @export 
 mUSMap <- function(data, key, fill=NULL, 
                    plot=c("borders", "frame", "none"),
