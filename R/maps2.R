@@ -144,11 +144,16 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
     data <- merge(data, map, by.x=key[1], by.y=key[2])
   }
   switch(plot, 
-         borders = ggplot(data %>% arrange(order), aes(x=long, y=lat, group=group)) +
+         borders = 
+           ggplot(data %>% group_by(group) %>% arrange(order) %>% ungroup(), 
+                  aes(x=long, y=lat, group=group)) +
            geom_polygon(color="darkgray", fill=NA) + theme_map() +
            labs(x="", y=""),
-         frame = ggplot(data %>% arrange(order), aes(x=long, y=lat, group=group)),
-         none = data)
+         frame = 
+           ggplot(data %>% group_by(group) %>% arrange(order) %>% ungroup(), 
+                  aes(x=long, y=lat, group=group)),
+         none = 
+           data)
 }
 
 
