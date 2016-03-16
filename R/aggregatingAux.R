@@ -1,5 +1,4 @@
-# Not sure this is in use anymore, so commenting this line
-# utils::globalVariables(c('.'))
+utils::globalVariables(c('.'))
 
 #' Convert formulas into standard shapes
 #' 
