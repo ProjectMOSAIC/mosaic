@@ -1,8 +1,7 @@
-tryCatch(utils::globalVariables(
+utils::globalVariables(
   c('xend','variable', 
     'Cl', 'xend', 'yend', 'variable', 'variable_num',
-    'h', 'position', 'value', 'idx')), 
-  error=function(e) message('Looks like you should update R.'))
+    'h', 'position', 'value', 'idx')) 
 
 #' mosaic tools for clustering
 #' 

@@ -1,3 +1,6 @@
+# Not sure this is in use anymore, so commenting this line
+# utils::globalVariables(c('.'))
+
 #' Convert formulas into standard shapes
 #' 
 #' These functions convert formauls into standard shapes, including by 
@@ -164,8 +167,6 @@ safe_eval <- function(x) {
 # This could use a better name and a better desription
 
 
-tryCatch(utils::globalVariables(c('.')),
-         error=function(e) message('Looks like you should update R.'))
 
 #' Extract simple part from formula
 #'
