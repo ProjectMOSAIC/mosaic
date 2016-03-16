@@ -232,11 +232,8 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' projection.
 #'  
 #' @examples
-#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "UrbanPop") +
-#'   coord_map()
-#' # Looks like it is safer to live in the North:
-#' mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "Murder") +
-#'   coord_map()
+#' USArrests2 <- USArrests %>% mutate(state = row.names(.))
+#' mUSMap(USArrests2, key="state", fill = "UrbanPop") + coord_map()
 #' @export 
 mUSMap <- function(data, key, fill=NULL, 
                    plot=c("borders", "frame", "none"),
@@ -244,10 +241,10 @@ mUSMap <- function(data, key, fill=NULL,
   plot <- match.arg(plot)
   style <- match.arg(style)
   if (style == "compact") {US_States_df <- US_States_comp_df}
-  map <- makeMap(data=data, map=US_States_df, key=c(key, "STATE_ABBR"), 
-              tr.data=standardState, tr.map=toupper, plot=plot)
+  map <- makeMap(data=data, map = US_States_df, key = c(key, "STATE_ABBR"), 
+              tr.data = standardState, tr.map = toupper, plot = plot)
   if ( (!is.null(fill) && plot != "none") ) {
-    map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
+    map <- map + geom_polygon(aes_string(fill = fill), color = "darkgray")
   }
   map
 }

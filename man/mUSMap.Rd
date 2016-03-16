@@ -37,10 +37,7 @@ arguments passed, it returns this data or a ggplot object constructed
 with the data.
 }
 \examples{
-mUSMap(USArrests \%>\% mutate(state = row.names(.)), key="state", fill = "UrbanPop") +
-  coord_map()
-# Looks like it is safer to live in the North:
-mUSMap(USArrests \%>\% mutate(state = row.names(.)), key="state", fill = "Murder") +
-  coord_map()
+USArrests2 <- USArrests \%>\% mutate(state = row.names(.))
+mUSMap(USArrests2, key="state", fill = "UrbanPop") + coord_map()
 }
 
