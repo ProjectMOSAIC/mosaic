@@ -94,11 +94,16 @@ logical2factor.data.frame  <- function( x, ... ) {
 tally <- function(x, ...) {
   lx <- lazyeval::lazy(x)
   tryCatch(tally_internal(x, ...), error = function(e) { 
-    message( "First argument should be a formula... But I'll try to guess what you meant")
-    form <- substitute( ~ X, list(X = lx$expr))
-    class(form) <- "formula"
-    environment(form) <- lx$env
-    tally_internal(form, ...)
+    if (is_object_not_found_error(e)) {
+      warning("in tally(): ", e$message, call. = FALSE)
+      form <- substitute( ~ X, list(X = lx$expr))
+      class(form) <- "formula"
+      environment(form) <- lx$env
+      warning("in tally(): Should your first argument be a formula?... I'll try ", form, call. = FALSE)
+      tally_internal(form, ...)
+    } else {
+      stop(e)
+    }
   })
 } 
 #' 
