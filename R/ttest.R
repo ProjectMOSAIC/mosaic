@@ -40,6 +40,7 @@
 
 #' @export 
 t_test <- function(x, y=NULL, ..., data=parent.frame()) {
+  orig.call <- match.call()
   x_lazy <- lazyeval::lazy(x)
   y_lazy <- lazyeval::lazy(y)
   dots_lazy <- lazyeval::lazy_dots(...)
@@ -48,8 +49,7 @@ t_test <- function(x, y=NULL, ..., data=parent.frame()) {
   y_eval <- tryCatch( lazyeval::lazy_eval(y_lazy, data=as.list(data)),
                       error = function(e) as.name(deparse(y_lazy$expr)))
   
-  res <- ttest(x_eval, y_eval, ..., data=data) 
- 
+  res <- ttest(x_eval, y_eval, ..., data=data, data.name = orig.call[["data"]]) 
   
   res$data.name <- sub("^x$", first_one(deparse(x_lazy$expr)), res$data.name)
   res$data.name <- sub("^x and y$", 

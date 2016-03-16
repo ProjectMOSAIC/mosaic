@@ -8,7 +8,7 @@ ttest.default <-  function (x, y = NULL, ..., data=parent.frame()) {
   stats::t.test(x, y, ...)
 }
 
-ttest.formula <- function(x, y, ..., groups=NULL, data=parent.frame()) {
+ttest.formula <- function(x, y, ..., groups=NULL, data=parent.frame(), data.name = "") {
   x <- mosaic_formula_q(x, groups=groups, max.slots=2, 
                         envir = if (is.environment(data)) data else environment(x))
   # if (is.null(x)) stop("Invalid formula specification.")
@@ -29,7 +29,7 @@ ttest.formula <- function(x, y, ..., groups=NULL, data=parent.frame()) {
     stop("Multiple variables specified in rhs of formula.")
   }
   
-  dataName <- paste("data$",vname,sep="")
+  dataName <- paste(data.name, "$", vname, sep="") %>% sub("^\\$", "", .)
   x <- evalF$right[,1]
   result <- do.call( stats::t.test, c(list(x=x), dots) ) 
   result$data.name <- dataName
