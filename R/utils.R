@@ -63,3 +63,7 @@ rstudio_is_available <- function() {
   identical(.Platform$GUI, "RStudio")
 }
 
+is_object_not_found_error <- function(e, name = "") {
+  grepl("object", e$message) && grepl(name, e$message) && grepl("not found", e$message)
+}
+
