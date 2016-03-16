@@ -77,9 +77,20 @@ same task, and authors of the many packages are not required to follow any parti
 style guidelines.
 
 Early on in the development of \pkg{mosaic}, we decided to
-reduce the number of code templates that users would need to know to as few as possible,
+reduce the number of commands (R functions) and code templates (general schemes that unify the usage of 
+several functions) that users would need to know to as few as possible,
 while still providing them with substantial power to be creative within the
-templates provided.
+templates provided.  
+
+To successfully implement a "less volume, more creativity" approach, one must decide
+which tasks are most important to accomplish.  
+The key tasks we wanted our students to master included
+
+  1. Graphical summaries of data, including multi-variable summaries;
+  2. Numerical summaries of data, including multi-variable summaries;
+  3. The construction, visualization, and interpretation of models  (linear regression, ANOVA, logistic regression, etc.); and 
+  4. Simulation-based inference.
+
 A one-page list of commands that are more than sufficient for a first course, originally
 presented as part of a roundtable discussion at the Joint Statistics Meetings \citep{Pruim:MinimalR:2011}
 now appears as a vignette in the package, along with some additional material on the 
@@ -87,10 +98,9 @@ less volume, more creativity approach.
 
 # The formula template
 
-To successfully implement a "less volume, more creativity" approach, one must decide
-which tasks are most important to accomplish.  We knew from the outset that
-this would include graphical and numerical summaries of data and various models
-and inference procedures.  Because of this goal, 
+We knew from the outset that we wanted students to be able to create
+graphical and numerical summaries of data, to fit various models
+and to perform inference procedures.  Because of this goal, 
 our most important template makes use of a "formula interface"
 modeled after \code{lm()} and the plotting functions in \CRANpkg{lattice} \citep{lattice}. 
 
@@ -101,23 +111,29 @@ two variables as
 goal( y ~ x, data = mydata )    # pseudo-code for the formula template
 ```
 \noindent
+Those familiar with R will recognize this as the template already used by functions
+such as `lm()` and the \pkg{lattice} plotting functions.  The \pkg{mosaic} package extends
+this template to numerical summaries and provides some additional features
+for plotting and fitting models.
+
 For a plot, `goal` names the type of plot, `y` and `x` name the variables to be 
-mapped to the vertical and horizontal axes, and `mydata` is the data frame in which 
-these variables are found.
-This template allows us to create, for example, scatterplots and side-by-side box plots
-using \pkg{lattice} functions.  Here we illustrate using the `Births78`
-data set from the `mosaicData` package, which, as the name suggests, contains data sets
-to accompany the `mosaic` package.
+mapped to the vertical and horizontal axes, and `mydata` is the data frame in 
+which these variables are found.
+This template allows us to create, for example, scatterplots and side-by-side 
+box plots using \pkg{lattice} functions.  Here we illustrate using the `Births78`
+data set, whihc records the number of live births
+in the United States for each day of 1978.
+
 ```{r}
 require(mosaic)     # instead of library() because students seem to remember it better
 xyplot(births ~ date, data = Births78)
 ```
 ```{r}
 bwplot(births ~ wday, data = Births78) 
-bwplot(wday ~ births, data = Births78, pch = "|")
+bwplot(wday ~ births, data = Births78, pch = "|")  # a more common way to show median
 ```
 \noindent
-The same template can be used to create numerical summaries.
+Using the \pkg{mosaic} package, this same template can be used to create numerical summaries.
 ```{r}
 mean(births ~ wday, data = Births78)
 sd(births ~ wday, data = Births78)
@@ -770,10 +786,13 @@ and independently exercise computational and statistical creativity.
 
 ## Challenges of using R in introductory courses
 
-But using R is not without some challenges.  The first challenge is to get all of the students
+But using R is not without some challenges.  The first challenge is to get all 
+of the students
 up and running with R.  The use of an RStudio server allows an institution
-or instructor to install and configure R and its packages and students to work within a web 
-browser, essentially eliminating the start-up costs for the students.  Otherwise, instructors
+or instructor to install and configure R and its packages and students to work 
+within a web 
+browser, essentially eliminating the start-up costs for the students.  
+Otherwise, instructors
 must assist students as they navigate installation of R and whichever additional packages
 are required. 
 
@@ -789,30 +808,33 @@ may be many students' only other experience with a command line interface.
 In our experience, the most commonly occuring struggles for students using \pkg{mosaic}
 are
 
- 1. General ainxiety over typing commands.
+ 1. General anxiety over typing commands.
  
-    Although students are very familiar with using computers and computerized devices like smart phones, 
+    Although students are very familiar with using computers and computerized
+    devices like smart phones,
     many of them have little experience typing commands that require following syntax rules.  The 
     "Less Volume, More Creativity" approach helps with this, by reducing the volume, but it remains
     important to highlight repeatedly the similarities among commands and to help students learn to 
-    understand the most common error messages R produces so that they can quickly, easily, and comfortably
-    recover from innevitable typing errors.  Even if a class does not typically meet in a computer laboratory
+    understand the most common error messages R produces so that they can quickly, easily, 
+    and comfortably recover from innevitable typing errors.  
+    Even if a class does not typically meet in a computer laboratory
     or take advantage of studetn laptops, it can be useful to arrange some sessions early in 
     the course where students are using RStudio while someone is there to quickly help them when 
     they get stuck.  Avoiding frustration in students' early experience with R goes a long way in
     overcoming anxiety.
  
     As a bonus instructional method, the authors make frequent
-    typing mistakes in front of the class.  While we could not avoid this if we tried, it does serve to 
-    demonstrate both how to recover from errors and that nothing drastic has happened when an error 
-    message is displayed.
+    typing mistakes in front of the class.  While we could not avoid this if we tried, 
+    it does serve to demonstrate both how to recover from errors and that nothing drastic 
+    has happened when an error message is displayed.
  
-    One big advantage of the command line interface is that it is much easier to help students by email 
-    or in a discussion forum.  Encourage students to copy both their commands and the error messages or 
-    output that were produced.  Even better, have them share their work in the form of an R Markdown file.
+    One big advantage of the command line interface is that it is much easier to help students 
+    by email or in a discussion forum.  Encourage students to copy both their commands and 
+    the error messages or  output that were produced.  
+    Even better, have them share their work in the form of an R Markdown file.
     We find students are much more capable of doing this than they are of 
-    correctly describing the chain of events they initiated in a menu-driven system.  (It is also much
-    easier to give detailed instructions and examples.)
+    correctly describing the chain of events they initiated in a menu-driven system.  
+    (It is also much easier to give detailed instructions and examples.)
  
  2. Confusion over the tilde (`~`).
  

@@ -44,24 +44,42 @@ authors of the many packages are not required to follow any particular
 style guidelines.
 
 Early on in the development of \pkg{mosaic}, we decided to reduce the
-number of code templates that users would need to know to as few as
-possible, while still providing them with substantial power to be
-creative within the templates provided. A one-page list of commands that
-are more than sufficient for a first course, originally presented as
-part of a roundtable discussion at the Joint Statistics Meetings
-\citep{Pruim:MinimalR:2011} now appears as a vignette in the package,
-along with some additional material on the less volume, more creativity
-approach.
+number of commands (R functions) and code templates (general schemes
+that unify the usage of several functions) that users would need to know
+to as few as possible, while still providing them with substantial power
+to be creative within the templates provided.
+
+To successfully implement a ``less volume, more creativity'' approach,
+one must decide which tasks are most important to accomplish.\\
+The key tasks we wanted our students to master included
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Graphical summaries of data, including multi-variable summaries;
+\item
+  Numerical summaries of data, including multi-variable summaries;
+\item
+  The construction, visualization, and interpretation of models (linear
+  regression, ANOVA, logistic regression, etc.); and
+\item
+  Simulation-based inference.
+\end{enumerate}
+
+A one-page list of commands that are more than sufficient for a first
+course, originally presented as part of a roundtable discussion at the
+Joint Statistics Meetings \citep{Pruim:MinimalR:2011} now appears as a
+vignette in the package, along with some additional material on the less
+volume, more creativity approach.
 
 \section{The formula template}\label{the-formula-template}
 
-To successfully implement a ``less volume, more creativity'' approach,
-one must decide which tasks are most important to accomplish. We knew
-from the outset that this would include graphical and numerical
-summaries of data and various models and inference procedures. Because
-of this goal, our most important template makes use of a ``formula
-interface'' modeled after \code{lm()} and the plotting functions in
-\CRANpkg{lattice} \citep{lattice}.
+We knew from the outset that we wanted students to be able to create
+graphical and numerical summaries of data, to fit various models and to
+perform inference procedures. Because of this goal, our most important
+template makes use of a ``formula interface'' modeled after \code{lm()}
+and the plotting functions in \CRANpkg{lattice} \citep{lattice}.
 
 We typically introduce the formula template in the context of exploring
 two variables as
@@ -73,14 +91,19 @@ goal( y ~ x, data = mydata )    # pseudo-code for the formula template
 \end{Schunk}
 
 \noindent
+Those familiar with R will recognize this as the template already used
+by functions such as \texttt{lm()} and the \pkg{lattice} plotting
+functions. The \pkg{mosaic} package extends this template to numerical
+summaries and provides some additional features for plotting and fitting
+models.
+
 For a plot, \texttt{goal} names the type of plot, \texttt{y} and
 \texttt{x} name the variables to be mapped to the vertical and
 horizontal axes, and \texttt{mydata} is the data frame in which these
 variables are found. This template allows us to create, for example,
 scatterplots and side-by-side box plots using \pkg{lattice} functions.
-Here we illustrate using the \texttt{Births78} data set from the
-\texttt{mosaicData} package, which, as the name suggests, contains data
-sets to accompany the \texttt{mosaic} package.
+Here we illustrate using the \texttt{Births78} data set, whihc records
+the number of live births in the United States for each day of 1978.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -94,7 +117,7 @@ xyplot(births ~ date, data = Births78)
 \end{Schunk}\begin{Schunk}
 \begin{Sinput}
 bwplot(births ~ wday, data = Births78) 
-bwplot(wday ~ births, data = Births78, pch = "|")
+bwplot(wday ~ births, data = Births78, pch = "|")  # a more common way to show median
 \end{Sinput}
 
 
@@ -103,7 +126,8 @@ bwplot(wday ~ births, data = Births78, pch = "|")
 \end{Schunk}
 
 \noindent
-The same template can be used to create numerical summaries.
+Using the \pkg{mosaic} package, this same template can be used to create
+numerical summaries.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -816,15 +840,15 @@ rate.
 count( ~ (diffmean < D), data = Null.dist)
 \end{Sinput}
 \begin{Soutput}
-##  TRUE 
-## 0.176
+## TRUE 
+##  880
 \end{Soutput}
 \begin{Sinput}
 (1 + count( ~ (diffmean < D), data = Null.dist)) / (1 + nrow(Null.dist))  # p-value
 \end{Sinput}
 \begin{Soutput}
-##     TRUE 
-## 0.000235
+##  TRUE 
+## 0.176
 \end{Soutput}
 \end{Schunk}
 
@@ -1078,18 +1102,18 @@ xpnorm(-2:2)
 \end{Sinput}
 \begin{Soutput}
 ## 
-## If X ~ N(0,1), then 
+## If X ~ N(0, 1), then 
 ## 
 ##  P(X <= -2) = P(Z <= -2) = 0.0228
 ##      P(X <= -1) = P(Z <= -1) = 0.1587
-##      P(X <= 0) = P(Z <= 0) = 0.5
-##      P(X <= 1) = P(Z <= 1) = 0.8413
-##      P(X <= 2) = P(Z <= 2) = 0.9772
+##      P(X <=  0) = P(Z <=  0) = 0.5000
+##      P(X <=  1) = P(Z <=  1) = 0.8413
+##      P(X <=  2) = P(Z <=  2) = 0.9772
 ##  P(X >  -2) = P(Z >  -2) = 0.9772
 ##      P(X >  -1) = P(Z >  -1) = 0.8413
-##      P(X >  0) = P(Z >  0) = 0.5
-##      P(X >  1) = P(Z >  1) = 0.1587
-##      P(X >  2) = P(Z >  2) = 0.0228
+##      P(X >   0) = P(Z >   0) = 0.5000
+##      P(X >   1) = P(Z >   1) = 0.1587
+##      P(X >   2) = P(Z >   2) = 0.0228
 \end{Soutput}
 \begin{Soutput}
 ## [1] 0.0228 0.1587 0.5000 0.8413 0.9772
@@ -1290,9 +1314,9 @@ But using R is not without some challenges. The first challenge is to
 get all of the students up and running with R. The use of an RStudio
 server allows an institution or instructor to install and configure R
 and its packages and students to work within a web browser, essentially
-eliminating the start-up costs for the students. Otherwise, instructors
-must assist students as they navigate installation of R and whichever
-additional packages are required.
+eliminating the start-up costs for the students.\\
+Otherwise, instructors must assist students as they navigate
+installation of R and whichever additional packages are required.
 
 Once students have access to R, the \pkg{mosaic} package reduces, but
 does not eliminate, the amount of syntax students need to learn. It is
@@ -1311,7 +1335,7 @@ using \pkg{mosaic} are
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  General ainxiety over typing commands.
+  General anxiety over typing commands.
 
   Although students are very familiar with using computers and
   computerized devices like smart phones, many of them have little
@@ -1320,9 +1344,9 @@ using \pkg{mosaic} are
   the volume, but it remains important to highlight repeatedly the
   similarities among commands and to help students learn to understand
   the most common error messages R produces so that they can quickly,
-  easily, and comfortably recover from innevitable typing errors. Even
-  if a class does not typically meet in a computer laboratory or take
-  advantage of studetn laptops, it can be useful to arrange some
+  easily, and comfortably recover from innevitable typing errors.\\
+  Even if a class does not typically meet in a computer laboratory or
+  take advantage of studetn laptops, it can be useful to arrange some
   sessions early in the course where students are using RStudio while
   someone is there to quickly help them when they get stuck. Avoiding
   frustration in students' early experience with R goes a long way in
@@ -1337,11 +1361,12 @@ using \pkg{mosaic} are
   One big advantage of the command line interface is that it is much
   easier to help students by email or in a discussion forum. Encourage
   students to copy both their commands and the error messages or output
-  that were produced. Even better, have them share their work in the
-  form of an R Markdown file. We find students are much more capable of
-  doing this than they are of correctly describing the chain of events
-  they initiated in a menu-driven system. (It is also much easier to
-  give detailed instructions and examples.)
+  that were produced.\\
+  Even better, have them share their work in the form of an R Markdown
+  file. We find students are much more capable of doing this than they
+  are of correctly describing the chain of events they initiated in a
+  menu-driven system.\\
+  (It is also much easier to give detailed instructions and examples.)
 \item
   Confusion over the tilde (\texttt{\textasciitilde{}}).
 
@@ -1580,10 +1605,10 @@ microbenchmark::microbenchmark(
 \end{Sinput}
 \begin{Soutput}
 ## Unit: microseconds
-##                        expr   min    lq  mean median  uq  max neval cld
-##     base::mean(rnorm(1000))  89.2  92.8  97.4   94.3  96  175   100 a  
-##   mosaic::mean(rnorm(1000)) 231.4 237.6 252.4  243.7 259  467   100  b 
-##  mosaic::mean(~rnorm(1000)) 701.9 719.7 761.7  729.2 745 1393   100   c
+##                        expr   min    lq mean median  uq  max neval cld
+##     base::mean(rnorm(1000))  89.5  94.8  102   96.1 107  162   100 a  
+##   mosaic::mean(rnorm(1000)) 290.1 306.0  335  318.0 357  512   100  b 
+##  mosaic::mean(~rnorm(1000)) 771.3 801.4  889  818.2 923 1665   100   c
 \end{Soutput}
 \begin{Sinput}
 microbenchmark::microbenchmark( 
@@ -1594,9 +1619,9 @@ microbenchmark::microbenchmark(
 \begin{Soutput}
 ## Unit: microseconds
 ##                         expr  min   lq mean median   uq  max neval cld
-##     base::mean(rnorm(10000))  798  802  868    806  820 2931   100 a  
-##   mosaic::mean(rnorm(10000))  943  953 1007    960  987 1865   100  b 
-##  mosaic::mean(~rnorm(10000)) 1392 1413 1555   1455 1535 3683   100   c
+##     base::mean(rnorm(10000))  800  807  895    833  957 1344   100 a  
+##   mosaic::mean(rnorm(10000)) 1012 1043 1268   1131 1282 5195   100  b 
+##  mosaic::mean(~rnorm(10000)) 1480 1585 1851   1738 1950 2974   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1617,10 +1642,10 @@ microbenchmark::microbenchmark(
 \end{Sinput}
 \begin{Soutput}
 ## Unit: microseconds
-##       expr  min   lq mean median   uq  max neval cld
-##  aggregate  749  795  887    823  875 4136   100 a  
-##      dplyr 1214 1257 1465   1360 1474 5317   100  b 
-##     mosaic 1498 1570 1680   1631 1689 2583   100   c
+##       expr  min   lq mean median   uq   max neval cld
+##  aggregate  796  845 1027    926 1083  4062   100 a  
+##      dplyr 1272 1372 1696   1487 1673 13609   100  b 
+##     mosaic 1572 1720 2072   1869 2153  5031   100   c
 \end{Soutput}
 \end{Schunk}
 
@@ -1639,8 +1664,8 @@ microbenchmark::microbenchmark( times = 50,
 \begin{Soutput}
 ## Unit: milliseconds
 ##       expr min  lq mean median  uq max neval cld
-##         do 684 699  740    744 763 895    50   b
-##  replicate 665 688  716    721 735 794    50  a
+##         do 697 751  773    764 793 885    50   a
+##  replicate 696 743  762    760 772 885    50   a
 \end{Soutput}
 \end{Schunk}
 
@@ -1660,9 +1685,9 @@ microbenchmark::microbenchmark( times = 50,
 \end{Sinput}
 \begin{Soutput}
 ## Unit: milliseconds
-##       expr min  lq mean median  uq max neval cld
-##         do 494 528  546    543 560 654    50  a 
-##  replicate 706 733  771    772 790 935    50   b
+##       expr min  lq mean median  uq  max neval cld
+##         do 476 504  529    519 542  681    50  a 
+##  replicate 715 750  792    789 815 1002    50   b
 \end{Soutput}
 \end{Schunk}
 
