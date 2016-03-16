@@ -1,5 +1,4 @@
-tryCatch(utils::globalVariables(c('.latticeEnv')),
-		 error=function(e) message('Looks like you should update R.'))
+utils::globalVariables(c('.latticeEnv'))
 
 #' Create function from data
 #'

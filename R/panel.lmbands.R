@@ -1,5 +1,5 @@
-tryCatch(utils::globalVariables(c('panel.plotFun1')), 
-		 error=function(e) message('Looks like you should update R.'))
+utils::globalVariables(c('panel.plotFun1')) 
+
 #' show confidence and preciction bands on plots
 #' 
 #' @param x,y numeric vectors

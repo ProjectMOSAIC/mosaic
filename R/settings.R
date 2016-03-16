@@ -1,5 +1,4 @@
-tryCatch(utils::globalVariables(c('.mosaicEnv')),
-		 error=function(e) message('Looks like you should update R.'))
+utils::globalVariables(c('.mosaicEnv'))
 
 #' Setting options for mosaic package functions
 #'

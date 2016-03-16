@@ -1,10 +1,8 @@
-
 # It is unclear why the CRAN checks are finding a problem with u.
 # this masks the problem, but it would be better to find and remove
 # the issue.
 
-tryCatch(utils::globalVariables(c('u')), 
-         error=function(e) message('Looks like you should update R.'))
+utils::globalVariables(c('u'))
 
 #' Projections
 #' 

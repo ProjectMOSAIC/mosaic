@@ -1,5 +1,4 @@
-tryCatch(utils::globalVariables(c('coordinates',"Name","Code","long","lat")),
-         error=function(e) message('Looks like you should update R.'))
+utils::globalVariables(c('coordinates',"Name","Code","long","lat"))
 
 ## Files needed for the country and state functions:
 #### US_States : a SpatialPolygonsDataFrame object for US states

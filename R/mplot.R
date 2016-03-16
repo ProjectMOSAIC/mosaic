@@ -1,9 +1,7 @@
-
-tryCatch(utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
+utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
                                   '.stdresid', '.cooksd', '.fitted', 
                                   'lower', 'upper',
-                                  '.hat', 'grid.arrange',  'estimate','se')), 
-         error=function(e) message('Looks like you should update R.'))
+                                  '.hat', 'grid.arrange',  'estimate','se')) 
 
 #' Generic plotting
 #' 
