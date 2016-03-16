@@ -1,5 +1,4 @@
-tryCatch(utils::globalVariables(c('.row')), 
-         error=function(e) message('Looks like you should update R.'))
+utils::globalVariables(c('.row'))
 
 #' Set seed in parallel compatible way
 #'
@@ -271,15 +270,12 @@ print.repeater <- function(x, ...)
     return(result)
   }
   
-  # if each element is a data frame with the same variables, combine them
+  # if each element is a data frame, combine them with bind_rows
   if ( all( sapply( l, is.data.frame ) ) ) {
-    tryCatch( 
-      return ( 
-        transform( 
-          do.call( dplyr::bind_rows, lapply ( l, function(x) { transform(x, .row= 1:nrow(x)) }) ),
-          .index = c(1, 1 + cumsum( diff(.row) != 1 )) 
-        )
-      ), error=function(e) {} 
+    return(
+      lapply(l, function(x) {mutate(x, .row= 1:n())}) %>% 
+        dplyr::bind_rows() %>% 
+        mutate(.index = c(1, 1 + cumsum( diff(.row) != 1 ))) 
     )
   }
   
