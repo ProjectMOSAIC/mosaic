@@ -16,24 +16,24 @@
 #'        or a method \code{\link{hist}} knows about given as a character string.
 #'        When using the \pkg{mosaic} package defaults, 
 #'        \code{\link[mosaic]{xhistogramBreaks}} is used.
-#' @param \dots additional arguments passed to \code{\link[lattice]{histogram}} 
-#' and (by default when the \pkg{mosaic} package has been loaded) on to 
+#' @param \dots additional arguments passed from \code{\link[lattice]{histogram}} 
+#' to the panel function; by default when the \pkg{mosaic} package has been loaded this will
 #' \code{\link{panel.xhistogram}}.
+#' @usage histogram(x, data, ...)
 #'
 #' @seealso \code{\link[lattice]{histogram}}
-#' @note The use of \code{xhistogram} has been deprecated.  Versions of 
-#' \pkg{lattice} since 0.20-21 support setting custom defaults 
+#' @note Versions of \pkg{lattice} since 0.20-21 support setting custom defaults 
 #' for \code{breaks}, \code{panel}, and \code{prepanel} used by 
 #' \code{histogram}, so \code{xhistogram} is no longer needed.  \code{xhistogram} will
 #' be retained temporarily to support users with older versions of \pkg{lattice}.
+#' As a result, \code{xhistogram} (which was required in earlier versions of \pkg{mosaic}
+#' is not longer needed and has been removed.  
 #'
 #' @export
 
-xhistogram <- function (x, data=NULL, panel=panel.xhistogram, type='density', 
-                                      center=NULL, width=NULL, ...) {
-   .Deprecated("histogram")
-   histogram(x, data=data, panel=panel, type=type, center=center, 
-             width=width, ...)
+xhistogram <- function (...) { # x, data=NULL, panel=panel.xhistogram, type='density', 
+                               #       center=NULL, width=NULL, ...) {
+   .Defunct(msg = "xhistogram() is no longer needed; simply use histogram() with the mosaic package attached.")
 }
 
 #' @rdname xhistogram
