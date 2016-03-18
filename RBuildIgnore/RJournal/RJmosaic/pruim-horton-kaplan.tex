@@ -44,10 +44,13 @@ authors of the many packages are not required to follow any particular
 style guidelines.
 
 Early on in the development of \pkg{mosaic}, we decided to reduce the
-number of commands (R functions) and code templates (general schemes
-that unify the usage of several functions) that users would need to know
-to as few as possible, while still providing them with substantial power
-to be creative within the templates provided.
+number of commands (R functions) and, more importantly, the number of
+code templates (general schemes that unify the usage of several
+functions) that users would need to know to as few as possible, while
+still providing them with substantial power to be creative within the
+templates provided. Choosing a handful of code templates that unify the
+approach to using many different functions greatly reduces the cognitive
+load for new users.
 
 To successfully implement a ``less volume, more creativity'' approach,
 one must decide which tasks are most important to accomplish.\\
@@ -61,8 +64,9 @@ The key tasks we wanted our students to master included
 \item
   Numerical summaries of data, including multi-variable summaries;
 \item
-  The construction, visualization, and interpretation of models (linear
-  regression, ANOVA, logistic regression, etc.); and
+  The construction, visualization, and interpretation of models (single
+  variable distribution models, the usual 1- and 2-sample inference
+  procedures, linear regression, ANOVA, logistic regression, etc.); and
 \item
   Simulation-based inference.
 \end{enumerate}
@@ -77,16 +81,18 @@ volume, more creativity approach.
 
 We knew from the outset that we wanted students to be able to create
 graphical and numerical summaries of data, to fit various models and to
-perform inference procedures. Because of this goal, our most important
-template makes use of a ``formula interface'' modeled after \code{lm()}
-and the plotting functions in \CRANpkg{lattice} \citep{lattice}.
+perform inference procedures (items 1--3 in our list above).\\
+Because of these goals, our most important template makes use of a
+``formula interface'' that is already used by important R functions like
+\code{t.test()}, \code{lm()}, and the plotting functions in
+\CRANpkg{lattice}\citep{lattice}.
 
 We typically introduce the formula template in the context of exploring
 two variables as
 
 \begin{Schunk}
 \begin{Sinput}
-goal( y ~ x, data = mydata )    # pseudo-code for the formula template
+goal( y ~ x, data = mydata, ... )    # pseudo-code for the formula template
 \end{Sinput}
 \end{Schunk}
 
@@ -99,11 +105,13 @@ models.
 
 For a plot, \texttt{goal} names the type of plot, \texttt{y} and
 \texttt{x} name the variables to be mapped to the vertical and
-horizontal axes, and \texttt{mydata} is the data frame in which these
-variables are found. This template allows us to create, for example,
-scatterplots and side-by-side box plots using \pkg{lattice} functions.
-Here we illustrate using the \texttt{Births78} data set, whihc records
-the number of live births in the United States for each day of 1978.
+horizontal axes, \texttt{mydata} is the data frame in which these
+variables are found, and \texttt{...} can contain additional options
+that further refine the plot. This template allows us to create, for
+example, scatterplots and side-by-side box plots using \pkg{lattice}
+functions. Here we illustrate using the \texttt{Births78} data set,
+which records the number of live births in the United States for each
+day of 1978.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -162,42 +170,45 @@ favstats(births ~ wday, data = Births78)
 \noindent
 We introduced the \texttt{tally()} function for counting categorical
 variables. We illustrate its use with another data set from
-\CRANpkg{mosaicData} \citep{mosaicData}. \texttt{HELPrct} contains data
-from the Health Evaluation and Linkage to Primary care study, a clinical
-trial for adult inpatients recruited from a detoxification unit. Notice
-that in the final example, conditional proportions are calculated.
+\CRANpkg{mosaicData} \citep{mosaicData}. \texttt{Whickham} contains data
+from a UK study that enrolled subjects in 1972-74 and conducted a
+follow-up 20 years later.
 
 \begin{Schunk}
 \begin{Sinput}
-tally(sex ~ substance, data = HELPrct)
+tally(outcome ~ smoker, data = Whickham)
 \end{Sinput}
 \begin{Soutput}
-##         substance
-## sex      alcohol cocaine heroin
-##   female      36      41     30
-##   male       141     111     94
+##        smoker
+## outcome  No Yes
+##   Alive 502 443
+##   Dead  230 139
 \end{Soutput}
 \begin{Sinput}
-tally(sex ~ substance, data = HELPrct, margins = TRUE)
+tally(outcome ~ smoker, data = Whickham, margins = TRUE)
 \end{Sinput}
 \begin{Soutput}
-##         substance
-## sex      alcohol cocaine heroin
-##   female      36      41     30
-##   male       141     111     94
-##   Total      177     152    124
+##        smoker
+## outcome  No Yes
+##   Alive 502 443
+##   Dead  230 139
+##   Total 732 582
 \end{Soutput}
 \begin{Sinput}
-tally(sex ~ substance, data = HELPrct, margins = TRUE, format = "proportion")
+tally(outcome ~ smoker, data = Whickham, margins = TRUE, format = "proportion")
 \end{Sinput}
 \begin{Soutput}
-##         substance
-## sex      alcohol cocaine heroin
-##   female   0.203   0.270  0.242
-##   male     0.797   0.730  0.758
-##   Total    1.000   1.000  1.000
+##        smoker
+## outcome    No   Yes
+##   Alive 0.686 0.761
+##   Dead  0.314 0.239
+##   Total 1.000 1.000
 \end{Soutput}
 \end{Schunk}
+
+Notice that in the final example, conditional proportions are
+calculated. From this we see that smokers were more likely to be alive
+in the follow-up study. More on this in a moment.
 
 Formula interfaces are provided for \texttt{mean()}, \texttt{median()},
 \texttt{sd()}, \texttt{var()}, \texttt{cor()}, \texttt{cov()},
@@ -209,40 +220,48 @@ of the underlying functions from \pkg{base} and \pkg{stats}.
 The formula template can be extended to handle one variable or more than
 two variables, but we recommend introducing it in the context of
 two-variable plots and summaries. This is for several reasons: (1)
-two-variable plots and numerical summaries are more ``impressive'' and
-less likely to be something students can as readily do with tools they
-already know, (2) working with more than one variable from the start
-(correctly) suggests that the most interesting parts of statistics
-involve more than one variable \citep{Wild:RSS:2011}, and (3) the
-formula syntax for a single variable makes more sense in the context of
-two-sided formulas that it does in isolation.
+two-variable plots and numerical summaries are more ``impressive'' than
+one one-variable plots and less likely to be something students can as
+readily do with tools they already know, (2) working with more than one
+variable from the start (correctly) suggests that the most interesting
+parts of statistics involve more than one variable
+\citep{Wild:RSS:2011}, and (3) the formula syntax for a single variable
+makes more sense in the context of two-sided formulas than it does in
+isolation.
 
 Once the two-variable summaries are understood, we can add a third or
 fourth variable with
 
 \begin{Schunk}
 \begin{Sinput}
-goal( y ~ x | z, groups = mygroups, data=mydata )    # pseudo-code
+goal( y ~ x | z, groups = mygroups, data = mydata )    # pseudo-code
 \end{Sinput}
 \end{Schunk}
 
 \noindent
 When plotting, \texttt{z} is used to create plots with subpanels (or
-facets) and \texttt{groups} indicates overlaid layers.
+facets) and \texttt{groups} indicates overlaid layers. Each of these two
+plots shows a clear difference in the distribution of births one the two
+weekend days compared to the other five days of the week:
 
 \begin{Schunk}
 \begin{Sinput}
 xyplot(births ~ date, groups = wday, data = Births78, type = "l")
-densityplot( ~ births, groups = wday, data = Births78, auto.key=list(columns=3))
+densityplot( ~ births, groups = wday, data = Births78, auto.key = list(columns = 3))
 \end{Sinput}
 
 
 \begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-8-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-8-2} \end{center}
 
-\end{Schunk}\begin{Schunk}
+\end{Schunk}
+
+And these plots begin to reveal a difficulty in interpretting data from
+the \texttt{Whickham} data set:
+
+\begin{Schunk}
 \begin{Sinput}
-densityplot( ~ age | sex, groups = substance, data = HELPrct)
-bwplot( age ~ substance | sex, data = HELPrct)
+densityplot( ~ age, groups = smoker, data = Whickham, auto.key = TRUE)
+bwplot( age ~ smoker, data = Whickham)
 \end{Sinput}
 
 
@@ -250,25 +269,27 @@ bwplot( age ~ substance | sex, data = HELPrct)
 
 \end{Schunk}
 
+The smokers were on average younter than the non-smokers.
+
 For numerical summaries the condition \texttt{z} and \texttt{groups}
 play essentially the same role, so each of the following produces an
 equivalent result.
 
 \begin{Schunk}
 \begin{Sinput}
-mean( age ~ sex, data = HELPrct)
+mean( age ~ smoker, data = Whickham)
 \end{Sinput}
 \end{Schunk}\begin{Schunk}
 \begin{Sinput}
-mean( ~ age | sex, data = HELPrct)
+mean( ~ age | smoker, data = Whickham)
 \end{Sinput}
 \end{Schunk}\begin{Schunk}
 \begin{Sinput}
-mean( ~ age, groups = sex, data = HELPrct)
+mean( ~ age, groups = smoker, data = Whickham)
 \end{Sinput}
 \begin{Soutput}
-## female   male 
-##   36.3   35.5
+##   No  Yes 
+## 48.7 44.7
 \end{Soutput}
 \end{Schunk}
 
@@ -281,7 +302,7 @@ from the formula in a two-variable template.
 
 \begin{Schunk}
 \begin{Sinput}
-goal( ~ x, data=mydata )               # psuedo-code
+goal( ~ x, data = mydata )               # psuedo-code
 \end{Sinput}
 \end{Schunk}
 
@@ -292,7 +313,7 @@ data for the \(x\)-axis and allowing R to compute values for the
 
 \begin{Schunk}
 \begin{Sinput}
-histogram( ~ age, data = HELPrct)
+histogram( ~ age, data = Whickham)
 \end{Sinput}
 
 
@@ -306,10 +327,10 @@ are required to have a right hand side).
 
 \begin{Schunk}
 \begin{Sinput}
-mean( ~ age, data = HELPrct)
+mean( ~ age, data = Whickham)
 \end{Sinput}
 \begin{Soutput}
-## [1] 35.7
+## [1] 46.9
 \end{Soutput}
 \end{Schunk}
 
@@ -318,7 +339,7 @@ can be brought together into a single template:
 
 \begin{Schunk}
 \begin{Sinput}
-goal( formula, data=mydata, ... )      # psuedo-code
+goal( formula, data = mydata, ... )      # psuedo-code
 \end{Sinput}
 \end{Schunk}
 
@@ -338,11 +359,11 @@ things to learn.
 
 \begin{Schunk}
 \begin{Sinput}
-bwplot(age ~ sex, data=HELPrct)
-  mean(age ~ sex, data=HELPrct)
-    sd(age ~ sex, data=HELPrct)
-    lm(age ~ sex, data=HELPrct)
-t.test(age ~ sex, data=HELPrct) 
+bwplot(age ~ smoker, data = Whickham)
+  mean(age ~ smoker, data = Whickham)
+    sd(age ~ smoker, data = Whickham)
+    lm(age ~ smoker, data = Whickham)
+t.test(age ~ smoker, data = Whickham) 
 \end{Sinput}
 \end{Schunk}
 
@@ -353,16 +374,13 @@ additional plot types, for one-variable situations we have
 
 \begin{Schunk}
 \begin{Sinput}
-       mean( ~ age, data=HELPrct)
-         sd( ~ age, data=HELPrct)
-   favstats( ~ age, data=HELPrct)
-  histogram( ~ age, data=HELPrct)
-    dotPlot( ~ age, data=HELPrct)   # dot plots
-freqpolygon( ~ age, data=HELPrct)   # frequency polygon
-    ashplot( ~ age, data=HELPrct)   # average shifted histogram
-     t.test( ~ age, data=HELPrct)   # formula interface added in mosaic
- binom.test( ~ sex, data=HELPrct)   # formula interface added in mosaic
-  prop.test( ~ sex, data=HELPrct)   # formula interface added in mosaic
+       mean( ~ age, data = Whickham)
+         sd( ~ age, data = Whickham)
+   favstats( ~ age, data = Whickham)
+  histogram( ~ age, data = Whickham)
+     t.test( ~ age, data = Whickham)   # formula interface added in mosaic
+ binom.test( ~ smoker, data = Whickham)   # formula interface added in mosaic
+  prop.test( ~ smoker, data = Whickham)   # formula interface added in mosaic
 \end{Sinput}
 \end{Schunk}
 
@@ -372,10 +390,10 @@ summaries fits readily into the template as well.
 
 \begin{Schunk}
 \begin{Sinput}
-     mean( ~ age | sex, data=HELPrct)
-       sd( ~ age | sex, data=HELPrct)
-histogram( ~ age | sex, data=HELPrct)
-   t.test( ~ age | sex, data=HELPrct)
+     mean( ~ age | smoker, data = Whickham)
+       sd( ~ age | smoker, data = Whickham)
+histogram( ~ age | smoker, data = Whickham)
+   t.test( ~ age | smoker, data = Whickham)
 \end{Sinput}
 \end{Schunk}
 
@@ -390,6 +408,802 @@ greatly improves student performance. A first quiz consisting of a
 single item (What is the formula template?) followed by one or two
 simple pencil-and-paper quizzes asking students to write the commands to
 recreate a handful of numerical and graphical summaries suffices.
+
+\section{Working with models}\label{working-with-models}
+
+\subsection{Visualizing distributions of random
+variables}\label{visualizing-distributions-of-random-variables}
+
+A number of functions make it simple to visualize random variables.
+\texttt{plotDist()} creates displays for any distribution for which
+standard d-, p-, and q- functions exist.
+
+\begin{Schunk}
+\begin{Sinput}
+plotDist("norm", mean = 100, sd = 10)
+plotDist("binom", size = 100, prob = 0.3)
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-20-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-20-2} \end{center}
+
+\end{Schunk}
+
+\noindent
+Tail probabilities can be highlighted using the \texttt{groups} argument
+in a way that is analogous to the lattice plots above.
+
+\begin{Schunk}
+\begin{Sinput}
+plotDist("chisq", df = 4, groups = x > 9)
+plotDist("chisq", df = 4, groups = x > 9, type = "h")
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-21-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-21-2} \end{center}
+
+\end{Schunk}
+
+\noindent
+Using the \texttt{kind} argument, we can obtain other types of plots,
+including cdfs and probability histograms.
+
+\begin{Schunk}
+\begin{Sinput}
+plotDist("norm", mean = 100, sd = 10, kind = "cdf")
+plotDist("binom", size = 100, prob = 0.3, kind = "histogram")
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-22-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-22-2} \end{center}
+
+\end{Schunk}
+
+\noindent
+Any of these plots can be overlaid onto another plot using
+\texttt{add\ =\ TRUE}
+
+\begin{Schunk}
+\begin{Sinput}
+histogram(~age, data = Whickham)
+favstats(~age, data = Whickham)
+\end{Sinput}
+\begin{Soutput}
+##  min Q1 median Q3 max mean   sd    n missing
+##   18 32     46 61  84 46.9 17.4 1314       0
+\end{Soutput}
+\begin{Sinput}
+plotDist("norm", params = list(mean = 46.9, sd = 17.4), add = TRUE)
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-23-1} \end{center}
+
+\end{Schunk}
+
+or by using additional features of the \texttt{histogram()} function
+provided in the \pkg{mosaic} package:
+
+\begin{Schunk}
+\begin{Sinput}
+histogram( ~age, data = Whickham, fit = "normal")
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-24-1} \end{center}
+
+\end{Schunk}
+
+\noindent Several other families of distributions can be added to a
+histogram in a similar way. The \texttt{fitdistr()} function from the
+\CRANpkg{MASS} \citep{MASS} is used to estimate the parameters of the
+distribution.
+
+For several distributions, we provide augmented versions of the
+distribution and quantile functions that assist students in
+understanding what values are returned by functions like
+\texttt{pnorm()} and \texttt{qnorm()}.
+
+\begin{Schunk}
+\begin{Sinput}
+xpnorm(-2:2)
+\end{Sinput}
+\begin{Soutput}
+## 
+## If X ~ N(0, 1), then 
+## 
+##  P(X <= -2) = P(Z <= -2) = 0.0228
+##      P(X <= -1) = P(Z <= -1) = 0.1587
+##      P(X <=  0) = P(Z <=  0) = 0.5000
+##      P(X <=  1) = P(Z <=  1) = 0.8413
+##      P(X <=  2) = P(Z <=  2) = 0.9772
+##  P(X >  -2) = P(Z >  -2) = 0.9772
+##      P(X >  -1) = P(Z >  -1) = 0.8413
+##      P(X >   0) = P(Z >   0) = 0.5000
+##      P(X >   1) = P(Z >   1) = 0.1587
+##      P(X >   2) = P(Z >   2) = 0.0228
+\end{Soutput}
+\begin{Soutput}
+## [1] 0.0228 0.1587 0.5000 0.8413 0.9772
+\end{Soutput}
+\begin{Sinput}
+xqt(0.975, df = 20)
+\end{Sinput}
+\begin{Soutput}
+## [1] 2.09
+\end{Soutput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-25-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-25-2} \end{center}
+
+\end{Schunk}
+
+\subsection{A complete formula interface for the test
+functions}\label{a-complete-formula-interface-for-the-test-functions}
+
+The \texttt{t.test()} function allows for a formula interface for
+2-sample t tests, but not for 1-sample tests. Similarly,
+\texttt{binom.test()} and \texttt{prop.test()} do not provide a formula
+interface at all and work only from summaries of data rather than from
+raw data. The \pkg{mosaic} package masks these functions to provide the
+missing formula interfaces.
+
+\begin{Schunk}
+\begin{Sinput}
+t.test( ~ age, data = Whickham)           # requires mosaic
+t.test( age ~ smoker, data = Whickham)    # works without mosaic
+t.test( ~ age | smoker, data = Whickham)  # requires mosaic
+binom.test( ~ smoker, data = Whickham)    # requires mosaic
+prop.test( ~ smoker, data = Whickham)     # requires mosaic
+\end{Sinput}
+\end{Schunk}
+
+\subsection{Extracting the fitted
+function}\label{extracting-the-fitted-function}
+
+Modeling functions like \code{lm()} and \code{glm()} can fit a wide
+range of statistical models. But functions like \code{predict()} are
+challenging for new users, and constructing a useful graphical
+representation of a data set together with a logistic regression fit
+even more so. The \pkg{mosaic} functions \code{makeFun()},
+\code{plotFun()}, and \code{plotModel()} make these things easier.
+
+We can use \code{makeFun()} to create functions from model objects
+created by \texttt{lm()} and \texttt{glm()}. These functions are
+wrappers around \code{predict()}, but can be called with the standard
+function semantics and plotted with \code{plotFun()}. In the example
+below, we compare linear and quadratic fits to the same data.
+
+\begin{Schunk}
+\begin{Sinput}
+cars.mod1 <- lm(dist ~ speed, data = cars)
+cars.mod2 <- lm(dist ~ poly(speed,2), data = cars)
+cars.dist1 <- makeFun(cars.mod1)
+cars.dist2 <- makeFun(cars.mod2)
+cars.dist2(speed = 15)
+\end{Sinput}
+\begin{Soutput}
+##    1 
+## 38.7
+\end{Soutput}
+\begin{Sinput}
+cars.dist2(speed = 15, interval = "confidence")
+\end{Sinput}
+\begin{Soutput}
+##    fit lwr  upr
+## 1 38.7  33 44.3
+\end{Soutput}
+\begin{Sinput}
+xyplot(dist ~ speed, data = cars, alpha = 0.4)
+plotFun(cars.dist1(s) ~ s, add = TRUE, col = 2, lwd = 2)
+plotFun(cars.dist2(s) ~ s, add = TRUE, col = 3, lwd = 2)
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-27-1} \end{center}
+
+\end{Schunk}
+
+\noindent
+For logistic regression, when the response is coded as a factor, we need
+to adjust things slightly when plotting because the model function
+returns values between 0 and 1, but 2-level factors are coded as 1 and 2
+in R.
+
+\begin{Schunk}
+\begin{Sinput}
+smoker.mod <- glm(outcome ~ smoker + age, data = Whickham, family = binomial)
+smoker.fun <- makeFun(smoker.mod)
+smoker.fun(age = 60, smoker = "Yes")
+\end{Sinput}
+\begin{Soutput}
+##     1 
+## 0.507
+\end{Soutput}
+\begin{Sinput}
+smoker.fun(age = 60, smoker = "No")
+\end{Sinput}
+\begin{Soutput}
+##     1 
+## 0.456
+\end{Soutput}
+\begin{Sinput}
+xyplot(outcome ~ age, groups = smoker, data = Whickham, jitter.y = TRUE)
+plotFun(1 + smoker.fun(age, smoker = "No") ~ age, col = 1, add = TRUE)
+\end{Sinput}
+\begin{Soutput}
+## converting numerical color value into a color using lattice settings
+\end{Soutput}
+\begin{Sinput}
+plotFun(1 + smoker.fun(age, smoker = "Yes") ~ age, col = 2, add = TRUE)
+\end{Sinput}
+\begin{Soutput}
+## converting numerical color value into a color using lattice settings
+## converting numerical color value into a color using lattice settings
+\end{Soutput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-28-1} \end{center}
+
+\end{Schunk}
+
+This wrapper around \texttt{predict()} is easier for beginners to use
+because (a) it returns a function to which inputs can be supplied
+without creating a data frame, (b) the resulting function returns values
+on the response scale by default, and (c) it back transforms a few
+common transformations of the response variable, including
+\texttt{log()} and \texttt{sqrt()} (and allows the user to provide a
+custom value to the \texttt{transform} argument to handle other cases).
+
+\begin{Schunk}
+\begin{Sinput}
+mtcars.mod <- lm(log(mpg) ~ log(wt) + factor(cyl), data = mtcars)
+mileage <- makeFun(mtcars.mod)
+xyplot(mpg ~ wt, data = mtcars, groups = cyl)
+plotFun( mileage(w, cyl = 4) ~ w, add = TRUE, col = 1)
+plotFun( mileage(w, cyl = 6) ~ w, add = TRUE, col = 2)
+plotFun( mileage(w, cyl = 8) ~ w, add = TRUE, col = 3)
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-29-1} \end{center}
+
+\end{Schunk}
+
+For many simple models, creating a plot can be even simpler using
+\texttt{plotModel()}, which also eliminates the need to manually adjust
+logistic regression plots when the response is a factor. For models with
+multiple predictors, we can supply a formala to indicate which predictor
+we prefer to have on the x-axis.
+
+\begin{Schunk}
+\begin{Sinput}
+plotModel(cars.mod2)
+plotModel(smoker.mod, outcome ~ age, jitter.y = TRUE)
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-30-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-30-2} \end{center}
+
+\end{Schunk}
+
+\noindent
+The \texttt{plotModel()} function can also simplify visualization of
+more complex models.
+
+\begin{Schunk}
+\begin{Sinput}
+mtcars.mod2 <- lm(mpg ~ log(wt) + factor(cyl) + factor(am), data = mtcars)
+plotModel(mtcars.mod2, mpg ~ wt | factor(am))
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-31-1} \end{center}
+
+\end{Schunk}
+
+Especially in calculus, but also when modeling in statistics, it can be
+useful to create functions defined by algebraic formulas. With
+\texttt{makeFun()} we can construct such functions using a formula
+interface instead of using \code{function()}, if we prefer.
+
+\begin{Schunk}
+\begin{Sinput}
+f <- makeFun(A + B * log(x) ~ x, A = 1, B = 1)
+f
+\end{Sinput}
+\begin{Soutput}
+## function (x, A = 1, B = 1) 
+## A + B * log(x)
+\end{Soutput}
+\begin{Sinput}
+f(2)
+\end{Sinput}
+\begin{Soutput}
+## [1] 1.69
+\end{Soutput}
+\begin{Sinput}
+plotFun(f(x) ~ x, xlim = c(0,3))
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-32-1} \end{center}
+
+\end{Schunk}
+
+\subsection{The extractor template}\label{the-extractor-template}
+
+The use of \texttt{makeFun()} to create a function from a model
+illustrates another important template: the extractor template:
+
+\begin{Schunk}
+\begin{Sinput}
+object <- { some computation }
+extractor(object)
+\end{Sinput}
+\end{Schunk}
+
+R has many such extractors which summarise, display, or extract partial
+information from an object. \texttt{print()}, \texttt{plot()}, and
+\texttt{summary()} are examples of extractors that can be applied to
+many types of objects. Other extractors, like \texttt{resid()} and
+\texttt{fitted()} are designed to work with a much smaller set of
+objects. The \pkg{mosaic} package defines several extractors including
+
+\begin{center}
+\begin{tabular}{ll}
+\hline
+extractor   & purpose
+\\
+\hline
+\code{makeFun()} & extract a fitted function from a model \\
+\code{rsquared()}& extract $r^2$ from a linear model \\
+\code{stat()}    & extract the test statistic from a hypothesis test \\
+\code{pval()}    & extract the p-value from a hypothesis test \\
+\code{interval()}& extract the confidence interval from a hypothesis test \\
+\code{mplot()}   & create a plot from an object \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{Schunk}
+\begin{Sinput}
+interval(t.test( ~ age, data = Whickham))      # works for any "htest" object
+\end{Sinput}
+\begin{Soutput}
+##   mean of x lower upper level
+## 1      46.9    46  47.9  0.95
+\end{Soutput}
+\begin{Sinput}
+pval(t.test(age ~ smoker, data = Whickham))    # works for any "htest" object
+\end{Sinput}
+\begin{Soutput}
+##  p.value 
+## 2.06e-05
+\end{Soutput}
+\begin{Sinput}
+stat(t.test(age ~ smoker, data = Whickham))    # works for any "htest" object
+\end{Sinput}
+\begin{Soutput}
+##    t 
+## 4.27
+\end{Soutput}
+\begin{Sinput}
+rsquared(lm(age ~ smoker, data = Whickham))
+\end{Sinput}
+\begin{Soutput}
+## [1] 0.0131
+\end{Soutput}
+\end{Schunk}
+
+\subsection{mplot()}\label{mplot}
+
+The \texttt{mplot()} function has two primary use cases: creating
+diagnostic plots for lm and glm objects, and interactively creating data
+visualizations using the variables in a data frame. Given a model object
+as its first argument, \texttt{mplot()} provides similar diagnostic
+plots to those produced via \texttt{plot()} but with two primary
+differences: the user may select to use either \pkg{lattice} or
+\CRANpkg{ggplot2} \citep{ggplot2} graphics instead of base graphics, and
+an additional plot type is provided to visualize the confidence
+intervals for the coefficients of the model.
+
+\begin{Schunk}
+\begin{Sinput}
+mod <- lm(length ~ width * sex, data = KidsFeet)
+mplot(mod, system = "lattice", which = 1:4)
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-34-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-34-2} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-34-3} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-34-4} \end{center}
+
+\end{Schunk}\begin{Schunk}
+\begin{Sinput}
+mplot(mod, system = "ggplot2", which = 4:7)
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-35-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-35-2} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-35-3} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-35-4} \end{center}
+
+\end{Schunk}
+
+We can also use \texttt{mplot()} to visually represent the results of
+\texttt{TukeyHSD()}, which has been modified so that it can be applied
+directly to objects produced by \texttt{lm()}.
+
+\begin{Schunk}
+\begin{Sinput}
+mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval")
+mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval", system = "ggplot2") 
+\end{Sinput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-36-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-36-2} \end{center}
+
+\end{Schunk}
+
+\noindent
+Again, there are options to create either \pkg{lattice} or \pkg{ggplot2}
+plots, and the resulting plots are formatted in a way that makes them
+usable in a wider range of scenarios than are those produced using
+\texttt{plot()}.
+
+A second use for \texttt{mplot()} is to create \pkg{lattice} and
+\pkg{ggplot2} plots interactively within RStudio. Issuing the following
+command in RStudio will bring up a plot that can be modified by making
+choices interactively.
+
+\begin{Schunk}
+\begin{Sinput}
+mplot(HELPrct)
+\end{Sinput}
+\end{Schunk}
+
+\begin{figure}
+\includegraphics{half-mplot.png}
+\caption{In RStudio, \texttt{mplot()} can be used to interactively generate 
+plots using variables in a data frame.}
+\label{fig:mplot}
+\end{figure}
+
+\noindent
+The menu (see Figure\textasciitilde{}\ref{fig:mplot}) allows the user to
+choose either \pkg{lattice} or \pkg{ggplot2} graphics, to select the
+type of plot and the variables used, and to control a few of the most
+commonly used features that modify a plot (faceting, color, legends,
+log-scaling, fitting a linear model or LOESS smoother). The ``Show
+Expression'' button exports the command used to create the plot into the
+console. From there it can be edited or copied and pasted into an R
+Markdown document. This can be very useful for new users working to
+master the syntax for a particular graphical display.
+
+\section{Randomization and
+Resampling}\label{randomization-and-resampling}
+
+Resampling approaches have become increasingly important in statistical
+education \citep{Tintle:TAS:2015, Hesterberg:2015}. The \pkg{mosaic}
+package provides simplified functionality to support teaching inference
+based on randomization tests and bootstrap methods. Our goal was to
+focus attention on the important parts of these techniques (e.g., where
+randomness enters in and how to use the resulting distribution) while
+hiding some of the technical details involved in creating loops and
+accumulating values.
+
+\subsection{A first example}\label{a-first-example}
+
+As a first example, we often introduce the story of the lady tasting
+tea. (See \cite{Salsburg:2002} for the details of this famous story.)
+But here we will test a coin to see whether it is a ``fair coin''.
+Suppose we flip the coin 20 times and observe only 6 heads, how
+suspicious should we be that the coin is not fair? The statistical
+punchline for either the lady tasting tea or testing a coin is that we
+want to compute the p-value for a binomial test via simulations rather
+than using formulas for the binomial distribution or normal
+approximations. But we want to do this on the first day of class, and
+without using any of the jargon of the preceding sentence.
+
+Because students do not know about sampling distributions or random
+variables yet, but do understand the idea of a coin toss, we have
+provided \texttt{rflip()} to simulate tossing a coin one or several
+times:
+
+\begin{Schunk}
+\begin{Sinput}
+rflip()
+\end{Sinput}
+\begin{Soutput}
+## 
+## Flipping 1 coin [ Prob(Heads) = 0.5 ] ...
+## 
+## T
+## 
+## Number of Heads: 0 [Proportion Heads: 0]
+\end{Soutput}
+\begin{Sinput}
+rflip(20)
+\end{Sinput}
+\begin{Soutput}
+## 
+## Flipping 20 coins [ Prob(Heads) = 0.5 ] ...
+## 
+## H H T T H T H H H H T T T T T H H H T T
+## 
+## Number of Heads: 10 [Proportion Heads: 0.5]
+\end{Soutput}
+\end{Schunk}
+
+To test a null hypothesis of a fair coin, we need to simulate flipping
+20 coins many times, recording for each simulation the number of heads
+that were observed. The \texttt{do()} function allows us to do just that
+using the following template
+
+\begin{Schunk}
+\begin{Sinput}
+do(n) * {stuff to do}             # pseudo-code
+\end{Sinput}
+\end{Schunk}
+
+\noindent
+where \texttt{\{stuff\ to\ do\}} is typically a single R command, but
+may be something more complicated. We teach this syntax by reading it
+aloud: ``Do n times \ldots{}'' For example, we can flip 20 coins three
+times as follows.
+
+\begin{Schunk}
+\begin{Sinput}
+do(3) * rflip(20)   # do 3 times flip 20 coins
+\end{Sinput}
+\begin{Soutput}
+##    n heads tails prop
+## 1 20    10    10 0.50
+## 2 20    10    10 0.50
+## 3 20    11     9 0.55
+\end{Soutput}
+\end{Schunk}
+
+\noindent
+Notice that \texttt{do()} (technically \texttt{cull\_for\_do()}) has
+been clever about what information is stored for each group of 20 coin
+tosses. It is now a simple matter to do this many more times and use
+numerical or graphical summaries to investigate how unusual it is to get
+so few heads if the coin is indeed a fair coin.
+
+\begin{Schunk}
+\begin{Sinput}
+Sims <- do (1000) * rflip(20)
+histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
+tally ( ~(heads <= 6), data = Sims)
+\end{Sinput}
+\begin{Soutput}
+## 
+##  TRUE FALSE 
+##    56   944
+\end{Soutput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-41-1} \end{center}
+
+\end{Schunk}
+
+\noindent
+If you are familiar with \pkg{lattice}, you will notice that the
+\pkg{mosaic} package also adds some additional arguments to the
+\texttt{histogram()} function. Among these are \code{width} and
+\code{center} which can be used to control the width and position of the
+bins and are much easier for new users to master than the \code{breaks}
+argument supplied by \pkg{lattice}.
+
+\subsection{sample(), resample(), and
+shuffle()}\label{sample-resample-and-shuffle}
+
+To facilitate randomization and bootstrapping, \pkg{mosaic} extends
+\texttt{sample()} to operate on data frames. The \texttt{shuffle()}
+function is an alternative name for \texttt{sample()}, and
+\texttt{resample()} is \texttt{sample()} with \texttt{replace\ =\ TRUE}.
+With these in hand, all of the tests and confidence intervals seen in a
+traditional first course in statistics can be performed using a common
+outline:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Do it to your data
+\item
+  Do it to a randomized version of your data
+\item
+  Do it to lots of randomized versions of your data.
+\end{enumerate}
+
+For example, we can use randomization in place of the two-sample t test
+to obtain an empirical p-value.
+
+\begin{Schunk}
+\begin{Sinput}
+D <- diffmean(age ~ smoker, data = Whickham); D 
+\end{Sinput}
+\begin{Soutput}
+## diffmean 
+##    -4.02
+\end{Soutput}
+\begin{Sinput}
+do(1) * diffmean(age ~ shuffle(smoker), data = Whickham)
+\end{Sinput}
+\begin{Soutput}
+##   diffmean
+## 1    -1.69
+\end{Soutput}
+\begin{Sinput}
+Null.dist <- do(5000) * diffmean(age ~ shuffle(smoker), data = Whickham)
+histogram( ~ diffmean, data = Null.dist, v = D)
+prop( ~ (diffmean < D), data = Null.dist, format = "prop")
+\end{Sinput}
+\begin{Soutput}
+## TRUE 
+##    0
+\end{Soutput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/do-diff-mean-1} \end{center}
+
+\end{Schunk}
+
+\noindent
+None of the 5000 replications led to a difference in means as large as
+the one in the original data.
+
+It should be noted that although this is typically not done in
+simulation-based introductory statistics texts, one might prefer to
+calculate p-values by including the observed data in the randomization
+distribution. This avoids an empirical p-value of 0 and guarantees that
+the actual type I error rate will not exceed the nominal type I error
+rate. This amounts to adding one to the numerator and denominator. The
+\texttt{prop1()} function automates this for us
+
+\begin{Schunk}
+\begin{Sinput}
+prop1( ~ (diffmean < D), data = Null.dist, format = "prop")
+\end{Sinput}
+\begin{Soutput}
+##  TRUE 
+## 2e-04
+\end{Soutput}
+\begin{Sinput}
+1/5001
+\end{Sinput}
+\begin{Soutput}
+## [1] 2e-04
+\end{Soutput}
+\end{Schunk}
+
+\noindent
+For more precise estimation of small p-values, additional replications
+should be used.
+
+The example above introduces three additional \pkg{mosaic} functions.
+The \texttt{prop()} and \texttt{prop1()} functions compute the
+proportion of logical vector that is (by default) \texttt{TRUE} or of a
+factor that is (by default) in the first level; \texttt{diffmean()} is
+similar to \texttt{diff(mean())}, but labels the result differently
+(\texttt{diffprop()} works similarly for differences in proportions).
+
+If we are interested in a confidence interval for the difference in
+group means, we can use \texttt{resample()} and \texttt{do()} to
+generate a bootstrap distribution in one of two ways.
+
+\begin{Schunk}
+\begin{Sinput}
+Boot.dist1 <- do(1000) * diffmean(age ~ smoker, data = resample(Whickham))
+Boot.dist2 <- do(1000) * diffmean(age ~ smoker, data = resample(Whickham, groups = smoker))
+\end{Sinput}
+\end{Schunk}
+
+\noindent
+In the second example, the resampling happens within the sex groups so
+that the marginal counts for each sex remain fixed. This can be
+especially important if one of the groups is small, because otherwise
+some resamples might not include any observations of that group.
+
+\begin{Schunk}
+\begin{Sinput}
+favstats(age ~ smoker, data = Whickham)
+\end{Sinput}
+\begin{Soutput}
+##   smoker min Q1 median Q3 max mean   sd   n missing
+## 1     No  18 32     48 65  84 48.7 18.8 732       0
+## 2    Yes  18 32     45 57  84 44.7 15.3 582       0
+\end{Soutput}
+\begin{Sinput}
+favstats(age ~ smoker, data = resample(Whickham))
+\end{Sinput}
+\begin{Soutput}
+##   smoker min Q1 median Q3 max mean   sd   n missing
+## 1     No  18 32     48 65  84 48.6 18.8 752       0
+## 2    Yes  18 32     45 56  83 44.8 15.0 562       0
+\end{Soutput}
+\begin{Sinput}
+favstats(age ~ smoker, data = resample(Whickham, groups = smoker))
+\end{Sinput}
+\begin{Soutput}
+##   smoker min Q1 median Q3 max mean   sd   n missing
+## 1     No  18 33   49.0 66  84 49.3 18.9 732       0
+## 2    Yes  18 31   44.5 56  82 44.3 15.4 582       0
+\end{Soutput}
+\end{Schunk}
+
+Using either bootstrap distribution, two simple confidence intervals can
+be computed. We typically introduce percentile confidence intervals
+first. A percentile confidence interval is calculated by determining the
+range of a central portion of the bootstrap distribution, which can be
+automated using \texttt{cdata()}. Visually inspecting the bootstrap
+distribution for skew and bias is an important step to make sure the
+percentile interval is not being applied in a situation where it may
+perform poorly.
+
+\begin{Schunk}
+\begin{Sinput}
+histogram( ~ diffmean, data = Boot.dist2, v = D)
+qqmath( ~ diffmean, data = Boot.dist2)
+cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
+\end{Sinput}
+\begin{Soutput}
+##       low        hi central.p 
+##     -5.93     -2.30      0.95
+\end{Soutput}
+
+
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-47-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-47-2} \end{center}
+
+\end{Schunk}
+
+Alternatively, we can compute a confidence interval based on a bootstrap
+estimate of the standard error.
+
+\begin{Schunk}
+\begin{Sinput}
+SE <- sd( ~ diffmean, data = Boot.dist2); SE
+\end{Sinput}
+\begin{Soutput}
+## [1] 0.941
+\end{Soutput}
+\begin{Sinput}
+D + c(-1,1) * 2 * SE
+\end{Sinput}
+\begin{Soutput}
+## [1] -5.90 -2.14
+\end{Soutput}
+\end{Schunk}
+
+\noindent
+The primary pedagogical value of the bootstrap standard error approach
+is its close connection to the standard formula-based confidence
+interval methods. How to replace the constant 2 with an appropriate
+value to create more accurate intervals or to allow for different
+confidence levels is a matter of some subtlety \citep{Hesterberg:2015}.
+The simplest method is to use quantiles of a normal distribution, but
+this will undercover. Replacing the normal distribution with an
+appropriate t-distribution will widen intervals and can improve
+coverage, but the t-distribution is only correct in a few cases -- such
+as when estimating the mean of a normal population -- and can perform
+badly when the population is skewed. See the Discussion Section for more
+on this.
+
+Calculating simple confidence intervals can be further automated using
+an extension to \texttt{confint()}.
+
+\begin{Schunk}
+\begin{Sinput}
+confint(Boot.dist2, method = c("percentile", "stderr"))
+\end{Sinput}
+\begin{Soutput}
+##       name lower upper level     method estimate margin.of.error   df
+## 1 diffmean -5.93  -2.3  0.95 percentile    -4.02              NA   NA
+## 2 diffmean -5.89  -2.2  0.95     stderr    -4.02            1.85 1313
+\end{Soutput}
+\end{Schunk}
+
+\section{Some additional features of the mosaic
+package}\label{some-additional-features-of-the-mosaic-package}
 
 \subsection{Handling missing data}\label{handling-missing-data}
 
@@ -497,515 +1311,6 @@ inspect(Births78)
 \end{Soutput}
 \end{Schunk}
 
-\subsection{Creating and using
-functions}\label{creating-and-using-functions}
-
-Especially in calculus, but also when modeling in statistics, it is
-useful to create functions defined by algebraic formulas. With
-\texttt{makeFun()} we can construct such functions using a formula
-interface and use \texttt{plotFun()} to plot them.
-
-\begin{Schunk}
-\begin{Sinput}
-f <- makeFun(A + B * log(x) ~ x, A = 1, B = 1)
-f
-\end{Sinput}
-\begin{Soutput}
-## function (x, A = 1, B = 1) 
-## A + B * log(x)
-\end{Soutput}
-\begin{Sinput}
-f(2)
-\end{Sinput}
-\begin{Soutput}
-## [1] 1.69
-\end{Soutput}
-\begin{Sinput}
-plotFun(f(x) ~ x, xlim = c(0,3))
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-26-1} \end{center}
-
-\end{Schunk}
-
-More interestingly for statistics, we can use \texttt{makeFun()} to
-create functions from model objects created by \texttt{lm()} and
-\texttt{glm()}.
-
-\begin{Schunk}
-\begin{Sinput}
-cars.mod1 <- lm(dist ~ speed, data = cars)
-cars.mod2 <- lm(dist ~ poly(speed,2), data = cars)
-dist1 <- makeFun(cars.mod1)
-dist2 <- makeFun(cars.mod2)
-dist2(speed = 15)
-\end{Sinput}
-\begin{Soutput}
-##    1 
-## 38.7
-\end{Soutput}
-\begin{Sinput}
-dist2(speed = 15, interval = "confidence")
-\end{Sinput}
-\begin{Soutput}
-##    fit lwr  upr
-## 1 38.7  33 44.3
-\end{Soutput}
-\begin{Sinput}
-xyplot(dist ~ speed, data = cars, alpha = 0.4)
-plotFun(dist1(s) ~ s, add = TRUE, col = 2, lwd = 2)
-plotFun(dist2(s) ~ s, add = TRUE, col = 3, lwd = 2)
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-27-1} \end{center}
-
-\end{Schunk}
-
-\noindent
-For logistic regression, when the response is coded as a factor, we need
-to adjust things slightly when plotting because the model function
-returns values between 0 and 1, but 2-level factors are coded as 1 and
-2.
-
-\begin{Schunk}
-\begin{Sinput}
-Feet.mod <- glm(sex ~ width, data = KidsFeet, family = binomial)
-s <- makeFun(Feet.mod)
-s(width = 8.5)
-\end{Sinput}
-\begin{Soutput}
-##     1 
-## 0.704
-\end{Soutput}
-\begin{Sinput}
-xyplot(sex ~ width, data = KidsFeet, jitter.y = TRUE)
-plotFun(1 + s(w) ~ w, add = TRUE)
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-28-1} \end{center}
-
-\end{Schunk}
-
-This wrapper around \texttt{predict()} is easier for beginners to use
-because (a) it returns a function to which inputs can be supplied
-without creating a data frame, (b) the resulting function returns values
-on the response scale by default, and (c) it back transforms a few
-common transformations of the response variable, including
-\texttt{log()} and \texttt{sqrt()} (and allows the user to provide a
-custom value to the \texttt{transform} argument to handle other cases).
-
-\begin{Schunk}
-\begin{Sinput}
-mtcars.mod <- lm(log(mpg) ~ log(wt) + factor(cyl), data = mtcars)
-mileage <- makeFun(mtcars.mod)
-xyplot(mpg ~ wt, data = mtcars, groups = cyl)
-plotFun( mileage(w, cyl=4) ~ w, add = TRUE, col = 1)
-plotFun( mileage(w, cyl=6) ~ w, add = TRUE, col = 2)
-plotFun( mileage(w, cyl=8) ~ w, add = TRUE, col = 3)
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-29-1} \end{center}
-
-\end{Schunk}
-
-For many simple models, creating a plot can be even simpler using
-\texttt{plotModel()}, which also eliminates the need to manually adjust
-logistic regression plots when the response is a factor.
-
-\begin{Schunk}
-\begin{Sinput}
-plotModel(cars.mod2)
-plotModel(Feet.mod, jitter.y = TRUE)
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-30-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-30-2} \end{center}
-
-\end{Schunk}
-
-\noindent
-The \texttt{plotModel()} function can also simplify visualization of
-more complex models.
-
-\begin{Schunk}
-\begin{Sinput}
-mtcars.mod2 <- lm(mpg ~ log(wt) + factor(cyl) + factor(am), data = mtcars)
-plotModel(mtcars.mod2, mpg ~ wt | factor(am))
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-31-1} \end{center}
-
-\end{Schunk}
-
-\section{Randomization and
-Resampling}\label{randomization-and-resampling}
-
-Resampling approaches have become increasingly important in statistical
-education \citep{Tintle:TAS:2015, Hesterberg:2015}. The \pkg{mosaic}
-package provides simplified functionality to support teaching inference
-based on randomization tests and bootstrap methods. Our goal was to
-focus attention on the important parts of these techniques (e.g., where
-randomness enters in and how to use the resulting distribution) while
-hiding some of the technical details involved in creating loops and
-accumulating values.
-
-\subsection{A first example}\label{a-first-example}
-
-As a first example, we often introduce the story of the lady tasting
-tea. (See \cite{Salsburg:2002} for the details of this famous story.)
-But here we will test a coin to see whether it is a ``fair coin''.
-Suppose we flip the coin 20 times and observe only 6 heads, how
-suspicious should we be that the coin is not fair? The statistical
-punchline for either the lady tasting tea or testing a coin is that we
-want to compute the p-value for a binomial test via simulations rather
-than using formulas for the binomial distribution or normal
-approximations. But we want to do this on the first day of class, and
-without using any of the jargon of the preceding sentence.
-
-Because students do not know about sampling distributions or random
-variables yet, but do understand the idea of a coin toss, we have
-provided \texttt{rflip()} to simulate tossing a coin one or several
-times:
-
-\begin{Schunk}
-\begin{Sinput}
-rflip()
-\end{Sinput}
-\begin{Soutput}
-## 
-## Flipping 1 coin [ Prob(Heads) = 0.5 ] ...
-## 
-## H
-## 
-## Number of Heads: 1 [Proportion Heads: 1]
-\end{Soutput}
-\begin{Sinput}
-rflip(20)
-\end{Sinput}
-\begin{Soutput}
-## 
-## Flipping 20 coins [ Prob(Heads) = 0.5 ] ...
-## 
-## T H T H H H H H H H T T T T H H T H H T
-## 
-## Number of Heads: 12 [Proportion Heads: 0.6]
-\end{Soutput}
-\end{Schunk}
-
-To test a null hypothesis of a fair coin, we need to simulate flipping
-20 coins many times, recording for each simulation the number of heads
-that were observed. The \texttt{do()} function allows us to do just that
-using the following template
-
-\begin{Schunk}
-\begin{Sinput}
-do(n) * {stuff to do}             # pseudo-code
-\end{Sinput}
-\end{Schunk}
-
-\noindent
-where \texttt{\{stuff\ to\ do\}} is typically a single R command, but
-may be something more complicated. For example, we can flip 20 coins
-three times as follows.
-
-\begin{Schunk}
-\begin{Sinput}
-do(3) * rflip(20)
-\end{Sinput}
-\begin{Soutput}
-##    n heads tails prop
-## 1 20    11     9 0.55
-## 2 20     9    11 0.45
-## 3 20     9    11 0.45
-\end{Soutput}
-\end{Schunk}
-
-\noindent
-Notice that \texttt{do()} (technically \texttt{cull\_for\_do()}) has
-been clever about what information is stored for each group of 20 coin
-tosses. It is now a simple matter to do this many more times and use
-numerical or graphical summaries to investigate how unusual it is to get
-so few heads if the coin is indeed a fair coin.
-
-\begin{Schunk}
-\begin{Sinput}
-Sims <- do (1000) * rflip(20)
-histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
-tally ( ~(heads <= 6), data = Sims)
-\end{Sinput}
-\begin{Soutput}
-## 
-##  TRUE FALSE 
-##    58   942
-\end{Soutput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-35-1} \end{center}
-
-\end{Schunk}
-
-\noindent
-(If you are familiar with \pkg{lattice}, you will notice that the
-\pkg{mosaic} package also adds some additional arguments to the
-\texttt{histogram()} function.)
-
-\subsection{sample(), resample(), and
-shuffle()}\label{sample-resample-and-shuffle}
-
-To facilitate randomization and bootstrapping, \pkg{mosaic} extends
-\texttt{sample()} to operate on data frames. The \texttt{shuffle()}
-function is an alternative name for \texttt{sample()}, and
-\texttt{resample()} is \texttt{sample()} with \texttt{replace\ =\ TRUE}.
-With these in hand, all of the tests and confidence intervals seen in a
-traditional first course in statistics can be performed using a common
-outline:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Do it to your data
-\item
-  Do it to a randomized version of your data
-\item
-  Do it to lots of randomized versions of your data.
-\end{enumerate}
-
-For example, we can use randomization in place of the two-sample t test
-to obtain an empirical p-value.
-
-\begin{Schunk}
-\begin{Sinput}
-D <- diffmean(age ~ sex, data = HELPrct); D 
-\end{Sinput}
-\begin{Soutput}
-## diffmean 
-##   -0.784
-\end{Soutput}
-\begin{Sinput}
-do(1) * diffmean(age ~ shuffle(sex), data = HELPrct)
-\end{Sinput}
-\begin{Soutput}
-##   diffmean
-## 1   -0.601
-\end{Soutput}
-\begin{Sinput}
-Null.dist <- do(5000) * diffmean(age ~ shuffle(sex), data = HELPrct)
-histogram( ~ diffmean, data = Null.dist, v = D)
-prop( ~ (diffmean < D), data = Null.dist, format = "prop")
-\end{Sinput}
-\begin{Soutput}
-##  TRUE 
-## 0.176
-\end{Soutput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/do-diff-mean-1} \end{center}
-
-\end{Schunk}
-
-\begin{Schunk}
-\begin{Sinput}
-pval(t.test(age ~ sex, data = HELPrct, alternative = "greater"))
-\end{Sinput}
-\begin{Soutput}
-## p.value 
-##   0.177
-\end{Soutput}
-\end{Schunk}
-
-The example above introduces three additional \pkg{mosaic} functions.
-The \texttt{prop()} function computes the proportion of logical vector
-that is (by default) \texttt{TRUE} or of a factor that is (by default)
-the first label; \texttt{diffmean()} is similar to
-\texttt{diff(mean())}, but labels the result differently
-(\texttt{diffprop()} works similarly for differences in proportions);
-and \texttt{pval()} extracts the p-value from an object of class
-\texttt{"htest"}.
-
-It should be noted that although this is typically not done in
-simulation-based introductory statistics texts, one might prefer to
-calculate p-values by including the observed data in the randomization
-distribution. This avoids an empirical p-value of 0 and guarantees that
-the actual type I error rate will not exceed the nominal type I error
-rate.
-
-\begin{Schunk}
-\begin{Sinput}
-count( ~ (diffmean < D), data = Null.dist)
-\end{Sinput}
-\begin{Soutput}
-## TRUE 
-##  880
-\end{Soutput}
-\begin{Sinput}
-(1 + count( ~ (diffmean < D), data = Null.dist)) / (1 + nrow(Null.dist))  # p-value
-\end{Sinput}
-\begin{Soutput}
-##  TRUE 
-## 0.176
-\end{Soutput}
-\end{Schunk}
-
-If we are interested in a confidence interval for the difference in
-group means, we can use \texttt{resample()} and \texttt{do()} to
-generate a bootstrap distribution in one of two ways.
-
-\begin{Schunk}
-\begin{Sinput}
-Boot.dist1 <- do(1000) * diffmean(age ~ sex, data = resample(HELPrct))
-Boot.dist2 <- do(1000) * diffmean(age ~ sex, data = resample(HELPrct, groups = sex))
-\end{Sinput}
-\end{Schunk}
-
-\noindent
-In the second example, the resampling happens within the sex groups so
-that the marginal counts for each sex remain fixed. This can be
-especially important if one of the groups is small, because otherwise
-some resamples might not include any observations of that group.
-
-\begin{Schunk}
-\begin{Sinput}
-favstats(age ~ sex, data = HELPrct)
-\end{Sinput}
-\begin{Soutput}
-##      sex min Q1 median   Q3 max mean   sd   n missing
-## 1 female  21 31     35 40.5  58 36.3 7.58 107       0
-## 2   male  19 30     35 40.0  60 35.5 7.75 346       0
-\end{Soutput}
-\begin{Sinput}
-favstats(age ~ sex, data = resample(HELPrct))
-\end{Sinput}
-\begin{Soutput}
-##      sex min Q1 median Q3 max mean   sd   n missing
-## 1 female  21 30     34 39  58 35.3 7.80  98       0
-## 2   male  19 30     35 39  58 35.3 7.59 355       0
-\end{Soutput}
-\begin{Sinput}
-favstats(age ~ sex, data = resample(HELPrct, groups = sex))
-\end{Sinput}
-\begin{Soutput}
-##      sex min Q1 median Q3 max mean   sd   n missing
-## 1 female  21 31     37 40  58 37.2 7.93 107       0
-## 2   male  19 30     35 41  60 35.7 7.95 346       0
-\end{Soutput}
-\end{Schunk}
-
-Using either bootstrap distribution, two simple confidence intervals can
-be computed. We typically introduce percentile confidence intervals
-first. A percentile confidence interval is calculated by determining the
-range of a central portion of the bootstrap distribution, which can be
-automated using \texttt{cdata()}. Visually inspecting the bootstrap
-distribution for skew and bias is an important step to make sure the
-percentile interval is not being applied in a situation where it may
-perform poorly.
-
-\begin{Schunk}
-\begin{Sinput}
-histogram( ~ diffmean, data = Boot.dist2, v = D)
-qqmath( ~ diffmean, data = Boot.dist2)
-cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
-\end{Sinput}
-\begin{Soutput}
-##       low        hi central.p 
-##    -2.473     0.913     0.950
-\end{Soutput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-42-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-42-2} \end{center}
-
-\end{Schunk}
-
-Alternatively, we can compute a confidence interval based on a bootstrap
-estimate of the standard error.
-
-\begin{Schunk}
-\begin{Sinput}
-SE <- sd( ~ diffmean, data = Boot.dist2); SE
-\end{Sinput}
-\begin{Soutput}
-## [1] 0.867
-\end{Soutput}
-\begin{Sinput}
-D + c(-1,1) * 2 * SE
-\end{Sinput}
-\begin{Soutput}
-## [1] -2.519  0.951
-\end{Soutput}
-\end{Schunk}
-
-\noindent
-The primary pedagogical value of the bootstrap standard error approach
-is its close connection to the standard formula-based confidence
-interval methods. How to replace the constant 2 with an appropriate
-value to create more accurate intervals or to allow for different
-confidence levels is a matter of some subtlety \citep{Hesterberg:2015}.
-The simplest method is to use quantiles of a normal distribution, but
-this will undercover. Replacing the normal distribution with an
-appropriate t-distribution will widen intervals and can improve
-coverage, but the t-distribution is only correct in a few cases -- such
-as when estimating the mean of a normal population -- and can perform
-badly when the population is skewed. See the Discussion Section for more
-on this.
-
-Calculating simple confidence intervals can be further automated using
-an extension to \texttt{confint()}.
-
-\begin{Schunk}
-\begin{Sinput}
-confint(Boot.dist2, method = c("percentile", "stderr"))
-\end{Sinput}
-\begin{Soutput}
-##       name lower upper level     method estimate margin.of.error  df
-## 1 diffmean -2.47 0.913  0.95 percentile   -0.784              NA  NA
-## 2 diffmean -2.48 0.933  0.95     stderr   -0.784             1.7 452
-\end{Soutput}
-\end{Schunk}
-
-\section{Extracting information}\label{extracting-information}
-
-Modeled on functions like \code{resid()}, a number of additional
-functions have been added to \pkg{mosaic} to facilitate extracting
-information from more complicated objects. Some examples include
-
-\begin{Schunk}
-\begin{Sinput}
-confint(t.test( ~ age, data = HELPrct))    # works for any "htest" object
-\end{Sinput}
-\begin{Soutput}
-##   mean of x lower upper level
-## 1      35.7  34.9  36.4  0.95
-\end{Soutput}
-\begin{Sinput}
-pval(t.test(age ~ sex, data = HELPrct))    # works for any "htest" object
-\end{Sinput}
-\begin{Soutput}
-## p.value 
-##   0.354
-\end{Soutput}
-\begin{Sinput}
-stat(t.test(age ~ sex, data = HELPrct))    # works for any "htest" object
-\end{Sinput}
-\begin{Soutput}
-##    t 
-## 0.93
-\end{Soutput}
-\begin{Sinput}
-rsquared(lm(age ~ sex, data=HELPrct))
-\end{Sinput}
-\begin{Soutput}
-## [1] 0.00187
-\end{Soutput}
-\end{Schunk}
-
-\section{Some additional visualization
-tools}\label{some-additional-visualization-tools}
-
 \subsection{Additional high-level lattice
 plots}\label{additional-high-level-lattice-plots}
 
@@ -1016,202 +1321,68 @@ plots, including \texttt{bargraph()}, \texttt{dotPlot()},
 
 \begin{Schunk}
 \begin{Sinput}
-bargraph( ~ substance, data = HELPrct, main = "bargraph")
-dotPlot( ~ age, data = HELPrct, width = 1, main = "dotPlot")
+bargraph( ~ smoker, data = Whickham, main = "bargraph()")
+dotPlot( ~ age, data = Whickham, width = 1, main = "dotPlot()")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-45-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-45-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-56-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-56-2} \end{center}
 
 \end{Schunk}\begin{Schunk}
 \begin{Sinput}
-freqpolygon( ~ age, data = HELPrct, width = 2, main = "freqpolygon")
-ashplot( ~ age, data = HELPrct, width = 2, main = "ashplot")
+freqpolygon( ~ age, data = Whickham, width = 5, main = "freqpolygon()")
+ashplot( ~ age, data = Whickham, width = 5, main = "ashplot()")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-46-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-46-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-57-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-57-2} \end{center}
 
 \end{Schunk}\begin{Schunk}
 \begin{Sinput}
-xqqmath( ~ age, data = HELPrct, main = "xqqmath")
-plotPoints(length ~ width, data = KidsFeet, main = "plotPoints")
+xqqmath( ~ age, data = Whickham, main = "xqqmath()")
+plotPoints(length ~ width, data = KidsFeet, main = "plotPoints()")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-47-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-47-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-58-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-58-2} \end{center}
 
 \end{Schunk}
 
-\subsection{Visualizing distributions of random
-variables}\label{visualizing-distributions-of-random-variables}
+The \texttt{bargraph()} function eliminates the need to first summarize
+the data before constructing a plot with \texttt{barplot()} and makes
+creating these plots from raw data simpler. The dot plots produced by
+\texttt{dotPlot()} are quite different from the Cleveland-style dot
+plots produced by \texttt{dotplot()}. The former are essentially
+histograms made of stacked dots and can be seen in many introductory
+statistics texts. They are also useful for producing plots from which
+students can quickly estimate p-values by counting dots in the tail of a
+randomization distribution. Frequency polygons and ASH plots (average
+shifted histograms) are less common, but share many features in common
+with density plots and are easier to explain to students. The main
+motivation for \texttt{plotPoints()} is the abbility to use it to create
+additional layers on an existing plot with the option
+\texttt{add\ =\ TRUE}, otherwise \texttt{xyplot()} would suffice.
 
-A number of functions make it simple to visualize random variables.
-\texttt{plotDist()} creates displays for any distribution for which
-standard d-, p-, and q- functions exist.
+\subsection{Basic choropleth maps}\label{basic-choropleth-maps}
+
+We provide functionality for creating basic choropleth maps:
+\texttt{mUSMap()} and \texttt{mWorldMap()} provide simple ways to
+construct choropleth maps of states in the US or countries in the world,
+and \texttt{makeMap()} allows users to provide their own map data.
 
 \begin{Schunk}
 \begin{Sinput}
-plotDist("norm", mean = 100, sd = 10)
-plotDist("binom", size = 100, prob = 0.3)
+USArrests <- USArrests %>% mutate(state = row.names(USArrests))
+mUSMap(USArrests, key = "state", fill = "UrbanPop")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-48-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-48-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-59-1} \end{center}
 
 \end{Schunk}
 
-\noindent
-Tail probabilities can be highlighted using the \texttt{groups}
-argument.
-
-\begin{Schunk}
-\begin{Sinput}
-plotDist("chisq", df = 4, groups = x > 9)
-plotDist("chisq", df = 4, groups = x > 9, type = "h")
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-49-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-49-2} \end{center}
-
-\end{Schunk}
-
-\noindent
-Using the \texttt{kind} argument, we can obtain other types of plots,
-including cdfs and probability histograms.
-
-\begin{Schunk}
-\begin{Sinput}
-plotDist("norm", mean = 100, sd = 10, kind = "cdf")
-plotDist("binom", size = 100, prob = 0.3, kind = "histogram")
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-50-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-50-2} \end{center}
-
-\end{Schunk}
-
-For several distributions, we provide augmented versions of the
-distribution and quantile functions that assist students in
-understanding what values are returned by functions like
-\texttt{pnorm()} and \texttt{qnorm()}.
-
-\begin{Schunk}
-\begin{Sinput}
-xpnorm(-2:2)
-\end{Sinput}
-\begin{Soutput}
-## 
-## If X ~ N(0, 1), then 
-## 
-##  P(X <= -2) = P(Z <= -2) = 0.0228
-##      P(X <= -1) = P(Z <= -1) = 0.1587
-##      P(X <=  0) = P(Z <=  0) = 0.5000
-##      P(X <=  1) = P(Z <=  1) = 0.8413
-##      P(X <=  2) = P(Z <=  2) = 0.9772
-##  P(X >  -2) = P(Z >  -2) = 0.9772
-##      P(X >  -1) = P(Z >  -1) = 0.8413
-##      P(X >   0) = P(Z >   0) = 0.5000
-##      P(X >   1) = P(Z >   1) = 0.1587
-##      P(X >   2) = P(Z >   2) = 0.0228
-\end{Soutput}
-\begin{Soutput}
-## [1] 0.0228 0.1587 0.5000 0.8413 0.9772
-\end{Soutput}
-\begin{Sinput}
-xqt(0.975, df = 20)
-\end{Sinput}
-\begin{Soutput}
-## [1] 2.09
-\end{Soutput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-51-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-51-2} \end{center}
-
-\end{Schunk}
-
-\subsection{mplot()}\label{mplot}
-
-The \texttt{mplot()} function has two primary use cases: creating
-diagnostic plots for lm and glm objects, and interactively creating data
-visualizations using the variables in a data frame. Given a model object
-as its first argument, \texttt{mplot()} provides similar diagnostic
-plots to those produced via \texttt{plot()} but with two primary
-differences: the user may select to use either \pkg{lattice} or
-\CRANpkg{ggplot2} \citep{ggplot2} graphics instead of base graphics, and
-an additional plot type is provided to visualize the confidence
-intervals for the coefficients of the model.
-
-\begin{Schunk}
-\begin{Sinput}
-mod <- lm(length ~ width * sex, data = KidsFeet)
-mplot(mod, system = "lattice", which = 1:4)
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-52-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-52-2} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-52-3} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-52-4} \end{center}
-
-\end{Schunk}\begin{Schunk}
-\begin{Sinput}
-mplot(mod, system = "ggplot2", which = 4:7)
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-53-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-53-2} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-53-3} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-53-4} \end{center}
-
-\end{Schunk}
-
-We can also use \texttt{mplot()} to visually represent the results of
-\texttt{TukeyHSD()}, which we can apply directly to objects produced by
-\texttt{lm()}.
-
-\begin{Schunk}
-\begin{Sinput}
-mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval")
-mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval", system = "ggplot2") 
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-54-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-54-2} \end{center}
-
-\end{Schunk}
-
-\noindent
-Again, there are options to create either \pkg{lattice} or \pkg{ggplot2}
-plots, and the resulting plots are formatted in a way that makes them
-usable in a wider range of scenarios than are those produced using
-\texttt{plot()}.
-
-A second use for \texttt{mplot()} is to create \pkg{lattice} and
-\pkg{ggplot2} plots interactively within RStudio. Issuing the following
-command in RStudio will bring up a plot that can be modified by making
-choices interactively.
-
-\begin{Schunk}
-\begin{Sinput}
-mplot(HELPrct)
-\end{Sinput}
-\end{Schunk}
-
-\begin{figure}
-\includegraphics{half-mplot.png}
-\caption{In RStudio, \texttt{mplot()} can be used to interactively generate 
-plots using variables in a data frame.}
-\label{fig:mplot}
-\end{figure}
-
-\noindent
-The menu (see Figure\textasciitilde{}\ref{fig:mplot}) allows the user to
-choose either \pkg{lattice} or \pkg{ggplot2} graphics, to select the
-type of plot and the variables used, and to control a few of the most
-commonly used features that modify a plot (faceting, color, legends,
-log-scaling, fitting a linear model or LOESS smoother). The ``Show
-Expression'' button exports the command used to create the plot into the
-console. From there it can be edited or copied and pasted into an R
-Markdown document. This can be very useful for new users working to
-master the syntax for a particular graphical display.
-
-\section{Additional features}\label{additional-features}
+\subsection{Work-arounds for unfortunate name
+collisions}\label{work-arounds-for-unfortunate-name-collisions}
 
 The \pkg{mosaic} package depends on \pkg{lattice} and \pkg{ggplot2} so
 that plots can be made using either system whenever the \pkg{mosaic}
@@ -1225,17 +1396,20 @@ several function names -- most notably \texttt{do()} and
 packages can coexist amicably as long as \pkg{mosaic} comes before
 \pkg{dplyr} in the search path.
 
+\subsection{But wait, there's more}\label{but-wait-theres-more}
+
 Table \ref{tbl:otherstuff} lists some additional functions in the
-\pkg{mosaic} package not highlighted above. The package also contains
-three templates for creating R Markdown documents in RStudio. Each
-ensures that the \pkg{mosaic} package is attached, sets the default
-theme for \pkg{lattice} graphics to \texttt{theme.mosaic()}, chooses a
-somewhat smaller default size for graphics, and includes a comment
-reminding users to attach any packages they intend to use. The ``fancy''
-template demonstrates several features of R Markdown, and the ``plain''
-templates allow users to start with a clean slate. See
-\cite{Baumer:RMarkdown:2014} for a discussion of how R Markdown can be
-used in statistics courses.
+\pkg{mosaic} package not highlighted above.
+
+The package also contains three templates for creating R Markdown
+documents in RStudio. Each ensures that the \pkg{mosaic} package is
+attached, sets the default theme for \pkg{lattice} graphics to
+\texttt{theme.mosaic()}, chooses a somewhat smaller default size for
+graphics, and includes a comment reminding users to attach any packages
+they intend to use. The ``fancy'' template demonstrates several features
+of R Markdown, and the ``plain'' templates allow users to start with a
+clean slate. See \cite{Baumer:RMarkdown:2014} for a discussion of how R
+Markdown can be used in statistics courses.
 
 \begin{table}
 \begin{tabular}{lp{4in}}
@@ -1272,7 +1446,8 @@ so that the length is the same as the input vector.
 \texttt{rgeo()} & randomly sample latitidue, longitude pairs uniformly over the globe
 \\
 \texttt{googleMap()} & show google maps in a browser.  Together with \texttt{rgeo()}, this can be 
-used to view maps of randomly selected points on the globe.
+used to view maps of randomly selected points on the globe.  See \cite{RoadlessAmerica}
+for an example of how this can be used for a classroom activity.
 \\
 \bottomrule
 \end{tabular}
@@ -1293,10 +1468,32 @@ made possible with the \pkg{mosaic} package simplifies the transition
 from thinking to computing by reducing the number of computational
 templates students learn so that cognitative effort can be spent
 elsewhere, and by having those templates reflect, support, and deepen
-the underlying thinking \citep{Grolemund:ISR:2014}. Because of the
-connection between conceptual understanding and these computational
-tools, the use of R can also reveal misunderstandings that might
-otherwise go unnoticed.
+the underlying thinking \citep{Grolemund:ISR:2014}.
+
+Because of the connection between conceptual understanding and these
+computational tools, the use of R can also reveal misunderstandings that
+might otherwise go unnoticed. For example, if a student attempts to use
+\texttt{t.test()} or to create a histogram using a categorical variable,
+the student will recieve error or warning messages that are an
+indication that either the student does not understand the current data
+set or still has confusion regarding what it means for a variable to be
+categorical or continuous and which operations are suited for each kind
+of variable. We encourage students to make sure they can answer two
+important questions before attempting to issue a command in R:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  What do I want the computer to do for me?
+\item
+  What does it need to know in order to do that?
+\end{enumerate}
+
+If these two questions can be answered clearly and correctly, then the
+student's primary issue is one of creating the correct R code. If they
+cannot, then the problem lies elsewhere. In our experience, students who
+can consistently answer these two questions, have relatively little
+trouble translating the answers into R code using the commands we teach.
 
 For students who take additional courses after the first course, R has
 the capability to support the increasing complexity of the data and
@@ -1371,15 +1568,15 @@ using \pkg{mosaic} are
   Confusion over the tilde (\texttt{\textasciitilde{}}).
 
   The tilde is a small symbol, easily overlooked on the screen or on
-  paper, so students will sometimes omit it, or put it where it doesn't
-  belong. For several of our functions, we allow \texttt{x} in place of
-  \texttt{\textasciitilde{}\ x} to help ease the pain of mistyping
-  things. But we recommend that instructors teach the use of
-  \texttt{\textasciitilde{}} in all situations. A similar thing occurs
-  with explicitly naming the \texttt{data} argument, which is not
-  required for the \pkg{lattice} functions, but is for several others.
-  Teaching the forms that work in all contexts is easier than teaching
-  which contexts allow which forms.
+  paper (or mistaken for \texttt{-}), so students will sometimes omit
+  it, or put it where it doesn't belong. For several of our functions,
+  we allow \texttt{x} in place of \texttt{\textasciitilde{}\ x} to help
+  ease the pain of mistyping things. But we recommend that instructors
+  teach the use of \texttt{\textasciitilde{}} in all situations. A
+  similar thing occurs with explicitly naming the \texttt{data}
+  argument, which is not required for the \pkg{lattice} functions, but
+  is for several other functions. Teaching the forms that work in all
+  contexts is easier than teaching which contexts allow which forms.
 
   As a visual aid, we recommend surrounding the
   \texttt{\textasciitilde{}} with a space on either side, even in
@@ -1418,284 +1615,49 @@ using \pkg{mosaic} are
   what the problem might be.
 \end{enumerate}
 
-\subsection{Better bootstrap confidence
-intervals}\label{better-bootstrap-confidence-intervals}
-
-The percentile and ``t with bootstrap standard error'' confidence
-intervals have been improved upon in a number of ways. We generally do
-little more than mention this fact to students in a first course. One
-improvement is the bootstrap-t interval. Rather than attempting to
-determine the best degrees of freedom for a Student's t-distribution,
-the bootstrap-t approximates the actual distribution of \[
-t = \frac{\hat{\theta} - \theta}{SE}
-\] using the boostrap distribution of \[
-t^* = \frac{\hat{\theta^*} - \hat{\theta}}{SE^*} \; ,
-\] where \(\hat{\theta^*}\) and \(SE^*\) are the estimate and estimated
-standard error computed from each bootstrap distribution. Implementing
-the bootstrap-t interval requires either an extra level of conceptual
-framework or much more calculation to determine the values of \(SE^*\).
-If a standard error formula exists (e.g., \(SE = s/\sqrt{n}\)), this can
-be applied to each bootstrap sample along with the estimator. An
-alternative is to iterate the bootstrap procedure (resampling from each
-resample) to estimate \(SE^*\). Since standard errors are easier to
-estimate than confidence intervals, fewer resamples are required (per
-resample) at the second level; nevertheless, the additional
-computational overhead is significant.
-
-The \pkg{mosaic} package does not attempt to provide a general framework
-for the bootstrap-t or other ``second-order accurate'' boostrap methods.
-Packages such as \CRANpkg{resample} citep\{resample\} are more
-appropriate for situations where speed and accuracy are of utmost
-importance. But the bootstrap-t confidence interval can be computed
-using \texttt{confint()}, \texttt{do()} and \texttt{favstats()} in the
-case of estimating a single mean or the difference between two means.
-
-In the example below, we analyse a data set from the \pkg{resample}
-package. The \texttt{Verizon} data set contains repair times for
-customers in CLEC (competitive) and ILEC (incumbant) local exchange
-carrior.
-
-\begin{Schunk}
-\begin{Sinput}
-# NB: the resample package has name collisions with mosaic, so we only load the data
-data(Verizon, package = "resample")
-ILEC <- Verizon %>% filter(Group == "ILEC")       # dplyr is a dependency of mosaic
-favstats( ~ Time, groups = Group, data = ILEC)
-\end{Sinput}
-\begin{Soutput}
-##   Group min   Q1 median   Q3 max mean   sd    n missing
-## 1  CLEC  NA   NA     NA   NA  NA  NaN   NA    0       0
-## 2  ILEC   0 0.73   3.59 7.08 192 8.41 14.7 1664       0
-\end{Soutput}
-\begin{Sinput}
- ashplot( ~ Time, groups = Group, data = Verizon, auto.key = TRUE, width = 20)
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-58-1} \end{center}
-
-\end{Schunk}
-
-\noindent
-The skewed distributions of the repair times and unequal sample sizes
-highlight differences between the bootstrap-t and simpler methods.
-
-\begin{Schunk}
-\begin{Sinput}
-BootT1 <- do(1000) * favstats(~ Time, data = resample(ILEC))
-confint(BootT1, method = "boot")
-\end{Sinput}
-\begin{Soutput}
-##   name lower upper level      method estimate
-## 1 mean  7.85  9.14  0.95 bootstrap-t     8.41
-\end{Soutput}
-\begin{Sinput}
-BootT2 <- do(1000) * favstats( ~ Time, groups = Group, data = resample(Verizon, groups = Group))
-confint(BootT2, method = "boot")
-\end{Sinput}
-\begin{Soutput}
-##       name lower upper level      method estimate
-## 1 diffmean -22.3 -2.44  0.95 bootstrap-t     -8.1
-\end{Soutput}
-\end{Schunk}
-
-\noindent
-This can also be accomplished manually, although the computations are a
-bit involved for the 2-sample case. Here are the manual computations for
-the 1-sample case:
-
-\begin{Schunk}
-\begin{Sinput}
-estimate <- mean( ~ Time, data = ILEC); estimate
-\end{Sinput}
-\begin{Soutput}
-## [1] 8.41
-\end{Soutput}
-\begin{Sinput}
-SE <- sd( ~ mean, data = BootT1); SE
-\end{Sinput}
-\begin{Soutput}
-## [1] 0.341
-\end{Soutput}
-\begin{Sinput}
-BootT1a <- BootT1 %>% mutate( T = (mean - mean(mean)) / (sd/sqrt(n)))
-q <- quantile(~ T, p = c(0.975, 0.025), data = BootT1); q
-\end{Sinput}
-\begin{Soutput}
-## 97.5%  2.5% 
-##     1     1
-\end{Soutput}
-\begin{Sinput}
-estimate - q * SE
-\end{Sinput}
-\begin{Soutput}
-## 97.5%  2.5% 
-##  8.07  8.07
-\end{Soutput}
-\begin{Sinput}
-densityplot( ~ T, data = BootT1a)
-plotDist("norm", add = TRUE, col="gray50")
-\end{Sinput}
-
-
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-60-1} \end{center}
-
-\end{Schunk}
-
-For comparison, here are the intervals produced by \texttt{t.test()} and
-the percentile method.
-
-\begin{Schunk}
-\begin{Sinput}
-confint(t.test( ~ Time, data = ILEC))
-\end{Sinput}
-\begin{Soutput}
-##   mean of x lower upper level
-## 1      8.41  7.71  9.12  0.95
-\end{Soutput}
-\begin{Sinput}
-BootT1b <- 
-  do(1000) * mean( ~ Time, data = resample(ILEC))
-confint(BootT1b, method = "perc")
-\end{Sinput}
-\begin{Soutput}
-##   name lower upper level     method estimate
-## 1 mean  7.73  9.13  0.95 percentile     8.41
-\end{Soutput}
-\begin{Sinput}
-confint(t.test(Time ~ Group, data = Verizon))
-\end{Sinput}
-\begin{Soutput}
-##   mean in group CLEC mean in group ILEC  lower upper level
-## 1               16.5               8.41 -0.362  16.6  0.95
-\end{Soutput}
-\begin{Sinput}
-BootT2b <- 
-  do(1000) * diffmean(Time ~ Group, data = resample(Verizon, groups = Group))
-confint(BootT2b, method = "perc")
-\end{Sinput}
-\begin{Soutput}
-##       name lower upper level     method estimate
-## 1 diffmean -16.6 -1.58  0.95 percentile     -8.1
-\end{Soutput}
-\end{Schunk}
-
-\noindent
-The intervals produced by \texttt{t.test()} are narrower, do the least
-to compensate for skew, undercover, and miss more often in one direction
-than in the other \citep{Hesterberg:2015}.
-
 \subsection{Efficiency Issues}\label{efficiency-issues}
 
 For applications where speed is of utmost importance, it is better to
-avoid some of the \pkg{mosaic} wrappers. For example, for the numerical
-summary functions, the \pkg{mosaic} versions cannot be faster than their
+avoid some of the \pkg{mosaic} wrappers. For the numerical summary
+functions, the \pkg{mosaic} versions cannot be faster than their
 counterparts in \pkg{base} or \pkg{stats} (because eventually they call
 the underlying functions) and may be noticeable slower in contexts where
 they are called many times. In particular, using the formula interface
 requires parsing the formula and creating a new object to contain the
-data described by the formula.
-
-\begin{Schunk}
-\begin{Sinput}
-microbenchmark::microbenchmark( 
-  base::mean(rnorm(1000)), 
-  mosaic::mean(rnorm(1000)), 
-  mosaic::mean(~ rnorm(1000)))
-\end{Sinput}
-\begin{Soutput}
-## Unit: microseconds
-##                        expr   min    lq mean median  uq  max neval cld
-##     base::mean(rnorm(1000))  89.5  94.8  102   96.1 107  162   100 a  
-##   mosaic::mean(rnorm(1000)) 290.1 306.0  335  318.0 357  512   100  b 
-##  mosaic::mean(~rnorm(1000)) 771.3 801.4  889  818.2 923 1665   100   c
-\end{Soutput}
-\begin{Sinput}
-microbenchmark::microbenchmark( 
-  base::mean(rnorm(10000)), 
-  mosaic::mean(rnorm(10000)), 
-  mosaic::mean(~ rnorm(10000)))
-\end{Sinput}
-\begin{Soutput}
-## Unit: microseconds
-##                         expr  min   lq mean median   uq  max neval cld
-##     base::mean(rnorm(10000))  800  807  895    833  957 1344   100 a  
-##   mosaic::mean(rnorm(10000)) 1012 1043 1268   1131 1282 5195   100  b 
-##  mosaic::mean(~rnorm(10000)) 1480 1585 1851   1738 1950 2974   100   c
-\end{Soutput}
-\end{Schunk}
-
-On the other hand, for aggregated numerical summaries, the loss in
-performance may represent a small price to pay for the simplified
-syntax.
-
-\begin{Schunk}
-\begin{Sinput}
-microbenchmark::microbenchmark( 
-  aggregate = with(iris, aggregate(Sepal.Length, list(Species), base::mean)),
-  dplyr = iris %>% 
-    sample_frac(size = 1.0, replace = TRUE) %>% 
-    group_by(Species) %>% 
-    summarise(mean = base::mean(Sepal.Length)),
-  mosaic = mean(Sepal.Length ~ Species, data = resample(iris))
-)
-\end{Sinput}
-\begin{Soutput}
-## Unit: microseconds
-##       expr  min   lq mean median   uq   max neval cld
-##  aggregate  796  845 1027    926 1083  4062   100 a  
-##      dplyr 1272 1372 1696   1487 1673 13609   100  b 
-##     mosaic 1572 1720 2072   1869 2153  5031   100   c
-\end{Soutput}
-\end{Schunk}
+data described by the formula. On the other hand, for aggregated
+numerical summaries, the loss in performance may represent a small price
+to pay for the simplified syntax.
 
 Similarly, using \texttt{do()} comes at a price, although here the price
 has more to do with the extra work involved in culling the objects and
 reformatting the results. The looping itself is as fast as using
-\texttt{replicate()} -- indeed the underlying code is very similar.
+\texttt{replicate()} -- indeed the underlying code is very similar --
+and can be faster when the \CRANpkg{parallel} package is attached; even
+on a laptop with a single quad-core processor, the speed-up is
+noticible.
 
-\begin{Schunk}
-\begin{Sinput}
-microbenchmark::microbenchmark( times = 50,
-  do = do(500) * diffmean( age ~ shuffle(sex), data = HELPrct),
-  replicate = replicate(500, diffmean( age ~ shuffle(sex), data = HELPrct))
-)
-\end{Sinput}
-\begin{Soutput}
-## Unit: milliseconds
-##       expr min  lq mean median  uq max neval cld
-##         do 697 751  773    764 793 885    50   a
-##  replicate 696 743  762    760 772 885    50   a
-\end{Soutput}
-\end{Schunk}
+\subsection{Be selective}\label{be-selective}
 
-\noindent
-Furthermore, \texttt{do()} can take advantages of multiple cores if the
-\pkg{parallel} package is attached. Even on a laptop with a single
-quad-core processor, the speed-up is noticible.
-
-\begin{Schunk}
-\begin{Sinput}
-library(parallel)
-options("mosaic:parallelMessage" = FALSE)
-microbenchmark::microbenchmark( times = 50,
-  do = do(500) * diffmean( age ~ shuffle(sex), data = HELPrct),
-  replicate = replicate(500, diffmean( age ~ shuffle(sex), data = HELPrct))
-)
-\end{Sinput}
-\begin{Soutput}
-## Unit: milliseconds
-##       expr min  lq mean median  uq  max neval cld
-##         do 476 504  529    519 542  681    50  a 
-##  replicate 715 750  792    789 815 1002    50   b
-\end{Soutput}
-\end{Schunk}
+Over the years we have been devleoping the \pkg{mosaic} package, it has
+grown to the point that it now contains much more that a minimally
+sufficient set of commands for an introductory course. While we have
+attempted to give some sense of the scope of the package in this
+article, we advise instructors to use things selectively, keeping in
+mind their students and the goals for the course. What may represent
+just the right tool in one setting may be just too much in another. Of
+course, the same advice holds for using functions from other packages as
+well. The instructor's temptation is always to do too much, forgetting
+the cognitive burden this can place on students. Less volume and more
+creativity will at times pull in opposite directions, and a skilled
+instructor must determine the appropriate ballance for each setting.
 
 \section{Acknowledgements}\label{acknowledgements}
 
 Partial support for this work was provided by the National Science
 Foundation DUE 0920350 (Project MOSAIC). We thank Xiaofei (Susan) Wang
-for helpful comments and suggestions.
+and the reviewers for helpful comments and suggestions, and all of the
+users of the \pkg{mosaic} package who have provided use feedback on
+their experience and offered suggestions for improvement.
 
 \bibliography{pruim-horton-kaplan}
 
