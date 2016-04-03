@@ -8,7 +8,7 @@
 xqqmath(x, data = NULL, panel = "panel.xqqmath", ...)
 
 panel.xqqmath(x, qqmathline = !(fitline || idline), idline = FALSE,
-  fitline = FALSE, slope = NULL, intercept = NULL, overlines = FALSE,
+  fitline = NULL, slope = NULL, intercept = NULL, overlines = FALSE,
   groups = NULL, ..., col.line = trellis.par.get("add.line")$col,
   pch = 16, lwd = 2, lty = 2)
 }
@@ -20,11 +20,13 @@ panel.xqqmath(x, qqmathline = !(fitline || idline), idline = FALSE,
 \item{idline}{a logical; should the line y=x be added to the plot?}
 
 \item{fitline}{a logical; should a ftted line be added to plot?  Such a line will use \code{slope}
-and \code{intercept} if provided, else the standard deviation and mean of the data.}
+and \code{intercept} if provided, else the standard deviation and mean of the data.
+If \code{slope} is specified, the line will be added unless \code{fitline} is 
+\code{FALSE}.}
 
-\item{slope}{slope for added math line}
+\item{slope}{slope for added line}
 
-\item{intercept}{intercept for added math line}
+\item{intercept}{intercept for added line}
 
 \item{overlines}{a logical: should lines be on top of qq plot?}
 
@@ -39,6 +41,13 @@ a trellis object
 Augmented version of \code{qqmath}
 }
 \examples{
-xqqmath(rnorm(100))
+x <- rnorm(100)
+xqqmath( ~ x)                  # with quartile line
+xqqmath( ~ x, fitline = TRUE)  # with fitted line
+xqqmath( ~ x, idline = TRUE)   # with y = x
+x <- rexp(100, rate = 10)
+xqqmath( ~ x, distribution = qexp)     # with quartile line
+xqqmath( ~ x, distribution = qexp, slope = 1/10) 
+xqqmath( ~ x, distribution = qexp, slope = mean(x)) 
 }
 
