@@ -85,7 +85,7 @@ perform inference procedures (items 1--3 in our list above).\\
 Because of these goals, our most important template makes use of a
 ``formula interface'' that is already used by important R functions like
 \code{t.test()}, \code{lm()}, and the plotting functions in
-\CRANpkg{lattice}\citep{lattice}.
+\CRANpkg{lattice} \citep{lattice}.
 
 We typically introduce the formula template in the context of exploring
 two variables as
@@ -115,7 +115,7 @@ day of 1978.
 
 \begin{Schunk}
 \begin{Sinput}
-require(mosaic)     # instead of library() because students seem to remember it better
+require(mosaic) 
 xyplot(births ~ date, data = Births78)
 \end{Sinput}
 
@@ -134,8 +134,8 @@ bwplot(wday ~ births, data = Births78, pch = "|")  # a more common way to show m
 \end{Schunk}
 
 \noindent
-Using the \pkg{mosaic} package, this same template can be used to create
-numerical summaries.
+Using the \pkg{mosaic} package, this same template can be used to
+calculate numerical summaries.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -168,6 +168,35 @@ favstats(births ~ wday, data = Births78)
 \end{Schunk}
 
 \noindent
+These sorts of aggregated numerical summaries can be calculated in other
+ways, but we find the alternatives more difficult for beginners because
+they follow entirely different syntax templates from the corresponding
+plots even though essentially the same information is being communicated
+to R.
+
+\begin{Schunk}
+\begin{Sinput}
+with(Births78, aggregate(births, FUN = mean, by = list(wday)))
+\end{Sinput}
+\begin{Soutput}
+##   Group.1    x
+## 1     Sun 7951
+## 2     Mon 9371
+## 3    Tues 9709
+## 4     Wed 9498
+## 5   Thurs 9484
+## 6     Fri 9626
+## 7     Sat 8309
+\end{Soutput}
+\begin{Sinput}
+with(Births78, tapply(births, wday, mean))
+\end{Sinput}
+\begin{Soutput}
+##   Sun   Mon  Tues   Wed Thurs   Fri   Sat 
+##  7951  9371  9709  9498  9484  9626  8309
+\end{Soutput}
+\end{Schunk}
+
 We introduced the \texttt{tally()} function for counting categorical
 variables. We illustrate its use with another data set from
 \CRANpkg{mosaicData} \citep{mosaicData}. \texttt{Whickham} contains data
@@ -251,7 +280,7 @@ densityplot( ~ births, groups = wday, data = Births78, auto.key = list(columns =
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-8-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-8-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-9-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-9-2} \end{center}
 
 \end{Schunk}
 
@@ -260,33 +289,30 @@ the \texttt{Whickham} data set:
 
 \begin{Schunk}
 \begin{Sinput}
+densityplot( ~ age | smoker, data = Whickham, auto.key = TRUE)
 densityplot( ~ age, groups = smoker, data = Whickham, auto.key = TRUE)
 bwplot( age ~ smoker, data = Whickham)
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-9-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-9-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-10-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-10-2} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-10-3} \end{center}
 
 \end{Schunk}
 
-The smokers were on average younter than the non-smokers.
+\noindent
+The smokers were on average younger than the non-smokers.
 
-For numerical summaries the condition \texttt{z} and \texttt{groups}
-play essentially the same role, so each of the following produces an
-equivalent result.
+For numerical summaries, an explanatory variable, a condition
+\texttt{z}, or \texttt{groups} play essentially the same role, so each
+of the following produces an equivalent result.
 
 \begin{Schunk}
 \begin{Sinput}
 mean( age ~ smoker, data = Whickham)
-\end{Sinput}
-\end{Schunk}\begin{Schunk}
-\begin{Sinput}
 mean( ~ age | smoker, data = Whickham)
-\end{Sinput}
-\end{Schunk}\begin{Schunk}
-\begin{Sinput}
 mean( ~ age, groups = smoker, data = Whickham)
 \end{Sinput}
+\end{Schunk}\begin{Schunk}
 \begin{Soutput}
 ##   No  Yes 
 ## 48.7 44.7
@@ -302,7 +328,7 @@ from the formula in a two-variable template.
 
 \begin{Schunk}
 \begin{Sinput}
-goal( ~ x, data = mydata )               # psuedo-code
+goal( ~ x, data = mydata )               # pseudo-code
 \end{Sinput}
 \end{Schunk}
 
@@ -339,7 +365,7 @@ can be brought together into a single template:
 
 \begin{Schunk}
 \begin{Sinput}
-goal( formula, data = mydata, ... )      # psuedo-code
+goal( formula, data = mydata, ... )      # pseudo-code
 \end{Sinput}
 \end{Schunk}
 
@@ -397,7 +423,7 @@ histogram( ~ age | smoker, data = Whickham)
 \end{Sinput}
 \end{Schunk}
 
-While creating the correct formula can produce some challenges for new
+While specifying the correct formula can produce some challenges for new
 users, clearly explaining the roles of each component for plotting, for
 numerical summaries, and for model fitting helps demystify the
 situation. Instructors have had students create and interpret bivariate
@@ -435,12 +461,11 @@ in a way that is analogous to the lattice plots above.
 
 \begin{Schunk}
 \begin{Sinput}
-plotDist("chisq", df = 4, groups = x > 9)
 plotDist("chisq", df = 4, groups = x > 9, type = "h")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-21-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-21-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-21-1} \end{center}
 
 \end{Schunk}
 
@@ -465,7 +490,6 @@ Any of these plots can be overlaid onto another plot using
 
 \begin{Schunk}
 \begin{Sinput}
-histogram(~age, data = Whickham)
 favstats(~age, data = Whickham)
 \end{Sinput}
 \begin{Soutput}
@@ -473,6 +497,7 @@ favstats(~age, data = Whickham)
 ##   18 32     46 61  84 46.9 17.4 1314       0
 \end{Soutput}
 \begin{Sinput}
+histogram(~age, data = Whickham, main = 'histogram() with added plotDist()')
 plotDist("norm", params = list(mean = 46.9, sd = 17.4), add = TRUE)
 \end{Sinput}
 
@@ -481,12 +506,14 @@ plotDist("norm", params = list(mean = 46.9, sd = 17.4), add = TRUE)
 
 \end{Schunk}
 
+\noindent
 or by using additional features of the \texttt{histogram()} function
 provided in the \pkg{mosaic} package:
 
 \begin{Schunk}
 \begin{Sinput}
-histogram( ~age, data = Whickham, fit = "normal")
+histogram( ~age, data = Whickham, fit = "normal", 
+           main = 'histogram() with fit = "normal"')
 \end{Sinput}
 
 
@@ -506,7 +533,7 @@ understanding what values are returned by functions like
 
 \begin{Schunk}
 \begin{Sinput}
-xpnorm(-2:2)
+xpnorm(-2:2, main = "standard normal")
 \end{Sinput}
 \begin{Soutput}
 ## 
@@ -527,7 +554,7 @@ xpnorm(-2:2)
 ## [1] 0.0228 0.1587 0.5000 0.8413 0.9772
 \end{Soutput}
 \begin{Sinput}
-xqt(0.975, df = 20)
+xqt(0.975, df = 20, main = "t-distribution with df = 20")
 \end{Sinput}
 \begin{Soutput}
 ## [1] 2.09
@@ -630,17 +657,8 @@ smoker.fun(age = 60, smoker = "No")
 \begin{Sinput}
 xyplot(outcome ~ age, groups = smoker, data = Whickham, jitter.y = TRUE)
 plotFun(1 + smoker.fun(age, smoker = "No") ~ age, col = 1, add = TRUE)
-\end{Sinput}
-\begin{Soutput}
-## converting numerical color value into a color using lattice settings
-\end{Soutput}
-\begin{Sinput}
 plotFun(1 + smoker.fun(age, smoker = "Yes") ~ age, col = 2, add = TRUE)
 \end{Sinput}
-\begin{Soutput}
-## converting numerical color value into a color using lattice settings
-## converting numerical color value into a color using lattice settings
-\end{Soutput}
 
 
 \begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-28-1} \end{center}
@@ -834,11 +852,10 @@ directly to objects produced by \texttt{lm()}.
 \begin{Schunk}
 \begin{Sinput}
 mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval")
-mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval", system = "ggplot2") 
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-36-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-36-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-36-1} \end{center}
 
 \end{Schunk}
 
@@ -867,15 +884,15 @@ plots using variables in a data frame.}
 \end{figure}
 
 \noindent
-The menu (see Figure\textasciitilde{}\ref{fig:mplot}) allows the user to
-choose either \pkg{lattice} or \pkg{ggplot2} graphics, to select the
-type of plot and the variables used, and to control a few of the most
-commonly used features that modify a plot (faceting, color, legends,
-log-scaling, fitting a linear model or LOESS smoother). The ``Show
-Expression'' button exports the command used to create the plot into the
-console. From there it can be edited or copied and pasted into an R
-Markdown document. This can be very useful for new users working to
-master the syntax for a particular graphical display.
+The menu (see Figure \ref{fig:mplot}) allows the user to choose either
+\pkg{lattice} or \pkg{ggplot2} graphics, to select the type of plot and
+the variables used, and to control a few of the most commonly used
+features that modify a plot (faceting, color, legends, log-scaling,
+fitting a linear model or LOESS smoother). The ``Show Expression''
+button exports the command used to create the plot into the console.
+From there it can be edited or copied and pasted into an R Markdown
+document. This can be very useful for new users working to master the
+syntax for a particular graphical display.
 
 \section{Randomization and
 Resampling}\label{randomization-and-resampling}
@@ -964,9 +981,11 @@ do(3) * rflip(20)   # do 3 times flip 20 coins
 \noindent
 Notice that \texttt{do()} (technically \texttt{cull\_for\_do()}) has
 been clever about what information is stored for each group of 20 coin
-tosses. It is now a simple matter to do this many more times and use
-numerical or graphical summaries to investigate how unusual it is to get
-so few heads if the coin is indeed a fair coin.
+tosses and that the results are returned in a data frame.
+
+It is now a simple matter to do this many more times and use numerical
+or graphical summaries to investigate how unusual it is to get so few
+heads if the coin is indeed a fair coin.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -986,7 +1005,7 @@ tally ( ~(heads <= 6), data = Sims)
 \end{Schunk}
 
 \noindent
-If you are familiar with \pkg{lattice}, you will notice that the
+Readers familiar with \pkg{lattice}, you will notice that the
 \pkg{mosaic} package also adds some additional arguments to the
 \texttt{histogram()} function. Among these are \code{width} and
 \code{center} which can be used to control the width and position of the
@@ -1122,7 +1141,7 @@ favstats(age ~ smoker, data = resample(Whickham))
 ## 2    Yes  18 32     45 56  83 44.8 15.0 562       0
 \end{Soutput}
 \begin{Sinput}
-favstats(age ~ smoker, data = resample(Whickham, groups = smoker))
+favstats(age ~ smoker, data = resample(Whickham, groups = smoker))  # fix margins
 \end{Sinput}
 \begin{Soutput}
 ##   smoker min Q1 median Q3 max mean   sd   n missing
@@ -1156,6 +1175,7 @@ cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
 
 \end{Schunk}
 
+\noindnet
 Alternatively, we can compute a confidence interval based on a bootstrap
 estimate of the standard error.
 
@@ -1185,8 +1205,7 @@ this will undercover. Replacing the normal distribution with an
 appropriate t-distribution will widen intervals and can improve
 coverage, but the t-distribution is only correct in a few cases -- such
 as when estimating the mean of a normal population -- and can perform
-badly when the population is skewed. See the Discussion Section for more
-on this.
+badly when the population is skewed.
 
 Calculating simple confidence intervals can be further automated using
 an extension to \texttt{confint()}.
@@ -1201,6 +1220,72 @@ confint(Boot.dist2, method = c("percentile", "stderr"))
 ## 2 diffmean -5.89  -2.2  0.95     stderr    -4.02            1.85 1313
 \end{Soutput}
 \end{Schunk}
+
+\subsection{do() vs.~replicate()}\label{do-vs.replicate}
+
+The usual alternative to \texttt{do()} is \texttt{replicate()}. For
+simple situations, \texttt{replicate()} can also be easy to use. Each of
+these stores its results in a vector rather than in a data frame, but it
+otherwise very similar to the corresponding results above, although the
+first stores less information.
+
+\begin{Schunk}
+\begin{Sinput}
+replicate(3, rflip(20)) 
+\end{Sinput}
+\begin{Soutput}
+## [1]  9 13 11
+\end{Soutput}
+\begin{Sinput}
+replicate(3, diffmean(age ~ smoker, data = resample(Whickham)))
+\end{Sinput}
+\begin{Soutput}
+## diffmean diffmean diffmean 
+##    -2.04    -4.56    -5.33
+\end{Soutput}
+\end{Schunk}
+
+Where \texttt{do()} really shines in simulations based on models.
+
+\begin{Schunk}
+\begin{Sinput}
+do(3) * lm(shuffle(height) ~ sex + mother, Galton)
+\end{Sinput}
+\begin{Soutput}
+## Source: local data frame [3 x 10]
+## 
+##   Intercept   sexM  mother sigma r.squared      F numdf dendf  .row .index
+##       (dbl)  (dbl)   (dbl) (dbl)     (dbl)  (dbl) (dbl) (dbl) (int)  (dbl)
+## 1      64.1 0.0356 0.04086  3.59  0.000708 0.3168     2   895     1      1
+## 2      66.4 0.0869 0.00543  3.59  0.000156 0.0699     2   895     1      2
+## 3      62.2 0.0175 0.07175  3.58  0.002132 0.9562     2   895     1      3
+\end{Soutput}
+\begin{Sinput}
+replicate(3, lm(shuffle(height) ~ sex + mother, Galton))
+\end{Sinput}
+\begin{Soutput}
+##               [,1]        [,2]        [,3]       
+## coefficients  Numeric,3   Numeric,3   Numeric,3  
+## residuals     Numeric,898 Numeric,898 Numeric,898
+## effects       Numeric,898 Numeric,898 Numeric,898
+## rank          3           3           3          
+## fitted.values Numeric,898 Numeric,898 Numeric,898
+## assign        Integer,3   Integer,3   Integer,3  
+## qr            List,5      List,5      List,5     
+## df.residual   895         895         895        
+## contrasts     List,1      List,1      List,1     
+## xlevels       List,1      List,1      List,1     
+## call          Expression  Expression  Expression 
+## terms         Expression  Expression  Expression 
+## model         List,3      List,3      List,3
+\end{Soutput}
+\end{Schunk}
+
+\noindent
+The results returned by \texttt{do()} are stored in a tidy data frame
+and include the components of the model most likely to be of interest.
+In contrast, \texttt{replicate()} returns an object that is inscrutible
+and unusable for most beginners.
 
 \section{Some additional features of the mosaic
 package}\label{some-additional-features-of-the-mosaic-package}
@@ -1326,7 +1411,7 @@ dotPlot( ~ age, data = Whickham, width = 1, main = "dotPlot()")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-56-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-56-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-58-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-58-2} \end{center}
 
 \end{Schunk}\begin{Schunk}
 \begin{Sinput}
@@ -1335,7 +1420,7 @@ ashplot( ~ age, data = Whickham, width = 5, main = "ashplot()")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-57-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-57-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-59-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-59-2} \end{center}
 
 \end{Schunk}\begin{Schunk}
 \begin{Sinput}
@@ -1344,7 +1429,7 @@ plotPoints(length ~ width, data = KidsFeet, main = "plotPoints()")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-58-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-58-2} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-60-1} \includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-60-2} \end{center}
 
 \end{Schunk}
 
@@ -1377,7 +1462,7 @@ mUSMap(USArrests, key = "state", fill = "UrbanPop")
 \end{Sinput}
 
 
-\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-59-1} \end{center}
+\begin{center}\includegraphics[width=.45\textwidth]{pruim-horton-kaplan_files/figure-latex/unnamed-chunk-61-1} \end{center}
 
 \end{Schunk}
 
@@ -1399,8 +1484,7 @@ packages can coexist amicably as long as \pkg{mosaic} comes before
 \subsection{But wait, there's more}\label{but-wait-theres-more}
 
 Table \ref{tbl:otherstuff} lists some additional functions in the
-\pkg{mosaic} package not highlighted above.
-
+\pkg{mosaic} package not highlighted above.\\
 The package also contains three templates for creating R Markdown
 documents in RStudio. Each ensures that the \pkg{mosaic} package is
 attached, sets the default theme for \pkg{lattice} graphics to
@@ -1466,15 +1550,15 @@ what to look for and how to interpret what they find, and a
 computational toolbox that allows them to do the looking. The approach
 made possible with the \pkg{mosaic} package simplifies the transition
 from thinking to computing by reducing the number of computational
-templates students learn so that cognitative effort can be spent
+templates students learn so that cognitive effort can be spent
 elsewhere, and by having those templates reflect, support, and deepen
 the underlying thinking \citep{Grolemund:ISR:2014}.
 
 Because of the connection between conceptual understanding and these
-computational tools, the use of R can also reveal misunderstandings that
-might otherwise go unnoticed. For example, if a student attempts to use
-\texttt{t.test()} or to create a histogram using a categorical variable,
-the student will recieve error or warning messages that are an
+computational tools, the use of R can also help reveal misunderstandings
+that might otherwise go unnoticed. For example, if a student attempts to
+use \texttt{t.test()} or to create a histogram using a categorical
+variable, the student will receive error or warning messages that are an
 indication that either the student does not understand the current data
 set or still has confusion regarding what it means for a variable to be
 categorical or continuous and which operations are suited for each kind
@@ -1492,7 +1576,7 @@ important questions before attempting to issue a command in R:
 If these two questions can be answered clearly and correctly, then the
 student's primary issue is one of creating the correct R code. If they
 cannot, then the problem lies elsewhere. In our experience, students who
-can consistently answer these two questions, have relatively little
+can consistently answer these two questions have relatively little
 trouble translating the answers into R code using the commands we teach.
 
 For students who take additional courses after the first course, R has
@@ -1617,8 +1701,8 @@ using \pkg{mosaic} are
 
 \subsection{Efficiency Issues}\label{efficiency-issues}
 
-For applications where speed is of utmost importance, it is better to
-avoid some of the \pkg{mosaic} wrappers. For the numerical summary
+For applications where speed is of utmost importance, the \pkg{mosaic}
+wrappers may not be the optimal approach. For the numerical summary
 functions, the \pkg{mosaic} versions cannot be faster than their
 counterparts in \pkg{base} or \pkg{stats} (because eventually they call
 the underlying functions) and may be noticeable slower in contexts where
@@ -1628,28 +1712,28 @@ data described by the formula. On the other hand, for aggregated
 numerical summaries, the loss in performance may represent a small price
 to pay for the simplified syntax.
 
-Similarly, using \texttt{do()} comes at a price, although here the price
-has more to do with the extra work involved in culling the objects and
-reformatting the results. The looping itself is as fast as using
-\texttt{replicate()} -- indeed the underlying code is very similar --
-and can be faster when the \CRANpkg{parallel} package is attached; even
-on a laptop with a single quad-core processor, the speed-up is
-noticible.
+Similarly, using \texttt{do()} comes at a price, although here the the
+increased computation time has more to do with the extra work involved
+in culling the objects and reformatting the results. The looping itself
+is as fast as using \texttt{replicate()} -- indeed the underlying code
+is very similar -- and can be faster when the \CRANpkg{parallel} package
+is attached; even on a laptop with a single quad-core processor, the
+speed-up is noticible.
 
 \subsection{Be selective}\label{be-selective}
 
-Over the years we have been devleoping the \pkg{mosaic} package, it has
-grown to the point that it now contains much more that a minimally
+Over the years we have been developing the \pkg{mosaic} package, it has
+grown to the point that it now contains much more than a minimally
 sufficient set of commands for an introductory course. While we have
 attempted to give some sense of the scope of the package in this
 article, we advise instructors to use things selectively, keeping in
 mind their students and the goals for the course. What may represent
-just the right tool in one setting may be just too much in another. Of
+just the right tool in one setting may be too much in another. Of
 course, the same advice holds for using functions from other packages as
 well. The instructor's temptation is always to do too much, forgetting
 the cognitive burden this can place on students. Less volume and more
 creativity will at times pull in opposite directions, and a skilled
-instructor must determine the appropriate ballance for each setting.
+instructor must determine the appropriate balance for each setting.
 
 \section{Acknowledgements}\label{acknowledgements}
 

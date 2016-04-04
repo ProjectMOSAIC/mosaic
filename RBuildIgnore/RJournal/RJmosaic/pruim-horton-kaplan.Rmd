@@ -109,7 +109,7 @@ and to perform inference procedures (items 1--3 in our list above).
 Because of these goals, 
 our most important template makes use of a "formula interface" that is already
 used by important R functions like \code{t.test()}, \code{lm()},
-and the plotting functions in \CRANpkg{lattice}\citep{lattice}. 
+and the plotting functions in \CRANpkg{lattice} \citep{lattice}. 
 
 We typically introduce the formula template in the context of exploring 
 two variables as 
@@ -133,7 +133,7 @@ data set, which records the number of live births
 in the United States for each day of 1978.
 
 ```{r}
-require(mosaic)     # instead of library() because students seem to remember it better
+require(mosaic) 
 xyplot(births ~ date, data = Births78)
 ```
 ```{r}
@@ -141,13 +141,23 @@ bwplot(births ~ wday, data = Births78)
 bwplot(wday ~ births, data = Births78, pch = "|")  # a more common way to show median
 ```
 \noindent
-Using the \pkg{mosaic} package, this same template can be used to create numerical summaries.
+Using the \pkg{mosaic} package, this same template can be used to calculate numerical summaries.
 ```{r}
 mean(births ~ wday, data = Births78)
 sd(births ~ wday, data = Births78)
 favstats(births ~ wday, data = Births78)
 ```
 \noindent
+These sorts of aggregated numerical summaries can be calculated in other ways, but we 
+find the alternatives more difficult for beginners because they follow entirely different
+syntax templates from the corresponding plots even though essentially the same information 
+is being communicated to R.
+
+```{r}
+with(Births78, aggregate(births, FUN = mean, by = list(wday)))
+with(Births78, tapply(births, wday, mean))
+```
+
 We introduced the `tally()` function for counting categorical variables.  We illustrate 
 its use with another data set from \CRANpkg{mosaicData} \citep{mosaicData}.
 `Whickham` contains data from a UK study that enrolled subjects in 1972-74 and conducted 
@@ -195,23 +205,25 @@ densityplot( ~ births, groups = wday, data = Births78, auto.key = list(columns =
 ```
 And these plots begin to reveal a difficulty in interpretting data from the `Whickham` data set:
 ```{r}
+densityplot( ~ age | smoker, data = Whickham, auto.key = TRUE)
 densityplot( ~ age, groups = smoker, data = Whickham, auto.key = TRUE)
 bwplot( age ~ smoker, data = Whickham)
 ```
-The smokers were on average younter than the non-smokers.
+\noindent
+The smokers were on average younger than the non-smokers.
 
-For numerical summaries the condition `z` and `groups` play essentially the same role, so
-each of the following produces an equivalent result.
+For numerical summaries, an explanatory variable, a condition `z`, or `groups` play 
+essentially the same role, so each of the following produces an equivalent result.
 
 ```{r, results = "hide"}
 mean( age ~ smoker, data = Whickham)
-```
-```{r, results = "hide"}
 mean( ~ age | smoker, data = Whickham)
-```
-```{r}
 mean( ~ age, groups = smoker, data = Whickham)
 ```
+```{r, echo = FALSE}
+mean( age ~ smoker, data = Whickham)
+```
+
 \noindent
 This allows us to compute numerical summaries by replacing the name of the plot with 
 the name of the desired summary.
@@ -219,7 +231,7 @@ the name of the desired summary.
 The one-variable template can be obtained by removing the left-hand side from the formula
 in a two-variable template.
 ```{r, eval = FALSE}
-goal( ~ x, data = mydata )               # psuedo-code
+goal( ~ x, data = mydata )               # pseudo-code
 ```
 \noindent
 In the context of plotting, this makes sense since we are providing the data for the 
@@ -238,7 +250,7 @@ As students become familiar with the formula interface,
 all three forms can be brought together into a single template:
 
 ```{r, eval = FALSE}
-goal( formula, data = mydata, ... )      # psuedo-code
+goal( formula, data = mydata, ... )      # pseudo-code
 ```
 \noindent
 The formula template allows students to 
@@ -288,7 +300,7 @@ histogram( ~ age | smoker, data = Whickham)
    t.test( ~ age | smoker, data = Whickham)
 ```
 
-While creating the correct formula can produce some challenges for new users, 
+While specifying the correct formula can produce some challenges for new users, 
 clearly explaining the roles of each component for plotting, 
 for numerical summaries, and for model fitting helps demystify the situation.
 Instructors have had students create and interpret bivariate and trivariate graphical
@@ -314,7 +326,6 @@ plotDist("binom", size = 100, prob = 0.3)
 Tail probabilities can be highlighted using the `groups` argument in a way that is analogous
 to the lattice plots above.
 ```{r}
-plotDist("chisq", df = 4, groups = x > 9)
 plotDist("chisq", df = 4, groups = x > 9, type = "h")
 ```
 \noindent
@@ -327,13 +338,15 @@ plotDist("binom", size = 100, prob = 0.3, kind = "histogram")
 \noindent
 Any of these plots can be overlaid onto another plot using `add = TRUE`
 ```{r, fig.keep = 'last'}
-histogram(~age, data = Whickham)
 favstats(~age, data = Whickham)
+histogram(~age, data = Whickham, main = 'histogram() with added plotDist()')
 plotDist("norm", params = list(mean = 46.9, sd = 17.4), add = TRUE)
 ```
+\noindent
 or by using additional features of the `histogram()` function provided in the \pkg{mosaic} package:
 ```{r}
-histogram( ~age, data = Whickham, fit = "normal")
+histogram( ~age, data = Whickham, fit = "normal", 
+           main = 'histogram() with fit = "normal"')
 ```
 \noindent Several other families of distributions can be added to a histogram in a similar way.
 The `fitdistr()` function from the \CRANpkg{MASS} \citep{MASS} is used to estimate the parameters of the 
@@ -343,8 +356,8 @@ For several distributions, we provide augmented versions of the distribution and
 quantile functions that assist students in understanding what values are returned
 by functions like `pnorm()` and `qnorm()`.
 ```{r}
-xpnorm(-2:2)
-xqt(0.975, df = 20)
+xpnorm(-2:2, main = "standard normal")
+xqt(0.975, df = 20, main = "t-distribution with df = 20")
 ```
 
 ## A complete formula interface for the test functions
@@ -391,7 +404,7 @@ plotFun(cars.dist2(s) ~ s, add = TRUE, col = 3, lwd = 2)
 For logistic regression, when the response is coded as a factor, we need to adjust things 
 slightly when plotting because the model function returns values between 0 and 1, but 2-level 
 factors are coded as 1 and 2 in R.
-```{r, fig.keep = "last"}
+```{r, fig.keep = "last", message = FALSE}
 smoker.mod <- glm(outcome ~ smoker + age, data = Whickham, family = binomial)
 smoker.fun <- makeFun(smoker.mod)
 smoker.fun(age = 60, smoker = "Yes")
@@ -505,7 +518,6 @@ We can also use `mplot()` to visually represent the results of `TukeyHSD()`,
 which has been modified so that it can be applied directly to objects produced by `lm()`.
 ```{r, fig.height = 5}
 mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval")
-mplot(TukeyHSD(lm(births ~ wday, data = Births78)), order = "pval", system = "ggplot2") 
 ```
 \noindent
 Again, there are options to create either \pkg{lattice} or \pkg{ggplot2} plots, and 
@@ -528,7 +540,7 @@ plots using variables in a data frame.}
 \end{figure}
 
 \noindent
-The menu (see Figure~\ref{fig:mplot}) allows the user to choose either \pkg{lattice} or \pkg{ggplot2}
+The menu (see Figure \ref{fig:mplot}) allows the user to choose either \pkg{lattice} or \pkg{ggplot2}
 graphics, to select the type of plot and the variables used, and to control
 a few of the most commonly used features that modify a plot (faceting, color, legends,
 log-scaling, fitting a linear model or LOESS smoother).  The "Show Expression" button
@@ -583,7 +595,11 @@ do(3) * rflip(20)   # do 3 times flip 20 coins
 ```
 \noindent
 Notice that `do()` (technically `cull_for_do()`) has been clever about what information 
-is stored for each group of 20 coin tosses.  It is now a simple matter to do this many more
+is stored for each group of 20 coin tosses and that the results are returned in a data 
+frame.  
+
+
+It is now a simple matter to do this many more
 times and use numerical or graphical summaries to investigate how unusual it is to get
 so few heads if the coin is indeed a fair coin.
 ```{r}
@@ -592,11 +608,12 @@ histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
 tally ( ~(heads <= 6), data = Sims)
 ```
 \noindent
-If you are familiar with \pkg{lattice}, you will notice that the \pkg{mosaic} package
+Readers familiar with \pkg{lattice}, you will notice that the \pkg{mosaic} package
 also adds some additional arguments to the `histogram()` function.  Among these are 
 \code{width} and \code{center} which can be used to control the width and position
 of the bins and are much easier for new users to master than the \code{breaks} argument
 supplied by \pkg{lattice}.
+
 
 ## sample(), resample(), and shuffle()
 
@@ -667,7 +684,7 @@ set.seed(123456)
 ```{r}
 favstats(age ~ smoker, data = Whickham)
 favstats(age ~ smoker, data = resample(Whickham))
-favstats(age ~ smoker, data = resample(Whickham, groups = smoker))
+favstats(age ~ smoker, data = resample(Whickham, groups = smoker))  # fix margins
 ```
 
 Using either bootstrap distribution, two simple confidence intervals can be 
@@ -684,7 +701,7 @@ histogram( ~ diffmean, data = Boot.dist2, v = D)
 qqmath( ~ diffmean, data = Boot.dist2)
 cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
 ```
-
+\noindnet
 Alternatively, we can compute a confidence interval based on a bootstrap 
 estimate of the standard error.
 ```{r}
@@ -701,7 +718,6 @@ of a normal distribution, but this will undercover. Replacing the normal distrib
 with an appropriate t-distribution will widen intervals and can improve coverage, but 
 the t-distribution is only correct in a few cases -- such as when estimating the mean
 of a normal population -- and can perform badly when the population is skewed.
-See the Discussion Section for more on this.
 
 
 Calculating simple confidence intervals can be further automated using an extension to `confint()`.
@@ -709,6 +725,28 @@ Calculating simple confidence intervals can be further automated using an extens
 confint(Boot.dist2, method = c("percentile", "stderr"))
 ```
 
+
+## do() vs. replicate()
+
+The usual alternative to `do()` is `replicate()`.  For simple situations,
+`replicate()` can also be easy to use. Each of these stores its results
+in a vector rather than in a data frame, but it otherwise very similar 
+to the corresponding results above, although the first stores less information.
+
+```{r}
+replicate(3, rflip(20)) 
+replicate(3, diffmean(age ~ smoker, data = resample(Whickham)))
+```
+
+Where `do()` really shines in simulations based on models.
+```{r}
+do(3) * lm(shuffle(height) ~ sex + mother, Galton)
+replicate(3, lm(shuffle(height) ~ sex + mother, Galton))
+```
+\noindent
+The results returned by `do()` are stored in a tidy data frame and include
+the components of the model most likely to be of interest.  In contrast, `replicate()`
+returns an object that is inscrutible and unusable for most beginners.
 
 # Some additional features of the mosaic package
 
@@ -822,7 +860,6 @@ that the two packages can coexist amicably as long as \pkg{mosaic} comes before
 
 Table \ref{tbl:otherstuff} lists some additional functions in the \pkg{mosaic} package 
 not highlighted above.  
-
 The package also contains three templates for creating 
 R Markdown documents in RStudio.  Each ensures that the \pkg{mosaic} package 
 is attached, sets the default theme for \pkg{lattice} graphics to 
@@ -887,14 +924,14 @@ both a conceptual framework that allows them to know what to look for and how to
 what they find, and a computational toolbox that allows them to do the looking.
 The approach made possible with the \pkg{mosaic} package simplifies 
 the transition from thinking to computing by reducing the number of computational templates
-students learn so that cognitative effort can be spent elsewhere, and 
+students learn so that cognitive effort can be spent elsewhere, and 
 by having those templates reflect, support, and deepen the underlying thinking 
 \citep{Grolemund:ISR:2014}.
 
 Because of the connection between conceptual understanding and these computational tools,
-the use of R can also reveal misunderstandings that might otherwise go unnoticed.
+the use of R can also help reveal misunderstandings that might otherwise go unnoticed.
 For example, if a student attempts to use `t.test()` or to create a histogram using a categorical
-variable, the student will recieve error or warning messages that are an indication that either
+variable, the student will receive error or warning messages that are an indication that either
 the student does not understand the current data set or still has confusion regarding what it means
 for a variable to be categorical or continuous and which operations are suited for each kind of variable.
 We encourage students to make sure they can answer two important questions before attempting 
@@ -906,7 +943,7 @@ to issue a command in R:
   
 If these two questions can be answered clearly and correctly, then the student's primary issue is one of 
 creating the correct R code.  If they cannot, then the problem lies elsewhere. In our experience, students
-who can consistently answer these two questions, have relatively little trouble translating the answers into
+who can consistently answer these two questions have relatively little trouble translating the answers into
 R code using the commands we teach.
 
 For students who take additional courses after the first course, R has the capability to
@@ -1006,7 +1043,7 @@ least provides a useful diagnostic regarding what the problem might be.
 ## Efficiency Issues
 
 For applications where speed is of utmost 
-importance, it is better to avoid some of the \pkg{mosaic} wrappers. 
+importance, the \pkg{mosaic} wrappers may not be the optimal approach. 
 For the numerical summary functions, the \pkg{mosaic} versions cannot be
 faster than their counterparts in \pkg{base} or \pkg{stats} (because 
 eventually they call the underlying functions) and may be noticeable slower in contexts where
@@ -1016,7 +1053,8 @@ creating a new object to contain the data described by the formula.
 On the other hand, for aggregated numerical summaries, the loss in performance may represent
 a small price to pay for the simplified syntax.
 
-Similarly, using `do()` comes at a price, although here the price has more to do with 
+Similarly, using `do()` comes at a price, although here the the increased computation
+time has more to do with 
 the extra work involved in culling the objects and reformatting the results.  The looping
 itself is as fast as using `replicate()` -- indeed the underlying code is very similar -- and 
 can be faster when the \CRANpkg{parallel} package is attached; 
@@ -1024,14 +1062,14 @@ even on a laptop with a single quad-core processor, the speed-up is noticible.
 
 ## Be selective
 
-Over the years we have been devleoping the \pkg{mosaic} package, it has grown to the point that it now contains much
-more that a minimally sufficient set of commands for an introductory course.  While we have attempted to give 
+Over the years we have been developing the \pkg{mosaic} package, it has grown to the point that it now contains much
+more than a minimally sufficient set of commands for an introductory course.  While we have attempted to give 
 some sense of the scope of the package in this article, we advise instructors to use things selectively, keeping in
 mind their students and the goals for the course.  What may represent just the right tool in one setting may be 
-just too much in another.  Of course, the same advice holds for using functions from other packages as well.
+too much in another.  Of course, the same advice holds for using functions from other packages as well.
 The instructor's temptation is always to do too much, forgetting the cognitive burden this can place on students.
 Less volume and more creativity will at times pull in opposite directions, and a skilled instructor must determine
-the appropriate ballance for each setting.
+the appropriate balance for each setting.
 
 # Acknowledgements
 
