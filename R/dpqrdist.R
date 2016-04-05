@@ -215,7 +215,7 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
   ydata <- dpqrdist(dist, type="d", x=xdata, ...)
   ymax <- max(ydata, na.rm=TRUE)
   if (missing(ylim)) {
-    ylim = c(0, 1.4 * ymax)
+    ylim = c(0, 1.6 * quantile(ydata, 0.95, na.rm = TRUE))
   }
   
   # this could be funny if limits don't span q
