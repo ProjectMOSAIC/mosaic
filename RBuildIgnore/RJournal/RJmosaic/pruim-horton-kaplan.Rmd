@@ -32,7 +32,7 @@ output: rticles::rjournal_article
 ---
 
 ```{r, include = FALSE}
-require(mosaic)
+library(mosaic)
 knitr::opts_chunk$set(
   fig.width = 4.5, fig.height = 3, 
   out.width = ".45\\textwidth",
@@ -133,7 +133,7 @@ data set, which records the number of live births
 in the United States for each day of 1978.
 
 ```{r}
-require(mosaic) 
+library(mosaic) 
 xyplot(births ~ date, data = Births78)
 ```
 ```{r}
@@ -207,7 +207,7 @@ And these plots begin to reveal a difficulty in interpretting data from the `Whi
 ```{r}
 densityplot( ~ age | smoker, data = Whickham, auto.key = TRUE)
 densityplot( ~ age, groups = smoker, data = Whickham, auto.key = TRUE)
-bwplot( age ~ smoker, data = Whickham)
+bwplot(age ~ smoker, data = Whickham)
 ```
 \noindent
 The smokers were on average younger than the non-smokers.
@@ -216,12 +216,12 @@ For numerical summaries, an explanatory variable, a condition `z`, or `groups` p
 essentially the same role, so each of the following produces an equivalent result.
 
 ```{r, results = "hide"}
-mean( age ~ smoker, data = Whickham)
+mean(age ~ smoker, data = Whickham)
 mean( ~ age | smoker, data = Whickham)
 mean( ~ age, groups = smoker, data = Whickham)
 ```
 ```{r, echo = FALSE}
-mean( age ~ smoker, data = Whickham)
+mean(age ~ smoker, data = Whickham)
 ```
 
 \noindent
@@ -338,14 +338,14 @@ plotDist("binom", size = 100, prob = 0.3, kind = "histogram")
 \noindent
 Any of these plots can be overlaid onto another plot using `add = TRUE`
 ```{r, fig.keep = 'last'}
-favstats(~age, data = Whickham)
-histogram(~age, data = Whickham, main = 'histogram() with added plotDist()')
+favstats( ~ age, data = Whickham)
+histogram( ~ age, data = Whickham, main = 'histogram() with added plotDist()')
 plotDist("norm", params = list(mean = 46.9, sd = 17.4), add = TRUE)
 ```
 \noindent
 or by using additional features of the `histogram()` function provided in the \pkg{mosaic} package:
 ```{r}
-histogram( ~age, data = Whickham, fit = "normal", 
+histogram( ~ age, data = Whickham, fit = "normal", 
            main = 'histogram() with fit = "normal"')
 ```
 \noindent Several other families of distributions can be added to a histogram in a similar way.
@@ -369,7 +369,7 @@ package masks these functions to provide the missing formula interfaces.
 
 ```{r, eval = FALSE}
 t.test( ~ age, data = Whickham)           # requires mosaic
-t.test( age ~ smoker, data = Whickham)    # works without mosaic
+t.test(age ~ smoker, data = Whickham)     # works without mosaic
 t.test( ~ age | smoker, data = Whickham)  # requires mosaic
 binom.test( ~ smoker, data = Whickham)    # requires mosaic
 prop.test( ~ smoker, data = Whickham)     # requires mosaic
@@ -424,9 +424,9 @@ the `transform` argument to handle other cases).
 mtcars.mod <- lm(log(mpg) ~ log(wt) + factor(cyl), data = mtcars)
 mileage <- makeFun(mtcars.mod)
 xyplot(mpg ~ wt, data = mtcars, groups = cyl)
-plotFun( mileage(w, cyl = 4) ~ w, add = TRUE, col = 1)
-plotFun( mileage(w, cyl = 6) ~ w, add = TRUE, col = 2)
-plotFun( mileage(w, cyl = 8) ~ w, add = TRUE, col = 3)
+plotFun(mileage(w, cyl = 4) ~ w, add = TRUE, col = 1)
+plotFun(mileage(w, cyl = 6) ~ w, add = TRUE, col = 2)
+plotFun(mileage(w, cyl = 8) ~ w, add = TRUE, col = 3)
 ```
 
 For many simple models, creating a plot can be even simpler using
@@ -446,16 +446,6 @@ mtcars.mod2 <- lm(mpg ~ log(wt) + factor(cyl) + factor(am), data = mtcars)
 plotModel(mtcars.mod2, mpg ~ wt | factor(am))
 ```
 
-Especially in calculus, but also when modeling in statistics, it can be useful to create 
-functions defined by algebraic formulas.  With `makeFun()` we can construct
-such functions using a formula interface instead of using \code{function()}, if we prefer.
-
-```{r}
-f <- makeFun(A + B * log(x) ~ x, A = 1, B = 1)
-f
-f(2)
-plotFun(f(x) ~ x, xlim = c(0,3))
-```
 
 ## The extractor template
 
@@ -605,7 +595,7 @@ so few heads if the coin is indeed a fair coin.
 ```{r}
 Sims <- do (1000) * rflip(20)
 histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
-tally ( ~(heads <= 6), data = Sims)
+tally ( ~ (heads <= 6), data = Sims)
 ```
 \noindent
 Readers familiar with \pkg{lattice}, you will notice that the \pkg{mosaic} package
@@ -701,7 +691,7 @@ histogram( ~ diffmean, data = Boot.dist2, v = D)
 qqmath( ~ diffmean, data = Boot.dist2)
 cdata( ~ diffmean, p = 0.95, data = Boot.dist2)
 ```
-\noindnet
+\noindent
 Alternatively, we can compute a confidence interval based on a bootstrap 
 estimate of the standard error.
 ```{r}
@@ -725,6 +715,14 @@ Calculating simple confidence intervals can be further automated using an extens
 confint(Boot.dist2, method = c("percentile", "stderr"))
 ```
 
+## Additional examples
+
+One of the package vignettes \citep{mosaic-resources:2016} contains a list of 
+\pkg{mosaic}-related resources.  Included in the list are links to companion volumes 
+for several textbooks, including two simulation-based texts, 
+\citep{Lock5,Tintle:2016}.
+Each of these companion volumes demonstrates how to use R and the \pkg{mosaic} package 
+to recreate the analyses for all of the examples in the text.
 
 ## do() vs. replicate()
 
@@ -739,14 +737,27 @@ replicate(3, diffmean(age ~ smoker, data = resample(Whickham)))
 ```
 
 Where `do()` really shines in simulations based on models.
+The results returned by `do()` are stored in a tidy data frame and include
+the components of the model most likely to be of interest.  
+
 ```{r}
-do(3) * lm(shuffle(height) ~ sex + mother, Galton)
-replicate(3, lm(shuffle(height) ~ sex + mother, Galton))
+do(3) * lm(shuffle(height) ~ sex + mother, data = Galton)
 ```
 \noindent
-The results returned by `do()` are stored in a tidy data frame and include
-the components of the model most likely to be of interest.  In contrast, `replicate()`
+Resampling from a linear model performs residual resampling:
+```{r}
+Galton.mod <- lm(height ~ sex + mother, data = Galton)
+do(3) * lm(height ~ sex + mother, data = resample(Galton.mod))
+```
+
+
+\noindent
+In contrast, `replicate()`
 returns an object that is inscrutible and unusable for most beginners.
+
+```{r}
+replicate(3, lm(shuffle(height) ~ sex + mother, data = Galton))
+```
 
 # Some additional features of the mosaic package
 
@@ -775,7 +786,7 @@ The second solution is to change the default behavior of `na.rm` using `options(
 This will, of course, only affect the \pkg{mosaic} versions of these functions.
 ```{r}
 options(na.rm = TRUE)
-mean(~ dayslink, data = HELPmiss)
+mean( ~ dayslink, data = HELPmiss)
 with(HELPmiss, base::mean(dayslink))
 ```
 
@@ -783,7 +794,7 @@ with(HELPmiss, base::mean(dayslink))
 Users also have the option of changing the default for `na.rm` back if they like.
 ```{r}
 options(na.rm = NULL)
-mean(~ dayslink, data = HELPmiss)
+mean( ~ dayslink, data = HELPmiss)
 ```
 
 ## Inspecting a data frame
