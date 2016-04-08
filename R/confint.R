@@ -95,6 +95,11 @@ confint.numeric <- function(object, parm, level=0.95, ..., method="stderr",
   }  else {
     result <- as.data.frame(do.call(rbind, result))
   }
+  message(paste0(
+    "Confidence Interval from Bootstrap Distribution (",
+    length(object),
+    " replicates)")
+    )
   result  
 }
 
