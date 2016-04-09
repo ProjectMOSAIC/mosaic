@@ -365,7 +365,7 @@ sample.lm <-
     res
   }
 
-inferTransformation <- function(formula) {
+inferTransformation <- function(formula, warn = TRUE) {
   transformation <- identity
   left <- lhs(formula)
   if (length(left) == 2) {       # foo ( stuff )
@@ -380,12 +380,12 @@ inferTransformation <- function(formula) {
           identity
         )
     }   # could have identity if stuff is not a name or foo is not a known function
-    if (identical(transformation, identity)) {
-      warning("You may need to specify transformation to get the desired results.")
+    if (warn && identical(transformation, identity)) {
+      warning("You may need to specify transformation to get the desired results.", call. = FALSE)
     } 
   }
-  if (length(left) > 2) {
-    warning("You may need to specify transformation to get the desired results.")
+  if (warn && length(left) > 2) {
+    warning("You may need to specify transformation to get the desired results.", call. = FALSE)
   }
   transformation
 }

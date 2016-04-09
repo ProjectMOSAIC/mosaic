@@ -197,7 +197,8 @@ makeFun.lm <-
 
 makeFun.glm <-
    function( object, ..., type=c('response','link'), transform=NULL ) {
-    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
+    if (is.null(transform))  
+      transform <- inferTransformation(formula(object), warn = FALSE) 
 	  type <- match.arg(type)
 	  vars <- modelVars(object)
 	  result <- function(...){}
