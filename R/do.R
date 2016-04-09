@@ -524,6 +524,12 @@ cull_for_do.matrix <- function(object, ...) {
     }
     return(object)
   }
+  if (nrow(object) > 1) {
+    res <- as.data.frame(object)
+    res[[".row"]] <- row.names(object)
+    return(res)
+  }
+  # if we get here, we have a 1-row or empty matrix
   row.names(object) <- NULL
   object
 }
