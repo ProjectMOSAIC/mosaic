@@ -524,6 +524,8 @@ cull_for_do.matrix <- function(object, ...) {
     }
     return(object)
   }
+  row.names(object) <- NULL
+  object
 }
 
 #' @rdname do
