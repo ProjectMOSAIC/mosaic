@@ -11,7 +11,7 @@ author:
   - name: Daniel T Kaplan
     affiliation: Macalester College
     address:
-    - Deptartment of Mathematics and Computer Science
+    - Department of Mathematics and Computer Science
     - 1600 Grand Avenue 
     - St. Paul, MN 55105 USA 
     email:  dtkaplan@macalester.edu
@@ -54,7 +54,7 @@ Many have argued that
 in order to make sense of the increasingly rich data that is
 available to them,
 students need additional facility to express statistical computations (e.g., 
-\cite{NolanTempleLang:2010, Ridgway:2015, HortonBaumerWickham:2015}).
+\cite{NolanTempleLang:2010, HortonBaumerWickham:2015, HortonHardin:2015, Ridgway:2016}).
 To be able to "think with data" (as coined by Diane Lambert of Google), students
 need tools for data management, exploratory analysis,
 visualization, and modeling.  Yet many students enter statistics courses
@@ -86,7 +86,7 @@ approach to using many different functions greatly reduces the cognitive
 load for new users.
 
 To successfully implement a "less volume, more creativity" approach, one must decide
-which tasks are most important to accomplish.  
+which tasks are most important to accomplish. 
 The key tasks we wanted our students to master included
 
   1. Graphical summaries of data, including multi-variable summaries;
@@ -105,7 +105,7 @@ less volume, more creativity approach.
 
 We knew from the outset that we wanted students to be able to create
 graphical and numerical summaries of data, to fit various models
-and to perform inference procedures (items 1--3 in our list above).  
+and to perform inference procedures (items 1--3 in our list above). 
 Because of these goals, 
 our most important template makes use of a "formula interface" that is already
 used by important R functions like \code{t.test()}, \code{lm()},
@@ -151,12 +151,14 @@ favstats(births ~ wday, data = Births78)
 These sorts of aggregated numerical summaries can be calculated in other ways, but we 
 find the alternatives more difficult for beginners because they follow entirely different
 syntax templates from the corresponding plots even though essentially the same information 
-is being communicated to R.
+is being communicated to R.  Consider the following alternatives.
 
 ```{r}
 with(Births78, aggregate(births, FUN = mean, by = list(wday)))
 with(Births78, tapply(births, wday, mean))
 ```
+While these generate similar output to the `mosaic` aggregation functions, the syntax is
+different and more complicated.
 
 We introduced the `tally()` function for counting categorical variables.  We illustrate 
 its use with another data set from \CRANpkg{mosaicData} \citep{mosaicData}.
@@ -183,7 +185,7 @@ In each case we have been careful not to break behavior of the underlying functi
 The formula template can be extended to handle one variable or more than two variables,
 but we recommend introducing it in the context of two-variable plots and summaries.
 This is for several reasons: (1) two-variable plots and numerical summaries are more
-"impressive" than one one-variable plots and less likely to be something students can as 
+"impressive" than one-variable plots and less likely to be something students can as 
 readily do with tools they already know, 
 (2) working with more than one variable from the start (correctly) suggests
 that the most interesting parts of statistics involve more than one variable \citep{Wild:RSS:2011},
@@ -198,19 +200,20 @@ goal( y ~ x | z, groups = mygroups, data = mydata )    # pseudo-code
 \noindent
 When plotting, `z` is used to create plots with subpanels (or facets) and `groups` indicates
 overlaid layers.  Each of these two plots shows a clear difference in the distribution of 
-births one the two weekend days compared to the other five days of the week:
+births on the two weekend days compared to the other five days of the week:
 ```{r}
 xyplot(births ~ date, groups = wday, data = Births78, type = "l")
 densityplot( ~ births, groups = wday, data = Births78, auto.key = list(columns = 3))
 ```
-And these plots begin to reveal a difficulty in interpretting data from the `Whickham` data set:
+These plots reveal a subtlety in interpreting the `Whickham` data set:
 ```{r}
 densityplot( ~ age | smoker, data = Whickham, auto.key = TRUE)
 densityplot( ~ age, groups = smoker, data = Whickham, auto.key = TRUE)
 bwplot(age ~ smoker, data = Whickham)
 ```
 \noindent
-The smokers were on average younger than the non-smokers.
+We observe that 
+the smokers were on average younger than the non-smokers.
 
 For numerical summaries, an explanatory variable, a condition `z`, or `groups` play 
 essentially the same role, so each of the following produces an equivalent result.
@@ -316,7 +319,7 @@ a handful of numerical and graphical summaries suffices.
 
 ## Visualizing distributions of random variables
 
-A number of functions make it simple to visualize random variables.  `plotDist()` creates
+A number of functions make it simple to visualize random variables.  The `plotDist()` function creates
 displays for any distribution for which standard d-, p-, and q- functions exist.
 ```{r}
 plotDist("norm", mean = 100, sd = 10)
@@ -362,8 +365,8 @@ xqt(0.975, df = 20, main = "t-distribution with df = 20")
 
 ## A complete formula interface for the test functions
 
-The `t.test()` function allows for a formula interface for 2-sample t tests, but not for 1-sample tests.
-Similarly, `binom.test()` and `prop.test()` do not provide a formula interface at all and work only
+The `stats::t.test()` function allows for a formula interface for 2-sample t tests, but not for 1-sample tests.
+Similarly, the usual `binom.test()` and `prop.test()` functions do not provide a formula interface at all and work only
 from summaries of data rather than from raw data.  The \pkg{mosaic}
 package masks these functions to provide the missing formula interfaces.
 
@@ -381,7 +384,7 @@ Modeling functions like \code{lm()} and \code{glm()} can fit a wide range of
 statistical models.  But functions like \code{predict()} are challenging for new 
 users, and constructing a useful graphical representation of a data set together 
 with a logistic regression fit even more so.  The \pkg{mosaic} functions \code{makeFun()},
-\code{plotFun()}, and \code{plotModel()} make these things easier.
+\code{plotFun()}, and \code{plotModel()} make these tasks easier.
 
 We can use \code{makeFun()} to create functions from
 model objects created by `lm()` and `glm()`.  These functions are 
@@ -399,6 +402,7 @@ xyplot(dist ~ speed, data = cars, alpha = 0.4)
 plotFun(cars.dist1(s) ~ s, add = TRUE, col = 2, lwd = 2)
 plotFun(cars.dist2(s) ~ s, add = TRUE, col = 3, lwd = 2)
 ```
+XX add ladd() here to label plots?
 
 \noindent
 For logistic regression, when the response is coded as a factor, we need to adjust things 
@@ -432,7 +436,7 @@ plotFun(mileage(w, cyl = 8) ~ w, add = TRUE, col = 3)
 For many simple models, creating a plot can be even simpler using
 `plotModel()`, which also eliminates the need to manually adjust
 logistic regression plots when the response is a factor.  For models with 
-multiple predictors, we can supply a formala to indicate which predictor
+multiple predictors, we can supply a formula to indicate which predictor
 we prefer to have on the x-axis.
 ```{r}
 plotModel(cars.mod2)
@@ -458,7 +462,7 @@ extractor(object)
 ```
 
 R has many such extractors which summarise, display, or extract partial information from an 
-object. `print()`, `plot()`, and `summary()` are examples of extractors that can be applied to many
+object. The `print()`, `plot()`, and `summary()` functions are examples of extractors that can be applied to many
 types of objects.  Other extractors, like `resid()` and `fitted()` are designed to work with
 a much smaller set of objects.  The \pkg{mosaic} package defines several extractors including
 \begin{center}
@@ -494,7 +498,7 @@ Given a model object as its first argument, `mplot()` provides similar diagnosti
 produced via `plot()` but with two primary differences: the user may select to use either 
 \pkg{lattice} or \CRANpkg{ggplot2} \citep{ggplot2} graphics instead of base graphics, 
 and an additional plot type is provided to visualize the 
-confidence intervals for the coefficients of the model.
+confidence intervals for the coefficients of a regression model.
 
 ```{r, results = "hide"}
 mod <- lm(length ~ width * sex, data = KidsFeet)
@@ -537,7 +541,7 @@ log-scaling, fitting a linear model or LOESS smoother).  The "Show Expression" b
 exports the command used to create the plot into the console.  From there it can be edited
 or copied and pasted into an R Markdown document.
 This can be very useful for new users working to master the syntax for a particular
-graphical display.
+graphical system.
 
 
 # Randomization and Resampling
@@ -598,8 +602,8 @@ histogram( ~ heads, data = Sims, width = 1, groups = heads <= 6)
 tally ( ~ (heads <= 6), data = Sims)
 ```
 \noindent
-Readers familiar with \pkg{lattice}, you will notice that the \pkg{mosaic} package
-also adds some additional arguments to the `histogram()` function.  Among these are 
+Readers familiar with \pkg{lattice} will notice that the \pkg{mosaic} package
+adds some additional arguments to the `histogram()` function.  Among these are 
 \code{width} and \code{center} which can be used to control the width and position
 of the bins and are much easier for new users to master than the \code{breaks} argument
 supplied by \pkg{lattice}.
@@ -638,7 +642,7 @@ statistics texts, one might prefer to calculate p-values by including the
 observed data in the randomization distribution.  This avoids an empirical p-value of 0
 and guarantees that the actual type I error rate will not exceed the nominal type I error rate.
 This amounts
-to adding one to the numerator and denominator.  The `prop1()` function automates this for us
+to adding one to the numerator and denominator.  The `prop1()` function automates this for us.
 
 
 ```{r}
@@ -679,7 +683,8 @@ favstats(age ~ smoker, data = resample(Whickham, groups = smoker))  # fix margin
 
 Using either bootstrap distribution, two simple confidence intervals can be 
 computed.
-We typically introduce percentile confidence intervals first.
+We typically introduce percentile confidence intervals first (but note that these
+can have poor performance for small sample sizes).
 A percentile confidence interval is calculated
 by determining the range of a central portion of the bootstrap distribution, which can
 be automated using `cdata()`.
@@ -753,7 +758,7 @@ do(3) * lm(height ~ sex + mother, data = resample(Galton.mod))
 
 \noindent
 In contrast, `replicate()`
-returns an object that is inscrutible and unusable for most beginners.
+returns an object that is inscrutable and unusable for most beginners.
 
 ```{r}
 replicate(3, lm(shuffle(height) ~ sex + mother, data = Galton))
@@ -841,12 +846,12 @@ introductory statistics texts.  They are also useful for producing plots from wh
 p-values by counting dots in the tail of a randomization distribution.
 Frequency polygons and ASH plots (average shifted histograms) are less common, but share many features in common
 with density plots and are easier to explain to students.
-The main motivation for `plotPoints()` is the abbility to use it to create additional layers on an existing plot
+The main motivation for `plotPoints()` is the ability to use it to create additional layers on an existing plot
 with the option `add = TRUE`, otherwise `xyplot()` would suffice.  
 
 ## Basic choropleth maps
 
-We provide functionality for creating basic choropleth maps: `mUSMap()` and `mWorldMap()` provide simple 
+The `mUSMap()` and `mWorldMap()` functions provide simple 
 ways to construct choropleth maps of states in the US or countries in the world, and `makeMap()` allows users
 to provide their own map data.
 
@@ -861,7 +866,7 @@ The \pkg{mosaic} package depends on \pkg{lattice} and \pkg{ggplot2} so that plot
 can be made using either system whenever the \pkg{mosaic} package is attached.  It also 
 depends on \CRANpkg{dplyr} \citep{dplyr}, but for a different reason.  The functions in \pkg{dplyr} 
 implement a "less volume, more creativity" approach to data transformation and we 
-encourage its use along side \pkg{mosaic}.  Unfortunatley, there are several
+encourage its use along side \pkg{mosaic}.  Unfortunately, there are several
 function names -- most notably `do()` and `tally()` -- that exist in both packages.
 After the release of \pkg{dplyr} we modified the functions in \pkg{mosaic} so
 that the two packages can coexist amicably as long as \pkg{mosaic} comes before 
@@ -896,7 +901,7 @@ function & uses
 \texttt{ladd()} & simplified layering in \pkg{lattice} plots.
 \\
 \texttt{xchisq.test()} & an extension to \texttt{chisq.test()} that prints a table including
-observed and expected counts, contribution to the chi-squared statistics and residuals.
+observed and expected counts, contribution to the chi-squared statistic and residuals.
 \\
 \texttt{zscore()} & convert a numeric vector into z-scores.
 \\
@@ -913,7 +918,7 @@ so that the length is the same as the input vector.
 \\
 \texttt{SAD()}, \texttt{MAD()} & all pairs sum and mean of absolute differences
 \\
-\texttt{rgeo()} & randomly sample latitidue, longitude pairs uniformly over the globe
+\texttt{rgeo()} & randomly sample latitude, longitude pairs uniformly over the globe
 \\
 \texttt{googleMap()} & show google maps in a browser.  Together with \texttt{rgeo()}, this can be 
 used to view maps of randomly selected points on the globe.  See \cite{RoadlessAmerica}
@@ -957,7 +962,7 @@ creating the correct R code.  If they cannot, then the problem lies elsewhere. I
 who can consistently answer these two questions have relatively little trouble translating the answers into
 R code using the commands we teach.
 
-For students who take additional courses after the first course, R has the capability to
+R has the capability to
 support the increasing complexity of the data and analyses students encounter in subsequent
 courses and research projects.  Eventually, students will need to learn more about the 
 structure of R as a language, the types of objects it supports, and alternative ways of
@@ -966,7 +971,7 @@ and independently exercise computational and statistical creativity.
 
 ## Challenges of using R in introductory courses
 
-But using R is not without some challenges.  The first challenge is to get all 
+Using R is not without some challenges.  The first challenge is to get all 
 of the students
 up and running with R.  The use of an RStudio server allows an institution
 or instructor to install and configure R and its packages and students to work 
@@ -985,7 +990,7 @@ how to interpret some of the most common R error messages.  This goes a long way
 the transition to a command line interface that is not as forgiving as Google search, which 
 may be many students' only other experience with a command line interface.
 
-In our experience, the most commonly occuring struggles for students using \pkg{mosaic}
+In our experience, the most commonly occurring struggles for students using \pkg{mosaic}
 are
 
  1. General anxiety over typing commands.
@@ -993,12 +998,13 @@ are
     Although students are very familiar with using computers and computerized
     devices like smart phones,
     many of them have little experience typing commands that require following syntax rules.  The 
-    "Less Volume, More Creativity" approach helps with this, by reducing the volume, but it remains
+    ``Less Volume, More Creativity" approach helps with this, by reducing the cognitive burden, 
+    but it remains
     important to highlight repeatedly the similarities among commands and to help students learn to 
     understand the most common error messages R produces so that they can quickly, easily, 
-    and comfortably recover from innevitable typing errors.  
+    and comfortably recover from inevitable typing errors.  
     Even if a class does not typically meet in a computer laboratory
-    or take advantage of studetn laptops, it can be useful to arrange some sessions early in 
+    or take advantage of student laptops, it can be useful to arrange some sessions early in 
     the course where students are using RStudio while someone is there to quickly help them when 
     they get stuck.  Avoiding frustration in students' early experience with R goes a long way in
     overcoming anxiety.
@@ -1032,7 +1038,7 @@ are
  
  3. Difficulty in setting up the R environment
  
-    This is all but eliminated when using and RStudio server, but in situations where instructors prefer
+    This is all but eliminated when using an RStudio server, but in situations where instructors prefer
     a local R installation for each student, there are often a few issues involved in getting all students
     up and running.  Installation of R and RStudio is straightforward, but one should make sure that students
     all have the latest version of each.  To use the \pkg{mosaic} package, a number of additional packages
@@ -1045,7 +1051,7 @@ are up to date.  In most cases,
 ```{r, eval = FALSE}
 install.packages("mosaic")
 ```
-(again, this can also be done via the Packages tab in RStudio) will take care of the rest.  But ocassionally
+(again, this can also be done via the Packages tab in RStudio) will take care of the rest.  But occasionally
 some package will not install correctly on a particular student's computer. Installing that package
 directly rather than as part of the dependencies of \pkg{mosaic} often solves this problem or at 
 least provides a useful diagnostic regarding what the problem might be.
@@ -1064,12 +1070,12 @@ creating a new object to contain the data described by the formula.
 On the other hand, for aggregated numerical summaries, the loss in performance may represent
 a small price to pay for the simplified syntax.
 
-Similarly, using `do()` comes at a price, although here the the increased computation
+Similarly, using `do()` comes at a price, although here the increased computation
 time has more to do with 
 the extra work involved in culling the objects and reformatting the results.  The looping
 itself is as fast as using `replicate()` -- indeed the underlying code is very similar -- and 
 can be faster when the \CRANpkg{parallel} package is attached; 
-even on a laptop with a single quad-core processor, the speed-up is noticible.
+even on a laptop with a single quad-core processor, the speed-up is noticeable.
 
 ## Be selective
 
@@ -1078,15 +1084,15 @@ more than a minimally sufficient set of commands for an introductory course.  Wh
 some sense of the scope of the package in this article, we advise instructors to use things selectively, keeping in
 mind their students and the goals for the course.  What may represent just the right tool in one setting may be 
 too much in another.  Of course, the same advice holds for using functions from other packages as well.
-The instructor's temptation is always to do too much, forgetting the cognitive burden this can place on students.
+The instructor's temptation is often to do too much, forgetting the cognitive burden this can place on students.
 Less volume and more creativity will at times pull in opposite directions, and a skilled instructor must determine
 the appropriate balance for each setting.
 
 # Acknowledgements
 
 Partial support for this work was provided by the National Science Foundation 
-DUE 0920350 (Project MOSAIC).  We thank Xiaofei (Susan) Wang and the reviewers for helpful comments 
-and suggestions, and all of the users of the \pkg{mosaic} package who have provided use feedback
+DUE 0920350 (Project MOSAIC).  We thank Xiaofei (Susan) Wang and the reviewers for helpful 
+comments and all of the users of the \pkg{mosaic} package who have provided feedback
 on their experience and offered suggestions for improvement.
 
 \bibliography{pruim-horton-kaplan}
