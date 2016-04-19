@@ -142,9 +142,12 @@ Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 nice_names <- function(x, unique=TRUE) {
 	x <- gsub('%>%', '.result.', x)
 	x <- gsub('\\(Intercept\\)','Intercept', x)
-	x <- gsub('resample\\(','', x)
+	x <- gsub('resample\\(([^\\)]*)\\)','\\1', x)
+	x <- gsub('sample\\(([^\\)]*)\\)','\\1', x)
+	x <- gsub('shuffle\\(([^\\)]*)\\)','\\1', x)
 	x <- gsub('sample\\(','', x)
 	x <- gsub('shuffle\\(','', x)
+	x <- gsub('resample\\(','', x)
 #	x <- gsub('\\(','.', x)
 #	x <- gsub('-','.', x)
 #	x <- gsub(':','.', x)
