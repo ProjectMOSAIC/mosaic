@@ -198,7 +198,7 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
   if (! 'pch' %in% names(latticedots)) { latticedots$pch <- 16 }
   
   if (missing(xlim) || is.null(xlim)) {
-    xlim <- dpqrdist(dist, type="q", p=c(0.001, .999), ...)
+    xlim <- range(dpqrdist(dist, type="q", p=c(0.001, .999), ...))
   }
   if (discrete) {
     xdata <- unique(dpqrdist(dist, type="q", p=ppoints(resolution), ...))
@@ -211,7 +211,8 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
   } else {
     xdata <- unique(seq(xlim[1], xlim[2], length.out=resolution))
   }
-  
+ 
+  # not a fix: xdata <- sort(xdata) 
   ydata <- dpqrdist(dist, type="d", x=xdata, ...)
   ymax <- 1.1 * quantile(ydata, 0.95, na.rm=TRUE)
   if (missing(ylim)) {
