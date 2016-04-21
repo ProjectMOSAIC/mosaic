@@ -47,12 +47,12 @@ makeFun.function <-
 #' \code{makeFun} is called.  A warning message alerts the user to this situation, 
 #' unless \code{suppress.warnings} is \code{TRUE}.
 #' @param suppress.warnings A logical indicating whether warnings should be suppressed.
-#' @param transform a function used to transform the response.
+#' @param transformation a function used to transform the response.
 #' This can be useful to invert a transformation used on the response
 #' when creating the model.  If \code{NULL}, an attempt will be made to infer
 #' the transformation from the model formula. A few simple transformations 
 #' (\code{log}, \code{log2}, \code{sqrt}) are recognized.  For other transformations,
-#' \code{transform} should be provided explicitly.
+#' \code{transformation} should be provided explicitly.
 #' @details When creating a function from a model created with \code{lm}, \code{glm}, or \code{nls},
 #'   the function produced is a wrapper around the corresponding version of \code{predict}.  
 #'   This means that having variables in the model with names that match arguments of 
@@ -60,7 +60,7 @@ makeFun.function <-
 #' @examples
 #' if (require(mosaicData)) {
 #' model <- lm( log(length) ~ log(width), data=KidsFeet)
-#' f <- makeFun(model, transform=exp)
+#' f <- makeFun(model, transformation = exp)
 #' f(8.4)
 #' head(KidsFeet,1)
 #' }
@@ -143,8 +143,8 @@ makeFun.formula <-
 #' @export
 
 makeFun.lm <- 
-   function( object, ... , transform=NULL) {
-    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
+   function( object, ... , transformation=NULL) {
+    if (is.null(transformation))  transformation <- inferTransformation(formula(object)) 
     dnames <- names(eval(object$call$data, parent.frame(1)))
 	  vars <- modelVars(object)
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
@@ -158,12 +158,12 @@ makeFun.lm <-
 				  x <- 1
 			  }
 			  dots <- dots[names(dots) != ""] 
-			  transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
+			  transformation( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
 		  }
 	  } else {
 		  body(result) <- 
 			  parse( text=paste(
-								"return(transform(predict(model, newdata=data.frame(",
+								"return(transformation(predict(model, newdata=data.frame(",
 								paste(vars, "= ", vars, collapse=",", sep=""), 
 								"), ...)))"
 								)
@@ -171,14 +171,14 @@ makeFun.lm <-
 		  args <- paste("alist(", paste(vars, "=", collapse=",", sep=""),")")
 		  args <- eval(parse(text=args))
 		  args['pi'] <- NULL
-		  args <- c(args, alist('...'=), list(transform=substitute(transform)))
+		  args <- c(args, alist('...'=), list(transformation=substitute(transformation)))
 		  formals(result) <- args
 	  }
 
 	  # myenv <- parent.frame()
 	  # myenv$model <- object
 	  # environment(result) <- myenv
-	  environment(result) <- list2env( list(model=object, transform=transform) )
+	  environment(result) <- list2env( list(model=object, transformation=transformation) )
 	  attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
@@ -196,9 +196,9 @@ makeFun.lm <-
 #' @export
 
 makeFun.glm <-
-   function( object, ..., type=c('response','link'), transform=NULL ) {
-    if (is.null(transform))  
-      transform <- inferTransformation(formula(object), warn = FALSE) 
+   function( object, ..., type=c('response','link'), transformation=NULL ) {
+    if (is.null(transformation))  
+      transformation <- inferTransformation(formula(object), warn = FALSE) 
 	  type <- match.arg(type)
 	  vars <- modelVars(object)
 	  result <- function(...){}
@@ -211,20 +211,20 @@ makeFun.glm <-
 				  x <- 1
 			  }
 			  dots <- dots[names(dots) != ""] 
-			  transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
+			  transformation( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
 		  }
 	  } else {
 		  if (type == "link") {
 		    body(result) <- 
 			  parse( text=paste(
-								"return(transform(predict(model, newdata=data.frame(",
+								"return(transformation(predict(model, newdata=data.frame(",
 								paste(vars, "= ", vars, collapse=",", sep=""), 
 								"), ..., type='link')))"
 								) )
 		  } else {
 		    body(result) <- 
 			  parse( text=paste(
-								"return(transform(predict(model, newdata=data.frame(",
+								"return(transformation(predict(model, newdata=data.frame(",
 								paste(vars, "= ", vars, collapse=",", sep=""), 
 								"), ..., type='response')))"
 								) )
@@ -232,7 +232,7 @@ makeFun.glm <-
 		  args <- paste("alist(", paste(vars, "=", collapse=",", sep=""),")")
 		  args <- eval(parse(text=args))
 		  args['pi'] <- NULL
-		  args <- c(args, alist('...'=), list(transform=substitute(transform)))		  
+		  args <- c(args, alist('...'=), list(transformation=substitute(transformation)))		  
 		  formals(result) <- args
 		  
 	  }
@@ -240,7 +240,7 @@ makeFun.glm <-
 	  # myenv <- parent.frame()
 	  # myenv$model <- object
 	  # environment(result) <- myenv
-	  environment(result) <- list2env( list(model=object, transform=transform) )
+	  environment(result) <- list2env( list(model=object, transformation=transformation) )
 	  attr(result,"coefficients") <- coef(object)
 	  return(result)
   }
@@ -256,8 +256,8 @@ makeFun.glm <-
 #' @export
 
 makeFun.nls <- 
-  function( object, ... , transform = NULL) {
-    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
+  function( object, ... , transformation = NULL) {
+    if (is.null(transformation))  transformation <- inferTransformation(formula(object)) 
     dnames <- names(eval(object$call$data, parent.frame(1)))
     cvars <- names(coef(object))
     vars <- all.vars(rhs(eval(object$m$formula())))
@@ -273,12 +273,12 @@ makeFun.nls <-
           x <- 1
         }
 			  dots <- dots[names(dots) != ""] 
-        transform( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
+        transformation( do.call(predict, c(list(model, newdata=data.frame(x=x)), dots)) )
       }
     } else {
       body(result) <- 
         parse( text=paste(
-          "return(transform(predict(model, newdata=data.frame(",
+          "return(transformation(predict(model, newdata=data.frame(",
           paste(vars, "= ", vars, collapse=",", sep=""), 
           "), ...)))"
         )
@@ -288,11 +288,11 @@ makeFun.nls <-
       args <- eval(parse(text=args))
       # args <- c(args,params)
       args['pi'] <- NULL
-      args <- c(args, alist('...'=), list(transform=substitute(transform)))		  
+      args <- c(args, alist('...'=), list(transformation=substitute(transformation)))		  
       formals(result) <- args
     }
 
-    environment(result) <- list2env( list(model=object, transform=transform) )
+    environment(result) <- list2env( list(model=object, transformation=transformation) )
     attr(result,"coefficients") <- coef(object)
     return(result)
   }
@@ -304,8 +304,8 @@ makeFun.nls <-
 #' modfun(sector = "prof")
 #' @export
 makeFun.groupwiseModel <- 
-  function( object, ... , transform=NULL) {
-    if (is.null(transform))  transform <- inferTransformation(formula(object)) 
+  function( object, ... , transformation=NULL) {
+    if (is.null(transformation))  transformation <- inferTransformation(formula(object)) 
     dnames <- names(eval(object$call$data, parent.frame(1)))
     vars <- modelVars(object)
     if (! is.null(dnames) ) vars <- intersect(vars, dnames)
@@ -319,12 +319,12 @@ makeFun.groupwiseModel <-
           x <- 1
         }
         dots <- dots[names(dots) != ""] 
-        transform( do.call(predict, c(list(model, newdata=data_frame(x=x)), dots)) )
+        transformation( do.call(predict, c(list(model, newdata=data_frame(x=x)), dots)) )
       }
     } else {
       body(result) <- 
         parse( text=paste(
-          "return(transform(predict(model, newdata=data.frame(",
+          "return(transformation(predict(model, newdata=data.frame(",
           paste(vars, "= ", vars, collapse=",", sep=""), 
           ", stringsAsFactors = FALSE), ...)))"
         )
@@ -332,14 +332,14 @@ makeFun.groupwiseModel <-
       args <- paste("alist(", paste(vars, "=", collapse=",", sep=""),")")
       args <- eval(parse(text=args))
       args['pi'] <- NULL
-      args <- c(args, alist('...'=), list(transform=substitute(transform)))
+      args <- c(args, alist('...'=), list(transformation=substitute(transformation)))
       formals(result) <- args
     }
     
     # myenv <- parent.frame()
     # myenv$model <- object
     # environment(result) <- myenv
-    environment(result) <- list2env( list(model=object, transform=transform) )
+    environment(result) <- list2env( list(model=object, transformation=transformation) )
     attr(result,"coefficients") <- coef(object)
     return(result)
   }
