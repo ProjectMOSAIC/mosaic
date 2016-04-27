@@ -53,7 +53,7 @@ function (x, y=NULL, correct=TRUE, p = rep(1/length(x), length(x)),
     cat("\tobserved\n")
     cat("\t(expected)\n")
     cat("\t[contribution to X-squared]\n")
-    cat("\t<residual>\n")
+    cat("\t<Pearson residual>\n")
     orig$contribution <- contribution
     return(invisible(orig))
 }
