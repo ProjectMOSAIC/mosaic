@@ -548,7 +548,7 @@ fortify.TukeyHSD <- function(model, data, order = c("asis", "pval", "difference"
 
 mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"), 
                            ylab="", xlab="difference in means", 
-                           title="Tukey's Honest Significant Differences",
+                           title = paste0(attr(object, "conf.level") * 100, "% family-wise confidence level"),
                            par.settings = trellis.par.get(),
                            order = c("asis", "pval", "difference"),
                            ...) {
@@ -587,6 +587,5 @@ mplot.TukeyHSD <- function(object, system=c("lattice", "ggplot2"),
             ...
     )
   )
-  
 }
 

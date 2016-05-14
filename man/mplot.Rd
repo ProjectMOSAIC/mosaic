@@ -25,8 +25,8 @@ mplot(object, ...)
   level = 0.95, par.settings = trellis.par.get(), rows = TRUE, ...)
 
 \method{mplot}{TukeyHSD}(object, system = c("lattice", "ggplot2"),
-  ylab = "", xlab = "difference in means",
-  title = "Tukey's Honest Significant Differences",
+  ylab = "", xlab = "difference in means", title = paste0(attr(object,
+  "conf.level") * 100, "\% family-wise confidence level"),
   par.settings = trellis.par.get(), order = c("asis", "pval", "difference"),
   ...)
 }
