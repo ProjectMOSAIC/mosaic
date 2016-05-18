@@ -362,6 +362,15 @@ cull_for_do.default <- function(object, ...) {
   object
 }
 
+#' @export
+cull_for_do.fitdistr <- function(object, ...) {
+  est <- object$estimate
+  names(est) <- paste0(names(est), ".est")
+  se <- object$sd
+  names(se) <- paste0(names(se), ".se")
+  c(est, se)
+}
+
 #' @export 
 cull_for_do.aov <- function(object, ...) {
   cull_for_do(anova(object))
