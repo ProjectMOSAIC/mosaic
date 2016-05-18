@@ -61,8 +61,8 @@ test_that('Can make functions from lm models', {
   g <- makeFun(model2)
   expect_equivalent( f(7), 3 )
   expect_equivalent( g(7), 3 )
-  expect_equivalent( names(formals(f)), c('x','...', 'transform') )
-  expect_equivalent( names(formals(g)), c('ex','...', 'transform') )
+  expect_equivalent( names(formals(f)), c('x','...', 'transformation') )
+  expect_equivalent( names(formals(g)), c('ex','...', 'transformation') )
 })
 
 test_that('Can make functions from models with no predictors', {
@@ -86,8 +86,8 @@ test_that('Can make functions from glm models (gaussian)', {
   g <- makeFun(model2)
   expect_equivalent( f(7), 3 )
   expect_equivalent( g(7), 3 )
-  expect_equivalent( names(formals(f)), c('x','...', 'transform') )
-  expect_equivalent( names(formals(g)), c('ex','...', 'transform') )
+  expect_equivalent( names(formals(f)), c('x','...', 'transformation') )
+  expect_equivalent( names(formals(g)), c('ex','...', 'transformation') )
 })
 
 test_that('Can make functions from glm models (Gamma)', {

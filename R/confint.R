@@ -335,12 +335,12 @@ confint.data.frame <- function(object, parm, level=0.95, ... )  {
   for (c in 1:ncol(object)) {
     x <- object[,c]
     if (is.numeric(x)) { 
-      newCI <- interval(t.test(x, ...))
+      newCI <- confint(t.test(x, ...))
       newRow <- data.frame( method="t.test", estimate=newCI[1], lower=newCI[2], 
                             upper=newCI[3], level=newCI[4])
       
     } else if ( (is.factor(x) && nlevels(x) <= 2) || (is.character(x) && length(unique(x)) <= 2) || is.logical(x)) { 
-      newCI <- interval(binom.test(x, ...)) 
+      newCI <- confint(binom.test(x, ...)) 
       newRow <- data.frame( method="binom.test", estimate=newCI[1], lower=newCI[2], upper=newCI[3], level=newCI[4])
     } else {
       newRow <- data.frame(method="none", estimate=NA, lower=NA, upper=NA, level=NA)

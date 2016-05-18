@@ -27,10 +27,9 @@
 #' @keywords inference 
 #' @export
 
-interval <- confint
+# remove inverval alias to avoid conflict with lubridate::interval
+# interval <- confint
 
-# interval <- (x, ...){UseMethod("interval", x)}
-#
 #' @rdname interval
 #' @param verbose a logical
 #' @export

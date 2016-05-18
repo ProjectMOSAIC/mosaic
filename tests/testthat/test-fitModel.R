@@ -5,7 +5,7 @@ context('fitModel()')
 test_that("A function is created", {
   expect_true(is.function(fitModel( width ~ A * length + B, data=mosaicData::KidsFeet)))
   expect_equivalent(names(formals(fitModel( width ~ A * length + B, data=mosaicData::KidsFeet))), 
-                    c('length','...','transform'))
+                    c('length','...','transformation'))
 })
 
 test_that("Function gives correct results", {
