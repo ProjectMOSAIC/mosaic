@@ -9,10 +9,12 @@
 \title{Confidence interval methods for output of resampling}
 \usage{
 \method{confint}{numeric}(object, parm, level = 0.95, ...,
-  method = "stderr", margin.of.error = "stderr" \%in\% method == "stderr")
+  method = "percentile", margin.of.error = "stderr" \%in\% method ==
+  "stderr")
 
 \method{confint}{do.data.frame}(object, parm, level = 0.95, ...,
-  method = "stderr", margin.of.error = "stderr" \%in\% method, df = NULL)
+  method = "percentile", margin.of.error = "stderr" \%in\% method,
+  df = NULL)
 
 \method{confint}{data.frame}(object, parm, level = 0.95, ...)
 

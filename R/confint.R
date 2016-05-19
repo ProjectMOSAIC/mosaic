@@ -78,7 +78,7 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #' }
 #' @export
 
-confint.numeric <- function(object, parm, level=0.95, ..., method="stderr", 
+confint.numeric <- function(object, parm, level = 0.95, ..., method = "percentile", 
                            margin.of.error="stderr" %in% method=="stderr") {
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok=TRUE)
   result <- list()
@@ -148,7 +148,7 @@ extract_estimate <- function(x) {
 #' @rdname confint
 #' @export
 confint.do.data.frame <- function(object, parm, level=0.95, ..., 
-                                 method="stderr", 
+                                 method="percentile", 
                                  margin.of.error="stderr" %in% method,
                                  df = NULL) {
  
