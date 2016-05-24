@@ -1,11 +1,10 @@
 ---
 title: "Less Volume, More Creativity -- Getting Started with the mosaic Package"
 author: "Randall Pruim"
-date: "`r Sys.Date()`"
-
-vignette: >
-  %\VignetteIndexEntry{Less Volume, More Creativity}
-  %\VignetteEngine{knitr::rmarkdown}
+date: '`r Sys.Date()`'
+vignette: |
+  %\VignetteIndexEntry{Less Volume, More Creativity} 
+  %\VignetteEngine{knitr::rmarkdown} 
   \usepackage[utf8]{inputenc}
 ---
 
@@ -27,7 +26,7 @@ border:0px;
 }
 </style>
 
-```{r include=FALSE}
+```{r, include=FALSE}
 require(lubridate)
 require(dplyr)
 require(mosaic)
@@ -189,7 +188,7 @@ early on.
 
 ### Other versions
 Here are some variations on the template.
-```{r eval=FALSE}
+```{r, eval = FALSE}
 # simpler version
 goal( ~ x, data = mydata )          
 # fancier version
@@ -220,7 +219,7 @@ are useful in the context of nearly all computer tools, just substitute "the com
  * Must identify the variables and data frame
 
 ## How do we make this plot? (Questions)
-```{r echo=FALSE, out.width="60%", out.height="35%"}
+```{r, echo=FALSE, out.width="60%", out.height="35%"}
 xyplot( births ~ date, data=Births78) 
 ```
 
@@ -247,14 +246,14 @@ xyplot( births ~ date, data=Births78)
 
 #### Putting it all together
 
-```{r echo=TRUE, out.width="60%"}
+```{r, echo=TRUE, out.width="60%"}
 xyplot( births ~ date, data=Births78) 
 ```
 
 ### Your turn: How do you make this plot?
 
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 bwplot( age ~ substance, data=HELPrct, xlab="substance" )
 ```
 
@@ -268,13 +267,13 @@ Some things you will need to know:
 
 #### Answer
 
-```{r echo=TRUE}
+```{r, echo=TRUE}
 bwplot( age ~ substance, data=HELPrct)
 ```
 
 ### Your turn: How about this one?
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 bwplot( substance ~ age, data=HELPrct)
 ```
 
@@ -288,7 +287,7 @@ Some things you will need to know:
 
 #### Answer
 
-```{r echo=TRUE}
+```{r, echo=TRUE}
 bwplot( substance ~ age, data=HELPrct )
 ```
 
@@ -296,7 +295,7 @@ Note that we have reversed which variable is mapped to the x-axis and which
 to the y-axis by reversing their order in the formula.
 
 ### Graphical Summaries: One Variable
-```{r }
+```{r, }
 histogram( ~ age, data=HELPrct) 
 ```
 
@@ -306,7 +305,7 @@ the **right side** of the formula.
 ### Graphical Summaries: Overview
 
 #### One Variable
-```{r eval=FALSE, tidy=FALSE}
+```{r, eval=FALSE, tidy=FALSE}
   histogram( ~age, data=HELPrct ) 
 densityplot( ~age, data=HELPrct ) 
      bwplot( ~age, data=HELPrct ) 
@@ -317,7 +316,7 @@ freqpolygon( ~age, data=HELPrct )
 
 #### Two Variables
 
-```{r eval=FALSE, tidy=FALSE}
+```{r, eval=FALSE, tidy=FALSE}
 xyplot(  i1 ~ age,       data=HELPrct ) 
 bwplot( age ~ substance, data=HELPrct ) 
 bwplot( substance ~ age, data=HELPrct ) 
@@ -350,15 +349,15 @@ consumed per day in the past 30 days (measured at baseline)
 
 ### Your turn
 Create a plot of your own choosing with one of these data sets
-```{r eval=FALSE}
+```{r, eval=FALSE}
 names(KidsFeet)    # 4th graders' feet
 ?KidsFeet
 ```
-```{r eval=FALSE}
+```{r, eval=FALSE}
 names(Utilities)   # utility bill data
 ?Utilities
 ```
-```{r eval=FALSE}
+```{r, eval=FALSE}
 require(NHANES)    # load package
 names(NHANES)      # body shape, etc. 
 ?NHANES
@@ -401,7 +400,7 @@ I used to introduce these too early.  My current approach:
 
 #### An example with some bells and whistles
 
-```{r out.width="85%", tidy=FALSE}
+```{r, out.width="85%", tidy=FALSE}
 require(lubridate)
 xyplot( births ~ date, data=Births78,  
   groups=wday(date, label=TRUE, abbr=TRUE), 
@@ -410,7 +409,7 @@ xyplot( births ~ date, data=Births78,
   par.settings=list(
     superpose.line=list( lty=1 ) ))
 ```
-```{r eval=FALSE, include=FALSE}
+```{r, eval = FALSE, include = FALSE}
 xyplot( births ~ date, data=Births78,  
         groups=wday(date, label=TRUE, abbr=TRUE), type='l',
         auto.key=list(columns=4),
@@ -436,7 +435,7 @@ Big idea:
  * Replace plot name with summary name
  * Nothing else changes
  
-```{r fig.show='hold'}
+```{r, fig.show='hold'}
 histogram( ~ age, data=HELPrct )  # width=5 (or 10) might be good here
      mean( ~ age, data=HELPrct )
 ```
@@ -468,7 +467,7 @@ tally( ~ substance, data=HELPrct)
 ### Numerical Summaries: Two Variables
 
 There are three ways to think about this.  All do the same thing.
-```{r,eval = FALSE}
+```{r, eval = FALSE}
 sd(   age ~ substance, data=HELPrct )
 sd( ~ age | substance, data=HELPrct )
 sd( ~ age, groups=substance, data=HELPrct )
@@ -498,16 +497,16 @@ tally( sex ~ substance,   data=HELPrct, format="percent" )
 ```
 
 #### More examples
-```{r echo=FALSE}
+```{r, echo=FALSE}
 HELPrct <- transform(HELPrct, sex=factor(sex, labels=c('F','M')),
                      substance = factor(substance, labels=c('A', 'C', 'H')))
 ```
-```{r size='small'}
+```{r, size='small'}
 mean( age ~ substance | sex, data=HELPrct )
 mean( age ~ substance | sex, data=HELPrct, .format="table" )
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
 rm(HELPrct)
 data(HELPrct)
 ```
@@ -523,13 +522,13 @@ doing in an Intro Stats course.
  * single and multiple variable numerical summaries
  * linear models
  
-```{r eval=FALSE}
+```{r, eval=FALSE}
   mean( age ~ sex, data=HELPrct )
 bwplot( age ~ sex, data=HELPrct ) 
     lm( age ~ sex, data=HELPrct )
 ```
 
-```{r echo=FALSE}
+```{r, echo=FALSE}
   mean( age ~ sex, data=HELPrct )
     coef(lm( age ~ sex, data=HELPrct ))
 ```
@@ -627,7 +626,7 @@ random distirubtions involved.
    
    * Question: How do we test this claim?
    
-```{r echo=FALSE }
+```{r, echo=FALSE }
 require(mosaic)
 trellis.par.set(theme=col.mosaic())
 require(knitr)
@@ -668,7 +667,7 @@ do(2) * rflip(10)
 
 Now let's simulate 5000 guessing ladies
 
-```{r ladies5000}
+```{r, ladies5000}
 Ladies <- do(5000) * rflip(10)
 head(Ladies, 1)
 histogram( ~ heads, data=Ladies, width=1 )
@@ -726,13 +725,13 @@ confint(Bootstrap)  # default uses bootstrap st. err.
 
 ### Randomization and linear models
 
-```{r size="tiny"}
+```{r, size="tiny"}
 do(1) * lm(width ~ length, data=KidsFeet)
 do(3) * lm( width ~ shuffle(length), data=KidsFeet)
 ```
 
 
-```{r size="tiny"}
+```{r, size="tiny"}
 do(1) * 
   lm(width ~ length + sex, data=KidsFeet)
 do(3) * 
@@ -744,13 +743,13 @@ do(3) *
 Null <- do(5000) * 
   lm( width ~ length + shuffle(sex), 
                        data=KidsFeet)
-histogram( ~ sex.G, data=Null, 
+histogram( ~ sexG, data=Null, 
            v=-0.2325, glwd=4)
 ```
 
 ```{r}
-histogram(~sex.G, data=Null, 
+histogram(~sexG, data=Null, 
            v=-0.2325, glwd=4)
-prop(~ (sex.G <= -0.2325), data=Null)
+prop(~ (sexG <= -0.2325), data=Null)
 ```
 
