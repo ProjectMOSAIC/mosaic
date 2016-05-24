@@ -144,6 +144,17 @@ extract_estimate <- function(x) {
   eval( x_lazy$expr, envir = dont_randomize_estimate, enclos = x_lazy$env )
 }
 
+#' @rdname confint
+#' @export
+confint.do.tbl_df <- function(object, parm, level=0.95, ..., 
+                                 method="percentile", 
+                                 margin.of.error="stderr" %in% method,
+                                 df = NULL) {
+  
+  class(object) <- c("do.data.frame", class(object))
+  confint(object, parm, level = level, ..., method = method,
+          margin.of.error = margin.of.error, df = df) 
+}
 
 #' @rdname confint
 #' @export
