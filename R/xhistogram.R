@@ -8,7 +8,6 @@
 #' @rdname xhistogram
 #' @aliases histogram
 #' @param x a formula or a numeric vector
-#' @param data a data frame in which to evaluate \code{x}
 #' @param panel a panel function
 #' @param type one of \code{'density'}, \code{'count'}, or \code{'percent'}
 #' @param nint approximate number of bins
@@ -19,7 +18,6 @@
 #' @param \dots additional arguments passed from \code{\link[lattice]{histogram}} 
 #' to the panel function; by default when the \pkg{mosaic} package has been loaded this will
 #' \code{\link{panel.xhistogram}}.
-#' @usage histogram(x, data, ...)
 #'
 #' @seealso \code{\link[lattice]{histogram}}
 #' @note Versions of \pkg{lattice} since 0.20-21 support setting custom defaults 
@@ -35,6 +33,14 @@ xhistogram <- function (...) { # x, data=NULL, panel=panel.xhistogram, type='den
                                #       center=NULL, width=NULL, ...) {
    .Defunct(msg = "xhistogram() is no longer needed; simply use histogram() with the mosaic package attached.")
 }
+
+# this allows for documentation of histogram usage
+
+#' @rdname xhistogram
+#' @importFrom lattice histogram
+#' @export histogram
+#' @usage histogram(x, data, ...)
+lattice::histogram
 
 #' @rdname xhistogram
 #' @return \code{xhistogramBreaks} returns a vector of break points

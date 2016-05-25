@@ -8,7 +8,7 @@
 #' of converting \code{x} into a factor with levels \code{TRUE}
 #' and \code{FALSE} (in that order);  if \code{x} is a data frame,
 #' a data frame with all logicals converted to factors in this manner.
-#'
+
 #' @rdname logical2factor
 #' @export
 
@@ -16,7 +16,7 @@ logical2factor  <- function(x, ...) { UseMethod('logical2factor') }
 
 #' @rdname logical2factor
 #' @export
-#' 
+ 
 logical2factor.default  <- function( x, ... ) {
 	if (is.logical(x)) {
 		x <- factor(x, levels=c(TRUE,FALSE), labels=c("TRUE","FALSE"))
@@ -90,7 +90,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' tally( ~ link, data=HELPrct, useNA="no")
 #' }
 #' @export
-#' 
+ 
 tally <- function(x, ...) {
   lx <- lazyeval::lazy(x)
   tryCatch(tally_internal(x, ...), error = function(e) { 
@@ -106,7 +106,7 @@ tally <- function(x, ...) {
     }
   })
 } 
-#' 
+ 
 #' @rdname tally
 
 tally_internal <- function(x, ...) {
@@ -213,6 +213,8 @@ tally_internal.default <-
   
 #' return a vector of row or column indices
 #'
+#' return a vector of row or column indices
+#' 
 #' @param x an object that may or may not have any rows or columns
 #' @param default what to return if there are no rows or columns
 #' @return if \code{x} has rows or columns, a vector of indices, else \code{default}
