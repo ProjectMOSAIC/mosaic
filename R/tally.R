@@ -92,7 +92,20 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @export
  
 tally <- function(x, ...) {
-  lx <- lazyeval::lazy(x)
+  # lx <- lazyeval::lazy(x)
+  lx <- 
+    tryCatch(
+      lazyeval::lazy(x),
+      error = function(e) {
+        if (grepl("Promise has already been forced", e$message) ||
+            # next line can be deleted when lazyeval updates on CRAN
+            grepl("e of NULL environment", e$message) 
+        ) 
+          NULL
+        else 
+          stop(e)
+      }
+    )
   tryCatch(tally_internal(x, ...), error = function(e) { 
     if (is_object_not_found_error(e)) {
       warning("in tally(): ", e$message, call. = FALSE)

@@ -34,13 +34,6 @@ xhistogram <- function (...) { # x, data=NULL, panel=panel.xhistogram, type='den
    .Defunct(msg = "xhistogram() is no longer needed; simply use histogram() with the mosaic package attached.")
 }
 
-# this allows for documentation of histogram usage
-
-#' @rdname xhistogram
-#' @importFrom lattice histogram
-#' @export histogram
-#' @usage histogram(x, data, ...)
-lattice::histogram
 
 #' @rdname xhistogram
 #' @return \code{xhistogramBreaks} returns a vector of break points
