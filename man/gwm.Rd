@@ -53,7 +53,6 @@ mod <- gwm( width ~ domhand, data=KidsFeet)
 summary(mod)
 resid(mod)
 fitted(mod)
-
 }
 \seealso{
 \code{\link{lm}}, 
