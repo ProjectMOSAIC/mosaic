@@ -65,6 +65,22 @@ test_that("sum( a + x ) works, etc.", {
   expect_equivalent( median( a + x) , stats::median( a + x) )
 })
 
+test_that("cov() and cor() work.", {
+  expect_equivalent(cor( age ~ i1, data = HELPrct), cor(HELPrct$age, HELPrct$i1))
+  expect_equivalent(cor( ~ age, ~ i1, data = HELPrct), cor(HELPrct$age, HELPrct$i1))
+  expect_equivalent(cor( ~ age | i1, data = HELPrct), cor(HELPrct$age, HELPrct$i1))
+  expect_equivalent(cov( age ~ i1, data = HELPrct), cov(HELPrct$age, HELPrct$i1))
+  expect_equivalent(cov( ~ age, ~ i1, data = HELPrct), cov(HELPrct$age, HELPrct$i1))
+  expect_equivalent(cov( ~ age | i1, data = HELPrct), cov(HELPrct$age, HELPrct$i1))
+})
+
+test_that("var() works.", {
+  expect_equivalent(var( age ~ sex, data = HELPrct), 
+                    aggregate(HELPrct$age, by = list(HELPrct$sex), FUN = var)$x)
+  expect_equivalent(var( ~ age, ~ i1, data = HELPrct), var(HELPrct$age, HELPrct$i1))
+  expect_equivalent(var( ~ age | sex, data = HELPrct), var(age ~ sex, data = HELPrct))
+})
+
 # no longer supporting this
 # test_that("bare names work", {
 #   expect_equivalent( mean(   age, data = HELPrct), 
