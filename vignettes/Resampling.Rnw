@@ -471,16 +471,16 @@ create simulated bootstrap distributions does not guarantee that the resulting
 intervals will have the desired properties.  Alternative methods and diagnostics
 are important topics not covered here.}
 <<>>=
-cor(Price, Miles, data=Mustangs)
+cor( Price ~ Miles, data = Mustangs)
 @
 
 <<>>=
-Mustangs.cor.boot <- do(1000) * cor(Price, Miles, data=resample(Mustangs))
+Mustangs.cor.boot <- do(1000) * cor(~Price, ~Miles, data=resample(Mustangs))
 quantiles <- qdata(~cor, c(.025, .975), data=Mustangs.cor.boot); quantiles
 @
 
 <<cor, fig.width=4, fig.height=2, tidy=FALSE>>=
-histogram(~ cor, data=Mustangs.cor.boot,
+histogram(~ cor, data = Mustangs.cor.boot,
   groups=cut(cor, c(-Inf, quantiles$quantile, Inf)),
   n=30) 
 confint(Mustangs.cor.boot)
