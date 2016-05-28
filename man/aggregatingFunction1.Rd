@@ -10,7 +10,7 @@ aggregatingFunction1(fun, output.multiple = FALSE, envir = parent.frame(),
 }
 \arguments{
 \item{fun}{a function that takes a numeric vector and computes a summary statistic,
-returning a numeric vector of length 1.}
+returning a numeric vector.}
 
 \item{output.multiple}{a boolean indicating whether \code{fun} returns multiple values}
 
@@ -41,10 +41,10 @@ difficult to maintain.
 }
 \examples{
 if (require(mosaicData)) {
-  foo <- aggregatingFunction1( base::mean )
-  foo( ~length, data=KidsFeet )
+  foo <- aggregatingFunction1(base::mean)
+  foo( ~ length, data=KidsFeet)
   base::mean(KidsFeet$length)
-  foo( length ~ sex, data=KidsFeet )
+  foo(length ~ sex, data=KidsFeet)
 } 
 }
 

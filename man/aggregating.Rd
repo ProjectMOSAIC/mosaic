@@ -63,7 +63,7 @@ cor(x, y = NULL, ..., data = NULL)
 cov(x, y = NULL, ..., data = NULL)
 }
 \arguments{
-\item{x}{an object, often a formula}
+\item{x}{a numeric vector or a formula}
 
 \item{data}{a data frame in which to evaluate formulas (or bare names).
 Note that the default is \code{data=parent.frame()}.  This makes it convenient to
@@ -76,7 +76,7 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{na.rm}{a logical indicating whether \code{NA}s should be removed before computing}
 
-\item{y}{an object, often a numeric vector}
+\item{y}{a numeric vector or a formula}
 
 \item{\dots}{additional arguments}
 
@@ -87,30 +87,41 @@ this from its default value.}
 The \code{mosaic} package makes several summary statistic functions (like \code{mean} and \code{sd})
 formula aware.
 }
-\examples{
-if (require(mosaicData)) {
-mean( HELPrct$age )
-mean( ~ age, data=HELPrct )
-mean( age ~ shuffle(sex), data=HELPrct)
-mean( age ~ shuffle(sex), data=HELPrct, .format="table")
-# wrap in data.frame() to auto-convert awkward variable names
-data.frame(mean( age ~ shuffle(sex), data=HELPrct, .format="table"))
-mean( age ~ sex + substance, data=HELPrct )
-mean( ~ age | sex + substance, data=HELPrct )
-mean( sqrt(age), data=HELPrct )
-sum( ~ age, data=HELPrct )
-sd( HELPrct$age )
-sd( ~ age, data=HELPrct )
-sd( age ~ sex + substance, data=HELPrct )
-var( HELPrct$age )
-var( ~ age, data=HELPrct )
-var( age ~ sex + substance, data=HELPrct )
-IQR( width ~ sex, data=KidsFeet )
-iqr( width ~ sex, data=KidsFeet )
-favstats( width ~ sex, data=KidsFeet )
+\details{
+Many of these functions mask core R functions to provide an additional formula 
+interface.  Old behavior should be unchanged.  But if the first argument is a formula,
+that formula, together with \code{data} are used to generate the numeric vector(s) 
+to be summarized.  Formulas of the shape \code{x ~ a} or \code{~ x | a} can be used to
+produce summaries of \code{x} for each subsect defined by \code{a}.  Two-way aggregation
+can be acheived using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
+the examples.
 
-cor( length ~ width, data=KidsFeet )
-cov ( length ~ width, data=KidsFeet )
+When an object exists both in \code{data} and in the environment of the formula, \code{data} 
+takes precedence, but disambiguation is possible using \code{.data$x} or \code{.env$x}.  See 
+the examples.
 }
+\examples{
+mean(HELPrct$age)
+mean( ~ age, data=HELPrct)
+mean(age ~ shuffle(sex), data=HELPrct)
+mean(age ~ shuffle(sex), data=HELPrct, .format="table")
+# wrap in data.frame() to auto-convert awkward variable names
+data.frame(mean(age ~ shuffle(sex), data=HELPrct, .format="table"))
+mean(age ~ sex + substance, data=HELPrct)
+mean( ~ age | sex + substance, data=HELPrct)
+mean(sqrt(age), data=HELPrct)
+sum( ~ age, data=HELPrct)
+sd(HELPrct$age)
+sd( ~ age, data=HELPrct)
+sd(age ~ sex + substance, data=HELPrct)
+var(HELPrct$age)
+var( ~ age, data=HELPrct)
+var(age ~ sex + substance, data=HELPrct)
+IQR(width ~ sex, data=KidsFeet)
+iqr(width ~ sex, data=KidsFeet)
+favstats(width ~ sex, data = KidsFeet)
+
+cor(length ~ width, data = KidsFeet)
+cov (length ~ width, data = KidsFeet)
 }
 
