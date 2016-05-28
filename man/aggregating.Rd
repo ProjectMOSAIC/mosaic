@@ -95,10 +95,12 @@ to be summarized.  Formulas of the shape \code{x ~ a} or \code{~ x | a} can be u
 produce summaries of \code{x} for each subsect defined by \code{a}.  Two-way aggregation
 can be acheived using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
 the examples.
+}
+\section{Note}{
 
-When an object exists both in \code{data} and in the environment of the formula, \code{data} 
-takes precedence, but disambiguation is possible using \code{.data$x} or \code{.env$x}.  See 
-the examples.
+Earlier versions of these functions supported a "bare name + data frame" interface.  This
+functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary,
+and (c) difficult to maintain.
 }
 \examples{
 mean(HELPrct$age)
