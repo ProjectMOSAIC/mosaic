@@ -14,13 +14,13 @@ test_that("formula interface works", {
   expect_equivalent( var(~cesd | sex, data=mosaicData::HELPrct), var(cesd ~ sex, data=mosaicData::HELPrct))
 })
 
-test_that("data frame interface works", {
-  expect_equivalent( mean(cesd, data=mosaicData::HELPrct), mean(mosaicData::HELPrct$cesd))
-  expect_equivalent( var(cesd, data=mosaicData::HELPrct), var(mosaicData::HELPrct$cesd))
-  expect_equivalent( sd(cesd, data=mosaicData::HELPrct), sd(mosaicData::HELPrct$cesd))
-  expect_equivalent( max(cesd, data=mosaicData::HELPrct), max(mosaicData::HELPrct$cesd))
-  expect_equivalent( min(cesd, data=mosaicData::HELPrct), min(mosaicData::HELPrct$cesd))
-})
+# test_that("data frame interface works", {
+#   expect_equivalent( mean(cesd, data=mosaicData::HELPrct), mean(mosaicData::HELPrct$cesd))
+#   expect_equivalent( var(cesd, data=mosaicData::HELPrct), var(mosaicData::HELPrct$cesd))
+#   expect_equivalent( sd(cesd, data=mosaicData::HELPrct), sd(mosaicData::HELPrct$cesd))
+#   expect_equivalent( max(cesd, data=mosaicData::HELPrct), max(mosaicData::HELPrct$cesd))
+#   expect_equivalent( min(cesd, data=mosaicData::HELPrct), min(mosaicData::HELPrct$cesd))
+# })
 
 
 test_that("formulas work without data", {
