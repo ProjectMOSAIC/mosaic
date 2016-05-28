@@ -293,7 +293,10 @@ aggregatingFunction2 <- function(fun) {
         formula <- mosaic_formula_q(x, max.slots = 2)
         x <- lazyeval::f_eval(formula, data = data)
         if (!is.null(y)) 
+          y <- lazyeval::f_eval(y, data = data)
+        else
           y <- lazyeval::f_eval(f_flip(formula), data = data)
+        
         FUNCTION_TBD(x, y, ...)
       }
       FUNCTION_TBD(x, y, ...)
