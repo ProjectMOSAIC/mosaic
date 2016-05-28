@@ -1,5 +1,5 @@
 globalVariables(c("FUNCTION_TBD", "NA.RM"))
- 
+
 # issues to deal with
 #   * var() is hybrid of 1-ary, 2-ary
 #     * var( age ~ sex + substance, data=HELPrct ) doesn't work if using aggregatingFunction2()
@@ -8,7 +8,7 @@ globalVariables(c("FUNCTION_TBD", "NA.RM"))
 #   * don't currently support var ( ~ x | z )
 #   * need to confirm scoping is correct when using programmatically and interactively.
 # 
- 
+
 
 #' 1-ary Aggregating functions
 #' 
@@ -21,9 +21,9 @@ globalVariables(c("FUNCTION_TBD", "NA.RM"))
 #' @param output.multiple a boolean indicating whether \code{fun} returns multiple values
 #' @param envir an environment in which evaluation takes place.
 #' @param na.rm the default value for na.rm in the resulting function.
-#' @param style one of \code{"flexible"} or \code{"formula"}.  In the latter case, the first
-#' argument must be a formula or evaluate to an object.  In the former case, bare names will
-#' be converted into formulas.
+#' @param style one of \code{"formula1st"}, \code{"formula2nd"} or \code{"flexible"}.  In the first
+#' two cases, the first argument must be a formula or evaluate to an object.  In the latter case, 
+#' bare names will be converted into formulas.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
 #' @examples
@@ -45,66 +45,81 @@ aggregatingFunction1 <-
             output.multiple=FALSE, 
             envir=parent.frame(), 
             na.rm = getOption("na.rm", FALSE),
-            style = c("flexible", "formula")
+            style = c("formula1st", "formula", "flexible")
   ) {
     fun <- deparse(substitute(fun))
     style = match.arg(style)
     templates <- list(
       flexible = 
-      function(
-        x, ..., 
-        data = NULL,
-        groups = NULL, 
-        na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
-      {
-        pframe <- parent.frame()
-        subst_x <- substitute(x)
-        lazy_formula <- 
-          tryCatch(
-            lazyeval::lazy(x),
-            error = function(e) {
-              if (grepl("Promise has already been forced", e$message) ||
-                  # next line can be deleted when lazyeval updates on CRAN
-                  grepl("e of NULL environment", e$message) 
-                  ) 
-                NULL
-              else 
-                stop(e)
-            }
-          )
-        ## See issue #531 for problem with using lazy_formula.
-        if (is.null(lazy_formula) || ! inherits(lazy_formula$expr, "formula")) {
-          lazy_formula <- structure(list(expr=subst_x, env=pframe), class="lazy")
-        }
-        if (is.null(data)) {
-          result <-
-            tryCatch(FUNCTION_TBD(x, ..., na.rm = na.rm), 
-                     error=function(e) {e} , 
-                     warning=function(w) {w} ) 
-          if (! inherits(result, c("error", "warning")))  return(result) 
-          data <- parent.frame()
-        }
-        formula <- formularise(lazy_formula, parent.frame(2)) 
-        formula <- mosaic_formula_q(formula, groups=groups, max.slots=3) 
-        maggregate(formula, data=data, FUN = FUNCTION_TBD, na.rm = na.rm, ..., .multiple = output.multiple)
-      },
+        function(
+          x, ..., 
+          data = NULL,
+          groups = NULL, 
+          na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
+        {
+          pframe <- parent.frame()
+          subst_x <- substitute(x)
+          lazy_formula <- 
+            tryCatch(
+              lazyeval::lazy(x),
+              error = function(e) {
+                if (grepl("Promise has already been forced", e$message) ||
+                    # next line can be deleted when lazyeval updates on CRAN
+                    grepl("e of NULL environment", e$message) 
+                ) 
+                  NULL
+                else 
+                  stop(e)
+              }
+            )
+          ## See issue #531 for problem with using lazy_formula.
+          if (is.null(lazy_formula) || ! inherits(lazy_formula$expr, "formula")) {
+            lazy_formula <- structure(list(expr=subst_x, env=pframe), class="lazy")
+          }
+          if (is.null(data)) {
+            result <-
+              tryCatch(FUNCTION_TBD(x, ..., na.rm = na.rm), 
+                       error=function(e) {e} , 
+                       warning=function(w) {w} ) 
+            if (! inherits(result, c("error", "warning")))  return(result) 
+            data <- parent.frame()
+          }
+          formula <- formularise(lazy_formula, parent.frame(2)) 
+          formula <- mosaic_formula_q(formula, groups=groups, max.slots=3) 
+          maggregate(formula, data=data, FUN = FUNCTION_TBD, na.rm = na.rm, ..., .multiple = output.multiple)
+        },
       formula = 
-      function(
-        x, ..., 
-        data = NULL,
-        groups = NULL, 
-        na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
-      {
-        if (is.null(data)) {
-          result <-
-            tryCatch(FUNCTION_TBD(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 
-          if (! inherits(result, c("error", "warning")))  return(result) 
-          data <- parent.frame()
+        function(
+          x, ..., 
+          data = NULL,
+          groups = NULL, 
+          na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
+        {
+          if (is.null(data)) {
+            result <-
+              tryCatch(FUNCTION_TBD(x, ..., na.rm = na.rm), error=function(e) {e} , warning=function(w) {w} ) 
+            if (! inherits(result, c("error", "warning")))  return(result) 
+            data <- parent.frame()
+          }
+          if (! inherits(x, "formula")) stop( "`x' must be a formula")
+          formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
+          maggregate(formula, data=data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
+        },
+      
+      formula1st = 
+        function(
+          x, ..., 
+          data = NULL,
+          groups = NULL, 
+          na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
+        {
+          if (inherits(x, "formula")) {
+            if (is.null(data)) data <- lazyeval::f_env(x)
+            formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
+            return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple))
+          }
+          FUNCTION_TBD(x, ..., na.rm = na.rm)
         }
-        if (! inherits(x, "formula")) stop( "`x' must be a formula")
-        formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
-        maggregate(formula, data=data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
-      }
     )
     
     fun_text <- deparse(templates[[style]])
@@ -182,6 +197,7 @@ aggregatingFunction1 <-
 # }
 # # don't bother exporting this one (for now)
 
+#' @export
 aggregatingFunction1or2 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
                                      envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
   result <- function( x, ..., data, groups=NULL) {
@@ -267,10 +283,10 @@ aggregatingFunction2 <- function( fun ) {
   result <- function( x, y=NULL, ..., data=parent.frame() ) { # , ..fun.. = fun) {
     orig.call <- match.call()
     mosaic.call <- orig.call 
-      mosaic.call[[1]] <- fun
+    mosaic.call[[1]] <- fun
     
     if ( #"data" %in% names(orig.call) && 
-         ! .is.formula(eval(orig.call$x, parent.frame())) )  {  
+      ! .is.formula(eval(orig.call$x, parent.frame())) )  {  
       if (!'data' %in% names(formals(fun)) && ! "..." %in% names(formals(fun)) ) {
         if("data" %in% names(mosaic.call)) mosaic.call[["data"]] <- NULL  # in case original function didn't have ...
       }
@@ -463,9 +479,10 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #' SAD(1:3)
 #' MAD(1:3)
 #' MAD(~eruptions, data=faithful)
- 
+
 MAD <- aggregatingFunction1( MAD_ )
 
 #' @rdname MAD
 #' @export
 SAD <- aggregatingFunction1( SAD_ )
+
