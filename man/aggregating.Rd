@@ -56,12 +56,11 @@ favstats(x, ..., data = NULL, groups = NULL, na.rm = TRUE)
 quantile(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
   FALSE))
 
-var(x, ..., data, groups = NULL, ..fun.. = stats::var,
-  na.rm = getOption("na.rm", FALSE))
+var(x, y = NULL, na.rm = getOption("na.rm", FALSE), ..., data = NULL)
 
-cor(x, y = NULL, ..., data = parent.frame())
+cor(x, y = NULL, ..., data = NULL)
 
-cov(x, y = NULL, ..., data = parent.frame())
+cov(x, y = NULL, ..., data = NULL)
 }
 \arguments{
 \item{x}{an object, often a formula}
@@ -77,12 +76,12 @@ When programming, it is best to use an explicit \code{data} argument
 
 \item{na.rm}{a logical indicating whether \code{NA}s should be removed before computing}
 
-\item{..fun..}{the underlying function.  It would be very unusual to change 
-this from its default value.}
-
 \item{y}{an object, often a numeric vector}
 
 \item{\dots}{additional arguments}
+
+\item{..fun..}{the underlying function.  It would be very unusual to change 
+this from its default value.}
 }
 \description{
 The \code{mosaic} package makes several summary statistic functions (like \code{mean} and \code{sd})

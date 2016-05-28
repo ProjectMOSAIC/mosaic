@@ -135,132 +135,105 @@ aggregatingFunction1 <-
     res
   } 
 
-# # Old version -- append a to name to use the new one above.
-# aggregatingFunction1a <-
-#   function (fun, input.multiple = FALSE, output.multiple = FALSE, 
-#           envir = parent.frame(), na.rm = getOption("na.rm", FALSE)) 
-# {
-#   result <- function(x, ..., data, groups = NULL) {
+
+# #' @export
+# aggregatingFunction1or2 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
+#                                      envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
+#   result <- function( x, ..., data, groups=NULL) {
 #     orig.call <- match.call()
-#     fun.call <- orig.call
+#     fun.call <- orig.call 
 #     fun.call[[1]] <- substitute(..fun..)
 #     fun.call[[2]] <- substitute(x)
-#     missingData <- FALSE
-#     if (missing(data)) {
+#     
+#     # if data is not given, we will try to evaluate fun()
+#     missingData <- FALSE  
+#     if ( missing(data) ) {
 #       missingData <- TRUE
-#       data = parent.frame()
-#       result <- 
-#         tryCatch(eval(
-#           fun.call, envir = parent.frame()), 
-#             error = function(e) { e }, 
-# 	    warning = function(w) { w })
-# 
-#       if (!inherits(result, "warning") && !inherits(result, "error")) {
-#         return(result)
+#       data=parent.frame()
+#       
+#       result <- tryCatch( eval(fun.call, envir=parent.frame()) , 
+#                           error=function(e) {e} ,
+#                           warning=function(w) {w} ) 
+#       if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
+#         return(result) 
 #       }
 #     }
-#     maggregate.call <- orig.call
+#     # either data was specified or fun() generated an error.
+#     # so we will generate a new call.
+#     maggregate.call <- orig.call  
 #     x_name <- substitute(x)
-#     if (!.is.formula(x)) {
-#       if (!missingData) {
-#         fun.call[["data"]] <- NULL
+#     if (! .is.formula(x) ) {
+#       if ( !missingData) {
+#         fun.call[['data']] <- NULL
 #       }
 #       if (input.multiple) {
-#         result <- tryCatch(eval(fun.call, envir = data, 
-#                                 enclos = parent.frame()), error = function(e) {
-#                                   e
-#                                 }, warning = function(w) {
-#                                   w
-#                                 })
-#         if (!inherits(result, "warning") && !inherits(result, 
-#                                                       "error")) {
-#           return(result)
+#         result <- tryCatch( eval(fun.call, envir=data, enclos=parent.frame()),
+#                             error = function(e) {e},
+#                             warning = function(w) {w} ) 
+#         if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
+#           return(result) 
 #         }
 #       }
-#       x <- eval(substitute(mosaic_formula_q(.x, groups = quote(groups)), 
-#                            list(.x = substitute(x), .g = substitute(groups))))
-#       if ("groups" %in% names(maggregate.call)) 
-#         maggregate.call[["groups"]] <- NULL
+#       
+#       x <- eval( substitute( 
+#         mosaic_formula_q( .x, groups=quote(groups)), 
+#         list(.x=substitute(x) , .g=substitute(groups))
+#       ) )
+#       
+#       if ("groups" %in% names(maggregate.call)) maggregate.call[['groups']] <- NULL
+#       
 #     }
+#     # now x is a formula
+#     
 #     maggregate.call[[1]] <- quote(maggregate)
 #     maggregate.call$formula <- x
-#     maggregate.call$data <- data
+#     maggregate.call$data <- data 
 #     maggregate.call$x <- NULL
-#     maggregate.call$FUN <- substitute(..fun..)
+#     maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
 #     maggregate.call$.multiple <- output.multiple
 #     maggregate.call$na.rm <- substitute(na.rm)
-#     return(eval(maggregate.call, envir = envir))
+#     #    print(maggregate.call)
+#     return( eval(maggregate.call, envir=envir) )
 #   }
-#   formals(result) <- c(formals(result), ..fun.. = substitute(fun), 
-#                        na.rm = substitute(na.rm))
+#   formals(result) <- c(formals(result), ..fun.. = substitute(fun), na.rm=substitute(na.rm))
 #   return(result)
 # }
-# # don't bother exporting this one (for now)
 
-#' @export
-aggregatingFunction1or2 <- function( fun, input.multiple=FALSE, output.multiple=FALSE, 
-                                     envir=parent.frame(), na.rm=getOption("na.rm",FALSE) ) {
-  result <- function( x, ..., data, groups=NULL) {
-    orig.call <- match.call()
-    fun.call <- orig.call 
-    fun.call[[1]] <- substitute(..fun..)
-    fun.call[[2]] <- substitute(x)
-    
-    # if data is not given, we will try to evaluate fun()
-    missingData <- FALSE  
-    if ( missing(data) ) {
-      missingData <- TRUE
-      data=parent.frame()
-      
-      result <- tryCatch( eval(fun.call, envir=parent.frame()) , 
-                          error=function(e) {e} ,
-                          warning=function(w) {w} ) 
-      if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
-        return(result) 
-      }
-    }
-    # either data was specified or fun() generated an error.
-    # so we will generate a new call.
-    maggregate.call <- orig.call  
-    x_name <- substitute(x)
-    if (! .is.formula(x) ) {
-      if ( !missingData) {
-        fun.call[['data']] <- NULL
-      }
-      if (input.multiple) {
-        result <- tryCatch( eval(fun.call, envir=data, enclos=parent.frame()),
-                            error = function(e) {e},
-                            warning = function(w) {w} ) 
-        if ( ! inherits(result, "warning") && ! inherits(result,"error") ) {
-          return(result) 
+# This is designed to support var().
+
+#' @ export
+aggregatingFunction1or2 <- 
+  function(fun, input.multiple = FALSE, output.multiple = FALSE, 
+           envir = parent.frame(), na.rm = getOption("na.rm", FALSE)) {
+  template <- 
+    function( x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
+      if (inherits(x, "formula")) {
+        if (inherits(y, "formula")) {
+          x <- lazyeval::f_eval(x, data)
+          y <- lazyeval::f_eval(y, data)
+        } else {
+          formula <- mosaic_formula_q(x, max.slots = 3)
+          if (is.null(data)) data <- lazyeval::f_env(formula)
+          return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ...))
         }
       }
-      
-      x <- eval( substitute( 
-        mosaic_formula_q( .x, groups=quote(groups)), 
-        list(.x=substitute(x) , .g=substitute(groups))
-      ) )
-      
-      if ("groups" %in% names(maggregate.call)) maggregate.call[['groups']] <- NULL
-      
+      FUNCTION_TBD(x, y, na.rm = na.rm, ...)
     }
-    # now x is a formula
-    
-    maggregate.call[[1]] <- quote(maggregate)
-    maggregate.call$formula <- x
-    maggregate.call$data <- data 
-    maggregate.call$x <- NULL
-    maggregate.call$FUN <- substitute(..fun..)  # keep substitute here or no?
-    maggregate.call$.multiple <- output.multiple
-    maggregate.call$na.rm <- substitute(na.rm)
-    #    print(maggregate.call)
-    return( eval(maggregate.call, envir=envir) )
+  
+  fun_name <- deparse(substitute(fun))
+  fun_text <- deparse(template)
+  fun_text <- gsub("FUNCTION_TBD", fun_name, fun_text) 
+  if (missing(na.rm)) {
+    fun_text <- gsub("NA.RM", deparse(substitute(getOption("na.rm", FALSE))), fun_text)
+  } else {
+    fun_text <- gsub("NA.RM", deparse(substitute(na.rm)), fun_text)
   }
-  formals(result) <- c(formals(result), ..fun.. = substitute(fun), na.rm=substitute(na.rm))
-  return(result)
+  res <- eval(parse( text = fun_text))
+  environment(res) <- parent.frame()
+  res   
 }
-
-
+  
+  
 #' 2-ary Aggregating functions
 #' 
 #' \code{aggregatinFuntion2} creates statistical summaries of two numerical vectors that are formula aware.
@@ -279,39 +252,76 @@ aggregatingFunction1or2 <- function( fun, input.multiple=FALSE, output.multiple=
 #'    stats::cor( KidsFeet$length, KidsFeet$width )
 #' }
 #' @export
+
 aggregatingFunction2 <- function( fun ) {
-  result <- function( x, y=NULL, ..., data=parent.frame() ) { # , ..fun.. = fun) {
-    orig.call <- match.call()
-    mosaic.call <- orig.call 
-    mosaic.call[[1]] <- fun
-    
-    if ( #"data" %in% names(orig.call) && 
-      ! .is.formula(eval(orig.call$x, parent.frame())) )  {  
-      if (!'data' %in% names(formals(fun)) && ! "..." %in% names(formals(fun)) ) {
-        if("data" %in% names(mosaic.call)) mosaic.call[["data"]] <- NULL  # in case original function didn't have ...
+  
+  template <- 
+    function(x, y = NULL, ..., data = NULL) { 
+      if (inherits(x, "formula")) {
+        formula <- mosaic_formula_q(x, max.slots = 2)
+        x <- lazyeval::f_eval( formula, data = data)
+        if (!is.null(y)) 
+          y <- lazyeval::f_eval( f_flip(formula), data = data)
+        FUNCTION_TBD(x, y, ...)
       }
-      return ( eval( mosaic.call , data, enclos=parent.frame()) )
+      FUNCTION_TBD(x, y, ...)
     }
-    
-    # message( "Using mosaic super powers!" )
-    formula <- eval(orig.call$x, parent.frame())
-    mosaic.call[['data']] <- NULL
-    # if (is.null( mosaic.call[['data']] ) ) mosaic.call[['data']] <- quote(parent.frame())
-    mosaic.call$x <- eval(lhs(formula), envir=data, enclos=parent.frame())
-    mosaic.call$y <- eval(rhs(formula), envir=data, enclos=parent.frame())
-    if (! "..." %in% names(formals(orig.call))) {
-      for (n in setdiff( names(mosaic.call), names(formals(fun))) ) {
-        if (n != "") mosaic.call[[n]] <- NULL
-      }
-    }
-    if (! is.null(condition(formula)) ) {
-      stop( "Formula must be of the form y ~ x." )
-    }
-    return( eval(mosaic.call) )
-  }
-  assign("fun", fun, environment(result))
-  return(result)
+  
+  fun_name <- deparse(substitute(fun))
+  fun_text <- deparse(template)
+  fun_text <- gsub("FUNCTION_TBD", fun_name, fun_text) 
+  
+  res <- eval(parse( text = fun_text))
+  environment(res) <- parent.frame()
+  res
 }
+
+# old version -- keep until we establish that new version is working properly.
+
+# aggregatingFunction2 <- function( fun ) {
+#   result <- function( x, y=NULL, ..., data=parent.frame() ) { # , ..fun.. = fun) {
+#     orig.call <- match.call()
+#     mosaic.call <- orig.call 
+#     mosaic.call[[1]] <- fun
+#     
+#     if ( #"data" %in% names(orig.call) && 
+#       ! .is.formula(eval(orig.call$x, parent.frame())) )  {  
+#       if (!'data' %in% names(formals(fun)) && ! "..." %in% names(formals(fun)) ) {
+#         if("data" %in% names(mosaic.call)) mosaic.call[["data"]] <- NULL  # in case original function didn't have ...
+#       }
+#       return ( eval( mosaic.call , data, enclos=parent.frame()) )
+#     }
+#     
+#     # message( "Using mosaic super powers!" )
+#     formula <- eval(orig.call$x, parent.frame())
+#     mosaic.call[['data']] <- NULL
+#     # if (is.null( mosaic.call[['data']] ) ) mosaic.call[['data']] <- quote(parent.frame())
+#     mosaic.call$x <- eval(lhs(formula), envir=data, enclos=parent.frame())
+#     mosaic.call$y <- eval(rhs(formula), envir=data, enclos=parent.frame())
+#     if (! "..." %in% names(formals(orig.call))) {
+#       for (n in setdiff( names(mosaic.call), names(formals(fun))) ) {
+#         if (n != "") mosaic.call[[n]] <- NULL
+#       }
+#     }
+#     if (! is.null(condition(formula)) ) {
+#       stop( "Formula must be of the form y ~ x." )
+#     }
+#     return( eval(mosaic.call) )
+#   }
+#   assign("fun", fun, environment(result))
+#   return(result)
+# }
+
+f_flip <- function(formula) {
+  if (length(formula) < 3) stop("formula must have both lhs and rhs", call. = FALSE)
+  res <- formula
+  res[[2]] <- formula[[3]]
+  res[[3]] <- formula[[2]]
+  res
+}
+
+
+
 
 #' Aggregating functions
 #' 
