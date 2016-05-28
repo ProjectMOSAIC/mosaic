@@ -46,7 +46,7 @@ aggregatingFunction1 <-
            na.rm = getOption("na.rm", FALSE),
            style = c("formula1st", "formula", "flexible")
   ) {
-    fun <- deparse(substitute(fun))
+    fun <- lazyeval::expr_text(fun) # deparse(substitute(fun))
     style = match.arg(style)
     templates <- list(
       flexible = 
@@ -238,7 +238,7 @@ aggregatingFunction1or2 <-
         FUNCTION_TBD(x, y, na.rm = na.rm, ...)
       }
     
-    fun_name <- deparse(substitute(fun))
+    fun_name <- lazyeval::expr_text(fun) # deparse(substitute(fun))
     fun_text <- deparse(template)
     fun_text <- gsub("FUNCTION_TBD", fun_name, fun_text) 
     if (missing(na.rm)) {
@@ -302,7 +302,7 @@ aggregatingFunction2 <- function(fun) {
       FUNCTION_TBD(x, y, ...)
     }
   
-  fun_name <- deparse(substitute(fun))
+  fun_name <- lazyeval::expr_text(fun) # deparse(substitute(fun))
   fun_text <- deparse(template)
   fun_text <- gsub("FUNCTION_TBD", fun_name, fun_text) 
   
@@ -403,7 +403,8 @@ mean_ <- aggregatingFunction1(base::mean)
 mean <- function(x, ...) {
   the_call <- match.call()
   the_call[[1]] <- as.name("mean_")
-  if (exists(deparse(substitute(x))) &&
+  #if (exists(deparse(substitute(x))) &&
+  if (exists(lazyeval::expr_text(x)) &&
       inherits(x, c("Matrix", "sparseMatrix", "sparseVector")) 
   ) return(Matrix::mean(x, ...))
   
