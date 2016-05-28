@@ -1,14 +1,5 @@
 globalVariables(c("FUNCTION_TBD", "NA.RM"))
 
-# issues to deal with
-#   * var() is hybrid of 1-ary, 2-ary
-#     * var( age ~ sex + substance, data=HELPrct ) doesn't work if using aggregatingFunction2()
-#     * var( a, b, data=...) doesn't work if using agreggatingFunction1()
-#   * var(), cov(), and cor() don't have ... argument
-#   * don't currently support var ( ~ x | z )
-#   * need to confirm scoping is correct when using programmatically and interactively.
-# 
-
 
 #' 1-ary Aggregating functions
 #' 
@@ -26,6 +17,15 @@ globalVariables(c("FUNCTION_TBD", "NA.RM"))
 #' bare names will be converted into formulas.
 #' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
 #' 
+#' @details The logic of the resulting function is this: 1) If the first argument is a formula,
+#' use that formula and \code{data} to create the necessary call(s) to \code{fun}; (2) Else simply
+#' pass everything to \code{fun} for evaluation.
+#' 
+#' @section Note: 
+#' Earlier versions of this function supported a "bare name + data frame" interface.  This
+#' functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary, and (c) 
+#' difficult to maintain.
+#' 
 #' @examples
 #' if (require(mosaicData)) {
 #'   foo <- aggregatingFunction1( base::mean )
@@ -35,7 +35,6 @@ globalVariables(c("FUNCTION_TBD", "NA.RM"))
 #' } 
 #' @export
 # 
-
 
 # Testing a possible replacement for aggregatingFunction1
 # Might be masked below by the old one -- be sure to check.

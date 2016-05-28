@@ -28,6 +28,17 @@ a function that generalizes \code{fun} to handle a formula/data frame interface.
 \description{
 \code{aggregatinFuntion1} creates statistical summaries of one numerical vector that are formula aware.
 }
+\details{
+The logic of the resulting function is this: 1) If the first argument is a formula,
+use that formula and \code{data} to create the necessary call(s) to \code{fun}; (2) Else simply
+pass everything to \code{fun} for evaluation.
+}
+\section{Note}{
+ 
+Earlier versions of this function supported a "bare name + data frame" interface.  This
+functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary, and (c) 
+difficult to maintain.
+}
 \examples{
 if (require(mosaicData)) {
   foo <- aggregatingFunction1( base::mean )
