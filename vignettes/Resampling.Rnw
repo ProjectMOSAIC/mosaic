@@ -471,7 +471,7 @@ create simulated bootstrap distributions does not guarantee that the resulting
 intervals will have the desired properties.  Alternative methods and diagnostics
 are important topics not covered here.}
 <<>>=
-cor( Price ~ Miles, data = Mustangs)
+cor(Price ~ Miles, data = Mustangs)
 @
 
 <<>>=
