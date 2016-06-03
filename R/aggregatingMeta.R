@@ -115,7 +115,9 @@ aggregatingFunction1 <-
           if (inherits(x, "formula")) {
             if (is.null(data)) data <- lazyeval::f_env(x)
             formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
-            return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple))
+            return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
+                              na.rm = na.rm,
+                              .multiple = output.multiple))
           }
           FUNCTION_TBD(x, ..., na.rm = na.rm)
         }
