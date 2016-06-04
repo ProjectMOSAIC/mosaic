@@ -240,7 +240,7 @@ aggregatingFunction1or2 <-
         FUNCTION_TBD(x, y, na.rm = na.rm, ...)
       }
     
-    fun_name <- lazyeval::expr_text(fun) # deparse(substitute(fun))
+    fun_name <- deparse(substitute(fun))
     fun_text <- deparse(template)
     fun_text <- gsub("FUNCTION_TBD", fun_name, fun_text) 
     if (missing(na.rm)) {
