@@ -5,6 +5,7 @@ globalVariables(c("FUNCTION_TBD", "NA.RM"))
 #' 
 #' \code{aggregatinFuntion1} creates statistical summaries of one numerical vector that are formula aware.
 #' 
+#' @import lazyeval
 #' @rdname aggregatingFunction1
 #' @aliases aggregatingFunction1 
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
@@ -292,19 +293,20 @@ aggregatingFunction2 <- function(fun) {
   template <- 
     function(x, y = NULL, ..., data = NULL) { 
       if (inherits(x, "formula")) {
-        formula <- mosaic_formula_q(x, max.slots = 2)
-        x <- lazyeval::f_eval(formula, data = data)
-        if (!is.null(y)) 
-          y <- lazyeval::f_eval(y, data = data)
-        else
+        if (inherits(y, "formula")) {
+          x <- lazyeval::f_eval(x, data)
+          y <- lazyeval::f_eval(y, data)
+        } else {
+          formula <- mosaic_formula_q(x, max.slots = 3)
+          x <- lazyeval::f_eval(formula, data)
           y <- lazyeval::f_eval(f_flip(formula), data = data)
-        
+        }
         FUNCTION_TBD(x, y, ...)
       }
       FUNCTION_TBD(x, y, ...)
     }
   
-  fun_name <- lazyeval::expr_text(fun) # deparse(substitute(fun))
+  fun_name <- deparse(substitute(fun))
   fun_text <- deparse(template)
   fun_text <- gsub("FUNCTION_TBD", fun_name, fun_text) 
   
