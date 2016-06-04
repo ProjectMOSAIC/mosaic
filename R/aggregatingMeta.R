@@ -355,6 +355,14 @@ aggregatingFunction2 <- function(fun) {
 #   return(result)
 # }
 
+#' Flip lhs and rhs of formula
+#' 
+#' Flip lhs and rhs of formula
+#' 
+#' @param formula a formula
+#' @return a formula with the left and right hand sides reversed from the input.
+#' 
+#' export
 f_flip <- function(formula) {
   if (length(formula) < 3) stop("formula must have both lhs and rhs", call. = FALSE)
   res <- formula
