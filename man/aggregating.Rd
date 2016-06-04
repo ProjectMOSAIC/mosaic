@@ -79,9 +79,6 @@ When programming, it is best to use an explicit \code{data} argument
 \item{y}{a numeric vector or a formula}
 
 \item{\dots}{additional arguments}
-
-\item{..fun..}{the underlying function.  It would be very unusual to change 
-this from its default value.}
 }
 \description{
 The \code{mosaic} package makes several summary statistic functions (like \code{mean} and \code{sd})
@@ -111,7 +108,7 @@ mean(age ~ shuffle(sex), data=HELPrct, .format="table")
 data.frame(mean(age ~ shuffle(sex), data=HELPrct, .format="table"))
 mean(age ~ sex + substance, data=HELPrct)
 mean( ~ age | sex + substance, data=HELPrct)
-mean(sqrt(age), data=HELPrct)
+mean( ~ sqrt(age), data=HELPrct)
 sum( ~ age, data=HELPrct)
 sd(HELPrct$age)
 sd( ~ age, data=HELPrct)
