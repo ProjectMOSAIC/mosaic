@@ -180,7 +180,7 @@ function (x,
     }
   } 
   if (is.null(args)) {
-    args = list(mean = mean(x, na.rm = T), sd = sd(x, na.rm = T))
+    args = list(mean = base::mean(x, na.rm = TRUE), sd = stats::sd(x, na.rm = TRUE))
   }
   
   ###  done cleaining up args; away we go

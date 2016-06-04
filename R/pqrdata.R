@@ -17,8 +17,8 @@
 #' qdata(Sepal.Length ~ Species, 0.5, data=iris)
 #' qdata(~Sepal.Length, p = 0.5, groups=Species, data=iris)
 #' qdata(iris$Sepal.Length, p = 0.5)
-#' qdata(Sepal.Length, p = 0.5, data=iris)
-#' qdata(Sepal.Length, p = 0.5, groups=Species, data=iris)
+#' qdata(~ Sepal.Length, p = 0.5, data=iris)
+#' qdata(~ Sepal.Length, p = 0.5, groups=Species, data=iris)
 #' @export
 
 qdata <- function( formula, p = seq(0, 1, 0.25), data = NULL, ...) { 
@@ -77,7 +77,7 @@ qdata_f <- aggregatingFunction1(qdata_v, output.multiple = TRUE, na.rm = TRUE)
 #' @examples
 #' data(iris)
 #' cdata(iris$Sepal.Length, 0.5)
-#' cdata(Sepal.Length, 0.5, data = iris)
+#' cdata( ~ Sepal.Length, 0.5, data = iris)
 #' cdata( ~ Sepal.Length, 0.5, data = iris)
 #' cdata( ~ Sepal.Length | Species, data = iris, p = .5)
 #' @export
@@ -120,9 +120,7 @@ cdata_f <- aggregatingFunction1( cdata_v, output.multiple = TRUE, na.rm = TRUE )
 #' @examples
 #' data(iris)
 #' pdata(iris$Sepal.Length, 3:6)
-#' pdata(Sepal.Length, 3:6, data=iris)
-#' pdata(~Sepal.Length, 3:6, data=iris)
-#' pdata(Sepal.Length, 3:6, data=iris)
+#' pdata( ~ Sepal.Length, 3:6, data=iris)
 #' @export
 
 pdata <- function (formula, q, data = NULL, ...) 
@@ -164,9 +162,8 @@ pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' @examples
 #' data(iris)
 #' rdata(iris$Species, 10)
-#' rdata(Species, n = 10, data=iris)
 #' rdata(~Species, n = 10, data=iris)
-#' rdata(Sepal.Length~Species,  n = 5, data=iris)
+#' rdata(Sepal.Length ~ Species,  n = 5, data=iris)
 #' @export
 
 rdata <- function (formula, n, data = NULL, ...) 
@@ -198,7 +195,6 @@ rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 #' @examples
 #' data(iris)
 #' ddata(iris$Species, 'setosa')
-#' ddata(Species, 'setosa', data=iris)
 #' ddata(~Species, 'setosa', data=iris)
 #' @export
 
