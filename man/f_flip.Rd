@@ -11,8 +11,6 @@ f_flip(formula)
 }
 \value{
 a formula with the left and right hand sides reversed from the input.
-
-export
 }
 \description{
 Flip lhs and rhs of formula
