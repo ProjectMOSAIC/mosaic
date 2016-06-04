@@ -1,4 +1,4 @@
-globalVariables(c("FUNCTION_TBD", "NA.RM"))
+globalVariables(c("FUNCTION_TBD", "NA.RM", "OUTPUT.MULTIPLE"))
 
 
 #' 1-ary Aggregating functions
@@ -118,7 +118,7 @@ aggregatingFunction1 <-
             formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
                               na.rm = na.rm,
-                              .multiple = output.multiple))
+                              .multiple = OUTPUT.MULTIPLE))
           }
           FUNCTION_TBD(x, ..., na.rm = na.rm)
         }
@@ -126,7 +126,7 @@ aggregatingFunction1 <-
     
     fun_text <- deparse(templates[[style]])
     fun_text <- gsub("FUNCTION_TBD", fun, fun_text) 
-    fun_text <- gsub("output.multiple", output.multiple, fun_text)
+    fun_text <- gsub("OUTPUT.MULTIPLE", output.multiple, fun_text)
     if (missing(na.rm)) {
       fun_text <- gsub("NA.RM", deparse(substitute(getOption("na.rm", FALSE))), fun_text)
     } else {
@@ -209,6 +209,8 @@ aggregatingFunction1 <-
 #' @param fun a function that takes 1 or 2 numeric vectors and computes a summary statistic,
 #' returning a numeric vector of length 1.
 #' @param na.rm the default value for na.rm in the resulting function.
+#' @param output.multiple a boolean indicating whether \code{fun} returns multiple values
+
 #' 
 #' @details This was designed primarily to support \code{var} which can be used to compute
 #' either the variance of one variable or the covariance of two variables.
@@ -224,7 +226,7 @@ aggregatingFunction1 <-
 #' and (c) difficult to maintain.
 #' @export
 aggregatingFunction1or2 <- 
-  function(fun, input.multiple = FALSE, output.multiple = FALSE, 
+  function(fun, output.multiple = FALSE, 
            na.rm = getOption("na.rm", FALSE)) {
     template <- 
       function(x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
@@ -233,9 +235,10 @@ aggregatingFunction1or2 <-
             x <- lazyeval::f_eval(x, data)
             y <- lazyeval::f_eval(y, data)
           } else {
-            formula <- mosaic_formula_q(x, max.slots = 3)
+            formula <- mosaic_formula_q(x, max.slots = 2)
             if (is.null(data)) data <- lazyeval::f_env(formula)
-            return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ...))
+            return(maggregate(formula, data = data, FUN = FUNCTION_TBD, 
+                              .multiple = OUTPUT.MULTIPLE, ...))
           }
         }
         FUNCTION_TBD(x, y, na.rm = na.rm, ...)
@@ -244,6 +247,7 @@ aggregatingFunction1or2 <-
     fun_name <- deparse(substitute(fun))
     fun_text <- deparse(template)
     fun_text <- gsub("FUNCTION_TBD", fun_name, fun_text) 
+    fun_text <- gsub("OUTPUT.MULTIPLE", deparse(substitute(output.multiple)), fun_text) 
     if (missing(na.rm)) {
       fun_text <- gsub("NA.RM", deparse(substitute(getOption("na.rm", FALSE))), fun_text)
     } else {
@@ -379,8 +383,8 @@ f_flip <- function(formula) {
 #' When programming, it is best to use an explicit \code{data} argument
 #' -- ideally supplying a data frame that contains the variables mentioned.
 #' @param \dots additional arguments
-#' @param ..fun.. the underlying function.  It would be very unusual to change 
-#' this from its default value.
+### @param ..fun.. the underlying function.  It would be very unusual to change 
+### this from its default value.
 #' @param na.rm a logical indicating whether \code{NA}s should be removed before computing
 #' @details Many of these functions mask core R functions to provide an additional formula 
 #' interface.  Old behavior should be unchanged.  But if the first argument is a formula,
@@ -458,7 +462,7 @@ quantile <- aggregatingFunction1(stats::quantile, output.multiple=TRUE,
                                  na.rm=getOption("na.rm", FALSE))
 #' @rdname aggregating
 #' @export
-var <- aggregatingFunction1or2(stats::var, input.multiple=TRUE)
+var <- aggregatingFunction1or2(stats::var)
 #' @rdname aggregating
 #' @export
 cor <- aggregatingFunction2(stats::cor)
@@ -473,7 +477,7 @@ cor <- aggregatingFunction2(stats::cor)
 #' data.frame(mean(age ~ shuffle(sex), data=HELPrct, .format="table"))
 #' mean(age ~ sex + substance, data=HELPrct)
 #' mean( ~ age | sex + substance, data=HELPrct)
-#' mean(sqrt(age), data=HELPrct)
+#' mean( ~ sqrt(age), data=HELPrct)
 #' sum( ~ age, data=HELPrct)
 #' sd(HELPrct$age)
 #' sd( ~ age, data=HELPrct)
