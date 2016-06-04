@@ -91,14 +91,6 @@ but much of the code originally in the `fastR` package has been moved into the `
 		
     * [www.amherst.edu/~nhorton/ips6e](http://www.amherst.edu/~nhorton/ips6e) 
 
- * *Stats: Data and Models* (NJ Horton)
-		describes how to undertake analyses in R for the
-		examples in the Fourth Edition of the
-		*Stats: Data and Models* (2015),
-		by Dick De Veaux, Paul Velleman, and Dave Bock.
-
-    * [www.amherst.edu/~nhorton/sdm4](http://www.amherst.edu/~nhorton/sdm4)
-
  * *Statistics: Unlocking the Power of Data* (Lock, Lock, Lock, Lock, and Lock) 
 		is an introductory statistics textbook that embraces a resampling approach. 
 		
@@ -112,6 +104,23 @@ but much of the code originally in the `fastR` package has been moved into the `
 		
     * [lock5stat.com](http://lock5stat.com) 
 		
+
+ * *Stats: Data and Models* (NJ Horton)
+		describes how to undertake analyses in R for the
+		examples in the Fourth Edition of the
+		*Stats: Data and Models* (2015),
+		by Dick De Veaux, Paul Velleman, and Dave Bock.
+
+    * [www.amherst.edu/~nhorton/sdm4](http://www.amherst.edu/~nhorton/sdm4)
+
+ * *Intro Stats* (P Frenett and NJ Horton)
+		describes how to undertake analyses in R for the
+		examples in the Fourth Edition of the
+		*Intro Stats* (2013),
+		by Dick De Veaux, Paul Velleman, and Dave Bock.
+
+    * [www.amherst.edu/~nhorton/is4](http://www.amherst.edu/~nhorton/is4)
+
 
  * *Introduction to Statistical Investigations* (Tintle *et al*) 
 		is another introductory statistics textbook that embraces a resampling approach. 
