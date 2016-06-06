@@ -1,4 +1,6 @@
 library(shiny)
+library(mosaic)
+options(digits = 4)
 
 # Define server logic for random distribution application
 function(input, output) {
@@ -33,12 +35,12 @@ function(input, output) {
   
   # Generate a summary of the data
   output$summary <- renderPrint({
-    summary(data())
+    favstats(~x, data = data())
   })
   
   # Generate an HTML table view of the data
   output$table <- renderTable({
-    data.frame(x=data())
+    data()
   })
   
 }
