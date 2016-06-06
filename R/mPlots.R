@@ -100,6 +100,9 @@ getVarFormula <- function(formula, data=parent.frame(), intercept=FALSE){
 #' changed.
 #' @param title a title for the plot
 #' @param \dots additional arguments 
+#' @param lazy_data a formula describing the data.  It is unlikely that most users will
+#' need to change this from its default value.  It is hear to facilitate the 
+#' \code{mplot()} wrapper.
 #' @return Nothing.  Just for side effects.  
 #' @examples
 #' \dontrun{

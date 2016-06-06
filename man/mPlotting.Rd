@@ -50,6 +50,10 @@ changed.}
 
 \item{title}{a title for the plot}
 
+\item{lazy_data}{a formula describing the data.  It is unlikely that most users will
+need to change this from its default value.  It is hear to facilitate the 
+\code{mplot()} wrapper.}
+
 \item{\dots}{additional arguments}
 }
 \value{
