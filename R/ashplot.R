@@ -36,6 +36,7 @@ ashplot <- function(x, ..., width = NULL, adjust = NULL, panel = panel.ashplot, 
 #' @param groups as in other lattice plots
 #' @param subscripts as in other lattice prepanel functions
 #' 
+#' @export
 prepanel.default.ashplot <- function(
   x, darg, groups = NULL, subscripts = TRUE, 
   ...) 
@@ -87,6 +88,7 @@ prepanel.default.ashplot <- function(
 #'   if specified, from affecting the display of the ASH.
 #' @param identifier A character string that is prepended to the names of i
 #'   grobs that are created by this panel function.
+#' @export
 panel.ashplot <- 
   function (
     x, 
