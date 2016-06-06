@@ -16,8 +16,8 @@ mMap(lazy_data, default = "map", system = "ggplot2", show = FALSE,
 mScatter(lazy_data, default = c("scatter", "jitter", "boxplot", "violin",
   "line"), system = c("lattice", "ggplot2"), show = FALSE, title = "")
 
-mUniplot(lazy_data, default = c("histogram", "density", "frequency polygon"),
-  system = c("lattice", "ggplot2"), show = FALSE, title = "")
+mUniplot(lazy_data, default = c("histogram", "density", "frequency polygon",
+  "ASH plot"), system = c("lattice", "ggplot2"), show = FALSE, title = "")
 }
 \arguments{
 \item{data}{a data frame containing the variables that might be used in the plot.

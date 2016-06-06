@@ -123,7 +123,7 @@ mPlot <- function(data,
   
   if (is.null(lazy_data)) lazy_data <- lazyeval::f_capture(data) 
   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
-                'density', 'frequency polygon', 'xyplot', 'map')
+                'density', 'frequency polygon', 'ASH plot', 'xyplot', 'map')
   
   if (missing(default) & missing(format)) {
     choice <- 
@@ -482,14 +482,14 @@ mScatter <- function(lazy_data, default = c('scatter','jitter','boxplot','violin
 #' @rdname mPlotting  
 #' @export
 
-mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency polygon'),
+mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency polygon', 'ASH plot'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="") {
   .require_manipulate_namespace()
   system <- match.arg(system)
   default <- match.arg(default)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
   data <- lazyeval::f_eval(lazy_data)
-  plotnames <- list("histogram", "density", "frequency polygon")
+  plotnames <- list("histogram", "density", "frequency polygon", "ASH plot")
   
   variables <- .varsByType(head(data))
   # variables$q is the quantitative variables.
@@ -525,7 +525,7 @@ mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency poly
 
 .doUniplot <- function(lazy_data, variables=variables, show=FALSE, 
                        system=c('ggplot2','lattice'), 
-                       plotType=c('histogram', 'densityplot', 'frequency polygon'),
+                       plotType=c('histogram', 'densityplot', 'frequency polygon', "ASH plot"),
                        x=NA, 
                        nbins=nbins, color=NA, 
                        # size=NA, 
@@ -554,11 +554,14 @@ mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency poly
 # 1-variable plots
 .uniplotString <- function(s, system=c('ggplot2', 'lattice'), variables)
 {
-  geom <- c(`histogram`='', `densityplot`=', geom="line"',    `frequency polygon`=', geom="line"')
-  stat <- c(`histogram`='', `densityplot`=', stat="density"', `frequency polygon`=', stat="bin"')
+  geom <- c(`histogram`='', `densityplot`=', geom="line"',    
+            `frequency polygon`=', geom="line"', `ASH plot` = ', geom="blank"')
+  stat <- c(`histogram`='', `densityplot`=', stat="density"', 
+            `frequency polygon`=', stat="bin"', `ASH plot` = ', stat="bin"')
   gggeoms <- c(`histogram`='geom_histogram', 
                `densityplot`='geom_density',    
-               `frequency polygon`='geom_freqpoly')
+               `frequency polygon`='geom_freqpoly',
+               `ASH plot` = 'geom_blank')
   
   system=match.arg(system)
   adjust <- 10 / s$nbins
@@ -567,7 +570,7 @@ mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency poly
   if (system == "ggplot2") {
     res <- paste0("ggplot( data = ", s$dataName, ", aes(x = ", s$x, "))", sep="")
     
-    params <- if (s$plotType %in% c('histogram', 'frequency polygon')) {
+    params <- if (s$plotType %in% c('histogram', 'frequency polygon', 'ASH plot')) {
       paste("binwidth=", signif(binwidth,2), sep="")
     } else {
       paste("adjust=", signif(adjust,2), sep="")
@@ -590,7 +593,8 @@ mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency poly
     }  
     
   } else {
-    plotName <- c(`histogram`='histogram', `densityplot`='densityplot', `frequency polygon`='freqpolygon')
+    plotName <- c(`histogram`='histogram', `densityplot`='densityplot', 
+                  `frequency polygon`='freqpolygon', `ASH plot` = 'ashplot')
     res <- paste( plotName[s$plotType], "( ", " ~ ", s$x, sep="")
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
       res <- paste(res, " | ", s$facet)
@@ -598,7 +602,7 @@ mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency poly
     if (!is.null(s$color) && !is.na(s$color))
       res<-paste(res, ", groups=", s$color, sep="")
     res <- paste(res, ', main="', s$title, '"', sep="")
-    if (s$plotType %in% c('histogram', 'frequency polygon')) {
+    if (s$plotType %in% c('histogram', 'frequency polygon', 'ASH plot')) {
       res <- paste(res, ", width =", signif(binwidth,2), sep="")
     } else {
       res <- paste(res, ", adjust=", signif(adjust,2), sep="")
