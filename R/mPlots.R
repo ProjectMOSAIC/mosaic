@@ -502,12 +502,13 @@ mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency poly
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate::manipulate( { .doUniplot(lazy_data, variables=variables, show=show, system=system, plotType=plotType, x=x, 
-                           nbins=nbins, color=color, 
-                           facet=facet, 
-                           model=model, key=key, title=title) },
-              show = manipulate::button("Show Expression"),
-              system = manipulate::picker(sysnames, initial=system, label="Graphics system"),
+  manipulate::manipulate( 
+    { .doUniplot(lazy_data, variables=variables, show=show, system=system, plotType=plotType, x=x, 
+                 nbins=nbins, color=color, 
+                 facet=facet, 
+                 model=model, key=key, title=title) },
+    show = manipulate::button("Show Expression"),
+    system = manipulate::picker(sysnames, initial=system, label="Graphics system"),
               plotType = manipulate::picker(plotnames, initial = default, label="Plot type"),
               x = manipulate::picker(variables$q, initial=variables$q[[1]], label="x axis"),
               # y = manipulate::picker(variables$q, initial=variables$q[[2]], label="y axis"),
@@ -535,7 +536,7 @@ mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency poly
 {
   system <- match.arg(system)
   plotType <- match.arg(plotType)
-  vals <- list(dataName=dataName, plotType=plotType, x=x, nbins = nbins, 
+  vals <- list(dataName = deparse(f_rhs(lazy_data)), plotType=plotType, x=x, nbins = nbins, 
                color=color, 
                # size=size, 
                facet=facet, 
