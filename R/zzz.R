@@ -18,7 +18,7 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
   packageStartupMessage(
     paste0("\nThe 'mosaic' package masks several functions from core packages ",
            "in order to add additional features.  ",
-           "\nThe old behavior of these functions should not be affected by this."),
+           "\nThe original behavior of these functions should not be affected by this."),
     appendLF = TRUE)
 }
 
