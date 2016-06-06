@@ -1,7 +1,7 @@
 #' Augmented histograms
 #' 
 #' The \pkg{mosaic} package adds some additional functionality to 
-#' \code{\link[lattice]{histogram}}, making it simpler to obtain certain common 
+#' \code{\link[lattice]{histogram}()}, making it simpler to obtain certain common 
 #' histogram adornments.  This is done be resetting the default panel
 #' and prepanel functions used by histogram.
 #' 
@@ -19,13 +19,24 @@
 #' to the panel function; by default when the \pkg{mosaic} package has been loaded this will
 #' \code{\link{panel.xhistogram}}.
 #'
-#' @seealso \code{\link[lattice]{histogram}}
+#' @seealso \code{\link[lattice]{histogram}}, \code{\link{mosaicLatticeOptions}()},
+#' and \code{\link{restoreLatticeOptions}()}.
+#' 
 #' @note Versions of \pkg{lattice} since 0.20-21 support setting custom defaults 
 #' for \code{breaks}, \code{panel}, and \code{prepanel} used by 
-#' \code{histogram}, so \code{xhistogram} is no longer needed.  \code{xhistogram} will
-#' be retained temporarily to support users with older versions of \pkg{lattice}.
-#' As a result, \code{xhistogram} (which was required in earlier versions of \pkg{mosaic}
-#' is not longer needed and has been removed.  
+#' \code{histogram()}, so \code{xhistogram()} is no longer needed.  
+#' As a result, \code{xhistogram()} 
+#' (which was required in earlier versions of \pkg{mosaic}
+#' is no longer needed and has been removed.
+#' 
+#' @details
+#' The primary additional functionality added to \code{\link{histogram}()}
+#' are the arguments \code{width} and \code{center} which provide a simple
+#' way of describing equal-sized bins, and \code{fit} which can be used to
+#' overlay the density curve for one of several distributions.  The
+#' \code{groups} argument can be used to color the bins.  The primary use
+#' for this is to shade tails of histograms, but there may be other uses
+#' as well.
 #'
 #' @export
 
