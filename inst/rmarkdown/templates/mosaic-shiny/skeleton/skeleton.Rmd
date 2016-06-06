@@ -9,7 +9,7 @@ runtime: shiny
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, size = "small")
 require(mosaic)
-trellis.par.set(theme = col.mosaic())
+trellis.par.set(theme = theme.mosaic())
 ```
 
 This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 

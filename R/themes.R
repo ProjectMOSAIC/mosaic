@@ -4,6 +4,7 @@
 #'
 #' @param bw whether color scheme should be "black and white"
 #' @param lty vector of line type codes
+#' @param lwd vector of line widths
 #' @param ... additional named arguments passed to 
 #'   \code{\link{trellis.par.set}}
 #' 
@@ -29,7 +30,7 @@
 #' @export
 
 theme.mosaic <-
-  function (bw = FALSE, lty = if (bw) 1:7 else 1, ...) 
+  function (bw = FALSE, lty = if (bw) 1:7 else 1, lwd = 2.0, ...) 
   {
     aBlue <- colorRampPalette(c("white", "navy"))(10)[8]
     paleBlue <- colorRampPalette(c("white", "navy"))(10)[6]
@@ -45,15 +46,15 @@ theme.mosaic <-
                                                               lty = 1), box.dot = list(col = "gray10"), dot.line = list(col = "gray50"), 
                   dot.symbol = 
                     list(col = "gray30", pch = 16), plot.line = list(col = "black", 
-                                                                     lwd = 2), plot.symbol = list(col = "black", fill = "gray80", 
+                                                                     lwd = lwd), plot.symbol = list(col = "black", fill = "gray80", 
                                                                                                   pch = 16), regions = list(col = gray((1:100)/100)), 
                   reference.line = 
-                    list(col = "gray50"), add.line = list(lty = 1,  col = "gray80", lwd = 2), 
+                    list(col = "gray50"), add.line = list(lty = 1,  col = "gray80", lwd = lwd), 
                   superpose.polygon = 
                     list(col = c("gray30", "gray70", "black", "gray50", "gray20", "gray80", 
                                  "gray60", "gray40"), fill = c("gray80")), 
                   superpose.line = 
-                    list(lty = lty, lwd = 2, 
+                    list(lty = lty, lwd = lwd, 
                          col = c("gray30", "gray70", "black", 
                                  "gray50", "gray20", "gray80", "gray60", "gray40")), 
                   superpose.symbol = 
@@ -77,12 +78,12 @@ theme.mosaic <-
                   dot.symbol = 
                     list(col = darkBlue, pch = 16), 
                   plot.line = 
-                    list(lwd = 2, col = darkBlue), 
+                    list(lwd = lwd, col = darkBlue), 
                   plot.symbol = 
                     list(col = darkBlue, pch = 16), 
                   regions = list(col = heat.colors(100)), 
                   reference.line =  list(col = "#e8e8e8"), 
-                  add.line = list(lty = 1, col = "gray20", lwd = 2), 
+                  add.line = list(lty = 1, col = "gray20", lwd = lwd), 
                   superpose.line = 
                     list(lty = lty, 
                          col = c(darkBlue, "lightskyblue3", "darkgreen",  
