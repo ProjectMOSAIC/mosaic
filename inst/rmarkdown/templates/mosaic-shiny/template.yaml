@@ -1,0 +1,4 @@
+name: mosaic shiny example
+description: >
+ A simple example of a shiny document using mosaic/lattice
+create_dir: false
