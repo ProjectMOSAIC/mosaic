@@ -114,12 +114,13 @@ mPlot <- function(data,
   system=c('lattice','ggplot2'),
   show=FALSE, 
   title="",
-  ...) 
+  ...,
+  lazy_data = NULL)
 {
+  
+  if (is.null(lazy_data)) lazy_data <- lazyeval::f_capture(data) 
   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
                 'density', 'frequency polygon', 'xyplot', 'map')
-  dataName <- substitute(data)  # lazy_data$expr
-  lazy_data <- lazyeval::lazy(data)
   
   if (missing(default) & missing(format)) {
     choice <- 
@@ -136,35 +137,31 @@ mPlot <- function(data,
   if (default == 'xyplot') default <- 'scatter'
   if (default %in% c('scatter','jitter','boxplot','violin')) {
     return( 
-      # do.call(mScatter, list(dataName, default=default, system=system, show=show, title=title))
-      eval(parse(text=paste("mScatter(", dataName, 
-                            ", default=default, system=system, show=show, title=title)") ) ) 
+      mScatter(lazy_data, default = default, system = system, show = show, title = title)
     )
   }
   if (default == "map") {
     return(
-      eval(parse(text=paste("mMap(", dataName, 
-                            ", default=default, system=system, show=show, title=title)") ) ) 
+      mMap(lazy_data, default = default, system = system, show = show, title = title)
     )
   }
   return( 
-      eval(parse(text=paste("mUniplot(", dataName, 
-                            ", default=default, system=system, show=show, title=title)") ) ) 
+    mUniplot(lazy_data, default = default, system = system, show = show, title = title)
   )
 }
 
 #' @rdname mPlotting
 #' @export
 
-mMap <- function(data, default = 'map',
+mMap <- function(lazy_data, default = 'map',
         system="ggplot2", 
         show=FALSE, title=title, ...) {
   
   .require_manipulate_namespace()
-  system <- "ggplot2" # only handling ggplot2 for now.
-  # system <- match.arg(system)
+  # system <- "ggplot2" # only handling ggplot2 for now.
+  system <- match.arg(system)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
-  df <- substitute(data)
+  data <- lazyeval::f_eval(lazy_data)
   variables <- .varsByType(head(data))
   latid <- min(c(grep("lat", names(variables$q)), length(variables$q)))
   longid <- min(c(grep("lon", names(variables$q)), length(variables$q)))
@@ -219,7 +216,7 @@ mMap <- function(data, default = 'map',
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate::manipulate( { .doMap(df, variables, show=show, system=system, 
+  manipulate::manipulate( { .doMap(lazy_data, variables, show=show, system=system, 
                        x=x, y=y, 
                        color=color, 
                        group=group,
@@ -240,7 +237,7 @@ mMap <- function(data, default = 'map',
 }
 
 
-.doMap<- function(dataName, variables, show=FALSE, 
+.doMap<- function(lazy_data, variables, show=FALSE, 
                   system=c('ggplot2'), 
                   x=NA, y=NA, 
                   color=NA, 
@@ -257,18 +254,18 @@ mMap <- function(data, default = 'map',
     projection <- paste(projection, '"', sep="")
   }
   projection <- paste('"',projection, sep="")
-  vals <- list(dataName=dataName, 
-               x=x, y=y, 
-               color=color, 
-               group=group,
-               facet=facet, 
-               projection=projection,
-               key=key,
-               title=title)
+  vals <- list(dataName = deparse(lazyeval::f_rhs(lazy_data)), 
+               x = x, y = y, 
+               color = color, 
+               group = group,
+               facet = facet, 
+               projection = projection,
+               key = key,
+               title = title)
   
-  s <- .mapString(vals, system, variables=variables)
+  s <- .mapString(vals, system, variables = variables)
   if (show) cat(paste("\n", s, "\n"))
-  p <- eval(parse(text=s))
+  p <- eval(parse(text = s))
   print(p)
   return(invisible(p))
 }
@@ -311,13 +308,14 @@ mMap <- function(data, default = 'map',
 #' @rdname mPlotting
 #' @export
 
-mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','line'),
+mScatter <- function(lazy_data, default = c('scatter','jitter','boxplot','violin','line'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="") {
 
   .require_manipulate_namespace()
   system <- match.arg(system)
+  default <- match.arg(default)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
-  df <- substitute(data)
+  data <- lazyeval::f_eval(lazy_data)
   variables <- .varsByType(head(data))
   # variables$q is the quantitative variables.
   plotnames <- list("scatter", "jitter","boxplot", "violin", "line")
@@ -333,7 +331,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate::manipulate( { .doScatter(df, variables, show=show, system=system, x=x, y=y, plotType=plotType, 
+  manipulate::manipulate( { .doScatter(lazy_data, variables, show=show, system=system, x=x, y=y, plotType=plotType, 
                            flipCoords = flipCoords, color=color, size=size, facet=facet, 
                            logScales=logScales, model=model, key=key, title=title) },
              show = manipulate::button("Show Expression"),
@@ -357,7 +355,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
   )
 }
 
-.doScatter <- function(dataName, variables, show=FALSE, 
+.doScatter <- function(lazy_data, variables, show=FALSE, 
 					  system=c('ggplot2','lattice'), 
             plotType=c('scatter','jitter','boxplot','violin','line'),
 					  x=NA, y=NA, color=NA, 
@@ -366,8 +364,9 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
 {
   system <- match.arg(system)
   plotType <- match.arg(plotType)
-  vals <- list(dataName=dataName, x=x, y=y, color=color, size=size, plotType=plotType, 
-               flipCoords=flipCoords, facet=facet, logScales=logScales , model=model, key=key, title=title)
+  vals <- list(dataName = deparse(lazyeval::f_rhs(lazy_data)), x=x, y=y, color=color, size=size, 
+               plotType=plotType, flipCoords=flipCoords, facet=facet, 
+               logScales=logScales , model=model, key=key, title=title)
   
   s <- .scatterString(vals, system, variables=variables)
   if (show) cat(paste("\n", s, "\n"))
@@ -480,13 +479,13 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
 #' @rdname mPlotting  
 #' @export
 
-mUniplot <- function(data, default=c('histogram','density', 'frequency polygon'),
+mUniplot <- function(lazy_data, default=c('histogram','density', 'frequency polygon'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="") {
   .require_manipulate_namespace()
   system <- match.arg(system)
   default <- match.arg(default)
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
-  df <- substitute(data)
+  data <- lazyeval::f_eval(lazy_data)
   plotnames <- list("histogram", "density", "frequency polygon")
   
   variables <- .varsByType(head(data))
@@ -500,7 +499,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
   sysnames <- list("ggplot2","lattice")
-  manipulate::manipulate( { .doUniplot(df, variables=variables, show=show, system=system, plotType=plotType, x=x, 
+  manipulate::manipulate( { .doUniplot(lazy_data, variables=variables, show=show, system=system, plotType=plotType, x=x, 
                            nbins=nbins, color=color, 
                            facet=facet, 
                            model=model, key=key, title=title) },
@@ -520,7 +519,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon')
 }
 
 
-.doUniplot <- function(dataName, variables=variables, show=FALSE, 
+.doUniplot <- function(lazy_data, variables=variables, show=FALSE, 
                        system=c('ggplot2','lattice'), 
                        plotType=c('histogram', 'densityplot', 'frequency polygon'),
                        x=NA, 

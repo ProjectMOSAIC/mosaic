@@ -8,15 +8,15 @@
 \title{Interactive plotting}
 \usage{
 mPlot(data, format, default = format, system = c("lattice", "ggplot2"),
-  show = FALSE, title = "", ...)
+  show = FALSE, title = "", ..., lazy_data = NULL)
 
-mMap(data, default = "map", system = "ggplot2", show = FALSE,
+mMap(lazy_data, default = "map", system = "ggplot2", show = FALSE,
   title = title, ...)
 
-mScatter(data, default = c("scatter", "jitter", "boxplot", "violin", "line"),
-  system = c("lattice", "ggplot2"), show = FALSE, title = "")
+mScatter(lazy_data, default = c("scatter", "jitter", "boxplot", "violin",
+  "line"), system = c("lattice", "ggplot2"), show = FALSE, title = "")
 
-mUniplot(data, default = c("histogram", "density", "frequency polygon"),
+mUniplot(lazy_data, default = c("histogram", "density", "frequency polygon"),
   system = c("lattice", "ggplot2"), show = FALSE, title = "")
 }
 \arguments{

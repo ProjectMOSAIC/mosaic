@@ -13,7 +13,11 @@ utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
 #' @export
 
 mplot <- function(object, ...) {
-  UseMethod("mplot")
+  lazy_object <- lazyeval::f_capture(object)
+  if (inherits(object, "data.frame"))
+    return(mPlot(object, ..., lazy_data = lazy_object))
+  else
+    UseMethod("mplot")
 }
 
 #' @rdname mplot
@@ -32,6 +36,7 @@ mplot.default <- function(object, ...) {
 # data with some auxilliary data to be displayed as fill color on the map, although
 # this is not necessary if all one wants is a map.
 #' @param format,default default type of plot to create; one of 
+#' @param lazy_data a formula describing the data.  Most users should not need to modify this.
 #' \code{"scatter"},
 #' \code{"jitter"},
 #' \code{"boxplot"},
@@ -293,42 +298,47 @@ mplot.lm <- function(object, which=c(1:3, 7),
 
 mplot.data.frame <- function (object, format, default = format, 
                               system = c("lattice", "ggplot2"),  show = FALSE, 
-                              title = "", ...
+                              title = "", ..., lazy_data = lazyeval::f_capture(object)
                               ) {
-  plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
-                 'density', 'frequency polygon', 'xyplot')
-  if (missing(default) & missing(format)) {
-    choice <- 
-      menu(title = "Choose a plot type.",
-           choices = c(
-             "1-variable (histogram, density plot, etc.)",
-             "2-variable (scatter, boxplot, etc.)" 
-           )
-      )
-    default <- c("histogram", "scatter") [choice]
-  }
-  default <- match.arg(default, plotTypes)
-  system <- match.arg(system)
-
-  dataName <- substitute(object)
-  if (default == "xyplot") 
-    default <- "scatter"
-  if (default %in% c("scatter", "jitter", "boxplot", "violin")) {
-    return(eval(parse(text = paste("mScatter(", dataName, 
-                                   ", default=default, system=system, show=show, title=title)"))
-    ))
-  }
-#   if (default == "map") {
-#     return(eval(parse(
-#       text = paste("mMap(", dataName, 
-#                    ", default=default, system=system, show=show, title=title)"))
-#     ))
+  return(
+    mPlot(object, format = format, default = default, system = system, 
+        show = show, title = tile, ..., lazy_data = lazy_data)
+  )
+}  
+#   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
+#                  'density', 'frequency polygon', 'xyplot')
+#   if (missing(default) & missing(format)) {
+#     choice <- 
+#       menu(title = "Choose a plot type.",
+#            choices = c(
+#              "1-variable (histogram, density plot, etc.)",
+#              "2-variable (scatter, boxplot, etc.)" 
+#            )
+#       )
+#     default <- c("histogram", "scatter") [choice]
 #   }
-  return(eval(parse(
-    text = paste("mUniplot(", dataName, 
-                 ", default=default, system=system, show=show, title=title)"))
-  ))
-}
+#   default <- match.arg(default, plotTypes)
+#   system <- match.arg(system)
+# 
+#   dataName <- substitute(object)
+#   if (default == "xyplot") 
+#     default <- "scatter"
+#   if (default %in% c("scatter", "jitter", "boxplot", "violin")) {
+#     return(
+#       mScatter(lazy_data, default = default, system = system, show = show, title = title)
+#     )
+#   }
+# #   if (default == "map") {
+# #     return(eval(parse(
+# #       text = paste("mMap(", dataName, 
+# #                    ", default=default, system=system, show=show, title=title)"))
+# #     ))
+# #   }
+#   return(eval(parse(
+#     text = paste("mUniplot(", dataName, 
+#                  ", default=default, system=system, show=show, title=title)"))
+#   ))
+# }
 
 
 #' Extract data from R objects

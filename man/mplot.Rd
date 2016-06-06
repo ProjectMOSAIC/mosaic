@@ -19,7 +19,8 @@ mplot(object, ...)
   title = paste("model: ", deparse(object$call), "\\n"), rows = TRUE, ...)
 
 \method{mplot}{data.frame}(object, format, default = format,
-  system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
+  system = c("lattice", "ggplot2"), show = FALSE, title = "", ...,
+  lazy_data = lazyeval::f_capture(object))
 
 \method{mplot}{summary.lm}(object, system = c("lattice", "ggplot2"),
   level = 0.95, par.settings = trellis.par.get(), rows = TRUE, ...)
@@ -59,7 +60,12 @@ displayed together.}
 \item{rows}{rows to show.  This may be a numeric vector, 
 \code{TRUE} (for all rows), or a character vector of row names.}
 
-\item{format, default}{default type of plot to create; one of 
+\item{format, default}{default type of plot to create; one of}
+
+\item{show}{a logical, if \code{TRUE}, the code will be displayed each time the plot is 
+changed.}
+
+\item{lazy_data}{a formula describing the data.  Most users should not need to modify this.
 \code{"scatter"},
 \code{"jitter"},
 \code{"boxplot"},
@@ -70,9 +76,6 @@ displayed together.}
 or
 \code{"map"}.  
 Unique prefixes suffice.}
-
-\item{show}{a logical, if \code{TRUE}, the code will be displayed each time the plot is 
-changed.}
 
 \item{ylab}{label for y-axis}
 
