@@ -18,24 +18,47 @@ To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authorin
 
 ## Inputs and Outputs
 
-You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
+You can embed Shiny inputs and outputs in your document. Outputs are 
+automatically updated whenever inputs change.  This demonstrates how a standard 
+R plot can be made interactive by wrapping it in the Shiny `renderPlot` 
+function. The `selectInput()`, `sliderInput()`, and `checkboxGroupInput()`
+functions create the input widgets used to drive the plot.  The example below 
+illustrates the relationships among histograms, frequency polygons, and ASH plots (Average Shifted Histogram).
 
 ```{r eruptions, echo=FALSE}
 inputPanel(
   selectInput("bin_width", label = "bin width:",
-              choices = c(0.1, 0.2, 0.25, 0.5, 1.0, 1.5), selected = 0.25),
-  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
-              min = 0.2, max = 2, value = 0.6, step = 0.2)
+              choices = c(0.1, 0.2, 0.25, 0.5, 1.0, 1.5), selected = 0.5),
+  sliderInput("center", label = "center of bin:",
+              min = -1.0, max = 1.0, value = 0.0, step = 0.02),
+  # checkboxInput("show_histogram", "Show histogram", TRUE) ,
+  # checkboxInput("show_freqpolygon", "Show frequency polygon", TRUE) ,
+  # checkboxInput("show_ash", "Show ASH plot", TRUE) 
+  checkboxGroupInput("show", "Show the following",
+                     choices = c(`histogram` = "hist", 
+                                 `frequency polygon` = "freq", 
+                                 `ASH plot` = "ash"), 
+                     selected = "hist")
 )
-renderPlot({
+renderPlot(
+  height = 300,
+  {
   histogram( ~ eruptions, data = faithful, 
              width = as.numeric(input$bin_width),
              adjust = as.numeric(input$bw_adjust),
-             xlab = paste0("Duration (minutes) [", input$bw_adjust, "]"), 
+             center = as.numeric(input$center),
+             xlab = "Duration (minutes) ",
              main = "Geyser eruption duration",
+             xlim = c(0.5, 6.5),
+             ylim = c(0, 1.2),
              panel = function(x, ...) {
-               panel.xhistogram(x, ...)
-               panel.densityplot(x, n = 500, darg = list(adjust = input$bw_adjust), ...)
+               if ("hist" %in% input$show)
+                 panel.xhistogram(x, ..., col = "gray95")
+               if ("ash" %in% input$show)
+                 panel.ashplot(x, ..., col = "red", 
+                               darg = list(width = as.numeric(input$bin_width)))
+               if ("freq" %in% input$show)
+                 panel.freqpolygon(x, n = 500, ...)
              })
 })
 ```
