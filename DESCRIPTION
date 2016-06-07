@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 0.13.90009
-Date: 2016-06-06
+Version: 0.13.90010
+Date: 2016-06-07
 Depends:
     R (>= 3.0.0),
     dplyr,
@@ -11,7 +11,7 @@ Depends:
     mosaicData,
     Matrix
 Imports:
-    lazyeval,
+    lazyeval (>= 0.1.10.9000),
     MASS,
     grid,
     reshape2,
