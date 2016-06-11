@@ -68,8 +68,8 @@ several settings.
 
 ```{r, fig.height=8}
 require(gridExtra)
-mod <- lm( width ~ length * sex, data=KidsFeet )
-mplot(mod, which=1:7, multiplot = TRUE, ncol=2)
+mod <- lm(width ~ length * sex, data = KidsFeet)
+mplot(mod, which = 1:7, multiplot = TRUE, ncol = 2)
 ```
 
 ```{r, fig.height=8}

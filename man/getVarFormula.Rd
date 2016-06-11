@@ -22,6 +22,6 @@ model default: FALSE (no intercept)}
 Uses the full model syntax.
 }
 \examples{
-getVarFormula(~wt + mpg, data=mtcars)
+getVarFormula( ~ wt + mpg, data = mtcars)
 }
 
