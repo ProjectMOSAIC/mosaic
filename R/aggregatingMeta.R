@@ -302,8 +302,8 @@ aggregatingFunction2 <- function(fun) {
           y <- lazyeval::f_eval(y, data)
         } else {
           formula <- mosaic_formula_q(x, max.slots = 3)
-          x <- lazyeval::f_eval(formula, data)
-          y <- lazyeval::f_eval(f_flip(formula), data = data)
+          x <- lazyeval::f_eval_rhs(formula, data)
+          y <- lazyeval::f_eval_lhs(formula, data)
         }
         FUNCTION_TBD(x, y, ...)
       }
@@ -354,24 +354,6 @@ aggregatingFunction2 <- function(fun) {
 #   assign("fun", fun, environment(result))
 #   return(result)
 # }
-
-#' Flip lhs and rhs of formula
-#' 
-#' Flip lhs and rhs of formula
-#' 
-#' @param formula a formula
-#' @return a formula with the left and right hand sides reversed from the input.
-#' 
-#' @export
-f_flip <- function(formula) {
-  if (length(formula) < 3) stop("formula must have both lhs and rhs", call. = FALSE)
-  res <- formula
-  res[[2]] <- formula[[3]]
-  res[[3]] <- formula[[2]]
-  res
-}
-
-
 
 
 #' Aggregating functions
