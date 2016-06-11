@@ -13,11 +13,11 @@ utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
 #' @export
 
 mplot <- function(object, ...) {
-  lazy_object <- lazyeval::f_capture(object)
-  if (inherits(object, "data.frame"))
-    return(mPlot(object, ..., lazy_data = lazy_object))
-  else
-    UseMethod("mplot")
+  if (inherits(object, "data.frame")) {
+    return(mPlot(object, ..., data_text = lazyeval::expr_text(object))) 
+  }
+  
+  UseMethod("mplot")
 }
 
 #' @rdname mplot
@@ -36,7 +36,6 @@ mplot.default <- function(object, ...) {
 # data with some auxilliary data to be displayed as fill color on the map, although
 # this is not necessary if all one wants is a map.
 #' @param format,default default type of plot to create; one of 
-#' @param lazy_data a formula describing the data.  Most users should not need to modify this.
 #' \code{"scatter"},
 #' \code{"jitter"},
 #' \code{"boxplot"},
@@ -298,11 +297,11 @@ mplot.lm <- function(object, which=c(1:3, 7),
 
 mplot.data.frame <- function (object, format, default = format, 
                               system = c("lattice", "ggplot2"),  show = FALSE, 
-                              title = "", ..., lazy_data = lazyeval::f_capture(object)
+                              title = "", ...
                               ) {
   return(
     mPlot(object, format = format, default = default, system = system, 
-        show = show, title = tile, ..., lazy_data = lazy_data)
+        show = show, title = title, ...)
   )
 }  
 #   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 

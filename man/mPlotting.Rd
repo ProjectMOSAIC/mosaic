@@ -8,16 +8,18 @@
 \title{Interactive plotting}
 \usage{
 mPlot(data, format, default = format, system = c("lattice", "ggplot2"),
-  show = FALSE, title = "", ..., lazy_data = NULL)
+  show = FALSE, title = "", data_text = expr_text(data), ...)
 
-mMap(lazy_data, default = "map", system = "ggplot2", show = FALSE,
-  title = title, ...)
+mMap(data, default = "map", system = "ggplot2", show = FALSE,
+  title = title, data_text = expr_text(data), ...)
 
-mScatter(lazy_data, default = c("scatter", "jitter", "boxplot", "violin",
-  "line"), system = c("lattice", "ggplot2"), show = FALSE, title = "")
+mScatter(data, default = c("scatter", "jitter", "boxplot", "violin", "line"),
+  system = c("lattice", "ggplot2"), show = FALSE, title = "",
+  data_text = expr_text)
 
-mUniplot(lazy_data, default = c("histogram", "density", "frequency polygon",
-  "ASH plot"), system = c("lattice", "ggplot2"), show = FALSE, title = "")
+mUniplot(data, default = c("histogram", "density", "frequency polygon",
+  "ASH plot"), system = c("lattice", "ggplot2"), show = FALSE, title = "",
+  data_text = expr_text(data))
 }
 \arguments{
 \item{data}{a data frame containing the variables that might be used in the plot.
@@ -49,10 +51,6 @@ or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
 changed.}
 
 \item{title}{a title for the plot}
-
-\item{lazy_data}{a formula describing the data.  It is unlikely that most users will
-need to change this from its default value.  It is hear to facilitate the 
-\code{mplot()} wrapper.}
 
 \item{\dots}{additional arguments}
 }
