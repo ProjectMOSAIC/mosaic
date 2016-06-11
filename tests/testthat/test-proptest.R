@@ -4,6 +4,7 @@ context("prop.test()")
 TestData <- data.frame( a = factor(rep(letters[1:3], length.out=100)),
                         b = rep(letters[1:3], length.out=100), 
                         c = rep(c(TRUE, FALSE, FALSE), length.out=100), 
+                        d = rep(c(TRUE, FALSE, FALSE), length.out=100), 
                         stringsAsFactors = FALSE
 )
 
@@ -25,22 +26,26 @@ test_that("formulas work", {
   
 })
 
-test_that("formulas work with unnamed second arg", {
-  
-  X <- stats::prop.test(34, 100)
-  A <- prop.test(~ a, TestData)
-  B <- prop.test(~ b, TestData)
-  C <- prop.test(~ c, TestData)
-  
-  expect_equivalent(confint(A), confint(X))
-  expect_match(A$data.name, "TestData\\$a")
-  
-  expect_equivalent(confint(B), confint(X))
-  expect_match(B$data.name, "TestData\\$b")
-  
-  expect_equivalent(confint(C), confint(X))
-  expect_match(C$data.name, "TestData\\$c")
+test_that("formulas + unnamed second arg throws error", {
+   expect_error( prop.test(~ a, TestData), "did you forget")
 })
+
+# test_that("formulas work with unnamed second arg", {
+#   
+#   X <- stats::prop.test(34, 100)
+#   A <- prop.test(~ a, TestData)
+#   B <- prop.test(~ b, TestData)
+#   C <- prop.test(~ c, TestData)
+#   
+#   expect_equivalent(confint(A), confint(X))
+#   expect_match(A$data.name, "TestData\\$a")
+#   
+#   expect_equivalent(confint(B), confint(X))
+#   expect_match(B$data.name, "TestData\\$b")
+#   
+#   expect_equivalent(confint(C), confint(X))
+#   expect_match(C$data.name, "TestData\\$c")
+# })
 
 test_that("success = works", {
   
@@ -64,24 +69,30 @@ test_that("success = works", {
 })
 
 
-test_that("bare vars work", {
-  X <- stats::prop.test(34, 100)
-  A <- prop.test( a, data=TestData)
-  B <- prop.test( b, data=TestData)
-  C <- prop.test( c, data=TestData)
-  
-  expect_equivalent(confint(A), confint(X))
-  expect_match(A$data.name, "a")
-  expect_match(A$data.name, "success = a")
-  
-  expect_equivalent(confint(B), confint(X))
-  expect_match(B$data.name, "b")
-  expect_match(B$data.name, "success = a")
-  
-  expect_equivalent(confint(C), confint(X))
-  expect_match(C$data.name, "c")
-  expect_match(C$data.name, "success = TRUE")
+test_that("bare vars throw error", {
+  expect_error(prop.test(a, data = TestData), "first argument should be a formula")
+  expect_error(prop.test(b, data = TestData), "first argument should be a formula")
+  expect_error(prop.test(d, data = TestData), "first argument should be a formula")
 })
+
+# test_that("bare vars work", {
+#   X <- stats::prop.test(34, 100)
+#   A <- prop.test( a, data=TestData)
+#   B <- prop.test( b, data=TestData)
+#   C <- prop.test( c, data=TestData)
+#   
+#   expect_equivalent(confint(A), confint(X))
+#   expect_match(A$data.name, "a")
+#   expect_match(A$data.name, "success = a")
+#   
+#   expect_equivalent(confint(B), confint(X))
+#   expect_match(B$data.name, "b")
+#   expect_match(B$data.name, "success = a")
+#   
+#   expect_equivalent(confint(C), confint(X))
+#   expect_match(C$data.name, "c")
+#   expect_match(C$data.name, "success = TRUE")
+# })
 
 test_that("numbers work", {
   expect_equivalent( 

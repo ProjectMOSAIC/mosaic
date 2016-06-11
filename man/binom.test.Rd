@@ -4,10 +4,10 @@
 \alias{binom.test}
 \title{Exact Tests for Proportions}
 \usage{
-binom.test(x, n, p = 0.5, alternative = c("two.sided", "less", "greater"),
-  conf.level = 0.95, ci.method = c("Clopper-Pearson", "binom.test", "Score",
-  "Wilson", "prop.test", "Wald", "Agresti-Coull", "Plus4"),
-  data = parent.frame(), success = NULL, ...)
+binom.test(x, n = NULL, p = 0.5, alternative = c("two.sided", "less",
+  "greater"), conf.level = 0.95, ci.method = c("Clopper-Pearson",
+  "binom.test", "Score", "Wilson", "prop.test", "Wald", "Agresti-Coull",
+  "Plus4"), data = NULL, success = NULL, ...)
 }
 \arguments{
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,
@@ -85,9 +85,9 @@ binom.test(c(97, 272-97))
 faithful$long <- faithful$eruptions > 3
 binom.test(faithful$long)
 binom.test(resample(1:4, 400), p=.25)
-binom.test(~ long, data=faithful)
-binom.test(~ long, data=faithful, ci.method="Wald")
-binom.test(~ long, data=faithful, ci.method="Plus4")
+binom.test(~ long, data = faithful)
+binom.test(~ long, data = faithful, ci.method = "Wald")
+binom.test(~ long, data = faithful, ci.method = "Plus4")
 with(faithful, binom.test(~long))
 with(faithful, binom.test(long))
 

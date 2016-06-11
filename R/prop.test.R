@@ -74,30 +74,36 @@
  
 prop.test <- function( x, n, p = NULL, 
           alternative = c("two.sided", "less", "greater"), 
-          conf.level = 0.95, data = parent.frame(), success=NULL, ...) 
+          conf.level = 0.95, data = NULL, success=NULL, ...) 
 {
-  x_lazy <- lazyeval::lazy(x)
-  n_lazy <- lazyeval::lazy(n)
-  data_lazy <- lazyeval::lazy(data)   # this behaves differently from substitute() when data is a promise to lazy load.
-  data_sub <- substitute(data)
   missing_n <- missing(n)
-  x_eval <- tryCatch(
-    lazyeval::lazy_eval(x_lazy, data),
-    error = function(e) as.name(deparse(x_lazy$epr)) )
+  x_lazy <- lazyeval::f_capture(x)
+
+  x_eval <- 
+    tryCatch(
+      lazyeval::f_eval(x_lazy, as.list(data)),
+      error = function(e) {
+        if (is.null(data) && ! missing_n) {
+          stop("prop.test(): Improper `n'; did you forget `data =' perhaps?", call. = FALSE) 
+        }
+        lazyeval::f_rhs(x_lazy)
+      }
+    )
   
   # this list will later be converted to a string using the appropriate information
   # dependent upon which of the prop_test methods is called.  
   
-  data.name <- list(x=x_lazy, n=n_lazy, 
-                    data=list(expr = data_sub, env=parent.frame()))
+  data.name <- list(x = lazyeval::expr_text(x), 
+                    n = lazyeval::expr_text(n), 
+                    data = lazyeval::expr_text(data)) 
  
   if (missing_n) {
     prop_test(x_eval, p = p, alternative = alternative, 
-            conf.level = conf.level, data=data, data.name = data.name, 
+            conf.level = conf.level, data = data, data.name = data.name, 
             success = success, ...)
   } else {
     prop_test(x_eval, n, p = p, alternative = alternative, 
-            conf.level = conf.level, data=data, data.name = data.name, 
+            conf.level = conf.level, data = data, data.name = data.name, 
             success=success, ...)
   }
 }
@@ -141,35 +147,44 @@ setMethod(
 		  function(
 				   x, n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, data.name, data=parent.frame(), groups=NULL, ...) 
+				   conf.level = 0.95, success = NULL, data.name, data = NULL, groups = NULL, ...) 
 		  {
+			  missing_n <- missing(n)
+		    if (is.null(data)) {
+		      if (! missing_n) stop("Improper `n'; did you forget `data = ' perhaps?", call. = FALSE)
+		      data <- lazyeval::f_env(x)
+		    }
+		    
 			  formula <- mosaic_formula_q(x, groups=groups, max.slots=2)
-			  missing.n <- missing(n)
-			  missing.data <- missing(data)
+			  missing_data.name <- missing(data.name)
+			  if (is.null(data)) {
+			    data <- lazyeval::f_env(x)
+			  }
+			  
 			  dots <- list(...)
 			  #    groups <- eval(substitute(groups), data, environment(formula))
 			  #    subset <- eval(substitute(subset), data, environment(formula))
-			  if (missing.n) { #  && !missing.data) {
+			  if (missing_n) { #  && !missing.data) {
 			    form <- lattice::latticeParseFormula(formula, data, #subset = subset, #groups = groups,  
 			                                         subscripts = TRUE, drop = TRUE)
-			    if (missing(data.name)) {
+			    if (missing_data.name) {
 			      data.name <- 
-			        paste( deparse(substitute(data)), "$", form$right.name, sep="" )
+			        paste(lazyeval::expr_text(data), "$", form$right.name, sep="")
 			    } 
 			    if (is.list(data.name)) {
 			      data.name <- 
-			        paste( deparse(data.name$data$expr), "$", form$right.name, sep="" )
+			        paste(data.name$data, "$", form$right.name, sep="")
 			    }
 			  } else {
 			    form <- lattice::latticeParseFormula(formula, n, #subset = subset, #groups = groups,  
 			                                         subscripts = TRUE, drop = TRUE)
-			    if (missing(data.name)) {
+			    if (missing_data.name) {
 			      data.name <- 
-			        paste( deparse(substitute(n)), "$", form$right.name, sep="" )
+			        paste(lazyeval::expr_text(n), "$", form$right.name, sep="")
 			    }
 			    if (is.list(data.name)) {
 			      data.name <- 
-			        paste( deparse(data.name$n$expr), "$", form$right.name, sep="" )
+			        paste(data.name$n, "$", form$right.name, sep="")
 			    }
 			    data <- n
 			  }
@@ -213,15 +228,18 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, ..., data, data.name) 
+				   conf.level = 0.95, success = NULL, ..., data = NULL, data.name) 
 		  {
-			  # first hanlde case when n is provided
+		    if (! is.null(data)) 
+		      stop( "prop.test: If data is not NULL, first argument should be a formula.")
+		    
+			  # first handle case when n is provided
 			  if ( !missing(n) ) {  
 			    if (missing(data.name)) {
-				    data.name <- paste( deparse(substitute(x)), "out of", deparse(substitute(n)) )
+				    data.name <- paste(lazyeval::expr_text(x), "out of", lazyeval::expr_text(n))
 			    }
 			    if (is.list(data.name)) {
-				    data.name <- paste( deparse(data.name$x$expr), "out of", deparse(data.name$n$expr) )
+				    data.name <- paste(data.name$x, "out of", data.name$n)
 			    }
 				  result <-  stats::prop.test(x=x, n=n, p=p, alternative=alternative,
 											  conf.level=conf.level,...) 
@@ -235,10 +253,10 @@ setMethod(
         # when n is missing, treat the numbers as raw data rather than counts
 
 			  if (missing(data.name)) { 
-				  data.name <- deparse(substitute(x)) 
+				  data.name <- lazyeval::expr_text(x)
 			  }
 		    if (is.list(data.name)) {
-				  data.name <- deparse(data.name$x$expr) 
+				  data.name <- data.name$x 
 		    }
 		    # set a reasonable value for success if none given
         if (is.null(success)) {
@@ -261,15 +279,18 @@ setMethod(
 		  'prop_test',
 		  'character',
 		  function(
-				   x,  n, p=NULL, 
+				   x,  n, p = NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, ..., data, data.name) 
+				   conf.level = 0.95, success = NULL, ..., data = NULL, data.name) 
 		  {
+		    if (! is.null(data)) 
+		      stop( "binom.test: If data is not NULL, first argument should be a formula.")
+		    
 			  if (missing(data.name)) { 
-				  data.name <- deparse(substitute(x)) 
+				  data.name <- lazyeval::expr_text(x)
 			  }
 			  if (is.list(data.name)) { 
-				  data.name <- deparse(data.name$x$expr) 
+				  data.name <- data.name$x 
 			  }
 			  prop_test(x=factor(x), p=p, alternative=alternative, 
 						conf.level=conf.level, 
@@ -286,13 +307,16 @@ setMethod(
 		  function(
 				   x,  n, p=NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, ..., data, data.name) 
+				   conf.level = 0.95, success=NULL, ..., data = NULL, data.name) 
 		  {
+		    if (! is.null(data)) 
+		      stop( "binom.test: If data is not NULL, first argument should be a formula.")
+		    
 			  if (missing(data.name)) { 
-				  data.name <- deparse(substitute(x)) 
+				  data.name <- lazyeval::expr_text(x)
 			  }
 			  if (is.list(data.name)) { 
-				  data.name <- deparse(data.name$x$expr) 
+				  data.name <- data.name$x 
 			  }
 			  prop_test(x=factor(x, levels=c('TRUE','FALSE')), p=p, alternative=alternative, 
 						conf.level=conf.level, 
@@ -307,15 +331,18 @@ setMethod(
 		  'prop_test',
 		  'factor',
 		  function(
-				   x,  n, p=NULL, 
+				   x,  n, p = NULL, 
 				   alternative = c("two.sided", "less", "greater"), 
-				   conf.level = 0.95, success=NULL, ..., data, data.name) 
+				   conf.level = 0.95, success = NULL, ..., data = NULL, data.name) 
 		  {
+		    if (! is.null(data)) 
+		      stop( "binom.test: If data is not NULL, first argument should be a formula.")
+		    
 			  if (missing(data.name)) { 
-				  data.name <- deparse(substitute(x)) 
+				  data.name <- lazyeval::expr_text(x)
 			  }
 			  if (is.list(data.name)) { 
-				  data.name <- deparse(data.name$x$expr) 
+				  data.name <- data.name$x 
 			  }
 			  if (is.null(success)) {
 				  success <- levels(x)[1]

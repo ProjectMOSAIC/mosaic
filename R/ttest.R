@@ -39,21 +39,23 @@
 #' }
 
 #' @export 
-t_test <- function(x, y=NULL, ..., data=parent.frame()) {
+t_test <- function(x, y = NULL, ..., data=parent.frame()) {
   orig.call <- match.call()
-  x_lazy <- lazyeval::lazy(x)
-  y_lazy <- lazyeval::lazy(y)
-  dots_lazy <- lazyeval::lazy_dots(...)
-  x_eval <- tryCatch( lazyeval::lazy_eval(x_lazy, data=as.list(data)),
-                      error = function(e) as.name(deparse(x_lazy$expr)))
-  y_eval <- tryCatch( lazyeval::lazy_eval(y_lazy, data=as.list(data)),
-                      error = function(e) as.name(deparse(y_lazy$expr)))
+  x_lazy <- lazyeval::f_capture(x)
+  y_lazy <- lazyeval::f_capture(y)
+  dots_lazy <- lazyeval::dots_capture(...)
+  
+  x_eval <- tryCatch( lazyeval::f_eval(x_lazy, as.list(data)),
+                      error = function(e) lazyeval::f_rhs(x_lazy) )
+  y_eval <- tryCatch( lazyeval::f_eval(y_lazy, as.list(data)),
+                      error = function(e) lazyeval::f_rhs(y_lazy) )
   
   res <- ttest(x_eval, y_eval, ..., data=data, data.name = orig.call[["data"]]) 
   
-  res$data.name <- sub("^x$", first_one(deparse(x_lazy$expr)), res$data.name)
+  res$data.name <- sub("^x$", first_one(deparse(f_rhs(x_lazy))), res$data.name)
   res$data.name <- sub("^x and y$", 
-                       paste(first_one(deparse(x_lazy$expr)), "and", first_one(deparse(y_lazy$expr))), 
+                       paste(first_one(deparse(f_rhs(x_lazy))), "and", 
+			     first_one(deparse(f_rhs(y_lazy)))), 
                        res$data.name)
   res
 }

@@ -67,3 +67,25 @@ is_object_not_found_error <- function(e, name = "") {
   grepl("object", e$message) && grepl(name, e$message) && grepl("not found", e$message)
 }
 
+# f_new <- function (rhs, lhs = NULL, env = parent.frame()) {
+#   if (!is_lang(rhs) && !is.null(rhs)) {
+#     stop("`rhs` must be a language object", call. = FALSE)
+#   }
+#   if (!is_lang(lhs) && !is.null(lhs)) {
+#     stop("`lhs` must be a language object", call. = FALSE)
+#   }
+#   if (!is.environment(env)) {
+#     stop("`env` must be an environment", call. = FALSE)
+#   }
+#   if (is.null(lhs)) {
+#     f <- call_new("~", rhs)
+#   }
+#   else {
+#     f <- call_new("~", lhs, rhs)
+#   }
+#   structure(f, class = "formula", .Environment = env)
+# }
+# 
+# lazy2f <- function(x) {
+#   f_new(x$expr, env = x$env)
+# }

@@ -5,7 +5,7 @@
 \title{Exact and Approximate Tests for Proportions}
 \usage{
 prop.test(x, n, p = NULL, alternative = c("two.sided", "less", "greater"),
-  conf.level = 0.95, data = parent.frame(), success = NULL, ...)
+  conf.level = 0.95, data = NULL, success = NULL, ...)
 }
 \arguments{
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,

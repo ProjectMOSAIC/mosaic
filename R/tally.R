@@ -95,7 +95,7 @@ tally <- function(x, ...) {
   # lx <- lazyeval::lazy(x)
   lx <- 
     tryCatch(
-      lazyeval::lazy(x),
+      lazyeval::f_capture(x),
       error = function(e) {
         if (grepl("Promise has already been forced", e$message) ||
             # next line can be deleted when lazyeval updates on CRAN
@@ -109,7 +109,7 @@ tally <- function(x, ...) {
   tryCatch(tally_internal(x, ...), error = function(e) { 
     if (is_object_not_found_error(e)) {
       warning("in tally(): ", e$message, call. = FALSE)
-      form <- substitute( ~ X, list(X = lx$expr))
+      form <- substitute( ~ X, list(X = f_rhs(lx)))
       class(form) <- "formula"
       environment(form) <- lx$env
       warning("in tally(): Should your first argument be a formula?... I'll try ", form, call. = FALSE)

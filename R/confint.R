@@ -131,9 +131,9 @@ dont_randomize_estimate <- list(
 extract_data <- function(x) {
   x_lazy <- attr(x, "lazy")
   if (is.null(x_lazy)) return(NULL)
-  res <- eval( x_lazy$expr[["data"]], envir = dont_randomize_data, enclos = x_lazy$env )
+  res <- eval( lazyeval::f_rhs(x_lazy)[["data"]], envir = dont_randomize_data, enclos = lazyeval::f_env(x_lazy) )
   if (is.null(res)) {
-    res <- eval( x_lazy$expr, envir = dont_randomize_data, enclos = x_lazy$env )
+    res <- eval( lazyeval::f_rhs(x_lazy), envir = dont_randomize_data, enclos = lazyeval::f_env(x_lazy) )
   }
   as.data.frame(res)
 }
@@ -141,7 +141,7 @@ extract_data <- function(x) {
 extract_estimate <- function(x) {
   x_lazy <- attr(x, "lazy")
   if (is.null(x_lazy)) return(NA)
-  eval( x_lazy$expr, envir = dont_randomize_estimate, enclos = x_lazy$env )
+  eval( lazyeval::f_rhs(x_lazy), envir = dont_randomize_estimate, enclos = lazyeval::f_env(x_lazy) )
 }
 
 #' @rdname confint
@@ -173,11 +173,11 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   method[method=='se'] <- 'stderr'
   method <- unique(method)
   
-  bootT <- ("bootstrap-t" %in% method) & (attr(object, "lazy")$expr[[1]] == "favstats")
+  bootT <- ("bootstrap-t" %in% method) & (lazyeval::f_rhs(attr(object, "lazy"))[[1]] == "favstats")
   method <- setdiff(method, "bootstrap-t")
   
   compute_t_df <-
-    grepl("^diffmean$|^mean$", as.character(attr(object, "lazy")$expr[[1]]))
+    grepl("^diffmean$|^mean$", as.character(lazyeval::f_rhs(attr(object, "lazy"))[[1]]))
   
   if ("stderr" %in% method && is.null(df) && compute_t_df) {
     tryCatch({
@@ -186,7 +186,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
         orig_data %>%
         select_(
           .dots = intersect(names(orig_data), 
-                            attr(object, "lazy")$expr %>% all.vars())
+                            lazyeval::f_rhs(attr(object, "lazy")) %>% all.vars())
         )
       df <- nrow(orig_data) - 1
       if ( ! all(complete.cases(orig_data)) ) {
@@ -370,7 +370,7 @@ boott <- function(object, ...) {
 
 boott.do.data.frame <- function( object, level = 0.95, ... ) {
   lz <- attr(object, "lazy")
-  if ( ! lz$expr[[1]] == "favstats") stop( "Invalid object." )
+  if ( ! lazyeval::f_rhs(lz)[[1]] == "favstats") stop( "Invalid object." )
   if (base::max(object$.row) > 2) stop("Too many groups.")
  
   estimate <- extract_estimate(object)$mean
