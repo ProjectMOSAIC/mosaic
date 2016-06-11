@@ -59,12 +59,10 @@
 #' prop.test(97,272)
 #' faithful$long <- faithful$eruptions > 3
 #' prop.test( faithful$long )
-#' prop.test( ~long , faithful )
-#' if (require(mosaicData)) {
+#' prop.test( ~long , data = faithful )
 #' prop.test( homeless ~ sex, data = HELPrct )
 #' prop.test( ~ homeless | sex, data = HELPrct )
 #' prop.test( ~ homeless, groups = sex, data = HELPrct )
-#' }
 #' 
 #' @keywords stats
 

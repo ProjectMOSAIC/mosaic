@@ -100,6 +100,9 @@ getVarFormula <- function(formula, data = parent.frame(), intercept=FALSE){
 #' changed.
 #' @param title a title for the plot
 #' @param \dots additional arguments 
+#' @param data_text A text string describing the data.  It must be possible to recover the data
+#' from this string using \code{\link{eval}()}.  Typically users will not need to
+#' modify this from the default value.
 #' @return Nothing.  Just for side effects.  
 #' @examples
 #' \dontrun{
@@ -224,7 +227,7 @@ mMap <- function(data, default = 'map',
                        facet=facet, 
                        key=key,
                        title=title, 
-                       data_text = data_tex) },
+                       data_text = data_text) },
               show = manipulate::button("Show Expression"),
               # system = manipulate::picker(sysnames, initial=system, label="Graphics System"),
               x = manipulate::picker(variables$q, initial=variables$q[[longid]], label="longitude (x)"),
@@ -312,7 +315,7 @@ mMap <- function(data, default = 'map',
 
 mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','line'),
                      system=c("lattice", "ggplot2"), show=FALSE, title="",
-                     data_text = expr_text) {
+                     data_text = lazyeval::expr_text(data)) {
 
   .require_manipulate_namespace()
   system <- match.arg(system)
@@ -362,7 +365,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
             plotType=c('scatter','jitter','boxplot','violin','line'),
 					  x=NA, y=NA, color=NA, 
 					  size=NA, facet=NA, logScales='none', flipCoords=FALSE,
-					  model="", key="right", title=title, data_text = epxr_text(data))
+					  model="", key="right", title=title, data_text = expr_text(data))
 {
   system <- match.arg(system)
   plotType <- match.arg(plotType)

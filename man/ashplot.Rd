@@ -75,6 +75,8 @@ can be used to to increase or decrease \code{binwidth}.}
 \item{mapping}{set of aesthetic mappings created by \code{\link{aes}()} 
 or \code{\link{aes_}()}.}
 
+\item{data}{a data frame}
+
 \item{geom}{a geom to use for this layer, as a string.}
 
 \item{position}{position adjustment, either as a string or the result of a call to
@@ -93,11 +95,6 @@ define both data and aesthetics and shouldn't inherit behaviour from the default
 specification, e.g. \code{\link{borders}}.}
 
 \item{stat}{a statistical transformation to use on the data for this layer, as a string.}
-
-\item{x}{a numeric vector}
-
-\item{adjust}{a numeric that adjusts binwidth.  A value of 2, for example, with make
-the bins twice as wide as they would otherwise have been.}
 }
 \value{
 a data frame containing x and y coordinates of the resulting ASH plot.

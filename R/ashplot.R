@@ -11,10 +11,12 @@
 #' @param prepanel a prepanel function
 #' @param ... additional arguments passed to panel and prepanel functions or \code{data}, a 
 #'   data frame in which to find the variales used for the plot.
+#' @param data a data frame
 #' @export
 #' @examples
 #' ashplot( ~age | substance, groups = sex, data = HELPrct)
-ashplot <- function(x, ..., width = NULL, adjust = NULL, panel = panel.ashplot, prepanel = prepanel.default.ashplot) 
+ashplot <- function(x, ..., width = NULL, adjust = NULL, 
+                    panel = panel.ashplot, prepanel = prepanel.default.ashplot) 
 {
   densityplot(x, panel = panel, width = width, ..., prepanel = prepanel)
 }
@@ -126,12 +128,9 @@ panel.ashplot <-
 #' Mainly a utility for the \pkg{lattice} and \pkg{ggplot2} plotting 
 #' functions, \code{ash_points()} returns the points to be plotted.
 #' 
-#' @param x a numeric vector
 #' @param binwidth the width of the histogram bins.  If \code{NULL} (the default) the 
 #'   binwidth will be chosen so that approximately 10 bins cover the data.  \code{adjust}
 #'   can be used to to increase or decrease \code{binwidth}.
-#' @param adjust a numeric that adjusts binwidth.  A value of 2, for example, with make
-#' the bins twice as wide as they would otherwise have been.
 #' @return a data frame containing x and y coordinates of the resulting ASH plot.
 #' @rdname ashplot
 #' @export
