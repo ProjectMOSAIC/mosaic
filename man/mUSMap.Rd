@@ -38,6 +38,6 @@ with the data.
 }
 \examples{
 USArrests2 <- USArrests \%>\% mutate(state = row.names(.))
-mUSMap(USArrests2, key="state", fill = "UrbanPop") + coord_map()
+mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 }
 

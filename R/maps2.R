@@ -237,7 +237,7 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #'  
 #' @examples
 #' USArrests2 <- USArrests %>% mutate(state = row.names(.))
-#' mUSMap(USArrests2, key="state", fill = "UrbanPop") + coord_map()
+#' mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 #' @export 
 mUSMap <- function(data, key, fill=NULL, 
                    plot=c("borders", "frame", "none"),
