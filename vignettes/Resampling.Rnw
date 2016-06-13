@@ -9,16 +9,15 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{epstopdf}
-\usepackage{color}
+%\usepackage{epstopdf}
+%\usepackage{color}
 \usepackage{url}
 \usepackage{hyperref} 
 \usepackage[margin=1in]{geometry}
-\usepackage[parfill]{parskip}
-\definecolor{green}{RGB}{0,127,0}
+%\usepackage[parfill]{parskip}
 \hypersetup{pdftitle={Resampling-based inference}, colorlinks=true, linkcolor=black, citecolor=black}
-\usepackage[bottom]{footmisc}
-\usepackage[round]{natbib}
+%\usepackage[bottom]{footmisc}
+%\usepackage[round]{natbib}
 \bibliographystyle{abbrvnat}
 
 \frenchspacing{}
