@@ -50,7 +50,7 @@ aggregatingFunction1 <-
     fun <- lazyeval::expr_text(fun) # deparse(substitute(fun))
     style = match.arg(style)
     templates <- list(
-      flexible = 
+      flexible = # this should probably be removed in the near future.
         function(
           x, ..., 
           data = NULL,
@@ -113,7 +113,7 @@ aggregatingFunction1 <-
           groups = NULL, 
           na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
         {
-          if (inherits(x, "formula")) {
+          if (lazyeval::is_formula(x)) {
             if (is.null(data)) data <- lazyeval::f_env(x)
             formula <- mosaic_formula_q(x, groups=groups, max.slots=3) 
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
@@ -230,8 +230,8 @@ aggregatingFunction1or2 <-
            na.rm = getOption("na.rm", FALSE)) {
     template <- 
       function(x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
-        if (inherits(x, "formula")) {
-          if (inherits(y, "formula")) {
+        if (lazyeval::is_formula(x)) {
+          if (lazyeval::is_formula(y)) {
             x <- lazyeval::f_eval(x, data)
             y <- lazyeval::f_eval(y, data)
           } else {
@@ -296,8 +296,8 @@ aggregatingFunction2 <- function(fun) {
   
   template <- 
     function(x, y = NULL, ..., data = NULL) { 
-      if (inherits(x, "formula")) {
-        if (inherits(y, "formula")) {
+      if (lazyeval::is_formula(x)) {
+        if (lazyeval::is_formula(y)) {
           x <- lazyeval::f_eval(x, data)
           y <- lazyeval::f_eval(y, data)
         } else {
