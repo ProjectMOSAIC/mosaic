@@ -5,6 +5,8 @@
 ^README.html$
 ^vignettes-source$
 ^vignettes/.*\.pdf$
+^vignettes/.*\.html$
+^vignettes/.*\.md$
 ^vignettes/.*\.tex$
 ^vignettes/.*\.log$
 ^vignettes/.*\.aux$
