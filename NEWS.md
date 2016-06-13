@@ -1,7 +1,11 @@
 # mosaic package NEWS
 
 ## mosaic 0.14
- 
+
+ * Aggregating functions now require that the first argument be a formula.  This was always the preferred method, but some functions allowed bare variable names to be used instead.
+ * A new shiny doc template has been added
+ * A geom and stat have been added for creating average shifted histograms (ASH plots) using `ggplot2`.
+ * Improvements to `mplot.data.frame()` allow it to work with an expression that evaluates to a data frame. ASH plots are now a choice for 1-variable plots.
  * `deltaMethod()` has been moved to a separate package (called `deltaMethod`) to reduce package dependencies
  * `cull_for_do.lm()` now returns a data frame instead of a vector.  This makes it easier for `do()` to bind things together by column name.
  * `makeMap()` updated to work with new version of `ggplot2`.
