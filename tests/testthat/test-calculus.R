@@ -25,7 +25,7 @@ test_that("default parameters are used", {
 })
 
 test_that("parameters are retained even if killed in the derivative",{
-  g <- D( A*x^2 + b~x)
+  g <- D( A * x^2 + b ~ x, A = 2, b = 2, x = 3)
   expect_true( "b" %in% names(formals(g)))
 })
 
@@ -61,11 +61,13 @@ test_that("mixed partials work", {
 })
 
 test_that("unmixed 2nd-order partials work",{
-  g <- numD( a*x^2*y^2 ~ x&x, a=10)
-  expect_that( g(x=3, y=5), equals(500,tol=0.001)) 
-  g <- numD( a*x^2*y^2 ~ y&y, a=10)
+  g <- numD( a*x^2 * y^2 ~ x & x, a=10, y = 2)
+  expect_that( g(x = 3, y = 5), equals(500, tol = 0.001)) 
+  g <- numD( a*x^2 * y^2 ~ y & y, a=10)
+  expect_warning(g <- numD( a*x^2 * y^2 ~ y & y, a=10), "default values taken from current environment")
+
   expect_that( g(x=3, y=5), equals(180,tol=0.001)) 
-  g <- numD( a*x^2*y^2 ~ a&a, a=10)
+  g <- numD( a*x^2 * y^2 ~ a  & a, a = 10, y = 2, x = 2)
   expect_that( g(x=3, y=5), equals(0,tol=0.001)) 
 })
 
@@ -103,17 +105,17 @@ test_that("Initial condition (constant of integration) works", {
 
 test_that("Symbols for constant of integration work", {
   vel <- antiD( -9.8 + 0*exp(t^2) ~ t  ) # numerical
-  pos <- antiD( vel( t=t, C=v0)~t )
+  pos <- antiD( vel(t = t, C = v0) ~ t, v0 = 0 )
   expect_that(pos(5, v0=10, C=100), equals(27.5,tol=0.00001) )
 })
 
 test_that("derivatives work in derivatives",{
-  g <- numD( a*x^2 + x*y ~ x, a=1)  
-  h <- numD( g(x=x,y=y,a=a) ~ y, a=1)
-  expect_that( h(x=2,y=10),equals(1,tol=.001))
-  g <- symbolicD( a*x^2 + x*y ~ x, a=1)  
-  h <- numD( g(x=x,y=y,a=a) ~ y, a=1)
-  expect_that( h(x=2,y=10),equals(1,tol=.001))
+  g <- numD(a*x^2 + x*y ~ x, a = 1, x = 1, y = 2)  
+  h <- numD(g(x = x,y = y, a = a) ~ y, a = 1, x = 1, y = 2)
+  expect_that(h(x=2,y=10),equals(1,tol=.001))
+  g <- symbolicD(a * x^2 + x * y ~ x, a = 1, x = 1, y = 2)  
+  h <- numD( g(x = x, y = y,a = a) ~ y, a = 1, x = 1, y = 2)
+  expect_that(h(x=2,y=10),equals(1,tol=.001))
 })
 
 
@@ -134,16 +136,16 @@ test_that("integrals and derivatives interoperate", {
 })
 
 test_that("integrals work on integrals", {
-  one <- makeFun(1~x&y)
-  by.x <- antiD( one(x=x, y=y) ~x )
+  one <- makeFun(1~ x & y, x = 1, y = 2)
+  by.x <- antiD( one(x=x, y=y) ~ x, y = 2 )
   by.xy <- antiD(by.x(x=sqrt(1-y^2), y=y)~y)
   expect_that( by.xy(y=1)-by.xy(y=-1), equals(pi/2,tol=0.00001))
 })
 
 test_that("Basic numerical differentiation works", {
-  g <- numD( a*x^2 + x*y ~ x, a=1)  
+  g <- numD( a * x^2 + x * y ~ x, a = 1, x = 1, y = 1)  
   expect_that( g(x=2,y=10), equals(14, tol=0.0001))
-  gg <- numD( a*x^2 + x*y ~ x&x, a=1)
+  gg <- numD( a*x^2 + x*y ~ x&x, a = 1, x = 2, y = 2)
   expect_that( gg(x=2,y=10), equals(2, tol=0.0001))
   ggg <- numD( a*x^2 + x*y ~ x&y, a=1)
   expect_that( ggg(x=2,y=10,a=10), equals(1, tol=0.0001))

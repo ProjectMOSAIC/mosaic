@@ -59,14 +59,13 @@ test_that("count/perc/prop wrappers work", {
   expect_equivalent( perc(~sex, data=mosaicData::HELPrct), 100 * sum(mosaicData::HELPrct$sex == 'female') / nrow(mosaicData::HELPrct))
 })
 
-if(TRUE) { 
 test_that("... passes through to table()", {
-	x <- c(1,2,2,3,3,3,NA,NA)
-	expect_equivalent( length( tally(~x) ), 4  )
-	expect_equivalent( length(tally(~x, useNA='ifany') ), 4)
-	expect_equivalent( length(tally(~x, useNA='no') ), 3)
-	expect_equivalent( length(tally(~x[1:5], useNA='always') ), 4)
+	x <<- c(1,2,2,3,3,3,NA,NA)
+	expect_equivalent( tally(~x), table(x, useNA = "ifany") )
+	expect_equivalent( tally(~x, useNA='ifany'), table(x, useNA = "ifany") )
+	expect_equivalent( tally(~x, useNA='no'), table(x, useNA = "no") )
+	expect_equivalent( tally(~x, useNA='no'), table(x, useNA = "no") )
+	expect_equivalent( tally(~x[1:5], useNA='always'), table(x[1:5], useNA = "always") ) 
 	expect_equivalent( length(tally(~x, useNA='ifany', margins=TRUE) ), 5 )
-	expect_equivalent( length(tally(~x[1:6], useNA='always')), 4 )
+	expect_equivalent( tally(~x[1:6], useNA='always'), table(x[1:6], useNA = "always") )
 })
-}
