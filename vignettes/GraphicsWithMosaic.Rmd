@@ -165,25 +165,18 @@ plotDist("norm", mean=0, col="red", kind='histogram', under=TRUE)  # add, but un
 The `mosaic` package now provides facilities for producing choropleth maps.  The API is still under developement and may change in future releases.
 
 ```{r}
-mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "UrbanPop") +
-  coord_map()
+mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "UrbanPop") 
 ```
 
 Looks like it is safer to live in the North:
 
 ```{r}
-mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "Murder") +
-  coord_map()
+mUSMap(USArrests %>% mutate(state = row.names(.)), key="state", fill = "Murder") 
 ```
 
 Here is a sillier example
 
 ```{r}
-if (require(mapproj)) {
-Countries %>% mutate( nletters = nchar(gapminder) ) %>%
-  mWorldMap( key="gapminder", fill="nletters") + coord_map()
-} else {
-Countries %>% mutate( nletters = nchar(gapminder) ) %>%
-  mWorldMap( key="gapminder", fill="nletters") 
-}
+Countries %>% mutate(nletters = nchar(gapminder)) %>%
+  mWorldMap(key="gapminder", fill="nletters") 
 ```
