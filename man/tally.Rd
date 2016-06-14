@@ -2,25 +2,20 @@
 % Please edit documentation in R/tally.R
 \name{tally}
 \alias{tally}
-\alias{tally_internal}
-\alias{tally_internal.data.frame}
-\alias{tally_internal.formula}
-\alias{tally_internal.tbl}
+\alias{tally.data.frame}
+\alias{tally.formula}
+\alias{tally.tbl}
 \title{Tabulate categorical data}
 \usage{
 tally(x, ...)
 
-tally_internal(x, ...)
+\method{tally}{tbl}(x, wt, sort = FALSE, ..., envir = parent.frame())
 
-\method{tally_internal}{tbl}(x, wt, sort = FALSE, ...,
-  envir = parent.frame())
+\method{tally}{data.frame}(x, wt, sort = FALSE, ..., envir = parent.frame())
 
-\method{tally_internal}{data.frame}(x, wt, sort = FALSE, ...,
-  envir = parent.frame())
-
-\method{tally_internal}{formula}(x, data = parent.frame(2),
-  format = c("count", "proportion", "percent", "data.frame", "sparse",
-  "default"), margins = FALSE, quiet = TRUE, subset, useNA = "ifany", ...)
+\method{tally}{formula}(x, data = parent.frame(2), format = c("count",
+  "proportion", "percent", "data.frame", "sparse", "default"),
+  margins = FALSE, quiet = TRUE, subset, useNA = "ifany", ...)
 }
 \arguments{
 \item{x}{an object}
@@ -61,6 +56,9 @@ See \code{\link{addmargins}}.}
 
 \item{useNA}{as in \code{\link{table}}, but the default here is \code{"ifany"}.}
 }
+\value{
+A object of class \code{"table"}, unless passing through to \pkg{dplyr}.
+}
 \description{
 Tabulate categorical data
 }
@@ -76,11 +74,11 @@ and then removes the unneeded rows.  So the savings is in terms of space, not ti
 \examples{
 if (require(mosaicData)) {
 tally( ~ substance, data=HELPrct)
-tally( ~ substance & sex , data=HELPrct)
+tally( ~ substance + sex , data=HELPrct)
 tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance, ... )
 tally( ~ substance | sex , data=HELPrct)
 tally( ~ substance | sex , data=HELPrct, format='count')
-tally( ~ substance & sex , data=HELPrct, format='percent')
+tally( ~ substance + sex , data=HELPrct, format='percent')
 # force NAs to show up
 tally( ~ sex, data=HELPrct, useNA="always")
 # show NAs if any are there
