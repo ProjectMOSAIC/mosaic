@@ -1,9 +1,8 @@
-#' Create factors from logicals
+#' Create new variables from logicals
 #' 
-#' A utility function for creating new factors from logicals describing the levels
+#' Utility functions for creating new variables from logicals describing the levels
 #' 
-#' @param \dots named logical "rules" defining the levels of the factor.
-#' @param .ordered a logical indicating whether the resulting factored should be ordered
+#' @param \dots named logical "rules" defining the levels.
 #' @param .method one of \code{"unique"}, \code{"first"}, and \code{"last"}.  
 #' If \code{"unique"}, exactly one rule must be \code{TRUE} for each position.
 #' If \code{"first"}, the first \code{TRUE} rule defines the level.
@@ -12,25 +11,29 @@
 #' whehter debugging information should be printed.  If \code{"default"}, debugging 
 #' information is printed only when multiple rules give conflicting definitions 
 #' for some positions.  
+#' @param .ordered a logical indicating whether the resulting factored should be ordered
+#' Ignored if \code{.asFactor} is \code{FALSE}.
 #' @param .sort One of \code{"given"} (the default) or \code{"alpha"} or 
 #' a vector of integers the same length as the number of levels indicating the 
-#' order in which the levels should appear in the resulting factor.
+#' order in which the levels should appear in the resulting factor. 
+#' Ignored if \code{.asFactor} is \code{FALSE}.
 #' @param .default character vector of length 1 giving name of default level or 
 #' \code{NULL} for no default.
+#' @param .asFactor A logical indicating whether the returned value should be a factor.
 #' 
 #' @details
-#' Each logical "rule" corresponds to a level in the resulting factor.  
+#' Each logical "rule" corresponds to a level in the resulting variable.  
 #' If \code{.default} is defined, an implicit rule is added that is \code{TRUE} 
 #' whenever all other rules are \code{FALSE}.
 #' When there are multiple \code{TRUE} rules for a slot, the first or last such is used
 #' or an error is generated, depending on the value of \code{method}.   
 #' 
-#' \code{derivedFactor} is designed to be used with \code{\link{transform}} or 
+#' \code{derivedVariable} is designed to be used with \code{\link{transform}} or 
 #' \code{\link[dplyr]{mutate}} to add new 
-#' factor variables to a data frame.  See the examples.
+#' variables to a data frame.  \code{derivedFactor}() is the same but that the 
+#' default value for \code{.asFactor} is \code{TRUE}.  See the examples.
 #' 
 #' @examples
-#' if (require(mosaicData)) {
 #' Kf <- mutate(KidsFeet, biggerfoot2=derivedFactor(
 #'                    dom = biggerfoot == domhand,
 #'                    nondom = biggerfoot != domhand)
@@ -40,7 +43,7 @@
 #' 
 #' # Three equivalent ways to define a new variable
 #' # Method 1: explicitly define all levels
-#' modHELP <- mutate(HELPrct, drinkstat = derivedFactor( 
+#' modHELP <- mutate(HELPrct, drink_status = derivedFactor( 
 #'   abstinent = i1 == 0,
 #'   moderate = (i1>0 & i1<=1 & i2<=3 & sex=='female') |
 #'      (i1>0 & i1<=2 & i2<=4 & sex=='male'),
@@ -48,10 +51,10 @@
 #'       ((i1>2 | i2>4) & sex=='male'),
 #'   .ordered = TRUE)
 #' )
-#' tally( ~drinkstat, data=modHELP )
+#' tally( ~drink_status, data=modHELP )
 #'
 #' # Method 2: Use .default for last level
-#' modHELP <- mutate(HELPrct, drinkstat = derivedFactor( 
+#' modHELP <- mutate(HELPrct, drink_status = derivedFactor( 
 #'   abstinent = i1 == 0,
 #'   moderate = (i1<=1 & i2<=3 & sex=='female') |
 #'      (i1<=2 & i2<=4 & sex=='male'),
@@ -59,10 +62,10 @@
 #'   .method = "first",
 #'   .default = "highrisk")
 #' )
-#' tally( ~drinkstat, data=modHELP )
+#' tally( ~drink_status, data=modHELP )
 #' 
 #' # Method 3: use TRUE to catch any fall through slots
-#' modHELP <- mutate(HELPrct, drinkstat = derivedFactor( 
+#' modHELP <- mutate(HELPrct, drink_status = derivedFactor( 
 #'   abstinent = i1 == 0,
 #'   moderate = (i1<=1 & i2<=3 & sex=='female') |
 #'      (i1<=2 & i2<=4 & sex=='male'),
@@ -71,16 +74,28 @@
 #'   .method = "first"
 #'   )
 #' )
-#' tally( ~drinkstat, data=modHELP )
-#' }
+#' tally( ~drink_status, data=modHELP )
+#' is.factor(modHELP$drink_status)
+#' 
+#' modHELP <- mutate(HELPrct, drink_status = derivedVariable( 
+#'   abstinent = i1 == 0,
+#'   moderate = (i1<=1 & i2<=3 & sex=='female') |
+#'      (i1<=2 & i2<=4 & sex=='male'),
+#'   highrisk=TRUE,
+#'   .ordered = TRUE,
+#'   .method = "first"
+#'   )
+#' )
+#' is.factor(modHELP$drink_status)
 #' @export
 
-derivedFactor <- function(..., 
+derivedVariable <- function(..., 
                           .ordered=FALSE, 
                           .method = c("unique","first", "last"),
                           .debug = c("default", "always", "never"),
                           .sort = c("given","alpha"),
-                          .default = NULL
+                          .default = NULL,
+                          .asFactor = FALSE
 ) {
   .method <- match.arg( .method )
   .debug <- match.arg( .debug )
@@ -153,8 +168,18 @@ derivedFactor <- function(...,
   } else {
     order <- .sort
   }
-  
-  factor( names(rules)[ ruleApplied ], 
-          ordered=.ordered, 
-          levels = names(rules)[order] )
+ 
+  if (.asFactor) 
+    factor( names(rules)[ ruleApplied ], 
+            ordered=.ordered, 
+            levels = names(rules)[order] )
+  else 
+    names(rules)[ruleApplied] 
+}
+
+#' @rdname derivedVariable
+#' @export
+#' 
+derivedFactor <- function(..., .asFactor = TRUE) {
+  derivedVariable(..., .asFactor = .asFactor)
 }
