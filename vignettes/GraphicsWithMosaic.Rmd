@@ -17,6 +17,7 @@ vignette: >
 require(mosaic)
 require(mosaicData)
 require(NHANES)
+require(gridExtra)
 ```
 
 ```{r include=FALSE}
