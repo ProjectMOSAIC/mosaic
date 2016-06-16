@@ -64,6 +64,11 @@ mplot.default <- function(object, ...) {
 #' \pkg{lattice} plotting routines; in particular,
 #' \code{nrow} and \code{ncol} can be used to control the number of rows
 #' and columns used.
+#' @details
+#' The method for models (lm and glm) is still a work in progress, but should be useable for 
+#' relatively simple models.  When the results for a logistic regression model created with
+#' \code{\link{glm}()} are satisfactory will depend on the format and structure of the data
+#' used to fit the model.
 #' @examples
 #' mplot( lm( width ~ length * sex, data=KidsFeet) )
 #' mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )

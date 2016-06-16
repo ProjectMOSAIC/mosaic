@@ -17,3 +17,15 @@ FDRreg doesn't install in revdep_check() and hasn't been updated on CRAN since 2
 locally installed version appears to work.  (The package only has two functions and the 
 examples for each run with the new version of this package installed.)
 
+Checking packages -------------------------------------------
+Checked abd                : 0 errors | 0 warnings | 0 notes
+Checked fastR              : 0 errors | 0 warnings | 0 notes
+Checked FDRreg             : 1 error  | 0 warnings | 0 notes
+Checked Lock5withR         : 0 errors | 0 warnings | 0 notes
+Checked mosaicData         : 0 errors | 0 warnings | 0 notes
+Checked NHANES             : 0 errors | 0 warnings | 0 notes
+Checked Sleuth2            : 0 errors | 0 warnings | 0 notes
+Checked Sleuth3            : 0 errors | 0 warnings | 0 notes
+Checked tigerstats         : 0 errors | 0 warnings | 0 notes
+Checked userfriendlyscience: 0 errors | 0 warnings | 0 notes
+
