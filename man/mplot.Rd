@@ -91,6 +91,12 @@ Nothing.  Just for side effects.
 Generic function plotting for R objects.  Currently plots exist for 
 \code{data.frame}s, \code{lm}s, (including \code{glm}s).
 }
+\details{
+The method for models (lm and glm) is still a work in progress, but should be useable for 
+relatively simple models.  When the results for a logistic regression model created with
+\code{\link{glm}()} are satisfactory will depend on the format and structure of the data
+used to fit the model.
+}
 \examples{
 mplot( lm( width ~ length * sex, data=KidsFeet) )
 mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )
