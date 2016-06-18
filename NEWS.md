@@ -1,5 +1,9 @@
 # mosaic package NEWS
 
+## mosaic 0.14.1
+
+ * Bug fix that caused `prop(a ~ b)` to compute joint rather than conditional proportions.
+
 ## mosaic 0.14
 
  * Aggregating functions now require that the first argument be a formula.  This was always the preferred method, but some functions allowed bare variable names to be used instead.
