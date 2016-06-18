@@ -54,9 +54,19 @@ test_that("errors generated for bad formula types", {
 })
 
 test_that("count/perc/prop wrappers work", {
-  expect_equivalent( count(~sex, data=mosaicData::HELPrct), sum(mosaicData::HELPrct$sex == 'female') )
-  expect_equivalent( prop(~sex, data=mosaicData::HELPrct), sum(mosaicData::HELPrct$sex == 'female') / nrow(mosaicData::HELPrct))
-  expect_equivalent( perc(~sex, data=mosaicData::HELPrct), 100 * sum(mosaicData::HELPrct$sex == 'female') / nrow(mosaicData::HELPrct))
+  expect_equivalent( count(~sex, data=mosaicData::HELPrct), 
+                     sum(mosaicData::HELPrct$sex == 'female') )
+  expect_equivalent( prop(~sex, data=mosaicData::HELPrct), 
+                     sum(mosaicData::HELPrct$sex == 'female') / nrow(mosaicData::HELPrct))
+  expect_equivalent( perc(~sex, data=mosaicData::HELPrct), 
+                     100 * sum(mosaicData::HELPrct$sex == 'female') / nrow(mosaicData::HELPrct))
+  
+  expect_equivalent(count(sex ~ homeless, data = mosaicData::HELPrct), 
+                    tally(sex ~ homeless ,data = mosaicData::HELPrct)[1,])
+  expect_equivalent(prop(sex ~ homeless, data = mosaicData::HELPrct), 
+                    tally(sex ~ homeless ,data = mosaicData::HELPrct)[1,] / colSums(tally(sex ~ homeless ,data = mosaicData::HELPrct)))
+  expect_equivalent(perc(sex ~ homeless, data = mosaicData::HELPrct), 
+                    100 * prop(sex ~ homeless, data = mosaicData::HELPrct))
 })
 
 test_that("... passes through to table()", {
