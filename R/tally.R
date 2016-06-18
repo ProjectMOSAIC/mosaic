@@ -263,21 +263,10 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
                  quiet=TRUE,
                  pval.adjust = FALSE) {
   format <- match.arg(format)
+  
   T <- mosaic::tally(x, data=data, useNA = useNA, ...)
-  n <- sum(T)
-  if (pval.adjust) {
-    n <- n + 1
-    T <- T + 1
-  }
   
-  if (format == "percent") {
-    T <- T * 100
-  }
-  
-  if (format == "count") {
-    n <- 1  # inhibits division by n below
-  }
-  
+  scale <- if (format == "percent") 100.0 else 1.0
   
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   lnames <- dimnames(T)[[1]]
@@ -297,14 +286,20 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
                     paste(setdiff(lnames,level), collapse=", "), "\n" ) )
   if ( length(dim(T)) == 2) {
     idx <- match(level, lnames)
-    result <- T[idx,] / n
+    if (format == "count")
+      result <- T[idx,] 
+    else
+      result <- ((T[idx,] + pval.adjust) / (colSums(T) + pval.adjust)) * scale
     if (long.names)
       names(result) <- paste(level, names(result), sep=sep)
     return(result)
   }
   if ( length(dim(T)) == 1) {
     idx <- match(level, names(T))
-    result <- T[idx] / n
+    result <- if (format == "count") 
+      T[idx] 
+    else
+      (T[idx] + pval.adjust) / (sum(T) + pval.adjust) * scale
     return(result)
   }
   stop(paste('Too many dimensions (', length(dim(T)), ")",sep=""))
