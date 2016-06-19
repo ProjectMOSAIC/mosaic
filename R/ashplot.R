@@ -226,3 +226,111 @@ geom_ash <-
       params = list(na.rm = na.rm, binwidth = binwidth, adjust = adjust, ...)
     )
   }
+
+#' Geoms and stats for spline smoother
+#' 
+#' Functions to allow spline smoothing with ggplot2
+
+#' @rdname geom_spline
+#' @export
+StatSpline <- 
+  ggproto("StatSpline", Stat,
+          compute_group = function(data, scales, weight = NULL, df = NULL, spar = NULL,
+                                   cv = FALSE, all.knots = FALSE, nknots = stats::.nknots.smspl,
+                                   df.offset  = 0, penalty = 1,  control.spar = list(),
+                                   tol = NULL) {
+            if (is.null(tol)) tol <- 1e-6 * IQR(data$x)
+            SS <- if (is.null(df)) {
+              smooth.spline(data$x, data$y, w = weight, spar = spar,
+                            cv = cv, all.knots = all.knots, nknots = nknots,
+                            df.offset = df.offset, penalty = penalty, control.spar = control.spar,
+                            tol = tol) 
+            } else {
+              smooth.spline(data$x, data$y, w = weight, df = df, spar = spar,
+                            cv = cv, all.knots = all.knots, nknots = nknots,
+                            df.offset = df.offset, penalty = penalty, control.spar = control.spar,
+                            tol = tol) 
+            }
+            data_frame(x = SS$x, y = SS$y)
+          },
+          required_aes = c("x", "y")
+  )
+
+#' @rdname geom_spline
+#' @param mapping An aesthetic mapping produced with \code{\link{aes}()} or 
+#' \code{\link{aes_string}()}.
+#' @param data A data frame.
+#' @param geom A geom.
+#' @param stat A stat.
+#' @param position A position object.
+#' @param na.rm A logical indicating whether a warning should be issued when
+#'   missing values are removed before plotting.
+#' @param show.legend A logical indicating whether legends should be included
+#'   for this layer.  If \code{NA}, legends will be inclued for each aesthetic
+#'   that is mapped.
+#' @param inherit.aes A logical indicating whether aesthetics should be 
+#'   inherited.  When \code{FALSE}, the supplied \code{mapping} will be 
+#'   the only aesthetics used.
+#' @param weight An optional vector of weights.  
+#'   See \code{\link{smooth.spline}()}.
+#' @param df desired equivalent degrees of freedom.
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param spar A smoothing parameter, typically in (0,1].
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param cv A logical. 
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param all.knots A logical.  
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param nknots An integer or function giving the number of knots to use
+#'   when \code{all.knots = FALSE}.  
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param df.offset A numerical value used to increase the degrees of freedom
+#'   when using GVC.
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param penalty the coefficient of the penalty for degrees of freedom in the 
+#'   GVC cireterion.  
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param control.spar An optional list used to control root finding 
+#'   when the parameter \code{spar} is computed.
+#'   See \code{\link{smooth.spline}()} for details.
+#' @param tol A tolerance for same-ness or uniqueness of the \code{x} values. 
+#'   The values are binned into bins of size tol and values which fall into 
+#'   the same bin are regarded as the same. Must be strictly positive (and finite).
+#'   When \code{NULL}, \code{IQR(x) * 10e-6} is used.
+#' @export 
+stat_spline <- 
+  function(mapping = NULL, data = NULL, geom = "line",
+           position = "identity", na.rm = FALSE, show.legend = NA, 
+           inherit.aes = TRUE, weight = NULL, df = NULL, spar = NULL,
+           cv = FALSE, all.knots = FALSE, nknots = stats::.nknots.smspl,
+           df.offset  = 0, penalty = 1,  control.spar = list(),
+           tol = NULL, ...) {
+    ggplot2::layer(
+      stat = StatSpline, data = data, mapping = mapping, geom = geom, 
+      position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+      params = list(na.rm = na.rm, weight = weight, df = df, spar = spar,
+                    cv = cv, all.knots = all.knots, nknots = nknots,
+                    df.offset  = df.offset, penalty = penalty,  
+                    control.spar = control.spar, tol = tol, ...)
+    )
+  }
+
+#' @rdname geom_spline
+#' @export
+geom_spline <- 
+  function(mapping = NULL, data = NULL, stat = "spline",
+           position = "identity", na.rm = FALSE, show.legend = NA, 
+           inherit.aes = TRUE, weight = NULL, df = NULL, spar = NULL,
+           cv = FALSE, all.knots = FALSE, nknots = stats::.nknots.smspl,
+           df.offset  = 0, penalty = 1,  control.spar = list(),
+           tol = 1e-6 * IQR(data$x), ...) {
+    ggplot2::layer(
+      stat = stat, geom = ggplot2::GeomLine, data = data, mapping = mapping, 
+      position = position, show.legend = show.legend, 
+      inherit.aes = inherit.aes,
+      params = list(na.rm = na.rm, weight = weight, df = df, spar = spar,
+                    cv = cv, all.knots = all.knots, nknots = nknots,
+                    df.offset  = df.offset, penalty = penalty,  
+                    control.spar = control.spar, tol = tol, ...)
+    )
+  }
