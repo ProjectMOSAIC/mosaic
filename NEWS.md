@@ -6,7 +6,24 @@
 
 ## mosaic 0.14
 
- * Aggregating functions now require that the first argument be a formula.  This was always the preferred method, but some functions allowed bare variable names to be used instead.
+ * Aggregating functions (`favstats()`, `mean()`, `sd()`, etc.) now require that the 
+ first argument be a formula.  This
+ was always the preferred method, but some functions allowed bare variable names
+ to be used instead.  As a specific example, the following code now generates an
+ error (unless there is another object named `age` in your environment).
+ 
+```
+favstats(age, data = HELPrct)
+## Error in typeof(x) : object 'age' not found
+```
+Replace this with
+```
+favstats( ~ age, data = HELPrct)
+##  min Q1 median Q3 max     mean       sd   n missing
+##   19 30     35 40  60 35.65342 7.710266 453       0
+```
+
+
  * A new shiny doc template has been added
  * A geom and stat have been added for creating average shifted histograms (ASH plots) using `ggplot2`.
  * Improvements to `mplot.data.frame()` allow it to work with an expression that evaluates to a data frame. ASH plots are now a choice for 1-variable plots.
