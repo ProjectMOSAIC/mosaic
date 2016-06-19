@@ -20,8 +20,7 @@ geom_spline(mapping = NULL, data = NULL, stat = "spline",
   position = "identity", na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE, weight = NULL, df = NULL, spar = NULL,
   cv = FALSE, all.knots = FALSE, nknots = stats::.nknots.smspl,
-  df.offset = 0, penalty = 1, control.spar = list(), tol = 1e-06 *
-  IQR(data$x), ...)
+  df.offset = 0, penalty = 1, control.spar = list(), tol = NULL, ...)
 }
 \arguments{
 \item{mapping}{An aesthetic mapping produced with \code{\link{aes}()} or 
@@ -86,6 +85,11 @@ When \code{NULL}, \code{IQR(x) * 10e-6} is used.}
 }
 \description{
 Functions to allow spline smoothing with ggplot2
+}
+\examples{
+ggplot(Births) + geom_spline(aes(x = date, y=births, colour = wday))
+ggplot(Births) + geom_spline(aes(x = date, y=births, colour = wday), nknots = 10)
+
 }
 \keyword{datasets}
 
