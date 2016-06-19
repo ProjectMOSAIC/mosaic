@@ -236,7 +236,7 @@ mMap <- function(data, default = 'map',
               color = manipulate::picker(snames, initial="none ", label="Color"),
               facet = manipulate::picker(cnames, initial="none ", label="Facets"),
               projection = manipulate::picker(pnames, initial="mercator", label="Projection"),
-              key = manipulate::picker(lnames, label="key", initial=keyDefault)
+              key = manipulate::picker(lnames, label="Key", initial=keyDefault)
   )
 }
 
@@ -343,20 +343,18 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
              system = manipulate::picker(sysnames, initial=system, label="Graphics System"),
              plotType = manipulate::picker(plotnames, initial=default, label="Type of plot      "),
              x = if (length(variables$q) >= 2) 
-               manipulate::picker(variables$all, initial=variables$q[[2]], label="any variable (x)   ")
+               manipulate::picker(variables$all, initial=variables$q[[2]], label="   Any variable (x)   ")
              else 
-               manipulate::picker(variables$all, initial=variables$c[[1]], label="any variable (x)   ")
+               manipulate::picker(variables$all, initial=variables$c[[1]], label="   Any variable (x)   ")
                ,
-             y = manipulate::picker(variables$q, initial=variables$q[[1]],   label="quant. variable (y)"),
-             flipCoords = manipulate::checkbox(label="Flip coordinates"),
+             y = manipulate::picker(variables$q, initial=variables$q[[1]],   label="   Quant. variable (y)"),
              color = manipulate::picker(snames, initial="none ", label="Color"),
-             size = manipulate::picker(snames, initial="none ", label="Size (ggplot only)"),
              facet = manipulate::picker(cnames, initial="none ", label="Facets"),
+             model = manipulate::picker(mnames, initial="none", label="Model"),
+             key = manipulate::picker(lnames, label="Key", initial=keyDefault),
+             size = manipulate::picker(snames, initial="none ", label="Size (ggplot only)"),
              logScales = manipulate::picker(list("none","x","y","both"), initial="none", label="log scales"),
-#             logx = manipulate::checkbox(label="log x-axis"),
-#             logy = manipulate::checkbox(label="log y-axis"),
-             key = manipulate::picker(lnames, label="key", initial=keyDefault),
-             model = manipulate::picker(mnames, initial="none", label="Model")
+             flipCoords = manipulate::checkbox(label="Flip coordinates")
   )
 }
 
@@ -520,7 +518,7 @@ mUniplot <- function(data, default=c('histogram','density', 'frequency polygon',
               facet = manipulate::picker(cnames, initial="none ", label="Facets"),
 #              logx = manipulate::checkbox(label="log x-axis"),
 #              logy = manipulate::checkbox(label="log y-axis"),
-              key = manipulate::picker(lnames, label="key", initial=keyDefault)
+              key = manipulate::picker(lnames, label="Key", initial=keyDefault)
   )
 }
 
