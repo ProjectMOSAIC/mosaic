@@ -80,6 +80,8 @@ The values are binned into bins of size tol and values which fall into
 the same bin are regarded as the same. Must be strictly positive (and finite).
 When \code{NULL}, \code{IQR(x) * 10e-6} is used.}
 
+\item{...}{Additional arguments}
+
 \item{stat}{A stat.}
 }
 \description{

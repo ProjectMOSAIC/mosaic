@@ -297,6 +297,7 @@ StatSpline <-
 #'   The values are binned into bins of size tol and values which fall into 
 #'   the same bin are regarded as the same. Must be strictly positive (and finite).
 #'   When \code{NULL}, \code{IQR(x) * 10e-6} is used.
+#' @param ... Additional arguments
 #' @export 
 stat_spline <- 
   function(mapping = NULL, data = NULL, geom = "line",
