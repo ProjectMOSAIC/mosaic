@@ -329,7 +329,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
     stop("data must have at least 2 variables, at least one of which is quantitative")
   }
   cnames <- .NAprepend(variables$c)
-  mnames <- list("none", linear="linear", "smooth")
+  mnames <- list("none", linear="linear", "smooth", "spline")
   lnames <- list("none","top","right","left",
                  "N (lattice)" = "N", "NE (lattice)" = "NE", 
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
@@ -402,6 +402,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
 	  if (s$logy) res <- paste(res, " + scale_y_log10()", sep="")
 	  if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
 		res<-paste(res, " + facet_wrap(~", s$facet, ", ncol=4)", sep="")
+	  if (s$model=="spline") res <- paste(res, " + stat_spline()")
 	  if (s$model=="linear") res <- paste(res, " + stat_smooth(method=lm)")
 	  if (s$model=="smooth") res <- paste(res, " + stat_smooth(method=loess)") 
     if (s$key %in% c('none','top','bottom','left','right')) {
@@ -431,7 +432,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
     if (s$plotType == "jitter") {
       res <- paste(res, ', jitter.x=TRUE, jitter.y=TRUE', sep="")
     }
-    if (s$plotType == "line" && ! s$model %in% c("linear", "smooth")) {
+    if (s$plotType == "line" && ! s$model %in% c("linear", "smooth", "spline")) {
       res <- paste(res, ', type="l"', sep="")
     }
     scales <- character(0)
@@ -446,8 +447,10 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
 	  }
 	  if (s$model=="linear")
 	    res <- paste(res, if (s$plotType == "line") ', type=c("l","r")' else ', type=c("p","r")', sep ="")
-	  if (s$model=="smooth")
-	    res <- paste(res, if (s$plotType == "line") ', type=c("l","smooth")' else ', type=c("p","smooth")', sep ="")
+	  if (s$model %in% c("smooth", "spline")) {
+	    pt <- if (s$plotType == "line") "l" else "p"
+	    res <- paste0(res, ', type=c("', pt, '", "', s$model, '")')
+	  }
 	  if (s$key %in% c('top','bottom','left','right')) {
 	    res <- paste(res, 
 	                 ', auto.key=list(space="', s$key, '"',
