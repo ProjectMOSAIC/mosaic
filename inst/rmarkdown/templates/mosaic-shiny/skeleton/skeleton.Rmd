@@ -55,7 +55,7 @@ renderPlot(
                  panel.ashplot(x, ..., col = "red", 
                                darg = list(width = as.numeric(input$bin_width)))
                if ("freq" %in% input$show)
-                 panel.freqpolygon(x, n = 500, ...)
+                 panel.freqpolygon(x, ...)
              })
 })
 ```
