@@ -42,9 +42,10 @@
 }
 
 .require_manipulate_namespace <-function() {
-  if (! rstudio_is_available() && requireNamespace("manipulate", quietly=TRUE)) {
+  if (! rstudio_is_available())
     stop("RStudio required for manipulate.") 
-  }
+  if (! requireNamespace("manipulate", quietly=TRUE)) 
+    stop("Unable to locate the manipulate package.  Please install with `install.packages(\"manipulate\")'")
   requireNamespace("manipulate", quietly=TRUE)
 }
 
