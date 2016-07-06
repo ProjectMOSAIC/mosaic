@@ -1,9 +1,16 @@
 # mosaic package NEWS
 
+## mosaic X.XX.X
+
+ * replaced use of reshape2 with functions from tidyr to remove dependency on reshape2
+ * add spline model as option to mplot.data.frame()
+ 
+ 
 ## mosaic 0.14.1
 
  * Bug fix that caused `prop(a ~ b)` to compute joint rather than conditional proportions.
-
+ * add stat and geom for spline smoothing
+ 
 ## mosaic 0.14
 
  * Aggregating functions (`favstats()`, `mean()`, `sd()`, etc.) now require that the 
