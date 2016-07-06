@@ -36,9 +36,21 @@ fortify.hclust <- function(model, data,
     )
   }
   
+  # if (which == "heatmap0") {
+  #   res <- fortify(model, data, which="data") %>% 
+  #     melt(id.vars = c("idx","position")) %>% 
+  #     mutate(variable = as.character(variable))
+  #   uv <- unique(res$variable)
+  #   res$variable_num <-  sapply( 
+  #     res$variable, 
+  #     function(x) which(x == uv)
+  #   )
+  #   return(res)
+  # }
+  
   if (which == "heatmap") {
     res <- fortify(model, data, which="data") %>% 
-      melt(id.vars = c("idx","position")) %>% 
+      tidyr::gather(variable, value, -idx, -position) %>%
       mutate(variable = as.character(variable))
     uv <- unique(res$variable)
     res$variable_num <-  sapply( 
@@ -47,7 +59,6 @@ fortify.hclust <- function(model, data,
     )
     return(res)
   }
-  
   if (which == "data") {  
     if (missing(data)) { 
       stop('missing data')
@@ -76,7 +87,6 @@ fortify.hclust <- function(model, data,
 #' @param enumerate a color used for numbers within heatmap.  Use 
 #'   \code{"transparent"} to hide.
 #' @examples
-#' if (require(mosaicData)) {
 #' KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2
 #'   M <- dist(KidsFeet2)
 #'   Cl <- hclust(M)
@@ -88,7 +98,6 @@ fortify.hclust <- function(model, data,
 #'   mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
 #'   mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
 #'   mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
-#' }
 #' @export
 
 mplot.hclust <- function(object, data, colorize = TRUE, k=1, 

@@ -2,7 +2,7 @@ Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
 Version: 0.14.2
-Date: 2016-06-19
+Date: 2016-06-29
 Depends:
     R (>= 3.0.0),
     dplyr,
@@ -14,7 +14,7 @@ Imports:
     lazyeval (>= 0.1.10.9000),
     MASS,
     grid,
-    reshape2,
+    tidyr,
     readr,
     methods,
     utils,
@@ -32,7 +32,6 @@ Suggests:
     maptools,
     vcd,
     testthat,
-    tidyr,
     knitr,
     tools,
     parallel,
