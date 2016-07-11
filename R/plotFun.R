@@ -41,6 +41,8 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
 #'   Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
 #'   uses a crude numerical heuristic and may not give the desired results in all cases.
+#' @param interactive a logical indicating whether the surface plot should be 
+#'   interactive.
 #' @param ... additional parameters, typically processed by \code{lattice} functions such as 
 #' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
 #' Frequently used parameters include 
@@ -118,7 +120,9 @@ plotFun <- function(object, ...,
                     type="l", 
                     alpha=NULL,
                     discontinuities = NULL,
-                    discontinuity = 1) { 
+                    discontinuity = 1,
+                    interactive = rstudio_is_available()
+){
   
   if ( is.function(object) ) { 
     formula <- f(x) ~ x 
@@ -339,23 +343,22 @@ plotFun <- function(object, ...,
         stop('Should not get here, but no add option for surface plots yet anyway.')
         return(invisible(NULL))
       }
-      zcuts = pretty(grid$height,50)
+      zcuts = pretty(grid$height, 50)
       zcolors = col.regions (length(zcuts),alpha=.5*alpha)
-      if( rstudio_is_available() ) {
+      if(interactive && rstudio_is_available()) {
         return(manipulate::manipulate(
           wireframe(height ~ Var1 + Var2, 
-                    xlab=xlab,ylab=ylab,
-                    zlab=list(zlab,rot=90),
-                    #data=localData, 
-                    data=grid,
+                    xlab = xlab,ylab = ylab,
+                    zlab = list(zlab, rot = 90),
+                    data = grid,
                     groups = eval(substitute(groups), localData),
-                    drape=filled,
-                    shade=FALSE, colorkey=FALSE,
-                    scales=list(arrows=FALSE),
-                    screen=c(z=rot,x=elev-90),
-                    distance=dist,
+                    drape = filled,
+                    shade = FALSE, colorkey = FALSE,
+                    scales = list(arrows = FALSE),
+                    screen = c(z = rot,x = elev - 90),
+                    distance = dist,
                     at = zcuts, #col=rgb(1,1,1,0),
-                    col.regions= zcolors
+                    col.regions = zcolors
                     #...
           ),
           rot=manipulate::slider(min=-180,max=180,step=5,initial=35,label="Rotation"),
@@ -364,14 +367,15 @@ plotFun <- function(object, ...,
         ))
       } else {  # without manipulate
         return((wireframe(height ~ Var1 + Var2, 
-                          xlab=xlab,ylab=ylab,zlab=list(zlab,rot=90),
-                          data=grid,
-                          groups=eval(substitute(groups), localData),
-                          drape=filled,shade=FALSE,colorkey=FALSE,
-                          scales=list(arrows=FALSE),
-                          col.regions= zcolors,
+                          xlab = xlab, ylab = ylab, zlab = list(zlab, rot = 90),
+                          data = grid,
+                          groups = eval(substitute(groups), localData),
+                          drape = filled, shade=FALSE, colorkey=FALSE,
+                          # scales = list(arrows = FALSE),
+                          col.regions = zcolors,
                           # col=rgb(1,1,1,0),
-                          at=zcuts
+                          at = zcuts,
+                          ...
         ) ) )
       }
       
@@ -405,7 +409,7 @@ plotFun <- function(object, ...,
           panel.levelcontourplot(grid$Var1, grid$Var2, grid$height, subscripts=1, 
                                  at = levels, labels = labels, 
                                  filled=filled, 
-                                 groups=eval(substitute(groups),localData),
+                                 groups=eval(substitute(groups), localData),
                                  col.regions = col.regions ,
                                  contour = TRUE, 
                                  region = FALSE, 

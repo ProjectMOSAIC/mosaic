@@ -9,7 +9,8 @@ plotFun(object, ..., plot = trellis.last.object(), add = NULL,
   xlab = NULL, zlab = NULL, filled = TRUE, levels = NULL,
   nlevels = 10, labels = TRUE, surface = FALSE, groups = NULL,
   col = trellis.par.get("superpose.line")$col, col.regions = topo.colors,
-  type = "l", alpha = NULL, discontinuities = NULL, discontinuity = 1)
+  type = "l", alpha = NULL, discontinuities = NULL, discontinuity = 1,
+  interactive = rstudio_is_available())
 }
 \arguments{
 \item{object}{a mathematical expression or a function "of one variable" which will
@@ -78,6 +79,9 @@ a heuristic to auto-detect.}
 potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
 Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
 uses a crude numerical heuristic and may not give the desired results in all cases.}
+
+\item{interactive}{a logical indicating whether the surface plot should be 
+interactive.}
 }
 \value{
 a \code{trellis} object
