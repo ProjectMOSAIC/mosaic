@@ -4,7 +4,8 @@
 \alias{mWorldMap}
 \title{Make a world map with \code{ggplot2}}
 \usage{
-mWorldMap(data, key, fill = NULL, plot = c("borders", "frame", "none"))
+mWorldMap(data = NULL, key = NA, fill = NULL, plot = c("borders",
+  "frame", "none"))
 }
 \arguments{
 \item{data}{A dataframe with countries as cases}

@@ -121,16 +121,31 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
 #' returns a ggplot object with one geom_polygon layer that shows the
 #' borders of the regions.
 #' @export 
-makeMap <- function (data, map=NULL, key=c(key.data, key.map), 
+makeMap <- function (data = NULL, map=NULL, key=c(key.data, key.map), 
                   key.data, key.map, tr.data = identity, tr.map = identity,
                   plot=c("borders", "frame", "none")) {
   message("Mapping API still under development and may change in future releases.")
   plot <- match.arg(plot)
+  if (is.null(map) && is.null(data)) {
+    stop("At least one of `data' and `map' must be specified.")
+  }
+  
+  # If map is given, make sure it looks like a map
   if (!is.null(map)) {
     map <- fortify(map)
-    if (!("long" %in% names(map) && "lat" %in% names(map))) {
-      stop("`map' does not appear to be a map")
+    if (! "long" %in% names(map)) {
+      if ("lon" %in% names(map)) map$long <- map$lon
+    } 
+    
+    for (n in c("lat", "long", "order", "group")) {
+      if (!(n %in% names(map))) {
+        stop(paste0("`map' does not appear to be a map (missing ", n, ")"))
+      }
     }
+  }
+ 
+  # If we have both data and map, merge them 
+  if (!is.null(data) && !is.null(map)) {
     key <- rep(key, out.length=2)
     if (!(key[1] %in% names(data))) {
       stop(paste(key[1], "not in names of `data'"))
@@ -138,10 +153,20 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
     if (!(key[2] %in% names(map))) {
       stop(paste(key[2], "not in names of `map'"))
     }
-    data[[key[1]]] <- tr.data(data[[key[1]]])
     map[[key[2]]] <- tr.map(map[[key[2]]])
+    data[[key[1]]] <- tr.data(data[[key[1]]])
     data <- merge(data, map, by.x=key[1], by.y=key[2])
   }
+  
+  # make sure data is ready to go
+  if (is.null(data)) data <- map
+  
+  for (n in c("lat", "long", "group", "order")) {
+    if (! n %in% names(data)) {
+      stop(paste0("`data' does not appear to be properly formatted (missing ", n, ")"))
+    }
+  }
+  
   switch(plot, 
          borders = 
            ggplot(data %>% group_by(group) %>% arrange(order) %>% ungroup(), 
@@ -195,10 +220,10 @@ makeMap <- function (data, map=NULL, key=c(key.data, key.map),
 #' geom_polygon(aes(fill=GDP5), color="gray70", size=.5) + guides(fill=FALSE)  
 #' }
 #' @export 
-mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) {
+mWorldMap <- function(data = NULL, key = NA, fill = NULL, plot = c("borders", "frame", "none")) {
   plot <- match.arg(plot)
-  map <- makeMap(data=data, map=World_Countries_df, key=c(key, "iso_a3"), 
-              tr.data=standardCountry, tr.map=toupper, plot=plot)
+  map <- makeMap(data = data, map = World_Countries_df, key = c(key, "iso_a3"), 
+              tr.data = standardCountry, tr.map = toupper, plot = plot)
   if (plot != "none") { 
     # deleting coord_map() for now for sake of CRAN checks (not understood) 2014-08-20
     map <- map # + coord_map()   
@@ -239,13 +264,13 @@ mWorldMap <- function(data, key, fill=NULL, plot=c("borders", "frame", "none")) 
 #' USArrests2 <- USArrests %>% mutate(state = row.names(.))
 #' mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 #' @export 
-mUSMap <- function(data, key, fill=NULL, 
-                   plot=c("borders", "frame", "none"),
-                   style=c("compact","real")) {
+mUSMap <- function(data = NULL, key, fill = NULL, 
+                   plot = c("borders", "frame", "none"),
+                   style = c("compact","real")) {
   plot <- match.arg(plot)
   style <- match.arg(style)
   if (style == "compact") {US_States_df <- US_States_comp_df}
-  map <- makeMap(data=data, map = US_States_df, key = c(key, "STATE_ABBR"), 
+  map <- makeMap(data = data, map = US_States_df, key = c(key, "STATE_ABBR"), 
               tr.data = standardState, tr.map = toupper, plot = plot)
   if ( (!is.null(fill) && plot != "none") ) {
     map <- map + geom_polygon(aes_string(fill = fill), color = "darkgray")
