@@ -7,8 +7,9 @@
 #' @param samples number of samples to simulate
 #' @param rdist function used to draw random samples
 #' @param args arguments required by \code{rdist}
-#' @param plot one of \code{"print"}, \code{"return"} or \code{"none"} describing
-#' whether a plot should be printed, returned, or no generated at all.
+#' @param plot one of \code{"print"}, \code{"return"}, \code{"horizontal"}, or \code{"none"} 
+#'   describing whether a plot should be printed, returned, printed with horizontal intervals,
+#'   or not generated at all.
 #' @param estimand true value of the parameter being estimated
 #' @param conf.level confidence level for intervals
 #' @param method function used to compute intervals.  Standard functions that 
@@ -59,40 +60,56 @@ CIsim <-
               do.call(method, c(list(x, conf.level = conf.level), method.args))$estimate
             }, verbose = TRUE) 
 {
-    plot <- match.arg(plot, c("draw", "return", "none"))
-    sampleData <- replicate(samples, do.call(rdist, c(list(n = n), 
-        args)))
-    lower <- apply(sampleData, 2, function(x) {
-        interval(x)[1]
-    })
-    upper <- apply(sampleData, 2, function(x) {
-        interval(x)[2]
-    })
-    estimate <- apply(sampleData, 2, function(x) {
-        estimate(x)
-    })
-    cover <- as.integer(estimand >= lower & estimand <= upper)
-    cover <- factor(cover, levels = c(0, 1), labels = c("No", 
-        "Yes"))
-    cis <- data.frame(lower = lower, upper = upper, estimate = estimate, 
-        cover = cover, sample = 1:samples)
+    plot <- match.arg(plot, c("draw", "horizontal", "return", "none"))
+    # Grid will have a row for each simulated sample
+    Grid <- expand.grid(n = n, sample = 1:samples) %>% mutate(estimand = estimand)
+    # a list of data sets, one for each row in Grid
+    sampleData <- 
+      lapply(1:nrow(Grid),
+             function(r) do.call(rdist, c(list(n = Grid[r, "n"]),  args)))
+    CIs <- Grid %>% mutate(
+      lower    = sapply(sampleData, function(x) { interval(x)[1] }),
+      upper    = sapply(sampleData, function(x) { interval(x)[2] }),
+      estimate =  sapply(sampleData, function(x) { estimate(x) }),
+      cover    = (estimand <= lower) + (estimand < upper),
+      cover    = factor(cover, levels = 0L:2L, labels = c("Low", "Yes", "High")),
+      nlab     = reorder(factor(paste0("n = ", n)), n)
+    )
+                    
     if (verbose) {
-        cat("Did the interval cover?")
-        print(table(cis$cover)/samples)
+      message("Interval coverage:")
+      # print(
+      #   CIs %>% 
+      #     group_by(n) %>% 
+      #     summarise(
+      #       num_samples = n(),
+      #       lo = sum(cover == "Lo") / n(),
+      #       covered = sum(cover == "Yes") / n(),
+      #       hi = sum(cover == "Hi") / n()
+      #     )
+      # )
+      #         
+      # print(table(CIs$cover)/samples)
+      message(paste(
+        capture.output(t(tally(~ cover | n, data = CIs, format = "prop"))), 
+        collapse = "\n"))
     }
     
     plotG <- 
-      ggplot(aes(x=sample, y=estimate, ymin=lower, ymax=upper), data = cis) + 
-        geom_errorbar(aes(color=cover)) +
-        geom_abline(slope=0, intercept=estimand, alpha=0.4) +
-        scale_colour_discrete(drop = FALSE)
+      ggplot(aes(x = sample, y = estimate, ymin = lower, ymax = upper), data = CIs) + 
+        geom_errorbar(aes(color = cover)) +
+        geom_point(aes(color = cover), size = 0.7) + 
+        geom_abline(slope = 0, intercept = estimand, alpha = 0.4) +
+        scale_colour_manual(drop  =  FALSE, breaks = c("High", "Yes", "Low"),
+                              values = c("red", "navy", "red"), guide = FALSE)
       
     switch(plot,
-           return = return(plotG),
-           draw = print(plotG),
+           return = return(plotG + facet_wrap(~ nlab)),
+           horizontal = print(plotG + coord_flip() + facet_wrap(~ nlab)),
+           draw = print(plotG + facet_wrap(~ nlab)),
            none = {}
            )
-    return(invisible(cis))
+    return(invisible(CIs %>% select(-nlab)))
 }
 
 
