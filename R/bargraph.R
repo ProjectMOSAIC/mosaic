@@ -55,7 +55,8 @@ bargraph <- function(x, data = parent.frame(), groups = NULL, horizontal = FALSE
   if (!inherits(x, "formula") || !is.null(lhs(x)))
     stop("first argument should be a formula with no lhs.")
   
-  xtab0 <- tally(x, data = data, groups = groups, format = type)
+  xtab0 <- tally(x, data = data, groups = groups, format = type, groups.first = TRUE)
+  
   xtab <- as.data.frame(xtab0) 
   # grab the last variable name, to handle the case that 
   # there is a variable called "Freq"
