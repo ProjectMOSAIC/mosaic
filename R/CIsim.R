@@ -1,3 +1,5 @@
+utils::globalVariables(c("nlab", "cover"))
+
 #' Compute confidence intervals from (multiple) simulated data sets
 #' 
 #' This function automates the calculation of coverage rates for exploring
