@@ -1,9 +1,22 @@
 # mosaic package NEWS
 
-## mosaic X.XX.X
+## mosaic 0.14.4
 
- * replaced use of reshape2 with functions from tidyr to remove dependency on reshape2
- * add spline model as option to mplot.data.frame()
+ * Tweaks to `tally()` now provide names to dimnames in cases where they were previously missing.
+ This was needed for the refactoring of `bargaph()`.
+ * Refactored `bargraph()` to use `tally()` for tabulation.  This means the behavior of `bargraph()` should match expections of users of `tally()` better than it did before.
+ * Bug/Feature fix: Definition of "conditional" is now tighter in `tally()` so the proportions
+ computed when `format = "proportion"` are easier to predict.
+ * Bug Fix: `prop(x ~ y)` was reporting overall proportions rather than marginal proportions.
+ * Made CIsim() more flexible.  It is now easier to run multiple simulations
+ at once and compare the results.  Also, non-covering interals are now classified
+ as missing high or missing low, so one can investigate non-symmetric failure to cover.
+ * Added option to plotFun() for creating non-interactive 
+ surface plots 
+ * Added `value()`, a generic with several methods for extracting a "value" from a more complicated object.  Useful for extracting values
+ from output of `uniroot()`, `nlm()`, `integrate()`, `cubature::adaptIntegrat()` without needing to know just how those values are stored in the object.
+ * Replaced use of reshape2 with functions from tidyr to remove dependency on reshape2
+ * Add spline model as option to mplot.data.frame()
  
  
 ## mosaic 0.14.1
