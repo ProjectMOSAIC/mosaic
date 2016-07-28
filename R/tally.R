@@ -64,6 +64,8 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param quiet a logical indicating whether messages about order in which 
 #'   marginal distributions are calculated should be surpressed.  
 #'   See \code{\link{addmargins}}.
+#' @param groups used to specify a condition as an alternative to using a formula
+#' with a condition.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
 #' @param envir an environment in which to evaluate

@@ -55,6 +55,9 @@ See \code{\link{addmargins}}.}
 
 \item{subset}{an expression evaluating to a logical vector used to select a subset of \code{data}}
 
+\item{groups}{used to specify a condition as an alternative to using a formula
+with a condition.}
+
 \item{useNA}{as in \code{\link{table}}, but the default here is \code{"ifany"}.}
 }
 \value{
