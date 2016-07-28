@@ -20,8 +20,9 @@ CIsim(n, samples = 100, rdist = rnorm, args = list(), plot = if (samples
 
 \item{args}{arguments required by \code{rdist}}
 
-\item{plot}{one of \code{"print"}, \code{"return"} or \code{"none"} describing
-whether a plot should be printed, returned, or no generated at all.}
+\item{plot}{one of \code{"print"}, \code{"return"}, \code{"horizontal"}, or \code{"none"} 
+describing whether a plot should be printed, returned, printed with horizontal intervals,
+or not generated at all.}
 
 \item{estimand}{true value of the parameter being estimated}
 
