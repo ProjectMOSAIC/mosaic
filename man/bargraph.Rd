@@ -4,9 +4,10 @@
 \alias{bargraph}
 \title{Create bar graphs from raw data}
 \usage{
-bargraph(x, data = parent.frame(), groups, horizontal = FALSE, origin = 0,
-  ylab = ifelse(horizontal, "", type), xlab = ifelse(horizontal, type, ""),
-  subset, type = c("count", "frequency", "proportion", "percent"), ...)
+bargraph(x, data = parent.frame(), groups = NULL, horizontal = FALSE,
+  origin = 0, ylab = ifelse(horizontal, "", type),
+  xlab = ifelse(horizontal, type, ""), subset, type = c("count",
+  "frequency", "proportion", "percent"), ...)
 }
 \arguments{
 \item{x}{a formula describing the plot}

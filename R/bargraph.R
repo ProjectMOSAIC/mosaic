@@ -42,29 +42,19 @@
 #' }
 #' @export
 
-bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0, 
-                     ylab=ifelse(horizontal,"", type), 
+bargraph <- function(x, data=parent.frame(), groups = NULL, horizontal = FALSE, origin = 0, 
+                     ylab=ifelse(horizontal, "", type), 
                      xlab=ifelse(horizontal, type, ""), 
                      subset,
                      type = c("count", "frequency", "proportion", "percent"),
                      ...) {
-  haveGroups <- !missing(groups)
-  sgroups <- substitute(groups)
   type <- match.arg(type)
+  if (type == "frequency") type <- "count"
   
-  # if ( .is.formula(x) ) formula <- x else formula <- paste("~", deparse(rhs(x)))
-  formula <- paste("~", deparse(rhs(x)))
-  if (!is.null (condition(x)) ) formula <- paste(formula, "+" , deparse(condition(x)) )
-  if (haveGroups ) formula <- paste(formula, "+" , sgroups )
-  formula <- as.formula(formula)
-  
-  if (missing(subset)) {
-    xtab <- as.data.frame(xtabs( formula, data=data) )
-  } else {
-    xtab <- as.data.frame(
-      do.call(xtabs, list( formula, data=data, subset=substitute(subset) ) )
-      )
-  }
+  xtab <- tally(x, data = data, groups = groups, subset = subset, format = type)
+  xtab <- as.data.frame(xtab)
+  sgroups <- substitute(groups)
+ 
   # grab the last variable name, to handle the case that 
   # there is a variable called "Freq"
   lastvar = names(xtab)[ncol(xtab)]
@@ -81,14 +71,5 @@ bargraph <- function(x, data=parent.frame(), groups, horizontal=FALSE, origin=0,
 		formula <- as.formula( paste(lastvar, " ~", deparse(rhs(x))) )
 	  }
   }
-  if (type == "percent") {
-    xtab[[lastvar]] <- 100 * xtab[[lastvar]] / sum(xtab[[lastvar]], na.rm = TRUE)
-  }
-  if (type == "proportion") {
-    xtab[[lastvar]] <- xtab[[lastvar]] / sum(xtab[[lastvar]], na.rm = TRUE)
-  }
-  if (haveGroups)
-    barchart( formula, data=xtab, groups=eval(sgroups), origin=origin, ylab=ylab, xlab=xlab, ... ) 
-  else
-    barchart( formula, data=xtab, origin=origin, ylab=ylab, xlab=xlab, ... )   
+ barchart( formula, data=xtab, groups=eval(sgroups), origin=origin, ylab=ylab, xlab=xlab, ... )
 }
