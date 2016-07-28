@@ -16,7 +16,7 @@ tally(x, ...)
 \method{tally}{formula}(x, data = parent.frame(2), format = c("count",
   "proportion", "percent", "data.frame", "sparse", "default"),
   margins = FALSE, quiet = TRUE, subset, groups = NULL, useNA = "ifany",
-  ...)
+  groups.first = FALSE, ...)
 }
 \arguments{
 \item{x}{an object}
@@ -59,6 +59,9 @@ See \code{\link{addmargins}}.}
 with a condition.}
 
 \item{useNA}{as in \code{\link{table}}, but the default here is \code{"ifany"}.}
+
+\item{groups.first}{a logical indicating whether groups should be inserted 
+ahead of the condition (else after).}
 }
 \value{
 A object of class \code{"table"}, unless passing through to \pkg{dplyr}.
@@ -76,19 +79,17 @@ The curent implementation when \code{format = "sparse"} first creates the full d
 and then removes the unneeded rows.  So the savings is in terms of space, not time.
 }
 \examples{
-if (require(mosaicData)) {
-tally( ~ substance, data=HELPrct)
-tally( ~ substance + sex , data=HELPrct)
-tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance, ... )
-tally( ~ substance | sex , data=HELPrct)
-tally( ~ substance | sex , data=HELPrct, format='count')
-tally( ~ substance + sex , data=HELPrct, format='percent')
+tally( ~ substance, data = HELPrct)
+tally( ~ substance + sex , data = HELPrct)
+tally( sex ~ substance, data = HELPrct)   # equivalent to tally( ~ sex | substance, ... )
+tally( ~ substance | sex , data = HELPrct)
+tally( ~ substance | sex , data = HELPrct, format = 'count')
+tally( ~ substance + sex , data = HELPrct, format = 'percent')
 # force NAs to show up
-tally( ~ sex, data=HELPrct, useNA="always")
+tally( ~ sex, data = HELPrct, useNA = "always")
 # show NAs if any are there
-tally( ~ link, data=HELPrct)
+tally( ~ link, data = HELPrct)
 # ignore the NAs
-tally( ~ link, data=HELPrct, useNA="no")
-}
+tally( ~ link, data = HELPrct, useNA = "no")
 }
 

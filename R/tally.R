@@ -69,6 +69,8 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @param margins a logical indicating whether marginal distributions should be displayed.
 #' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
 #' @param envir an environment in which to evaluate
+#' @param groups.first a logical indicating whether groups should be inserted 
+#' ahead of the condition (else after).
 #' @param ... additional arguments passed to \code{\link{table}}
 #' @return A object of class \code{"table"}, unless passing through to \pkg{dplyr}.
 #' @details
@@ -78,20 +80,18 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @note The curent implementation when \code{format = "sparse"} first creates the full data frame
 #' and then removes the unneeded rows.  So the savings is in terms of space, not time.
 #' @examples
-#' if (require(mosaicData)) {
-#' tally( ~ substance, data=HELPrct)
-#' tally( ~ substance + sex , data=HELPrct)
-#' tally( sex ~ substance, data=HELPrct)   # equivalent to tally( ~ sex | substance, ... )
-#' tally( ~ substance | sex , data=HELPrct)
-#' tally( ~ substance | sex , data=HELPrct, format='count')
-#' tally( ~ substance + sex , data=HELPrct, format='percent')
+#' tally( ~ substance, data = HELPrct)
+#' tally( ~ substance + sex , data = HELPrct)
+#' tally( sex ~ substance, data = HELPrct)   # equivalent to tally( ~ sex | substance, ... )
+#' tally( ~ substance | sex , data = HELPrct)
+#' tally( ~ substance | sex , data = HELPrct, format = 'count')
+#' tally( ~ substance + sex , data = HELPrct, format = 'percent')
 #' # force NAs to show up
-#' tally( ~ sex, data=HELPrct, useNA="always")
+#' tally( ~ sex, data = HELPrct, useNA = "always")
 #' # show NAs if any are there
-#' tally( ~ link, data=HELPrct)
+#' tally( ~ link, data = HELPrct)
 #' # ignore the NAs
-#' tally( ~ link, data=HELPrct, useNA="no")
-#' }
+#' tally( ~ link, data = HELPrct, useNA = "no")
 #' @export
 
 tally <- function(x, ...) {
@@ -133,10 +133,12 @@ tally.formula <-
            quiet=TRUE,
            subset, 
            groups = NULL,
-           useNA = "ifany", ...) {
+           useNA = "ifany", 
+           groups.first = FALSE,
+           ...) {
  	format <- match.arg(format)
  	formula_orig <- x
-	formula <- mosaic_formula_q(x, groups = groups, max.slots = 3)
+	formula <- mosaic_formula_q(x, groups = groups, max.slots = 3, groups.first = groups.first)
 	evalF <- evalFormula(formula, data)
 
 	if (!missing(subset)) {
