@@ -152,6 +152,10 @@ tally.formula <-
 	res <- table(logical2factor( joinFrames(evalF$left, evalF$right, evalF$condition) ), 
 	             useNA = useNA, ...)
 
+	if (any(names(dimnames(res)) == "")) {
+	  names(dimnames(res)) <- c(names(evalF$left), names(evalF$right), names(evalF$condition))
+	}
+	
 	dims <- seq_along(dim(res))
 	if (!is.null(evalF$condition) && ncol(evalF$condition) > 0) {
 	  prop_columns <- tail(dims, ncol(evalF$condition))
