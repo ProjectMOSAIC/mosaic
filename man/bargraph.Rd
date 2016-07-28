@@ -6,8 +6,8 @@
 \usage{
 bargraph(x, data = parent.frame(), groups = NULL, horizontal = FALSE,
   origin = 0, ylab = ifelse(horizontal, "", type),
-  xlab = ifelse(horizontal, type, ""), subset, type = c("count",
-  "frequency", "proportion", "percent"), ...)
+  xlab = ifelse(horizontal, type, ""), type = c("count", "frequency",
+  "proportion", "percent"), ...)
 }
 \arguments{
 \item{x}{a formula describing the plot}
@@ -26,9 +26,6 @@ a different kind of plot as the results may be misleading.}
 \item{ylab}{a character vector of length one used for the y-axis label}
 
 \item{xlab}{a character vector of length one used for the x-axis label}
-
-\item{subset}{a vector used to subset \code{data}.  This may be an expression that
-will be evaluated within \code{data}.}
 
 \item{type}{one of \code{"frequency"}, \code{"count"}, \code{"percent"}, or \code{"proportion"}
 indicating what type of scale to use.  Unique prefixes are sufficient.}
@@ -56,12 +53,14 @@ See the examples.
 \examples{
 if (require(mosaicData)) {
 data(HELPrct)
-bargraph( ~ substance, data=HELPrct)
-bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
-bargraph( ~ substance | sex, groups=homeless, auto.key=TRUE, data=HELPrct)
-bargraph( ~ substance, groups=homeless, auto.key=TRUE, data=HELPrct, subset=sex=="male")
-HELPrct2 <- mutate( HELPrct, older = age > 40 )
-bargraph( ~ substance | older, data = HELPrct2 )
+bargraph( ~ substance, data = HELPrct)
+bargraph( ~ substance, data = HELPrct, horizontal = TRUE)
+bargraph( ~ substance | sex, groups = homeless, auto.key = TRUE, data = HELPrct)
+bargraph( ~ substance, groups = homeless, auto.key=TRUE, 
+            data = HELPrct \%>\% filter(sex == "male"))
+HELPrct2 <- mutate(HELPrct, older = age > 40)
+bargraph( ~ substance | older, data = HELPrct2)
+bargraph( ~ rbinom(1000, 10, 0.5))
 }
 }
 \seealso{

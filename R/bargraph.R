@@ -14,8 +14,8 @@
 #'        \code{\link[lattice]{barchart}} set \code{origin} to \code{NULL}, but
 #'         0 is often a better default. If 0 is not good, perhaps you should use
 #'        a different kind of plot as the results may be misleading.
-#' @param subset a vector used to subset \code{data}.  This may be an expression that
-#' will be evaluated within \code{data}.
+# #' @param subset a vector used to subset \code{data}.  This may be an expression that
+# #' will be evaluated within \code{data}.
 #' @param ylab a character vector of length one used for the y-axis label
 #' @param xlab a character vector of length one used for the x-axis label
 #' @param type one of \code{"frequency"}, \code{"count"}, \code{"percent"}, or \code{"proportion"}
@@ -33,43 +33,53 @@
 #' @examples
 #' if (require(mosaicData)) {
 #' data(HELPrct)
-#' bargraph( ~ substance, data=HELPrct)
-#' bargraph( ~ substance, data=HELPrct, horizontal=TRUE)
-#' bargraph( ~ substance | sex, groups=homeless, auto.key=TRUE, data=HELPrct)
-#' bargraph( ~ substance, groups=homeless, auto.key=TRUE, data=HELPrct, subset=sex=="male")
-#' HELPrct2 <- mutate( HELPrct, older = age > 40 )
-#' bargraph( ~ substance | older, data = HELPrct2 )
+#' bargraph( ~ substance, data = HELPrct)
+#' bargraph( ~ substance, data = HELPrct, horizontal = TRUE)
+#' bargraph( ~ substance | sex, groups = homeless, auto.key = TRUE, data = HELPrct)
+#' bargraph( ~ substance, groups = homeless, auto.key=TRUE, 
+#'             data = HELPrct %>% filter(sex == "male"))
+#' HELPrct2 <- mutate(HELPrct, older = age > 40)
+#' bargraph( ~ substance | older, data = HELPrct2)
+#' bargraph( ~ rbinom(1000, 10, 0.5))
 #' }
 #' @export
 
-bargraph <- function(x, data=parent.frame(), groups = NULL, horizontal = FALSE, origin = 0, 
-                     ylab=ifelse(horizontal, "", type), 
-                     xlab=ifelse(horizontal, type, ""), 
-                     subset,
+bargraph <- function(x, data = parent.frame(), groups = NULL, horizontal = FALSE, origin = 0, 
+                     ylab = ifelse(horizontal, "", type), 
+                     xlab = ifelse(horizontal, type, ""), 
                      type = c("count", "frequency", "proportion", "percent"),
                      ...) {
   type <- match.arg(type)
   if (type == "frequency") type <- "count"
   
-  xtab <- tally(x, data = data, groups = groups, subset = subset, format = type)
-  xtab <- as.data.frame(xtab)
-  sgroups <- substitute(groups)
- 
+  if (!inherits(x, "formula") || !is.null(lhs(x)))
+    stop("first argument should be a formula with no lhs.")
+  
+  xtab0 <- tally(x, data = data, groups = groups, format = type)
+  xtab <- as.data.frame(xtab0) 
   # grab the last variable name, to handle the case that 
   # there is a variable called "Freq"
-  lastvar = names(xtab)[ncol(xtab)]
+  lastvar <- names(xtab)[ncol(xtab)]
+  # add dummy variable to handle case when 
+  xtab <- xtab %>% dplyr::mutate(..X.. = xtab[, 1])
+  sgroups <- substitute(groups)
+  
   if (horizontal) {
-	  if (! is.null(condition(x))){
-		formula <- as.formula( paste(deparse(rhs(x)), " ~ ", lastvar, " | ", deparse(condition(x)) ) )
-	  } else {
-		formula <- as.formula( paste(deparse(rhs(x)), " ~ ", lastvar) )
-	  }
+    if (! is.null(condition(x))){
+      formula <- as.formula( paste("..X.. ~ ", lastvar, " | ", deparse(condition(x)) ) )
+    } else {
+      formula <- as.formula( paste("..X.. ~ ", lastvar) )
+    }
   } else {
-	  if (! is.null(condition(x))){
-		formula <- as.formula( paste(lastvar, " ~", deparse(rhs(x)), "|", deparse(condition(x)) ) )
-	  } else {
-		formula <- as.formula( paste(lastvar, " ~", deparse(rhs(x))) )
-	  }
+    if (! is.null(condition(x))){
+      formula <- as.formula(paste(lastvar, " ~ ..X.. | ", deparse(condition(x))))
+    } else {
+      formula <- as.formula(paste(lastvar, " ~ ..X..")) 
+    }
   }
- barchart( formula, data=xtab, groups=eval(sgroups), origin=origin, ylab=ylab, xlab=xlab, ... )
+  if (xlab == "" && ! horizontal) { xlab <- names(dimnames(xtab0))[1] }
+  if (ylab == "" &&   horizontal) { ylab <- names(dimnames(xtab0))[1] }
+  
+  barchart(formula, data = xtab, groups = eval(sgroups), 
+           origin=origin, ylab = ylab, xlab = xlab, ...)
 }
