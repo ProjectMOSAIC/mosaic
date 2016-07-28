@@ -4,7 +4,7 @@
 
  * Tweaks to `tally()` now provide names to dimnames in cases where they were previously missing.
  This was needed for the refactoring of `bargaph()`.
- * Refactored `bargraph()` to use `tally()` for tabulation.  This means the behavior of `bargraph()` should match expections of users of `tally()` better than it did before.
+ * Refactored `bargraph()` to use `tally()` for tabulation.  This means the behavior of `bargraph()` should match expections of users of `tally()` better than it did before. In particular, proportions now sum to 1 in each panel of a multi-panel plot.
  * Bug/Feature fix: Definition of "conditional" is now tighter in `tally()` so the proportions
  computed when `format = "proportion"` are easier to predict.
  * Bug Fix: `prop(x ~ y)` was reporting overall proportions rather than marginal proportions.
