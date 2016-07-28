@@ -11,6 +11,8 @@ utils::globalVariables(c('.'))
 #' An error results from trying to create a formula that is too complex.
 #' @param envir the environment in which the resulting formula may be evaluated. 
 #' May also be \code{NULL}, a list, a data frame, or a pairlist.
+#' @param groups.first a logical indicating whether groups should be inserted 
+#' ahead of the condition (else after).
 #' 
 #' @details
 #' \code{mosaic_formula_q} uses nonstandard evaluation of \code{groups} that may be
@@ -33,14 +35,16 @@ mosaic_formula <- function(
   formula, 
   groups=NULL, 
   envir=parent.frame(),
-  max.slots=3
+  max.slots=3,
+  groups.first = FALSE
   ) 
 {
   mosaic_formula_q( 
     formula=formula,
     groups=quote(groups),
     envir=envir,
-    max.slots=max.slots)
+    max.slots=max.slots,
+    groups.first = groups.first)
 }
 
 #' Convert lazy objects into formulas
@@ -79,17 +83,24 @@ formularise <- function(lazy_formula, envir = parent.frame()) {
 #' @param ... additional arguments (currently ignored)
 #' @export
 mosaic_formula_q <- function( formula, 
-                              groups=NULL, 
+                              groups = NULL, 
                               # envir = parent.frame(),
                               max.slots = 3,
+                              groups.first = FALSE,
                               ...
 ) {
   lazy_groups <- lazyeval::lazy(groups)
   
   slots <- alist()
-  slots <- c(slots, 
-             lhs(formula), rhs(formula), 
-             condition(formula), lazy_groups$expr)
+  if (groups.first) {
+    slots <- c(slots, 
+               lhs(formula), rhs(formula), 
+               lazy_groups$expr, condition(formula))
+  } else { 
+    slots <- c(slots, 
+               lhs(formula), rhs(formula), 
+               condition(formula), lazy_groups$expr)
+  }
   
   if (length(slots) > max.slots) {
     stop("Invalid formula specification.  Too many slots (",  
