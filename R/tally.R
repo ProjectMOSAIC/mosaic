@@ -124,14 +124,17 @@ tally.data.frame <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
 
 #' @rdname tally
 #' @export
-tally.formula <- function(x, data = parent.frame(2), 
-                      format=c('count', 'proportion', 'percent', 'data.frame', 'sparse', 'default'), 
-                      margins=FALSE,
-                      quiet=TRUE,
-                      subset, 
-                      useNA = "ifany", ...) {
+tally.formula <- 
+  function(x, data = parent.frame(2), 
+           format=c('count', 'proportion', 'percent', 'data.frame', 'sparse', 'default'), 
+           margins=FALSE,
+           quiet=TRUE,
+           subset, 
+           groups = NULL,
+           useNA = "ifany", ...) {
  	format <- match.arg(format)
-	formula <- x
+ 	formula_orig <- x
+	formula <- mosaic_formula_q(x, groups = groups, max.slots = 3)
 	evalF <- evalFormula(formula, data)
 
 	if (!missing(subset)) {
@@ -141,28 +144,40 @@ tally.formula <- function(x, data = parent.frame(2),
 		if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset, , drop=FALSE]
 	}
 
-	if (format == 'default'){
+	if (format == 'default'){ # exists mainly for historical reasons, not actually the default
 		if (is.null(evalF$condition) ) format <- 'count'
 		else format <- 'proportion'
 	}
 
-	res <- table( logical2factor( joinFrames(evalF$left, evalF$right, evalF$condition) ), useNA=useNA, ... )
+	res <- table(logical2factor( joinFrames(evalF$left, evalF$right, evalF$condition) ), 
+	             useNA = useNA, ...)
 
+	dims <- seq_along(dim(res))
+	if (!is.null(evalF$condition) && ncol(evalF$condition) > 0) {
+	  prop_columns <- tail(dims, ncol(evalF$condition))
+	} else {
+	  if (is.null(evalF$left)) {
+	    prop_columns <- numeric(0)
+	  } else {
+	    prop_columns <- tail(dims, ncol(evalF$right))
+	  }
+	}
+	
 	res <- switch(format,
 		   'count' =  res,
        'data.frame' = as.data.frame(res),
        'sparse' = {res <- as.data.frame(res); res <- res[res$Freq > 0,]},
 		   'proportion' = 
-		   		prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) ),
+		   		prop.table(res, margin = prop_columns),
 		   'percent' = 
-		   		100 * prop.table( res, margin = ncol(evalF$right) + columns(evalF$condition) )
+		   		100 * prop.table(res, margin = prop_columns)
 		   )
-	if (margins & ! format %in% c("data.frame", "sparse")) {  
-	  # add margins for the non-condition dimensions of the table
-	  res <- 
-	    addmargins(res, 
-	               1:(ncol(evalF$right) + if(is.null(evalF$left)) 0 else ncol(evalF$left)), 
-	                  FUN=list(Total = sum), quiet = quiet )
+	if (margins & ! format %in% c("data.frame", "sparse")) {
+	  # default: add margins for the non-condition dimensions of the table
+	  # but there are some exceptions when everything is marginal
+	  margin_columns <- head(dims, -length(prop_columns))
+	  if (length(margin_columns) == 0L)  margin_columns <- dims
+	  res <-  addmargins(res, margin_columns, FUN = list(Total = sum), quiet = quiet)
 	}
 	return(res)
 }

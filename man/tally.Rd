@@ -15,7 +15,8 @@ tally(x, ...)
 
 \method{tally}{formula}(x, data = parent.frame(2), format = c("count",
   "proportion", "percent", "data.frame", "sparse", "default"),
-  margins = FALSE, quiet = TRUE, subset, useNA = "ifany", ...)
+  margins = FALSE, quiet = TRUE, subset, groups = NULL, useNA = "ifany",
+  ...)
 }
 \arguments{
 \item{x}{an object}
