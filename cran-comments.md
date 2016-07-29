@@ -1,15 +1,17 @@
 ## Test environments
 
   * local OS X install: 
-    * R version 3.3.0 Patched (2016-06-02 r70706)
+    * R version 3.3.1 Patched (2016-07-16 r70928)
     * Platform: x86_64-apple-darwin13.4.0 (64-bit)
-    * Running under: OS X 10.11.5 (El Capitan)
+    * Running under: OS X El Capitan (10.11.6)
   
   * win-builder via devtools
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs. 
+There were no ERRORs or WARNINGs locally
+
+WinBuilder warned about URLs being unavailable, but they work for me.
 
 ## Downstream dependencies
 
@@ -17,7 +19,7 @@ FDRreg doesn't install in revdep_check() and hasn't been updated on CRAN since 2
 locally installed version appears to work.  (The package only has two functions and the 
 examples for each run with the new version of this package installed.)
 
-Checking packages -------------------------------------------
+Checking packages ------------------------------------------
 Checked abd                : 0 errors | 0 warnings | 0 notes
 Checked fastR              : 0 errors | 0 warnings | 0 notes
 Checked FDRreg             : 1 error  | 0 warnings | 0 notes
