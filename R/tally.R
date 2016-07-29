@@ -78,7 +78,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' @details
 #' The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  
 #' If \code{x} inherits from class \code{"tbl"} or \code{"data frame"}, 
-#' then \pkg{dplyr}'s \code{\link[dply]{tally}()} is called.  This makes it
+#' then \pkg{dplyr}'s \code{\link[dplyr]{tally}()} is called.  This makes it
 #' easier to have the two packages coexist.
 #' 
 #' Otherwise, \code{tally()} is designed as an alternative to \code{\link{table}()} and 
