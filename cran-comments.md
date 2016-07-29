@@ -9,9 +9,7 @@
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs locally
-
-WinBuilder warned about URLs being unavailable, but they work for me.
+There were no ERRORs or WARNINGs locally or via Win Builder.
 
 ## Downstream dependencies
 
