@@ -30,7 +30,6 @@ vignettes-source$
 ^\.httr-oauth$
 ^\.travis\.yml$
 ^data-raw$
-^NEWS\.md$
 ^revdep$
 ^_output\.yaml$
 ^cran-comments\.md$
