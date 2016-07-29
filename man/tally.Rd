@@ -64,15 +64,34 @@ with a condition.}
 ahead of the condition (else after).}
 }
 \value{
-A object of class \code{"table"}, unless passing through to \pkg{dplyr}.
+A object of class \code{"table"}, unless passing through to \pkg{dplyr}
+ or converted to a data frame because \code{format} is \code{"data.frame"} or 
+ \code{"sparse"}.
 }
 \description{
 Tabulate categorical data
 }
 \details{
-The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  If \code{x} inherits 
-from class \code{"tbl"}, then \pkg{dplyr}'s \code{tally} is called.  This makes it
-easier to have the two package coexist.
+The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  
+If \code{x} inherits from class \code{"tbl"} or \code{"data frame"}, 
+then \pkg{dplyr}'s \code{\link[dply]{tally}()} is called.  This makes it
+easier to have the two packages coexist.
+
+Otherwise, \code{tally()} is designed as an alternative to \code{\link{table}()} and 
+\code{\link{xtabs}()}.  The primary use case it to describe a (possibly multi-dimensional)
+table using a formula.  For a table of counts, each component of the formala becomes one 
+of the dimensions of the cross table.  For tables of proportions or percents, conditional
+proportions and percents are computed, conditioned on each level of all "secondary" 
+(i.e., conditioning) variables, defined as everything other than the left hand side, 
+if there is a left hand side to the formala; and everything except the right hand side
+if the left hand side of the formula is empty.  Note that \code{groups} is folded into
+the formula prior to this determination and becomes part of the conditioning.
+
+When marginal totals are added, they are added for all of the conditioning dimensions, and 
+proportions should sum to 1 for each level of the conditioning variables.  This can be 
+useful to make it clear which conditional proportions are beign computed.
+
+See the examples for some typical use cases.
 }
 \note{
 The curent implementation when \code{format = "sparse"} first creates the full data frame
@@ -83,8 +102,9 @@ tally( ~ substance, data = HELPrct)
 tally( ~ substance + sex , data = HELPrct)
 tally( sex ~ substance, data = HELPrct)   # equivalent to tally( ~ sex | substance, ... )
 tally( ~ substance | sex , data = HELPrct)
-tally( ~ substance | sex , data = HELPrct, format = 'count')
-tally( ~ substance + sex , data = HELPrct, format = 'percent')
+tally( ~ substance | sex , data = HELPrct, format = 'count', margins = TRUE)
+tally( ~ substance + sex , data = HELPrct, format = 'percent', margins = TRUE)
+tally( ~ substance | sex , data = HELPrct, format = 'percent', margins = TRUE)
 # force NAs to show up
 tally( ~ sex, data = HELPrct, useNA = "always")
 # show NAs if any are there
