@@ -126,6 +126,12 @@ plotDist <- function(
     pparams <- params
     qparams <- params
   }
+ 
+  # attempting to make evaluation of these arguments more intuitive 
+  env <- parent.frame()
+  dparams <- lapply(dparams, function(x) eval(x, env))
+  pparams <- lapply(pparams, function(x) eval(x, env))
+  qparams <- lapply(qparams, function(x) eval(x, env))
   
   values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
   fewerValues = unique(values)
