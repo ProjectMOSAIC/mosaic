@@ -412,7 +412,7 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @param rows rows to show.  This may be a numeric vector, 
 #' \code{TRUE} (for all rows), or a character vector of row names.
 #' @examples
-#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot")
+#' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot2")
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
 #' @export
