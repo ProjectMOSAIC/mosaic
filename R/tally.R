@@ -358,13 +358,32 @@ prop1 <- function(..., pval.adjust = TRUE) {
 #' @rdname prop
 #' @export
 
-count <- function(x, data=parent.frame(), ..., format="count") {
-	prop(x, data=data, ..., format=format)
+count <- function(x, ...) {
+  UseMethod("count")
 }
 
-count_ <- function(x, data=parent.frame(), ..., format="count") {
-	prop(x, data=data, ..., format=format)
+#' @export
+count.data.frame <- function(x, ..., wt = NULL, sort = FALSE) {
+  vars <- lazyeval::lazy_dots(...)
+  wt <- substitute(wt)
+  dplyr::count_(x, vars, wt, sort = sort)
 }
+
+#' @export
+count.tbl <- function(x, ..., wt = NULL, sort = FALSE) {
+  vars <- lazyeval::lazy_dots(...)
+  wt <- substitute(wt)
+  dplyr::count_(x, vars, wt, sort = sort)
+}
+
+#' @export
+count.default <- function(x, data = parent.frame(), ..., format="count") {
+	prop(x, data = data, ..., format = format)
+}
+
+# count_ <- function(x, data=parent.frame(), ..., format="count") {
+#	prop(x, data=data, ..., format=format)
+# }
 
 #' @rdname prop
 #' @export
