@@ -199,6 +199,7 @@ plotFun <- function(object, ...,
                             type=type, alpha=alpha, col=col), 
                        dots )), 
             data=as.list(environment()), 
+            ...,
             under=under )
       ) 
     }
@@ -831,6 +832,7 @@ panel.plotFun <- function( object, ...,
     cleandots[ names(cleandots) %in% all.vars(object) ] <- NULL
     # use do.call to call the panel function so that the cleandots can be put back in
     if (type == "l") {
+      idx <- 1
       return(
         do.call(
           grid::grid.polyline,
