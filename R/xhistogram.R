@@ -115,7 +115,10 @@ prepanel.xhistogram <-
 #' @param dcol color of density curve
 #' @param dalpha alpha for density curve
 #' @param gcol color of guidelines
-#' @param fcol fill color for histogram rectangles
+#' @param fcol fill colors for histogram rectangles when using \code{groups}.  
+#' (Use \code{col}, which is passed through to \code{\link{panel.histogram}}(), when 
+#' not using `groups`.
+#' 
 #' @param dmath density function for density curve overlay
 #' @param verbose be verbose?
 #' @param dn number of points to sample from density curve
