@@ -22,7 +22,7 @@ Imports:
     latticeExtra,
     ggdendro,
     gridExtra
-Suggests: 
+Suggests:
     lubridate,
     fastR,
     magrittr,
@@ -43,15 +43,15 @@ VignetteBuilder: knitr
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel T. Kaplan
     <kaplan@macalester.edu>, Nicholas J. Horton <nhorton@amherst.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>
-Description: Data sets and utilities from Project MOSAIC (http://mosaic-web.org) used
-    to teach mathematics, statistics, computation and modeling.  Funded by the
-    NSF, Project MOSAIC is a community of educators working to tie together
-    aspects of quantitative work that students in science, technology,
-    engineering and mathematics will need in their professional lives, but
-    which are usually taught in isolation, if at all.
+Description: Data sets and utilities from Project MOSAIC (http://mosaic-web.org)
+    used to teach mathematics, statistics, computation and modeling. Funded by the
+    NSF, Project MOSAIC is a community of educators working to tie together aspects
+    of quantitative work that students in science, technology, engineering and
+    mathematics will need in their professional lives, but which are usually taught
+    in isolation, if at all.
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
 URL: https://github.com/ProjectMOSAIC/mosaic
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000

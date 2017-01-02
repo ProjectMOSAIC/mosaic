@@ -20,6 +20,8 @@
 #' @param xlab a character vector of length one used for the x-axis label
 #' @param type one of \code{"frequency"}, \code{"count"}, \code{"percent"}, or \code{"proportion"}
 #'   indicating what type of scale to use.  Unique prefixes are sufficient.
+#' @param auto.key a logical expression indicating whether a legend should be automatically produced
+#' @param scales is a list determining how the x- and y-axes are drawn
 #' @return a trellis object describing the plot
 #' @seealso \code{\link[lattice]{barchart}}
 #' @details \code{bargraph(formula, data=data, ...)} works by creating a new data frame from \code{xtabs(formula, data=data)}
@@ -48,6 +50,8 @@ bargraph <- function(x, data = parent.frame(), groups = NULL, horizontal = FALSE
                      ylab = ifelse(horizontal, "", type), 
                      xlab = ifelse(horizontal, type, ""), 
                      type = c("count", "frequency", "proportion", "percent"),
+                     auto.key = TRUE,
+                     scales = list(),
                      ...) {
   type <- match.arg(type)
   if (type == "frequency") type <- "count"
@@ -65,6 +69,8 @@ bargraph <- function(x, data = parent.frame(), groups = NULL, horizontal = FALSE
   xtab <- xtab %>% dplyr::mutate(..X.. = xtab[, 1])
   sgroups <- substitute(groups)
   
+ 
+  
   if (horizontal) {
     if (! is.null(condition(x))){
       formula <- as.formula( paste("..X.. ~ ", lastvar, " | ", deparse(condition(x)) ) )
@@ -77,10 +83,13 @@ bargraph <- function(x, data = parent.frame(), groups = NULL, horizontal = FALSE
     } else {
       formula <- as.formula(paste(lastvar, " ~ ..X..")) 
     }
+    if(length(scales) == 0 ){
+      scales = list(x = list(rot = 30))
+    }
   }
   if (xlab == "" && ! horizontal) { xlab <- names(dimnames(xtab0))[1] }
   if (ylab == "" &&   horizontal) { ylab <- names(dimnames(xtab0))[1] }
   
   barchart(formula, data = xtab, groups = eval(sgroups), 
-           origin=origin, ylab = ylab, xlab = xlab, ...)
+           origin=origin, ylab = ylab, xlab = xlab, auto.key = auto.key, scales=scales, ...)
 }
