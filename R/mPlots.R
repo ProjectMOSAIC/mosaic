@@ -1,7 +1,9 @@
 
 
-tryCatch(utils::globalVariables( c('picker','button','slider','checkbox','x','y','color','size','logScales','key','nbins', 'plotType', 'flipCoords', 'group', 'projection')),
-         error=function(e) message('Looks like you should update R.'))
+utils::globalVariables( 
+  c('picker', 'button', 'slider', 'checkbox', 'x', 'y', 'color', 'size', 
+    'logScales', 'key', 'nbins',  'plotType',  
+    'flipCoords', 'group', 'projection', 'facet'))
 
 #' Extract data from a data frame using a formula interface
 #' 
