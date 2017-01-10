@@ -45,7 +45,9 @@ When using the \pkg{mosaic} package defaults,
 
 \item{gcol}{color of guidelines}
 
-\item{fcol}{fill color for histogram rectangles}
+\item{fcol}{fill colors for histogram rectangles when using \code{groups}.
+(Use \code{col}, which is passed through to \code{\link{panel.histogram}}(), when 
+not using `groups`.}
 
 \item{dmath}{density function for density curve overlay}
 
