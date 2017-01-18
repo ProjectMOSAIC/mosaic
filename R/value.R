@@ -35,10 +35,13 @@ value.default <- function(object, ...) {
   if ("value" %in% names(object))
     return(object$value)
   
-  # for nlm()
+  if ("estimate" %in% names(object))
+    return(object$value)
   
-  if (all(c("estimate", "minimum", "gradient", "code", "iterations") %in% names(object)))
-    return(object$estimate)
+  # # for nlm()
+  # 
+  # if (all(c("estimate", "minimum", "gradient", "code", "iterations") %in% names(object)))
+  #   return(object$estimate)
  
   # for uniroot() 
   if (all(c("root", "f.root", "iter", "init.it", "estim.prec") %in% names(object)))
