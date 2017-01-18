@@ -36,7 +36,7 @@ value.default <- function(object, ...) {
     return(object$value)
   
   if ("estimate" %in% names(object))
-    return(object$value)
+    return(object$estimate)
   
   # # for nlm()
   # 
