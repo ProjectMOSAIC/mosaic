@@ -327,6 +327,13 @@ xpnbinom <- function(...)  pdist("nbinom", ...)
 #' @export
 xqnbinom <- function(...)  qdist("nbinom", ...)
 
+#' @rdname pdist
+#' @export
+xpbeta <- function(...)  pdist("beta", ...)
+#' @rdname qdist
+#' @export
+xqbeta <- function(...)  qdist("beta", ...)
+
 
 is_discrete_dist <- function(dist, ... ) {
   q <- dpqrdist(dist, type="q", p=ppoints(100), ...) 

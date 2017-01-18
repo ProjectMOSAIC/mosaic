@@ -2,6 +2,7 @@
 % Please edit documentation in R/dpqrdist.R
 \name{qdist}
 \alias{qdist}
+\alias{xqbeta}
 \alias{xqbinom}
 \alias{xqchisq}
 \alias{xqf}
@@ -31,6 +32,8 @@ xqpois(...)
 xqgeom(...)
 
 xqnbinom(...)
+
+xqbeta(...)
 }
 \arguments{
 \item{dist}{a character discription of a distribution, for example 
