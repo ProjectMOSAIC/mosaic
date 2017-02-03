@@ -175,16 +175,13 @@ function (x,
                     "cauchy"      = dcauchy,
                     "gamma"       = dgamma,
                     "chisq"       = dchisq,
-                    "chi-squared" = dchisq
+                    "chi-squared" = dchisq,
+                    "chi.squared" = dchisq,
+                    "kde"         = NULL  # just a place holder, not used
     )
     x = x[!is.na(x)]
     density <- TRUE
-    if (is.null(args)) {
-      # we now depend on MASS, so we don't have to check for it
-	  #	if (! require(MASS) ){
-      #  stop("The MASS package must be loaded to auto-fit distributions.")
-      #}
-
+    if (is.null(args) && ! fit == "kde") {
       if (is.null(start)) {
         args = fitdistr(x, fit)$estimate
       }
@@ -206,8 +203,13 @@ function (x,
     print(args)
   }
   if ( density && under ) {  # else do this near the end
-    panel.mathdensity(dmath = dmath, args = args, n = dn, 
+    if (fit == "kde") {
+      if (is.null(args)) args <- list()
+      panel.densityplot(x, darg = args, plot.points = FALSE) 
+    } else {
+      panel.mathdensity(dmath = dmath, args = args, n = dn, 
                       col = dcol, alpha=dalpha,lwd = dlwd)
+    }
   }
 
   ## plotting main part of histogram 
@@ -310,8 +312,14 @@ function (x,
   ## additional adornments
   
   if ( density && !under ) {
-    panel.mathdensity(dmath = dmath, args = args, n = dn, 
-                      col = dcol, alpha=dalpha,lwd = dlwd)
+    if (fit == "kde") {
+      if (is.null(args)) args <- list()
+      panel.densityplot(x, darg = args, plot.points = FALSE, 
+                        lwd = dlwd, col = dcol, alpha = dalpha) 
+    } else {
+      panel.mathdensity(dmath = dmath, args = args, n = dn, 
+                      col = dcol, alpha = dalpha, lwd = dlwd)
+    }
   }
   if (!missing(v)) {
         for (x in v) {
