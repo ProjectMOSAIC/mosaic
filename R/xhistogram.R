@@ -191,7 +191,7 @@ function (x,
     }
   } 
   if (is.null(args)) {
-    args <- if (fit == "kde") list() else 
+    args <- if (!is.null(fit) && fit == "kde") list() else 
         list(mean = base::mean(x, na.rm = TRUE), 
              sd = stats::sd(x, na.rm = TRUE))
   }
