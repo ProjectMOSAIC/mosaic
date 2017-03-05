@@ -218,8 +218,6 @@ setMethod(
 		  }
 		  )
 
-## @aliases prop_test,numeric-method
-
 setMethod(
 		  'prop_test',
 		  'numeric',

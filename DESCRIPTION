@@ -54,4 +54,4 @@ LazyLoad: yes
 LazyData: yes
 URL: https://github.com/ProjectMOSAIC/mosaic
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
