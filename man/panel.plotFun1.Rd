@@ -64,4 +64,3 @@ ladd(panel.plotFun1( sin, col='red', lty=2 ) )    # plots sin(x) in each panel
 \seealso{
 plotFun
 }
-

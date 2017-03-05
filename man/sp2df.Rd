@@ -39,4 +39,3 @@ if ( require(ggplot2) && require(maptools) ) {
 }
 }
 }
-

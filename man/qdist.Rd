@@ -2,15 +2,15 @@
 % Please edit documentation in R/dpqrdist.R
 \name{qdist}
 \alias{qdist}
-\alias{xqbeta}
-\alias{xqbinom}
+\alias{xqgamma}
+\alias{xqt}
 \alias{xqchisq}
 \alias{xqf}
-\alias{xqgamma}
+\alias{xqbinom}
+\alias{xqpois}
 \alias{xqgeom}
 \alias{xqnbinom}
-\alias{xqpois}
-\alias{xqt}
+\alias{xqbeta}
 \title{Illustrated quantile calculations from distributions}
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
@@ -88,4 +88,3 @@ xpbinom( c(480, 500, 510), size = 1000, prob = 0.48)
 xpbinom( c(40, 60), size = 100, prob = 0.5)
 xqpois( c(0.25, 0.5, 0.75), lambda = 6, lwd = 3, vlwd = 2)
 }
-

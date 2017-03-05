@@ -22,4 +22,3 @@ Broyden(system, vars, x = 0, tol = .Machine$double.eps^0.4,
 Implementation of Broyden's root finding function to numerically compute the root of
 a system of nonlinear equations
 }
-

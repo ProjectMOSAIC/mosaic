@@ -66,4 +66,3 @@ statTally( D, nullDist)
 
 }
 \keyword{inference}
-

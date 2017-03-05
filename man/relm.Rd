@@ -16,4 +16,3 @@ relm(model, ..., envir = environment(formula(model)))
 \description{
 Residual resampling from a linear model
 }
-

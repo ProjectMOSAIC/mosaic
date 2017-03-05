@@ -3,8 +3,8 @@
 \docType{data}
 \name{StatSpline}
 \alias{StatSpline}
-\alias{geom_spline}
 \alias{stat_spline}
+\alias{geom_spline}
 \title{Geoms and stats for spline smoother}
 \format{An object of class \code{StatSpline} (inherits from \code{Stat}, \code{ggproto}) of length 3.}
 \usage{
@@ -92,4 +92,3 @@ ggplot(Births) + geom_spline(aes(x = date, y=births, colour = wday), nknots = 10
 
 }
 \keyword{datasets}
-

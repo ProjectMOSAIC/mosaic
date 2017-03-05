@@ -2,10 +2,12 @@
 % Please edit documentation in R/reexports.R
 \docType{import}
 \name{reexports}
-\alias{fitdistr}
-\alias{fractions}
 \alias{reexports}
+\alias{fitdistr}
+\alias{reexports}
+\alias{fractions}
 \title{Objects exported from other packages}
+\keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
 below to see their documentation.
@@ -13,5 +15,4 @@ below to see their documentation.
 \describe{
   \item{MASS}{\code{\link[MASS]{fitdistr}}, \code{\link[MASS]{fractions}}}
 }}
-\keyword{internal}
 

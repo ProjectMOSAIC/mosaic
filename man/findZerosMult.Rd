@@ -41,4 +41,3 @@ findZerosMult(a^2+x^2-8~a&x, npts = 100, sortBy='radial')
 \author{
 Cecylia Bocovich
 }
-

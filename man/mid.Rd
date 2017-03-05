@@ -19,4 +19,3 @@ Compute a vector of midpoints between values in a numeric vector
 mid(1:5)
 mid((1:5)^2)
 }
-

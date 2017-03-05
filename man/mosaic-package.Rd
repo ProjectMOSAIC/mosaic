@@ -2,8 +2,8 @@
 % Please edit documentation in R/mosaic-package.R
 \docType{package}
 \name{mosaic-package}
-\alias{mosaic}
 \alias{mosaic-package}
+\alias{mosaic}
 \title{mosaic: the Project MOSAIC package}
 \description{
 mosaic
@@ -15,11 +15,10 @@ community of educators working to tie together aspects of quantitative work that
 in science, technology, engineering and mathematics will need in their professional lives, 
 but which are usually taught in isolation, if at all.
 }
-\author{
-Randall Pruim (\email{rpruim@calvin.edu}), Daniel Kaplan (\email{kaplan@macalester.edu}), Nicholas Horton (\email{nhorton@smith.edu})
-}
 \references{
 \url{http://mosaic-web.org}
 }
+\author{
+Randall Pruim (\email{rpruim@calvin.edu}), Daniel Kaplan (\email{kaplan@macalester.edu}), Nicholas Horton (\email{nhorton@smith.edu})
+}
 \keyword{package}
-

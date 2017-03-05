@@ -66,4 +66,3 @@ bargraph( ~ rbinom(1000, 10, 0.5))
 \seealso{
 \code{\link[lattice]{barchart}}
 }
-

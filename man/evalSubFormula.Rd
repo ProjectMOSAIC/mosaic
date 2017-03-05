@@ -30,4 +30,3 @@ cps
 evalSubFormula( rhs( ~ married & sector), data=cps )
 }
 }
-

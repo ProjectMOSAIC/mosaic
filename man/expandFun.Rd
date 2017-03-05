@@ -21,4 +21,3 @@ Expands the contents of functions used in a formula.
 f=makeFun(x^2~x)
 expandFun(f(z)~z) #Returns z^2~z
 }
-

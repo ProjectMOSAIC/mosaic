@@ -12,4 +12,3 @@ deltaMethod(...)
 \description{
 \code{deltaMethod} has moved to its own separate package.
 }
-

@@ -2,13 +2,13 @@
 % Please edit documentation in R/inspect.R
 \name{inspect}
 \alias{inspect}
-\alias{inspect.POSIXt}
-\alias{inspect.character}
-\alias{inspect.data.frame}
-\alias{inspect.factor}
 \alias{inspect.list}
+\alias{inspect.character}
 \alias{inspect.logical}
 \alias{inspect.numeric}
+\alias{inspect.factor}
+\alias{inspect.POSIXt}
+\alias{inspect.data.frame}
 \alias{print.inspected_data_frame}
 \title{Inspect objects}
 \usage{
@@ -55,4 +55,3 @@ get a quick overview of the variables in data frame.
 inspect(Births78)
 inspect(Births78, is.numeric)
 }
-

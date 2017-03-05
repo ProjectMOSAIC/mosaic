@@ -71,4 +71,3 @@ Mustangs <- read.file("MustangPrice.csv", package="mosaic")
 \code{\link{load}}.
 }
 \keyword{util}
-

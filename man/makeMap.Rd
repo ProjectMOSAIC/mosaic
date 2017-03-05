@@ -40,4 +40,3 @@ borders of the regions.}
 regions and merges them together. Depending on the arguments passed,
 it returns this merged data or a ggplot object constructed with the data.
 }
-

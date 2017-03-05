@@ -38,4 +38,3 @@ confidence and prediction bands should be shown}
 \description{
 show confidence and preciction bands on plots
 }
-

@@ -29,4 +29,3 @@ if (require(tidyr)) {
   do(3) * mean( ~(drug1 - drug2), data=Sleep2 \%>\% swap(drug1 ~ drug2) ) 
 } 
 }
-

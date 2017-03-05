@@ -41,9 +41,9 @@ xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
 \item{manipulate}{logical.  If TRUE and in RStudio,
 then sliders are added for interactivity.}
 
-\item{p}{probability}
-
 \item{\dots}{additional arguments.}
+
+\item{p}{probability}
 }
 \description{
 These functions behave similarly to the functions with the initial \code{x}
@@ -69,4 +69,3 @@ if (rstudio_is_available() & require(manipulate)) {
 \code{\link{qqmath}}, and
 \code{\link{plot}}.
 }
-

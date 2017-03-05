@@ -34,4 +34,3 @@ tally( ~ ntiles(age, 4, format="median"), data=HELPrct)
 bwplot( i2 ~ ntiles(age, n=5, format="interval"), data=HELPrct)
 }
 }
-

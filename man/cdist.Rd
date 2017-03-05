@@ -48,4 +48,3 @@ mean(x) + cdist("t", p = 0.95, df=22) * sd(x) / sqrt(23)
 confint(t.test(x))
 cdist("t", p = 0.95, df=22, verbose = TRUE)
 }
-

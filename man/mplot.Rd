@@ -2,11 +2,11 @@
 % Please edit documentation in R/mplot.R
 \name{mplot}
 \alias{mplot}
-\alias{mplot.TukeyHSD}
-\alias{mplot.data.frame}
 \alias{mplot.default}
 \alias{mplot.lm}
+\alias{mplot.data.frame}
 \alias{mplot.summary.lm}
+\alias{mplot.TukeyHSD}
 \title{Generic plotting}
 \usage{
 mplot(object, ...)
@@ -110,4 +110,3 @@ mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
 }
-

@@ -35,4 +35,3 @@ summary(lm( waiting ~ eruptions + rand(1), faithful))
 }
 \keyword{distribution}
 \keyword{regression}
-

@@ -41,4 +41,3 @@ googleMap(position=rgeo(2), radius=1)    # 2 random locations
 \seealso{
 \code{\link{deg2rad}}, \code{\link{latlon2xyz}} and \code{\link{rgeo}}.
 }
-

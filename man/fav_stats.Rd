@@ -31,4 +31,3 @@ fav_stats(faithful$eruptions)
 favstats(Sepal.Length ~ Species, data=iris)  # Note: this is favstats() rather than fav_stats()
 }
 \keyword{stats}
-

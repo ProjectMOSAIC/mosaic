@@ -31,6 +31,11 @@ The expression can contain unbound variables.  Functions
 will be differentiated as if the formula {f(x) ~ x} were specified
 but with \code{x} replaced by the first argument of \code{f}.}
 
+\item{\dots}{Default values to be given to unbound variables in the expression \code{expr}.
+See examples.#'  Note that in creating anti-derivative functions, 
+default values of "from" and "to" can be assigned.  They are to be written with
+the name of the variable as a prefix, e.g. \code{y.from}.}
+
 \item{.hstep}{horizontal distance between points used for secant slope
 calculation in numerical derivatives.}
 
@@ -62,11 +67,6 @@ symbolic integral is available.}
 \item{vi.from}{the the lower bound of the interval of integration}
 
 \item{ciName}{character string giving the name of the symbol for the constant of integration}
-
-\item{\dots}{Default values to be given to unbound variables in the expression \code{expr}.
-See examples.#'  Note that in creating anti-derivative functions, 
-default values of "from" and "to" can be assigned.  They are to be written with
-the name of the variable as a prefix, e.g. \code{y.from}.}
 }
 \value{
 For derivatives, the return value is a function of the variable(s)
@@ -127,4 +127,3 @@ by.x = antiD(one(x=x, y=y) ~ x, y=1)
 by.xy = antiD(by.x(x = sqrt(1-y^2), y = y) ~ y)
 4 * by.xy(y = 1) # area of quarter circle
 }
-

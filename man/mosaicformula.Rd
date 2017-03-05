@@ -48,4 +48,3 @@ foo <- function(x, groups=NULL) {
 }
 foo( y ~ x , groups = g)
 }
-

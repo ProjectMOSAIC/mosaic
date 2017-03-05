@@ -25,4 +25,3 @@ rad2deg(2*pi)
 \seealso{
 \code{\link{latlon2xyz}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
 }
-

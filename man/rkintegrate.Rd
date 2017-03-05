@@ -30,4 +30,3 @@ This is mainly for internal use by integrateODE.
 \author{
 Daniel Kaplan (\email{kaplan@macalester.edu})
 }
-

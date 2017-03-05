@@ -51,11 +51,10 @@ histogram( ~eruptions, data=faithful )
 ladd(panel.densityplot(faithful$eruptions, lwd=4), under=TRUE) 
 
 }
-\author{
-Randall Pruim (\email{rpruim@calvin.edu})
-}
 \seealso{
 \code{\link[latticeExtra]{layer}}
 }
+\author{
+Randall Pruim (\email{rpruim@calvin.edu})
+}
 \keyword{graphics}
-

@@ -35,4 +35,3 @@ do.call(rbind, dfapply(HELPrct, favstats, select = is.numeric))
 \code{\link{lapply}},
 \code{\link{inspect}}
 }
-

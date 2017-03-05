@@ -21,7 +21,7 @@ format from that used by, for example, \code{\link{replicate}}.
   \item{\code{parallel}:}{a logical indicating whether to attempt parallel execution.}
 }
 }
+
 \seealso{
 \code{\link{do}}
 }
-

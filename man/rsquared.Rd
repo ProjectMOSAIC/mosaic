@@ -14,4 +14,3 @@ rsquared(x, ...)
 \description{
 Attempts to extract an r-squared value from a model or model-like object.
 }
-

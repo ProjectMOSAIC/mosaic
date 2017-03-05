@@ -24,4 +24,3 @@ the seed is set and \code{mc.reset.stream} is called.
 set.rseed(123); do(3) * resample(1:10, 2)
 set.rseed(123); do(3) * resample(1:10, 2)
 }
-

@@ -7,11 +7,11 @@
 cross(..., sep = ":", drop.unused.levels = FALSE)
 }
 \arguments{
+\item{\dots}{factors to be crossed.}
+
 \item{sep}{separator between levels}
 
 \item{drop.unused.levels}{should levels that do not appear in cross product be dropped?}
-
-\item{\dots}{factors to be crossed.}
 }
 \value{
 a factor
@@ -27,4 +27,3 @@ cross(x, y, drop.unused.levels=TRUE)
 
 }
 \keyword{manipulate}
-

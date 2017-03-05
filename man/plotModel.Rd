@@ -44,6 +44,7 @@ generalized linear regression models are supported.
 This is still underdevelopment.  The API is subject to change, and some
 use cases may not work yet.  Watch for improvments in subsequent versions of the package.
 }
+
 \examples{
 
 require(mosaic)
@@ -93,10 +94,9 @@ plotModel(mod)
 plotModel(mod, system="g") + facet_wrap( ~ cyl )
 
 }
-\author{
-Ben Baumer, Galen Long, Randall Pruim
-}
 \seealso{
 \code{\link{plotPoints}}, \code{\link{plotFun}}
 }
-
+\author{
+Ben Baumer, Galen Long, Randall Pruim
+}

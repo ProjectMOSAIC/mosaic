@@ -51,4 +51,3 @@ KidsFeet \%>\% select(-name, -birthmonth) \%>\% rescale() -> KidsFeet2
   mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
   mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle")
 }
-

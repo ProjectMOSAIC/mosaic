@@ -44,4 +44,3 @@ MAD(~eruptions, data=faithful)
 \seealso{
 \code{link{mad}}, \code{\link{MAD_}}
 }
-

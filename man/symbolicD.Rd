@@ -9,9 +9,9 @@ symbolicD(formula, ..., .order = NULL)
 \arguments{
 \item{formula}{a mathematical expression (see examples and \code{\link{plotFun}})}
 
-\item{.order}{a number specifying the order of a derivative with respect to a single variable}
-
 \item{\dots}{additional parameters, typically default values for mathematical parameters}
+
+\item{.order}{a number specifying the order of a derivative with respect to a single variable}
 }
 \value{
 a function implementing the derivative
@@ -31,10 +31,9 @@ symbolicD( a*x^2 ~ x&x)
 symbolicD( a*sin(x)~x, .order=4)
 symbolicD( a*x^2*y+b*y ~ x, a=10, b=100 )
 }
-\author{
-Daniel Kaplan (\email{kaplan@macalester.edu})
-}
 \seealso{
 \code{\link{D}}, \code{\link{numD}}, \code{\link{makeFun}}, \code{\link{antiD}}, \code{\link{plotFun}}
 }
-
+\author{
+Daniel Kaplan (\email{kaplan@macalester.edu})
+}

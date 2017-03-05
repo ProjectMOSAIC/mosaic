@@ -26,10 +26,10 @@ than a scatter plot.  Mainly, this is intended to add new functionality through 
 if you want something other than a scatter plot. Mainly, this is intended to add new functionality through
 other functions.}
 
+\item{\dots}{additional arguments}
+
 \item{plot}{a trellis plot, by default the most recently created one.  If \code{add} is \code{TRUE},
 new points will be added as a new layer to \code{plot}.}
-
-\item{\dots}{additional arguments}
 }
 \value{
 A trellis graphics object
@@ -48,4 +48,3 @@ plotFun( f(length=length,sex="B")~length, add=TRUE)
 \seealso{
 \code{\link{plotFun}}
 }
-

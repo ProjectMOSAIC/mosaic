@@ -31,4 +31,3 @@ example(tally)
 
 }
 \keyword{manipulate}
-

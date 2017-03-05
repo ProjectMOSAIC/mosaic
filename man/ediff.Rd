@@ -50,4 +50,3 @@ head(Men)
 \code{\link{diff}} since 
 \code{ediff} is a thin wrapper around \code{\link{diff}}.
 }
-

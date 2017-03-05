@@ -2,12 +2,12 @@
 % Please edit documentation in R/project.R
 \docType{methods}
 \name{project}
-\alias{dot}
 \alias{project}
 \alias{project,formula-method}
-\alias{project,matrix-method}
 \alias{project,numeric-method}
+\alias{project,matrix-method}
 \alias{vlength}
+\alias{dot}
 \title{Projections}
 \usage{
 project(x, ...)
@@ -110,4 +110,3 @@ project( w, v, type='length' )
 \seealso{
 \code{link{project}}
 }
-

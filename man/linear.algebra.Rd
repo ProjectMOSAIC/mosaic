@@ -51,4 +51,3 @@ singvals(~length*sex*width, data=KidsFeet)
 
 \code{\link{linearModel}}, which returns a function.
 }
-

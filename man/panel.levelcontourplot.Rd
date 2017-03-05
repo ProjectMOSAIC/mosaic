@@ -50,4 +50,3 @@ panel.levelcontourplot(x, y, z, subscripts = 1, at, shrink, labels = TRUE,
 \description{
 Used within plotFun
 }
-

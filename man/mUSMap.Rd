@@ -40,4 +40,3 @@ with the data.
 USArrests2 <- USArrests \%>\% mutate(state = row.names(.))
 mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 }
-

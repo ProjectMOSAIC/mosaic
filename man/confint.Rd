@@ -2,10 +2,10 @@
 % Please edit documentation in R/confint.R, R/mplot.R
 \name{confint}
 \alias{confint}
-\alias{confint.data.frame}
-\alias{confint.do.data.frame}
-\alias{confint.do.tbl_df}
 \alias{confint.numeric}
+\alias{confint.do.tbl_df}
+\alias{confint.do.data.frame}
+\alias{confint.data.frame}
 \alias{confint.summary.lm}
 \title{Confidence interval methods for output of resampling}
 \usage{
@@ -109,4 +109,3 @@ Resampling in the Undergraduate Statistics Curriculum,
 The American Statistician, 
 \url{http://dx.doi.org/10.1080/00031305.2015.1089789}.
 }
-

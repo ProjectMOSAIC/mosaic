@@ -24,4 +24,3 @@ Uses the full model syntax.
 \examples{
 getVarFormula( ~ wt + mpg, data = mtcars)
 }
-

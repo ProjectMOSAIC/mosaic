@@ -21,4 +21,3 @@ work better as names in a data frame by avoiding certain awkward characters
 \examples{
 nice_names( c("bad name", "name (crazy)", "a:b", "two-way") )
 }
-

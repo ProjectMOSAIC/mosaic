@@ -3,6 +3,7 @@
 \name{rfun}
 \alias{rfun}
 \alias{rpoly2}
+\alias{rpoly2}
 \title{Generate a natural-looking function}
 \usage{
 rfun(vars = ~x & y, seed = NULL, n = 0)
@@ -45,4 +46,3 @@ g <- rpoly2( ~ x&y&z, seed=1964)
 plotFun(g(x,y,z=2)~x&y,xlim=range(-5,5),ylim=range(-5,5))
 }
 \keyword{random}
-

@@ -2,13 +2,13 @@
 % Please edit documentation in R/ashplot.R
 \docType{data}
 \name{ashplot}
-\alias{StatAsh}
-\alias{ash_points}
 \alias{ashplot}
-\alias{geom_ash}
-\alias{panel.ashplot}
 \alias{prepanel.default.ashplot}
+\alias{panel.ashplot}
+\alias{ash_points}
+\alias{StatAsh}
 \alias{stat_ash}
+\alias{geom_ash}
 \title{Average Shifted Histograms}
 \format{An object of class \code{StatAsh} (inherits from \code{Stat}, \code{ggproto}) of length 3.}
 \usage{
@@ -116,4 +116,3 @@ ggplot(faithful, aes(x = eruptions)) +
   theme_minimal()
 }
 \keyword{datasets}
-

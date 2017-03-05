@@ -40,4 +40,3 @@ plotFun(soln2$y(t)~t, tlim=range(0,10))
 # SIR epidemic
 epi = integrateODE(dS~ -a*S*I, dI ~ a*S*I - b*I, a=0.0026, b=.5, S=762, I=1, tdur=20)
 }
-

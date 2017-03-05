@@ -40,4 +40,3 @@ that is, use \code{*} instead of \code{&}.  See the examples.
 \code{\link{lm}}, 
 \code{\link{do}}
 }
-
