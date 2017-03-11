@@ -53,9 +53,12 @@ value.default <- function(object, ...) {
       warning("Non-zero return code from adaptIntegrate()", call. = FALSE)
     return(object$integral)
   }
+ 
+  if (is.numeric(object))
+    return(as.numeric(object))  # strip off attributes, etc.
   
   # if all else fails...
-  return(NULL)
+  return(object)
 }
 
 
