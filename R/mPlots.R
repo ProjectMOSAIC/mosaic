@@ -133,6 +133,7 @@ mPlot <- function(data,
              "2-variable (scatter, boxplot, etc.)", 
              "map")
       )
+    if (choice == 0L) return(invisible(NULL))
     default <- c("histogram", "scatter", "map") [choice]
   }
   default <- match.arg(default, plotTypes)
