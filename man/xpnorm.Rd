@@ -11,9 +11,10 @@ xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   vlwd = 2, vcol = trellis.par.get("add.line")$col, rot = 45,
   manipulate = FALSE, ...)
 
-xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
-  lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible = FALSE,
-  vlwd = 2, vcol = trellis.par.get("add.line")$col, rot = 45, ...)
+xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
+  digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
+  ylim, invisible = FALSE, vlwd = 2,
+  vcol = trellis.par.get("add.line")$col, rot = 45, ...)
 }
 \arguments{
 \item{q}{quantile}
