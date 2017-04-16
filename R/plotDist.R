@@ -16,6 +16,11 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' 	  \code{\link{pnorm}}, and 
 #' 	  \code{\link{qnorm}}).  \code{dist} should match the name of the 
 #' 	  distribution with the initial 'd', 'p', or 'q' removed.
+#' @param xlim a numeric vector of length 2 or \code{NULL}, in which case
+#'  the central 99.8% of the distribution is used.
+#' @param ylim a numeric vector of length 2 or \code{NULL}, in which case
+#'  a heuristic is used to avoid chasing asymptotes in distributions like
+#'  the F distributions with 1 numerator degree of freedom.
 #' @param add a logical indicating whether the plot should be added to the previous lattice plot. 
 #' If missing, it will be set to match \code{under}.
 #' @param under a logical indicating whether adding should be done in a layer under or over the existing 
@@ -81,6 +86,8 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 
 plotDist <- function( 
   dist, ...,
+  xlim = NULL,
+  ylim = NULL,
   add,
   under = FALSE,
   packets=NULL,
@@ -88,7 +95,7 @@ plotDist <- function(
   columns=NULL,
   kind = c('density','cdf','qq','histogram'), 
   xlab = "", ylab = "", breaks = NULL, type, 
-  resolution = 5000,  params = NULL ) {
+  resolution = 5000L,  params = NULL ) {
   
   kind = match.arg(kind)
   if (missing(add)) add <- under
@@ -126,8 +133,7 @@ plotDist <- function(
     pparams <- params
     qparams <- params
   }
-  
-  values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
+  values = do.call(qdist, c(list(p = ppoints(resolution)), qparams)) 
   fewerValues = unique(values)
   discrete = length(fewerValues) < length(values) 
   if ( is.null(breaks) && discrete ){
@@ -175,29 +181,42 @@ plotDist <- function(
           columns=columns) 
     )
   } else { # not adding
+    if (is.null(xlim)) {
+      xlim <- do.call(qdist, c(list(p=c(0.001, .999)), qparams))
+    }
+    ydata <- 
+      switch(kind,
+             density = do.call(ddist, c(list(x=fewerValues), dparams)),
+             cdf = cdfy,
+             qq = do.call( ddist, c(list(x=values), dparams)),
+             histogram = do.call(ddist, c(list(x=values), dparams))
+      )
+    if (is.null(ylim)) {
+      ymax <- 1.1 * quantile(ydata, 0.95, na.rm=TRUE)
+      ylim = c(0, 1.4 * ymax)  
+    }
+    
     switch(kind, 
            density = 
              lattice::xyplot( y ~ x, 
-                              data=data.frame( 
-                                y = do.call( ddist, c(list(x=fewerValues), dparams) ), 
-                                x = fewerValues), 
+                              data=data.frame(y = ydata, x = fewerValues), 
+                              xlim = xlim, ylim = ylim,
                               type=type, xlab=xlab, ylab=ylab, ...),
            cdf = 
              lattice::xyplot( y ~ x, 
-                              data=data.frame( y = cdfy, x = cdfx ), 
-                              type=type, xlab=xlab, ylab=ylab, ...),
+                              data=data.frame(y = ydata, x = cdfx), 
+                              xlim = xlim, ylim = ylim,
+                              type=type, xlab = xlab, ylab = ylab, ...),
            qq = 
              lattice::qqmath( ~ x, 
-                              data = data.frame( 
-                                x = values, 
-                                y = do.call( ddist, c(list(x=values), dparams) ) ), 
-                              type=type, xlab=xlab, ylab=ylab, ...),
+                              data = data.frame(x = values, y = ydata),
+                              xlim = xlim, ylim = ylim,
+                              type = type, xlab = xlab, ylab = ylab, ...),
            histogram = 
              histogram( ~ x,
-                        data = data.frame( 
-                          x = values, 
-                          y = do.call( ddist, c(list(x=values), dparams) ) ), 
-                        type=type, xlab=xlab, breaks=breaks, ...)
+                        data = data.frame(x = values,  y = ydata),
+                        xlim = xlim, ylim = ylim,
+                        type = type, xlab = xlab, breaks = breaks, ...)
     )
   }
 }

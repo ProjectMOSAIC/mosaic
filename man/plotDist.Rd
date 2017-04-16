@@ -4,10 +4,10 @@
 \alias{plotDist}
 \title{Plots of Discrete and Continuous Distributions}
 \usage{
-plotDist(dist, ..., add, under = FALSE, packets = NULL, rows = NULL,
-  columns = NULL, kind = c("density", "cdf", "qq", "histogram"),
-  xlab = "", ylab = "", breaks = NULL, type, resolution = 5000,
-  params = NULL)
+plotDist(dist, ..., xlim = NULL, ylim = NULL, add, under = FALSE,
+  packets = NULL, rows = NULL, columns = NULL, kind = c("density",
+  "cdf", "qq", "histogram"), xlab = "", ylab = "", breaks = NULL, type,
+  resolution = 5000L, params = NULL)
 }
 \arguments{
 \item{dist}{A string identifying the distribution.  This should work
@@ -19,6 +19,13 @@ with 'd', 'p', and 'q' (e.g,
 distribution with the initial 'd', 'p', or 'q' removed.}
 
 \item{\dots}{other arguments passed along to lattice graphing routines}
+
+\item{xlim}{a numeric vector of length 2 or \code{NULL}, in which case
+the central 99.8% of the distribution is used.}
+
+\item{ylim}{a numeric vector of length 2 or \code{NULL}, in which case
+a heuristic is used to avoid chasing asymptotes in distributions like
+the F distributions with 1 numerator degree of freedom.}
 
 \item{add}{a logical indicating whether the plot should be added to the previous lattice plot. 
 If missing, it will be set to match \code{under}.}
