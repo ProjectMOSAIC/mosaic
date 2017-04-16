@@ -75,7 +75,7 @@ but much of the code originally in the `fastR` package has been moved into the `
     * [www.ams.org/publications/authors/books/postpub/amstext-13](http://www.ams.org/publications/authors/books/postpub/amstext-13)
 
  * *Modern Data Science with R* (BS Baumer, DT Kaplan, and NJ Horton)
-		is an R-infused data science text that emphasizes conceptual understanding and computation
+		is an R-infused data science text that emphasizes conceptual understanding and computation.
 
     * [http://mdsr-book.github.io/](http://mdsr-book.github.io/)
 
