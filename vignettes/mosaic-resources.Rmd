@@ -74,13 +74,18 @@ but much of the code originally in the `fastR` package has been moved into the `
 
     * [www.ams.org/publications/authors/books/postpub/amstext-13](http://www.ams.org/publications/authors/books/postpub/amstext-13)
 
+ * *Modern Data Science with R* (BS Baumer, DT Kaplan, and NJ Horton)
+		is an R-infused data science text that emphasizes conceptual understanding and computation
+
+    * [http://mdsr-book.github.io/](http://mdsr-book.github.io/)
+
  * *The Statistical Sleuth in R* (NJ Horton)
 		describes how to undertake analyses in R for the
 		examples in the Third Edition of the
 		*Statistical Sleuth: A Course in Methods of Data Analysis* (2013),
 		by Fred Ramsey and Dan Schafer.
 
-    * [www.amherst.edu/~nhorton/sleuth](http://www.amherst.edu/~nhorton/sleuth)
+    * [nhorton.people.amherst.edu/sleuth](http://nhorton.people.amherst.edu/sleuth)
 
 		
  * *Introduction to the Practice of Statistics in R* (NJ Horton and BS Baumer)
@@ -89,7 +94,7 @@ but much of the code originally in the `fastR` package has been moved into the `
 		Statistics* (2007), by David Moore, George McCabe,
 		and Bruce Craig. 
 		
-    * [www.amherst.edu/~nhorton/ips6e](http://www.amherst.edu/~nhorton/ips6e) 
+    * [nhorton.people.amherst.edu/ips6e](http://nhorton.people.amherst.edu/ips6e) 
 
  * *Statistics: Unlocking the Power of Data* (Lock, Lock, Lock, Lock, and Lock) 
 		is an introductory statistics textbook that embraces a resampling approach. 
@@ -111,7 +116,7 @@ but much of the code originally in the `fastR` package has been moved into the `
 		*Stats: Data and Models* (2015),
 		by Dick De Veaux, Paul Velleman, and Dave Bock.
 
-    * [www.amherst.edu/~nhorton/sdm4](http://www.amherst.edu/~nhorton/sdm4)
+    * [nhorton.people.amherst.edu/sdm4](http://nhorton.people.amherst.edu/sdm4)
 
  * *Intro Stats* (P Frenett and NJ Horton)
 		describes how to undertake analyses in R for the
@@ -119,7 +124,7 @@ but much of the code originally in the `fastR` package has been moved into the `
 		*Intro Stats* (2013),
 		by Dick De Veaux, Paul Velleman, and Dave Bock.
 
-    * [www.amherst.edu/~nhorton/is4](http://www.amherst.edu/~nhorton/is4)
+    * [nhorton.people.amherst.edu/is4](http://nhorton.people.amherst.edu/is4)
 
 
  * *Introduction to Statistical Investigations* (Tintle *et al*) 
@@ -148,7 +153,7 @@ but much of the code originally in the `fastR` package has been moved into the `
    [www.escholarship.org/uc/item/6hb3k0nz](http://www.escholarship.org/uc/item/6hb3k0nz).
 
  * NJ Horton, BS Baumer, and H Wickham, "Teaching precursors to data science in introductory and second courses in statistics," *CHANCE*, 2015, 28(2):40-50, 
- [www.amherst.edu/~nhorton/precursors](http://www.amherst.edu/~nhorton/precursors)
+ [nhorton.people.amherst.edu/precursors](http://nhorton.people.amherst.edu/precursors)
 
  * NJ Horton, and J Hardin, "Teaching the next generation of statistics students to "Think With Data": special issue on statistics and the undergraduate curriculum," *TAS*, 2015, 69(4):259-265, 
  [http://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283](http://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283)
