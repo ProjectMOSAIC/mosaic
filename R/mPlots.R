@@ -146,6 +146,7 @@ mPlot <- function(data,
     )
   }
   if (default == "map") {
+    system <- "ggplot2"
     return(
       mMap(data, default = default, system = system, show = show, title = title,
            data_text = data_text)
