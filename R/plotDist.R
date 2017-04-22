@@ -211,7 +211,7 @@ plotDist <- function(
     if (is.null(ylim)) {
       ymax <- 
         min(
-          1.5 * quantile(ydata, 0.90, na.rm=TRUE),
+          1.6 * quantile(ydata, 0.90, na.rm=TRUE),
           1.1 * max(ydata, na.rm=TRUE),
           na.rm = TRUE)
       ylim = c(0, ymax)  
