@@ -29,7 +29,6 @@ function (x, y=NULL, correct=TRUE, p = rep(1/length(x), length(x)),
                        rescale.p = rescale.p, 
                        simulate.p.value=simulate.p.value, B=B)
   } else {
-    
     orig <- chisq.test(x=x, y=y, correct=correct, p = p, 
                        rescale.p = rescale.p, 
                        simulate.p.value=simulate.p.value, B=B)
