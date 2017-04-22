@@ -70,6 +70,7 @@ utils::globalVariables(c('densy','densx','dots'))
 #' plotDist("binom", size=100, prob=.30) +
 #'   plotDist("norm", mean=30, sd=sqrt(100 * .3 * .7))
 #' plotDist("chisq", df=4, groups = x > 6, type="h")
+#' plotDist("f", df1=1, df2 = 99)
 #' if (require(mosaicData)) {
 #' histogram( ~age|sex, data=HELPrct)
 #' m <- mean( ~age|sex, data=HELPrct)
@@ -139,12 +140,23 @@ plotDist <- function(
   
   values = do.call(qdist, c(p=list(ppoints(resolution)), qparams)) 
 
-  fewerValues = unique(values)
+  fewerValues <- unique(values)
   discrete = length(fewerValues) < length(values) 
+  
+  if (! discrete) {
+    values = seq(
+      do.call(qdist, c(p = list(0.001), qparams)),
+      do.call(qdist, c(p = list(0.999), qparams)),
+      length.out = resolution
+    ) 
+    fewerValues <- values
+  }
+  
   if ( is.null(breaks) && discrete ){
     step = min(diff(fewerValues))
     breaks = seq( min(fewerValues) -.5 * step , max(fewerValues) + .5*step, step)
   }
+  
   if (kind=='cdf') {
     if (discrete) {
       step = min(diff(fewerValues))
@@ -197,9 +209,12 @@ plotDist <- function(
              histogram = do.call(ddist, c(list(x=values), dparams))
       )
     if (is.null(ylim)) {
-      ymax <- 1.1 * quantile(ydata, 0.95, na.rm=TRUE)
+      ymax <- 
+        min(
+          1.5 * quantile(ydata, 0.90, na.rm=TRUE),
+          1.1 * max(ydata, na.rm=TRUE),
+          na.rm = TRUE)
       ylim = c(0, ymax)  
-      print(ylim)
     }
     
     switch(kind, 
