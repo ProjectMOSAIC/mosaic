@@ -13,7 +13,7 @@ prop(x, data = parent.frame(), useNA = "no", ..., level = NULL,
 
 prop1(..., pval.adjust = TRUE)
 
-count(x, data = parent.frame(), ..., format = "count")
+count(x, ...)
 
 perc(x, data = parent.frame(), ..., format = "percent")
 }

@@ -104,7 +104,7 @@ mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )
 mplot( HELPrct )
 mplot( HELPrct, "histogram" )
 }
-mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot")
+mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot2")
 mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
 mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
 mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
