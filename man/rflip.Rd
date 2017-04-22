@@ -6,7 +6,8 @@
 \alias{nflip}
 \title{Tossing Coins}
 \usage{
-rflip(n = 1, prob = 0.5, quiet = FALSE, verbose = !quiet)
+rflip(n = 1, prob = 0.5, quiet = FALSE, verbose = !quiet,
+  summarize = FALSE, summarise = summarize)
 
 \method{print}{cointoss}(x, ...)
 
@@ -20,6 +21,10 @@ nflip(n = 1, prob = 0.5, ...)
 \item{quiet}{a logical.  If \code{TRUE}, less verbose output is used.}
 
 \item{verbose}{a logical.  If \code{TRUE}, more verbose output is used.}
+
+\item{summarize}{if \code{TRUE}, return a summary (as a data frame).}
+
+\item{summarise}{alternative spelling for \code{summarize}.}
 
 \item{x}{an object}
 
@@ -37,7 +42,8 @@ and verbosity better.
 }
 \examples{
 rflip(10)
-rflip(10, prob=1/6, quiet=TRUE)
+rflip(10, prob = 1/6, quiet = TRUE)
+rflip(10, prob = 1/6, summarize = TRUE)
 do(5) * rflip(10)
 as.numeric(rflip(10))
 nflip(10)
