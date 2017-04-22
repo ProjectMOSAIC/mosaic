@@ -90,6 +90,7 @@ plotDist("norm", mean=12, sd=2, col="red", type="h", under=TRUE)
 plotDist("binom", size=100, prob=.30) +
   plotDist("norm", mean=30, sd=sqrt(100 * .3 * .7))
 plotDist("chisq", df=4, groups = x > 6, type="h")
+plotDist("f", df1=1, df2 = 99)
 if (require(mosaicData)) {
 histogram( ~age|sex, data=HELPrct)
 m <- mean( ~age|sex, data=HELPrct)
