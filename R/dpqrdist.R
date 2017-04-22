@@ -172,9 +172,10 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
 }
 
 
-plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000L,
-                            dlwd=2, vlwd=if (discrete) 0 else 2, vcol=trellis.par.get('add.line')$col,
-                            rot=0, ...) 
+plot_multi_dist <- 
+  function(dist, p, q, xlim, ylim, digits=4, resolution=5000L,
+           dlwd=2, vlwd=if (discrete) 0 else 2, vcol=trellis.par.get('add.line')$col,
+           rot=0, ...) 
 {
   dots <- list(...)
   latticedots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
