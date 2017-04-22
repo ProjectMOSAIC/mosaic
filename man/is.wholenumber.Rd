@@ -27,4 +27,3 @@ is.wholenumber(1)
 all(is.wholenumber(rbinom(100,10,.5)))
 is.wholenumber((1:10)/2)
 }
-

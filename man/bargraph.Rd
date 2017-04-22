@@ -7,7 +7,7 @@
 bargraph(x, data = parent.frame(), groups = NULL, horizontal = FALSE,
   origin = 0, ylab = ifelse(horizontal, "", type),
   xlab = ifelse(horizontal, type, ""), type = c("count", "frequency",
-  "proportion", "percent"), ...)
+  "proportion", "percent"), auto.key = TRUE, scales = list(), ...)
 }
 \arguments{
 \item{x}{a formula describing the plot}
@@ -29,6 +29,10 @@ a different kind of plot as the results may be misleading.}
 
 \item{type}{one of \code{"frequency"}, \code{"count"}, \code{"percent"}, or \code{"proportion"}
 indicating what type of scale to use.  Unique prefixes are sufficient.}
+
+\item{auto.key}{a logical expression indicating whether a legend should be automatically produced}
+
+\item{scales}{is a list determining how the x- and y-axes are drawn}
 
 \item{\dots}{additional arguments passed to \code{\link[lattice]{barchart}}}
 }
@@ -60,10 +64,8 @@ bargraph( ~ substance, groups = homeless, auto.key=TRUE,
             data = HELPrct \%>\% filter(sex == "male"))
 HELPrct2 <- mutate(HELPrct, older = age > 40)
 bargraph( ~ substance | older, data = HELPrct2)
-bargraph( ~ rbinom(1000, 10, 0.5))
 }
 }
 \seealso{
 \code{\link[lattice]{barchart}}
 }
-

@@ -35,4 +35,3 @@ for example.
 adapt_seq(0, pi, 25, sin)
 
 }
-

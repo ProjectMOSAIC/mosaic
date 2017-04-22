@@ -23,4 +23,3 @@ vector2df(c(1, b = 2, `(Intercept)` = 3))
 vector2df(c(1, b = 2, `(Intercept)` = 3), nice_names = TRUE)
 
 }
-

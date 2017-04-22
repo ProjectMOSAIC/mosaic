@@ -2,14 +2,15 @@
 % Please edit documentation in R/dpqrdist.R
 \name{pdist}
 \alias{pdist}
-\alias{xpbinom}
+\alias{xpgamma}
+\alias{xpt}
 \alias{xpchisq}
 \alias{xpf}
-\alias{xpgamma}
+\alias{xpbinom}
+\alias{xppois}
 \alias{xpgeom}
 \alias{xpnbinom}
-\alias{xppois}
-\alias{xpt}
+\alias{xpbeta}
 \title{Illustrated probability calculations from distributions}
 \usage{
 pdist(dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE,
@@ -32,6 +33,8 @@ xppois(...)
 xpgeom(...)
 
 xpnbinom(...)
+
+xpbeta(...)
 }
 \arguments{
 \item{dist}{a character discription of a distribution, for example 
@@ -85,4 +88,3 @@ pdist("gamma", 2, shape=3, rate=4)
 \seealso{
 \code{\link{qdist}}, \code{\link{xpnorm}}, \code{\link{xqnorm}}.
 }
-

@@ -2,9 +2,9 @@
 % Please edit documentation in R/chisq.R
 \name{chisq}
 \alias{chisq}
-\alias{chisq.default}
 \alias{chisq.htest}
 \alias{chisq.table}
+\alias{chisq.default}
 \title{Extract Chi-squared statistic}
 \usage{
 chisq(x, ...)
@@ -46,4 +46,3 @@ if(require(mosaicData)) {
 \seealso{
 \code{\link{stat}}
 }
-

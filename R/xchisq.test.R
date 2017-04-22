@@ -3,9 +3,12 @@
 #' This augmented version of \code{\link{chisq.test}} provides more verbose
 #' output.
 #'
-#' @param x,y,correct,p,rescale.p,simulate.p.value,B as in \code{\link{chisq.test}}.
+#' @param x,y,correct,p,rescale.p,simulate.p.value,B as in \code{\link{chisq.test}}, but 
+#' \code{x} may also be a formula, in which case \code{x} is replaced by \code{tally(x, data)}
+#' prior to the call to \code{\link{chisq.test}()}.
+#' @param data a data frame for use when \code{x} is a formula.
 #' 
-#' @seealso \code{\link{chisq.test}} 
+#' @seealso \code{\link{chisq.test}()} 
 #' 
 #' @examples
 #' # Physicians' Health Study data
@@ -14,15 +17,23 @@
 #' colnames(phs) <- c("heart attack","no heart attack") 
 #' phs 
 #' xchisq.test(phs) 
+#' xchisq.test(sex ~ substance, data = HELPrct)
 #' @export
 
 xchisq.test <-
 function (x, y=NULL, correct=TRUE, p = rep(1/length(x), length(x)),
-          rescale.p=FALSE, simulate.p.value=FALSE, B=2000) 
+          rescale.p=FALSE, simulate.p.value=FALSE, B=2000, data = environment(x)) 
 {
+  if (inherits(x, "formula")) {
+    orig <- chisq.test(tally(x, data = data), correct=correct, p = p, 
+                       rescale.p = rescale.p, 
+                       simulate.p.value=simulate.p.value, B=B)
+  } else {
+    
     orig <- chisq.test(x=x, y=y, correct=correct, p = p, 
-                      rescale.p = rescale.p, 
-                      simulate.p.value=simulate.p.value, B=B)
+                       rescale.p = rescale.p, 
+                       simulate.p.value=simulate.p.value, B=B)
+  }
     if (is.matrix(orig$observed)) {
         dd <- dim(orig$observed)
     }

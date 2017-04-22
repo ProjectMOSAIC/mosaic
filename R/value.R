@@ -35,10 +35,13 @@ value.default <- function(object, ...) {
   if ("value" %in% names(object))
     return(object$value)
   
-  # for nlm()
-  
-  if (all(c("estimate", "minimum", "gradient", "code", "iterations") %in% names(object)))
+  if ("estimate" %in% names(object))
     return(object$estimate)
+  
+  # # for nlm()
+  # 
+  # if (all(c("estimate", "minimum", "gradient", "code", "iterations") %in% names(object)))
+  #   return(object$estimate)
  
   # for uniroot() 
   if (all(c("root", "f.root", "iter", "init.it", "estim.prec") %in% names(object)))
@@ -50,9 +53,12 @@ value.default <- function(object, ...) {
       warning("Non-zero return code from adaptIntegrate()", call. = FALSE)
     return(object$integral)
   }
+ 
+  if (is.numeric(object))
+    return(as.numeric(object))  # strip off attributes, etc.
   
   # if all else fails...
-  return(NULL)
+  return(object)
 }
 
 

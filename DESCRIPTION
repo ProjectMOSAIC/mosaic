@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 0.14.9002
-Date: 2016-10-15
+Version: 0.14.9004
+Date: 2017-04-22
 Depends:
     R (>= 3.0.0),
     dplyr,
@@ -54,4 +54,4 @@ LazyLoad: yes
 LazyData: yes
 URL: https://github.com/ProjectMOSAIC/mosaic
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

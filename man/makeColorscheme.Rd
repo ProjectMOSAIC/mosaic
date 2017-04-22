@@ -20,4 +20,3 @@ cs <- makeColorscheme( c('red','white','blue') )
 cs(10)
 cs(10, alpha=.5)
 }
-

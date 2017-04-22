@@ -68,4 +68,3 @@ hist(faithful$eruptions, breaks = bks)
 freqpoly(faithful$eruptions, col = rgb(0,0,1,.5), lwd = 5, breaks = bks, add = TRUE)
 
 }
-

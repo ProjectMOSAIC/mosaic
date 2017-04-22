@@ -21,4 +21,3 @@ This is essentially \code{rmultinom} with a different interface.
 rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
 do(2) * rspin(20, prob=c(1,2,3), labels=c("Red", "Blue", "Green"))
 }
-

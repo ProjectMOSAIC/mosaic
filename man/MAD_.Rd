@@ -27,4 +27,3 @@ All pairs mean and sum of absolute differences
 \seealso{
 \code{\link{mad}}
 }
-

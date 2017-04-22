@@ -20,13 +20,13 @@ panel.dotPlot(x, breaks, equal.widths = TRUE, groups = NULL, nint = if
 
 \item{breaks, equal.widths, groups, pch, col, lty, lwd, col.line, type, alpha}{as in \code{\link{histogram}}}
 
+\item{\dots}{additional arguments}
+
 \item{panel}{a panel function}
 
 \item{nint}{the number of intervals to use}
 
 \item{cex}{a ratio by which to increase or decrease the dot size}
-
-\item{\dots}{additional arguments}
 }
 \value{
 a trellis object
@@ -48,4 +48,3 @@ dotPlot( ~ height | voice.part, data = singer, nint = 17,
 \code{\link{histogram}}
 }
 \keyword{graphics}
-

@@ -18,6 +18,9 @@ The left side is an expression, e.g. \code{sin(x) ~ x}.
 All free variables (all but the variable on the right side) named in the expression must be assigned 
 a value via \code{\ldots}}
 
+\item{\dots}{Formulas corresponding to additional functions to use in simultaneous zero finding
+and/or specific numerical values for the free variables in the expression.}
+
 \item{xlim}{The range of the dependent variable to search for zeros. \code{Inf} is a legitimate value, 
 but is interpreted in the numerical sense as the non-Inf largest floating point number.  This can also
 be specified replacing \code{x} with the name of the variable.  See the examples.}
@@ -42,9 +45,6 @@ a modest number of zeros near \code{near}.}
 \item{sortBy}{specifies how the zeros found will be sorted. Options are 'byx', 'byy', or 'radial'.}
 
 \item{form}{Expression to be solved}
-
-\item{\dots}{Formulas corresponding to additional functions to use in simultaneous zero finding
-and/or specific numerical values for the free variables in the expression.}
 }
 \value{
 A dataframe of zero or more numerical values.  Plugging these into the
@@ -93,4 +93,3 @@ Daniel Kaplan (\email{kaplan@macalester.edu})
 Cecylia Bocovich
 }
 \keyword{calculus}
-

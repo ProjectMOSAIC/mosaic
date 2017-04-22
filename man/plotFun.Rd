@@ -134,4 +134,3 @@ xyplot(length ~ width, groups=sex, data=KidsFeet, auto.key=TRUE)
 plotFun(fitted.length(width, sex="B") ~ width, add=TRUE, col=1)
 plotFun(fitted.length(width, sex="G") ~ width, add=TRUE, col=2)
 }
-

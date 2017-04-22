@@ -172,7 +172,7 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
 }
 
 
-plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
+plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000L,
                             dlwd=2, vlwd=if (discrete) 0 else 2, vcol=trellis.par.get('add.line')$col,
                             rot=0, ...) 
 {
@@ -217,6 +217,7 @@ plot_multi_dist <- function(dist, p, q, xlim, ylim, digits=4, resolution=5000,
   ymax <- 1.1 * quantile(ydata, 0.95, na.rm=TRUE)
   if (missing(ylim)) {
     ylim = c(0, 1.4 * ymax)  # quantile(ydata, 0.95, na.rm = TRUE))
+    print(ylim)
   }
   
   # this could be funny if limits don't span q
@@ -326,6 +327,13 @@ xpnbinom <- function(...)  pdist("nbinom", ...)
 #' @rdname qdist
 #' @export
 xqnbinom <- function(...)  qdist("nbinom", ...)
+
+#' @rdname pdist
+#' @export
+xpbeta <- function(...)  pdist("beta", ...)
+#' @rdname qdist
+#' @export
+xqbeta <- function(...)  qdist("beta", ...)
 
 
 is_discrete_dist <- function(dist, ... ) {

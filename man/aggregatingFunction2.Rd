@@ -33,6 +33,7 @@ Earlier versions of this function supported a "bare name + data frame" interface
 functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary, 
 and (c) difficult to maintain.
 }
+
 \examples{
 if(require(mosaicData)) {
   foo <- aggregatingFunction2(stats::cor)
@@ -40,4 +41,3 @@ if(require(mosaicData)) {
    stats::cor(KidsFeet$length, KidsFeet$width)
 }
 }
-

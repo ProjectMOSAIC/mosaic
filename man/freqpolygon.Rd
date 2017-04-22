@@ -2,8 +2,8 @@
 % Please edit documentation in R/frequencyPolygon.R
 \name{freqpolygon}
 \alias{freqpolygon}
-\alias{panel.freqpolygon}
 \alias{prepanel.default.freqpolygon}
+\alias{panel.freqpolygon}
 \title{Frequency Polygons}
 \usage{
 freqpolygon(x, ..., panel = "panel.freqpolygon",
@@ -24,6 +24,9 @@ panel.freqpolygon(x, darg = list(), plot.points = FALSE, ref = FALSE,
 }
 \arguments{
 \item{x}{a formula or a numeric vector}
+
+\item{\dots}{additional arguments passed on to \code{\link{histogram}} 
+and \code{panel}.}
 
 \item{panel}{a panel function}
 
@@ -59,9 +62,6 @@ or \code{\link{histogram}}}
 \item{glwd}{width of guidelines}
 
 \item{h, v}{a vector of values for additional horizontal and vertical lines}
-
-\item{\dots}{additional arguments passed on to \code{\link{histogram}} 
-and \code{panel}.}
 }
 \value{
 a trellis object
@@ -87,4 +87,3 @@ freqpolygon(~age | substance, data=HELPrct, groups=sex, ylim=c(0,0.11))
 histogram(~eruptions, faithful, type='density', width=.5)
 ladd( panel.freqpolygon(faithful$eruptions, width=.5 ))
 }
-

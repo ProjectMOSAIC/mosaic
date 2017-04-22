@@ -49,4 +49,3 @@ ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
 geom_polygon(aes(fill=GDP5), color="gray70", size=.5) + guides(fill=FALSE)  
 }
 }
-

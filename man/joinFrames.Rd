@@ -10,9 +10,9 @@ joinFrames(...)
 joinTwoFrames(left, right)
 }
 \arguments{
-\item{left, right}{data frames}
-
 \item{\dots}{data frames to be joined}
+
+\item{left, right}{data frames}
 }
 \value{
 a data frame containing columns from each of data frames being joined.
@@ -20,4 +20,3 @@ a data frame containing columns from each of data frames being joined.
 \description{
 Join data frames
 }
-

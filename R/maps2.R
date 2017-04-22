@@ -409,7 +409,7 @@ theme_map <- function (base_size=12) {
       panel.grid = element_blank (),
       axis.ticks.length = grid::unit (0,"cm"),
       # axis.ticks.margin = grid::unit (0.01,"cm"),
-      panel.margin = grid::unit (0,"lines"),
+      panel.spacing = grid::unit (0,"lines"),
       plot.margin = grid::unit(c(0,0,0,0),"lines"),
       complete = TRUE
     )    

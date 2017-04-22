@@ -96,4 +96,3 @@ with(faithful, binom.test(long))
 \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
 }
 \keyword{stats}
-

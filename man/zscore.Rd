@@ -20,4 +20,3 @@ iris \%>\%
   mutate(zSepal.Length = zscore(Sepal.Length)) \%>\% 
   head()
 }
-

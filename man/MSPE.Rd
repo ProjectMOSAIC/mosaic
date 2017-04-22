@@ -31,4 +31,3 @@ MSPE( gwm( sex ~ 1, data = HELP), HELPrct)
 MSPE( gwm( sex ~ homeless, data = HELP), HELPrct)
 MSPE( gwm( sex ~ homeless + substance, data = HELP), HELPrct)
 }
-

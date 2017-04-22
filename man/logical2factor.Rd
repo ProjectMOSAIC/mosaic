@@ -2,8 +2,8 @@
 % Please edit documentation in R/tally.R
 \name{logical2factor}
 \alias{logical2factor}
-\alias{logical2factor.data.frame}
 \alias{logical2factor.default}
+\alias{logical2factor.data.frame}
 \title{Turn logicals into factors; leave other things alone}
 \usage{
 logical2factor(x, ...)
@@ -26,4 +26,3 @@ a data frame with all logicals converted to factors in this manner.
 \description{
 Turn logicals into factors; leave other things alone
 }
-

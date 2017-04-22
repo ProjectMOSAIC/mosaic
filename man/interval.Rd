@@ -26,13 +26,13 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
 
 \item{level}{the confidence level required.}
 
+\item{\dots}{Additional arguments.}
+
 \item{x}{An object of class \code{htest}.}
 
 \item{digits}{number of digits to display in verbose output}
 
 \item{verbose}{a logical}
-
-\item{\dots}{Additional arguments.}
 }
 \value{
 the extracted p-value, confidence interval, or test statistic
@@ -56,4 +56,3 @@ do(10) * stat(t.test (age ~ shuffle(sex), data=HELPrct))
 }
 \keyword{inference}
 \keyword{stats}
-

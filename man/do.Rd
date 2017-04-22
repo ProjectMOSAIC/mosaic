@@ -2,12 +2,12 @@
 % Please edit documentation in R/do.R
 \docType{methods}
 \name{do}
-\alias{*,repeater,ANY-method}
-\alias{Do}
 \alias{do}
-\alias{do.default}
 \alias{do.numeric}
+\alias{do.default}
+\alias{Do}
 \alias{print.repeater}
+\alias{*,repeater,ANY-method}
 \title{Do Things Repeatedly}
 \usage{
 do(object, ...)
@@ -82,12 +82,11 @@ if (require(mosaicData)) {
   do(3) * tally( ~sex|treat, data=resample(HELPrct))
 }
 }
+\seealso{
+\code{\link{replicate}}, \code{\link{set.rseed}}
+}
 \author{
 Daniel Kaplan (\email{kaplan@macalaster.edu})
   and Randall Pruim (\email{rpruim@calvin.edu})
 }
-\seealso{
-\code{\link{replicate}}, \code{\link{set.rseed}}
-}
 \keyword{iteration}
-

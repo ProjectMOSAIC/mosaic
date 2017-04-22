@@ -33,4 +33,3 @@ of determinism, an the estimate for the variance, etc.
 cull_for_do(lm(length ~ width, data = KidsFeet))
 do(1) * lm(length ~ width, data = KidsFeet)
 }
-

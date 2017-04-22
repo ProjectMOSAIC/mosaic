@@ -2,8 +2,8 @@
 % Please edit documentation in R/value.R
 \name{value}
 \alias{value}
-\alias{value.default}
 \alias{value.integrate}
+\alias{value.default}
 \title{Extract value from an object}
 \usage{
 value(object, ...)
@@ -31,4 +31,3 @@ integrate(sin, 0, 1) \%>\% value()
 nlm(cos, p = 0) \%>\% value()
 uniroot(cos, c(0, 2)) \%>\% value()
 }
-

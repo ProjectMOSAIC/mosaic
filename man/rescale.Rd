@@ -2,11 +2,11 @@
 % Please edit documentation in R/rescale.R
 \name{rescale}
 \alias{rescale}
-\alias{rescale.character}
 \alias{rescale.data.frame}
-\alias{rescale.default}
 \alias{rescale.factor}
 \alias{rescale.numeric}
+\alias{rescale.default}
+\alias{rescale.character}
 \title{Rescale}
 \usage{
 rescale(x, range, domain = NULL, ...)
@@ -35,4 +35,3 @@ Rescale vectors or variables within data frames.  This can be useful
 for comparing vectors that are on different scales, for example in
 parallel plots or heatmaps.
 }
-

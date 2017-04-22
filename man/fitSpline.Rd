@@ -47,4 +47,3 @@ plotFun(h, add=TRUE, col='red')
 \seealso{
 \code{\link{bs}}  and \code{\link{ns}} for the bases used to generate the splines.
 }
-

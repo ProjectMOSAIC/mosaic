@@ -2,8 +2,8 @@
 % Please edit documentation in R/plotDist.R
 \name{named}
 \alias{named}
-\alias{named_among}
 \alias{unnamed}
+\alias{named_among}
 \title{List extraction}
 \usage{
 named(l)
@@ -23,4 +23,3 @@ a sublist of \code{l} determined by \code{names(l)}
 \description{
 These functions create subsets of lists based on their names
 }
-

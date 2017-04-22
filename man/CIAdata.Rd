@@ -32,4 +32,3 @@ PopArea \%>\%
   arrange(density) \%>\% 
   tail
 }
-

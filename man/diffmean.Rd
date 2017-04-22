@@ -29,4 +29,3 @@ diffmean( age ~ sex, data=HELPrct)
 do(3) * diffmean(age ~ shuffle(sex), data=HELPrct)
 }
 }
-

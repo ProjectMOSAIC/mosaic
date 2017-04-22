@@ -69,11 +69,14 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     z = (q - mean)/sd
     if (verbose) {
 		cat("\n")
-		cat(paste("If X ~ N(",format(mean),", ", format(sd),"), then \n\n",sep=""))
-        cat(paste("\tP(X <= ", format(q), ") = P(Z <= ", format(z), 
-            ") = ", format(p), "\n", sep = ""))
-        cat(paste("\tP(X >  ", format(q), ") = P(Z >  ", format(z), 
-            ") = ", format(1 - p), "\n", sep = ""))
+		cat(paste("If X ~ N(",format(mean, digits = digits),", ", 
+		          format(sd, digits = digits),"), then \n\n",sep=""))
+        cat(paste("\tP(X <= ", format(q, digits = digits), ") = P(Z <= ", 
+                  format(z, digits = digits), 
+            ") = ", format(p, digits = digits), "\n", sep = ""))
+        cat(paste("\tP(X >  ", format(q, digits = digits), ") = P(Z >  ", 
+                  format(z, digits = digits), 
+                  ") = ", format(1 - p, digits = digits), "\n", sep = ""))
         cat("\n")
     }
     if (plot & length(q) == 1) {
@@ -94,7 +97,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
 #' @export
 
 xqnorm <-
-function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4, 
+function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
     lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
     vlwd=2, vcol=trellis.par.get('add.line')$col,
 	rot=45, ...) 
@@ -102,17 +105,25 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = 4,
     q = qnorm(p, mean = mean, sd = sd, lower.tail = lower.tail, 
         log.p = log.p)
     z = (q - mean)/sd
+    p <- pnorm(z)
     if (verbose) {
-        cat(paste("\tP(X <= ", q, ") = ", p, "\n", sep = ""))
-        cat(paste("\tP(X >  ", q, ") = ", 1 - p, "\n", sep = ""))
-        cat("\n")
+      cat("\n")
+      cat(paste("If X ~ N(",format(mean, digits = digits),", ", 
+                format(sd, digits = digits),"), then \n\n",sep=""))
+      cat(paste("\tP(X", " <= ", format(q, digits = digits), ") = ", p, "\n", sep = ""))
+      cat(paste("\tP(X", " >  ", format(q, digits = digits), ") = ", 1 - p, "\n", sep = ""))
+      cat("\n")
     }
+    if (! lower.tail) { # make sure we have lower tail probs from here on
+      p <- 1 - p
+    }
+    
     if (plot & length(p) == 1) {
 		print(.plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
 		      vlwd=vlwd, vcol=vcol, rot=rot, ...))
     }
     if (plot & length(p) > 1) {
-		print(.plot_multi_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
+		print(.plot_multi_norm(p=sort(p), q=sort(q), mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
 		      vlwd=vlwd, vcol=vcol, rot=rot, ...))
     }
 	if (invisible) { 

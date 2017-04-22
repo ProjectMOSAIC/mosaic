@@ -56,7 +56,7 @@ panel.xqqmath <-
       }
       lty <- rep(lty, length = 3)
       if (overlines) {
-        panel.qqmath(x, ...)
+        panel.qqmath(x, ..., pch = pch)
       }
       if (idline) {
         panel.abline(0, 1, col.line = col.line, lty = lty[3], lwd = lwd)
@@ -77,7 +77,7 @@ panel.xqqmath <-
                          lwd = lwd, ...)
       }
       if (!overlines) {
-        panel.qqmath(x, ...)
+        panel.qqmath(x, ..., pch = pch)
       }
     }
   }

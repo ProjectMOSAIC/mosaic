@@ -27,4 +27,3 @@ setting the \code{type} is needed only for classifiers. \code{"class"} will give
 class as output. \code{"likelihood"} will give the probability of the observed outcome (in \code{newdata}) 
 given the model. \code{"prob"} will give the probability of the class named in \code{level}
 }
-

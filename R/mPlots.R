@@ -1,7 +1,9 @@
 
 
-tryCatch(utils::globalVariables( c('picker','button','slider','checkbox','x','y','color','size','logScales','key','nbins', 'plotType', 'flipCoords', 'group', 'projection')),
-         error=function(e) message('Looks like you should update R.'))
+utils::globalVariables( 
+  c('picker', 'button', 'slider', 'checkbox', 'x', 'y', 'color', 'size', 
+    'logScales', 'key', 'nbins',  'plotType',  
+    'flipCoords', 'group', 'projection', 'facet'))
 
 #' Extract data from a data frame using a formula interface
 #' 
@@ -131,6 +133,7 @@ mPlot <- function(data,
              "2-variable (scatter, boxplot, etc.)", 
              "map")
       )
+    if (choice == 0L) return(invisible(NULL))
     default <- c("histogram", "scatter", "map") [choice]
   }
   default <- match.arg(default, plotTypes)
@@ -143,6 +146,7 @@ mPlot <- function(data,
     )
   }
   if (default == "map") {
+    system <- "ggplot2"
     return(
       mMap(data, default = default, system = system, show = show, title = title,
            data_text = data_text)

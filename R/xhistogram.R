@@ -115,7 +115,10 @@ prepanel.xhistogram <-
 #' @param dcol color of density curve
 #' @param dalpha alpha for density curve
 #' @param gcol color of guidelines
-#' @param fcol fill color for histogram rectangles
+#' @param fcol fill colors for histogram rectangles when using \code{groups}.  
+#' (Use \code{col}, which is passed through to \code{\link{panel.histogram}}(), when 
+#' not using `groups`.
+#' 
 #' @param dmath density function for density curve overlay
 #' @param verbose be verbose?
 #' @param dn number of points to sample from density curve
@@ -172,16 +175,13 @@ function (x,
                     "cauchy"      = dcauchy,
                     "gamma"       = dgamma,
                     "chisq"       = dchisq,
-                    "chi-squared" = dchisq
+                    "chi-squared" = dchisq,
+                    "chi.squared" = dchisq,
+                    "kde"         = NULL  # just a place holder, not used
     )
     x = x[!is.na(x)]
     density <- TRUE
-    if (is.null(args)) {
-      # we now depend on MASS, so we don't have to check for it
-	  #	if (! require(MASS) ){
-      #  stop("The MASS package must be loaded to auto-fit distributions.")
-      #}
-
+    if (is.null(args) && ! fit == "kde") {
       if (is.null(start)) {
         args = fitdistr(x, fit)$estimate
       }
@@ -191,7 +191,9 @@ function (x,
     }
   } 
   if (is.null(args)) {
-    args = list(mean = base::mean(x, na.rm = TRUE), sd = stats::sd(x, na.rm = TRUE))
+    args <- if (!is.null(fit) && fit == "kde") list() else 
+        list(mean = base::mean(x, na.rm = TRUE), 
+             sd = stats::sd(x, na.rm = TRUE))
   }
   
   ###  done cleaining up args; away we go
@@ -203,8 +205,13 @@ function (x,
     print(args)
   }
   if ( density && under ) {  # else do this near the end
-    panel.mathdensity(dmath = dmath, args = args, n = dn, 
+    if (fit == "kde") {
+      if (is.null(args)) args <- list()
+      panel.densityplot(x, darg = args, plot.points = FALSE) 
+    } else {
+      panel.mathdensity(dmath = dmath, args = args, n = dn, 
                       col = dcol, alpha=dalpha,lwd = dlwd)
+    }
   }
 
   ## plotting main part of histogram 
@@ -307,8 +314,14 @@ function (x,
   ## additional adornments
   
   if ( density && !under ) {
-    panel.mathdensity(dmath = dmath, args = args, n = dn, 
-                      col = dcol, alpha=dalpha,lwd = dlwd)
+    if (fit == "kde") {
+      if (is.null(args)) args <- list()
+      panel.densityplot(x, darg = args, plot.points = FALSE, 
+                        lwd = dlwd, col = dcol, alpha = dalpha) 
+    } else {
+      panel.mathdensity(dmath = dmath, args = args, n = dn, 
+                      col = dcol, alpha = dalpha, lwd = dlwd)
+    }
   }
   if (!missing(v)) {
         for (x in v) {

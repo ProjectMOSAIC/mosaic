@@ -37,4 +37,3 @@ if (require(mosaicData)) {
 }
 \keyword{iteration}
 \keyword{stats}
-

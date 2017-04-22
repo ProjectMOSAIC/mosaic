@@ -5,10 +5,15 @@
 \title{Augmented Chi-squared test}
 \usage{
 xchisq.test(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)),
-  rescale.p = FALSE, simulate.p.value = FALSE, B = 2000)
+  rescale.p = FALSE, simulate.p.value = FALSE, B = 2000,
+  data = environment(x))
 }
 \arguments{
-\item{x, y, correct, p, rescale.p, simulate.p.value, B}{as in \code{\link{chisq.test}}.}
+\item{x, y, correct, p, rescale.p, simulate.p.value, B}{as in \code{\link{chisq.test}}, but 
+\code{x} may also be a formula, in which case \code{x} is replaced by \code{tally(x, data)}
+prior to the call to \code{\link{chisq.test}()}.}
+
+\item{data}{a data frame for use when \code{x} is a formula.}
 }
 \description{
 This augmented version of \code{\link{chisq.test}} provides more verbose
@@ -21,8 +26,8 @@ rownames(phs) <- c("aspirin","placebo")
 colnames(phs) <- c("heart attack","no heart attack") 
 phs 
 xchisq.test(phs) 
+xchisq.test(sex ~ substance, data = HELPrct)
 }
 \seealso{
-\code{\link{chisq.test}}
+\code{\link{chisq.test}()}
 }
-

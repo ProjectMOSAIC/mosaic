@@ -31,4 +31,3 @@ cps
 evalFormula(wage ~ sex & married & age | sector & race, data=cps)
 }
 }
-

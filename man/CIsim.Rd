@@ -67,4 +67,3 @@ CIsim(n=30, samples=100, rdist=rbinom, args=list(size=1, prob=.7),
 }
 \keyword{inference}
 \keyword{simulation}
-

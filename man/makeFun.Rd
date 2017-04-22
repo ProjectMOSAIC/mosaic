@@ -2,12 +2,12 @@
 % Please edit documentation in R/makeFun.R
 \name{makeFun}
 \alias{makeFun}
-\alias{makeFun.formula}
 \alias{makeFun.function}
-\alias{makeFun.glm}
-\alias{makeFun.groupwiseModel}
+\alias{makeFun.formula}
 \alias{makeFun.lm}
+\alias{makeFun.glm}
 \alias{makeFun.nls}
+\alias{makeFun.groupwiseModel}
 \title{Create a function from a formula}
 \usage{
 makeFun(object, ...)
@@ -105,4 +105,3 @@ mod <- gwm(wage ~ sector, data = CPS85)
 modfun <- makeFun(mod)
 modfun(sector = "prof")
 }
-

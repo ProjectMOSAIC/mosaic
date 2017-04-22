@@ -76,4 +76,3 @@ prop.test( ~ homeless, groups = sex, data = HELPrct )
 \code{\link[mosaic]{binom.test}}, \code{\link[stats]{prop.test}}
 }
 \keyword{stats}
-

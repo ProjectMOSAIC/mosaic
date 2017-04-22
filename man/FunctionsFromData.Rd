@@ -2,10 +2,13 @@
 % Please edit documentation in R/smoothers.R
 \name{FunctionsFromData}
 \alias{FunctionsFromData}
-\alias{connector}
-\alias{linearModel}
-\alias{smoother}
 \alias{spliner}
+\alias{smoother}
+\alias{linearModel}
+\alias{connector}
+\alias{connector}
+\alias{smoother}
+\alias{linearModel}
 \title{Create function from data}
 \usage{
 spliner(formula, data = NULL, method = "fmm", monotonic = FALSE)
@@ -75,4 +78,3 @@ f2 <- connector(x~y)
 \seealso{
 \code{\link{project}} method for formulas
 }
-

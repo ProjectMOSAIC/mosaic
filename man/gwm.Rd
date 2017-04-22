@@ -58,4 +58,3 @@ fitted(mod)
 \code{\link{lm}}, 
 \code{\link{do}}
 }
-

@@ -24,4 +24,3 @@ Return the path to a documentation file in a package
 \examples{
 MustangPrice <- read.file(docFile("MustangPrice.csv", "mosaic"))
 }
-

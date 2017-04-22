@@ -2,9 +2,9 @@
 % Please edit documentation in R/tally.R
 \name{tally}
 \alias{tally}
+\alias{tally.tbl}
 \alias{tally.data.frame}
 \alias{tally.formula}
-\alias{tally.tbl}
 \title{Tabulate categorical data}
 \usage{
 tally(x, ...)
@@ -112,4 +112,3 @@ tally( ~ link, data = HELPrct)
 # ignore the NAs
 tally( ~ link, data = HELPrct, useNA = "no")
 }
-

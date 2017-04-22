@@ -28,4 +28,3 @@ formularise(lazyeval::lazy(y ~ x))
 bar <- a ~ b
 formularise(lazyeval::lazy(bar))
 }
-

@@ -5,7 +5,7 @@
 \title{Lagged Differences with equal length}
 \usage{
 ediff(x, lag = 1, differences = 1, pad = c("head", "tail", "symmetric"),
-  frontPad, ...)
+  pad.value = NA, frontPad, ...)
 }
 \arguments{
 \item{x}{a numeric vector or a matrix containing the values to be differenced}
@@ -15,7 +15,9 @@ ediff(x, lag = 1, differences = 1, pad = c("head", "tail", "symmetric"),
 \item{differences}{an integer indicating the order of the difference}
 
 \item{pad}{one of \code{"head"}, \code{"tail"}, or \code{"symmetric"}.
-indicating where the \code{NA} padding should be added to the result.}
+indicating where the \code{pad.value} padding should be added to the result.}
+
+\item{pad.value}{the value to be used for padding.}
 
 \item{frontPad}{logical indicating whether padding is on the front (head) or 
 back (tail) end. This exists for backward compatibility. New code should use
@@ -25,11 +27,12 @@ back (tail) end. This exists for backward compatibility. New code should use
 }
 \description{
 Often when creating lagged differences, it is awkward that the differences
-vector is shorter than the original.  \code{ediff} pads with \code{NA}s to
+vector is shorter than the original.  \code{ediff} pads with \code{pad.value} to
 make its output the same length as the input.
 }
 \examples{
 ediff(1:10)
+ediff(1:10, pad.value = 0)
 ediff(1:10, 2)
 ediff(1:10, 2, 2)
 x <- cumsum(cumsum(1:10))
@@ -47,4 +50,3 @@ head(Men)
 \code{\link{diff}} since 
 \code{ediff} is a thin wrapper around \code{\link{diff}}.
 }
-
