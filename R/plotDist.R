@@ -1,6 +1,4 @@
-
-tryCatch(utils::globalVariables(c('densy','densx','dots')), 
-         error=function(e) message('Looks like you should update R.'))
+utils::globalVariables(c('densy','densx','dots')) 
 
 #' Plots of Discrete and Continuous Distributions
 #' 
@@ -17,12 +15,12 @@ tryCatch(utils::globalVariables(c('densy','densx','dots')),
 #' 	  \code{\link{qnorm}}).  \code{dist} should match the name of the 
 #' 	  distribution with the initial 'd', 'p', or 'q' removed.
 #' @param xlim a numeric vector of length 2 or \code{NULL}, in which case
-#'  the central 99.8% of the distribution is used.
+#'  the central 99.8\% of the distribution is used.
 #' @param ylim a numeric vector of length 2 or \code{NULL}, in which case
 #'  a heuristic is used to avoid chasing asymptotes in distributions like
 #'  the F distributions with 1 numerator degree of freedom.
-#' @param add a logical indicating whether the plot should be added to the previous lattice plot. 
-#' If missing, it will be set to match \code{under}.
+#' @param add a logical indicating whether the plot should be added to the previous lattice plot.
+#'   If missing, it will be set to match \code{under}.
 #' @param under a logical indicating whether adding should be done in a layer under or over the existing 
 #' layers when \code{add = TRUE}.
 #' @param packets,rows,columns specification of which panels will be added to when 
@@ -200,7 +198,8 @@ plotDist <- function(
       )
     if (is.null(ylim)) {
       ymax <- 1.1 * quantile(ydata, 0.95, na.rm=TRUE)
-      ylim = c(0, 1.4 * ymax)  
+      ylim = c(0, ymax)  
+      print(ylim)
     }
     
     switch(kind, 
