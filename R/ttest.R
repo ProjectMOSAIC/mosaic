@@ -14,7 +14,7 @@
 #' @param \dots  additional arguments, see \code{\link[stats]{t.test}} in the
 #'    \pkg{stats} package.
 #'   When \code{x} is a formula, \code{groups} can be used to compare groups:  
-#'   \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
+#'   \code{x = ~ var, groups = g} is equivalent to \code{ x = var ~ g }.
 #'   See the examples. 
 
 #' 
@@ -59,6 +59,31 @@ t_test <- function(x, y = NULL, ..., data=parent.frame()) {
                        res$data.name)
   res
 }
+
+if(FALSE) {
+# #' @export
+t_test0 <- function(x, y = NULL, ..., data = parent.frame()) {
+  orig.call <- match.call()
+  x_lazy <- substitute(x)
+  y_lazy <- substitute(y)
+  dots_lazy <- lazyeval::dots_capture(...)
+  
+  x_eval <- tryCatch( eval(x_lazy, as.list(data)),
+                      error = function(e) lazyeval::f_rhs(x_lazy) )
+  y_eval <- tryCatch( eval(y_lazy, as.list(data)),
+                      error = function(e) lazyeval::f_rhs(y_lazy) )
+  
+  res <- ttest(x_eval, y_eval, ..., data=data, data.name = orig.call[["data"]]) 
+  
+  res$data.name <- sub("^x$", first_one(deparse(f_rhs(x_lazy))), res$data.name)
+  res$data.name <- sub("^x and y$", 
+                       paste(first_one(deparse(f_rhs(x_lazy))), "and", 
+			     first_one(deparse(f_rhs(y_lazy)))), 
+                       res$data.name)
+  res
+}
+}
+
 
 # If x has length > 1, create a character string with
 # the first component of x followed by ...
