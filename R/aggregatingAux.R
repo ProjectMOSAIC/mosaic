@@ -225,10 +225,17 @@ safe_eval <- function(x) {
 #' @param drop a logical indicating whether unused levels should be dropped.
 #' @param \dots additional arguments passed to \code{FUN}
 #' @param .format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
+#' @param format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
+#'   Ignored  if \code{.format} is not \code{NULL}.
 #' @param .overall currently unused
 #' @param .name a name used for the resulting object
+#' @param name a name used for the resulting object.  Ignored if \code{.format} is not \code{NULL}.
 #' @param .envir an environment in which to evaluate expressions 
+#' @param envir an environment in which to evaluate expressions. 
+#'   Ignored if \code{.envir} is not \code{NULL}.
 #' @param .multiple a logical indicating whether FUN returns multiple values
+#' @param multiple a logical indicating whether FUN returns multiple values
+#'   Ignored if \code{.multiple} is not \code{NULL}.
 #'
 #' @examples
 #' if (require(mosaicData)) {
@@ -254,11 +261,15 @@ maggregate <-
     subset, 
     drop=FALSE, 
     ...,
-    .format=c('default', 'table', 'flat'), 
-    .overall=mosaic.par.get("aggregate.overall"), 
-    .multiple=FALSE, 
-    .name = deparse(substitute(FUN)), 
-    .envir = parent.frame () # if (is.list(data) || is.pairlist(data)) parent.frame() else baseenv() 
+    .format = NULL,
+    format = c('default', 'table', 'flat'), 
+    .overall = mosaic.par.get("aggregate.overall"), 
+    .multiple = NULL,
+    multiple=FALSE, 
+    .name = NULL,
+    name = deparse(substitute(FUN)), 
+    .envir = NULL,
+    envir = parent.frame () 
     ) {
  
   if (! inherits(data, c("environment", "data.frame")) ) {
@@ -278,7 +289,7 @@ maggregate <-
   dots <- list(...)
   groupName <- ".group"  # gets changed to something better later when possible.
   
-  .format <- match.arg(.format)
+  .format <- match.arg(.format, c('default', 'table', 'flat'))
   evalF <- evalFormula(formula, data=data)
   
   if (!missing(subset)) {
