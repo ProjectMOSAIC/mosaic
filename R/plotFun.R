@@ -25,6 +25,8 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @param ylab label for y axis
 #' @param zlab label for z axis (when in surface-plot mode)
 #' @param col vector of colors for line graphs and contours
+#' @param lwd vector of line widths for line graphs
+#' @param lty vector of line types for line graphs
 #' @param filled fill with color between the contours (\code{TRUE} by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if \code{levels} not specified)
@@ -118,6 +120,8 @@ plotFun <- function(object, ...,
                     col = trellis.par.get('superpose.line')$col,
                     col.regions=topo.colors, 
                     type="l", 
+                    lwd = trellis.par.get("superpose.line")$lwd,
+                    lty = trellis.par.get("superpose.line")$lty,
                     alpha=NULL,
                     discontinuities = NULL,
                     discontinuity = 1,
