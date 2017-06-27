@@ -9,7 +9,9 @@ plotFun(object, ..., plot = trellis.last.object(), add = NULL,
   xlab = NULL, zlab = NULL, filled = TRUE, levels = NULL,
   nlevels = 10, labels = TRUE, surface = FALSE, groups = NULL,
   col = trellis.par.get("superpose.line")$col, col.regions = topo.colors,
-  type = "l", alpha = NULL, discontinuities = NULL, discontinuity = 1,
+  type = "l", lwd = trellis.par.get("superpose.line")$lwd,
+  lty = trellis.par.get("superpose.line")$lty, alpha = NULL,
+  discontinuities = NULL, discontinuity = 1,
   interactive = rstudio_is_available())
 }
 \arguments{
@@ -68,6 +70,10 @@ If \code{NULL}, this will be determined by the value of \code{under}.}
 \item{col.regions}{a vector of colors or a function (\code{topo.colors} by default) for generating such}
 
 \item{type}{type of plot (\code{"l"} by default)}
+
+\item{lwd}{vector of line widths for line graphs}
+
+\item{lty}{vector of line types for line graphs}
 
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
 

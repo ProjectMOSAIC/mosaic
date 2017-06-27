@@ -37,7 +37,8 @@ This offers some additional flexibility in how formulas can be specified.}
 
 \item{.overall}{currently unused}
 
-\item{.multiple}{a logical indicating whether FUN returns multiple values}
+\item{.multiple}{a logical indicating whether FUN returns multiple values
+Ignored if \code{.multiple} is not \code{NULL}.}
 
 \item{.name}{a name used for the resulting object}
 
