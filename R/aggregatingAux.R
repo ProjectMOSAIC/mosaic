@@ -225,16 +225,16 @@ safe_eval <- function(x) {
 #' @param drop a logical indicating whether unused levels should be dropped.
 #' @param \dots additional arguments passed to \code{FUN}
 #' @param .format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
-#' @param format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
-#'   Ignored  if \code{.format} is not \code{NULL}.
+# #' @param format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
+# #'   Ignored  if \code{.format} is not \code{NULL}.
 #' @param .overall currently unused
 #' @param .name a name used for the resulting object
-#' @param name a name used for the resulting object.  Ignored if \code{.format} is not \code{NULL}.
+# #' @param name a name used for the resulting object.  Ignored if \code{.format} is not \code{NULL}.
 #' @param .envir an environment in which to evaluate expressions 
-#' @param envir an environment in which to evaluate expressions. 
-#'   Ignored if \code{.envir} is not \code{NULL}.
+# #' @param envir an environment in which to evaluate expressions. 
+# #'   Ignored if \code{.envir} is not \code{NULL}.
 #' @param .multiple a logical indicating whether FUN returns multiple values
-#' @param multiple a logical indicating whether FUN returns multiple values
+# #' @param multiple a logical indicating whether FUN returns multiple values
 #'   Ignored if \code{.multiple} is not \code{NULL}.
 #'
 #' @examples
@@ -261,17 +261,23 @@ maggregate <-
     subset, 
     drop=FALSE, 
     ...,
-    .format = NULL,
-    format = c('default', 'table', 'flat'), 
+    .format = c('default', 'table', 'flat'), 
     .overall = mosaic.par.get("aggregate.overall"), 
-    .multiple = NULL,
-    multiple=FALSE, 
-    .name = NULL,
-    name = deparse(substitute(FUN)), 
-    .envir = NULL,
-    envir = parent.frame () 
+    # .multiple = NULL,
+    .multiple=FALSE, 
+    # .name = NULL,
+    .name = deparse(substitute(FUN)), 
+    # .envir = NULL,
+    .envir = parent.frame () 
     ) {
  
+  # if (inherits(formula, c("environment", "data.frame")) && 
+  #     inherits(data, "formula")) {
+  #   temp <- formula
+  #   formula <- data
+  #   data <- temp
+  # }
+  #   
   if (! inherits(data, c("environment", "data.frame")) ) {
     if (inherits(data, c("tbl")))
       stop ("Your tbl is not a data.frame.  Perhaps you need dplyr functions here.",
