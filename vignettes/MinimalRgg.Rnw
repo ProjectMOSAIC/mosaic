@@ -82,7 +82,6 @@ Randall Pruim, Project MOSAIC
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
 #source('setup.R')
 require(mosaic)
-require(mosaicData)
 require(parallel)
 require(ggformula)
 theme_set(theme_bw())
@@ -189,6 +188,10 @@ as possible into a small number of paradigms.  In particular,
 		It encourages students to think about disaggregating data according to 
 		the values of covariates by making this very easy to do.  In addition,
 		complex plots can be created by layering simpler plots.
+		
+		Previously we used \pkg{lattice} for graphics; \pkg{lattice} also uses
+		a formula interface, but layering in \pkg{lattice} is more challenging
+		and the \pkg{ggformula} interface is a bit cleaner.
 \end{enumerate}
 
 
@@ -303,27 +306,28 @@ min(); max() # mosaic augmented
 % and (b) \texttt{lattice} uses the formula interface.
 %
 <<>>=
-gf_boxplot()
-gf_point()
-gf_histogram() 
-gf_density()
-gf_dens()
-gf_freqpol() 
-gf_qq()
-makeFun()   # mosaic
-plotFun()   # mosaic
+gf_boxplot()      # ggformula
+gf_point()        # ggformula
+gf_histogram()    # ggformula
+gf_density()      # ggformula
+gf_dens()         # ggformula
+gf_freqpol()      # ggformula
+gf_qq()           # ggformula
+gf_fun()          # ggformula
+makeFun()         # mosaic
 @
 \squeeze
 <<highlight=FALSE>>=
-gf_dot()  
-gf_bar()  
-gf_col()  
-@
+gf_dot()          # ggformula
+gf_bar()          # ggformula
+gf_col()          # ggformula
+ @
 \squeeze
 <<eval=FALSE>>=
 mplot(HELPrct)
 @
 
+\columnbreak
 
 \subsection*{Randomization/Simulation}
 %
@@ -344,13 +348,13 @@ rnorm()     # etc, if needed
 \subsection*{Distributions}
 %
 <<>>=
+gf_dist()    # ggformula
 # plain 
 pbinom(); pnorm();   
 # mosaic augmented
 xpnorm(); xpchisq(); xpt()
 xqbinom(); xqnorm(); 
 xqchisq(); xqt()
-plotDist()  # mosaic
 @
 
 \subsection*{Inference}
@@ -369,7 +373,7 @@ confint(model) # mosaic augmented
 anova(model)
 makeFun(model) # mosaic 
 resid(model); fitted(model)
-gf_model(model) 
+gf_model(model) # ggformula
 @
 %\squeeze
 <<highlight=FALSE>>=
@@ -380,7 +384,6 @@ model <- glm() # logistic reg.
 
 \subsection*{Data}
 <<>>=
-require(mosaicData)  # load package 
 read.file()          # mosaic
 nrow(); ncol(); dim()
 summary()
@@ -392,7 +395,7 @@ factor()
 @
 \squeeze
 <<highlight=FALSE>>=
-ntiles()      # mosaic
+ntiles()             # mosaic
 cut()
 c()
 cbind(); rbind()
@@ -410,14 +413,14 @@ rank()
 @
 \subsection*{Data Transformation}
 <<highlight=FALSE>>=
-select()      # dplyr
-mutate()      # dplyr
-filter()      # dplyr
-arrange()     # dplyr
-summarise()   # dplyr
-group_by()    # dplyr
-left_join()   # dplyr
-inner_join()  # dplyr
+select()             # dplyr
+mutate()             # dplyr
+filter()             # dplyr
+arrange()            # dplyr
+summarise()          # dplyr
+group_by()           # dplyr
+left_join()          # dplyr
+inner_join()         # dplyr
 @
 
 \vfill
@@ -471,7 +474,6 @@ gf_histogram(~ heads, data = coins, binwidth = 1,
 @
 %\columnbreak
 <<tally>>=
-require(mosaicData)   # this package contains data sets used below
 tally(sex ~ substance, data=HELPrct)
 mean(age ~ sex, data = HELPrct)
 diffmean(age ~ sex, data = HELPrct)
