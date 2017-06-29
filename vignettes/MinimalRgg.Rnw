@@ -363,17 +363,17 @@ xqchisq(); xqt()
 t.test()       # mosaic augmented
 binom.test()   # mosaic augmented
 prop.test()    # mosaic augmented
-xchisq.test()  # mosaic 
+xchisq.test()            # mosaic 
 fisher.test()
-pval()         # mosaic
-model <- lm()  # linear models
+pval()                   # mosaic
+model <- lm()     # linear models
 summary(model)
 coef(model)
 confint(model) # mosaic augmented
 anova(model)
-makeFun(model) # mosaic 
+makeFun(model)           # mosaic 
 resid(model); fitted(model)
-gf_model(model) # ggformula
+gf_model(model)       # ggformula
 @
 %\squeeze
 <<highlight=FALSE>>=
@@ -384,17 +384,18 @@ model <- glm() # logistic reg.
 
 \subsection*{Data}
 <<>>=
-read.file()          # mosaic
 nrow(); ncol(); dim()
-summary()
-glimpse()            # dplyr
+inspect()            # mosaic
 names()
 head(); tail()
-with()
 factor()
 @
 \squeeze
 <<highlight=FALSE>>=
+read.file()          # mosaic
+with()
+summary()
+glimpse()            # dplyr
 ntiles()             # mosaic
 cut()
 c()
@@ -412,6 +413,10 @@ sort()
 rank()
 @
 \subsection*{Data Transformation}
+Even if students don't use these in
+a first course, instructors may use them
+to prepare data for student use.
+
 <<highlight=FALSE>>=
 select()             # dplyr
 mutate()             # dplyr
