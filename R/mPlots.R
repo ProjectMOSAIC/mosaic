@@ -224,7 +224,7 @@ mMap <- function(data, default = 'map',
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
-  sysnames <- list("ggplot2","lattice")
+  sysnames <- list("ggformula", "ggplot2", "lattice")
   manipulate::manipulate( { .doMap(data, variables, show=show, system=system, 
                        x=x, y=y, 
                        color=color, 
@@ -275,7 +275,7 @@ mMap <- function(data, default = 'map',
                title = title)
   
   s <- .mapString(vals, system, variables = variables)
-  if (show) cat(paste("\n", s, "\n"))
+  if (show) cat(paste0("\n", s, "\n"))
   p <- eval(parse(text = s))
   print(p)
   return(invisible(p))
@@ -287,7 +287,7 @@ mMap <- function(data, default = 'map',
   #  res <- paste("ggplot(data = ", s$data, ")", sep="")
   #    res<-paste(res, "+geom_point(aes(x=", s$x, ", y=", s$y, "))", sep="")
   geom <- "geom_polygon()"
-  system=match.arg(system)
+  system <- match.arg(system)
   if (system == "ggplot2" || TRUE) {
     res <- paste("ggplot(data = ", s$dataName, 
                  ",  aes(x=", s$x, ", y=", s$y, 
@@ -341,7 +341,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
-  sysnames <- list("ggformula", "ggplot2","lattice")
+  sysnames <- list("ggformula", "ggplot2", "lattice")
   manipulate::manipulate( { .doScatter(data, data_text = data_text, variables, show=show, system=system, x=x, y=y, plotType=plotType, 
                            flipCoords = flipCoords, color=color, size=size, facet=facet, 
                            logScales=logScales, model=model, key=key, title=title) },
@@ -378,7 +378,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
                logScales = logScales , model = model, key = key, title = title)
   
   s <- .scatterString(vals, system, variables = variables)
-  if (show) cat(paste("\n", s, "\n"))
+  if (show) cat(paste0("\n", s, "\n"))
   p <- eval(parse(text = s))
   print(p)
   return(invisible(p))
@@ -388,6 +388,8 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
 {
   gf_fun <- c(scatter = "gf_point", jitter = "gf_jitter", boxplot = "gf_boxplot", 
               violin = "gf_violin", line = "gf_line")
+  geom <- c(scatter = "geom_point()", jitter = "geom_jitter()", boxplot = "geom_boxplot()", 
+              violin = "geom_violin()", line = "geom_line()")
   system <- match.arg(system)
   s$logx <- s$logScales %in% c("both","x")
   s$logy <- s$logScales %in% c("both","y")
@@ -538,7 +540,7 @@ mUniplot <- function(data, default=c("histogram","density", "frequency polygon",
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
-  sysnames <- list("ggplot2","lattice")
+  sysnames <- list("ggformula", "ggplot2", "lattice")
   manipulate::manipulate( 
     { .doUniplot(data, variables=variables, show=show, system=system, plotType=plotType, x=x, 
                  nbins=nbins, color=color, 
@@ -561,7 +563,7 @@ mUniplot <- function(data, default=c("histogram","density", "frequency polygon",
 
 
 .doUniplot <- function(data, variables = variables, show = FALSE, 
-                       system = c("ggplot2","lattice"), 
+                       system = c("ggformula", "ggplot2", "lattice"), 
                        plotType = c("histogram", "densityplot", "frequency polygon", "ASH plot"),
                        x = NA, 
                        nbins = nbins, color = NA, 
@@ -589,7 +591,7 @@ mUniplot <- function(data, default=c("histogram","density", "frequency polygon",
 }
 
 # 1-variable plots
-.uniplotString <- function(s, system = c('ggplot2', 'lattice'), variables)
+.uniplotString <- function(s, system = c("ggformula", "ggplot2", "lattice"), variables)
 {
   geom <- c(`histogram` = '', `densityplot` = ', geom = "line"',    
             `frequency polygon` = ', geom = "line"', `ASH plot` = ', geom = "blank"')
@@ -618,19 +620,19 @@ mUniplot <- function(data, default=c("histogram","density", "frequency polygon",
     }
    
     params <- if (s$plotType %in% c('histogram', 'frequency polygon', 'ASH plot')) {
-      paste(", binwidth=", signif(binwidth,2), sep="")
+      paste(", binwidth = ", signif(binwidth,2), sep="")
     } else {
-      paste(", adjust=", signif(adjust,2), sep="")
+      paste(", adjust = ", signif(adjust,2), sep="")
     }
     
-    res <- glue::glue("{gf_fun[s$plotType]}(~ s$x, data = {s$dataName}{color_chunk}{params}")
+    res <- glue::glue('{gf_fun[s$plotType]}(~ {s$x}, data = {s$dataName}{color_chunk}{params})')
     
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
-      res <- glue::glue("{res} %>%\n gf_facet_wrap(~ {s$facet})")
-    res <- glue::glue("{res} %>%\n gf_labs(title = {s$title})")
+      res <- glue::glue("{res} %>%\n   gf_facet_wrap(~ {s$facet})")
+    res <- glue::glue('{res} %>%\n   gf_labs(title = "{s$title}")')
     
     if (s$key %in% c('none','top','bottom','left','right')) {
-      res <- glue::glue("{res} %>%\n gf_theme(legend.position = {s$key}")
+      res <- glue::glue('{res} %>%\n   gf_theme(legend.position = "{s$key}")')
     }  
   } else if (system == "ggplot2") {
     res <- paste0("ggplot( data = ", s$dataName, ", aes(x = ", s$x, "))", sep="")
