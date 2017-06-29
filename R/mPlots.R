@@ -411,14 +411,14 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
     res <- glue::glue(
       "{gf_fun[s$plotType]}({s$y} ~ {s$x}, data = {s$dataName}{color_chunk}{size_chunk})")
     
+    if (s$model == "spline") res <- glue::glue("{res} %>%\n  gf_spline({s$y} ~ {s$x})")
+    if (s$model == "linear") res <- glue::glue("{res} %>%\n  gf_lm({s$y} ~ {s$x})")
+    if (s$model == "smooth") res <- glue::glue("{res} %>%\n  gf_smooth({s$y} ~ {s$x})")
+    
     if (s$logx) res <- glue::glue("{res} %>%\n   gf_refine(scale_x_log10())")
     if (s$logy) res <- glue::glue("{res} %>%\n   gf_refine(scale_y_log10())")
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
       res <- glue::glue("{res} %>%\n  gf_facet_wrap(~ {s$facet}, ncol = 4)")
-    
-    if (s$model == "spline") res <- glue::glue("{res} %>%\n  gf_spline({s$y} ~ {s$x})")
-    if (s$model == "linear") res <- glue::glue("{res} %>%\n  gf_lm({s$y} ~ {s$x})")
-    if (s$model == "smooth") res <- glue::glue("{res} %>%\n  gf_smooth({s$y} ~ {s$x})")
     
     if (s$key %in% c("none","top","bottom","left","right")) {
       res <- glue::glue('{res} %>% \n  gf_theme(legend.position = "{s$key}")')
