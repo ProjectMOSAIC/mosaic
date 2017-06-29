@@ -123,7 +123,7 @@ panel.ashplot <-
     }
   }
 
-# copied from mosaic package
+
 
 #' Compute knot points of an average shifted histogram
 #' 
