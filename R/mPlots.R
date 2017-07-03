@@ -422,7 +422,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
       res <- glue::glue("{res} %>%\n  gf_facet_wrap(~ {s$facet}, ncol = 4)")
     
-    if (s$key %in% c("none","top","bottom","left","right")) {
+    if (s$key %in% c("none","top","bottom","left")) {  # "right" is default, so don't bother
       res <- glue::glue('{res} %>% \n  gf_theme(legend.position = "{s$key}")')
     } 
     res <- glue::glue('{res} %>% \n  gf_labs(title = "{s$title}")')
