@@ -75,8 +75,8 @@ Randall Pruim, Project MOSAIC
 \begin{document}
 \parindent=0pt
 
-\chead{\sf \bfseries \Large Enough R for Intro Stats}
-\rhead{May, 2015}
+\chead{\sf \bfseries \Large Enough R for Intro Stats (lattice version)}
+\rhead{July, 2017}
 \lhead{R. Pruim}
 
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
@@ -84,6 +84,7 @@ Randall Pruim, Project MOSAIC
 require(mosaic)
 require(mosaicData)
 require(parallel)
+options(digits=4)
 trellis.par.set(theme=col.mosaic())
 set.seed(123)
 #knit_hooks$set(inline = function(x) {
@@ -204,7 +205,7 @@ And most importantly: What is your creativity to volume quotient?
 \newpage
 
 \lhead{\href{http://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
-\rhead{\href{http://mosaic-web.org}{mosaic-web.org}}
+\rhead{\href{http://mosaic-web.org}{http://mosaic-web.org} (\Sexpr{Sys.Date()})}
 
 \begin{multicols}{4}
 
@@ -325,10 +326,10 @@ xqqmath()   # mosaic
 @
 \squeeze
 <<eval=FALSE>>=
-mplot(data=HELPrct, 'scatter')
-mplot(data=HELPrct, 'boxplot')
-mplot(data=HELPrct, 'histogram')
+mplot(HELPrct)
 @
+
+\columnbreak
 
 
 \subsection*{Randomization/Simulation}
@@ -385,19 +386,18 @@ model <- glm() # logistic reg.
 
 \subsection*{Data}
 <<>>=
-require(mosaicData)  # load package 
-read.file()    # mosaic
 nrow(); ncol(); dim()
-summary()
-str()
+inspect()            # mosaic
 names()
 head(); tail()
-with()
-factor()
 @
 \squeeze
 <<highlight=FALSE>>=
-ntiles()      # mosaic
+read.file()          # mosaic
+with()
+summary()
+glimpse()            # dplyr
+ntiles()             # mosaic
 cut()
 c()
 cbind(); rbind()
@@ -414,6 +414,9 @@ sort()
 rank()
 @
 \subsection*{Data Transformation}
+Even if students don't use these in
+a first course, instructors may use them
+to prepare data for student use.
 <<highlight=FALSE>>=
 select()      # dplyr
 mutate()      # dplyr
@@ -423,7 +426,6 @@ summarise()   # dplyr
 group_by()    # dplyr
 left_join()   # dplyr
 inner_join()  # dplyr
-merge()    
 @
 
 \vfill
@@ -477,7 +479,6 @@ histogram(~ heads, data=coins, width=1,
 @
 %\columnbreak
 <<tally>>=
-require(mosaicData)   # this package contains data sets used below
 tally(sex ~ substance, data=HELPrct)
 mean(age ~ sex, data=HELPrct)
 diffmean(age ~ sex, data=HELPrct)
@@ -514,14 +515,15 @@ xyplot(Sepal.Length ~ Sepal.Width,
 <<fig.keep="last", tidy=FALSE, fig.height=2.3>>=
 model <- lm(length ~ width + sex, 
             data=KidsFeet)
-ln <- makeFun(model)
-ln( width=8.25, sex="B")
+lmfunc <- makeFun(model)
+lmfunc(width=8.25, sex="B")
 xyplot(length ~ width, groups=sex, 
        data=KidsFeet)
-plotFun(ln(w, sex="B") ~ w, 
+plotFun(lmfunc(w, sex="B") ~ w, 
         add=TRUE, col="skyblue")
-plotFun(ln(w,sex="G") ~ w, 
+plotFun(lmfunc(w,sex="G") ~ w, 
         add=TRUE, col="navy")
+# or plotModel(model)
 @
 \vspace{-.2in}
 <<fig.height=1.75>>=
