@@ -486,7 +486,7 @@ cor <- aggregatingFunction2(stats::cor)
 #' favstats(width ~ sex, data = KidsFeet)
 #' 
 #' cor(length ~ width, data = KidsFeet)
-#' cov (length ~ width, data = KidsFeet)
+#' cov(length ~ width, data = KidsFeet)
 #' @export
 
 cov <- aggregatingFunction2(stats::cov)
