@@ -1,7 +1,7 @@
 ---
 title: "ggformula/lattice conversion examples"
 author: "Nicholas Horton (nhorton@amherst.edu)"
-date: "July 15, 2017"
+date: "July 16, 2017"
 output: 
   pdf_document:
     fig_height: 3
@@ -32,15 +32,16 @@ This document is intended to help users of the `mosaic` package migrate their `l
 
 ## Histograms (ggformula)
 
-```{r, message=FALSE}
+```{r}
 library(mosaic)  # also loads ggformula
 gf_histogram(~ age, data=HELPrct)
 ```
 
-## Density plots (ggformula)
+## Histogram options (ggformula)
 
-```{r, message=FALSE}
-gf_dens(~ age, data=HELPrct)
+```{r}
+gf_histogram(~ age, binwidth=5, 
+  data=HELPrct)   # or age ~ 1
 ```
 
 \newpage
@@ -59,10 +60,41 @@ library(mosaic) # also loads lattice
 histogram(~ age, data=HELPrct)
 ```
 
+## Histogram options (lattice)
+
+```{r}
+histogram(~ age, width=5, data=HELPrct)
+```
+
+
+
+
+\newpage
+
+## Density plots (ggformula)
+
+```{r, message=FALSE}
+gf_dens(~ age, data=HELPrct)
+```
+
+## Overlaid density plots (ggformula)
+
+```{r, message=FALSE}
+gf_dens(~ age,  color = ~ sex, data=HELPrct)
+```
+
+\newpage
+
 ## Density plots (lattice)
 
 ```{r, message=FALSE}
 densityplot(~ age, data=HELPrct)
+```
+
+## Overlaid density plots (lattice)
+
+```{r}
+densityplot(~ age, groups=sex, data=HELPrct)
 ```
 
 \newpage
@@ -79,13 +111,12 @@ gf_boxplot(age ~ sex, data=HELPrct)
 gf_boxplot(age ~ sex | homeless, data=HELPrct)
 ```
 
-## Scatterplot (ggformula)
-
-```{r, message=FALSE}
-gf_point(cesd ~ age, data=HELPrct)
-```
 
 \newpage
+
+## Side by side box plots (lattice)
+
+
 
 ## Side by side plots (lattice)
 
@@ -99,13 +130,15 @@ bwplot(age ~ sex, data=HELPrct)
 bwplot(age ~ sex | homeless, data=HELPrct)
 ```
 
+\newpage
+
 ## Scatterplot (lattice)
 
 ```{r, message=FALSE}
 xyplot(cesd ~ age, data=HELPrct)
 ```
 
-\newpage
+
 
 ## Overlaid scatterplot with linear fit (ggformula)
 
