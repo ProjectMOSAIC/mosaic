@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the `ggformula` system. 
+This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the `ggformula` system. Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
 
 
 ## Histograms (ggformula)
@@ -94,7 +94,8 @@ densityplot(~ age, data=HELPrct)
 ## Overlaid density plots (lattice)
 
 ```{r}
-densityplot(~ age, groups=sex, data=HELPrct)
+densityplot(~ age, groups=sex, 
+  auto.key=TRUE, data=HELPrct)
 ```
 
 \newpage
@@ -108,15 +109,12 @@ gf_boxplot(age ~ sex, data=HELPrct)
 ## Faceted side by side box plots (ggformula)
 
 ```{r, message=FALSE}
-gf_boxplot(age ~ sex | homeless, data=HELPrct)
+gf_boxplot(age ~ sex | homeless, 
+  data=HELPrct)
 ```
 
 
 \newpage
-
-## Side by side box plots (lattice)
-
-
 
 ## Side by side plots (lattice)
 
@@ -132,10 +130,12 @@ bwplot(age ~ sex | homeless, data=HELPrct)
 
 \newpage
 
-## Scatterplot (lattice)
+
+## Scatterplot (ggformula)
 
 ```{r, message=FALSE}
-xyplot(cesd ~ age, data=HELPrct)
+gf_point(cesd ~ age, 
+  data=HELPrct)
 ```
 
 
@@ -148,6 +148,23 @@ gf_point(cesd ~ age, color = ~ sex,
   gf_lm()
 ``````
 
+\newpage 
+
+## Scatterplot (lattice)
+
+```{r, message=FALSE}
+xyplot(cesd ~ age, data=HELPrct)
+```
+
+## Overlaid scatterplot with linear fit (lattice)
+
+```{r, message=FALSE}
+xyplot(cesd ~ age, groups=sex, type=c("p", "r"), 
+       auto.key=TRUE, data=HELPrct)
+```
+
+\newpage 
+
 ## Faceted scatterplot with smooth fit (ggformula)
 
 ```{r, message=FALSE}
@@ -156,43 +173,37 @@ gf_point(cesd ~ age | sex,
   gf_smooth()
 ``````
 
-\newpage
 
-## Overlaid scatterplot with linear fit (lattice)
-
-```{r, message=FALSE}
-xyplot(age ~ cesd, groups=sex, type=c("p", "r"), 
-       auto.key=TRUE, data=HELPrct)
-```
-
-## Faceted scatterplot with smooth fit (lattice)
-
-```{r, message=FALSE}
-xyplot(age ~ cesd | sex, type=c("p", "smooth"), 
-       auto.key=TRUE, data=HELPrct)
-```
-
-
-\newpage
 
 ## More options for scatterplot with linear fit (ggformula)
 
 ```{r}
 gf_point(cesd ~ age, color = ~ sex, 
          data=HELPrct) %>%
-  gf_lm(se=TRUE) %>% 
+  gf_lm() %>% 
   gf_theme(legend.position = "top") %>% 
   gf_labs(title = "This is my plot", 
     x="age (in years)", 
     y="CES-D measure of\ndepressive symptoms")
 ```
 
+
 \newpage
+
+## Faceted scatterplot with smooth fit (lattice)
+
+```{r, message=FALSE}
+xyplot(cesd ~ age | sex, type=c("p", "smooth"), 
+       auto.key=TRUE, data=HELPrct)
+```
+
+
+?gf_l
 
 ## More options for scatterplot with linear fit (lattice)
 
 ```{r, message=FALSE}
-xyplot(age ~ cesd, groups=sex, 
+xyplot(cesd ~ age, groups=sex, 
        type=c("p", "r"), 
        auto.key=TRUE, 
        main = "This is my plot", 
@@ -201,6 +212,9 @@ xyplot(age ~ cesd, groups=sex,
        data=HELPrct)
 ```
 
+## Want to explore more?
+
+Within RStudio, after loading the `mosaic` package, ry running the command `mplot(ds)` where `ds` is a dataframe.  This will open up an interactive visualizer that will output the code to generate the figure (using `lattice`, `ggplot2`, or `ggformula`) when you click on `Show Expression`. 
 
 
 
