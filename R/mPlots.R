@@ -425,7 +425,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
     if (s$key %in% c("none","top","bottom","left")) {  # "right" is default, so don't bother
       res <- glue::glue('{res} %>% \n  gf_theme(legend.position = "{s$key}")')
     } 
-    res <- glue::glue('{res} %>% \n  gf_labs(title = "{s$title}")')
+    res <- glue::glue('{res} %>% \n  gf_labs(title = "{s$title}", caption = "")')
     if ( s$flipCoords) {
       res <- glue::glue("{res} %>% \n  gf_refine(coord_flip())")
     }
