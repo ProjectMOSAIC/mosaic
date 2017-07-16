@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the `ggformula` system. Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
+This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the `ggformula` system. 
 
 
 ## Histograms (ggformula)
@@ -52,6 +52,7 @@ More information about `ggformula` can be found at https://github.com/ProjectMOS
 
 More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at http://www.mosaic-web.org.  Further information regarding the `mosaic` package can be found at https://github.com/ProjectMOSAIC/mosaic and https://journal.r-project.org/archive/2017/RJ-2017-02.
 
+Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
 
 ## Histograms (lattice)
 
