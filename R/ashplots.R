@@ -138,7 +138,7 @@ panel.ashplot <-
 #' @export
 ash_points <- function(x, binwidth = NULL, adjust = 1.0) {
   if (is.null(adjust)) adjust <- 1.0
-  if (is.null(binwidth)) binwidth <- diff(range(x)) / (10.0 / adjust)
+  if (is.null(binwidth)) binwidth <- diff(range(x)) / (10.0)
   left <- x - binwidth
   right <- x + binwidth
   knots <- sort(unique(c(left, x, right)))
