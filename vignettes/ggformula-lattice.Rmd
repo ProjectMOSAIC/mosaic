@@ -1,0 +1,176 @@
+---
+title: "ggformula/lattice conversion examples"
+author: "Nicholas Horton (nhorton@amherst.edu)"
+date: "July 15, 2017"
+output: 
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+    pandoc_args: [
+      "-V", "classoption=twocolumn"
+    ]
+  html_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+---
+```{r, setup, include=FALSE}
+require(mosaic)   # Load additional packages here 
+
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+trellis.par.set(theme=theme.mosaic()) # change default color scheme for lattice
+knitr::opts_chunk$set(
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+```
+
+## Introduction
+This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the `ggformula` system. 
+
+
+## Histograms (ggformula)
+
+```{r, message=FALSE}
+library(mosaic)  # also loads ggformula
+gf_histogram(~ age, data=HELPrct)
+```
+
+## Density plots (ggformula)
+
+```{r, message=FALSE}
+gf_dens(~ age, data=HELPrct)
+```
+
+\newpage
+
+## References 
+
+More information about `ggformula` can be found at https://github.com/ProjectMOSAIC/ggformula.
+
+More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at http://www.mosaic-web.org.  Further information regarding the `mosaic` package can be found at https://github.com/ProjectMOSAIC/mosaic and https://journal.r-project.org/archive/2017/RJ-2017-02.
+
+
+## Histograms (lattice)
+
+```{r}
+library(mosaic) # also loads lattice
+histogram(~ age, data=HELPrct)
+```
+
+## Density plots (lattice)
+
+```{r, message=FALSE}
+densityplot(~ age, data=HELPrct)
+```
+
+\newpage
+
+## Side by side box plots (ggformula)
+
+```{r, message=FALSE}
+gf_boxplot(age ~ sex, data=HELPrct)
+```
+
+## Faceted side by side box plots (ggformula)
+
+```{r, message=FALSE}
+gf_boxplot(age ~ sex | homeless, data=HELPrct)
+```
+
+## Scatterplot (ggformula)
+
+```{r, message=FALSE}
+gf_point(cesd ~ age, data=HELPrct)
+```
+
+\newpage
+
+## Side by side plots (lattice)
+
+```{r, message=FALSE}
+bwplot(age ~ sex, data=HELPrct)
+```
+
+## Faceted side by side plots (lattice)
+
+```{r, message=FALSE}
+bwplot(age ~ sex | homeless, data=HELPrct)
+```
+
+## Scatterplot (lattice)
+
+```{r, message=FALSE}
+xyplot(cesd ~ age, data=HELPrct)
+```
+
+\newpage
+
+## Overlaid scatterplot with linear fit (ggformula)
+
+```{r, message=FALSE}
+gf_point(cesd ~ age, color = ~ sex, 
+         data=HELPrct) %>%
+  gf_lm()
+``````
+
+## Faceted scatterplot with smooth fit (ggformula)
+
+```{r, message=FALSE}
+gf_point(cesd ~ age | sex, 
+         data=HELPrct) %>%
+  gf_smooth()
+``````
+
+\newpage
+
+## Overlaid scatterplot with linear fit (lattice)
+
+```{r, message=FALSE}
+xyplot(age ~ cesd, groups=sex, type=c("p", "r"), 
+       auto.key=TRUE, data=HELPrct)
+```
+
+## Faceted scatterplot with smooth fit (lattice)
+
+```{r, message=FALSE}
+xyplot(age ~ cesd | sex, type=c("p", "smooth"), 
+       auto.key=TRUE, data=HELPrct)
+```
+
+
+\newpage
+
+## More options for scatterplot with linear fit (ggformula)
+
+```{r}
+gf_point(cesd ~ age, color = ~ sex, 
+         data=HELPrct) %>%
+  gf_lm(se=TRUE) %>% 
+  gf_theme(legend.position = "top") %>% 
+  gf_labs(title = "This is my plot", 
+    x="age (in years)", 
+    y="CES-D measure of\ndepressive symptoms")
+```
+
+\newpage
+
+## More options for scatterplot with linear fit (lattice)
+
+```{r, message=FALSE}
+xyplot(age ~ cesd, groups=sex, 
+       type=c("p", "r"), 
+       auto.key=TRUE, 
+       main = "This is my plot", 
+       xlab="age (in years)", 
+       ylab="CES-D measure of\ndepressive symptoms",
+       data=HELPrct)
+```
+
+
+
+
+
+
+
