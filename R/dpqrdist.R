@@ -63,14 +63,17 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #' @export
  
 pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE, 
-                   digits = 4L, 
+                   digits = 3L, 
                    xlim, ylim,
                    vlwd=NULL, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
                    resolution = 5000L,
+                   return = c("values", "plot"),
                    ...)
 {
+ 
+  return <- match.arg(return)
   
   dots <- list(...)
   
@@ -83,13 +86,19 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
-  
+ 
+  res_plot <-
+    plot_multi_dist(
+      dist = dist, p = p, 
+      xlim = xlim, ylim = ylim, 
+      digits = digits, 
+      resolution = resolution,
+      vlwd=vlwd, vcol = vcol, rot = rot, ...)
+  if (return == "plot") {
+    return(res_plot)
+  }
   if (plot) {
-    print(plot_multi_dist(dist=dist, p=p, 
-                          xlim=xlim, ylim=ylim, 
-                          digits=digits, 
-                          resolution=resolution,
-                          vlwd=vlwd, vcol=vcol, rot=rot, ...))
+    print(res_plot)
   }
   if (invisible) { 
     return(invisible(p))
@@ -137,14 +146,15 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 
 qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE, 
                    resolution = 5000L,
-                   digits = 4L, 
+                   digits = 3L, 
                    xlim, ylim,
                    vlwd=NULL, 
                    vcol=trellis.par.get('add.line')$col, 
                    rot=45, 
+                   return = c("values", "plot"),
                    ...)
 {
-  
+  return = match.arg(return)
   dots <- list(...)
   
   if (is.null(vlwd)) {
@@ -157,24 +167,28 @@ qdist <- function (dist="norm", p, plot = TRUE, verbose = FALSE, invisible=FALSE
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
-  
+ 
+  res_plot <-  
+      plot_multi_dist(dist = dist, p = p, 
+                          xlim = xlim, ylim = ylim, 
+                          digits = digits, 
+                          resolution = resolution,
+                          vlwd = vlwd, vcol = vcol, rot = rot, ...)
+  if (return == "plot") return (res_plot)
+
   if (plot) {
-    print(plot_multi_dist(dist=dist, p=p, 
-                          xlim=xlim, ylim=ylim, 
-                          digits=digits, 
-                          resolution=resolution,
-                          vlwd=vlwd, vcol=vcol, rot=rot, ...))
+    print(res_plot)
   }
   if (invisible) { 
-    return(invisible(p))
+    return(invisible(q))
   }
   return(q)
 }
 
 
 plot_multi_dist <- 
-  function(dist, p, q, xlim, ylim, digits=4, resolution=5000L,
-           dlwd=2, vlwd=if (discrete) 0 else 2, vcol=trellis.par.get('add.line')$col,
+  function(dist, p, q, xlim, ylim, digits = 3L, resolution = 500L,
+           dlwd=2, vlwd=if (discrete) 0 else 2, vcol = trellis.par.get('add.line')$col,
            rot=0, ...) 
 {
   dots <- list(...)
@@ -218,16 +232,18 @@ plot_multi_dist <-
   ymax <- 1.1 * quantile(ydata, 0.95, na.rm=TRUE)
   if (missing(ylim)) {
     ylim = c(0, 1.4 * ymax)  # quantile(ydata, 0.95, na.rm = TRUE))
-    print(ylim)
+    # print(ylim)
   }
   
   # this could be funny if limits don't span q
   p <- c(0, p, 1)
-  q <- c(xlim[1], q, xlim[2])
+  q <- dpqrdist(dist, type = "q", p = p, ...) #  c(xlim[1], q, xlim[2])
   
   if (discrete) {
     if (is.null(latticedots$pch)) latticedots$pch = 16
   }
+  
+ 
   
   args <- c(
     list(
@@ -266,8 +282,34 @@ plot_multi_dist <-
     latticedots
   )
   
-  plot <- do.call("xyplot", args)
+  # res_plot <- do.call("xyplot", args)
+ 
+  labels = rev(paste(LETTERS[1:(length(p) - 1)], ": ", 
+                     formatC(diff(p), format = "f", digits = digits), sep = ""))
+  Ddensity <- 
+    data_frame(
+      x = xdata, density = ydata, 
+      group = LETTERS[sapply(xdata, function(x) {sum(x <= q)})],
+      probability = factor(group, labels = labels)
+    ) 
   
+  Dtext <- Ddensity %>% group_by(group) %>% 
+    summarise(
+      x = mean(x, na.rm = TRUE) 
+    ) %>%
+    mutate(
+      y = base::max(Ddensity$density, na.rm = TRUE) * 1.1,
+      label = paste("", formatC(diff(p), format = "f", digits = digits), sep = "")
+      )
+  
+  plot <- 
+    ggplot(aes(y = density, x = x, fill = probability, group = group), data = Ddensity) +
+    geom_area() + 
+    labs(x = "")
+  # plot <- plot + 
+  #     geom_text(aes(y = y, x = x, color = group, label = label), data = Dtext,
+  #               angle = 45, size = 3, show.legend = FALSE)
+    
   return(plot)
 }
 

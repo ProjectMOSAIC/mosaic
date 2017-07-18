@@ -14,8 +14,9 @@
 \title{Illustrated quantile calculations from distributions}
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  resolution = 5000L, digits = 4L, xlim, ylim, vlwd = NULL,
-  vcol = trellis.par.get("add.line")$col, rot = 45, ...)
+  resolution = 5000L, digits = 3L, xlim, ylim, vlwd = NULL,
+  vcol = trellis.par.get("add.line")$col, rot = 45, return = c("values",
+  "plot"), ...)
 
 xqgamma(...)
 
