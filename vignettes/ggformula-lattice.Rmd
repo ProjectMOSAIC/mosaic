@@ -42,8 +42,8 @@ gf_histogram(~ age, data = HELPrct)
 ## Histogram options (ggformula)
 
 ```{r}
-gf_histogram(~ age, binwidth = 5, 
-  data = HELPrct)   # or age ~ 1
+gf_histogram(~ age, data = HELPrct,
+             binwidth = 5) 
 ```
 
 \newpage
@@ -85,7 +85,8 @@ gf_dens(~ age, data = HELPrct)
 ## Overlaid density plots (ggformula)
 
 ```{r, message = FALSE}
-gf_dens(~ age,  color = ~ sex, data = HELPrct)
+gf_dens(~ age, data = HELPrct,
+        color = ~ sex)
 ```
 
 \newpage
@@ -99,8 +100,8 @@ densityplot(~ age, data = HELPrct)
 ## Overlaid density plots (lattice)
 
 ```{r}
-densityplot(~ age, groups = sex, 
-  auto.key = TRUE, data = HELPrct)
+densityplot(~ age, data = HELPrct,
+            groups = sex,  auto.key = TRUE)
 ```
 
 \newpage
@@ -130,7 +131,8 @@ bwplot(age ~ sex, data = HELPrct)
 ## Faceted side by side plots (lattice)
 
 ```{r, message = FALSE}
-bwplot(age ~ sex | homeless, data = HELPrct)
+bwplot(age ~ sex | homeless, 
+       data = HELPrct)
 ```
 
 \newpage
@@ -139,8 +141,7 @@ bwplot(age ~ sex | homeless, data = HELPrct)
 ## Scatterplot (ggformula)
 
 ```{r, message = FALSE}
-gf_point(cesd ~ age, 
-  data = HELPrct)
+gf_point(cesd ~ age, data = HELPrct)
 ```
 
 
@@ -148,8 +149,8 @@ gf_point(cesd ~ age,
 ## Overlaid scatterplot with linear fit (ggformula)
 
 ```{r, message = FALSE}
-gf_point(cesd ~ age, color = ~ sex, 
-         data = HELPrct) %>%
+gf_point(cesd ~ age, data = HELPrct,
+         color = ~ sex) %>%
   gf_lm()
 ``````
 
@@ -164,8 +165,10 @@ xyplot(cesd ~ age, data = HELPrct)
 ## Overlaid scatterplot with linear fit (lattice)
 
 ```{r, message = FALSE}
-xyplot(cesd ~ age, groups = sex, type = c("p", "r"), 
-       auto.key = TRUE, data = HELPrct)
+xyplot(cesd ~ age,  data = HELPrct,
+       groups = sex, 
+       type = c("p", "r"), 
+       auto.key = TRUE) 
 ```
 
 \newpage 
@@ -183,13 +186,14 @@ gf_point(cesd ~ age | sex,
 ## More options for scatterplot with linear fit (ggformula)
 
 ```{r}
-gf_point(cesd ~ age, color = ~ sex, 
-         data = HELPrct) %>%
+gf_point(cesd ~ age, data = HELPrct,
+         color = ~ sex) %>%
   gf_lm() %>% 
   gf_theme(legend.position = "top") %>% 
   gf_labs(title = "This is my plot", 
     x = "age (in years)", 
-    y = "CES-D measure of\ndepressive symptoms")
+    y = "CES-D measure of
+depressive symptoms")
 ```
 
 
@@ -198,12 +202,13 @@ gf_point(cesd ~ age, color = ~ sex,
 ## Faceted scatterplot with smooth fit (lattice)
 
 ```{r, message = FALSE}
-xyplot(cesd ~ age | sex, type = c("p", "smooth"), 
-       auto.key = TRUE, data = HELPrct)
+xyplot(cesd ~ age | sex,  data = HELPrct,
+       type = c("p", "smooth"), 
+       auto.key = TRUE) 
 ```
 
 
-?gf_l
+
 
 ## More options for scatterplot with linear fit (lattice)
 
@@ -213,7 +218,8 @@ xyplot(cesd ~ age, groups = sex,
        auto.key = TRUE, 
        main = "This is my plot", 
        xlab = "age (in years)", 
-       ylab = "CES-D measure of\ndepressive symptoms",
+       ylab = "CES-D measure of
+depressive symptoms",
        data = HELPrct)
 ```
 
