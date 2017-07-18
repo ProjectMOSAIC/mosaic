@@ -9,7 +9,7 @@ xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   invisible = FALSE, digits = 4, lower.tail = TRUE, log.p = FALSE,
   xlim = mean + c(-4, 4) * sd, ylim = c(0, 1.4 * dnorm(mean, mean, sd)),
   vlwd = 2, vcol = trellis.par.get("add.line")$col, rot = 45,
-  manipulate = FALSE, ...)
+  manipulate = FALSE, ..., return = c("value", "plot"))
 
 xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
