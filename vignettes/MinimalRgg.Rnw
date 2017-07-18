@@ -75,7 +75,7 @@ Randall Pruim, Project MOSAIC
 \begin{document}
 \parindent=0pt
 
-\chead{\sf \bfseries \Large Enough R for Intro Stats}
+\chead{\sf \bfseries \Large Enough R for Intro Stats (ggformula version)}
 \rhead{June, 2017}
 \lhead{R. Pruim}
 
@@ -84,6 +84,7 @@ Randall Pruim, Project MOSAIC
 require(mosaic)
 require(parallel)
 require(ggformula)
+options(digits=4)
 theme_set(theme_bw())
 trellis.par.set(theme=col.mosaic())
 set.seed(123)
@@ -208,7 +209,7 @@ And most importantly: What is your creativity to volume quotient?
 \newpage
 
 \lhead{\href{http://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
-\rhead{\href{http://mosaic-web.org}{mosaic-web.org}}
+\rhead{\href{http://mosaic-web.org}{http://mosaic-web.org} (\Sexpr{Sys.Date()})}
 
 \begin{multicols}{4}
 

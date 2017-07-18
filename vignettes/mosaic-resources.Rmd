@@ -38,6 +38,14 @@ from within R or from
 	intervals in a number of common situations. The examples are based on the 
 	``resamping bake off'' at USCOTS 2013.
 
+## Mosaic paper
+
+Pruim R, Kaplan DT and Horton NJ (2017). The mosaic Package: Helping
+Students to 'Think with Data' Using R. *The R Journal*, 9(1), pp.
+77-102.  https://journal.r-project.org/archive/2017/RJ-2017-024/index.html.
+
+Abstract: The mosaic package provides a simplified and systematic introduction to the core functional ity related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics. This introduction to the package describes some of the guiding principles behind the design of the package and provides illustrative examples of several of the most important functions it implements. These can be combined to help students 'think with data' using R in their early course work, starting with simple, yet powerful, declarative commands.
+
 ## Project MOSAIC Little Books
 
 The following longer documents are available at 
@@ -47,12 +55,12 @@ The following longer documents are available at
 some strategies for teaching beginners, and introduction to the `mosaic` package,
 and some additional things that instructors should know about using R.
 
- * *A Student's Guide to R* provides a brief introduction to 
+ * *[A Student's Guide to R](http://project-mosaic-books.com/?page_id=24)* provides a brief introduction to 
 the R commands needed for all the basic statistical procedures in 
 an Intro Stats course.
 
 
- * *Start R in Calculus* highlights features 
+ * *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* highlights features 
 of R and the `mosaic` package that can be used to teach 
 calculus with R.
 

@@ -1,0 +1,13 @@
+citHeader("To cite mosaic in publications, please use:")
+
+citEntry(entry = "article",
+  author = "Randall Pruim and Daniel T Kaplan and Nicholas J Horton",
+  title = "The mosaic Package: Helping Students to 'Think with Data' Using R",
+  journal = "The R Journal",
+  volume = "9",
+  number = "1",
+  pages = "77--102",
+  year = "2017",
+  url = "https://journal.r-project.org/archive/2017/RJ-2017-024/index.html",
+  textVersion = "R. Pruim, D. T. Kaplan and N. J. Horton. The mosaic Package: Helping Students to 'Think with Data' Using R (2017). The R Journal, 9(1):77-102."
+)

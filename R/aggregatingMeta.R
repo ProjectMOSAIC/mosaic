@@ -381,7 +381,7 @@ aggregatingFunction2 <- function(fun) {
 #' that formula, together with \code{data} are used to generate the numeric vector(s) 
 #' to be summarized.  Formulas of the shape \code{x ~ a} or \code{~ x | a} can be used to
 #' produce summaries of \code{x} for each subsect defined by \code{a}.  Two-way aggregation
-#' can be acheived using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
+#' can be achieved using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
 #' the examples.
 #' 
 # ' When an object exists both in \code{data} and in the environment of the formula, \code{data}
@@ -466,6 +466,7 @@ cor <- aggregatingFunction2(stats::cor)
 #' @examples
 #' mean(HELPrct$age)
 #' mean( ~ age, data=HELPrct)
+#' mean( ~ drugrisk, na.rm=TRUE, data=HELPrct)
 #' mean(age ~ shuffle(sex), data=HELPrct)
 #' mean(age ~ shuffle(sex), data=HELPrct, .format="table")
 #' # wrap in data.frame() to auto-convert awkward variable names
@@ -485,7 +486,7 @@ cor <- aggregatingFunction2(stats::cor)
 #' favstats(width ~ sex, data = KidsFeet)
 #' 
 #' cor(length ~ width, data = KidsFeet)
-#' cov (length ~ width, data = KidsFeet)
+#' cov(length ~ width, data = KidsFeet)
 #' @export
 
 cov <- aggregatingFunction2(stats::cov)
