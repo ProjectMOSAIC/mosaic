@@ -169,7 +169,7 @@ mid <- function(x) {
 	if (missing(ylim)) {
 		ylim = c(0, 1.4 * ymax)
 	}
-	xdata = seq(xlim[1], xlim[2], length.out=400)
+	xdata = seq(xlim[1], xlim[2], length.out=800)
 	ydata = dnorm(xdata, mean=mean, sd=sd)
 	groups = apply(sapply(xdata, function(x) {x < q}), 2, sum)
 
@@ -195,6 +195,21 @@ mid <- function(x) {
 		), dots)
 	)
 
+	D <- 
+	  data.frame(x = xdata, density = ydata) %>%
+	  mutate(group = apply(sapply(x, function(x) {x < q}), 2, sum))
+	Q <- 
+	  data.frame(q = mid(q), m = 1.1 * max(D$density)) %>%
+	  mutate(group = apply(sapply(q, function(x) {x < q}), 2, sum))
+	
+	plot <- 
+	  ggplot() +
+	  geom_area(aes(y = density, x = x, fill = factor(group)), data = D, show.legend = FALSE) +
+	  geom_text(aes(y = m,  x = q, color = factor(group)), data = Q, 
+	            label = paste("", round(diff(p), 3), sep = ""),
+	            angle = 45, show.legend = FALSE) +
+	  geom_point(aes(y = 1.1 * m, x = q), color = "transparent", data = Q)
+	  
 	return(plot)
 }
 
