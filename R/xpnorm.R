@@ -268,9 +268,10 @@ mid <- function(x) {
 	  ggplot(data = Ddensity, aes(x = x, y = density, group = tail, fill = tail)) +
 	    geom_area() + 
 	    geom_text(aes(x = x, y = y2, label = label), data = Dtext, 
-	              vjust = 0, hjust = 0.5, inherit.aes = FALSE) +
+	              vjust = 1, hjust = 0.5, inherit.aes = FALSE) +
 	    geom_segment(aes(x = x, xend = x, y = 0, yend = y1), data = Dtext, inherit.aes = FALSE) +
-	    guides(fill = guide_legend(title = ""))
+	    guides(fill = guide_legend(title = "")) +
+	    theme(legend.position = "top")
 
 	return(res_plot)
 	
