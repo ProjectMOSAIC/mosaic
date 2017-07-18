@@ -16,32 +16,34 @@ output:
     fig_height: 3
     fig_width: 5
 ---
-```{r, setup, include=FALSE}
+```{r, setup, include = FALSE}
 require(mosaic)   # Load additional packages here 
 
 # Some customization.  You can alter or delete as desired (if you know what you are doing).
-trellis.par.set(theme=theme.mosaic()) # change default color scheme for lattice
+trellis.par.set(theme = theme.mosaic()) # change default color scheme for lattice
+theme_set(theme_bw())                   # change default theme for ggformula
 knitr::opts_chunk$set(
-  tidy=FALSE,     # display code as typed
-  size="small")   # slightly smaller font for code
+  tidy = FALSE,     # display code as typed
+  size = "small")   # slightly smaller font for code
 ```
 
 ## Introduction
 This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the `ggformula` system. 
 
+\vfill
 
 ## Histograms (ggformula)
 
 ```{r}
 library(mosaic)  # also loads ggformula
-gf_histogram(~ age, data=HELPrct)
+gf_histogram(~ age, data = HELPrct)
 ```
 
 ## Histogram options (ggformula)
 
 ```{r}
-gf_histogram(~ age, binwidth=5, 
-  data=HELPrct)   # or age ~ 1
+gf_histogram(~ age, binwidth = 5, 
+  data = HELPrct)   # or age ~ 1
 ```
 
 \newpage
@@ -54,17 +56,19 @@ More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be fou
 
 Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
 
+\vfill
+
 ## Histograms (lattice)
 
 ```{r}
 library(mosaic) # also loads lattice
-histogram(~ age, data=HELPrct)
+histogram(~ age, data = HELPrct)
 ```
 
 ## Histogram options (lattice)
 
 ```{r}
-histogram(~ age, width=5, data=HELPrct)
+histogram(~ age, width = 5, data = HELPrct)
 ```
 
 
@@ -74,44 +78,44 @@ histogram(~ age, width=5, data=HELPrct)
 
 ## Density plots (ggformula)
 
-```{r, message=FALSE}
-gf_dens(~ age, data=HELPrct)
+```{r, message = FALSE}
+gf_dens(~ age, data = HELPrct)
 ```
 
 ## Overlaid density plots (ggformula)
 
-```{r, message=FALSE}
-gf_dens(~ age,  color = ~ sex, data=HELPrct)
+```{r, message = FALSE}
+gf_dens(~ age,  color = ~ sex, data = HELPrct)
 ```
 
 \newpage
 
 ## Density plots (lattice)
 
-```{r, message=FALSE}
-densityplot(~ age, data=HELPrct)
+```{r, message = FALSE}
+densityplot(~ age, data = HELPrct)
 ```
 
 ## Overlaid density plots (lattice)
 
 ```{r}
-densityplot(~ age, groups=sex, 
-  auto.key=TRUE, data=HELPrct)
+densityplot(~ age, groups = sex, 
+  auto.key = TRUE, data = HELPrct)
 ```
 
 \newpage
 
 ## Side by side box plots (ggformula)
 
-```{r, message=FALSE}
-gf_boxplot(age ~ sex, data=HELPrct)
+```{r, message = FALSE}
+gf_boxplot(age ~ sex, data = HELPrct)
 ```
 
 ## Faceted side by side box plots (ggformula)
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 gf_boxplot(age ~ sex | homeless, 
-  data=HELPrct)
+  data = HELPrct)
 ```
 
 
@@ -119,14 +123,14 @@ gf_boxplot(age ~ sex | homeless,
 
 ## Side by side plots (lattice)
 
-```{r, message=FALSE}
-bwplot(age ~ sex, data=HELPrct)
+```{r, message = FALSE}
+bwplot(age ~ sex, data = HELPrct)
 ```
 
 ## Faceted side by side plots (lattice)
 
-```{r, message=FALSE}
-bwplot(age ~ sex | homeless, data=HELPrct)
+```{r, message = FALSE}
+bwplot(age ~ sex | homeless, data = HELPrct)
 ```
 
 \newpage
@@ -134,18 +138,18 @@ bwplot(age ~ sex | homeless, data=HELPrct)
 
 ## Scatterplot (ggformula)
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 gf_point(cesd ~ age, 
-  data=HELPrct)
+  data = HELPrct)
 ```
 
 
 
 ## Overlaid scatterplot with linear fit (ggformula)
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 gf_point(cesd ~ age, color = ~ sex, 
-         data=HELPrct) %>%
+         data = HELPrct) %>%
   gf_lm()
 ``````
 
@@ -153,24 +157,24 @@ gf_point(cesd ~ age, color = ~ sex,
 
 ## Scatterplot (lattice)
 
-```{r, message=FALSE}
-xyplot(cesd ~ age, data=HELPrct)
+```{r, message = FALSE}
+xyplot(cesd ~ age, data = HELPrct)
 ```
 
 ## Overlaid scatterplot with linear fit (lattice)
 
-```{r, message=FALSE}
-xyplot(cesd ~ age, groups=sex, type=c("p", "r"), 
-       auto.key=TRUE, data=HELPrct)
+```{r, message = FALSE}
+xyplot(cesd ~ age, groups = sex, type = c("p", "r"), 
+       auto.key = TRUE, data = HELPrct)
 ```
 
 \newpage 
 
 ## Faceted scatterplot with smooth fit (ggformula)
 
-```{r, message=FALSE}
+```{r, message = FALSE}
 gf_point(cesd ~ age | sex, 
-         data=HELPrct) %>%
+         data = HELPrct) %>%
   gf_smooth()
 ``````
 
@@ -180,12 +184,12 @@ gf_point(cesd ~ age | sex,
 
 ```{r}
 gf_point(cesd ~ age, color = ~ sex, 
-         data=HELPrct) %>%
+         data = HELPrct) %>%
   gf_lm() %>% 
   gf_theme(legend.position = "top") %>% 
   gf_labs(title = "This is my plot", 
-    x="age (in years)", 
-    y="CES-D measure of\ndepressive symptoms")
+    x = "age (in years)", 
+    y = "CES-D measure of\ndepressive symptoms")
 ```
 
 
@@ -193,9 +197,9 @@ gf_point(cesd ~ age, color = ~ sex,
 
 ## Faceted scatterplot with smooth fit (lattice)
 
-```{r, message=FALSE}
-xyplot(cesd ~ age | sex, type=c("p", "smooth"), 
-       auto.key=TRUE, data=HELPrct)
+```{r, message = FALSE}
+xyplot(cesd ~ age | sex, type = c("p", "smooth"), 
+       auto.key = TRUE, data = HELPrct)
 ```
 
 
@@ -203,14 +207,14 @@ xyplot(cesd ~ age | sex, type=c("p", "smooth"),
 
 ## More options for scatterplot with linear fit (lattice)
 
-```{r, message=FALSE}
-xyplot(cesd ~ age, groups=sex, 
-       type=c("p", "r"), 
-       auto.key=TRUE, 
+```{r, message = FALSE}
+xyplot(cesd ~ age, groups = sex, 
+       type = c("p", "r"), 
+       auto.key = TRUE, 
        main = "This is my plot", 
-       xlab="age (in years)", 
-       ylab="CES-D measure of\ndepressive symptoms",
-       data=HELPrct)
+       xlab = "age (in years)", 
+       ylab = "CES-D measure of\ndepressive symptoms",
+       data = HELPrct)
 ```
 
 ## Want to explore more?
