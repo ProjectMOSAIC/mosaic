@@ -41,7 +41,7 @@
 
 \item{quote}{a logical value indicating whether to quote the arguments.}
 
-\item{envir}{an environment within which to evaluate the call. 
+\item{envir}{an environment within which to evaluate the call.
 This will be most useful if what is a character string and the arguments are symbols or quoted expressions.}
 
 \item{x}{a formula}
@@ -80,7 +80,7 @@ Extract simple part from formula
 
 \code{.squash_names} squashes names of a data frame into a single string
 
-\code{.do.safe.call} avoids conflicts between named arguments and ... by taking named arguments 
+\code{.do.safe.call} avoids conflicts between named arguments and ... by taking named arguments
 preferentially.
 }
 \seealso{
