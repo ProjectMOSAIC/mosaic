@@ -11,6 +11,6 @@ a logical
 }
 \description{
 This functions checks that RStudio is in use.  It will likely be removed
-from this package once the versions of RStudio in popular use rely on the 
+from this package once the versions of RStudio in popular use rely on the
 manipulate package on CRAN which will provide its own version.
 }
