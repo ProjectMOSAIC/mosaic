@@ -8,3 +8,11 @@ MASS::fitdistr
 #' @export
 MASS::fractions
 
+
+#' @importFrom mosaicCore lhs rhs condition
+#' @export
+mosaicCore::lhs
+#' @export
+mosaicCore::rhs
+#' @export
+mosaicCore::condition
