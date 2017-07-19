@@ -33,6 +33,6 @@ cor.test <- function(x, ...) {
     
 #' @export
 #' @rdname cor.test
-cor_test.default <- function(x, ...) {
-  stats::cor.test(x, ...)
+cor_test.default <- function(x, y, ...) {
+  stats::cor.test(x, y, ...)
 }

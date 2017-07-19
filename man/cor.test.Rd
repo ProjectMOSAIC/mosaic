@@ -10,7 +10,7 @@ cor_test.formula(formula, ...)
 
 cor.test(x, ...)
 
-cor_test.default(x, ...)
+cor_test.default(x, y, ...)
 }
 \arguments{
 \item{formula}{a formula}
