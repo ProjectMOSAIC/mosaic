@@ -1,4 +1,7 @@
 
+#' @import mosaicCore
+NA
+
 #' Average Shifted Histograms
 #' 
 #' An ASH plot is the average over all histograms of a fixed bin width. 
@@ -39,7 +42,7 @@ prepanel.default.ashplot <- function(
     list(xlim = rep(x, 2), ylim = rep(0, 2), dx = 1, dy = 1)
   }
   else if (is.null(groups)) {
-    h <- ash_points(x, binwidth = darg$width, adjust = darg$adjust)
+    h <- mosaicCore::ash_points(x, binwidth = darg$width, adjust = darg$adjust)
     quants <- quantile(x, c(0.15, 0.85), names = FALSE, na.rm = TRUE)
     ok <- h$x > quants[1] & h$x < quants[2]
     list(xlim = range(h$x), ylim = range(h$y), dx = diff(h$x[ok]), 
@@ -54,7 +57,7 @@ prepanel.default.ashplot <- function(
     for (i in seq_along(vals)) {
       id <- (groups[subscripts] == vals[i])
       if (sum(id, na.rm = TRUE) > 1) {
-        h <- do.call(ash_points, c(list(x = x[id], binwidth = darg$width, darg$adjust))) 
+        h <- do.call(mosaicCore::ash_points, c(list(x = x[id], binwidth = darg$width, darg$adjust))) 
         xl <- c(xl, h$x)
         yl <- c(yl, h$y)
         quants <- quantile(x[id], c(0.15, 0.85), names = FALSE, na.rm = TRUE)
@@ -116,7 +119,7 @@ panel.ashplot <-
                               type = type, ..., identifier = identifier)
       )
       
-      ash <- ash_points(x, darg$width, adjust=darg$adjust)    
+      ash <- mosaicCore::ash_points(x, darg$width, adjust=darg$adjust)    
       if (sum(!is.na(x)) > 1) {
         panel.xyplot(ash$x, ash$y, type="l", ...)
       }
@@ -124,26 +127,3 @@ panel.ashplot <-
   }
 
 
-
-#' Compute knot points of an average shifted histogram
-#' 
-#' Mainly a utility for the \pkg{lattice} and \pkg{ggplot2} plotting 
-#' functions, \code{ash_points()} returns the points to be plotted.
-#' 
-#' @param binwidth the width of the histogram bins.  If \code{NULL} (the default) the 
-#'   binwidth will be chosen so that approximately 10 bins cover the data.  \code{adjust}
-#'   can be used to to increase or decrease \code{binwidth}.
-#' @return a data frame containing x and y coordinates of the resulting ASH plot.
-#' @rdname ashplot
-#' @export
-ash_points <- function(x, binwidth = NULL, adjust = 1.0) {
-  if (is.null(adjust)) adjust <- 1.0
-  if (is.null(binwidth)) binwidth <- diff(range(x)) / (10.0)
-  left <- x - binwidth
-  right <- x + binwidth
-  knots <- sort(unique(c(left, x, right)))
-  y <- sapply(knots, 
-              function(k) sum( 1 / binwidth / length(x) * (1 - abs(x-k) / binwidth) * (abs(x-k) <= binwidth))
-  )
-  data.frame(x = knots, y = y)
-}

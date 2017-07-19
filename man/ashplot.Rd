@@ -4,7 +4,6 @@
 \alias{ashplot}
 \alias{prepanel.default.ashplot}
 \alias{panel.ashplot}
-\alias{ash_points}
 \title{Average Shifted Histograms}
 \usage{
 ashplot(x, ..., width = NULL, adjust = NULL, panel = panel.ashplot,
@@ -15,8 +14,6 @@ prepanel.default.ashplot(x, darg, groups = NULL, subscripts = TRUE, ...)
 panel.ashplot(x, darg = list(), plot.points = FALSE, ref = FALSE,
   groups = NULL, jitter.amount = 0.01 * diff(current.panel.limits()$ylim),
   type = "p", ..., identifier = "ash")
-
-ash_points(x, binwidth = NULL, adjust = 1)
 }
 \arguments{
 \item{x}{a formula or numeric vector}
@@ -53,20 +50,10 @@ if specified, from affecting the display of the ASH.}
 \item{identifier}{A character string that is prepended to the names of i
 grobs that are created by this panel function.}
 
-\item{binwidth}{the width of the histogram bins.  If \code{NULL} (the default) the 
-binwidth will be chosen so that approximately 10 bins cover the data.  \code{adjust}
-can be used to to increase or decrease \code{binwidth}.}
-
 \item{data}{a data frame}
-}
-\value{
-a data frame containing x and y coordinates of the resulting ASH plot.
 }
 \description{
 An ASH plot is the average over all histograms of a fixed bin width.
-
-Mainly a utility for the \pkg{lattice} and \pkg{ggplot2} plotting 
-functions, \code{ash_points()} returns the points to be plotted.
 }
 \examples{
 ashplot( ~age | substance, groups = sex, data = HELPrct)
