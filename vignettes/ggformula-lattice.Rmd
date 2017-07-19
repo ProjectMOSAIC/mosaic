@@ -22,6 +22,7 @@ output:
 ---
 ```{r, setup, include = FALSE}
 require(mosaic)   # Load additional packages here 
+require(ggformula)
 
 # Some customization.  You can alter or delete as desired (if you know what you are doing).
 trellis.par.set(theme = theme.mosaic()) # change default color scheme for lattice
@@ -39,7 +40,8 @@ This document is intended to help users of the `mosaic` package migrate their `l
 ## Histograms (ggformula)
 
 ```{r}
-library(mosaic)  # also loads ggformula
+library(mosaic)  
+library(ggformula)  
 gf_histogram(~ age, data = HELPrct)
 ```
 
@@ -65,7 +67,8 @@ Examples of how to bring multidimensional graphics into day one of an introducto
 ## Histograms (lattice)
 
 ```{r}
-library(mosaic) # also loads lattice
+library(mosaic) 
+library(lattice)
 histogram(~ age, data = HELPrct)
 ```
 
