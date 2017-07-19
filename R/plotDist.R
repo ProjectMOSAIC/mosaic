@@ -1,4 +1,6 @@
 utils::globalVariables(c('densy','densx','dots')) 
+#' @importFrom mosaicCore named named_among unnamed
+NA
 
 #' Plots of Discrete and Continuous Distributions
 #' 
@@ -241,26 +243,4 @@ plotDist <- function(
     )
   }
 }
-
-#' List extraction
-#' 
-#' These functions create subsets of lists based on their names
-#'
-#'  
-#' @param l a list
-#' @param n a vector of character strings (potential names)
-#' @return a sublist of \code{l} determined by \code{names(l)}
-#' @export
-
-named <-function(l)  if (is.null(names(l))) list() else l [ names(l) != "" ]
-
-#' @rdname named
-#' @export
-
-unnamed <-function(l)  if (is.null(names(l))) l else l [ names(l) == "" ]
-
-#' @rdname named
-#' @export
-
-named_among <- function(l, n)  l [ intersect( names(l), n ) ]
 
