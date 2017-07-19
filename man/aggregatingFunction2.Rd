@@ -37,7 +37,7 @@ and (c) difficult to maintain.
 \examples{
 if(require(mosaicData)) {
   foo <- aggregatingFunction2(stats::cor)
-  foo(length ~ width, data=KidsFeet)
+  foo(length ~ width, data = KidsFeet)
    stats::cor(KidsFeet$length, KidsFeet$width)
 }
 }

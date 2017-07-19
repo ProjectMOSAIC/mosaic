@@ -18,7 +18,7 @@ include an argument named \code{data} if the intent is to
 interpret the formala in a data frame.}
 
 \item{data}{a data frame in which to evaluate formulas (or bare names).
-Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+Note that the default is \code{data = parent.frame()}.  This makes it convenient to
 use this function interactively by treating the working envionment as if it were 
 a data frame.  But this may not be appropriate for programming uses.  
 When programming, it is best to use an explicit \code{data} argument
@@ -39,7 +39,7 @@ All pairs mean and sum of absolute differences
 \examples{
 SAD(1:3)
 MAD(1:3)
-MAD(~eruptions, data=faithful)
+MAD(~eruptions, data = faithful)
 }
 \seealso{
 \code{link{mad}}, \code{\link{MAD_}}

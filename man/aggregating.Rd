@@ -79,7 +79,7 @@ cov(x, y = NULL, ..., data = NULL)
 \item{\dots}{additional arguments}
 
 \item{data}{a data frame in which to evaluate formulas (or bare names).
-Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+Note that the default is \code{data = parent.frame()}.  This makes it convenient to
 use this function interactively by treating the working envionment as if it were 
 a data frame.  But this may not be appropriate for programming uses.  
 When programming, it is best to use an explicit \code{data} argument
@@ -101,7 +101,7 @@ interface.  Old behavior should be unchanged.  But if the first argument is a fo
 that formula, together with \code{data} are used to generate the numeric vector(s) 
 to be summarized.  Formulas of the shape \code{x ~ a} or \code{~ x | a} can be used to
 produce summaries of \code{x} for each subsect defined by \code{a}.  Two-way aggregation
-can be acheived using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
+can be achieved using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
 the examples.
 }
 \section{Note}{
@@ -113,25 +113,26 @@ and (c) difficult to maintain.
 
 \examples{
 mean(HELPrct$age)
-mean( ~ age, data=HELPrct)
-mean(age ~ shuffle(sex), data=HELPrct)
-mean(age ~ shuffle(sex), data=HELPrct, .format="table")
+mean( ~ age, data = HELPrct)
+mean( ~ drugrisk, na.rm = TRUE, data = HELPrct)
+mean(age ~ shuffle(sex), data = HELPrct)
+mean(age ~ shuffle(sex), data = HELPrct, .format = "table")
 # wrap in data.frame() to auto-convert awkward variable names
-data.frame(mean(age ~ shuffle(sex), data=HELPrct, .format="table"))
-mean(age ~ sex + substance, data=HELPrct)
-mean( ~ age | sex + substance, data=HELPrct)
-mean( ~ sqrt(age), data=HELPrct)
-sum( ~ age, data=HELPrct)
+data.frame(mean(age ~ shuffle(sex), data = HELPrct, .format = "table"))
+mean(age ~ sex + substance, data = HELPrct)
+mean( ~ age | sex + substance, data = HELPrct)
+mean( ~ sqrt(age), data = HELPrct)
+sum( ~ age, data = HELPrct)
 sd(HELPrct$age)
-sd( ~ age, data=HELPrct)
-sd(age ~ sex + substance, data=HELPrct)
+sd( ~ age, data = HELPrct)
+sd(age ~ sex + substance, data = HELPrct)
 var(HELPrct$age)
-var( ~ age, data=HELPrct)
-var(age ~ sex + substance, data=HELPrct)
-IQR(width ~ sex, data=KidsFeet)
-iqr(width ~ sex, data=KidsFeet)
+var( ~ age, data = HELPrct)
+var(age ~ sex + substance, data = HELPrct)
+IQR(width ~ sex, data = KidsFeet)
+iqr(width ~ sex, data = KidsFeet)
 favstats(width ~ sex, data = KidsFeet)
 
 cor(length ~ width, data = KidsFeet)
-cov (length ~ width, data = KidsFeet)
+cov(length ~ width, data = KidsFeet)
 }
