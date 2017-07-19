@@ -1,7 +1,11 @@
 ---
 title: "ggformula/lattice conversion examples"
 author: "Nicholas Horton (nhorton@amherst.edu)"
-date: "July 16, 2017"
+date: '`r Sys.Date()`'
+vignette: |
+  %\VignetteIndexEntry{Less Volume, More Creativity} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  \usepackage[utf8]{inputenc}
 output: 
   pdf_document:
     fig_height: 3
