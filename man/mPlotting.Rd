@@ -7,19 +7,19 @@
 \alias{mUniplot}
 \title{Interactive plotting}
 \usage{
-mPlot(data, format, default = format, system = c("ggformula", "lattice",
-  "ggplot2"), show = FALSE, title = "", data_text = expr_text(data), ...)
+mPlot(data, format, default = format, system = system_choices()[1],
+  show = FALSE, title = "", data_text = expr_text(data), ...)
 
 mMap(data, default = "map", system = "ggplot2", show = FALSE,
   title = title, data_text = expr_text(data), ...)
 
 mScatter(data, default = c("scatter", "jitter", "boxplot", "violin", "line"),
-  system = c("ggformula", "lattice", "ggplot2"), show = FALSE, title = "",
+  system = "ggformula", show = FALSE, title = "",
   data_text = lazyeval::expr_text(data))
 
 mUniplot(data, default = c("histogram", "density", "frequency polygon",
-  "ASH plot"), system = c("ggformula", "lattice", "ggplot2"), show = FALSE,
-  title = "", data_text = expr_text(data))
+  "ASH plot"), system = system_choices()[1], show = FALSE, title = "",
+  data_text = expr_text(data))
 }
 \arguments{
 \item{data}{a data frame containing the variables that might be used in the plot.
@@ -79,7 +79,7 @@ Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
 }
 \examples{
 \dontrun{
-mPlot(HELPrct, format="scatter")
-mPlot(HELPrct, format="density")
+mPlot(HELPrct, format = "scatter")
+mPlot(HELPrct, format = "density")
 }
 }
