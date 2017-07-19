@@ -1,6 +1,7 @@
+
 utils::globalVariables( 
   c('button','picker','slider','checkbox','SD','Q','MEAN','slider','manipulate',
-    '.plot_one_norm', '.plot_multi_norm'
+    '.plot_one_norm', '.plot_multi_norm', 'y1', 'y2', 'density', 'm'
   )
 )
 
@@ -22,7 +23,8 @@ utils::globalVariables(
 #' @param vlwd,vcol line width and color for vertical lines.
 #' @param rot angle of rotation for text labels.
 #' @param manipulate logical.  If TRUE and in RStudio,
-#' 	then sliders are added for interactivity.
+#'  	then sliders are added for interactivity.
+#' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
 #' @param \dots additional arguments.
 #' 
 #' 
@@ -97,6 +99,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
         return(res_plot)
       }
     } else {
+      print(res_plot)
       if (invisible) { 
         return(invisible(pnorm(q, mean = mean, sd = sd, lower.tail = lower.tail, log.p = log.p)))
       }
@@ -108,11 +111,12 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
 #' @export
 
 xqnorm <-
-function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
-    lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
-    vlwd=2, vcol=trellis.par.get('add.line')$col,
-	rot=45, ...) 
+  function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
+            lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
+            vlwd=2, vcol=trellis.par.get('add.line')$col,
+            rot=45, ..., return = c("value", "plot")) 
 {
+    return <- match.arg(return)
     q = qnorm(p, mean = mean, sd = sd, lower.tail = lower.tail, 
         log.p = log.p)
     z = (q - mean)/sd
@@ -130,12 +134,12 @@ function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("
     }
     
     if (plot & length(p) == 1) {
-		print(.plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      vlwd=vlwd, vcol=vcol, rot=rot, ...))
+		  res_plot <- .plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
+		      vlwd=vlwd, vcol=vcol, rot=rot, ...)
     }
     if (plot & length(p) > 1) {
-		print(.plot_multi_norm(p=sort(p), q=sort(q), mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      vlwd=vlwd, vcol=vcol, rot=rot, ...))
+		  res_plot <- .plot_multi_norm(p=sort(p), q=sort(q), mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
+		      vlwd=vlwd, vcol=vcol, rot=rot, ...)
     }
     
     if (return == "plot") {

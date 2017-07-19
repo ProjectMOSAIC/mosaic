@@ -14,7 +14,8 @@ xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
 xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
   ylim, invisible = FALSE, vlwd = 2,
-  vcol = trellis.par.get("add.line")$col, rot = 45, ...)
+  vcol = trellis.par.get("add.line")$col, rot = 45, ...,
+  return = c("value", "plot"))
 }
 \arguments{
 \item{q}{quantile}
@@ -43,6 +44,8 @@ xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
 then sliders are added for interactivity.}
 
 \item{\dots}{additional arguments.}
+
+\item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
 \item{p}{probability}
 }
