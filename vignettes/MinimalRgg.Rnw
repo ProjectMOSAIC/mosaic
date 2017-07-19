@@ -96,7 +96,7 @@ set.seed(123)
 #	h = gsub('(["\'])', '\\1{}', h)
 #	gsub('^\\\\begin\\{alltt\\}\\s*|\\\\end\\{alltt\\}\\s*$', '', h)
 #})
-opts_chunk$set(
+knitr::opts_chunk$set(
 	dev="pdf",
 	eval=FALSE,
 	tidy=FALSE,
@@ -444,7 +444,7 @@ inner_join()         # dplyr
 % ``Less volume, more creativity" (Mike McCarthy, head coach, Green Bay Packers)
 
 <<more-hooks,eval=TRUE,echo=FALSE>>=
-opts_chunk$set(
+knitr::opts_chunk$set(
 	eval=TRUE, 
   size='small',
 	fig.width=4,
