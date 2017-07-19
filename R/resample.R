@@ -361,7 +361,7 @@ sample.lm <-
    
      
     if (is.null(transformation)) {
-      transformation <- inferTransformation(formula(x))
+      transformation <- mosaicCore::infer_transformation(formula(x))
     }
     res[[1]] <- do.call(transformation, list(res$new_response))
     # remove "scratch columns"
@@ -370,30 +370,6 @@ sample.lm <-
     res
   }
 
-inferTransformation <- function(formula, warn = TRUE) {
-  transformation <- identity
-  left <- lhs(formula)
-  if (length(left) == 2) {       # foo ( stuff )
-    if (is.name(left[[2]])) {    # stuff is a name
-      transformation <- 
-        switch( 
-          as.character(left[[1]]),
-          "log" = exp,
-          "log10" = function(x) {10^x},
-          "log2" = function(x) {2^x},
-          "sqrt" = function(x) x^2,
-          identity
-        )
-    }   # could have identity if stuff is not a name or foo is not a known function
-    if (warn && identical(transformation, identity)) {
-      warning("You may need to specify transformation to get the desired results.", call. = FALSE)
-    } 
-  }
-  if (warn && length(left) > 2) {
-    warning("You may need to specify transformation to get the desired results.", call. = FALSE)
-  }
-  transformation
-}
 
 #' Resample a Linear Model
 #' 
