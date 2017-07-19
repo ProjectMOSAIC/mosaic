@@ -4,6 +4,7 @@
 ^README.Rmd$
 ^README.html$
 ^vignettes-source$
+^vignettes/.*\.R$
 ^vignettes/.*\.pdf$
 ^vignettes/.*\.html$
 ^vignettes/.*\.md$
