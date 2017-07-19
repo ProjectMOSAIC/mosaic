@@ -1,3 +1,8 @@
+#' @import mosaicCore
+#' @export 
+mosaicCore::makeFun
+NA
+
 #' mosaic
 #'
 #' Data sets and utilities from Project MOSAIC (mosaic-web.org) used to teach mathematics, 
