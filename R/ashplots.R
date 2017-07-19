@@ -6,22 +6,22 @@ NA
 #' 
 #' An ASH plot is the average over all histograms of a fixed bin width. 
 #' 
-#' @param x a formula or numeric vector
-#' @param width the historam bin width.
-#' @param adjust a numeric adjustment to \code{width}.  Primarily useful when \code{width} is 
+#' @param x A formula or numeric vector.
+#' @param width The historam bin width.
+#' @param adjust A numeric adjustment to \code{width}.  Primarily useful when \code{width} is 
 #'   not specified.  Increasing \code{adjust} makes the plot smoother.
-#' @param panel a panel funtion
-#' @param prepanel a prepanel function
-#' @param ... additional arguments passed to panel and prepanel functions or \code{data}, a 
+#' @param panel A panel funtion.
+#' @param prepanel A prepanel function.
+#' @param ... Additional arguments passed to panel and prepanel functions or \code{data}, a 
 #'   data frame in which to find the variales used for the plot.
-#' @param data a data frame
+#' @param data A data frame.
 #' @export
 #' @examples
 #' ashplot( ~age | substance, groups = sex, data = HELPrct)
-ashplot <- function(x, ..., width = NULL, adjust = NULL, 
+ashplot <- function(x, data = data, ..., width = NULL, adjust = NULL, 
                     panel = panel.ashplot, prepanel = prepanel.default.ashplot) 
 {
-  densityplot(x, panel = panel, width = width, ..., prepanel = prepanel)
+  densityplot(x, data = data, panel = panel, width = width, ..., prepanel = prepanel)
 }
 
 #' @rdname ashplot

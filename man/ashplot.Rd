@@ -6,8 +6,8 @@
 \alias{panel.ashplot}
 \title{Average Shifted Histograms}
 \usage{
-ashplot(x, ..., width = NULL, adjust = NULL, panel = panel.ashplot,
-  prepanel = prepanel.default.ashplot)
+ashplot(x, data = data, ..., width = NULL, adjust = NULL,
+  panel = panel.ashplot, prepanel = prepanel.default.ashplot)
 
 prepanel.default.ashplot(x, darg, groups = NULL, subscripts = TRUE, ...)
 
@@ -16,19 +16,21 @@ panel.ashplot(x, darg = list(), plot.points = FALSE, ref = FALSE,
   type = "p", ..., identifier = "ash")
 }
 \arguments{
-\item{x}{a formula or numeric vector}
+\item{x}{A formula or numeric vector.}
 
-\item{...}{additional arguments passed to panel and prepanel functions or \code{data}, a 
+\item{data}{A data frame.}
+
+\item{...}{Additional arguments passed to panel and prepanel functions or \code{data}, a 
 data frame in which to find the variales used for the plot.}
 
-\item{width}{the historam bin width.}
+\item{width}{The historam bin width.}
 
-\item{adjust}{a numeric adjustment to \code{width}.  Primarily useful when \code{width} is 
+\item{adjust}{A numeric adjustment to \code{width}.  Primarily useful when \code{width} is 
 not specified.  Increasing \code{adjust} makes the plot smoother.}
 
-\item{panel}{a panel funtion}
+\item{panel}{A panel funtion.}
 
-\item{prepanel}{a prepanel function}
+\item{prepanel}{A prepanel function.}
 
 \item{darg}{a list of arguments for the function computing the ASH.}
 
@@ -49,8 +51,6 @@ if specified, from affecting the display of the ASH.}
 
 \item{identifier}{A character string that is prepended to the names of i
 grobs that are created by this panel function.}
-
-\item{data}{a data frame}
 }
 \description{
 An ASH plot is the average over all histograms of a fixed bin width.
