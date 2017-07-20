@@ -3,24 +3,57 @@
 \name{t_test}
 \alias{t_test}
 \alias{t.test}
+\alias{t_test.formula}
+\alias{t_test.default}
 \title{Student's t-Test}
 \usage{
-t_test(x, y = NULL, ..., data = parent.frame())
+t_test(x, ...)
 
-t.test(x, y=NULL, ..., data = parent.frame())
+t.test(x, ...)
+
+\method{t_test}{formula}(formula, data, ..., groups = NULL)
+
+\method{t_test}{default}(x, y = NULL, alternative = c("two.sided", "less",
+  "greater"), mu = 0, paired = FALSE, var.equal = FALSE,
+  conf.level = 0.95, ...)
 }
 \arguments{
-\item{x}{a formula or a non-empty numeric vector}
+\item{x}{a (non-empty) numeric vector of data values.}
 
-\item{y}{an optional non-empty numeric vector or formula}
+\item{...}{further arguments to be passed to or from methods.}
 
-\item{\dots}{additional arguments, see \code{\link[stats]{t.test}} in the
- \pkg{stats} package.
-When \code{x} is a formula, \code{groups} can be used to compare groups:  
+\item{formula}{a formula of the form \code{lhs ~ rhs} where \code{lhs}
+    is a numeric variable giving the data values and \code{rhs} a factor
+    with two levels giving the corresponding groups.}
+
+\item{data}{an optional matrix or data frame (or similar: see
+    \code{\link{model.frame}}) containing the variables in the
+    formula \code{formula}.  By default the variables are taken from
+    \code{environment(formula)}.}
+
+\item{groups}{When \code{x} is a formula, \code{groups} can be used to compare groups:
 \code{x = ~ var, groups = g} is equivalent to \code{ x = var ~ g }.
 See the examples.}
 
-\item{data}{a data frame}
+\item{y}{an optional (non-empty) numeric vector of data values.}
+
+\item{alternative}{a character string specifying the alternative
+    hypothesis, must be one of \code{"two.sided"} (default),
+    \code{"greater"} or \code{"less"}.  You can specify just the initial
+    letter.}
+
+\item{mu}{a number indicating the true value of the mean (or
+    difference in means if you are performing a two sample test).}
+
+\item{paired}{a logical indicating whether you want a paired
+    t-test.}
+
+\item{var.equal}{a logical variable indicating whether to treat the
+    two variances as being equal. If \code{TRUE} then the pooled
+    variance is used to estimate the variance otherwise the Welch
+    (or Satterthwaite) approximation to the degrees of freedom is used.}
+
+\item{conf.level}{confidence level of the interval.}
 }
 \value{
 an object of class \code{htest}
@@ -40,12 +73,20 @@ was only permitted for a 2-sample test.  The type of formala that can be used
 for the 2-sample test has also be broadened.  See the examples.
 }
 \examples{
-if (require(mosaicData)) {
-  t.test(~ age, data=HELPrct)
-  t.test(age ~ sex, data=HELPrct)
-  t.test(~ age | sex, data=HELPrct)
-  t.test(~ age, groups=sex, data=HELPrct)
-}
+  t.test(HELPrct$age)
+  # We can now do this with a formula
+  t.test(~ age, data = HELPrct)
+  # data = can be omitted, but it is better to use it
+  t.test(~ age, HELPrct)
+  # the original 2-sample formula
+  t.test(age ~ sex, data = HELPrct)
+  # alternative 2-sample formulas
+  t.test(~ age | sex, data = HELPrct)
+  t.test(~ age, groups = sex, data = HELPrct)
+  # 2-sample t from vectors
+  with(HELPrct, t.test(age[sex == "male"], age[sex == "female"]))
+  # just the means
+  mean(age ~ sex, data = HELPrct)
 }
 \seealso{
 \code{\link[mosaic]{prop.test}}, \code{\link[mosaic]{binom.test}}, 

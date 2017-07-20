@@ -8,11 +8,8 @@
 #' 
 #' @rdname ttest
 #' 
-#' @param x a formula or a non-empty numeric vector
-#' @param y an optional non-empty numeric vector or formula
-#' @param data a data frame
-#' @param \dots  additional arguments, see \code{\link[stats]{t.test}} in the
-#'    \pkg{stats} package.
+#' @inheritParams stats::t.test
+#' @param groups 
 #'   When \code{x} is a formula, \code{groups} can be used to compare groups:  
 #'   \code{x = ~ var, groups = g} is equivalent to \code{ x = var ~ g }.
 #'   See the examples. 
@@ -31,73 +28,87 @@
 #'   \code{\link[stats]{t.test}}
 #' 
 #' @examples
-#' if (require(mosaicData)) {
-#'   t.test(~ age, data=HELPrct)
-#'   t.test(age ~ sex, data=HELPrct)
-#'   t.test(~ age | sex, data=HELPrct)
-#'   t.test(~ age, groups=sex, data=HELPrct)
-#' }
+#'   t.test(HELPrct$age)
+#'   # We can now do this with a formula
+#'   t.test(~ age, data = HELPrct)
+#'   # data = can be omitted, but it is better to use it
+#'   t.test(~ age, HELPrct)
+#'   # the original 2-sample formula
+#'   t.test(age ~ sex, data = HELPrct)
+#'   # alternative 2-sample formulas
+#'   t.test(~ age | sex, data = HELPrct)
+#'   t.test(~ age, groups = sex, data = HELPrct)
+#'   # 2-sample t from vectors
+#'   with(HELPrct, t.test(age[sex == "male"], age[sex == "female"]))
+#'   # just the means
+#'   mean(age ~ sex, data = HELPrct)
 
-#' @export 
-t_test <- function(x, y = NULL, ..., data=parent.frame()) {
-  orig.call <- match.call()
-  x_lazy <- lazyeval::f_capture(x)
-  y_lazy <- lazyeval::f_capture(y)
-  dots_lazy <- lazyeval::dots_capture(...)
-  
-  x_eval <- tryCatch( lazyeval::f_eval(x_lazy, as.list(data)),
-                      error = function(e) lazyeval::f_rhs(x_lazy) )
-  y_eval <- tryCatch( lazyeval::f_eval(y_lazy, as.list(data)),
-                      error = function(e) lazyeval::f_rhs(y_lazy) )
-  
-  res <- ttest(x_eval, y_eval, ..., data=data, data.name = orig.call[["data"]]) 
-  
-  res$data.name <- sub("^x$", first_one(deparse(f_rhs(x_lazy))), res$data.name)
-  res$data.name <- sub("^x and y$", 
-                       paste(first_one(deparse(f_rhs(x_lazy))), "and", 
-			     first_one(deparse(f_rhs(y_lazy)))), 
-                       res$data.name)
-  res
+#' @export
+t_test <- function(x, ...) {
+  UseMethod("t_test")
 }
 
-if(FALSE) {
-# #' @export
-t_test0 <- function(x, y = NULL, ..., data = parent.frame()) {
-  orig.call <- match.call()
-  x_lazy <- substitute(x)
-  y_lazy <- substitute(y)
-  dots_lazy <- lazyeval::dots_capture(...)
-  
-  x_eval <- tryCatch( eval(x_lazy, as.list(data)),
-                      error = function(e) lazyeval::f_rhs(x_lazy) )
-  y_eval <- tryCatch( eval(y_lazy, as.list(data)),
-                      error = function(e) lazyeval::f_rhs(y_lazy) )
-  
-  res <- ttest(x_eval, y_eval, ..., data=data, data.name = orig.call[["data"]]) 
-  
-  res$data.name <- sub("^x$", first_one(deparse(f_rhs(x_lazy))), res$data.name)
-  res$data.name <- sub("^x and y$", 
-                       paste(first_one(deparse(f_rhs(x_lazy))), "and", 
-			     first_one(deparse(f_rhs(y_lazy)))), 
-                       res$data.name)
-  res
-}
-}
-
-
-# If x has length > 1, create a character string with
-# the first component of x followed by ...
-first_one <- function(x) {
-  if (length(x) > 1) {
-    paste(x[1], "...")
-  } else {
-    x
-  }
-}
-  
 #' @rdname ttest
-#' @export t.test
-#' @usage t.test(x, y=NULL, ..., data = parent.frame())
-t.test <- t_test
+#' @export
+t.test <- function(x, ...) {
+  UseMethod("t_test")
+}
 
+#' @rdname ttest
+#' @method t_test formula
+#' @export
+t_test.formula <- 
+  function (formula, data, ..., groups = NULL) {
+    
+    formula <- 
+      mosaic_formula_q(
+        formula, groups = groups, max.slots = 2, 
+        envir = if (is.environment(data)) data else environment(formula))
+    dots <- list(...)
+   
+    print(formula)
+    
+    if (length(formula) == 3) {
+      return(
+        stats::t.test(formula, data = data, ...)
+        )
+    }
+    
+    evalF <- evalFormula(formula, data)
+    if (ncol(evalF$right) < 1L) 
+      stop("No data specified in rhs of formula.") 
+    
+    vname <- names(evalF$right)[1L]
+    if (ncol(evalF$right) > 1L) {  
+      stop("Multiple variables specified in rhs of formula.")
+    }
+   
+    mf <- model.frame(formula, data = data) 
+    x <- evalF$right[, 1]
+    res <- do.call( stats::t.test, c(list(x = x), dots) ) 
+    res$data.name <- names(mf[1])
+    return(res)
+}
+
+#' @rdname ttest
+#' @method t_test default
+#' @export
+t_test.default <-
+  function (x, y = NULL, alternative = c("two.sided", "less", "greater"), 
+            mu = 0, paired = FALSE, var.equal = FALSE, conf.level = 0.95, 
+            ...) {
+    xname <- deparse(substitute(x))
+    yname <- deparse(substitute(y))
+    res <- 
+      stats::t.test( x, y = y, alternative = alternative,
+                     mu = mu, paired = paired, var.equal = var.equal, 
+                     conf.level = conf.level,  ...) 
+    res$data.name <- 
+      if (is.null(y)) {
+        xname
+      } else {
+        paste(xname, "and", yname)
+      }
+    res
+  }
 
