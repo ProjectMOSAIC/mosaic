@@ -1,7 +1,8 @@
 utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
-                                  '.stdresid', '.cooksd', '.fitted', 
-                                  'lower', 'upper',
-                                  '.hat', 'grid.arrange',  'estimate','se')) 
+                         '.stdresid', '.cooksd', '.fitted', 
+                         'lower', 'upper',
+                         'fcoef', 'density', 'probability',
+                         '.hat', 'grid.arrange',  'estimate','se')) 
 
 #' Generic plotting
 #' 
