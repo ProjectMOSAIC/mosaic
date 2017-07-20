@@ -155,7 +155,7 @@ mPlot <- function(data,
   }
   if (default == "map") {
     system <- "ggplot2"
-    if (! requireNamespace(ggplot2)) stop("ggplot2 is required.  Please install.")
+    if (! requireNamespace("ggplot2")) stop("ggplot2 is required.  Please install.")
     return(
       mMap(data, default = default, system = system, show = show, title = title,
            data_text = data_text)
