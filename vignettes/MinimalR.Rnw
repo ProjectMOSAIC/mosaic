@@ -189,6 +189,11 @@ as possible into a small number of paradigms.  In particular,
 		elsewhere and because it encourages students to things about
 		disaggregating data according to the values of covariates by making
 		this very easy to do.
+		
+		Recently, we have introduced another package, \pkg{ggformula}, that
+		provides a similar formula interface to \pkg{ggplot2}. We anticipate
+		that this will be our graphics solution going forward.  A separate vignette
+		demonstrates how to use \pkg{ggformula} in place of \pkg{lattice}. 
 \end{enumerate}
 
 
