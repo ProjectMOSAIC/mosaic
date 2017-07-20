@@ -64,6 +64,8 @@ xpbeta(...)
 The defaut value of 5000 should work well except for discrete distributions
 that have many distinct values, especially if these values are not evenly spaced.}
 
+\item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
+
 \item{...}{additional arguments, including parameters of the distribution
 and additional options for the plot}
 }

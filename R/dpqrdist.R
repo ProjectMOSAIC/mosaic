@@ -50,6 +50,7 @@ dpqrdist <- function( dist, type=c("d","p","q","r"), ... ) {
 #'        that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #' and additional options for the plot
+#' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
 #' @details The most general function is \code{pdist} which can work with 
 #' any distribution for which a p-function exists.  As a convenience, wrappers are 
 #' provided for several common distributions.
@@ -124,10 +125,11 @@ pdist <- function (dist="norm", q, plot = TRUE, verbose = FALSE, invisible=FALSE
 #' @param vcol color of vertical lines
 #' @param rot angle for rotating text indicating probability
 #' @param resolution number of points used for detecting discreteness and generating plots.  
-#'        The defaut value of 5000 should work well except for discrete distributions
-#'        that have many distinct values, especially if these values are not evenly spaced.
+#'   The defaut value of 5000 should work well except for discrete distributions
+#'   that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
-#' and additional options for the plot
+#'   and additional options for the plot
+#' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
 #' @details The most general function is \code{qdist} which can work with 
 #' any distribution for which a q-function exists.  As a convenience, wrappers are 
 #' provided for several common distributions.
@@ -224,7 +226,9 @@ plot_multi_dist <-
     xdata <- dpqrdist(dist, type="q", p=dpqrdist(dist, type="p", q=xdata, ...), ...)
     xdata <- sort(unique(xdata))
   } else {
-    xdata <- unique(seq(xlim[1], xlim[2], length.out=resolution))
+    xdata <- seq(xlim[1], xlim[2], length.out=resolution)
+    xdata <- dpqrdist(dist, type="q", p=dpqrdist(dist, type="p", q=xdata, ...), ...)
+    xdata <- sort(unique(xdata))
   }
  
   # not a fix: xdata <- sort(xdata) 
@@ -283,33 +287,51 @@ plot_multi_dist <-
   )
   
   # res_plot <- do.call("xyplot", args)
- 
-  labels = rev(paste(LETTERS[1:(length(p) - 1)], ": ", 
-                     formatC(diff(p), format = "f", digits = digits), sep = ""))
-  Ddensity <- 
-    data_frame(
-      x = xdata, density = ydata, 
-      group = LETTERS[sapply(xdata, function(x) {sum(x <= q)})],
-      probability = factor(group, labels = labels)
-    ) 
-  
-  Dtext <- Ddensity %>% group_by(group) %>% 
-    summarise(
-      x = mean(x, na.rm = TRUE) 
-    ) %>%
-    mutate(
-      y = base::max(Ddensity$density, na.rm = TRUE) * 1.1,
-      label = paste("", formatC(diff(p), format = "f", digits = digits), sep = "")
-      )
-  
-  plot <- 
-    ggplot(aes(y = density, x = x, fill = probability, group = group), data = Ddensity) +
-    geom_area() + 
-    labs(x = "")
-  # plot <- plot + 
-  #     geom_text(aes(y = y, x = x, color = group, label = label), data = Dtext,
-  #               angle = 45, size = 3, show.legend = FALSE)
+
+  if (discrete) { 
+    q <- tail(q, -1)
+    labels <- rev(paste(LETTERS[1:(length(diff(p)))], ": ", 
+                        formatC(diff(p), format = "f", digits = digits), sep = ""))
+    Ddensity <- 
+      data_frame(
+        x = xdata, density = ydata, 
+        group = LETTERS[sapply(xdata, function(x) {sum(x <= q)})],
+        probability = factor(group, labels = labels)
+      ) 
     
+    plot <- 
+      ggplot(aes(y = density, x = x, color = probability, group = group), data = Ddensity) +
+      geom_point() + 
+      geom_segment(aes(yend = 0, xend = x)) +
+      labs(x = "")
+    
+  } else {
+    labels <- rev(paste(LETTERS[1:(length(p) - 1)], ": ", 
+                        formatC(diff(p), format = "f", digits = digits), sep = ""))
+    Ddensity <- 
+      data_frame(
+        x = xdata, density = ydata, 
+        group = LETTERS[sapply(xdata, function(x) {sum(x <= q)})],
+        probability = factor(group, labels = labels)
+      ) 
+    
+    Dtext <- Ddensity %>% group_by(group) %>% 
+      summarise(
+        x = mean(x, na.rm = TRUE) 
+      ) %>%
+      mutate(
+        y = base::max(Ddensity$density, na.rm = TRUE) * 1.1,
+        label = paste("", formatC(diff(p), format = "f", digits = digits), sep = "")
+      )
+    
+    plot <- 
+      ggplot(aes(y = density, x = x, fill = probability, group = group), data = Ddensity) +
+      geom_area() + 
+      labs(x = "")
+    # plot <- plot + 
+    #     geom_text(aes(y = y, x = x, color = group, label = label), data = Dtext,
+    #               angle = 45, size = 3, show.legend = FALSE)
+  }  
   return(plot)
 }
 
@@ -379,7 +401,10 @@ xpbeta <- function(...)  pdist("beta", ...)
 xqbeta <- function(...)  qdist("beta", ...)
 
 
-is_discrete_dist <- function(dist, ... ) {
-  q <- dpqrdist(dist, type="q", p=ppoints(100), ...) 
-  length(q) * .9 >= length(unique(q))
+is_discrete_dist <- function(dist, n = 250L, ... ) {
+  q <- dpqrdist(dist, type="q", p=ppoints(n), ...) 
+  # continuous dists should have all unique values
+  # discrete dists will typically have many ties
+  # discrete dists with many values may look continuous
+  length(q) * .99 >= length(unique(q))
 } 

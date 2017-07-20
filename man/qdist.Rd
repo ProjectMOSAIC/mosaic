@@ -65,6 +65,8 @@ of the distribution.}
 
 \item{rot}{angle for rotating text indicating probability}
 
+\item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
+
 \item{...}{additional arguments, including parameters of the distribution
 and additional options for the plot}
 }
