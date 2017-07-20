@@ -76,7 +76,7 @@ Randall Pruim, Project MOSAIC
 \parindent=0pt
 
 \chead{\sf \bfseries \Large Enough R for Intro Stats (ggformula version)}
-\rhead{June, 2017}
+\rhead{July, 2017}
 \lhead{R. Pruim}
 
 <<setup,echo=FALSE,message=FALSE,include=FALSE>>=
