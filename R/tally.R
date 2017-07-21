@@ -268,8 +268,9 @@ rows <- function(x, default=c()) {
 #' @param x an R object, usually a formula
 #' @param data a data frame in which \code{x} is to be evaluated
 #' @param \dots arguments passed through to \code{\link{tally}}
-#' @param level the level for which counts, proportions or percents are 
+#' @param success the level for which counts, proportions or percents are 
 #'         calculated
+#' @param level Depricated.  Use \code{sucess}.
 #' @param long.names a logical indicating whether long names should be 
 #'         when there is a conditioning variable
 #' @param sep a character used to separate portions of long names
@@ -280,9 +281,9 @@ rows <- function(x, default=c()) {
 #' @param pval.adjust a logical indicating whether the "p-value" adjustment should be 
 #' applied.  This adjustment adds 1 to the numerator and denominator counts.
 #' @param quiet a logical indicating whether messages regarding the 
-#'   target level should be supressed.
+#'   success level should be supressed.
 #'
-#' @note For 0-1 data, level is set to 1 by default since that a standard 
+#' @note For 0-1 data, \code{success} is set to 1 by default since that a standard 
 #' coding scheme for success and failure.
 #' 
 #' @details
@@ -293,7 +294,7 @@ rows <- function(x, default=c()) {
 #' @examples
 #' if (require(mosaicData)) {
 #' prop( ~sex, data=HELPrct)
-#' prop( ~sex, data=HELPrct, level='male')
+#' prop( ~sex, data=HELPrct, succes = "male")
 #' count( ~sex | substance, data=HELPrct)
 #' prop( ~sex | substance, data=HELPrct)
 #' perc( ~sex | substance, data=HELPrct)
@@ -301,12 +302,14 @@ rows <- function(x, default=c()) {
 #' @export
 
 prop <- function(x, data=parent.frame(), useNA = "no", ..., 
-                 level=NULL, 
+                 success = NULL, 
+                 level = NULL, 
                  long.names=TRUE, sep=".", 
                  format=c("proportion", "percent", "count"), 
                  quiet=TRUE,
                  pval.adjust = FALSE) {
   format <- match.arg(format)
+  if (!is.null(level)) stop("`level' has been depricated.  Use `success' instead.")
   
   T <- mosaic::tally(x, data=data, useNA = useNA, ...)
   
@@ -314,32 +317,32 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
   
   if (length(dim(T)) < 1) stop("Insufficient dimensions.")
   lnames <- dimnames(T)[[1]]
-  if (is.null(level)) {
-	  level <- lnames[1]
-  	if (level == 'FALSE') level <- 'TRUE'
-    if (level == 0 && lnames[2] ==1 && length(lnames) == 2) {
-      level <- 1
+  if (is.null(success)) {
+	  success <- lnames[1]
+  	if (success == 'FALSE') success <- 'TRUE'
+    if (success == 0 && lnames[2] ==1 && length(lnames) == 2) {
+      success <- 1
     }
   }
-  if (! level %in% lnames) stop(
+  if (! success %in% lnames) stop(
     paste("I don't see any such level.  Only", paste(lnames, collapse=", "))
     )
   if (! quiet) 
-    message(paste0( "    target level: ", level, 
+    message(paste0( "    success: ", success, 
                     ";  other levels: ", 
-                    paste(setdiff(lnames,level), collapse=", "), "\n" ) )
+                    paste(setdiff(lnames, success), collapse=", "), "\n" ) )
   if ( length(dim(T)) == 2) {
-    idx <- match(level, lnames)
+    idx <- match(success, lnames)
     if (format == "count")
       result <- T[idx,] 
     else
       result <- ((T[idx,] + pval.adjust) / (colSums(T) + pval.adjust)) * scale
     if (long.names)
-      names(result) <- paste(level, names(result), sep=sep)
+      names(result) <- paste(success, names(result), sep=sep)
     return(result)
   }
   if ( length(dim(T)) == 1) {
-    idx <- match(level, names(T))
+    idx <- match(success, names(T))
     result <- if (format == "count") 
       T[idx] 
     else

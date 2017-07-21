@@ -7,9 +7,9 @@
 \alias{perc}
 \title{Compute proportions, percents, or counts for a single level}
 \usage{
-prop(x, data = parent.frame(), useNA = "no", ..., level = NULL,
-  long.names = TRUE, sep = ".", format = c("proportion", "percent",
-  "count"), quiet = TRUE, pval.adjust = FALSE)
+prop(x, data = parent.frame(), useNA = "no", ..., success = NULL,
+  level = NULL, long.names = TRUE, sep = ".", format = c("proportion",
+  "percent", "count"), quiet = TRUE, pval.adjust = FALSE)
 
 prop1(..., pval.adjust = TRUE)
 
@@ -27,8 +27,10 @@ ignored.}
 
 \item{\dots}{arguments passed through to \code{\link{tally}}}
 
-\item{level}{the level for which counts, proportions or percents are 
+\item{success}{the level for which counts, proportions or percents are 
 calculated}
+
+\item{level}{Depricated.  Use \code{sucess}.}
 
 \item{long.names}{a logical indicating whether long names should be 
 when there is a conditioning variable}
@@ -39,7 +41,7 @@ when there is a conditioning variable}
 possibly abbrevaited}
 
 \item{quiet}{a logical indicating whether messages regarding the 
-target level should be supressed.}
+success level should be supressed.}
 
 \item{pval.adjust}{a logical indicating whether the "p-value" adjustment should be 
 applied.  This adjustment adds 1 to the numerator and denominator counts.}
@@ -53,13 +55,13 @@ distributions and differs from \code{prop} only in its default value of
 \code{pval.adjust}.
 }
 \note{
-For 0-1 data, level is set to 1 by default since that a standard 
+For 0-1 data, \code{success} is set to 1 by default since that a standard 
 coding scheme for success and failure.
 }
 \examples{
 if (require(mosaicData)) {
 prop( ~sex, data=HELPrct)
-prop( ~sex, data=HELPrct, level='male')
+prop( ~sex, data=HELPrct, succes = "male")
 count( ~sex | substance, data=HELPrct)
 prop( ~sex | substance, data=HELPrct)
 perc( ~sex | substance, data=HELPrct)
