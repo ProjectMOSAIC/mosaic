@@ -14,6 +14,8 @@
 \alias{rhs}
 \alias{reexports}
 \alias{condition}
+\alias{reexports}
+\alias{makeFun}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -23,6 +25,6 @@ below to see their documentation.
 \describe{
   \item{MASS}{\code{\link[MASS]{fitdistr}}, \code{\link[MASS]{fractions}}}
 
-  \item{mosaicCore}{\code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{lhs}}, \code{\link[mosaicCore]{rhs}}, \code{\link[mosaicCore]{condition}}}
+  \item{mosaicCore}{\code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{lhs}}, \code{\link[mosaicCore]{rhs}}, \code{\link[mosaicCore]{condition}}, \code{\link[mosaicCore]{makeFun}}}
 }}
 
