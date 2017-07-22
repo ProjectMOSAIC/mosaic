@@ -1,3 +1,5 @@
+### Check .Rbuildignore to see if this is being ignored.
+
 utils::globalVariables("model_value")
 #' Groupwise models
 #'  
@@ -64,7 +66,7 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
     Res <- 
       data %>%
       group_by_(.dots = group_vars) %>%
-      summarise(model_value = mean(response_var, na.rm=TRUE)) %>%
+      summarise(model_value = base::mean(response_var, na.rm=TRUE)) %>%
       ungroup()
     observed <- data[[as.character(response_var)]]
     
@@ -254,3 +256,54 @@ MSPE <- function(model, data, LL = TRUE){
 cull_for_do.groupwiseModel <- function( object, ... ) {
   object$coefficients
 }
+
+
+#' @rdname makeFun
+#' @examples
+#' if (require(mosaicData)) {
+#'   mod <- gwm(wage ~ sector, data = CPS85)
+#'   modfun <- makeFun(mod)
+#'   modfun(sector = "prof")
+#' }
+#' @export
+makeFun.groupwiseModel <-
+  function( object, ... , transformation = NULL) {
+    if (is.null(transformation))  transformation <- infer_transformation(formula(object))
+    dnames <- names(eval(object$call$data, parent.frame(1)))
+    vars <- modelVars(object)
+    if (! is.null(dnames) ) vars <- intersect(vars, dnames)
+    result <- function(...){}
+    if ( length( vars ) <  1 ) {
+      result <- function(...) {
+        dots <- list(...)
+        if (length(dots) > 0) {
+          x <- dots[[1]]
+        } else {
+          x <- 1
+        }
+        dots <- dots[names(dots) != ""]
+        transformation( do.call(predict, c(list(model, newdata = data_frame(x = x)), dots)) )
+      }
+    } else {
+      body(result) <-
+        parse( text = paste(
+          "return(transformation(predict(model, newdata = data.frame(",
+          paste(vars, "= ", vars, collapse = ",", sep = ""),
+          ", stringsAsFactors = FALSE), ...)))"
+        )
+        )
+      args <- paste("alist(", paste(vars, "=", collapse = ",", sep = ""), ")")
+      args <- eval(parse(text = args))
+      args['pi'] <- NULL
+      args <- c(args, alist('...' = ), list(transformation = substitute(transformation)))
+      formals(result) <- args
+    }
+    
+    # myenv <- parent.frame()
+    # myenv$model <- object
+    # environment(result) <- myenv
+    environment(result) <- list2env( list(model = object, transformation = transformation) )
+    attr(result, "coefficients") <- coef(object)
+    return(result)
+  }
+
