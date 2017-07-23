@@ -31,7 +31,6 @@ NA
 #' @importFrom tidyr gather
 #' @importFrom grid grid.polyline grid.text grid.lines grid.points grid.rect grid.layout gpar unit.c 
 #' @import lattice
-#' @import ggformula
 #' @import splines 
 #' @import mosaicData
 #' @importFrom grDevices col2rgb colorRampPalette gray heat.colors rgb topo.colors
