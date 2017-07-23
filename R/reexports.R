@@ -9,7 +9,7 @@ MASS::fitdistr
 MASS::fractions
 
 
-#' @importFrom mosaicCore lhs rhs condition makeFun df_stats
+#' @importFrom mosaicCore lhs rhs condition makeFun 
 #' @export
 mosaicCore::lhs
 #' @export
@@ -18,5 +18,3 @@ mosaicCore::rhs
 mosaicCore::condition
 #' @export
 mosaicCore::makeFun
-#' @export
-mosaicCore::df_stats
