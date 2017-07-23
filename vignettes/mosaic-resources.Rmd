@@ -38,6 +38,8 @@ from within R or from
 	intervals in a number of common situations. The examples are based on the 
 	``resamping bake off'' at USCOTS 2013.
 
+The `ggformula` package includes a vignette comparing the lattice and ggformula formula interface to graphics: https://cran.r-project.org/package=ggformula/vignettes/ggformula-lattice.pdf
+
 ## Mosaic paper
 
 Pruim R, Kaplan DT and Horton NJ (2017). The mosaic Package: Helping
