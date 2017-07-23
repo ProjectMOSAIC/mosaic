@@ -1,56 +1,59 @@
 ### Check .Rbuildignore to see if this is being ignored.
 
 utils::globalVariables("model_value")
-#' Groupwise models
-#'  
-#' Construct a model based on groupwise means or proportions
-#' 
+#' Groupwise Models (Defunct)
+#'
+#' This has been removed from the package.  Watch for improved modeling functions in
+#' the `mosaicModel` package.
+#'
 #' @rdname gwm
-#' 
-#' @param formula A formula.  The left-hand side specifies the response variable 
-#' over which the mean or proportion will be taken.  The right-hand side gives 
+#'
+#' @param formula A formula.  The left-hand side specifies the response variable
+#' over which the mean or proportion will be taken.  The right-hand side gives
 #' the explanatory variables, separated by \code{+}.  Means or proportions are
 #' computed for every combination of the levels of the explanatory variables.
-#' 
-#' @param data A data frame in which to evaluate variables in \code{formula}.  
-#' If not specified, variables 
+#'
+#' @param data A data frame in which to evaluate variables in \code{formula}.
+#' If not specified, variables
 #' will be taken from the current environment.
-#' 
-#' @param drop Logical flag indicating whether to drop unoccupied groups.  
+#'
+#' @param drop Logical flag indicating whether to drop unoccupied groups.
 #' Default \code{FALSE}.  NOT YET IMPLEMENTED.
-#' 
+#'
 #' @param \dots Additional arguments; currently ignored.
-#' 
-#' @return \code{mm} returns an object of class \code{groupwiseModel}.  The functions 
-#' \code{fitted.values}, \code{residuals}, \code{coefficients}, and \code{summary} 
+#'
+#' @return \code{mm} returns an object of class \code{groupwiseModel}.  The functions
+#' \code{fitted.values}, \code{residuals}, \code{coefficients}, and \code{summary}
 #' are useful for extracting various features of the value returned by \code{mm}
-#' 
-#' @details 
-#' \code{gwm} (groupwise model) is a sort of training function for 
-#' \code{lm}, meant to provide a basis for discussing inference and introducing 
-#' resampling in a simple, intuitive setting 
-#' of groupwise means or proportions.  \code{lm} provides a better, more general facility. 
-#' When using \code{lm} to recreate the results of \code{gwm}, include all the 
-#' interaction terms (i.e., use \code{*} instead of \code{+}) and remove the 
+#'
+#' @details
+#' \code{gwm} (groupwise model) is a sort of training function for
+#' \code{lm}, meant to provide a basis for discussing inference and introducing
+#' resampling in a simple, intuitive setting
+#' of groupwise means or proportions.  \code{lm} provides a better, more general facility.
+#' When using \code{lm} to recreate the results of \code{gwm}, include all the
+#' interaction terms (i.e., use \code{*} instead of \code{+}) and remove the
 #' intercept term.  See the examples.
-#' 
-#' @seealso 
-#' \code{\link{lm}}, 
+#'
+#' @seealso
+#' \code{\link{lm}},
 #' \code{\link{do}}
 #' @export
-#' @examples
-#' 
-#' gwm( wage ~ sex, data=CPS85 )
-#' gwm( wage ~ sex + married, data = CPS85 )
-#' # The same model, fit using lm() instead
-#' lm( wage ~ sex * married - 1, data = CPS85)
-#' do(5) * gwm( wage ~ sex + married, data = resample(CPS85))
-#' mod <- gwm( width ~ domhand, data=KidsFeet)
-#' summary(mod)
-#' resid(mod)
-#' fitted(mod)
+# @examples
+#
+# gwm( wage ~ sex, data=CPS85 )
+# gwm( wage ~ sex + married, data = CPS85 )
+# # The same model, fit using lm() instead
+# lm( wage ~ sex * married - 1, data = CPS85)
+# do(5) * gwm( wage ~ sex + married, data = resample(CPS85))
+# mod <- gwm( width ~ domhand, data=KidsFeet)
+# summary(mod)
+# resid(mod)
+# fitted(mod)
 
+#' @export
 gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
+  .Defunct(msg = "gwm() has been removed from `mosaic'.  \n    It will be replaced by better tools in `mosaicModel'.")
   # if response categorical, a proportion, listing the response
   # if response quantitative, a mean but don't list the response
   orig.call <- match.call()
