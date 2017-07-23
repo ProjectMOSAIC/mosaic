@@ -15,7 +15,7 @@
 #' props( ~ substance | sex, data = HELPrct, format = "percent")
 #' counts( ~ substance | sex, data = HELPrct)
 #' if (require(ggformula)) {
-#'   df_stats( ~ substance | sex, data = HELPrct, props, stats, format = "long")
+#'   df_stats( ~ substance | sex, data = HELPrct, props, counts, format = "long")
 #' }
 #' @export
 #' @rdname props
