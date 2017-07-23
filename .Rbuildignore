@@ -3,7 +3,6 @@
 ^RBuildIgnore$
 ^README.Rmd$
 ^README.html$
-R/groupwiseModels.R$
 ^vignettes-source$
 ^vignettes/.*\.R$
 ^vignettes/.*\.pdf$
