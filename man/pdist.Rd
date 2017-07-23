@@ -14,9 +14,8 @@
 \title{Illustrated probability calculations from distributions}
 \usage{
 pdist(dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  digits = 3L, xlim, ylim, vlwd = NULL,
-  vcol = trellis.par.get("add.line")$col, rot = 45, resolution = 5000L,
-  return = c("values", "plot"), ...)
+  digits = 3L, xlim, ylim, resolution = 5000L, return = c("values",
+  "plot"), ...)
 
 xpgamma(...)
 
@@ -54,12 +53,6 @@ xpbeta(...)
 
 \item{ylim}{y limits}
 
-\item{vlwd}{width of vertical lines}
-
-\item{vcol}{color of vertical lines}
-
-\item{rot}{angle for rotating text indicating probability}
-
 \item{resolution}{number of points used for detecting discreteness and generating plots.
 The defaut value of 5000 should work well except for discrete distributions
 that have many distinct values, especially if these values are not evenly spaced.}
@@ -82,10 +75,10 @@ provided for several common distributions.
 }
 \examples{
 pdist("norm", -2:2)
-pdist("norm", seq(80,120, by=10), mean=100, sd=10)
-pdist("chisq", 2:4, df=3)
-pdist("f", 1, df1=2, df2=10)
-pdist("gamma", 2, shape=3, rate=4)
+pdist("norm", seq(80,120, by = 10), mean = 100, sd = 10)
+pdist("chisq", 2:4, df = 3)
+pdist("f", 1, df1 = 2, df2 = 10)
+pdist("gamma", 2, shape = 3, rate = 4)
 }
 \seealso{
 \code{\link{qdist}}, \code{\link{xpnorm}}, \code{\link{xqnorm}}.

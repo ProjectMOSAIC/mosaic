@@ -20,8 +20,8 @@ utils::globalVariables(
 #' @param lower.tail logical.  If FALSE, use upper tail probabilities.
 #' @param log.p logical.  If TRUE, uses the log of probabilities.
 #' @param xlim,ylim limits for plotting.
-#' @param vlwd,vcol line width and color for vertical lines.
-#' @param rot angle of rotation for text labels.
+# #' @param vlwd,vcol line width and color for vertical lines.
+# #' @param rot angle of rotation for text labels.
 #' @param manipulate logical.  If TRUE and in RStudio,
 #'  	then sliders are added for interactivity.
 #' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
@@ -52,16 +52,18 @@ utils::globalVariables(
 xpnorm <-
 function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, digits = 4, 
     lower.tail = TRUE, log.p = FALSE, xlim = mean + c(-4,4) * sd, ylim = c(0, 1.4 * dnorm(mean,mean,sd)), 
-    vlwd=2, vcol=trellis.par.get('add.line')$col,
-	rot=45, manipulate=FALSE, ..., return = c("value", "plot")) 
+    # vlwd=2, vcol=trellis.par.get('add.line')$col, rot=45, 
+    manipulate=FALSE, ..., return = c("value", "plot")) 
 {
   return <- match.arg(return)
   
 	if (manipulate && rstudio_is_available() && requireNamespace("manipulate")) {
 		return(manipulate::manipulate( 
 			xpnorm(q=Q, mean=MEAN, sd=SD, plot=TRUE, verbose=FALSE, invisible=invisible,
-						   digits=digits, lower.tail=lower.tail, log.p=log.p, xlim=xlim,
-						   ylim=ylim, vlwd=vlwd, vcol=vcol, rot=rot, manipulate=FALSE,
+						   digits=digits, lower.tail=lower.tail, log.p=log.p, 
+						   xlim=xlim, ylim=ylim, 
+						   # vlwd=vlwd, vcol=vcol, rot=rot, 
+						   manipulate=FALSE,
 						   ...),
 				   Q = manipulate::slider(mean-4*sd, mean+4*sd, initial=q, step=8*sd/200, label='q'),
 				   MEAN = manipulate::slider(mean-4*sd, mean+4*sd, initial=mean, step=8*sd/200, label='mean'),
@@ -85,12 +87,14 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
     }
     if (plot & length(q) == 1) {
 		  res_plot <- .plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      vlwd=vlwd, vcol=vcol, rot=rot, ...)
+		      # vlwd=vlwd, vcol=vcol, rot=rot, 
+		      ...)
     }
     if (plot & length(q) > 1) {
       res_plot <- 
         .plot_multi_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-                         vlwd=vlwd, vcol=vcol, rot=rot, ...)
+                         # vlwd=vlwd, vcol=vcol, rot=rot, 
+                         ...)
     }
     if (return == "plot") {
       if (invisible) {
@@ -113,8 +117,8 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
 xqnorm <-
   function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
             lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
-            vlwd=2, vcol=trellis.par.get('add.line')$col,
-            rot=45, ..., return = c("value", "plot")) 
+            # vlwd=2, vcol=trellis.par.get('add.line')$col, rot=45, 
+            ..., return = c("value", "plot")) 
 {
     return <- match.arg(return)
     q = qnorm(p, mean = mean, sd = sd, lower.tail = lower.tail, 
@@ -135,11 +139,13 @@ xqnorm <-
     
     if (plot & length(p) == 1) {
 		  res_plot <- .plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      vlwd=vlwd, vcol=vcol, rot=rot, ...)
+		      # vlwd=vlwd, vcol=vcol, rot=rot, 
+		      ...)
     }
     if (plot & length(p) > 1) {
 		  res_plot <- .plot_multi_norm(p=sort(p), q=sort(q), mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      vlwd=vlwd, vcol=vcol, rot=rot, ...)
+		      # vlwd=vlwd, vcol=vcol, rot=rot, 
+		      ...)
     }
     
     if (return == "plot") {
@@ -149,6 +155,7 @@ xqnorm <-
         return(res_plot)
       }
     } else {
+      print(res_plot)
       if (invisible) { 
         return(invisible(q))
       }
@@ -176,8 +183,8 @@ mid <- function(x) {
 
 
 .plot_multi_norm <- function(p, q, mean, sd, xlim, ylim, digits=4, dlwd=2, 
-    vlwd=2, vcol=trellis.par.get('add.line')$col,
-	rot=0, ...) 
+    # vlwd=2, vcol=trellis.par.get('add.line')$col, rot=0, 
+    ...) 
 {
 	dots <- list(...)
 
@@ -200,25 +207,6 @@ mid <- function(x) {
 	p <- c(0, p, 1)
 	q <- c(xlim[1], q, xlim[2])
 
-	plot <- do.call("xyplot", c(list(
-		ydata ~ xdata, 
-		xlim = xlim, ylim = ylim, 
-		groups = groups, type='h',
-		xlab = "", ylab = "density", 
-		panel = function(x, y, ...) {
-			panel.xyplot(x,y,...)
-			panel.segments(q, 0, q, grid::unit(ymax,'native') + grid::unit(.2,'lines'), 
-			  col = vcol, lwd=vlwd)
-			grid.text(x=mid(q), y=grid::unit(ymax,'native') + grid::unit(1.0,'lines'), 
-                default.units='native', rot=rot, check.overlap=TRUE,
-			  	paste("", round(diff(p), 3), sep = ""), 
-				just = c('center','center'),  gp=gpar(cex = 1.0))
-			panel.mathdensity(dmath = dnorm, args = list(mean = mean, 
-			  sd = sd), lwd = dlwd, n = 100, col = "navy")
-		} 
-		), dots)
-	)
-
 	D <- 
 	  data.frame(x = xdata, density = ydata) %>%
 	  mutate(group = apply(sapply(x, function(x) {x < q}), 2, sum))
@@ -239,8 +227,8 @@ mid <- function(x) {
 
 
 .plot_one_norm <- function(p, q, mean, sd, xlim, ylim, digits=4, 
-    vlwd=2, vcol=trellis.par.get('add.line')$col,
-	...) 
+    # vlwd=2, vcol=trellis.par.get('add.line')$col, 
+    ...) 
 {
 	z <- (q - mean) / sd
 	zmax = max(4, abs(z) * 1.6)

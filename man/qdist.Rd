@@ -14,8 +14,7 @@
 \title{Illustrated quantile calculations from distributions}
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  resolution = 5000L, digits = 3L, xlim, ylim, vlwd = NULL,
-  vcol = trellis.par.get("add.line")$col, rot = 45, return = c("values",
+  resolution = 5000L, digits = 3L, xlim, ylim, return = c("values",
   "plot"), ...)
 
 xqgamma(...)
@@ -59,12 +58,6 @@ of the distribution.}
 
 \item{ylim}{y limits}
 
-\item{vlwd}{width of vertical lines}
-
-\item{vcol}{color of vertical lines}
-
-\item{rot}{angle for rotating text indicating probability}
-
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
 \item{...}{additional arguments, including parameters of the distribution
@@ -86,7 +79,12 @@ qdist("norm", seq(.2, .8, by = 0.10))
 xqnorm(seq(.2, .8, by = 0.10), mean = 100, sd = 10)
 qdist("unif", .5)
 xqgamma(.5, shape = 3, scale = 4)
+xqgamma(.5, shape = 3, scale = 4, dlwd = 1)
+xqbeta(.5, shape1 = .9, shape2 = 1.4, dlwd = 1)
 xqchisq(c(.25,.5,.75), df = 3)
+xqbinom(c(0.25, 0.85), size = 1000, prob = 0.40)
+# displayed as if continuous
+xqbinom(c(0.25, 0.85), size = 5000, prob = 0.40)
 xpbinom( c(480, 500, 510), size = 1000, prob = 0.48)
 xpbinom( c(40, 60), size = 100, prob = 0.5)
 xqpois( c(0.25, 0.5, 0.75), lambda = 6, lwd = 3, vlwd = 2)
