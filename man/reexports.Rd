@@ -16,6 +16,8 @@
 \alias{condition}
 \alias{reexports}
 \alias{makeFun}
+\alias{reexports}
+\alias{df_stats}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -25,6 +27,6 @@ below to see their documentation.
 \describe{
   \item{MASS}{\code{\link[MASS]{fitdistr}}, \code{\link[MASS]{fractions}}}
 
-  \item{mosaicCore}{\code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{lhs}}, \code{\link[mosaicCore]{rhs}}, \code{\link[mosaicCore]{condition}}, \code{\link[mosaicCore]{makeFun}}}
+  \item{mosaicCore}{\code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{lhs}}, \code{\link[mosaicCore]{rhs}}, \code{\link[mosaicCore]{condition}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{df_stats}}}
 }}
 
