@@ -45,16 +45,17 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 # #' @param vlwd width of vertical lines
 # #' @param vcol color of vertical lines
 # #' @param rot angle for rotating text indicating probability
-#' @param resolution number of points used for detecting discreteness and generating plots.  
+#' @param resolution Number of points used for detecting discreteness and generating plots.  
 #'        The defaut value of 5000 should work well except for discrete distributions
 #'        that have many distinct values, especially if these values are not evenly spaced.
-#' @param ... additional arguments, including parameters of the distribution
+#' @param ... Additional arguments, including parameters of the distribution
 #' and additional options for the plot
 #' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
+#' @param refinements A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.
 #' @details The most general function is \code{pdist} which can work with 
 #' any distribution for which a p-function exists.  As a convenience, wrappers are 
 #' provided for several common distributions.
-#' @return a vector of probabilities; a plot is printed as a side effect 
+#' @return A vector of probabilities; a plot is printed as a side effect.
 #' @examples
 #' pdist("norm", -2:2)
 #' pdist("norm", seq(80,120, by = 10), mean = 100, sd = 10)
@@ -71,7 +72,8 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
                    # rot = 45, 
                    resolution = 5000L,
                    return = c("values", "plot"),
-                   ...)
+                   ...,
+                   refinements = list())
 {
  
   return <- match.arg(return)
@@ -89,13 +91,19 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
   }
  
   res_plot <-
-    plot_multi_dist(
-      dist = dist, p = p, 
-      xlim = xlim, ylim = ylim, 
-      digits = digits, 
-      resolution = resolution,
-      # vlwd = vlwd, vcol = vcol, rot = rot, 
-      ...)
+    do.call(
+      gf_refine,
+      c(list(
+        plot_multi_dist(
+          dist = dist, p = p, 
+          xlim = xlim, ylim = ylim, 
+          digits = digits, 
+          resolution = resolution,
+          # vlwd = vlwd, vcol = vcol, rot = rot, 
+          ...)),
+        refinements)
+    )
+    
   if (return == "plot") {
     return(res_plot)
   }
@@ -130,6 +138,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #'   that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #'   and additional options for the plot
+#' @param refinements A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.
 #' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
 #' @details The most general function is \code{qdist} which can work with 
 #' any distribution for which a q-function exists.  As a convenience, wrappers are 
@@ -160,7 +169,8 @@ qdist <- function (dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = F
                    # vcol = trellis.par.get('add.line')$col, 
                    # rot = 45, 
                    return = c("values", "plot"),
-                   ...)
+                   ...,
+                   refinements = list())
 {
   return = match.arg(return)
   dots <- list(...)
@@ -177,12 +187,19 @@ qdist <- function (dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = F
   }
  
   res_plot <-  
-    plot_multi_dist(dist = dist, p = p, 
-                    xlim = xlim, ylim = ylim, 
-                    digits = digits, 
-                    resolution = resolution,
-                    # vlwd = vlwd, vcol = vcol, rot = rot, 
-                    ...)
+    do.call(
+      ggformula::gf_refine,
+      c(list(
+        plot_multi_dist(
+          dist = dist, p = p, 
+          xlim = xlim, ylim = ylim, 
+          digits = digits, 
+          resolution = resolution,
+          # vlwd = vlwd, vcol = vcol, rot = rot, 
+          ...)
+      ), refinements)
+    )
+      
   if (return == "plot") return (res_plot)
 
   if (plot) {

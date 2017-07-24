@@ -15,7 +15,7 @@
 \usage{
 pdist(dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE,
   digits = 3L, xlim, ylim, resolution = 5000L, return = c("values",
-  "plot"), ...)
+  "plot"), ..., refinements = list())
 
 xpgamma(...)
 
@@ -53,17 +53,19 @@ xpbeta(...)
 
 \item{ylim}{y limits}
 
-\item{resolution}{number of points used for detecting discreteness and generating plots.
+\item{resolution}{Number of points used for detecting discreteness and generating plots.
 The defaut value of 5000 should work well except for discrete distributions
 that have many distinct values, especially if these values are not evenly spaced.}
 
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
-\item{...}{additional arguments, including parameters of the distribution
+\item{...}{Additional arguments, including parameters of the distribution
 and additional options for the plot}
+
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.}
 }
 \value{
-a vector of probabilities; a plot is printed as a side effect
+A vector of probabilities; a plot is printed as a side effect.
 }
 \description{
 Illustrated probability calculations from distributions

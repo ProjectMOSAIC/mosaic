@@ -15,7 +15,7 @@
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
   resolution = 5000L, digits = 3L, xlim, ylim, return = c("values",
-  "plot"), ...)
+  "plot"), ..., refinements = list())
 
 xqgamma(...)
 
@@ -62,6 +62,8 @@ of the distribution.}
 
 \item{...}{additional arguments, including parameters of the distribution
 and additional options for the plot}
+
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.}
 }
 \value{
 a vector of quantiles; a plot is printed as a side effect
