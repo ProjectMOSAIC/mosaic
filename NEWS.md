@@ -8,12 +8,14 @@
  * `gwm()` has beeen removed since it no longer works with the current version of `dplyr`.  
  We anticipate a better collection of modeling utilities in the forthcoming `mosaicModel` package.
  * `props()` and `counts()` have been added.  They are a bit like `tally()` but designed to
- play well with `df_stats()`.
+ play well with `df_stats()`. Currently the formula versions drop missing data, but that will
+ likely be determined by a user-supplied option in the future.
  * Calculus functions have been moved to `mosaicCalc`.
  * `mosaic` depends on `ggformula`, so users will have `lattice`, `ggplot2`, and `ggformula`
  available after loading `mosaic`.
  * `mplot()` on a data frame supports `ggformula` now.
- * a vignette showing "minimal R" with `ggformula` has been added.
+ * A vignette showing "minimal R" with `ggformula` has been added.
+ * A vignette comparing `lattice` and `ggformula` has been added.
  * Some functions have been move from `mosaic` to `mosaicCore`.  This should not affect users of 
  `mosaic`.
  
