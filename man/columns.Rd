@@ -22,11 +22,9 @@ return a vector of row or column indices
 }
 \examples{
 columns(iris)
-if (require(mosaicData)) {
 dim(HELPrct)
 columns(HELPrct)
 rows(HELPrct)
-}
 columns(NULL)
 columns("this doesn't have columns")
 }

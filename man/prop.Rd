@@ -59,11 +59,9 @@ For 0-1 data, \code{success} is set to 1 by default since that a standard
 coding scheme for success and failure.
 }
 \examples{
-if (require(mosaicData)) {
 prop( ~sex, data=HELPrct)
-prop( ~sex, data=HELPrct, succes = "male")
+prop( ~sex, data=HELPrct, success = "male")
 count( ~sex | substance, data=HELPrct)
 prop( ~sex | substance, data=HELPrct)
 perc( ~sex | substance, data=HELPrct)
-}
 }
