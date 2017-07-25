@@ -70,7 +70,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
                    # vlwd = NULL, 
                    # vcol = trellis.par.get('add.line')$col, 
                    # rot = 45, 
-                   resolution = 5000L,
+                   resolution = 500L,
                    return = c("values", "plot"),
                    ...,
                    refinements = list())
@@ -162,7 +162,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #' @export 
 
 qdist <- function (dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE, 
-                   resolution = 5000L,
+                   resolution = 500L,
                    digits = 3L, 
                    xlim, ylim,
                    # vlwd = NULL, 

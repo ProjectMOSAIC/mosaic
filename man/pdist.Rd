@@ -14,7 +14,7 @@
 \title{Illustrated probability calculations from distributions}
 \usage{
 pdist(dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  digits = 3L, xlim, ylim, resolution = 5000L, return = c("values",
+  digits = 3L, xlim, ylim, resolution = 500L, return = c("values",
   "plot"), ..., refinements = list())
 
 xpgamma(...)
