@@ -238,11 +238,9 @@ tally.default <-
 #' @rdname columns
 #' @examples
 #' columns(iris)
-#' if (require(mosaicData)) {
 #' dim(HELPrct)
 #' columns(HELPrct)
 #' rows(HELPrct)
-#' }
 #' columns(NULL)
 #' columns("this doesn't have columns")
 #' @export
@@ -292,13 +290,11 @@ rows <- function(x, default=c()) {
 #' \code{pval.adjust}.
 #' 
 #' @examples
-#' if (require(mosaicData)) {
 #' prop( ~sex, data=HELPrct)
-#' prop( ~sex, data=HELPrct, succes = "male")
+#' prop( ~sex, data=HELPrct, success = "male")
 #' count( ~sex | substance, data=HELPrct)
 #' prop( ~sex | substance, data=HELPrct)
 #' perc( ~sex | substance, data=HELPrct)
-#' }
 #' @export
 
 prop <- function(x, data=parent.frame(), useNA = "no", ..., 
