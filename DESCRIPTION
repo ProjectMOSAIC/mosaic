@@ -46,7 +46,7 @@ VignetteBuilder: knitr
 Author: Randall Pruim <rpruim@calvin.edu>, Daniel T. Kaplan
     <kaplan@macalester.edu>, Nicholas J. Horton <nhorton@amherst.edu>
 Maintainer: Randall Pruim <rpruim@calvin.edu>
-Description: Data sets and utilities from Project MOSAIC (http://mosaic-web.org) used
+Description: Data sets and utilities from Project MOSAIC (<http://mosaic-web.org>) used
     to teach mathematics, statistics, computation and modeling.  Funded by the
     NSF, Project MOSAIC is a community of educators working to tie together
     aspects of quantitative work that students in science, technology,
