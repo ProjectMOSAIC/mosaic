@@ -1,5 +1,7 @@
 utils::globalVariables(c('.'))
 
+#' @importFrom mosaicCore mosaic_formula_q mosaic_formula
+
 # evaluate a lazy object and return the unevaluated expression if the expression
 # doesn't evaluate to an existing object.
 
@@ -158,7 +160,7 @@ maggregate <-
       stop("data must be an environment or data.frame.", call. = FALSE)
   }
       
-  formula <- mosaic_formula_q(formula, groups = groups, envir = .envir)
+  formula <- mosaicCore::mosaic_formula_q(formula, groups = groups, envir = .envir)
   
   if (length(formula) == 2) { 
     return(FUN( eval(formula[[2]], data, .envir), ...))
@@ -280,7 +282,7 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
                         .name = deparse(substitute(FUN)), 
                         ...) {
   dots <- list(...)
-  formula <- mosaic_formula_q(formula, groups=groups, as.environment(data))
+  formula <- mosaicCore::mosaic_formula_q(formula, groups=groups, as.environment(data))
   
   .format <- match.arg(.format)
   

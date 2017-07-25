@@ -85,7 +85,7 @@ aggregatingFunction1 <-
             data <- parent.frame()
           }
           formula <- formularise(lazy_formula, parent.frame(2)) 
-          formula <- mosaic_formula_q(formula, groups = groups, max.slots = 3) 
+          formula <- mosaicCore::mosaic_formula_q(formula, groups = groups, max.slots = 3) 
           maggregate(formula, data = data, FUN = FUNCTION_TBD, na.rm = na.rm, ..., .multiple = output.multiple)
         },
       formula = 
@@ -102,7 +102,7 @@ aggregatingFunction1 <-
             data <- parent.frame()
           }
           if (! inherits(x, "formula")) stop("`x' must be a formula")
-          formula <- mosaic_formula_q(x, groups = groups, max.slots = 3) 
+          formula <- mosaicCore::mosaic_formula_q(x, groups = groups, max.slots = 3) 
           maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
         },
       
@@ -115,7 +115,7 @@ aggregatingFunction1 <-
         {
           if (lazyeval::is_formula(x)) {
             if (is.null(data)) data <- lazyeval::f_env(x)
-            formula <- mosaic_formula_q(x, groups = groups, max.slots = 3) 
+            formula <- mosaicCore::mosaic_formula_q(x, groups = groups, max.slots = 3) 
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
                               na.rm = na.rm,
                               .multiple = OUTPUT.MULTIPLE))
@@ -178,7 +178,7 @@ aggregatingFunction1 <-
 #       }
 #       
 #       x <- eval(substitute( 
-#         mosaic_formula_q(.x, groups = quote(groups)), 
+#         mosaicCore::mosaic_formula_q(.x, groups = quote(groups)), 
 #         list(.x = substitute(x) , .g = substitute(groups))
 #       ) )
 #       
@@ -235,7 +235,7 @@ aggregatingFunction1or2 <-
             x <- lazyeval::f_eval(x, data)
             y <- lazyeval::f_eval(y, data)
           } else {
-            formula <- mosaic_formula_q(x, max.slots = 2)
+            formula <- mosaicCore::mosaic_formula_q(x, max.slots = 2)
             if (is.null(data)) data <- lazyeval::f_env(formula)
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, 
                               .multiple = OUTPUT.MULTIPLE, ...))
@@ -301,7 +301,7 @@ aggregatingFunction2 <- function(fun) {
           x <- lazyeval::f_eval(x, data)
           y <- lazyeval::f_eval(y, data)
         } else {
-          formula <- mosaic_formula_q(x, max.slots = 3)
+          formula <- mosaicCore::mosaic_formula_q(x, max.slots = 3)
           x <- lazyeval::f_eval_rhs(formula, data)
           y <- lazyeval::f_eval_lhs(formula, data)
         }
