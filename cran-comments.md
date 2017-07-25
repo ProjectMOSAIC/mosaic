@@ -1,9 +1,8 @@
 ## Test environments
 
   * local OS X install: 
-    * R version 3.3.1 Patched (2016-07-16 r70928)
-    * Platform: x86_64-apple-darwin13.4.0 (64-bit)
-    * Running under: OS X El Capitan (10.11.6)
+    * R version 3.4.1 Patched (2017-07-09 r72910)
+    * System: x86_64, darwin15.6.0
   
   * win-builder via devtools
 
