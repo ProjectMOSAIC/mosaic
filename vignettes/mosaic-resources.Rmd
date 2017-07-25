@@ -38,7 +38,7 @@ from within R or from
 	intervals in a number of common situations. The examples are based on the 
 	``resamping bake off'' at USCOTS 2013.
 
- * *ggformula/lattice conversion examples* compares the lattice and ggformula formula interfaces for creating graphics: https://cran.r-project.org/package=mosaic/vignettes/ggformula-lattice.pdf
+ * *ggformula/lattice conversion examples* compares the lattice and ggformula formula interfaces for creating graphics. 
 
 ## Mosaic paper
 
