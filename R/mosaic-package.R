@@ -1,6 +1,10 @@
 #' @import mosaicCore
 #' @export 
 mosaicCore::makeFun
+
+#' @import ggformula
+#' @import ggplot2
+
 NA
 
 #' mosaic
