@@ -11,6 +11,7 @@ Depends:
     mosaicData
 Imports:
     mosaicCore,
+    ggplot2,
     lazyeval (>= 0.2.0),
     MASS,
     grid,
