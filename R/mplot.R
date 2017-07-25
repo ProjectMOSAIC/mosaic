@@ -4,6 +4,9 @@ utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
                          'fcoef', 'density', 'probability',
                          '.hat', 'grid.arrange',  'estimate','se')) 
 
+#' @importFrom ggplot2 fortify
+NA
+
 #' Generic plotting
 #' 
 #' Generic function plotting for R objects.  Currently plots exist for 
