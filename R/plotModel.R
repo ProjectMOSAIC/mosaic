@@ -261,11 +261,19 @@ plotModel.parsedModel <-
         )
       }
     if (system == "ggplot2") {
-      ggplot() +
-        geom_point(aes_string(y = x$responseName, x = key, colour=".color", group=".group"), size=1.2,
-                   data = point_data %>% droplevels()) +
-        geom_line (aes_string(y = x$responseName, x = key, colour=".color", group = ".group"), size=0.5,
-                   data = line_data %>% droplevels())
+      if (length(unique(point_data$.color)) < 2L) {
+        ggplot() +
+          geom_point(aes_string(y = x$responseName, x = key), size=1.2,
+                     data = point_data %>% droplevels()) +
+          geom_line (aes_string(y = x$responseName, x = key), size=0.5,
+                     data = line_data %>% droplevels())
+      } else {
+        ggplot() +
+          geom_point(aes_string(y = x$responseName, x = key, colour=".color", group=".group"), size=1.2,
+                     data = point_data %>% droplevels()) +
+          geom_line (aes_string(y = x$responseName, x = key, colour=".color", group = ".group"), size=0.5,
+                     data = line_data %>% droplevels())
+      }
     } else {
       xyplot(formula, 
              data = point_data %>% droplevels(),
