@@ -1,14 +1,15 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 1.0.0
-Date: 2017-07-25
+Version: 1.0.0.9000
+Date: 2017-07-31
 Depends:
     R (>= 3.0.0),
     dplyr,
     lattice (>= 0.20-21),
     ggformula,
-    mosaicData
+    mosaicData,
+    Matrix
 Imports:
     mosaicCore,
     ggplot2,
@@ -23,7 +24,6 @@ Imports:
     latticeExtra,
     ggdendro,
     gridExtra,
-    Matrix,
     glue
 Suggests: 
     lubridate,
