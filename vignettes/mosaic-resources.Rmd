@@ -59,7 +59,7 @@ and some additional things that instructors should know about using R.
 
  * *[A Student's Guide to R](http://project-mosaic-books.com/?page_id=24)* provides a brief introduction to 
 the R commands needed for all the basic statistical procedures in 
-an Intro Stats course.
+an Intro Stats course.  A spanish language translation can be found at https://github.com/jarochoeltrocho/MOSAIC-LittleBooks-Spanish.
 
 
  * *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* highlights features 
