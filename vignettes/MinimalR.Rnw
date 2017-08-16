@@ -1,5 +1,5 @@
 
-%\VignetteIndexEntry{Minimal R}
+%\VignetteIndexEntry{Minimal R (lattice version)}
 %\VignettePackage{mosaic}
 %\VignetteKeywords{mosaic, vignettes, minimal}
 %\VignetteEngine{knitr::knitr} 

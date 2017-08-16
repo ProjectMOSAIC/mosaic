@@ -1,9 +1,9 @@
 ---
-title: "ggformula/lattice conversion examples"
+title: "ggformula/lattice Comparison"
 author: "Nicholas Horton (nhorton@amherst.edu)"
 date: '`r Sys.Date()`'
 vignette: |
-  %\VignetteIndexEntry{Less Volume, More Creativity} 
+  %\VignetteIndexEntry{ggformula/lattice Comparison} 
   %\VignetteEngine{knitr::rmarkdown} 
   \usepackage[utf8]{inputenc}
 output: 
