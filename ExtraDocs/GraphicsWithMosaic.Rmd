@@ -42,8 +42,9 @@ This vignette is simply a suite of plots that exist primarily as part of our qua
 control for the package. But since the examples might be useful to others as well, 
 we've added this as a vignette in the package.
 
-You might also like to see the vignette that compares using `lattice` to using `ggformula`,
-a formula interface to `ggplot2`.
+**This way of doing this is largely superceded by our `ggformula` package which provides a 
+formula interface to `ggplot2`.**  You might also like to see the vignette that compares 
+using `lattice` to using `ggformula`.
 
 ### lattice extras
 
