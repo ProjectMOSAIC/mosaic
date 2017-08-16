@@ -3,6 +3,8 @@
 ^RBuildIgnore$
 ^README.Rmd$
 ^README.html$
+^ExtraDocs$
+^ExtraDocs/.*$
 ^vignettes-source$
 ^vignettes/.*\.R$
 ^vignettes/.*\.pdf$
