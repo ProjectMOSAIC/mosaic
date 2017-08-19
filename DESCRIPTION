@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 1.0.0.9001
-Date: 2017-08-16
+Version: 1.0.0.9002
+Date: 2017-08-18
 Depends:
     R (>= 3.0.0),
     dplyr,
