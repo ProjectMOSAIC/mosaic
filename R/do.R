@@ -1,4 +1,7 @@
 utils::globalVariables(c('.row'))
+#' @importFrom mosaicCore vector2df nice_names
+ 
+NA
 
 #' Set seed in parallel compatible way
 #'
@@ -125,37 +128,6 @@ Do <- function(n=1L, cull=NULL, mode='default', algorithm=1.0, parallel=TRUE) {
 	}
 	return(as.data.frame(x))
 	}
-
-#' Nice names
-#'
-#' Convert a character vector into a similar character vector that would 
-#' work better as names in a data frame by avoiding certain awkward characters
-#'
-#' @rdname nicenames
-#' @param x a character vector
-#' @param unique a logical indicating whether returned values should be uniquified.
-#' @return a character vector
-#' @examples
-#' nice_names( c("bad name", "name (crazy)", "a:b", "two-way") )
-#' @export
- 
-nice_names <- function(x, unique=TRUE) {
-	x <- gsub('%>%', '.result.', x)
-	x <- gsub('\\(Intercept\\)','Intercept', x)
-	x <- gsub('resample\\(([^\\)]*)\\)','\\1', x)
-	x <- gsub('sample\\(([^\\)]*)\\)','\\1', x)
-	x <- gsub('shuffle\\(([^\\)]*)\\)','\\1', x)
-	x <- gsub('sample\\(','', x)
-	x <- gsub('shuffle\\(','', x)
-	x <- gsub('resample\\(','', x)
-#	x <- gsub('\\(','.', x)
-#	x <- gsub('-','.', x)
-#	x <- gsub(':','.', x)
-#	x <- gsub('\\)','', x)
-#	x <- gsub(' ','.', x)
-#	x <- gsub('^([0-9])','X\\1', x)
-	return(make.names(x, unique = unique))
-}
 
 
 
@@ -298,33 +270,6 @@ print.repeater <- function(x, ...)
   return( l )
 }
 
-#' Convert a vector to a data frame
-#' 
-#' Convert a vector into a 1-raw data frame using the names of the vector as
-#' column names for the data frame
-#' 
-#' @param x a vector
-#' @param nice_names a logical indicating whether names should be nicified
-#' @return a data frame
-#' @export
-#' @examples
-#' vector2df(c(1, b = 2, `(Intercept)` = 3))
-#' vector2df(c(1, b = 2, `(Intercept)` = 3), nice_names = TRUE)
-#' 
-vector2df <- function(x, nice_names = FALSE) {
-  if (!is.vector(x)) {
-    stop("x is not a vector")
-    return(x)
-  }
-  nn <- names(x)
-  if (is.null(nn)) { nn <- list() }
-  result <- data.frame(t(matrix(x, dimnames = list(nn, list()))), check.names = FALSE)
-  if (nice_names) {
-    names(result) <- nice_names(names(result))
-  }
-  result
-}
-  
 #' Cull objects used with do()
 #' 
 #' The \code{\link{do}} function facilitates easy repliaction for
@@ -429,7 +374,7 @@ cull_for_do.aggregated.stat <- function(object, ...) {
 #' @export 
 cull_for_do.lme <- function(object, ...) {
   result <- object
-  names(result) <- nice_names(names(result))
+  names(result) <- mosaicCore::nice_names(names(result))
   return( object$coef$fixed )
 }
 
@@ -451,7 +396,7 @@ cull_for_do.lm <- function(object, ...) {
                  r.squared = sobject$r.squared
     )
   }
-  vector2df(result, nice_names = TRUE)
+  mosaicCore::vector2df(result, nice_names = TRUE)
 }
 
 #  @export 
@@ -599,9 +544,9 @@ setMethod(
         tail(as.character(rhs(e2_lazy)[[1]]), 1),
         error = function(e) "result"
       )
-      names(result) <- nice_names(names(result))
+      names(result) <- mosaicCore::nice_names(names(result))
       names(result)[names(result) == "..result.."] <- 
-        if(nice_names(alt_name) == alt_name) alt_name else "result"
+        if(mosaicCore::nice_names(alt_name) == alt_name) alt_name else "result"
     }
     attr(result, "lazy") <- e2_lazy
     if (out.mode == "data.frame") attr(result, "culler") <- cull
