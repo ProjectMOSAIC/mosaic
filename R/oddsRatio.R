@@ -12,9 +12,9 @@
 #' 
 #' This function calculates the odds ratio and relative risk for a 2 x 2 
 #' contingency table and a
-#' confidence interval (default \code{conf.level} is 95 percent) for the
-#' each estimate. \code{x} should be a matrix, data frame or table. "Successes"
-#' should be located in column 1 of \code{x}, and the treatment of interest
+#' confidence interval (default `conf.level` is 95 percent) for the
+#' each estimate. `x` should be a matrix, data frame or table. "Successes"
+#' should be located in column 1 of `x`, and the treatment of interest
 #' should be located in row 2. The odds ratio is calculated as (Odds row 2) /
 #' (Odds row 1). The confidence interval is calculated from the log(OR) and
 #' backtransformed.
@@ -23,7 +23,7 @@
 #' @rdname oddsRatio
 #' @param x a 2 X 2 matrix, data frame or table of counts
 #' @param object an R object to print or summarise.  Here an object of class
-#' \code{"oddsRatio"} or \code{"relrisk"}.
+#' `"oddsRatio"` or `"relrisk"`.
 #' @param conf.level the confidence interval level
 #' @param verbose a logical indicating whether verbose output should be displayed
 #' @param quiet a logical indicating whether verbose outoput should be supressed
@@ -32,11 +32,11 @@
 #' @param digits number of digits to display
 
 #' @param ... additional arguments
-#' @return an odds ratio or relative risk.  If \code{verpose} is true,
+#' @return an odds ratio or relative risk.  If `verpose` is true,
 #' more details and the confidence intervals are displayed.
 #' @author Kevin Middleton (\email{kmm@@csusb.edu}); modified by 
 #' R Pruim.
-#' @seealso \code{\link{chisq.test}}, \code{\link{fisher.test}}
+#' @seealso [chisq.test()], [fisher.test()]
 #' @keywords stats
 #' @examples
 #' M1 <- matrix(c(14, 38, 51, 11), nrow = 2)

@@ -25,7 +25,7 @@ panel.freqpolygon(x, darg = list(), plot.points = FALSE, ref = FALSE,
 \arguments{
 \item{x}{a formula or a numeric vector}
 
-\item{\dots}{additional arguments passed on to \code{\link{histogram}} 
+\item{\dots}{additional arguments passed on to \code{\link[=histogram]{histogram()}}
 and \code{panel}.}
 
 \item{panel}{a panel function}
@@ -39,11 +39,11 @@ to be needed by the end user.}
 \item{plot.points}{one of \code{TRUE}, \code{FALSE}, \code{"jitter"}, or \code{"rug"} indicating
 how points are to be displayed}
 
-\item{ref}{a logical indicating whether a horizontal reference line should be 
+\item{ref}{a logical indicating whether a horizontal reference line should be
 added (roughly equivalent to \code{h=0})}
 
-\item{groups, weights, jitter.amount, identifier}{as in \code{\link{densityplot}} 
-or \code{\link{histogram}}}
+\item{groups, weights, jitter.amount, identifier}{as in \code{\link[=densityplot]{densityplot()}}
+or \code{\link[=histogram]{histogram()}}}
 
 \item{subscripts}{as in other lattice prepanel functions}
 
@@ -71,11 +71,11 @@ Frequency polygons are an alternative to histograms that make it simpler to over
 distributions.
 }
 \note{
-This function make use of \code{histogram} to determine overall layout.  Often 
+This function make use of \code{histogram} to determine overall layout.  Often
 this works reasonably well but sometimes it does not. In particular, when \code{groups} is
-used to overlay multiple frequency polygons, there is often too little head room.  
-In the latter cases, it may be 
-necessary to use \code{ylim} to determine an approprate viewing rectangle for the 
+used to overlay multiple frequency polygons, there is often too little head room.
+In the latter cases, it may be
+necessary to use \code{ylim} to determine an approprate viewing rectangle for the
 plot.
 }
 \examples{

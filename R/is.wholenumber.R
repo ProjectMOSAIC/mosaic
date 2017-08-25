@@ -1,14 +1,14 @@
 #' Check for whole number values
 #'
-#' Unlike \code{\link{is.integer}}, which checks the type of argument is \code{integer}, 
+#' Unlike [is.integer()], which checks the type of argument is `integer`, 
 #' this function checks whether the value of the argument is an integer
 #' (within a specified tolerance).
 #'
 #' @param x a vector
 #' @param tol a numeric tolerance
-#' @return a logical vector indicating whether \code{x} has a whole number value
+#' @return a logical vector indicating whether `x` has a whole number value
 #' @details
-#' This function is borrowed from the examples for \code{\link{is.integer}}
+#' This function is borrowed from the examples for [is.integer()]
 #'
 #' @examples
 #' is.wholenumber(1)

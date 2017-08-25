@@ -7,7 +7,7 @@ utils::globalVariables(
 
 #' Augmented versions of pnorm and qnorm
 #' 
-#' These functions behave similarly to the functions with the initial \code{x}
+#' These functions behave similarly to the functions with the initial `x`
 #' removed from their names but add more verbose output and graphics.
 #'
 #' @param p probability
@@ -24,16 +24,16 @@ utils::globalVariables(
 # #' @param rot angle of rotation for text labels.
 #' @param manipulate logical.  If TRUE and in RStudio,
 #'  	then sliders are added for interactivity.
-#' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
+#' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
 #' @param \dots additional arguments.
 #' 
 #' 
-#' @seealso \code{\link{histogram}}, 
-#' \code{\link{chisq.test}}, 
-#' \code{\link{pnorm}}, 
-#' \code{\link{qnorm}}, 
-#' \code{\link{qqmath}}, and
-#' \code{\link{plot}}. 
+#' @seealso [histogram()], 
+#' [chisq.test()], 
+#' [pnorm()], 
+#' [qnorm()], 
+#' [qqmath()], and
+#' [plot()]. 
 #' 
 #' 
 #' @examples
@@ -168,7 +168,7 @@ xqnorm <-
 #' Compute a vector of midpoints between values in a numeric vector
 
 #' @param x a numeric vector
-#' @return a vector of length 1 less than \code{x}
+#' @return a vector of length 1 less than `x`
 #' @export
 #' @examples
 #' mid(1:5)

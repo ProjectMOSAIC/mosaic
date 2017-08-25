@@ -3,24 +3,24 @@ globalVariables(c("FUNCTION_TBD", "NA.RM", "OUTPUT.MULTIPLE"))
 
 #' 1-ary Aggregating functions
 #' 
-#' \code{aggregatinFuntion1} creates statistical summaries of one numerical vector that are formula aware.
+#' `aggregatinFuntion1` creates statistical summaries of one numerical vector that are formula aware.
 #' 
 #' @import lazyeval
 #' @rdname aggregatingFunction1
 #' @aliases aggregatingFunction1 
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
 #' returning a numeric vector.
-#' @param output.multiple a boolean indicating whether \code{fun} returns multiple values
+#' @param output.multiple a boolean indicating whether `fun` returns multiple values
 #' @param envir an environment in which evaluation takes place.
 #' @param na.rm the default value for na.rm in the resulting function.
-#' @param style one of \code{"formula1st"}, \code{"formula2nd"} or \code{"flexible"}.  In the first
+#' @param style one of `"formula1st"`, `"formula2nd"` or `"flexible"`.  In the first
 #' two cases, the first argument must be a formula or evaluate to an object.  In the latter case, 
 #' bare names will be converted into formulas.
-#' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
+#' @return a function that generalizes `fun` to handle a formula/data frame interface.
 #' 
 #' @details The logic of the resulting function is this: 1) If the first argument is a formula,
-#' use that formula and \code{data} to create the necessary call(s) to \code{fun}; (2) Else simply
-#' pass everything to \code{fun} for evaluation.
+#' use that formula and `data` to create the necessary call(s) to `fun`; (2) Else simply
+#' pass everything to `fun` for evaluation.
 #' 
 #' @section Note: 
 #' Earlier versions of this function supported a "bare name + data frame" interface.  This
@@ -203,22 +203,22 @@ aggregatingFunction1 <-
 
 #' 1- or 2-ary aggregating functions
 #' 
-#' \code{aggregatingFunction1or2()} creates statistical summaries for functions like
-#' \code{\link{var}()} that can have either 1 or 2 numeric vector inputs.
+#' `aggregatingFunction1or2()` creates statistical summaries for functions like
+#' [var()] that can have either 1 or 2 numeric vector inputs.
 #' 
 #' @param fun a function that takes 1 or 2 numeric vectors and computes a summary statistic,
 #' returning a numeric vector of length 1.
 #' @param na.rm the default value for na.rm in the resulting function.
-#' @param output.multiple a boolean indicating whether \code{fun} returns multiple values
+#' @param output.multiple a boolean indicating whether `fun` returns multiple values
 
 #' 
-#' @details This was designed primarily to support \code{var} which can be used to compute
+#' @details This was designed primarily to support `var` which can be used to compute
 #' either the variance of one variable or the covariance of two variables.
 #' The logic of the resulting function is this: 1) If the first two arguments are both formulas,
-#' then those formulas are evaluated (with \code{data}) to compute the covariance; 
-#' (2) If the first argument is a formula, and the second is \code{NULL}, 
-#' then the formula and \code{data} are used to create the necessary call(s) to \code{fun}; 
-#' (3) Else everything is simply passed to \code{fun} for evaluation.
+#' then those formulas are evaluated (with `data`) to compute the covariance; 
+#' (2) If the first argument is a formula, and the second is `NULL`, 
+#' then the formula and `data` are used to create the necessary call(s) to `fun`; 
+#' (3) Else everything is simply passed to `fun` for evaluation.
 #' 
 #' @section Note: 
 #' Earlier versions of this function supported a "bare name + data frame" interface.  This
@@ -261,23 +261,23 @@ aggregatingFunction1or2 <-
 
 #' 2-ary aggregating functions
 #' 
-#' \code{aggregatinFuntion2} creates statistical summaries of two numerical vectors that 
+#' `aggregatinFuntion2` creates statistical summaries of two numerical vectors that 
 #' are formula aware.
 
 #' @rdname aggregatingFunction2
 #' @aliases aggregatingFunction2 
 #' @param fun a function that takes two numeric vectors and computes a summary statistic,
 #' returning a numeric vector of length 1.
-#' @return a function that generalizes \code{fun} to handle a formula/data frame interface.
+#' @return a function that generalizes `fun` to handle a formula/data frame interface.
 #' @details 
-#' This was designed to support functions like \code{cov()} which can be used to compute
+#' This was designed to support functions like `cov()` which can be used to compute
 #' numerical summaries from two numeric vectors.
 #' The logic of the resulting function is this: 1) If the first two arguments are both formulas,
-#' then those formulas are evaluated (with \code{data}) to compute the covariance; 
-#' (2) If the first argument is a formula, and the second is \code{NULL}, 
-#' then the left and ride sides of the formula and \code{data} are used to create the 
-#' vectors passed to \code{fun};
-#' (3) Else everything is simply passed to \code{fun} for evaluation.
+#' then those formulas are evaluated (with `data`) to compute the covariance; 
+#' (2) If the first argument is a formula, and the second is `NULL`, 
+#' then the left and ride sides of the formula and `data` are used to create the 
+#' vectors passed to `fun`;
+#' (3) Else everything is simply passed to `fun` for evaluation.
 #' 
 #' @section Note: 
 #' Earlier versions of this function supported a "bare name + data frame" interface.  This
@@ -358,30 +358,30 @@ aggregatingFunction2 <- function(fun) {
 
 #' Aggregating functions
 #' 
-#' The \code{mosaic} package makes several summary statistic functions (like \code{mean} and \code{sd})
+#' The `mosaic` package makes several summary statistic functions (like `mean` and `sd`)
 #' formula aware.
 #' 
 #' @rdname aggregating
 #' @aliases sum min max mean median sd var cov cor favstats
 #' @param x a numeric vector or a formula
 #' @param y a numeric vector or a formula
-#' @param groups a grouping variable, typically a name of a variable in \code{data}
+#' @param groups a grouping variable, typically a name of a variable in `data`
 #' @param data a data frame in which to evaluate formulas (or bare names).
-#' Note that the default is \code{data = parent.frame()}.  This makes it convenient to
+#' Note that the default is `data = parent.frame()`.  This makes it convenient to
 #' use this function interactively by treating the working envionment as if it were 
 #' a data frame.  But this may not be appropriate for programming uses.  
-#' When programming, it is best to use an explicit \code{data} argument
+#' When programming, it is best to use an explicit `data` argument
 #' -- ideally supplying a data frame that contains the variables mentioned.
 #' @param \dots additional arguments
 ### @param ..fun.. the underlying function.  It would be very unusual to change 
 ### this from its default value.
-#' @param na.rm a logical indicating whether \code{NA}s should be removed before computing
+#' @param na.rm a logical indicating whether `NA`s should be removed before computing
 #' @details Many of these functions mask core R functions to provide an additional formula 
 #' interface.  Old behavior should be unchanged.  But if the first argument is a formula,
-#' that formula, together with \code{data} are used to generate the numeric vector(s) 
-#' to be summarized.  Formulas of the shape \code{x ~ a} or \code{~ x | a} can be used to
-#' produce summaries of \code{x} for each subsect defined by \code{a}.  Two-way aggregation
-#' can be achieved using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
+#' that formula, together with `data` are used to generate the numeric vector(s) 
+#' to be summarized.  Formulas of the shape `x ~ a` or `~ x | a` can be used to
+#' produce summaries of `x` for each subsect defined by `a`.  Two-way aggregation
+#' can be achieved using formulas of the form `x ~ a + b` or ` x ~ a | b`.  See
 #' the examples.
 #' 
 # ' When an object exists both in \code{data} and in the environment of the formula, \code{data}
@@ -498,8 +498,8 @@ cov <- aggregatingFunction2(stats::cov)
 #' @inheritParams MAD
 
 #' @return the mean or sum of the absolute differences between each pair
-#' of values in \code{c(x,...)}.
-#' @seealso \code{\link{mad}}
+#' of values in `c(x,...)`.
+#' @seealso [mad()]
 #' @rdname MAD_
 #' @export
 MAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
@@ -507,7 +507,7 @@ MAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 }
 
 #' @rdname MAD_
-#' @param ... additional arguments appended to \code{x}
+#' @param ... additional arguments appended to `x`
 #' 
 #' @export
 SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
@@ -522,22 +522,22 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #' All pairs mean and sum of absolute differences
 #' 
 #' @param x a numeric vector or a formula.  
-#' @param ... additional arguments passed through to \code{MAD_} 
-#'   or \code{SAD_}.  If \code{x} is a formala, \code{...} should
-#'   include an argument named \code{data} if the intent is to 
+#' @param ... additional arguments passed through to `MAD_` 
+#'   or `SAD_`.  If `x` is a formala, `...` should
+#'   include an argument named `data` if the intent is to 
 #'   interpret the formala in a data frame.
 #' @param na.rm a logical indicating whether NAs should be removed before
 #'   calculaing.
-#' @param groups a grouping variable, typically a name of a variable in \code{data}
+#' @param groups a grouping variable, typically a name of a variable in `data`
 #' @param data a data frame in which to evaluate formulas (or bare names).
-#'   Note that the default is \code{data = parent.frame()}.  This makes it convenient to
+#'   Note that the default is `data = parent.frame()`.  This makes it convenient to
 #'   use this function interactively by treating the working envionment as if it were 
 #'   a data frame.  But this may not be appropriate for programming uses.  
-#'   When programming, it is best to use an explicit \code{data} argument
+#'   When programming, it is best to use an explicit `data` argument
 #'   -- ideally supplying a data frame that contains the variables mentioned.
 #' @return the mean or sum of the absolute differences between each pair
-#'   of values in \code{c(x,...)}.
-#' @seealso \code{link{mad}}, \code{\link{MAD_}}
+#'   of values in `c(x,...)`.
+#' @seealso \code{link{mad}}, [MAD_()]
 #' @rdname MAD
 #' @export
 #' @examples

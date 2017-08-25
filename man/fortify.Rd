@@ -22,7 +22,7 @@
 
 \item{...}{additional arguments}
 
-\item{order}{one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the 
+\item{order}{one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the
 order of the \code{pair} factor, which determines the order in which the differences
 are displayed on the plot.}
 }

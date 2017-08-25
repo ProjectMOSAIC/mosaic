@@ -4,7 +4,7 @@
 #' @param n (approximate) number of quantiles
 #' @param format a specification of desired output format.
 #' @param digits desired number of digits for labeling of factors.
-#' @return a vector.  The type of vector will depend on \code{format}.
+#' @return a vector.  The type of vector will depend on `format`.
 #' @examples
 #' if (require(mosaicData)) {
 #' tally( ~ ntiles(age, 4), data=HELPrct)

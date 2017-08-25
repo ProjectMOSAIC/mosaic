@@ -57,10 +57,10 @@ ddata_f(x, ..., data = NULL, groups = NULL, na.rm = TRUE)
 \item{log}{a logical indicating whether the result should be log transformed}
 }
 \description{
-Utility functions for density, distribution function, quantile function, 
+Utility functions for density, distribution function, quantile function,
 and random generation from data.
 }
 \seealso{
-\code{\link{ddata}}, \code{\link{pdata}}, \code{\link{qdata}},  
-\code{\link{rdata}}, \code{\link{cdata}}
+\code{\link[=ddata]{ddata()}}, \code{\link[=pdata]{pdata()}}, \code{\link[=qdata]{qdata()}},
+\code{\link[=rdata]{rdata()}}, \code{\link[=cdata]{cdata()}}
 }

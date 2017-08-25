@@ -6,7 +6,7 @@
 #'@name expandFun
 #'@aliases expandFun
 #'
-#'@param formula A mathematical expression (see examples and \code{\link{plotFun}})
+#'@param formula A mathematical expression (see examples and [plotFun()])
 #'@param \ldots additional parameters
 #'
 #'@return A list with the new expanded formula and the combined formals

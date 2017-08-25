@@ -1,12 +1,12 @@
 #' Extract value from an object
 #' 
-#' Functions like \code{\link{integrate}()} and \code{\link{nlm}()} return objects that contain more 
-#' information that simply the value of the integration or optimization.  \code{value()} extracts
+#' Functions like [integrate()] and [nlm()] return objects that contain more 
+#' information that simply the value of the integration or optimization.  `value()` extracts
 #' the primary value from such objects.  Currenlty implemented situations include the output from
-#' \code{\link{integrate}()},
-#' \code{\link{nlm}()},
-#' \code{\link[cubature]{adaptIntegrate}()}, and 
-#' \code{\link{uniroot}()}.
+#' [integrate()],
+#' [nlm()],
+#' [cubature::adaptIntegrate()], and 
+#' [uniroot()].
 #' 
 #' @rdname value
 #' @param object an object from which a "value" is to be extracted.

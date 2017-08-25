@@ -11,8 +11,8 @@ utils::globalVariables(c('.latticeEnv'))
 #' @param formula a formula.  Only one quantity is allowed on the left-hand side, the
 #' output quantity
 #' @param data a data frame
-#' @param method a method for splining.  See \code{\link{spline}}.
-#' @param monotonic a \code{TRUE/FALSE} flag specifying whether the spline should
+#' @param method a method for splining.  See [spline()].
+#' @param monotonic a `TRUE/FALSE` flag specifying whether the spline should
 #' respect monotonicity in the data
 #' @param span parameter to smoother.  How smooth it should be.
 #' @param degree parameter to smoother. 1 is locally linear, 2 is locally quadratic.
@@ -20,21 +20,21 @@ utils::globalVariables(c('.latticeEnv'))
 #' @details
 #' These functions use data to create a mathematical, single-valued function of the inputs.
 #' All return a function whose arguments are the variables used on the right-hand side of the formula.
-#' If the formula involves a transformation, e.g. \code{sqrt(age)} or \code{log(income)},
-#' only the variable itself, e.g. \code{age} or \code{income}, is an argument to the function.
+#' If the formula involves a transformation, e.g. `sqrt(age)` or `log(income)`,
+#' only the variable itself, e.g. `age` or `income`, is an argument to the function.
 #' 
-#' \code{linearModel} takes a linear combination of the vectors specified on the right-hand side.
-#' It differs from \code{project} in that \code{linearModel} returns a function
-#' whereas \code{project} returns the coefficients.  NOTE: An intercept term is not included
-#' unless that is explicitly part of the formula with \code{+1}.  This conflicts with the
-#' standard usage of formulas as found in \code{lm}.  Another option for creating
-#' such functions is to combine \code{\link{lm}} and \code{\link{makeFun}}.
+#' `linearModel` takes a linear combination of the vectors specified on the right-hand side.
+#' It differs from `project` in that `linearModel` returns a function
+#' whereas `project` returns the coefficients.  NOTE: An intercept term is not included
+#' unless that is explicitly part of the formula with `+1`.  This conflicts with the
+#' standard usage of formulas as found in `lm`.  Another option for creating
+#' such functions is to combine [lm()] and [makeFun()].
 #' 
-#' \code{spliner} and \code{connector} currently work for only one input variable.
+#' `spliner` and `connector` currently work for only one input variable.
 #' 
 #' 
 #'
-#' @seealso \code{\link{project}} method for formulas
+#' @seealso [project()] method for formulas
 #'
 #' @examples
 #' if (require(mosaicData)) {
@@ -64,7 +64,7 @@ connector <- function(formula, data=NULL, method="linear") {
   .interpolatingFunction(formula, data, connect=TRUE)
 }
 #' @rdname FunctionsFromData
-#' @param \dots additional arguments to \code{\link[stats]{loess}} or \code{\link[stats]{lm}}
+#' @param \dots additional arguments to [stats::loess()] or [stats::lm()]
 #' @export
 
 smoother <- function(formula, data, span=0.5, degree=2, ... ) {

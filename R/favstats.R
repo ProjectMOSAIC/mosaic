@@ -1,13 +1,13 @@
 #' Some favorite statistical summaries
 #' 
-#' Likely you mean to be using \code{\link{favstats}}.  Each of these computes the 
+#' Likely you mean to be using [favstats()].  Each of these computes the 
 #' mean, standard deviation, quartiles, sample size and number of missing values for a numeric vector,
-#' but \code{\link{favstats}} can take a formula describing how these summary statistics 
+#' but [favstats()] can take a formula describing how these summary statistics 
 #' should be aggregated across various subsets of the data.
 #' @param x  numeric vector 
 #' @param na.rm  boolean indicating whether missing data should be ignored 
 #' @param type an integer between 1 and 9 selecting one of the nine quantile algorithms detailed
-#'  in the documentation for \code{\link[stats]{quantile}}
+#'  in the documentation for [stats::quantile()]
 #' @param ... additional arguments (currently ignored)
 #' 
 #' @return A vector of statistical summaries

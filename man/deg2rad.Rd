@@ -23,5 +23,5 @@ deg2rad(180)
 rad2deg(2*pi)
 }
 \seealso{
-\code{\link{latlon2xyz}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
+\code{\link[=latlon2xyz]{latlon2xyz()}}, \code{\link[=googleMap]{googleMap()}}, and \code{\link[=rgeo]{rgeo()}}.
 }

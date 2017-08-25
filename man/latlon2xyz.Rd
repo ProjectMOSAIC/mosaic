@@ -32,5 +32,5 @@ latlon2xyz(30, 45)
 lonlat2xyz(45, 30)
 }
 \seealso{
-\code{\link{deg2rad}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
+\code{\link[=deg2rad]{deg2rad()}}, \code{\link[=googleMap]{googleMap()}}, and \code{\link[=rgeo]{rgeo()}}.
 }

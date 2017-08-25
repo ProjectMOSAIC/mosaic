@@ -7,9 +7,9 @@
 relm(model, ..., envir = environment(formula(model)))
 }
 \arguments{
-\item{model}{a linear model object produced using \code{\link{lm}}.}
+\item{model}{a linear model object produced using \code{\link[=lm]{lm()}}.}
 
-\item{...}{additional arguments passed through to \code{\link{resample}}.}
+\item{...}{additional arguments passed through to \code{\link[=resample]{resample()}}.}
 
 \item{envir}{an environment in which to (re)evaluate the linear model.}
 }

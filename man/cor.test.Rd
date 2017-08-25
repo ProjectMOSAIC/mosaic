@@ -15,13 +15,13 @@ cor_test.default(x, y, ...)
 \arguments{
 \item{formula}{a formula}
 
-\item{...}{other orguments passed to \code{\link[stats]{cor.test}()}.}
+\item{...}{other orguments passed to \code{\link[stats:cor.test]{stats::cor.test()}}.}
 
 \item{x, y}{numeric vectors of data values. x and y must have the same length.}
 }
 \description{
-\code{\link[stats]{cor.test}} in \pkg{stats} accepts formulas of the 
-shape \code{~ y + x}.  The \pkg{mosaic} package allows the use 
+\code{\link[stats:cor.test]{stats::cor.test()}} in \pkg{stats} accepts formulas of the
+shape \code{~ y + x}.  The \pkg{mosaic} package allows the use
 of \code{y ~ x} as an alternative formula shape.
 }
 \examples{
@@ -31,5 +31,5 @@ cor.test(~ CONT + INTG, data = USJudgeRatings)
 cor.test(CONT ~ INTG, data = USJudgeRatings)
 }
 \seealso{
-\code{\link[stats]{cor.test}()} in the \pkg{stats} package.
+\code{\link[stats:cor.test]{stats::cor.test()}} in the \pkg{stats} package.
 }

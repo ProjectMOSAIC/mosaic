@@ -9,9 +9,9 @@
 #' 
 #' @param formula formula specifying the model
 #' @param data dataframe containing the data to be used
-#' @param start passed as \code{start} to \code{\link{nls}}.  If and empty list,
+#' @param start passed as `start` to [nls()].  If and empty list,
 #' a simple starting point is used (thus avoiding the usual warning message).
-#' @param \dots additional arguments passed to \code{\link{nls}}
+#' @param \dots additional arguments passed to [nls()]
 #' @param object an R object (typically a the result of fitModel)
 #' 
 #' @details
@@ -27,7 +27,7 @@
 #' this does not work with synthentic data that fit the model perfectly.
 #' See \code{link{nls}} for details.
 #'
-#' @seealso \code{\link{linearModel}}, \code{\link{nls}}
+#' @seealso [linearModel()], [nls()]
 #'
 #' @examples
 #' if (require(mosaicData)) {

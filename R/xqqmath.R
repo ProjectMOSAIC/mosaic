@@ -1,7 +1,7 @@
-#' Augmented version of \code{qqmath}
+#' Augmented version of `qqmath`
 #'
 #' 
-#' @param x,data,panel,xqqmath,\dots  as in \code{\link[lattice]{qqmath}}
+#' @param x,data,panel,xqqmath,\dots  as in [lattice::qqmath()]
 #'
 #' @return a trellis object
 #'
@@ -25,10 +25,10 @@ xqqmath <-
 #' @rdname xqqmath
 #' @param qqmathline a logical: should line be displayed passing through first and third quartiles?
 #' @param idline a logical; should the line y=x be added to the plot?
-#' @param fitline a logical; should a ftted line be added to plot?  Such a line will use \code{slope}
-#'        and \code{intercept} if provided, else the standard deviation and mean of the data.
-#'        If \code{slope} is specified, the line will be added unless \code{fitline} is 
-#'        \code{FALSE}.
+#' @param fitline a logical; should a ftted line be added to plot?  Such a line will use `slope`
+#'        and `intercept` if provided, else the standard deviation and mean of the data.
+#'        If `slope` is specified, the line will be added unless `fitline` is 
+#'        `FALSE`.
 #' @param slope slope for added line
 #' @param intercept intercept for added line 
 #' @param overlines a logical: should lines be on top of qq plot?

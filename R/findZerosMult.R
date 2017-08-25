@@ -2,7 +2,7 @@
 #'
 #'Compute numerically zeros of a function of two or more variables.
 #'All free variables (all but the variable on the right side) named in the expression must be assigned 
-#' a value via \code{\ldots}
+#' a value via `\ldots`
 #'
 #'@param ... arguments for values NOTE: if the system has more than one equation and the rhs
 #'variables do not match up, there will be an error.

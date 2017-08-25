@@ -12,11 +12,11 @@ statTally(sample, rdata, FUN, direction = NULL, alternative = c("default",
 \arguments{
 \item{sample}{sample data}
 
-\item{rdata}{a matrix of randomly generated data under 
+\item{rdata}{a matrix of randomly generated data under
 null hypothesis.}
 
 \item{FUN}{a function that computes the test statistic from
-a data set.  The default value does nothing, making it easy to 
+a data set.  The default value does nothing, making it easy to
 use this to tabulate precomputed statistics into a null distribution.
 See the examples.}
 
@@ -38,10 +38,10 @@ should be capitalized}
 
 \item{xlim}{limits for the horizontal axis of the plot.}
 
-\item{\dots}{additional arguments passed to \code{\link{histogram}}}
+\item{\dots}{additional arguments passed to \code{\link[=histogram]{histogram()}}}
 }
 \value{
-A lattice plot showing the sampling distribution. 
+A lattice plot showing the sampling distribution.
 
 As side effects, information
 about the empirical sampling distribution and (optionally) a stem plot are

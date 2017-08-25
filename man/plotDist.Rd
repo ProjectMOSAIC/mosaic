@@ -12,10 +12,10 @@ plotDist(dist, ..., xlim = NULL, ylim = NULL, add, under = FALSE,
 \arguments{
 \item{dist}{A string identifying the distribution.  This should work
 with any distribution that has associated functions beginning
-with 'd', 'p', and 'q' (e.g, 
-\code{\link{dnorm}},
-\code{\link{pnorm}}, and 
-\code{\link{qnorm}}).  \code{dist} should match the name of the 
+with 'd', 'p', and 'q' (e.g,
+\code{\link[=dnorm]{dnorm()}},
+\code{\link[=pnorm]{pnorm()}}, and
+\code{\link[=qnorm]{qnorm()}}).  \code{dist} should match the name of the
 distribution with the initial 'd', 'p', or 'q' removed.}
 
 \item{\dots}{other arguments passed along to lattice graphing routines}
@@ -30,25 +30,25 @@ the F distributions with 1 numerator degree of freedom.}
 \item{add}{a logical indicating whether the plot should be added to the previous lattice plot.
 If missing, it will be set to match \code{under}.}
 
-\item{under}{a logical indicating whether adding should be done in a layer under or over the existing 
+\item{under}{a logical indicating whether adding should be done in a layer under or over the existing
 layers when \code{add = TRUE}.}
 
-\item{packets, rows, columns}{specification of which panels will be added to when 
-\code{add} is \code{TRUE}.  See \code{\link[latticeExtra]{layer}}.}
+\item{packets, rows, columns}{specification of which panels will be added to when
+\code{add} is \code{TRUE}.  See \code{\link[latticeExtra:layer]{latticeExtra::layer()}}.}
 
-\item{kind}{one of "density", "cdf", "qq", or "histogram" (or prefix 
+\item{kind}{one of "density", "cdf", "qq", or "histogram" (or prefix
 of any of these)}
 
 \item{xlab, ylab}{as per other lattice functions}
 
 \item{breaks}{a vector of break points for bins of histograms,
-as in \code{\link{histogram}}}
+as in \code{\link[=histogram]{histogram()}}}
 
 \item{type}{passed along to various lattice graphing functions}
 
 \item{resolution}{number of points to sample when generating the plots}
 
-\item{params}{a list containing parameters for the distribution.  If \code{NULL} (the default), 
+\item{params}{a list containing parameters for the distribution.  If \code{NULL} (the default),
 this list is created from elements of \code{\dots} that are either unnamed or have names among
 the formals of the appropriate distribution function.  See the examples.}
 }
@@ -58,13 +58,14 @@ cdfs, probability histograms, and normal-quantile plots for distributions
 known to R.
 }
 \details{
-\code{plotDist} determines whether the distribution 
-	is continuous or discrete by seeing if all the sampled quantiles are 
-	unique.  A discrete random variable with many possible values could 
-	fool this algorithm and be considered continuous.
+\preformatted{`plotDist` determines whether the distribution 
+is continuous or discrete by seeing if all the sampled quantiles are 
+unique.  A discrete random variable with many possible values could 
+fool this algorithm and be considered continuous.
+}
 
 The plots are done referencing a data frame with variables
-\code{x} and \code{y} giving points on the graph of the 
+\code{x} and \code{y} giving points on the graph of the
 pdf, pmf, or cdf for the distribution.  This can be useful in conjuction
 with the \code{groups} argument.  See the examples.
 }

@@ -17,21 +17,21 @@ returning a numeric vector of length 1.}
 }
 \description{
 \code{aggregatingFunction1or2()} creates statistical summaries for functions like
-\code{\link{var}()} that can have either 1 or 2 numeric vector inputs.
+\code{\link[=var]{var()}} that can have either 1 or 2 numeric vector inputs.
 }
 \details{
 This was designed primarily to support \code{var} which can be used to compute
 either the variance of one variable or the covariance of two variables.
 The logic of the resulting function is this: 1) If the first two arguments are both formulas,
-then those formulas are evaluated (with \code{data}) to compute the covariance; 
-(2) If the first argument is a formula, and the second is \code{NULL}, 
-then the formula and \code{data} are used to create the necessary call(s) to \code{fun}; 
+then those formulas are evaluated (with \code{data}) to compute the covariance;
+(2) If the first argument is a formula, and the second is \code{NULL},
+then the formula and \code{data} are used to create the necessary call(s) to \code{fun};
 (3) Else everything is simply passed to \code{fun} for evaluation.
 }
 \section{Note}{
- 
+
 Earlier versions of this function supported a "bare name + data frame" interface.  This
-functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary, 
+functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary,
 and (c) difficult to maintain.
 }
 

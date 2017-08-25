@@ -21,7 +21,7 @@ hist2freqpolygon(hist)
 
 \item{plot}{a logical indicating if a plot should be generated.}
 
-\item{...}{additional arguments passed on to \code{\link{hist}()}.}
+\item{...}{additional arguments passed on to \code{\link[=hist]{hist()}}.}
 
 \item{hist}{a histgram object produced by \code{link{hist}()}.}
 
@@ -55,7 +55,7 @@ vector of labels to add.}
 \item{ann}{A logical indicating whether annotations (titles and axis titles) should be plotted.}
 }
 \value{
-An object of class \code{"freqpoly"} (invisibly).  Additionally, if \code{plot} is 
+An object of class \code{"freqpoly"} (invisibly).  Additionally, if \code{plot} is
 \code{TRUE}, a plot is generated.
 }
 \description{

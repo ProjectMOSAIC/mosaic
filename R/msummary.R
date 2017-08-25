@@ -11,7 +11,7 @@ withClass <- function(object, class, add=TRUE) {
 #' @rdname msummary
 #' @param x an object to summarize
 #' @param digits desired number of digits to display
-#' @param symbolic.cor see \code{\link{summary}}
+#' @param symbolic.cor see [summary()]
 #' @param signif.stars a logical indicating whether to diplay stars to 
 #'   indicate significance
 #' @param ... aditional arguments
@@ -62,9 +62,9 @@ print.msummary.glm <-
 
 #' Modified summaries
 #' 
-#' \code{msummary} provides modified summary objects that typically produce
+#' `msummary` provides modified summary objects that typically produce
 #' output that is either identical to or somewhat terser than their 
-#' \code{\link{summary}} analogs.  The contents of the object itself are unchanged 
+#' [summary()] analogs.  The contents of the object itself are unchanged 
 #' (except for an augmented class) so that other downstream functions should work as 
 #' before.
 #' 

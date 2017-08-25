@@ -1,21 +1,21 @@
 #' Lagged Differences with equal length
 #' 
 #' Often when creating lagged differences, it is awkward that the differences
-#' vector is shorter than the original.  \code{ediff} pads with \code{pad.value} to
+#' vector is shorter than the original.  `ediff` pads with `pad.value` to
 #' make its output the same length as the input.
 #' 
-#' @seealso \code{\link{diff}} since 
-#' \code{ediff} is a thin wrapper around \code{\link{diff}}.
+#' @seealso [diff()] since 
+#' `ediff` is a thin wrapper around [diff()].
 #' 
 #' @param x a numeric vector or a matrix containing the values to be differenced
 #' @param lag an integer indicating which lag to use
 #' @param differences an integer indicating the order of the difference
-#' @param pad one of \code{"head"}, \code{"tail"}, or \code{"symmetric"}.  
-#' indicating where the \code{pad.value} padding should be added to the result.
+#' @param pad one of `"head"`, `"tail"`, or `"symmetric"`.  
+#' indicating where the `pad.value` padding should be added to the result.
 #' @param pad.value the value to be used for padding.
 #' @param frontPad logical indicating whether padding is on the front (head) or 
 #' back (tail) end. This exists for backward compatibility. New code should use
-#' \code{pad} instaed.
+#' `pad` instaed.
 #' @param \dots further arguments to be passed to or from methods
 #' @examples
 #' ediff(1:10)

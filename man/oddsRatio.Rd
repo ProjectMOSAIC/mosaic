@@ -51,7 +51,7 @@ an odds ratio or relative risk.  If \code{verpose} is true,
 more details and the confidence intervals are displayed.
 }
 \description{
-This function calculates the odds ratio and relative risk for a 2 x 2 
+This function calculates the odds ratio and relative risk for a 2 x 2
 contingency table and a
 confidence interval (default \code{conf.level} is 95 percent) for the
 each estimate. \code{x} should be a matrix, data frame or table. "Successes"
@@ -78,10 +78,10 @@ do(3) * relrisk( tally( ~ homeless + shuffle(sex), data=HELPrct) )
 }
 }
 \seealso{
-\code{\link{chisq.test}}, \code{\link{fisher.test}}
+\code{\link[=chisq.test]{chisq.test()}}, \code{\link[=fisher.test]{fisher.test()}}
 }
 \author{
-Kevin Middleton (\email{kmm@csusb.edu}); modified by 
+Kevin Middleton (\email{kmm@csusb.edu}); modified by
 R Pruim.
 }
 \keyword{stats}

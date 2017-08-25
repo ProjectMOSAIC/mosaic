@@ -15,7 +15,7 @@ surround(x, pre = " ", post = " ", width = 8, ...)
 
 \item{width}{desired width of string}
 
-\item{\dots}{additional arguments passed to \code{\link{format}}}
+\item{\dots}{additional arguments passed to \code{\link[=format]{format()}}}
 }
 \value{
 a vector of strings padded to the desired width

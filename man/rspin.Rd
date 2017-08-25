@@ -9,7 +9,7 @@ rspin(n, probs, labels = 1:length(probs))
 \arguments{
 \item{n}{number of spins of spinner}
 
-\item{probs}{a vector of probabilities.  If the sum is not 1, the 
+\item{probs}{a vector of probabilities.  If the sum is not 1, the
 probabiliies will be rescaled.}
 
 \item{labels}{a character vector of labels for the categories}

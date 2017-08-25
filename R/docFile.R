@@ -5,9 +5,9 @@
 #' 
 #' @param file the name of a file
 #' @param package the name of a package
-#' @param character.only a logical. If \code{TRUE} package names must be
+#' @param character.only a logical. If `TRUE` package names must be
 #' specified as character, else names will be converted as a convenience
-#' as is \code{\link{library}} and \code{\link{library}}.
+#' as is [library()] and [library()].
 #' @return a character vector specifying the path to the file on the user's system.
 #' @export
 #' @examples

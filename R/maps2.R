@@ -20,22 +20,22 @@ utils::globalVariables(c('coordinates',"Name","Code","long","lat"))
 #' \describe{
 #' 
 #' \item{standardName}{This is the most general standardizing function.
-#' In addition to \code{x}, this function requires another argument:
-#' \code{standard} - a named vector in which each name is a particular
+#' In addition to `x`, this function requires another argument:
+#' `standard` - a named vector in which each name is a particular
 #' spelling of the region name in question and the corresponding value
 #' is the standardized version of that region name}
 #'  
 #' \item{standardCountry}{This function will standardize the country
-#' names in \code{x} to the standard ISO_a3 country code format. If 
-#' \code{returnAlternatives} is set to \code{TRUE}, this function will also
+#' names in `x` to the standard ISO_a3 country code format. If 
+#' `returnAlternatives` is set to `TRUE`, this function will also
 #' return the the named vector used to standardize the country names}
 #' 
 #' \item{standardState}{This function will standardize the US state
-#' names in \code{x} to the standard two-letter abbreviations. If 
-#' \code{returnAlternatives} is set to \code{TRUE}, this function will also
+#' names in `x` to the standard two-letter abbreviations. If 
+#' `returnAlternatives` is set to `TRUE`, this function will also
 #' return the the named vector used to standardize the state names}
 #' }
-#' In all three cases, any names not found in \code{standard}
+#' In all three cases, any names not found in `standard`
 #' will be left unaltered.  Unless supressed, a warning message will
 #' indicate the number of such cases, if there are any.
 #' 
@@ -96,28 +96,28 @@ fortify.SpatialPolygonsDataFrame <- function(model, data, region=NULL, ...) {
   merge(fmodel, model@data, by="id")
 }
 
-#' Make a map with \code{ggplot2}
+#' Make a map with `ggplot2`
 #'
-#' \code{makeMap} takes in two sources of data that refer to geographical
+#' `makeMap` takes in two sources of data that refer to geographical
 #' regions and merges them together. Depending on the arguments passed,
 #' it returns this merged data or a ggplot object constructed with the data.
 #'
 #' @param data A dataframe with regions as cases
 #' @param map An object that can be fortified to a dataframe (ex: a dataframe itself,
 #' or a SpatialPolygonsDataFrame) 
-#' @param key.data The column name in the \code{data} that holds the
+#' @param key.data The column name in the `data` that holds the
 #' unique names of each region
-#' @param key.map The column name in the \code{map} that holds the
+#' @param key.map The column name in the `map` that holds the
 #' unique names of each region
-#' @param key The combination of \code{key.data} and \code{key.map} 
+#' @param key The combination of `key.data` and `key.map` 
 #' @param tr.data A function of the transformation to be performed to
-#' the \code{key.data} column
+#' the `key.data` column
 #' @param tr.map A function of the transformation to be performed to
-#' the \code{key.map} column
-#' @param plot The plot desired for the output. \code{plot} = "none"
-#' returns the merged data that is the result of merging the \code{data}
-#' and \code{map} together; \code{plot}="frame" returns an empty
-#' (unplottable) ggplot object; \code{plot} = "border" (the default)
+#' the `key.map` column
+#' @param plot The plot desired for the output. `plot` = "none"
+#' returns the merged data that is the result of merging the `data`
+#' and `map` together; `plot`="frame" returns an empty
+#' (unplottable) ggplot object; `plot` = "border" (the default)
 #' returns a ggplot object with one geom_polygon layer that shows the
 #' borders of the regions.
 #' @export 
@@ -181,25 +181,25 @@ makeMap <- function (data = NULL, map=NULL, key=c(key.data, key.map),
 }
 
 
-#' Make a world map with \code{ggplot2}
+#' Make a world map with `ggplot2`
 #'
-#' \code{mWorldMap} takes in one dataframe that includes information
+#' `mWorldMap` takes in one dataframe that includes information
 #' about different countries. It merges this dataframe with a dataframe
 #' that includes geographical coordinate information. Depending on the
 #' arguments passed, it returns this data or a ggplot object constructed
 #' with the data.
 #' 
 #' @param data A dataframe with countries as cases
-#' @param key The column name in the \code{data} that holds
+#' @param key The column name in the `data` that holds
 #' the unique names of each country
-#' @param fill A variable in the \code{data} used to specify the fill
-#' color of countries in the map (note: if \code{fill} is not null, then
-#' \code{plot} cannot be set to "none")
-#' @param plot The plot desired for the output. \code{plot} = "none"
-#' returns the merged data that is the result of merging the \code{data}
+#' @param fill A variable in the `data` used to specify the fill
+#' color of countries in the map (note: if `fill` is not null, then
+#' `plot` cannot be set to "none")
+#' @param plot The plot desired for the output. `plot` = "none"
+#' returns the merged data that is the result of merging the `data`
 #' and the dataframe with the geographical coordinate information;
-#' \code{plot} = "frame" returns an empty (unplottable) ggplot object;
-#' \code{plot} = "border" (the default) returns a ggplot object with
+#' `plot` = "frame" returns an empty (unplottable) ggplot object;
+#' `plot` = "border" (the default) returns a ggplot object with
 #' one geom_polygon layer that shows the borders of the countries
 #' 
 #' @examples
@@ -235,29 +235,29 @@ mWorldMap <- function(data = NULL, key = NA, fill = NULL, plot = c("borders", "f
 }
 
 
-#' Make a US map with \code{ggplot2}
+#' Make a US map with `ggplot2`
 #'
-#' \code{mUSMap} takes in one dataframe that includes information
+#' `mUSMap` takes in one dataframe that includes information
 #' about different US states. It merges this dataframe with a dataframe
 #' that includes geographical coordinate information. Depending on the
 #' arguments passed, it returns this data or a ggplot object constructed
 #' with the data.
 #'
 #' @param data A dataframe with US states as cases
-#' @param key The column name in the \code{data} that holds the unique
+#' @param key The column name in the `data` that holds the unique
 #' names of each state
-#' @param fill A variable in the \code{data} used to specify the fill
-#' color of states in the map (note: if \code{fill} is not null, then
-#' \code{plot} cannot be set to "none")
-#' @param plot The plot desired for the output. \code{plot} = "none"
-#' returns the merged data that is the result of merging the \code{data}
+#' @param fill A variable in the `data` used to specify the fill
+#' color of states in the map (note: if `fill` is not null, then
+#' `plot` cannot be set to "none")
+#' @param plot The plot desired for the output. `plot` = "none"
+#' returns the merged data that is the result of merging the `data`
 #' and the dataframe with the geographical coordinate information;
-#' \code{plot} = "frame" returns an empty (unplottable) ggplot object;
-#' \code{plot} = "border" (the default) returns a ggplot object with
+#' `plot` = "frame" returns an empty (unplottable) ggplot object;
+#' `plot` = "border" (the default) returns a ggplot object with
 #' one geom_polygon layer that shows the borders of the states
-#' @param style The style in which to display the map. \code{compact} gives 
+#' @param style The style in which to display the map. `compact` gives 
 #' a polyconic projection with Alaska and Hawaii on the lower left corner;
-#' \code{real} gives the real size and position of all states without any
+#' `real` gives the real size and position of all states without any
 #' projection.
 #'  
 #' @examples
@@ -283,7 +283,7 @@ mUSMap <- function(data = NULL, key, fill = NULL,
 #' 
 #' This function can be used in two different ways. Without an argument, it returns a reference
 #' table that includes information about all the CIA World Factbook tables that are available
-#' through this function. Note the  \code{Name} column that indicates a unique name for each
+#' through this function. Note the  `Name` column that indicates a unique name for each
 #' available dataset. If this name is passed as an argument to the function, the function 
 #' will return the corresponding dataset.
 #' 
@@ -349,12 +349,12 @@ CIAdata <- function (name = NULL) {
 #' Transforms a shapefile into a dataframe
 #'
 #' This function takes in a shapefile (formal class of
-#' \code{SpatialPolygonsDataFrame}) and transforms it into a dataframe
+#' `SpatialPolygonsDataFrame`) and transforms it into a dataframe
 #'
-#' @param map A map object of class \code{SpatialPolygonsDataFrame}
+#' @param map A map object of class `SpatialPolygonsDataFrame`
 #' @param ... Other arguments, currently ignored
 #' @return A dataframe, in which the first 7 columns hold geographical
-#' information (ex: \code{long} and \code{lat})
+#' information (ex: `long` and `lat`)
 #' @examples
 #'
 #' \dontrun{ 

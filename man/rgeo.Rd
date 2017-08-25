@@ -23,7 +23,7 @@ rgeo2(n = 1, latlim = c(-90, 90), lonlim = c(-180, 180),
 
 \item{latlim, lonlim}{range of latitudes and longitudes to sample within, only implemented for \code{rgeo}.}
 
-\item{verbose}{return verbose output that includes Euclidean coordinates on unit sphere as well as 
+\item{verbose}{return verbose output that includes Euclidean coordinates on unit sphere as well as
 longitude and latitude.}
 }
 \value{
@@ -32,20 +32,20 @@ TRUE, then x, y, and z coordinates are also included in the data frame.
 }
 \description{
 Randomly samples longitude and latitude on earth so that equal areas are
-(approximately) equally likely to be sampled.  
+(approximately) equally likely to be sampled.
 (Approximation assumes earth as a perfect sphere.)
 }
 \details{
-\code{rgeo} and \code{rgeo2} differ in the algorithms used to generate random positions.  
+\code{rgeo} and \code{rgeo2} differ in the algorithms used to generate random positions.
 Each assumes a spherical globe.  \code{rgeo} uses that fact that each of the x, y and z
-coordinates is uniformly distributed (but not independent of each other).  Furthermore, the 
-angle about the z-axis is uniformly distributed and independent of z.  This provides 
+coordinates is uniformly distributed (but not independent of each other).  Furthermore, the
+angle about the z-axis is uniformly distributed and independent of z.  This provides
 a straightforward way to generate Euclidean coordinates using \code{runif}.  These are then
 translated into latitude and longitude.
 
-\code{rlatlon} is an alias for \code{rgeo} and 
-\code{rlonlat} is too, expect that it reverses the 
-order in which the lattitude and longitute values are 
+\code{rlatlon} is an alias for \code{rgeo} and
+\code{rlonlat} is too, expect that it reverses the
+order in which the lattitude and longitute values are
 returned.
 
 \code{rgeo2} samples points in a cube by independently sampling each coordinate.  It then
@@ -59,7 +59,7 @@ rgeo( 4, latlim=c(25,50), lonlim=c(-65,-125) )
 rgeo2(4)
 }
 \seealso{
-\code{\link{deg2rad}}, \code{\link{googleMap}} and \code{\link{latlon2xyz}}.
+\code{\link[=deg2rad]{deg2rad()}}, \code{\link[=googleMap]{googleMap()}} and \code{\link[=latlon2xyz]{latlon2xyz()}}.
 }
 \keyword{geometry}
 \keyword{map}

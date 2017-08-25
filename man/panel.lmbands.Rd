@@ -22,7 +22,7 @@ panel.lmbands(x, y, interval = "confidence", level = 0.95, model = lm(y ~
 
 \item{band.lty}{a vector of length 1 or 2 giving the line type for bands}
 
-\item{band.show}{logical vector of length 1 or 2 indicating whether 
+\item{band.show}{logical vector of length 1 or 2 indicating whether
 confidence and prediction bands should be shown}
 
 \item{fit.show}{logical indicating whether the model fit should be shown}

@@ -21,7 +21,7 @@ stat(x, ...)
 \arguments{
 \item{object}{a fitted model object or an htest object.}
 
-\item{parm}{a specification of which parameters are to be given confidence intervals, 
+\item{parm}{a specification of which parameters are to be given confidence intervals,
 either a vector of numbers or a vector of names. If missing, all parameters are considered.}
 
 \item{level}{the confidence level required.}
@@ -38,8 +38,8 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
 the extracted p-value, confidence interval, or test statistic
 }
 \description{
-Extract confidence intervals, test statistics or p-values from an 
-  \code{htest} object.
+Extract confidence intervals, test statistics or p-values from an
+\code{htest} object.
 }
 \examples{
 confint(t.test(rnorm(100)))

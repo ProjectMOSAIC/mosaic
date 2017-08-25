@@ -3,35 +3,35 @@
 #' Utility functions for creating new variables from logicals describing the levels
 #' 
 #' @param \dots named logical "rules" defining the levels.
-#' @param .method one of \code{"unique"}, \code{"first"}, and \code{"last"}.  
-#' If \code{"unique"}, exactly one rule must be \code{TRUE} for each position.
-#' If \code{"first"}, the first \code{TRUE} rule defines the level.
-#' If \code{"last"}, the last \code{TRUE} rule defines the level.
-#' @param .debug one of \code{"default"}, \code{"always"}, and \code{"never"}, indicating
-#' whehter debugging information should be printed.  If \code{"default"}, debugging 
+#' @param .method one of `"unique"`, `"first"`, and `"last"`.  
+#' If `"unique"`, exactly one rule must be `TRUE` for each position.
+#' If `"first"`, the first `TRUE` rule defines the level.
+#' If `"last"`, the last `TRUE` rule defines the level.
+#' @param .debug one of `"default"`, `"always"`, and `"never"`, indicating
+#' whehter debugging information should be printed.  If `"default"`, debugging 
 #' information is printed only when multiple rules give conflicting definitions 
 #' for some positions.  
 #' @param .ordered a logical indicating whether the resulting factored should be ordered
-#' Ignored if \code{.asFactor} is \code{FALSE}.
-#' @param .sort One of \code{"given"} (the default) or \code{"alpha"} or 
+#' Ignored if `.asFactor` is `FALSE`.
+#' @param .sort One of `"given"` (the default) or `"alpha"` or 
 #' a vector of integers the same length as the number of levels indicating the 
 #' order in which the levels should appear in the resulting factor. 
-#' Ignored if \code{.asFactor} is \code{FALSE}.
+#' Ignored if `.asFactor` is `FALSE`.
 #' @param .default character vector of length 1 giving name of default level or 
-#' \code{NULL} for no default.
+#' `NULL` for no default.
 #' @param .asFactor A logical indicating whether the returned value should be a factor.
 #' 
 #' @details
 #' Each logical "rule" corresponds to a level in the resulting variable.  
-#' If \code{.default} is defined, an implicit rule is added that is \code{TRUE} 
-#' whenever all other rules are \code{FALSE}.
-#' When there are multiple \code{TRUE} rules for a slot, the first or last such is used
-#' or an error is generated, depending on the value of \code{method}.   
+#' If `.default` is defined, an implicit rule is added that is `TRUE` 
+#' whenever all other rules are `FALSE`.
+#' When there are multiple `TRUE` rules for a slot, the first or last such is used
+#' or an error is generated, depending on the value of `method`.   
 #' 
-#' \code{derivedVariable} is designed to be used with \code{\link{transform}} or 
-#' \code{\link[dplyr]{mutate}} to add new 
-#' variables to a data frame.  \code{derivedFactor}() is the same but that the 
-#' default value for \code{.asFactor} is \code{TRUE}.  See the examples.
+#' `derivedVariable` is designed to be used with [transform()] or 
+#' [dplyr::mutate()] to add new 
+#' variables to a data frame.  `derivedFactor`() is the same but that the 
+#' default value for `.asFactor` is `TRUE`.  See the examples.
 #' 
 #' @examples
 #' Kf <- mutate(KidsFeet, biggerfoot2 = derivedFactor(

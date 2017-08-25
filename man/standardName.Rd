@@ -18,10 +18,10 @@ standardState(x, ignore.case = TRUE, returnAlternatives = FALSE,
 \arguments{
 \item{x}{A vector with the region names to standardize}
 
-\item{standard}{a named vector providing the map from 
+\item{standard}{a named vector providing the map from
 non-standard names (names of vector) to standard names (values of vector)}
 
-\item{ignore.case}{a logical indicating whether case should be ignored 
+\item{ignore.case}{a logical indicating whether case should be ignored
 when matching.}
 
 \item{returnAlternatives}{a logical indicating whether all alternatives should
@@ -42,14 +42,14 @@ In addition to \code{x}, this function requires another argument:
 \code{standard} - a named vector in which each name is a particular
 spelling of the region name in question and the corresponding value
 is the standardized version of that region name}
- 
+
 \item{standardCountry}{This function will standardize the country
-names in \code{x} to the standard ISO_a3 country code format. If 
+names in \code{x} to the standard ISO_a3 country code format. If
 \code{returnAlternatives} is set to \code{TRUE}, this function will also
 return the the named vector used to standardize the country names}
 
 \item{standardState}{This function will standardize the US state
-names in \code{x} to the standard two-letter abbreviations. If 
+names in \code{x} to the standard two-letter abbreviations. If
 \code{returnAlternatives} is set to \code{TRUE}, this function will also
 return the the named vector used to standardize the state names}
 }

@@ -11,30 +11,30 @@ prop.test(x, n, p = NULL, alternative = c("two.sided", "less", "greater"),
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,
 or a character, numeric, or factor vector containing raw data.}
 
-\item{n}{sample size (successes + failures) or a data frame 
+\item{n}{sample size (successes + failures) or a data frame
 (for the formula interface)}
 
-\item{p}{a vector of probabilities of success. 
-The length of p must be the same as the number of groups specified by x, 
+\item{p}{a vector of probabilities of success.
+The length of p must be the same as the number of groups specified by x,
 and its elements must be greater than 0 and less than 1.}
 
-\item{alternative}{character string specifying the alternative hypothesis, must be one of 
-\code{"two.sided"} (default), \code{"greater"} or \code{"less"}. You can specify just the initial letter. 
-Only used for testing the null that a single proportion equals a given value, or that two proportions 
+\item{alternative}{character string specifying the alternative hypothesis, must be one of
+\code{"two.sided"} (default), \code{"greater"} or \code{"less"}. You can specify just the initial letter.
+Only used for testing the null that a single proportion equals a given value, or that two proportions
 are equal; ignored otherwise.}
 
-\item{conf.level}{confidence level of the returned confidence interval. Must be a single number 
-between 0 and 1. Only used when testing the null that a single proportion equals a given value, 
+\item{conf.level}{confidence level of the returned confidence interval. Must be a single number
+between 0 and 1. Only used when testing the null that a single proportion equals a given value,
 or that two proportions are equal; ignored otherwise.}
 
 \item{data}{a data frame (if missing, \code{n} may be a data frame)}
 
-\item{success}{level of variable to be considered success.  All other levels are 
+\item{success}{level of variable to be considered success.  All other levels are
 considered failure.}
 
 \item{...}{additional arguments (often ignored).
-When \code{x} is a formula, \code{groups} can be used to compare groups:  
-\code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
+When \code{x} is a formula, \code{groups} can be used to compare groups:
+\code{x = ~ var, groups=g} is equivalent to \code{x = var ~ g}.
 See the examples.}
 }
 \value{
@@ -42,17 +42,16 @@ an \code{htest} object
 }
 \description{
 The mosaic \code{prop.test} provides wrapper functions around the function of the same name in \pkg{stats}.
-These wrappers provide an extended interface (including formulas).  
-\code{prop.test} performs an approximate test of a simple null hypothesis about the 
+These wrappers provide an extended interface (including formulas).
+\code{prop.test} performs an approximate test of a simple null hypothesis about the
 probability of success in a Bernoulli or multinomial experiment
 from summarized data or from raw data.
 }
 \details{
 conf.level = 0.95, ...)
 
-
-This is a wrapper around \code{\link{prop.test}} to simplify its use
-when the raw data are available, in which case 
+This is a wrapper around \code{\link[=prop.test]{prop.test()}} to simplify its use
+when the raw data are available, in which case
 an extended syntax for \code{prop.test} is provided.
 }
 \note{
@@ -73,6 +72,6 @@ prop.test( ~ homeless, groups = sex, data = HELPrct )
 
 }
 \seealso{
-\code{\link[mosaic]{binom.test}}, \code{\link[stats]{prop.test}}
+\code{\link[mosaic:binom.test]{mosaic::binom.test()}}, \code{\link[stats:prop.test]{stats::prop.test()}}
 }
 \keyword{stats}

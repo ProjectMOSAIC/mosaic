@@ -11,11 +11,11 @@ NA
 #' 	 This may also be a complete URL or a path to a compressed file.
 #' 	 If it does not contain an absolute path, the file name is 
 #' 	 relative to the current working directory, 
-#' 	 \code{getwd()}.  Tilde-expansion is performed where supported. 
-#' 	 See \code{\link{read.table}} for more details.
+#' 	 `getwd()`.  Tilde-expansion is performed where supported. 
+#' 	 See [read.table()] for more details.
 #' 
 #' @param header logical;  
-#'     For \code{.txt} and \code{.csv} files, this indicates whether the first line of the file includes variables names.
+#'     For `.txt` and `.csv` files, this indicates whether the first line of the file includes variables names.
 #' 
 #' @param na.strings character: strings that indicate missing data.
 #' 
@@ -23,36 +23,36 @@ NA
 #' character: a character vector of length one containing a single character or an empty string. Use "" to turn 
 #' off the interpretation of comments altogether.
 #' 
-#' @param filetype one of \code{"default"}, \code{"csv"}, \code{"txt"}, or \code{"rdata"}
+#' @param filetype one of `"default"`, `"csv"`, `"txt"`, or `"rdata"`
 #' indicating the type of file being loaded.  The default is to use the filename
 #' to guess the type of file.
 #' 
-#' @param readr a logical indicating whether functions from the \code{readr} package should be
+#' @param readr a logical indicating whether functions from the `readr` package should be
 #'   used, if available.
 #' 
 #' @param \dots  additional arguments passed on to 
-#'   \code{\link{read.table}}, or \code{\link{load}} or one of the functions
-#'   in the \code{readr} package.  Note that a message will indicate which 
+#'   [read.table()], or [load()] or one of the functions
+#'   in the `readr` package.  Note that a message will indicate which 
 #'   underlying function is being used.
 #'   
 #' @details
-#' Unless \code{filetype} is specified,
-#' \code{read.file} uses the (case insensitive) file extension to determine how to read
-#' data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
-#' \code{\link{load}} is used to load the file.  If \code{file}
-#' ends in \code{.csv}, then \code{\link[readr]{read_csv}} or \code{\link{read.csv}} is used.  
-#' Otherwise, \code{\link{read.table}} is used.
+#' Unless `filetype` is specified,
+#' `read.file` uses the (case insensitive) file extension to determine how to read
+#' data from the file.  If `file` ends in `.rda` or `.rdata`, then
+#' [load()] is used to load the file.  If `file`
+#' ends in `.csv`, then [readr::read_csv()] or [read.csv()] is used.  
+#' Otherwise, [read.table()] is used.
 #' @param package if specified, files will be searched for among the documentation
 #' files provided by the package.
 #' @param stringsAsFactors a logical indicating whether strings should be converted to factors.
-#'   This has no affect when using \code{readr}.
+#'   This has no affect when using `readr`.
 #' 
-#' @return A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
+#' @return A data frame, unless `file` unless `filetype` is `"rdata"`, 
 #' in which  case arbitrary objects may be loaded and a character vector
 #' holding the names of the loaded objects is returned invisibly.
-#' @seealso \code{\link{read.csv}}, \code{\link{read.table}}, 
-#' \code{\link[readr]{read_table}}, \code{\link[readr]{read_csv}}, 
-#' \code{\link{load}}.
+#' @seealso [read.csv()], [read.table()], 
+#' [readr::read_table()], [readr::read_csv()], 
+#' [load()].
 #' 
 #' @keywords util 
 #' @examples

@@ -13,7 +13,7 @@ docFile(file, package = "mosaic", character.only = FALSE)
 
 \item{character.only}{a logical. If \code{TRUE} package names must be
 specified as character, else names will be converted as a convenience
-as is \code{\link{library}} and \code{\link{library}}.}
+as is \code{\link[=library]{library()}} and \code{\link[=library]{library()}}.}
 }
 \value{
 a character vector specifying the path to the file on the user's system.

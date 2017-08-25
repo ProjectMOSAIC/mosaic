@@ -26,7 +26,7 @@ factorise(x, ...)
 
 \item{...}{additional arguments (currently ignored)}
 
-\item{max.levels}{an integer.  Only convert if the number of unique values is no 
+\item{max.levels}{an integer.  Only convert if the number of unique values is no
 more than \code{max.levels}.}
 }
 \description{

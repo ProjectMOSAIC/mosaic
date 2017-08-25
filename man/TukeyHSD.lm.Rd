@@ -13,12 +13,12 @@
 \arguments{
 \item{x}{an object, for example of class \code{lm} or \code{formula}}
 
-\item{which, ordered, conf.level, \dots}{just as in \code{\link{TukeyHSD}} from the \code{base} package}
+\item{which, ordered, conf.level, \dots}{just as in \code{\link[=TukeyHSD]{TukeyHSD()}} from the \code{base} package}
 
 \item{data}{a data frame.  NB: This does not come second in the argument list.}
 }
 \description{
-\code{\link{TukeyHSD}} requires use of \code{\link{aov}}.  
+\code{\link[=TukeyHSD]{TukeyHSD()}} requires use of \code{\link[=aov]{aov()}}.
 Since this is a hinderence for beginners, wrappers
 have been provided to remove this need.
 }

@@ -18,11 +18,11 @@ chisq(x, ...)
 \arguments{
 \item{x}{An object of class \code{"htest"} a coming from a Chi-squared test,
 an object of class \code{"table"}, or
-the inputs to \code{\link{tally}}.}
+the inputs to \code{\link[=tally]{tally()}}.}
 
 \item{...}{additional arguments passed on to \code{tally} or \code{chisq.test}.}
 
-\item{correct}{a logical indicating whether a continuity correction should be 
+\item{correct}{a logical indicating whether a continuity correction should be
 applied.}
 }
 \description{
@@ -44,5 +44,5 @@ if(require(mosaicData)) {
   
 }
 \seealso{
-\code{\link{stat}}
+\code{\link[=stat]{stat()}}
 }

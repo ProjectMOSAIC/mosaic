@@ -19,7 +19,6 @@ for the variables in the formula}
 
 \item{\dots}{additional arguments (currently ignored)
 
-
 \code{mat} returns a model matrix
 
 To demonstrate singularity, use \code{singvals}.}
@@ -47,7 +46,7 @@ singvals(~length*sex*width, data=KidsFeet)
 }
 }
 \seealso{
-\code{\link{project}}
+\code{\link[=project]{project()}}
 
-\code{\link{linearModel}}, which returns a function.
+\code{\link[=linearModel]{linearModel()}}, which returns a function.
 }

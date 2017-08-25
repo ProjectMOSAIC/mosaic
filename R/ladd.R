@@ -3,21 +3,21 @@
 #' Simplified lattice plotting by adding additional elements to existing plots.
 #'
 #' @param x  callable graphical element to be added to a panel or panels in a lattice plot 
-#' @param data a list containing objects that can be referred to in \code{x}.  Panel functions also 
+#' @param data a list containing objects that can be referred to in `x`.  Panel functions also 
 #' have access to the data already used in the panel by the underlying lattice plot.  See 
-#' \code{\link[latticeExtra]{layer}} for details.
-#' @param ... additional arguments passed to \code{\link[latticeExtra]{layer}}.
+#' [latticeExtra::layer()] for details.
+#' @param ... additional arguments passed to [latticeExtra::layer()].
 #' @param plot a lattice plot to add to.  Defaults to previous lattice plot.
 #' @return a trellis object
-#' @seealso \code{\link[latticeExtra]{layer}}
+#' @seealso [latticeExtra::layer()]
 #' 
 #' @details
-#' \code{ladd} is a wrapper around \code{\link[latticeExtra]{layer}} that simplifies 
+#' `ladd` is a wrapper around [latticeExtra::layer()] that simplifies 
 #' certain common plotting additions.  The same caveats that apply to that function
-#' apply here as well.  In particular, \code{ladd} uses non-standard evaluation.  
-#' For this reason care must be taken if trying to use \code{ladd} within other functions
-#' and the use of \code{data} may be required to pass information into the environment
-#' in which \code{x} will be evaluated.
+#' apply here as well.  In particular, `ladd` uses non-standard evaluation.  
+#' For this reason care must be taken if trying to use `ladd` within other functions
+#' and the use of `data` may be required to pass information into the environment
+#' in which `x` will be evaluated.
 #' 
 #' @author Randall Pruim (\email{rpruim@@calvin.edu})
 #' 

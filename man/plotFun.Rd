@@ -18,18 +18,18 @@ plotFun(object, ..., plot = trellis.last.object(), add = NULL,
 \item{object}{a mathematical expression or a function "of one variable" which will
 converted to something intuitively equivalent to \code{object(x) ~ x}. (See examples)}
 
-\item{...}{additional parameters, typically processed by \code{lattice} functions such as 
-\code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
-Frequently used parameters include 
-\describe{ 
+\item{...}{additional parameters, typically processed by \code{lattice} functions such as
+\code{\link[lattice:xyplot]{lattice::xyplot()}}, \code{\link[lattice:levelplot]{lattice::levelplot()}} or their panel functions.
+Frequently used parameters include
+\describe{
 \item{\code{main}}{main title for plot }
 \item{\code{sub}}{subtitle for plot }
 \item{\code{lwd}}{line width }
 \item{\code{lty}}{line type }
 \item{\code{col}}{a color or a (small) integer indicating which color in the current
-color scheme is desired.} 
+color scheme is desired.}
 }
-Additionally, these arguments can be used to specify parameters for the function being 
+Additionally, these arguments can be used to specify parameters for the function being
 plotted and to specify the plotting window with natural names.  See the examples for such usage.}
 
 \item{plot}{a trellis object; by default, the most recently created trellis plot.
@@ -77,16 +77,16 @@ If \code{NULL}, this will be determined by the value of \code{under}.}
 
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
 
-\item{discontinuities}{a vector of input values at which a function is 
+\item{discontinuities}{a vector of input values at which a function is
 discontinuous or \code{NULL} to use
 a heuristic to auto-detect.}
 
-\item{discontinuity}{a positive number determining how sensitive the plot is to 
-potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
+\item{discontinuity}{a positive number determining how sensitive the plot is to
+potential discontinuity.  Larger values result in less sensitivity.  The default is 1.
 Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
 uses a crude numerical heuristic and may not give the desired results in all cases.}
 
-\item{interactive}{a logical indicating whether the surface plot should be 
+\item{interactive}{a logical indicating whether the surface plot should be
 interactive.}
 }
 \value{
@@ -99,7 +99,7 @@ Plots mathematical expressions in one and two variables.
 makes plots of mathematical expressions using the formula syntax.  Will
 draw both line plots and contour/surface plots (for functions of two variables).
 In RStudio, the surface plot comes with sliders to set orientation.
-If the colors in filled surface plots are too blocky, increase \code{npts} 
+If the colors in filled surface plots are too blocky, increase \code{npts}
 beyond the default of 50, though \code{npts=300} is as much as you're likely to ever need.
 See examples for overplotting a constraint function on an objective function.
 }

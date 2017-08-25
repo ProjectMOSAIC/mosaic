@@ -21,74 +21,74 @@ tally(x, ...)
 \arguments{
 \item{x}{an object}
 
-\item{...}{additional arguments passed to \code{\link{table}}}
+\item{...}{additional arguments passed to \code{\link[=table]{table()}}}
 
-\item{wt}{for weighted tallying, 
-see \code{\link[dplyr]{tally}} in \pkg{dplyr}}
+\item{wt}{for weighted tallying,
+see \code{\link[dplyr:tally]{dplyr::tally()}} in \pkg{dplyr}}
 
-\item{sort}{a logical, 
-see \code{\link[dplyr]{tally}} in \pkg{dplyr}}
+\item{sort}{a logical,
+see \code{\link[dplyr:tally]{dplyr::tally()}} in \pkg{dplyr}}
 
 \item{envir}{an environment in which to evaluate}
 
 \item{data}{a data frame or environment in which evaluation occurs.
 Note that the default is \code{data=parent.frame()}.  This makes it convenient to
-use this function interactively by treating the working envionment as if it were 
-a data frame.  But this may not be appropriate for programming uses.  
+use this function interactively by treating the working envionment as if it were
+a data frame.  But this may not be appropriate for programming uses.
 When programming, it is best to use an explicit \code{data} argument
 -- ideally supplying a data frame that contains the variables mentioned}
 
 \item{format}{a character string describing the desired format of the results.
-One of \code{'default'}, \code{'count'}, \code{'proportion'}, \code{'percent'}, 
+One of \code{'default'}, \code{'count'}, \code{'proportion'}, \code{'percent'},
 \code{'data.frame'}, \code{'sparse'}, or \code{'default'}.
 In case of \code{'default'}, counts are used unless there is a condition, in
-which case proportions are used instead.  Note that prior to version 0.9.3, 
+which case proportions are used instead.  Note that prior to version 0.9.3,
 \code{'default'} was the default, now it is \code{'count'}.
 \code{'data.frame'} converts the table to a data frame with one row per cell;
 \code{'sparse'} additionally removes any rows with 0 counts.}
 
 \item{margins}{a logical indicating whether marginal distributions should be displayed.}
 
-\item{quiet}{a logical indicating whether messages about order in which 
-marginal distributions are calculated should be surpressed.  
-See \code{\link{addmargins}}.}
+\item{quiet}{a logical indicating whether messages about order in which
+marginal distributions are calculated should be surpressed.
+See \code{\link[=addmargins]{addmargins()}}.}
 
 \item{subset}{an expression evaluating to a logical vector used to select a subset of \code{data}}
 
 \item{groups}{used to specify a condition as an alternative to using a formula
 with a condition.}
 
-\item{useNA}{as in \code{\link{table}}, but the default here is \code{"ifany"}.}
+\item{useNA}{as in \code{\link[=table]{table()}}, but the default here is \code{"ifany"}.}
 
-\item{groups.first}{a logical indicating whether groups should be inserted 
+\item{groups.first}{a logical indicating whether groups should be inserted
 ahead of the condition (else after).}
 }
 \value{
 A object of class \code{"table"}, unless passing through to \pkg{dplyr}
- or converted to a data frame because \code{format} is \code{"data.frame"} or 
- \code{"sparse"}.
+or converted to a data frame because \code{format} is \code{"data.frame"} or
+\code{"sparse"}.
 }
 \description{
 Tabulate categorical data
 }
 \details{
-The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  
-If \code{x} inherits from class \code{"tbl"} or \code{"data frame"}, 
-then \pkg{dplyr}'s \code{\link[dplyr]{tally}()} is called.  This makes it
+The \pkg{dplyr} package also exports a \code{\link[dplyr:tally]{dplyr::tally()}} function.
+If \code{x} inherits from class \code{"tbl"} or \code{"data frame"},
+then \pkg{dplyr}'s \code{\link[dplyr:tally]{dplyr::tally()}} is called.  This makes it
 easier to have the two packages coexist.
 
-Otherwise, \code{tally()} is designed as an alternative to \code{\link{table}()} and 
-\code{\link{xtabs}()}.  The primary use case it to describe a (possibly multi-dimensional)
-table using a formula.  For a table of counts, each component of the formala becomes one 
+Otherwise, \code{tally()} is designed as an alternative to \code{\link[=table]{table()}} and
+\code{\link[=xtabs]{xtabs()}}.  The primary use case it to describe a (possibly multi-dimensional)
+table using a formula.  For a table of counts, each component of the formala becomes one
 of the dimensions of the cross table.  For tables of proportions or percents, conditional
-proportions and percents are computed, conditioned on each level of all "secondary" 
-(i.e., conditioning) variables, defined as everything other than the left hand side, 
+proportions and percents are computed, conditioned on each level of all "secondary"
+(i.e., conditioning) variables, defined as everything other than the left hand side,
 if there is a left hand side to the formala; and everything except the right hand side
 if the left hand side of the formula is empty.  Note that \code{groups} is folded into
 the formula prior to this determination and becomes part of the conditioning.
 
-When marginal totals are added, they are added for all of the conditioning dimensions, and 
-proportions should sum to 1 for each level of the conditioning variables.  This can be 
+When marginal totals are added, they are added for all of the conditioning dimensions, and
+proportions should sum to 1 for each level of the conditioning variables.  This can be
 useful to make it clear which conditional proportions are beign computed.
 
 See the examples for some typical use cases.

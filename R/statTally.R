@@ -12,25 +12,25 @@
 #'   use this to tabulate precomputed statistics into a null distribution.
 #'   See the examples.
 #' 
-#' @param direction 1 or 2 indicating whether samples in \code{rdata}
+#' @param direction 1 or 2 indicating whether samples in `rdata`
 #'   are in rows (1) or columns (2).
 #' 
 #' @param stemplot 
 #' indicates whether a stem plot should be displayed
 #' @param q quantiles of sampling distribution to display
 #' 
-#' @param fun same as \code{FUN} so you don't have to remember if it
+#' @param fun same as `FUN` so you don't have to remember if it
 #'   should be capitalized
 #'
 #' @param xlim limits for the horizontal axis of the plot.
 #'
 #' @param center center of null distribution
 #'
-#' @param alternative one of \code{default}, \code{two.sided}, \code{less}, or \code{greater}
+#' @param alternative one of `default`, `two.sided`, `less`, or `greater`
 #' 
-#' @param sig.level  significance threshold for \code{wilcox.test} used to detect lack of symmetry
+#' @param sig.level  significance threshold for `wilcox.test` used to detect lack of symmetry
 #' 
-#' @param \dots additional arguments passed to \code{\link{histogram}}
+#' @param \dots additional arguments passed to [histogram()]
 #' 
 #' @return A lattice plot showing the sampling distribution. 
 #' 

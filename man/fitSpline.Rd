@@ -20,12 +20,12 @@ output quantity}
 \item{degree}{parameter for splines when \code{type} is \code{"polynomial"}.
 1 is locally linear, 2 is locally quadratic, etc.}
 
-\item{type}{type of splines to use; one of 
-\code{"linear"}, \code{"cubic"}, \code{"natural"} (cubic with linear tails, the default), 
+\item{type}{type of splines to use; one of
+\code{"linear"}, \code{"cubic"}, \code{"natural"} (cubic with linear tails, the default),
 or \code{"polynomial"}.}
 
 \item{\dots}{additional arguments passed to spline basis functions
-(\code{\link{ns}} and \code{\link{bs}}).}
+(\code{\link[=ns]{ns()}} and \code{\link[=bs]{bs()}}).}
 }
 \value{
 a function of the explanatory variable
@@ -45,5 +45,5 @@ plotFun(g, add=TRUE, col='navy')
 plotFun(h, add=TRUE, col='red')
 }
 \seealso{
-\code{\link{bs}}  and \code{\link{ns}} for the bases used to generate the splines.
+\code{\link[=bs]{bs()}}  and \code{\link[=ns]{ns()}} for the bases used to generate the splines.
 }

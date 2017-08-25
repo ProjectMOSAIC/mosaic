@@ -24,11 +24,11 @@ adapt_seq(from, to, length.out = 200, f = function(x, ...) {     1 },
 a numerical vector
 }
 \description{
-\code{adapt_seq} is similar to \code{seq} except that instead of 
+\code{adapt_seq} is similar to \code{seq} except that instead of
 selecting points equally spaced along an interval, it selects points
-such that the values of a function applied at those points are 
-(very) roughly equally spaced.  This can be useful for sampling 
-a function in such a way that it can be plotted more smoothly, 
+such that the values of a function applied at those points are
+(very) roughly equally spaced.  This can be useful for sampling
+a function in such a way that it can be plotted more smoothly,
 for example.
 }
 \examples{

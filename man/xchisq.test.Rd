@@ -9,14 +9,14 @@ xchisq.test(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)),
   data = environment(x))
 }
 \arguments{
-\item{x, y, correct, p, rescale.p, simulate.p.value, B}{as in \code{\link{chisq.test}}, but 
+\item{x, y, correct, p, rescale.p, simulate.p.value, B}{as in \code{\link[=chisq.test]{chisq.test()}}, but
 \code{x} may also be a formula, in which case \code{x} is replaced by \code{tally(x, data)}
-prior to the call to \code{\link{chisq.test}()}.}
+prior to the call to \code{\link[=chisq.test]{chisq.test()}}.}
 
 \item{data}{a data frame for use when \code{x} is a formula.}
 }
 \description{
-This augmented version of \code{\link{chisq.test}} provides more verbose
+This augmented version of \code{\link[=chisq.test]{chisq.test()}} provides more verbose
 output.
 }
 \examples{
@@ -29,5 +29,5 @@ xchisq.test(phs)
 xchisq.test(sex ~ substance, data = HELPrct)
 }
 \seealso{
-\code{\link{chisq.test}()}
+\code{\link[=chisq.test]{chisq.test()}}
 }

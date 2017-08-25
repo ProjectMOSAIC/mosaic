@@ -10,7 +10,7 @@
 #' @param panel  a panel function 
 #'
 #' @param breaks,equal.widths,groups,pch,col,lty,lwd,col.line,type,alpha  
-#'     as in \code{\link{histogram}} 
+#'     as in [histogram()] 
 #'
 #' @param cex  a ratio by which to increase or decrease the dot size
 #'
@@ -19,7 +19,7 @@
 #' @return a trellis object
 #'
 #' 
-#' @seealso \code{\link{histogram}}
+#' @seealso [histogram()]
 #' 
 #' 
 #' @examples

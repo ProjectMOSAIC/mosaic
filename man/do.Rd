@@ -31,19 +31,19 @@ Do(n = 1L, cull = NULL, mode = "default", algorithm = 1,
 \item{n}{number of times to repeat}
 
 \item{cull}{function for culling output of objects being repeated.  If NULL,
-a default culling function is used.  The default culling function is 
+a default culling function is used.  The default culling function is
 currently aware of objects of types
 \code{lme},
 \code{lm},
 \code{htest},
 \code{table},
-\code{cointoss}, and 
+\code{cointoss}, and
 \code{matrix}.}
 
 \item{mode}{target mode for value returned}
 
-\item{algorithm}{a number usd to select the algorithm used.  Currently numbers below 1 
-use an older algorithm and numbers >=1 use a newer algorithm which is faster in some 
+\item{algorithm}{a number usd to select the algorithm used.  Currently numbers below 1
+use an older algorithm and numbers >=1 use a newer algorithm which is faster in some
 situations.}
 
 \item{parallel}{a logical indicating whether parallel computation should be attempted
@@ -57,15 +57,15 @@ using the \pkg{parallel} package (if it is installed and loaded).}
 }
 \value{
 \code{do} returns an object of class \code{repeater} which is only useful in
-  the context of the operator \code{*}.  See the examples.
+the context of the operator \code{*}.  See the examples.
 }
 \description{
-\code{do()} provides a natural syntax for repetition tuned to assist 
+\code{do()} provides a natural syntax for repetition tuned to assist
 with replication and resampling methods.
 }
 \note{
 \code{do} is a thin wrapper around \code{Do} to avoid collision with
-  \code{\link[dplyr]{do}} from the \pkg{dplyr} package.
+\code{\link[dplyr:do]{dplyr::do()}} from the \pkg{dplyr} package.
 }
 \examples{
 do(3) * rnorm(1)
@@ -83,10 +83,10 @@ if (require(mosaicData)) {
 }
 }
 \seealso{
-\code{\link{replicate}}, \code{\link{set.rseed}}
+\code{\link[=replicate]{replicate()}}, \code{\link[=set.rseed]{set.rseed()}}
 }
 \author{
 Daniel Kaplan (\email{kaplan@macalaster.edu})
-  and Randall Pruim (\email{rpruim@calvin.edu})
+and Randall Pruim (\email{rpruim@calvin.edu})
 }
 \keyword{iteration}

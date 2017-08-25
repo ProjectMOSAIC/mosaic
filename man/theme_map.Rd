@@ -13,6 +13,6 @@ theme_map(base_size = 12)
 A very plain \pkg{ggplot2} theme that is good for maps.
 }
 \details{
-This theme is largely based on an example posted by 
+This theme is largely based on an example posted by
 Winston Chang at the \pkg{ggplot2} Google group forum.
 }

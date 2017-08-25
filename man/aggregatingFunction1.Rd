@@ -19,7 +19,7 @@ returning a numeric vector.}
 \item{na.rm}{the default value for na.rm in the resulting function.}
 
 \item{style}{one of \code{"formula1st"}, \code{"formula2nd"} or \code{"flexible"}.  In the first
-two cases, the first argument must be a formula or evaluate to an object.  In the latter case, 
+two cases, the first argument must be a formula or evaluate to an object.  In the latter case,
 bare names will be converted into formulas.}
 }
 \value{
@@ -34,9 +34,9 @@ use that formula and \code{data} to create the necessary call(s) to \code{fun}; 
 pass everything to \code{fun} for evaluation.
 }
 \section{Note}{
- 
+
 Earlier versions of this function supported a "bare name + data frame" interface.  This
-functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary, and (c) 
+functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary, and (c)
 difficult to maintain.
 }
 

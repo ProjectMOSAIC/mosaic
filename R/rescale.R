@@ -6,7 +6,7 @@
 #' parallel plots or heatmaps.
 #' @rdname rescale
 #' @param x an R object to rescale
-#' @param domain a numeric vector of length 2 or \code{NULL}
+#' @param domain a numeric vector of length 2 or `NULL`
 #' @param range a numeric vector of length 2
 #' @param ... additional arguments
 #' @export 

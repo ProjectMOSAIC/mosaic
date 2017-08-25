@@ -77,15 +77,15 @@ fortify.hclust <- function(model, data,
 
 
 #' @rdname clustering
-#' @param object an object of class \code{"hclust"}
+#' @param object an object of class `"hclust"`
 #' @param colorize whether to show clusters in different colors
 #' @param k number of clusters
 #' @param labels a logical indicating whether labels should be used
 #' to identify leaves of the tree.
 #' @param heatmap the ratio of size of heatmap to size of dendrogram.  
-#'   Use \code{0} or \code{FALSE} to omit the heatmap.
+#'   Use `0` or `FALSE` to omit the heatmap.
 #' @param enumerate a color used for numbers within heatmap.  Use 
-#'   \code{"transparent"} to hide.
+#'   `"transparent"` to hide.
 #' @examples
 #' KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2
 #'   M <- dist(KidsFeet2)

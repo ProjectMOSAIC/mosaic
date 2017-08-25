@@ -7,7 +7,7 @@
 #' 
 #' @param x an object
 #' @param max.levels an integer.  Only convert if the number of unique values is no 
-#' more than \code{max.levels}.
+#' more than `max.levels`.
 #' @param ... additional arguments (currently ignored)
 #' 
 #' @export

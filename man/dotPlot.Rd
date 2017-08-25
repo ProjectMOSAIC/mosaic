@@ -18,7 +18,7 @@ panel.dotPlot(x, breaks, equal.widths = TRUE, groups = NULL, nint = if
 \arguments{
 \item{x}{a vector of values or a formula}
 
-\item{breaks, equal.widths, groups, pch, col, lty, lwd, col.line, type, alpha}{as in \code{\link{histogram}}}
+\item{breaks, equal.widths, groups, pch, col, lty, lwd, col.line, type, alpha}{as in \code{\link[=histogram]{histogram()}}}
 
 \item{\dots}{additional arguments}
 
@@ -33,7 +33,7 @@ a trellis object
 }
 \description{
 A high level function and panel function for producing
-	a variant of a histogram called a dotplot.
+a variant of a histogram called a dotplot.
 }
 \examples{
 if (require(mosaicData)) {
@@ -45,6 +45,6 @@ dotPlot( ~ height | voice.part, data = singer, nint = 17,
 }
 }
 \seealso{
-\code{\link{histogram}}
+\code{\link[=histogram]{histogram()}}
 }
 \keyword{graphics}

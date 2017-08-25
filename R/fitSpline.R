@@ -5,20 +5,20 @@
 #'
 #' @param formula a formula.  Only one quantity is allowed on the left-hand side, the
 #' output quantity
-#' @param data a data frame in which \code{formula} is evaluated.
+#' @param data a data frame in which `formula` is evaluated.
 #' @param type type of splines to use; one of 
-#' \code{"linear"}, \code{"cubic"}, \code{"natural"} (cubic with linear tails, the default), 
-#' or \code{"polynomial"}.
-#' @param degree parameter for splines when \code{type} is \code{"polynomial"}.  
+#' `"linear"`, `"cubic"`, `"natural"` (cubic with linear tails, the default), 
+#' or `"polynomial"`.
+#' @param degree parameter for splines when `type` is `"polynomial"`.  
 #' 1 is locally linear, 2 is locally quadratic, etc.
 #' @param df degrees of freedom (used to determine how many knots should be used)
 #' @param knots a vector of knots
 #' @param \dots additional arguments passed to spline basis functions
-#' (\code{\link{ns}} and \code{\link{bs}}).
+#' ([ns()] and [bs()]).
 #'
 #' @return a function of the explanatory variable
 #'
-#' @seealso \code{\link{bs}}  and \code{\link{ns}} for the bases used to generate the splines.
+#' @seealso [bs()]  and [ns()] for the bases used to generate the splines.
 #'
 #' @examples
 #' f <- fitSpline( weight ~ height, data=women, df=5 )

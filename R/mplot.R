@@ -10,7 +10,7 @@ NA
 #' Generic plotting
 #' 
 #' Generic function plotting for R objects.  Currently plots exist for 
-#' \code{data.frame}s, \code{lm}s, (including \code{glm}s).
+#' `data.frame`s, `lm`s, (including `glm`s).
 #' 
 #' @rdname mplot
 #' @param object an R object from which a plot will be constructed.
@@ -40,38 +40,38 @@ mplot.default <- function(object, ...) {
 # data with some auxilliary data to be displayed as fill color on the map, although
 # this is not necessary if all one wants is a map.
 #' @param format,default default type of plot to create; one of 
-#' \code{"scatter"},
-#' \code{"jitter"},
-#' \code{"boxplot"},
-#' \code{"violin"},
-#' \code{"histogram"},
-#' \code{"density"},
-#' \code{"frequency polygon"},
+#' `"scatter"`,
+#' `"jitter"`,
+#' `"boxplot"`,
+#' `"violin"`,
+#' `"histogram"`,
+#' `"density"`,
+#' `"frequency polygon"`,
 #' or
 # \code{"xyplot"}. 
 # or
-#' \code{"map"}.  
+#' `"map"`.  
 #' Unique prefixes suffice.
 #' @param system which graphics system to use (initially) for plotting (\pkg{ggplot2} 
 #'   or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
-#' @param show a logical, if \code{TRUE}, the code will be displayed each time the plot is 
+#' @param show a logical, if `TRUE`, the code will be displayed each time the plot is 
 #'   changed.
 #' @return Nothing.  Just for side effects. 
 #' @param which a numeric vector used to select from 7 potential plots
 #' @param ask if TRUE, each plot will be displayed separately after the user 
 #' responds to a prompt.
-#' @param multiplot if TRUE and \code{ask == FALSE}, all plots will be 
+#' @param multiplot if TRUE and `ask == FALSE`, all plots will be 
 #' displayed together.
 #' @param title title for plot
-#' @param ... additional arguments.  If \code{object} is an \code{lm}, subsets
-#' of these arguments are passed to \code{grid.arrange} and to the 
+#' @param ... additional arguments.  If `object` is an `lm`, subsets
+#' of these arguments are passed to `grid.arrange` and to the 
 #' \pkg{lattice} plotting routines; in particular,
-#' \code{nrow} and \code{ncol} can be used to control the number of rows
+#' `nrow` and `ncol` can be used to control the number of rows
 #' and columns used.
 #' @details
 #' The method for models (lm and glm) is still a work in progress, but should be useable for 
 #' relatively simple models.  When the results for a logistic regression model created with
-#' \code{\link{glm}()} are satisfactory will depend on the format and structure of the data
+#' [glm()] are satisfactory will depend on the format and structure of the data
 #' used to fit the model.
 #' @examples
 #' mplot( lm( width ~ length * sex, data=KidsFeet) )
@@ -414,7 +414,7 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @param level a confidence level
 #' @param par.settings \pkg{lattice} theme settings 
 #' @param rows rows to show.  This may be a numeric vector, 
-#' \code{TRUE} (for all rows), or a character vector of row names.
+#' `TRUE` (for all rows), or a character vector of row names.
 #' @examples
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot2")
 #' mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
@@ -495,8 +495,8 @@ mplot.summary.glm <- mplot.summary.lm
 #' @rdname fortify
 #' @param model an R object
 #' @param data original data set, if needed
-#' @param order one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the 
-#'   order of the \code{pair} factor, which determines the order in which the differences
+#' @param order one of `"pval"`, `"diff"`, or `"asis"` determining the 
+#'   order of the `pair` factor, which determines the order in which the differences
 #'   are displayed on the plot.
 #' @examples
 #' fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
@@ -546,8 +546,8 @@ fortify.TukeyHSD <- function(model, data, order = c("asis", "pval", "difference"
 #' @rdname mplot
 #' @param xlab label for x-axis
 #' @param ylab label for y-axis
-#' @param order one of \code{"pval"}, \code{"diff"}, or \code{"asis"} determining the 
-#'   order of the \code{pair} factor, which determines the order in which the differences
+#' @param order one of `"pval"`, `"diff"`, or `"asis"` determining the 
+#'   order of the `pair` factor, which determines the order in which the differences
 #'   are displayed on the plot.
 #' @examples
 #' mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )

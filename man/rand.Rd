@@ -14,14 +14,14 @@ rand(df = 1, rdist = rnorm, args = list(), nrow, seed = NULL)
 \item{args}{arguments for \code{rdist}}
 
 \item{nrow}{number of rows in resulting matrix.  This can often be omitted in
-the context of functions like \code{lm} where it is inferred from the data frame, 
+the context of functions like \code{lm} where it is inferred from the data frame,
 if one is provided.}
 
 \item{seed}{seed for random number generation}
 }
 \value{
-A matrix of random variates with \code{df} columns.  
-In its intended use, the number of rows will be selected to match the 
+A matrix of random variates with \code{df} columns.
+In its intended use, the number of rows will be selected to match the
 size of the data frame supplied to \code{lm}
 }
 \description{

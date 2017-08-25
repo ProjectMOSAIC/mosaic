@@ -12,8 +12,8 @@ compareMean(formula, data = parent.frame(), ...)
 \item{data}{a data frame in which \code{x} is evaluated if \code{x} is a
 formula.
 Note that the default is \code{data=parent.frame()}.  This makes it convenient to
-use this function interactively by treating the working envionment as if it were 
-a data frame.  But this may not be appropriate for programming uses.  
+use this function interactively by treating the working envionment as if it were
+a data frame.  But this may not be appropriate for programming uses.
 When programming, it is best to use an explicit \code{data} argument
 -- ideally supplying a data frame that contains the variables mentioned}
 
@@ -27,7 +27,7 @@ A function to calculate the difference between the means of a continuous
 variable for two groups.
 }
 \note{
-This funciton has been deprecated. Use \code{\link{diffmean}} instead.
+This funciton has been deprecated. Use \code{\link[=diffmean]{diffmean()}} instead.
 }
 \examples{
 if (require(mosaicData)) {
@@ -43,7 +43,7 @@ if (require(mosaicData)) {
 }
 }
 \seealso{
-\code{\link{do}}, \code{\link{compareProportion}} and \code{\link{shuffle}}
+\code{\link[=do]{do()}}, \code{\link[=compareProportion]{compareProportion()}} and \code{\link[=shuffle]{shuffle()}}
 }
 \keyword{iteration}
 \keyword{stats}

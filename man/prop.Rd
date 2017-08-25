@@ -25,14 +25,14 @@ perc(x, data = parent.frame(), ..., format = "percent")
 \item{useNA}{an indication of how NA's should be handled.  By default, they are
 ignored.}
 
-\item{\dots}{arguments passed through to \code{\link{tally}}}
+\item{\dots}{arguments passed through to \code{\link[=tally]{tally()}}}
 
-\item{success}{the level for which counts, proportions or percents are 
+\item{success}{the level for which counts, proportions or percents are
 calculated}
 
 \item{level}{Depricated.  Use \code{sucess}.}
 
-\item{long.names}{a logical indicating whether long names should be 
+\item{long.names}{a logical indicating whether long names should be
 when there is a conditioning variable}
 
 \item{sep}{a character used to separate portions of long names}
@@ -40,10 +40,10 @@ when there is a conditioning variable}
 \item{format}{one of \code{proportion}, \code{percent}, or \code{count},
 possibly abbrevaited}
 
-\item{quiet}{a logical indicating whether messages regarding the 
+\item{quiet}{a logical indicating whether messages regarding the
 success level should be supressed.}
 
-\item{pval.adjust}{a logical indicating whether the "p-value" adjustment should be 
+\item{pval.adjust}{a logical indicating whether the "p-value" adjustment should be
 applied.  This adjustment adds 1 to the numerator and denominator counts.}
 }
 \description{
@@ -51,11 +51,11 @@ Compute proportions, percents, or counts for a single level
 }
 \details{
 \code{prop1} is intended for the computation of p-values from randomization
-distributions and differs from \code{prop} only in its default value of 
+distributions and differs from \code{prop} only in its default value of
 \code{pval.adjust}.
 }
 \note{
-For 0-1 data, \code{success} is set to 1 by default since that a standard 
+For 0-1 data, \code{success} is set to 1 by default since that a standard
 coding scheme for success and failure.
 }
 \examples{

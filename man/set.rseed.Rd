@@ -11,11 +11,11 @@ set.rseed(seed)
 }
 \description{
 When the parallel package is used, setting the RNG seed for reproducibility
-involves more than simply calling \code{\link{set.seed}}. \code{set.rseed} takes
+involves more than simply calling \code{\link[=set.seed]{set.seed()}}. \code{set.rseed} takes
 care of the additional overhead.
 }
 \details{
-If the \code{parallel} package is not on the search path, then \code{\link{set.seed}} is called.
+If the \code{parallel} package is not on the search path, then \code{\link[=set.seed]{set.seed()}} is called.
 If \code{parallel} is on the search path, then the RNG kind is set to \code{"L'Ecuyer-CMRG"},
 the seed is set and \code{mc.reset.stream} is called.
 }

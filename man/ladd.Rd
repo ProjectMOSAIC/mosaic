@@ -9,11 +9,11 @@ ladd(x, data = NULL, ..., plot = trellis.last.object())
 \arguments{
 \item{x}{callable graphical element to be added to a panel or panels in a lattice plot}
 
-\item{data}{a list containing objects that can be referred to in \code{x}.  Panel functions also 
-have access to the data already used in the panel by the underlying lattice plot.  See 
-\code{\link[latticeExtra]{layer}} for details.}
+\item{data}{a list containing objects that can be referred to in \code{x}.  Panel functions also
+have access to the data already used in the panel by the underlying lattice plot.  See
+\code{\link[latticeExtra:layer]{latticeExtra::layer()}} for details.}
 
-\item{...}{additional arguments passed to \code{\link[latticeExtra]{layer}}.}
+\item{...}{additional arguments passed to \code{\link[latticeExtra:layer]{latticeExtra::layer()}}.}
 
 \item{plot}{a lattice plot to add to.  Defaults to previous lattice plot.}
 }
@@ -24,9 +24,9 @@ a trellis object
 Simplified lattice plotting by adding additional elements to existing plots.
 }
 \details{
-\code{ladd} is a wrapper around \code{\link[latticeExtra]{layer}} that simplifies 
+\code{ladd} is a wrapper around \code{\link[latticeExtra:layer]{latticeExtra::layer()}} that simplifies
 certain common plotting additions.  The same caveats that apply to that function
-apply here as well.  In particular, \code{ladd} uses non-standard evaluation.  
+apply here as well.  In particular, \code{ladd} uses non-standard evaluation.
 For this reason care must be taken if trying to use \code{ladd} within other functions
 and the use of \code{data} may be required to pass information into the environment
 in which \code{x} will be evaluated.
@@ -52,7 +52,7 @@ ladd(panel.densityplot(faithful$eruptions, lwd=4), under=TRUE)
 
 }
 \seealso{
-\code{\link[latticeExtra]{layer}}
+\code{\link[latticeExtra:layer]{latticeExtra::layer()}}
 }
 \author{
 Randall Pruim (\email{rpruim@calvin.edu})

@@ -18,13 +18,13 @@ value(object, ...)
 \item{...}{additional arguments (currently ignored).}
 }
 \description{
-Functions like \code{\link{integrate}()} and \code{\link{nlm}()} return objects that contain more 
+Functions like \code{\link[=integrate]{integrate()}} and \code{\link[=nlm]{nlm()}} return objects that contain more
 information that simply the value of the integration or optimization.  \code{value()} extracts
 the primary value from such objects.  Currenlty implemented situations include the output from
-\code{\link{integrate}()},
-\code{\link{nlm}()},
-\code{\link[cubature]{adaptIntegrate}()}, and 
-\code{\link{uniroot}()}.
+\code{\link[=integrate]{integrate()}},
+\code{\link[=nlm]{nlm()}},
+\code{\link[cubature:adaptIntegrate]{cubature::adaptIntegrate()}}, and
+\code{\link[=uniroot]{uniroot()}}.
 }
 \examples{
 integrate(sin, 0, 1) \%>\% value()

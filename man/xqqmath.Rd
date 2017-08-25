@@ -13,7 +13,7 @@ panel.xqqmath(x, qqmathline = !(fitline || idline), idline = FALSE,
   pch = 16, lwd = 2, lty = 2)
 }
 \arguments{
-\item{x, data, panel, xqqmath, \dots}{as in \code{\link[lattice]{qqmath}}}
+\item{x, data, panel, xqqmath, \dots}{as in \code{\link[lattice:qqmath]{lattice::qqmath()}}}
 
 \item{qqmathline}{a logical: should line be displayed passing through first and third quartiles?}
 
@@ -21,7 +21,7 @@ panel.xqqmath(x, qqmathline = !(fitline || idline), idline = FALSE,
 
 \item{fitline}{a logical; should a ftted line be added to plot?  Such a line will use \code{slope}
 and \code{intercept} if provided, else the standard deviation and mean of the data.
-If \code{slope} is specified, the line will be added unless \code{fitline} is 
+If \code{slope} is specified, the line will be added unless \code{fitline} is
 \code{FALSE}.}
 
 \item{slope}{slope for added line}

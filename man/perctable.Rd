@@ -10,8 +10,8 @@ perctable(...)
 proptable(...)
 }
 \arguments{
-\item{\dots}{arguments passed directly to \code{\link{table}};  typically
-one or more objects which can be interpreted as factors (including character strings), 
+\item{\dots}{arguments passed directly to \code{\link[=table]{table()}};  typically
+one or more objects which can be interpreted as factors (including character strings),
 or a list (or data frame) whose components can be so interpreted.}
 }
 \value{
@@ -19,11 +19,11 @@ a contingency table, an object of class "table", an array of percentage or propo
 values. Note that unlike S the result is always an array, a 1D array if one factor is given.
 }
 \description{
-\code{perctable} and \code{proptable} use the cross-classifying factors to build a 
+\code{perctable} and \code{proptable} use the cross-classifying factors to build a
 contingency table of the percents or proportions at each combination of factor levels.
 }
 \details{
-See \code{\link{table}}.
+See \code{\link[=table]{table()}}.
 }
 \examples{
 # perctable() has been deprecated.  Use tally() instead

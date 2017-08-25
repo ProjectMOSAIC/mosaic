@@ -5,17 +5,17 @@
 #' distributions.
 #'
 #' @param x a formula or a numeric vector
-#' @param \dots additional arguments passed on to \code{\link{histogram}} 
-#' and \code{panel}.
+#' @param \dots additional arguments passed on to [histogram()] 
+#' and `panel`.
 #' @param panel a panel function
 #' @param prepanel a prepanel function
 #'
 #' @return a trellis object
-#' @note This function make use of \code{histogram} to determine overall layout.  Often 
-#' this works reasonably well but sometimes it does not. In particular, when \code{groups} is
+#' @note This function make use of `histogram` to determine overall layout.  Often 
+#' this works reasonably well but sometimes it does not. In particular, when `groups` is
 #' used to overlay multiple frequency polygons, there is often too little head room.  
 #' In the latter cases, it may be 
-#' necessary to use \code{ylim} to determine an approprate viewing rectangle for the 
+#' necessary to use `ylim` to determine an approprate viewing rectangle for the 
 #' plot.
 #' 
 #' @examples
@@ -114,9 +114,9 @@ prepanel.default.freqpolygon <- function(
 #' @rdname freqpoly
 #' @param x a vector of values for which a frequency polygon is desired.
 #' @param plot a logical indicating if a plot should be generated.
-#' @param ... additional arguments passed on to \code{\link{hist}()}.
-#' @return An object of class \code{"freqpoly"} (invisibly).  Additionally, if \code{plot} is 
-#' \code{TRUE}, a plot is generated.
+#' @param ... additional arguments passed on to [hist()].
+#' @return An object of class `"freqpoly"` (invisibly).  Additionally, if `plot` is 
+#' `TRUE`, a plot is generated.
 #' @export
 #' @examples
 #' freqpoly(faithful$eruptions)
@@ -248,22 +248,22 @@ plot.freqpolygon <-
   }
 
 #' @rdname freqpolygon
-#' @param plot.points one of \code{TRUE}, \code{FALSE}, \code{"jitter"}, or \code{"rug"} indicating
+#' @param plot.points one of `TRUE`, `FALSE`, `"jitter"`, or `"rug"` indicating
 #' how points are to be displayed
 #' @param gcol color of guidelines
 #' @param glwd width of guidelines
-#' @param groups,weights,jitter.amount,identifier as in \code{\link{densityplot}} 
-#' or \code{\link{histogram}}
-#' @param type one of \code{'density'}, \code{'percent'}, or \code{'count'}
+#' @param groups,weights,jitter.amount,identifier as in [densityplot()] 
+#' or [histogram()]
+#' @param type one of `'density'`, `'percent'`, or `'count'`
 #' @param breaks a vector of breaks for the frequency polygon bins
 #' @param nint an approximate number of bins for the frequency polygon
 #' @param center center of one of the bins
 #' @param width width of the bins
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param ref a logical indicating whether a horizontal reference line should be 
-#' added (roughly equivalent to \code{h=0})
+#' added (roughly equivalent to `h=0`)
 #' @param darg a list of arguments for the function computing the frequency polygon.
-#'   This exists primarily for compatibility with \code{densityplot} and is unlikely
+#'   This exists primarily for compatibility with `densityplot` and is unlikely
 #'   to be needed by the end user.
 #' @param subscripts as in other lattice prepanel functions
 #' @export

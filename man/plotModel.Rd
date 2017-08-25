@@ -7,9 +7,9 @@
 plotModel(mod, ...)
 }
 \arguments{
-\item{mod}{A model of type \code{\link{lm}} or \code{\link{glm}}}
+\item{mod}{A model of type \code{\link[=lm]{lm()}} or \code{\link[=glm]{glm()}}}
 
-\item{\dots}{arguments passed to \code{\link{xyplot}} or \code{rgl::plot3d}.}
+\item{\dots}{arguments passed to \code{\link[=xyplot]{xyplot()}} or \code{rgl::plot3d}.}
 }
 \value{
 A lattice or ggplot2 graphics object.
@@ -20,7 +20,7 @@ Visualize a regression model amid the data that generated it.
 \details{
 The goal of this function is to assist with visualization
 of statistical models. Namely, to plot the model on top of the data
-from which the model was fit. 
+from which the model was fit.
 
 The primary plot type is a scatter plot.  The x-axis can be assigned
 to one of the predictors in the model.  Additional predictors are thought
@@ -35,8 +35,7 @@ non-parallel lines, depending on whether interaction terms are present.
 Eventually we hope to support 3-d visualizations of models with 2 quantitative
 predictors using the \code{rgl} package.
 
-
-Currently, only linear regression models and 
+Currently, only linear regression models and
 generalized linear regression models are supported.
 }
 \section{Caution}{
@@ -95,7 +94,7 @@ plotModel(mod, system="g") + facet_wrap( ~ cyl )
 
 }
 \seealso{
-\code{\link{plotPoints}}, \code{\link{plotFun}}
+\code{\link[=plotPoints]{plotPoints()}}, \code{\link[=plotFun]{plotFun()}}
 }
 \author{
 Ben Baumer, Galen Long, Randall Pruim

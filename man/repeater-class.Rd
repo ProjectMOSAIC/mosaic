@@ -7,21 +7,21 @@
 \description{
 Repeater objects can be used with the \code{*} operator to repeat
 things multiple time using a different syntax and different output
-format from that used by, for example, \code{\link{replicate}}.
+format from that used by, for example, \code{\link[=replicate]{replicate()}}.
 }
 \section{Slots}{
 
 \describe{
-  \item{\code{n}:}{Object of class \code{"numeric"} indicating how many times to repeat something.}
-  \item{\code{cull}:}{Object of class \code{"function"} that culls the ouput from each repetition.}
-  \item{\code{mode}:}{Object of class \code{"character"} indicating the output mode 
-  ('default', 'data.frame', 'matrix', 'vector', or 'list').  For most purposes 'default' (the default)
-  should suffice.}
-  \item{\code{algorithm}:}{an algorithm number.}
-  \item{\code{parallel}:}{a logical indicating whether to attempt parallel execution.}
+\item{\code{n}:}{Object of class \code{"numeric"} indicating how many times to repeat something.}
+\item{\code{cull}:}{Object of class \code{"function"} that culls the ouput from each repetition.}
+\item{\code{mode}:}{Object of class \code{"character"} indicating the output mode
+('default', 'data.frame', 'matrix', 'vector', or 'list').  For most purposes 'default' (the default)
+should suffice.}
+\item{\code{algorithm}:}{an algorithm number.}
+\item{\code{parallel}:}{a logical indicating whether to attempt parallel execution.}
 }
 }
 
 \seealso{
-\code{\link{do}}
+\code{\link[=do]{do()}}
 }

@@ -4,7 +4,7 @@
 #' @param pre text to prepend onto string
 #' @param post text to postpend onto string
 #' @param width desired width of string
-#' @param \dots additional arguments passed to \code{\link{format}}
+#' @param \dots additional arguments passed to [format()]
 #' @return a vector of strings padded to the desired width
 #' @examples
 #' surround(rbinom(10,20,.5), " ", " ", width=4)

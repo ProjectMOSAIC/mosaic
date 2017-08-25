@@ -10,19 +10,19 @@ read.file(file, header = T, na.strings = "NA", comment.char = NULL,
 }
 \arguments{
 \item{file}{character:
-The name of the file which the data are to be read from. 
+The name of the file which the data are to be read from.
 This may also be a complete URL or a path to a compressed file.
-If it does not contain an absolute path, the file name is 
-relative to the current working directory, 
-\code{getwd()}.  Tilde-expansion is performed where supported. 
-See \code{\link{read.table}} for more details.}
+If it does not contain an absolute path, the file name is
+relative to the current working directory,
+\code{getwd()}.  Tilde-expansion is performed where supported.
+See \code{\link[=read.table]{read.table()}} for more details.}
 
 \item{header}{logical;
 For \code{.txt} and \code{.csv} files, this indicates whether the first line of the file includes variables names.}
 
 \item{na.strings}{character: strings that indicate missing data.}
 
-\item{comment.char}{character: a character vector of length one containing a single character or an empty string. Use "" to turn 
+\item{comment.char}{character: a character vector of length one containing a single character or an empty string. Use "" to turn
 off the interpretation of comments altogether.}
 
 \item{filetype}{one of \code{"default"}, \code{"csv"}, \code{"txt"}, or \code{"rdata"}
@@ -38,13 +38,13 @@ used, if available.}
 \item{package}{if specified, files will be searched for among the documentation
 files provided by the package.}
 
-\item{\dots}{additional arguments passed on to 
-\code{\link{read.table}}, or \code{\link{load}} or one of the functions
-in the \code{readr} package.  Note that a message will indicate which 
+\item{\dots}{additional arguments passed on to
+\code{\link[=read.table]{read.table()}}, or \code{\link[=load]{load()}} or one of the functions
+in the \code{readr} package.  Note that a message will indicate which
 underlying function is being used.}
 }
 \value{
-A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"}, 
+A data frame, unless \code{file} unless \code{filetype} is \code{"rdata"},
 in which  case arbitrary objects may be loaded and a character vector
 holding the names of the loaded objects is returned invisibly.
 }
@@ -55,9 +55,9 @@ A wrapper around various file reading functions.
 Unless \code{filetype} is specified,
 \code{read.file} uses the (case insensitive) file extension to determine how to read
 data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
-\code{\link{load}} is used to load the file.  If \code{file}
-ends in \code{.csv}, then \code{\link[readr]{read_csv}} or \code{\link{read.csv}} is used.  
-Otherwise, \code{\link{read.table}} is used.
+\code{\link[=load]{load()}} is used to load the file.  If \code{file}
+ends in \code{.csv}, then \code{\link[readr:read_csv]{readr::read_csv()}} or \code{\link[=read.csv]{read.csv()}} is used.
+Otherwise, \code{\link[=read.table]{read.table()}} is used.
 }
 \examples{
 \dontrun{
@@ -66,8 +66,8 @@ Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
 Mustangs <- read.file("MustangPrice.csv", package="mosaic")
 }
 \seealso{
-\code{\link{read.csv}}, \code{\link{read.table}}, 
-\code{\link[readr]{read_table}}, \code{\link[readr]{read_csv}}, 
-\code{\link{load}}.
+\code{\link[=read.csv]{read.csv()}}, \code{\link[=read.table]{read.table()}},
+\code{\link[readr:read_table]{readr::read_table()}}, \code{\link[readr:read_csv]{readr::read_csv()}},
+\code{\link[=load]{load()}}.
 }
 \keyword{util}

@@ -1,9 +1,9 @@
 #' Evaluate a formula 
 #' 
-#' @param formula a formula (\code{ y ~ x | z}) to evaluate
+#' @param formula a formula (` y ~ x | z`) to evaluate
 #' @param data a data frame or environment in which evaluation occurs
 #' @return a list containing data frames corresponding to the left, right, and condition
-#' slots of \code{formula}
+#' slots of `formula`
 #' @param ops a vector of operator symbols allowable to separate variables in rhs
 #'
 #' @param subset an optional vector describing a subset of the observations to be used.  
@@ -50,8 +50,8 @@ evalFormula <- function(formula, data=parent.frame(), subset, ops=c('+','&')) {
 #' @param x an object appearing as a subformula (typically a name or a call)
 #' @param data a data frame or environment in which things are evaluated
 #' @param ops a vector of operators that are not evaluated as operators but
-#'      instead used to further split \code{x}
-#' @param env an environment in which to search for objects not in \code{data}.
+#'      instead used to further split `x`
+#' @param env an environment in which to search for objects not in `data`.
 #' @return a data frame containing the terms of the evaluated subformula
 #' @examples
 #' if (require(mosaicData)) {

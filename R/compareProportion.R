@@ -4,11 +4,11 @@
 #' 
 #' @rdname compareProportion
 #' @param formula a formula 
-#' @param data a data frame in which \code{x} is evaluated if \code{x} is a
+#' @param data a data frame in which `x` is evaluated if `x` is a
 #' formula.
 #' @param \dots other arguments
 #' @return the difference in proportions between the second and first group
-#' @note This funciton has been deprecated. Use \code{\link{diffprop}} instead.
+#' @note This funciton has been deprecated. Use [diffprop()] instead.
 #' @keywords iteration
 #' @keywords stats
 #' @examples

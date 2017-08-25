@@ -1,16 +1,16 @@
 #' Scatter plot of points
 #' 
-#' Make or add a scatter plot in a manner coordinated with \code{plotFun}.
+#' Make or add a scatter plot in a manner coordinated with `plotFun`.
 #' 
 #' @param x A formula specifying y ~ x or z ~ x&y
 #'
 #' @param data Data frame containing the variables to be plotted.  If not specified, 
 #' the variables will be looked up in the local environment
 #'
-#' @param add If \code{TRUE}, add points as a new layer to an existing plot.
-#' If \code{NULL}, the value of \code{under} will be used.
+#' @param add If `TRUE`, add points as a new layer to an existing plot.
+#' If `NULL`, the value of `under` will be used.
 #' 
-#' @param under If \code{TRUE}, the new layer will be underneat existing layers.
+#' @param under If `TRUE`, the new layer will be underneat existing layers.
 #' 
 #' @param panelfun Lattice panel function to be used for adding.  Set only if you want something other
 #' than a scatter plot.  Mainly, this is intended to add new functionality through other functions.
@@ -21,12 +21,12 @@
 #' 
 #' @param \dots additional arguments
 #' 
-#' @param plot a trellis plot, by default the most recently created one.  If \code{add} is \code{TRUE},
-#' new points will be added as a new layer to \code{plot}.
+#' @param plot a trellis plot, by default the most recently created one.  If `add` is `TRUE`,
+#' new points will be added as a new layer to `plot`.
 #' 
 #' @return A trellis graphics object 
 #' 
-#' @seealso \code{\link{plotFun}}
+#' @seealso [plotFun()]
 #' @examples
 #' if (require(mosaicData)) {
 #' plotPoints( width ~ length, data=KidsFeet, groups=sex, pch=20)

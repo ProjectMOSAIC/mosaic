@@ -4,10 +4,10 @@
 #'
 #' @param x  a numeric vector 
 #' 
-#' @return For \code{logit} the value is 
+#' @return For `logit` the value is 
 #' \deqn{log(x/(1 - x))}
 #' 
-#' For \code{ilogit} the value is 
+#' For `ilogit` the value is 
 #' \deqn{exp(x)/(1 + exp(x))}
 #' 
 #' 

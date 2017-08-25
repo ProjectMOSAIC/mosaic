@@ -9,14 +9,14 @@
 #' and verbosity better.
 #'
 #' @rdname rflip
-#' @return  for \code{rflip}, a cointoss object 
+#' @return  for `rflip`, a cointoss object 
 
 #' @param n the number of coins to toss
 #' @param prob probability of heads on each toss
-#' @param quiet a logical.  If \code{TRUE}, less verbose output is used.
-#' @param verbose  a logical.  If \code{TRUE}, more verbose output is used.
-#' @param summarize if \code{TRUE}, return a summary (as a data frame).
-#' @param summarise alternative spelling for \code{summarize}.
+#' @param quiet a logical.  If `TRUE`, less verbose output is used.
+#' @param verbose  a logical.  If `TRUE`, more verbose output is used.
+#' @param summarize if `TRUE`, return a summary (as a data frame).
+#' @param summarise alternative spelling for `summarize`.
 #' 
 #' @examples
 #' rflip(10)
@@ -77,7 +77,7 @@ print.cointoss <- function(x, ...) {
 }
 
 #' @rdname rflip
-#' @return  for \code{nflip}, a numeric vector
+#' @return  for `nflip`, a numeric vector
 #' @examples
 #' as.numeric(rflip(10))
 #' nflip(10)
@@ -99,7 +99,7 @@ nflip <- function(n=1, prob=.5, ...) {
 #' @param replace	Should sampling be with replacement?
 #' @param prob	A vector of probability weights for obtaining the elements of the vector being sampled.
 #'
-#' @details These functions are wrappers around \code{\link{sample}} providing different defaults and 
+#' @details These functions are wrappers around [sample()] providing different defaults and 
 #' natural names.
 #' @examples
 #' # 100 Bernoulli trials -- no need for replace=TRUE
@@ -236,10 +236,10 @@ sample.default <- function(x, size, replace=FALSE, prob=NULL,
 #' groups to sample within. This will be recycled if necessary.
 #' @param orig.ids  a logical; should origianal ids be included in returned data frame?
 #' @param \dots additional arguments passed to 
-#' \code{\link[base]{sample}}
-#' or \code{\link[mosaic]{sample}}.
+#' [base::sample()]
+#' or [mosaic::sample()].
 #' @param shuffled a vector of column names.  
-#' these variables are reshuffled individually (within groups if \code{groups} is
+#' these variables are reshuffled individually (within groups if `groups` is
 #' specified), breaking associations among these columns.
 #' examples.
 #' @param fixed a vector of column names.  These variables are shuffled en masse,
@@ -375,8 +375,8 @@ sample.lm <-
 #' 
 #' Residual resampling from a linear model
 #' 
-#' @param model a linear model object produced using \code{\link{lm}}.
-#' @param ...  additional arguments passed through to \code{\link{resample}}.
+#' @param model a linear model object produced using [lm()].
+#' @param ...  additional arguments passed through to [resample()].
 #' @param envir an environment in which to (re)evaluate the linear model.
 #' @export
 relm <- function(model, ..., envir = environment(formula(model))) {
@@ -388,7 +388,7 @@ relm <- function(model, ..., envir = environment(formula(model))) {
 #' 
 #' Simulate spinning a spinnner
 #' 
-#' This is essentially \code{rmultinom} with a different interface.
+#' This is essentially `rmultinom` with a different interface.
 #' 
 #' @param n number of spins of spinner
 #' @param probs a vector of probabilities.  If the sum is not 1, the 

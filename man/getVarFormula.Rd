@@ -7,9 +7,9 @@
 getVarFormula(formula, data = parent.frame(), intercept = FALSE)
 }
 \arguments{
-\item{formula}{a formula. 
-The right-hand side selects variables;  
-the left-hand side, if present, is used to set row names. 
+\item{formula}{a formula.
+The right-hand side selects variables;
+the left-hand side, if present, is used to set row names.
 A \code{.} on the right-hand side
 indicates to use all variables not in the LHS.}
 

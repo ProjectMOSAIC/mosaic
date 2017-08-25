@@ -11,10 +11,10 @@ rfun(vars = ~x & y, seed = NULL, n = 0)
 rpoly2(vars = ~x & y, seed = NULL)
 }
 \arguments{
-\item{vars}{a formula; the LHS is empty and the RHS indicates the variables used 
+\item{vars}{a formula; the LHS is empty and the RHS indicates the variables used
 for input to the function (separated by &)}
 
-\item{seed}{seed for random number generator, passed to \code{\link{set.seed}}.}
+\item{seed}{seed for random number generator, passed to \code{\link[=set.seed]{set.seed()}}.}
 
 \item{n}{the number of Gaussians.  By default, this will be selected randomly.}
 }

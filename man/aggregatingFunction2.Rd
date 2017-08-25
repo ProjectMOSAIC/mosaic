@@ -14,23 +14,23 @@ returning a numeric vector of length 1.}
 a function that generalizes \code{fun} to handle a formula/data frame interface.
 }
 \description{
-\code{aggregatinFuntion2} creates statistical summaries of two numerical vectors that 
+\code{aggregatinFuntion2} creates statistical summaries of two numerical vectors that
 are formula aware.
 }
 \details{
 This was designed to support functions like \code{cov()} which can be used to compute
 numerical summaries from two numeric vectors.
 The logic of the resulting function is this: 1) If the first two arguments are both formulas,
-then those formulas are evaluated (with \code{data}) to compute the covariance; 
-(2) If the first argument is a formula, and the second is \code{NULL}, 
-then the left and ride sides of the formula and \code{data} are used to create the 
+then those formulas are evaluated (with \code{data}) to compute the covariance;
+(2) If the first argument is a formula, and the second is \code{NULL},
+then the left and ride sides of the formula and \code{data} are used to create the
 vectors passed to \code{fun};
 (3) Else everything is simply passed to \code{fun} for evaluation.
 }
 \section{Note}{
- 
+
 Earlier versions of this function supported a "bare name + data frame" interface.  This
-functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary, 
+functionality has been removed since it was (a) ambiguous in some cases, (b) unnecessary,
 and (c) difficult to maintain.
 }
 

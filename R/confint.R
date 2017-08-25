@@ -2,7 +2,7 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
                        
 #' Confidence interval methods for output of resampling
 #' 
-#' Methods for \code{confint} to compute confidence intervals
+#' Methods for `confint` to compute confidence intervals
 #' on numerical vectors and numerical components of data frames.
 #' 
 #' @rdname confint
@@ -14,23 +14,23 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #' "reverse" (or "basic"))
 #'
 #' @param margin.of.error if true, report intervals as a center and margin of error.
-#' @param df degrees for freedom. This is required when \code{object} was produced using
+#' @param df degrees for freedom. This is required when `object` was produced using
 #' \code{link{do}} when 
 #' using the standard error to compute the confidence interval since 
-#' typically this information is not recorded in these objects.  The default (\code{Inf})
+#' typically this information is not recorded in these objects.  The default (`Inf`)
 #' uses a normal critical value rather than a one derived from a t-distribution.
 #' 
 #' @param ... additional arguments
 #'
 #' @return When applied to a data frame, returns a data frame giving the 
 #' confidence interval for each variable in the data frame using 
-#' \code{t.test} or \code{binom.test}, unless the data frame was produced using \code{do}, in which case
+#' `t.test` or `binom.test`, unless the data frame was produced using `do`, in which case
 #' it is assumed that each variable contains resampled statistics that serve as an estimated sampling
 #' distribution from which a confidence interval can be computed using either a central proportion
 #' of this distribution or using the standard error as estimated by the standard deviation of the 
 #' estimated sampling distribution.  For the standard error method, the user must supply the correct
 #' degrees of freedom for the t distribution since this information is typically not available in
-#' the output of \code{\link{do}}.
+#' the output of [do()].
 #' 
 #' When applied to a numerical vector, returns a vector.
 #' 
@@ -49,7 +49,7 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #' \item{quantile}{\eqn{(q_a, q_{1-a}) } }
 #' \item{reverse}{ \eqn{( 2 \hat{\theta} - q_{1-a}, 2\hat{\theta} - q_{a} )}}
 #' \item{stderr}{\eqn{(\hat{\theta} - t_{1-a,df} SE_b, \hat{\theta} + t_{1-a,df} SE_b) }.
-#'  When \code{df} is not provided,
+#'  When `df` is not provided,
 #' at attempt is made to determine an appropriate value, but this should be double checked.
 #' In particular, missing data an lead to unreliable results. 
 #' }

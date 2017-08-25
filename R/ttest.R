@@ -1,7 +1,7 @@
 #' Student's t-Test
 #' 
 #' Performs one and two sample t-tests.  
-#' The mosaic \code{t.test} provides wrapper functions around the function 
+#' The mosaic `t.test` provides wrapper functions around the function 
 #' of the same name in \pkg{stats}.
 #' These wrappers provide an extended interface that allows for a more systematic
 #' use of the formula interface.
@@ -10,22 +10,22 @@
 #' 
 #' @inheritParams stats::t.test
 #' @param groups 
-#'   When \code{x} is a formula, \code{groups} can be used to compare groups:  
-#'   \code{x = ~ var, groups = g} is equivalent to \code{ x = var ~ g }.
+#'   When `x` is a formula, `groups` can be used to compare groups:  
+#'   `x = ~ var, groups = g` is equivalent to ` x = var ~ g `.
 #'   See the examples. 
 
 #' 
-#' @return an object of class \code{htest}
+#' @return an object of class `htest`
 #' 
 #' @details
-#' This is a wrapper around \code{\link[stats]{t.test}} from the \pkg{stats} package
+#' This is a wrapper around [stats::t.test()] from the \pkg{stats} package
 #' to extend the functionality of the formula interface.  In particular, one can 
 #' now use the formula interface for a 1-sample t-test.  Before, the formula interface
 #' was only permitted for a 2-sample test.  The type of formala that can be used
 #' for the 2-sample test has also be broadened.  See the examples.
 #'
-#' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[mosaic]{binom.test}}, 
-#'   \code{\link[stats]{t.test}}
+#' @seealso [mosaic::prop.test()], [mosaic::binom.test()], 
+#'   [stats::t.test()]
 #' 
 #' @examples
 #'   t.test(HELPrct$age)

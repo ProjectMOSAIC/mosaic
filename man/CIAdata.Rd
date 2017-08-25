@@ -15,7 +15,7 @@ sets.}
 This function can be used in two different ways. Without an argument, it returns a reference
 table that includes information about all the CIA World Factbook tables that are available
 through this function. Note the  \code{Name} column that indicates a unique name for each
-available dataset. If this name is passed as an argument to the function, the function 
+available dataset. If this name is passed as an argument to the function, the function
 will return the corresponding dataset.
 }
 \examples{

@@ -24,7 +24,7 @@ and the dataframe with the geographical coordinate information;
 \code{plot} = "border" (the default) returns a ggplot object with
 one geom_polygon layer that shows the borders of the states}
 
-\item{style}{The style in which to display the map. \code{compact} gives 
+\item{style}{The style in which to display the map. \code{compact} gives
 a polyconic projection with Alaska and Hawaii on the lower left corner;
 \code{real} gives the real size and position of all states without any
 projection.}

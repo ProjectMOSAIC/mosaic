@@ -4,8 +4,8 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 #' 
 #' @description Visualize a regression model amid the data that generated it. 
 #' 
-#' @param mod A model of type \code{\link{lm}} or \code{\link{glm}}
-#' @param \dots arguments passed to \code{\link{xyplot}} or \code{rgl::plot3d}.
+#' @param mod A model of type [lm()] or [glm()]
+#' @param \dots arguments passed to [xyplot()] or `rgl::plot3d`.
 #'
 #' @section Caution:
 #' This is still underdevelopment.  The API is subject to change, and some
@@ -26,7 +26,7 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 #' non-parallel lines, depending on whether interaction terms are present.
 #' 
 #' Eventually we hope to support 3-d visualizations of models with 2 quantitative
-#' predictors using the \code{rgl} package.
+#' predictors using the `rgl` package.
 #' 
 # If \code{key} indicates two quantitative variables, then
 # if the \code{rgl} package is available, the data points are drawn in 3-space,
@@ -40,7 +40,7 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 # or in the case of a 3D model, nothing
 # but an RGL window will pop up.
 #' 
-#' @seealso \code{\link{plotPoints}}, \code{\link{plotFun}}
+#' @seealso [plotPoints()], [plotFun()]
 #' @author Ben Baumer, Galen Long, Randall Pruim
 #' @export
 #' @examples

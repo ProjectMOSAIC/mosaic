@@ -16,8 +16,8 @@
 # the lower or upper critical value is returned.  
 # @param warn a logical indicating whether a warning should be given when
 # using a distribution that is not symmetric.
-#' @return a pair of numbers indicating the upper and lower bounds, unless \code{verbose} is 
-#'   \code{TRUE}, in which case a 1-row data frame is returned containing these bounds, 
+#' @return a pair of numbers indicating the upper and lower bounds, unless `verbose` is 
+#'   `TRUE`, in which case a 1-row data frame is returned containing these bounds, 
 #'   the central probability, the tail probabilities, and the name of the distribution.
 #' @note This function is still experimental and changes the input or output
 #' formats are possible in future versions of the package.

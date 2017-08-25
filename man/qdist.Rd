@@ -36,7 +36,7 @@ xqnbinom(...)
 xqbeta(...)
 }
 \arguments{
-\item{dist}{a character discription of a distribution, for example 
+\item{dist}{a character discription of a distribution, for example
 \code{"norm"}, \code{"t"}, or \code{"chisq"}}
 
 \item{p}{a vector of probabilities}
@@ -53,7 +53,7 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{digits}{the number of digits desired}
 
-\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\% 
+\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\%
 of the distribution.}
 
 \item{ylim}{y limits}
@@ -63,7 +63,7 @@ of the distribution.}
 \item{...}{additional arguments, including parameters of the distribution
 and additional options for the plot}
 
-\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.}
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
 }
 \value{
 a vector of quantiles; a plot is printed as a side effect
@@ -72,8 +72,8 @@ a vector of quantiles; a plot is printed as a side effect
 Illustrated quantile calculations from distributions
 }
 \details{
-The most general function is \code{qdist} which can work with 
-any distribution for which a q-function exists.  As a convenience, wrappers are 
+The most general function is \code{qdist} which can work with
+any distribution for which a q-function exists.  As a convenience, wrappers are
 provided for several common distributions.
 }
 \examples{

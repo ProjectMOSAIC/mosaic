@@ -53,7 +53,7 @@ This will be most useful if what is a character string and the arguments are sym
 \value{
 TRUE for a formula, FALSE otherwise, even if evaluation throws an error
 
-TRUE if formula has no left-hand side or a simple right-hand side 
+TRUE if formula has no left-hand side or a simple right-hand side
 (e.g., \code{NULL}, ., 1,  or 0)
 
 simple part of formula or NULL if formula is not simple
@@ -84,6 +84,6 @@ Extract simple part from formula
 preferentially.
 }
 \seealso{
-\code{\link{do.call}}
+\code{\link[=do.call]{do.call()}}
 }
 \keyword{internal}

@@ -1,8 +1,8 @@
 #' Exact and Approximate Tests for Proportions
 #' 
-#' The mosaic \code{prop.test} provides wrapper functions around the function of the same name in \pkg{stats}.
+#' The mosaic `prop.test` provides wrapper functions around the function of the same name in \pkg{stats}.
 #' These wrappers provide an extended interface (including formulas).  
-#' \code{prop.test} performs an approximate test of a simple null hypothesis about the 
+#' `prop.test` performs an approximate test of a simple null hypothesis about the 
 #' probability of success in a Bernoulli or multinomial experiment
 #' from summarized data or from raw data.
 #' 
@@ -22,7 +22,7 @@
 #' and its elements must be greater than 0 and less than 1.
 #' 
 #' @param alternative   character string specifying the alternative hypothesis, must be one of 
-#' \code{"two.sided"} (default), \code{"greater"} or \code{"less"}. You can specify just the initial letter. 
+#' `"two.sided"` (default), `"greater"` or `"less"`. You can specify just the initial letter. 
 #' Only used for testing the null that a single proportion equals a given value, or that two proportions 
 #' are equal; ignored otherwise.
 #' 
@@ -33,24 +33,24 @@
 #' @param success  level of variable to be considered success.  All other levels are 
 #'   	considered failure.
 #'
-#' @param data a data frame (if missing, \code{n} may be a data frame)
+#' @param data a data frame (if missing, `n` may be a data frame)
 #' 
 #' @param ... additional arguments (often ignored).  
-#'   When \code{x} is a formula, \code{groups} can be used to compare groups:  
-#'   \code{x = ~ var, groups=g} is equivalent to \code{ x = var ~ g }.
+#'   When `x` is a formula, `groups` can be used to compare groups:  
+#'   `x = ~ var, groups=g` is equivalent to ` x = var ~ g `.
 #'   See the examples. 
 #' 
-#' @note When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
-#' for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
+#' @note When `x` is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
+#' for a logical vector `TRUE` is treated as success and `FALSE` as failure.
 #'
-#' @return an \code{htest} object
+#' @return an `htest` object
 #' 
 #' @details
-#' This is a wrapper around \code{\link{prop.test}} to simplify its use
+#' This is a wrapper around [prop.test()] to simplify its use
 #' when the raw data are available, in which case 
-#' an extended syntax for \code{prop.test} is provided.  
+#' an extended syntax for `prop.test` is provided.  
 #' 
-#' @seealso \code{\link[mosaic]{binom.test}}, \code{\link[stats]{prop.test}}
+#' @seealso [mosaic::binom.test()], [stats::prop.test()]
 #' 
 #' @examples
 #' # Several ways to get a confidence interval for the proportion of Old Faithful

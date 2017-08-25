@@ -4,8 +4,8 @@
 #' 
 #' @param data a data frame
 #' @param which a formula or an integer or character vector specifying columns in 
-#' \code{data}
-#' @details \code{swap} is not a particularly speedy function.  It is intended primarily
+#' `data`
+#' @details `swap` is not a particularly speedy function.  It is intended primarily
 #' as an aid for teaching randomization for paired designs.  Used this way, the number of
 #' randomizations should be kept modest (approximately 1000) unless you are very patient.
 #' 

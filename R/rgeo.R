@@ -15,7 +15,7 @@ deg2rad <- function(x) {
 #' @rdname deg2rad
 #' @examples
 #' rad2deg(2*pi)
-#' @seealso \code{\link{latlon2xyz}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
+#' @seealso [latlon2xyz()], [googleMap()], and [rgeo()].
 #' @export
 
 rad2deg <- function(x) {
@@ -53,7 +53,7 @@ xyz2latlon <- function(x,y,z) {
 #' @examples
 #' latlon2xyz(30, 45)
 #' lonlat2xyz(45, 30)
-#' @seealso \code{\link{deg2rad}}, \code{\link{googleMap}}, and \code{\link{rgeo}}.
+#' @seealso [deg2rad()], [googleMap()], and [rgeo()].
 #' @export
 
 latlon2xyz <- function(latitude,longitude) {
@@ -93,7 +93,7 @@ rlonlat <- function(...){
 #' @param n number of random locations
 #' 
 #' @param latlim,lonlim  
-#'   range of latitudes and longitudes to sample within, only implemented for \code{rgeo}.
+#'   range of latitudes and longitudes to sample within, only implemented for `rgeo`.
 #' 
 #' @param verbose 
 #'   return verbose output that includes Euclidean coordinates on unit sphere as well as 
@@ -101,30 +101,30 @@ rlonlat <- function(...){
 #' 
 #' @param ... arguments passed through to other functions
 #'
-#' @return a data frame with variables \code{long} and \code{lat}.  If \code{verbose} is
+#' @return a data frame with variables `long` and `lat`.  If `verbose` is
 #' TRUE, then x, y, and z coordinates are also included in the data frame.
 #' @examples
 #' rgeo(4)
 #' # sample from a region that contains the continental US
 #' rgeo( 4, latlim=c(25,50), lonlim=c(-65,-125) )
 #' @details
-#' \code{rgeo} and \code{rgeo2} differ in the algorithms used to generate random positions.  
-#' Each assumes a spherical globe.  \code{rgeo} uses that fact that each of the x, y and z
+#' `rgeo` and `rgeo2` differ in the algorithms used to generate random positions.  
+#' Each assumes a spherical globe.  `rgeo` uses that fact that each of the x, y and z
 #' coordinates is uniformly distributed (but not independent of each other).  Furthermore, the 
 #' angle about the z-axis is uniformly distributed and independent of z.  This provides 
-#' a straightforward way to generate Euclidean coordinates using \code{runif}.  These are then
+#' a straightforward way to generate Euclidean coordinates using `runif`.  These are then
 #' translated into latitude and longitude.
 #' 
-#' \code{rlatlon} is an alias for \code{rgeo} and 
-#' \code{rlonlat} is too, expect that it reverses the 
+#' `rlatlon` is an alias for `rgeo` and 
+#' `rlonlat` is too, expect that it reverses the 
 #' order in which the lattitude and longitute values are 
 #' returned.
 #' 
-#' \code{rgeo2} samples points in a cube by independently sampling each coordinate.  It then
+#' `rgeo2` samples points in a cube by independently sampling each coordinate.  It then
 #' discards any point outside the sphere contained in the cube and projects the non-discarded points
 #' to the sphere.  This method must oversample to allow for the discarded points.
 #' 
-#' @seealso \code{\link{deg2rad}}, \code{\link{googleMap}} and \code{\link{latlon2xyz}}.
+#' @seealso [deg2rad()], [googleMap()] and [latlon2xyz()].
 #' 
 #' @keywords random 
 #' @keywords geometry 
@@ -194,18 +194,18 @@ rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 #' @param latitude,longitude vectors of latitude and longitude values
 #' @param position a data frame containing latitude and longitude positions
 #' @param zoom zoom level for initial map (1-20)
-#' @param maptype one of \code{'roadmap'}, \code{'satellite'}, \code{'terrain'}, and \code{'hybrid'}
+#' @param maptype one of `'roadmap'`, `'satellite'`, `'terrain'`, and `'hybrid'`
 #' @param mark a logical indicating whether the location should be marked with a pin
 #' @param radius a vector of radii of circles centered at position that are displayed on the map
 #' @param browse a logical indicating whether the URL should be browsed (else only returned as a string)
-#' @param \dots additional arguments passed to \code{browseURL}
+#' @param \dots additional arguments passed to `browseURL`
 #' @return a string containing a URL.  Optionally, as a side-effect, the URL is visited in a browser
 #' @examples
 #' \dontrun{
 #' googleMap(40.7566, -73.9863, radius=1)   # Times Square
 #' googleMap(position=rgeo(2), radius=1)    # 2 random locations
 #' }
-#' @seealso \code{\link{deg2rad}}, \code{\link{latlon2xyz}} and \code{\link{rgeo}}.
+#' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
 #' @export
 
 googleMap <- function(latitude, longitude, position=NULL,

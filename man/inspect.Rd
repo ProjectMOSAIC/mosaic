@@ -38,7 +38,7 @@ inspect(object, ...)
 
 \item{max.level}{an integer giving the depth to which lists should be expanded}
 
-\item{select}{a logical, character (naming variables), or numeric vector or a 
+\item{select}{a logical, character (naming variables), or numeric vector or a
 function used to select variables to which \code{FUN} is applied.  If a function,
 it should take a vector as input and return a single logical. See examples here and
 at \code{link{dfapply}}.}

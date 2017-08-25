@@ -7,7 +7,7 @@
 expandFun(formula, ...)
 }
 \arguments{
-\item{formula}{A mathematical expression (see examples and \code{\link{plotFun}})}
+\item{formula}{A mathematical expression (see examples and \code{\link[=plotFun]{plotFun()}})}
 
 \item{\ldots}{additional parameters}
 }

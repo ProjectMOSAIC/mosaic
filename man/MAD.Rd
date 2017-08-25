@@ -12,15 +12,15 @@ SAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 \arguments{
 \item{x}{a numeric vector or a formula.}
 
-\item{...}{additional arguments passed through to \code{MAD_} 
+\item{...}{additional arguments passed through to \code{MAD_}
 or \code{SAD_}.  If \code{x} is a formala, \code{...} should
-include an argument named \code{data} if the intent is to 
+include an argument named \code{data} if the intent is to
 interpret the formala in a data frame.}
 
 \item{data}{a data frame in which to evaluate formulas (or bare names).
 Note that the default is \code{data = parent.frame()}.  This makes it convenient to
-use this function interactively by treating the working envionment as if it were 
-a data frame.  But this may not be appropriate for programming uses.  
+use this function interactively by treating the working envionment as if it were
+a data frame.  But this may not be appropriate for programming uses.
 When programming, it is best to use an explicit \code{data} argument
 -- ideally supplying a data frame that contains the variables mentioned.}
 
@@ -31,7 +31,7 @@ calculaing.}
 }
 \value{
 the mean or sum of the absolute differences between each pair
-  of values in \code{c(x,...)}.
+of values in \code{c(x,...)}.
 }
 \description{
 All pairs mean and sum of absolute differences
@@ -42,5 +42,5 @@ MAD(1:3)
 MAD(~eruptions, data = faithful)
 }
 \seealso{
-\code{link{mad}}, \code{\link{MAD_}}
+\code{link{mad}}, \code{\link[=MAD_]{MAD_()}}
 }

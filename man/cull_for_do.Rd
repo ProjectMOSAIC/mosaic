@@ -12,10 +12,10 @@ cull_for_do(object, ...)
 \item{...}{additional arguments (currently ignored)}
 }
 \description{
-The \code{\link{do}} function facilitates easy repliaction for
+The \code{\link[=do]{do()}} function facilitates easy repliaction for
 randomization tests and bootstrapping (among other things).  Part of what
 makes this particularly useful is the ability to cull from the objects
-produced those elements that are useful for subsequent analysis. 
+produced those elements that are useful for subsequent analysis.
 \code{cull_for_do} does this culling.  It is generic, and users
 can add new methods to either change behavoir or to hanlde additional
 classes of objects.
@@ -23,7 +23,7 @@ classes of objects.
 \details{
 When \code{do(n) * expression} is evaluated, \code{expression}
 is evaluated \code{n} times to produce a list of \code{n} result objects.
-\code{cull_for_do} is then applied to each element of this list to 
+\code{cull_for_do} is then applied to each element of this list to
 extract from it the information that should be stored.  For example,
 when applied to a object of class \code{"lm"},
 the default \code{cull_for_do} extracts the coefficients, coefficient

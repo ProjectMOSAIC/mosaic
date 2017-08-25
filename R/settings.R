@@ -46,7 +46,7 @@ mosaic.getOption <- function (name)
 #' @param warn a logical.  UNUSED at present.
 #' @param strict a logical or numeric.
 #' @param \dots additional arguments that are turned into a list if a list cannot be inferred from 
-#' \code{theme}, \code{name}, and \code{value}.
+#' `theme`, `name`, and `value`.
 #' @export
 
 mosaic.par.set <- function (name, value, ..., theme, warn = TRUE, strict = FALSE) 
@@ -110,7 +110,7 @@ mosaic.par.get <- function (name = NULL)
        graphics='lattice'
        )
 #' @rdname mosaic.options
-#' @details \code{restoreLatticeOptions} returns any lattice
+#' @details `restoreLatticeOptions` returns any lattice
 #' options that were changed when the mosiac package was loaded
 #' back to their pre-mosaic state.
 #' @export
@@ -120,7 +120,7 @@ restoreLatticeOptions <- function() {
 }
 
 #' @rdname mosaic.options
-#' @details \code{mosaicLatticeOptions} sets a number 
+#' @details `mosaicLatticeOptions` sets a number 
 #' of defaults for lattice graphics.
 #' @export
 

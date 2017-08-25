@@ -19,7 +19,7 @@ indicating where the \code{pad.value} padding should be added to the result.}
 
 \item{pad.value}{the value to be used for padding.}
 
-\item{frontPad}{logical indicating whether padding is on the front (head) or 
+\item{frontPad}{logical indicating whether padding is on the front (head) or
 back (tail) end. This exists for backward compatibility. New code should use
 \code{pad} instaed.}
 
@@ -47,6 +47,6 @@ head(Men)
 }
 }
 \seealso{
-\code{\link{diff}} since 
-\code{ediff} is a thin wrapper around \code{\link{diff}}.
+\code{\link[=diff]{diff()}} since
+\code{ediff} is a thin wrapper around \code{\link[=diff]{diff()}}.
 }

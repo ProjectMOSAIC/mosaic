@@ -15,12 +15,12 @@ is.wholenumber(x, tol = .Machine$double.eps^0.5)
 a logical vector indicating whether \code{x} has a whole number value
 }
 \description{
-Unlike \code{\link{is.integer}}, which checks the type of argument is \code{integer}, 
+Unlike \code{\link[=is.integer]{is.integer()}}, which checks the type of argument is \code{integer},
 this function checks whether the value of the argument is an integer
 (within a specified tolerance).
 }
 \details{
-This function is borrowed from the examples for \code{\link{is.integer}}
+This function is borrowed from the examples for \code{\link[=is.integer]{is.integer()}}
 }
 \examples{
 is.wholenumber(1)

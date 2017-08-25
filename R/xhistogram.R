@@ -1,7 +1,7 @@
 #' Augmented histograms
 #' 
 #' The \pkg{mosaic} package adds some additional functionality to 
-#' \code{\link[lattice]{histogram}()}, making it simpler to obtain certain common 
+#' [lattice::histogram()], making it simpler to obtain certain common 
 #' histogram adornments.  This is done be resetting the default panel
 #' and prepanel functions used by histogram.
 #' 
@@ -9,32 +9,32 @@
 #' @aliases histogram
 #' @param x a formula or a numeric vector
 #' @param panel a panel function
-#' @param type one of \code{'density'}, \code{'count'}, or \code{'percent'}
+#' @param type one of `'density'`, `'count'`, or `'percent'`
 #' @param nint approximate number of bins
 #' @param breaks break points for histogram bins, a function for computing such,
-#'        or a method \code{\link{hist}} knows about given as a character string.
+#'        or a method [hist()] knows about given as a character string.
 #'        When using the \pkg{mosaic} package defaults, 
-#'        \code{\link[mosaic]{xhistogramBreaks}} is used.
-#' @param \dots additional arguments passed from \code{\link[lattice]{histogram}} 
+#'        [mosaic::xhistogramBreaks()] is used.
+#' @param \dots additional arguments passed from [lattice::histogram()] 
 #' to the panel function; by default when the \pkg{mosaic} package has been loaded this will
-#' \code{\link{panel.xhistogram}}.
+#' [panel.xhistogram()].
 #'
-#' @seealso \code{\link[lattice]{histogram}}, \code{\link{mosaicLatticeOptions}()},
-#' and \code{\link{restoreLatticeOptions}()}.
+#' @seealso [lattice::histogram()], [mosaicLatticeOptions()],
+#' and [restoreLatticeOptions()].
 #' 
 #' @note Versions of \pkg{lattice} since 0.20-21 support setting custom defaults 
-#' for \code{breaks}, \code{panel}, and \code{prepanel} used by 
-#' \code{histogram()}, so \code{xhistogram()} is no longer needed.  
-#' As a result, \code{xhistogram()} 
+#' for `breaks`, `panel`, and `prepanel` used by 
+#' `histogram()`, so `xhistogram()` is no longer needed.  
+#' As a result, `xhistogram()` 
 #' (which was required in earlier versions of \pkg{mosaic}
 #' is no longer needed and has been removed.
 #' 
 #' @details
-#' The primary additional functionality added to \code{\link{histogram}()}
-#' are the arguments \code{width} and \code{center} which provide a simple
-#' way of describing equal-sized bins, and \code{fit} which can be used to
+#' The primary additional functionality added to [histogram()]
+#' are the arguments `width` and `center` which provide a simple
+#' way of describing equal-sized bins, and `fit` which can be used to
 #' overlay the density curve for one of several distributions.  The
-#' \code{groups} argument can be used to color the bins.  The primary use
+#' `groups` argument can be used to color the bins.  The primary use
 #' for this is to shade tails of histograms, but there may be other uses
 #' as well.
 #'
@@ -47,7 +47,7 @@ xhistogram <- function (...) { # x, data=NULL, panel=panel.xhistogram, type='den
 
 
 #' @rdname xhistogram
-#' @return \code{xhistogramBreaks} returns a vector of break points
+#' @return `xhistogramBreaks` returns a vector of break points
 #' @examples
 #' if (require(mosaicData)) {
 #' histogram(~age | substance, HELPrct, v=35, fit='normal')
@@ -115,29 +115,29 @@ prepanel.xhistogram <-
 #' @param dcol color of density curve
 #' @param dalpha alpha for density curve
 #' @param gcol color of guidelines
-#' @param fcol fill colors for histogram rectangles when using \code{groups}.  
-#' (Use \code{col}, which is passed through to \code{\link{panel.histogram}}(), when 
+#' @param fcol fill colors for histogram rectangles when using `groups`.  
+#' (Use `col`, which is passed through to [panel.histogram()](), when 
 #' not using `groups`.
 #' 
 #' @param dmath density function for density curve overlay
 #' @param verbose be verbose?
 #' @param dn number of points to sample from density curve
-#' @param dlwd,glwd like \code{lwd} but affecting the density line and guide lines, respectively
-#' @param args a list of additional arguments for \code{dmath}
+#' @param dlwd,glwd like `lwd` but affecting the density line and guide lines, respectively
+#' @param args a list of additional arguments for `dmath`
 #' @param labels should counts/densities/precents be displayed or each bin?
 #' @param density a logical indicating whether to overlay a density curve
 #' @param under a logical indicating whether the density layers should be under or 
 #' over other layers of the plot.
 #' @param fit a character string describing the distribution to fit.  Known distributions include
-#'      \code{"exponential"}, \code{"normal"}, \code{"lognormal" }, \code{"poisson"}, \code{"beta"}, \code{"geometric"},
-#'      \code{"t"}, \code{"weibull"}, \code{"cauchy"}, \code{"gamma"}, \code{"chisq"}, and \code{"chi-squared"}
+#'      `"exponential"`, `"normal"`, `"lognormal" `, `"poisson"`, `"beta"`, `"geometric"`,
+#'      `"t"`, `"weibull"`, `"cauchy"`, `"gamma"`, `"chisq"`, and `"chi-squared"`
 #'        
-#' @param start numeric value passed to \code{\link[MASS]{fitdistr}}
+#' @param start numeric value passed to [MASS::fitdistr()]
 #' @param center center of one of the bins
 #' @param width width of the bins
-#' @param groups as per \code{\link[lattice]{histogram}}
-#' @param stripes one of \code{"vertical"}, \code{"horizontal"}, or \code{"none"}, indicating
-#'        how bins should be striped when \code{groups} is not \code{NULL}
+#' @param groups as per [lattice::histogram()]
+#' @param stripes one of `"vertical"`, `"horizontal"`, or `"none"`, indicating
+#'        how bins should be striped when `groups` is not `NULL`
 #' @param h,v a vector of values for additional horizontal and vertical lines
 #' @param alpha transparency level
 #' @export

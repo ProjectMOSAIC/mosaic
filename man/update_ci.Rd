@@ -8,7 +8,7 @@ update_ci(object, method = c("clopper-pearson", "wald", "agresti-coull",
   "plus4", "score"))
 }
 \arguments{
-\item{object}{An \code{"htest"} object produced by \code{\link{binom.test}}}
+\item{object}{An \code{"htest"} object produced by \code{\link[=binom.test]{binom.test()}}}
 
 \item{method}{a method for computing a confidence interval for a propotion.}
 }
@@ -20,5 +20,5 @@ Update the confidence interval portion of an object returned from
 \code{binom.test} using one of several alternative methods.
 }
 \seealso{
-\code{\link[mosaic]{binom.test}}
+\code{\link[mosaic:binom.test]{mosaic::binom.test()}}
 }

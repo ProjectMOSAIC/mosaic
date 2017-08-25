@@ -4,9 +4,9 @@
 #'
 #' @param x a vector or data frame
 #' @param \dots additional arguments (currently ignored)
-#' @return If \code{x} is a vector either \code{x} or the result
-#' of converting \code{x} into a factor with levels \code{TRUE}
-#' and \code{FALSE} (in that order);  if \code{x} is a data frame,
+#' @return If `x` is a vector either `x` or the result
+#' of converting `x` into a factor with levels `TRUE`
+#' and `FALSE` (in that order);  if `x` is a data frame,
 #' a data frame with all logicals converted to factors in this manner.
 
 #' @rdname logical2factor
@@ -46,49 +46,49 @@ logical2factor.data.frame  <- function( x, ... ) {
 #'
 #' @param x an object
 #' @param data a data frame or environment in which evaluation occurs.
-#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#' Note that the default is `data=parent.frame()`.  This makes it convenient to
 #' use this function interactively by treating the working envionment as if it were 
 #' a data frame.  But this may not be appropriate for programming uses.  
-#' When programming, it is best to use an explicit \code{data} argument
+#' When programming, it is best to use an explicit `data` argument
 #' -- ideally supplying a data frame that contains the variables mentioned
 #' @param format a character string describing the desired format of the results.
-#'        One of \code{'default'}, \code{'count'}, \code{'proportion'}, \code{'percent'}, 
-#'        \code{'data.frame'}, \code{'sparse'}, or \code{'default'}.
-#'        In case of \code{'default'}, counts are used unless there is a condition, in
+#'        One of `'default'`, `'count'`, `'proportion'`, `'percent'`, 
+#'        `'data.frame'`, `'sparse'`, or `'default'`.
+#'        In case of `'default'`, counts are used unless there is a condition, in
 #'        which case proportions are used instead.  Note that prior to version 0.9.3, 
-#'        \code{'default'} was the default, now it is \code{'count'}.
-#'        \code{'data.frame'} converts the table to a data frame with one row per cell;
-#'        \code{'sparse'} additionally removes any rows with 0 counts.
+#'        `'default'` was the default, now it is `'count'`.
+#'        `'data.frame'` converts the table to a data frame with one row per cell;
+#'        `'sparse'` additionally removes any rows with 0 counts.
 #'        
-#' @param subset an expression evaluating to a logical vector used to select a subset of \code{data}
+#' @param subset an expression evaluating to a logical vector used to select a subset of `data`
 #' @param quiet a logical indicating whether messages about order in which 
 #'   marginal distributions are calculated should be surpressed.  
-#'   See \code{\link{addmargins}}.
+#'   See [addmargins()].
 #' @param groups used to specify a condition as an alternative to using a formula
 #' with a condition.
 #' @param margins a logical indicating whether marginal distributions should be displayed.
-#' @param useNA as in \code{\link{table}}, but the default here is \code{"ifany"}.
+#' @param useNA as in [table()], but the default here is `"ifany"`.
 #' @param envir an environment in which to evaluate
 #' @param groups.first a logical indicating whether groups should be inserted 
 #' ahead of the condition (else after).
-#' @param ... additional arguments passed to \code{\link{table}}
-#' @return A object of class \code{"table"}, unless passing through to \pkg{dplyr}
-#'  or converted to a data frame because \code{format} is \code{"data.frame"} or 
-#'  \code{"sparse"}.
+#' @param ... additional arguments passed to [table()]
+#' @return A object of class `"table"`, unless passing through to \pkg{dplyr}
+#'  or converted to a data frame because `format` is `"data.frame"` or 
+#'  `"sparse"`.
 #' @details
-#' The \pkg{dplyr} package also exports a \code{\link[dplyr]{tally}} function.  
-#' If \code{x} inherits from class \code{"tbl"} or \code{"data frame"}, 
-#' then \pkg{dplyr}'s \code{\link[dplyr]{tally}()} is called.  This makes it
+#' The \pkg{dplyr} package also exports a [dplyr::tally()] function.  
+#' If `x` inherits from class `"tbl"` or `"data frame"`, 
+#' then \pkg{dplyr}'s [dplyr::tally()] is called.  This makes it
 #' easier to have the two packages coexist.
 #' 
-#' Otherwise, \code{tally()} is designed as an alternative to \code{\link{table}()} and 
-#' \code{\link{xtabs}()}.  The primary use case it to describe a (possibly multi-dimensional)
+#' Otherwise, `tally()` is designed as an alternative to [table()] and 
+#' [xtabs()].  The primary use case it to describe a (possibly multi-dimensional)
 #' table using a formula.  For a table of counts, each component of the formala becomes one 
 #' of the dimensions of the cross table.  For tables of proportions or percents, conditional
 #' proportions and percents are computed, conditioned on each level of all "secondary" 
 #' (i.e., conditioning) variables, defined as everything other than the left hand side, 
 #' if there is a left hand side to the formala; and everything except the right hand side
-#' if the left hand side of the formula is empty.  Note that \code{groups} is folded into
+#' if the left hand side of the formula is empty.  Note that `groups` is folded into
 #' the formula prior to this determination and becomes part of the conditioning.
 #' 
 #' When marginal totals are added, they are added for all of the conditioning dimensions, and 
@@ -97,7 +97,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' 
 #' See the examples for some typical use cases.
 #' 
-#' @note The curent implementation when \code{format = "sparse"} first creates the full data frame
+#' @note The curent implementation when `format = "sparse"` first creates the full data frame
 #' and then removes the unneeded rows.  So the savings is in terms of space, not time.
 #' @examples
 #' tally( ~ substance, data = HELPrct)
@@ -121,9 +121,9 @@ tally <- function(x, ...) {
 
 #' @rdname tally
 #' @param wt for weighted tallying, 
-#'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
+#'   see [dplyr::tally()] in \pkg{dplyr}
 #' @param sort a logical, 
-#'   see \code{\link[dplyr]{tally}} in \pkg{dplyr}
+#'   see [dplyr::tally()] in \pkg{dplyr}
 
 #' @export
 tally.tbl <- function(x, wt, sort=FALSE, ..., envir=parent.frame()) {
@@ -234,7 +234,7 @@ tally.default <-
 #' 
 #' @param x an object that may or may not have any rows or columns
 #' @param default what to return if there are no rows or columns
-#' @return if \code{x} has rows or columns, a vector of indices, else \code{default}
+#' @return if `x` has rows or columns, a vector of indices, else `default`
 #' @rdname columns
 #' @examples
 #' columns(iris)
@@ -264,30 +264,30 @@ rows <- function(x, default=c()) {
 #'
 #' @rdname prop
 #' @param x an R object, usually a formula
-#' @param data a data frame in which \code{x} is to be evaluated
-#' @param \dots arguments passed through to \code{\link{tally}}
+#' @param data a data frame in which `x` is to be evaluated
+#' @param \dots arguments passed through to [tally()]
 #' @param success the level for which counts, proportions or percents are 
 #'         calculated
-#' @param level Depricated.  Use \code{sucess}.
+#' @param level Depricated.  Use `sucess`.
 #' @param long.names a logical indicating whether long names should be 
 #'         when there is a conditioning variable
 #' @param sep a character used to separate portions of long names
 #' @param useNA an indication of how NA's should be handled.  By default, they are
 #'   ignored.
-#' @param format one of \code{proportion}, \code{percent}, or \code{count},
+#' @param format one of `proportion`, `percent`, or `count`,
 #'        possibly abbrevaited
 #' @param pval.adjust a logical indicating whether the "p-value" adjustment should be 
 #' applied.  This adjustment adds 1 to the numerator and denominator counts.
 #' @param quiet a logical indicating whether messages regarding the 
 #'   success level should be supressed.
 #'
-#' @note For 0-1 data, \code{success} is set to 1 by default since that a standard 
+#' @note For 0-1 data, `success` is set to 1 by default since that a standard 
 #' coding scheme for success and failure.
 #' 
 #' @details
-#' \code{prop1} is intended for the computation of p-values from randomization
-#' distributions and differs from \code{prop} only in its default value of 
-#' \code{pval.adjust}.
+#' `prop1` is intended for the computation of p-values from randomization
+#' distributions and differs from `prop` only in its default value of 
+#' `pval.adjust`.
 #' 
 #' @examples
 #' prop( ~sex, data=HELPrct)

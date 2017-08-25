@@ -14,14 +14,14 @@ findZeros(expr, ..., xlim = c(near - within, near + within), near = 0,
 }
 \arguments{
 \item{expr}{A formula.  The right side names the variable with respect to which the zeros should be found.
-The left side is an expression, e.g. \code{sin(x) ~ x}.  
-All free variables (all but the variable on the right side) named in the expression must be assigned 
+The left side is an expression, e.g. \code{sin(x) ~ x}.
+All free variables (all but the variable on the right side) named in the expression must be assigned
 a value via \code{\ldots}}
 
 \item{\dots}{Formulas corresponding to additional functions to use in simultaneous zero finding
 and/or specific numerical values for the free variables in the expression.}
 
-\item{xlim}{The range of the dependent variable to search for zeros. \code{Inf} is a legitimate value, 
+\item{xlim}{The range of the dependent variable to search for zeros. \code{Inf} is a legitimate value,
 but is interpreted in the numerical sense as the non-Inf largest floating point number.  This can also
 be specified replacing \code{x} with the name of the variable.  See the examples.}
 
@@ -34,11 +34,11 @@ alternative to using \code{xlim} to specify the search space.}
 
 \item{npts}{How many sub-intervals to divide the \code{xlim} into when looking for candidates for zeros.
 The default is usually good enough.
-If \code{Inf} is involved, the intervals are logarithmically spaced up to the largest finite floating point number.  
+If \code{Inf} is involved, the intervals are logarithmically spaced up to the largest finite floating point number.
 There is no guarantee that all the roots will be found.}
 
 \item{iterate}{maximum number of times to iterate the search. Subsequent searches take place with the range
-of previously found zeros.  Choosing a large number here is likely to kill performance without 
+of previously found zeros.  Choosing a large number here is likely to kill performance without
 improving results, but a value of 1 (the default) or 2 works well when searching in \code{c(-Inf,Inf)} for
 a modest number of zeros near \code{near}.}
 

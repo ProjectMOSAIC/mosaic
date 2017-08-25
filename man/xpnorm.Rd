@@ -59,10 +59,10 @@ if (rstudio_is_available() & require(manipulate)) {
 }
 }
 \seealso{
-\code{\link{histogram}}, 
-\code{\link{chisq.test}}, 
-\code{\link{pnorm}}, 
-\code{\link{qnorm}}, 
-\code{\link{qqmath}}, and
-\code{\link{plot}}.
+\code{\link[=histogram]{histogram()}},
+\code{\link[=chisq.test]{chisq.test()}},
+\code{\link[=pnorm]{pnorm()}},
+\code{\link[=qnorm]{qnorm()}},
+\code{\link[=qqmath]{qqmath()}}, and
+\code{\link[=plot]{plot()}}.
 }

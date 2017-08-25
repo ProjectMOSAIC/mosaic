@@ -78,14 +78,14 @@ score_ci <- function(x, n, conf.level = 0.95,
 #' Update confidence interval
 #' 
 #' Update the confidence interval portion of an object returned from
-#' \code{binom.test} using one of several alternative methods.
+#' `binom.test` using one of several alternative methods.
 #' 
-#' @param object An \code{"htest"} object produced by \code{\link{binom.test}}
+#' @param object An `"htest"` object produced by [binom.test()]
 #' @param method a method for computing a confidence interval for a propotion.
-#' @return an \code{"htest"} object with an updated confidence interval
+#' @return an `"htest"` object with an updated confidence interval
 #' 
 #' @export
-#' @seealso \code{\link[mosaic]{binom.test}}
+#' @seealso [mosaic::binom.test()]
 #' 
 update_ci <- function( object, method = c("clopper-pearson", "wald", "agresti-coull", "plus4", "score") ) {
   if (! inherits(object, "htest") && !grepl("^Exact binomial test", object$method) )

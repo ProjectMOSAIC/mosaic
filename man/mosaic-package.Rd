@@ -9,10 +9,10 @@
 mosaic
 }
 \details{
-Data sets and utilities from Project MOSAIC (mosaic-web.org) used to teach mathematics, 
-statistics, computation and modeling.  Funded by the NSF, Project MOSAIC is a 
-community of educators working to tie together aspects of quantitative work that students 
-in science, technology, engineering and mathematics will need in their professional lives, 
+Data sets and utilities from Project MOSAIC (mosaic-web.org) used to teach mathematics,
+statistics, computation and modeling.  Funded by the NSF, Project MOSAIC is a
+community of educators working to tie together aspects of quantitative work that students
+in science, technology, engineering and mathematics will need in their professional lives,
 but which are usually taught in isolation, if at all.
 }
 \references{

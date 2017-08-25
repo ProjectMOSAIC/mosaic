@@ -24,9 +24,9 @@ panel.xhistogram(x, dcol = trellis.par.get("plot.line")$col, dalpha = 1,
   "horizontal", "none"), alpha = 1, ...)
 }
 \arguments{
-\item{\dots}{additional arguments passed from \code{\link[lattice]{histogram}} 
+\item{\dots}{additional arguments passed from \code{\link[lattice:histogram]{lattice::histogram()}}
 to the panel function; by default when the \pkg{mosaic} package has been loaded this will
-\code{\link{panel.xhistogram}}.}
+\code{\link[=panel.xhistogram]{panel.xhistogram()}}.}
 
 \item{x}{a formula or a numeric vector}
 
@@ -37,9 +37,9 @@ to the panel function; by default when the \pkg{mosaic} package has been loaded 
 \item{nint}{approximate number of bins}
 
 \item{breaks}{break points for histogram bins, a function for computing such,
-or a method \code{\link{hist}} knows about given as a character string.
-When using the \pkg{mosaic} package defaults, 
-\code{\link[mosaic]{xhistogramBreaks}} is used.}
+or a method \code{\link[=hist]{hist()}} knows about given as a character string.
+When using the \pkg{mosaic} package defaults,
+\code{\link[mosaic:xhistogramBreaks]{mosaic::xhistogramBreaks()}} is used.}
 
 \item{dcol}{color of density curve}
 
@@ -50,8 +50,8 @@ When using the \pkg{mosaic} package defaults,
 \item{gcol}{color of guidelines}
 
 \item{fcol}{fill colors for histogram rectangles when using \code{groups}.
-(Use \code{col}, which is passed through to \code{\link{panel.histogram}}(), when 
-not using `groups`.}
+(Use \code{col}, which is passed through to \url{panel.histogram()}, when
+not using \code{groups}.}
 
 \item{dmath}{density function for density curve overlay}
 
@@ -65,20 +65,20 @@ not using `groups`.}
 
 \item{density}{a logical indicating whether to overlay a density curve}
 
-\item{under}{a logical indicating whether the density layers should be under or 
+\item{under}{a logical indicating whether the density layers should be under or
 over other layers of the plot.}
 
 \item{fit}{a character string describing the distribution to fit.  Known distributions include
-\code{"exponential"}, \code{"normal"}, \code{"lognormal" }, \code{"poisson"}, \code{"beta"}, \code{"geometric"},
+\code{"exponential"}, \code{"normal"}, \code{"lognormal"}, \code{"poisson"}, \code{"beta"}, \code{"geometric"},
 \code{"t"}, \code{"weibull"}, \code{"cauchy"}, \code{"gamma"}, \code{"chisq"}, and \code{"chi-squared"}}
 
-\item{start}{numeric value passed to \code{\link[MASS]{fitdistr}}}
+\item{start}{numeric value passed to \code{\link[MASS:fitdistr]{MASS::fitdistr()}}}
 
 \item{type}{one of \code{'density'}, \code{'count'}, or \code{'percent'}}
 
 \item{h, v}{a vector of values for additional horizontal and vertical lines}
 
-\item{groups}{as per \code{\link[lattice]{histogram}}}
+\item{groups}{as per \code{\link[lattice:histogram]{lattice::histogram()}}}
 
 \item{stripes}{one of \code{"vertical"}, \code{"horizontal"}, or \code{"none"}, indicating
 how bins should be striped when \code{groups} is not \code{NULL}}
@@ -91,13 +91,13 @@ how bins should be striped when \code{groups} is not \code{NULL}}
 \code{xhistogramBreaks} returns a vector of break points
 }
 \description{
-The \pkg{mosaic} package adds some additional functionality to 
-\code{\link[lattice]{histogram}()}, making it simpler to obtain certain common 
+The \pkg{mosaic} package adds some additional functionality to
+\code{\link[lattice:histogram]{lattice::histogram()}}, making it simpler to obtain certain common
 histogram adornments.  This is done be resetting the default panel
 and prepanel functions used by histogram.
 }
 \details{
-The primary additional functionality added to \code{\link{histogram}()}
+The primary additional functionality added to \code{\link[=histogram]{histogram()}}
 are the arguments \code{width} and \code{center} which provide a simple
 way of describing equal-sized bins, and \code{fit} which can be used to
 overlay the density curve for one of several distributions.  The
@@ -106,10 +106,10 @@ for this is to shade tails of histograms, but there may be other uses
 as well.
 }
 \note{
-Versions of \pkg{lattice} since 0.20-21 support setting custom defaults 
-for \code{breaks}, \code{panel}, and \code{prepanel} used by 
-\code{histogram()}, so \code{xhistogram()} is no longer needed.  
-As a result, \code{xhistogram()} 
+Versions of \pkg{lattice} since 0.20-21 support setting custom defaults
+for \code{breaks}, \code{panel}, and \code{prepanel} used by
+\code{histogram()}, so \code{xhistogram()} is no longer needed.
+As a result, \code{xhistogram()}
 (which was required in earlier versions of \pkg{mosaic}
 is no longer needed and has been removed.
 }
@@ -128,6 +128,6 @@ xhistogramBreaks(0:10, center=5, nint=5)
 }
 }
 \seealso{
-\code{\link[lattice]{histogram}}, \code{\link{mosaicLatticeOptions}()},
-and \code{\link{restoreLatticeOptions}()}.
+\code{\link[lattice:histogram]{lattice::histogram()}}, \code{\link[=mosaicLatticeOptions]{mosaicLatticeOptions()}},
+and \code{\link[=restoreLatticeOptions]{restoreLatticeOptions()}}.
 }

@@ -10,34 +10,34 @@ utils::globalVariables("model_value")
 #'
 #' @param formula A formula.  The left-hand side specifies the response variable
 #' over which the mean or proportion will be taken.  The right-hand side gives
-#' the explanatory variables, separated by \code{+}.  Means or proportions are
+#' the explanatory variables, separated by `+`.  Means or proportions are
 #' computed for every combination of the levels of the explanatory variables.
 #'
-#' @param data A data frame in which to evaluate variables in \code{formula}.
+#' @param data A data frame in which to evaluate variables in `formula`.
 #' If not specified, variables
 #' will be taken from the current environment.
 #'
 #' @param drop Logical flag indicating whether to drop unoccupied groups.
-#' Default \code{FALSE}.  NOT YET IMPLEMENTED.
+#' Default `FALSE`.  NOT YET IMPLEMENTED.
 #'
 #' @param \dots Additional arguments; currently ignored.
 #'
-#' @return \code{mm} returns an object of class \code{groupwiseModel}.  The functions
-#' \code{fitted.values}, \code{residuals}, \code{coefficients}, and \code{summary}
-#' are useful for extracting various features of the value returned by \code{mm}
+#' @return `mm` returns an object of class `groupwiseModel`.  The functions
+#' `fitted.values`, `residuals`, `coefficients`, and `summary`
+#' are useful for extracting various features of the value returned by `mm`
 #'
 #' @details
-#' \code{gwm} (groupwise model) is a sort of training function for
-#' \code{lm}, meant to provide a basis for discussing inference and introducing
+#' `gwm` (groupwise model) is a sort of training function for
+#' `lm`, meant to provide a basis for discussing inference and introducing
 #' resampling in a simple, intuitive setting
-#' of groupwise means or proportions.  \code{lm} provides a better, more general facility.
-#' When using \code{lm} to recreate the results of \code{gwm}, include all the
-#' interaction terms (i.e., use \code{*} instead of \code{+}) and remove the
+#' of groupwise means or proportions.  `lm` provides a better, more general facility.
+#' When using `lm` to recreate the results of `gwm`, include all the
+#' interaction terms (i.e., use `*` instead of `+`) and remove the
 #' intercept term.  See the examples.
 #'
 #' @seealso
-#' \code{\link{lm}},
-#' \code{\link{do}}
+#' [lm()],
+#' [do()]
 #' @export
 # @examples
 #
@@ -209,13 +209,13 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
 #' 
 #' A one-step calculation of mean square prediction error
 #' 
-#' @param model a model produced by \code{lm}, \code{glm}, or \code{gwm}.
+#' @param model a model produced by `lm`, `glm`, or `gwm`.
 #' @param data a data frame. 
-#' @param LL if \code{TRUE}, for categorical responses replace mean square error 
+#' @param LL if `TRUE`, for categorical responses replace mean square error 
 #' with minus mean log likelihood
 #' @details
 #' For categorical responses, the mean square prediction error is not ideal.  Better
-#' to use the likelhood.  \code{LL = TRUE} (the default) turns the calculation into the mean log likelihood
+#' to use the likelhood.  `LL = TRUE` (the default) turns the calculation into the mean log likelihood
 #' per case, negated so that large values mean poor predictions
 
 

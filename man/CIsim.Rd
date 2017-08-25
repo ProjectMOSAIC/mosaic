@@ -20,7 +20,7 @@ CIsim(n, samples = 100, rdist = rnorm, args = list(), plot = if (samples
 
 \item{args}{arguments required by \code{rdist}}
 
-\item{plot}{one of \code{"print"}, \code{"return"}, \code{"horizontal"}, or \code{"none"} 
+\item{plot}{one of \code{"print"}, \code{"return"}, \code{"horizontal"}, or \code{"none"}
 describing whether a plot should be printed, returned, printed with horizontal intervals,
 or not generated at all.}
 
@@ -28,7 +28,7 @@ or not generated at all.}
 
 \item{conf.level}{confidence level for intervals}
 
-\item{method}{function used to compute intervals.  Standard functions that 
+\item{method}{function used to compute intervals.  Standard functions that
 produce an object of class \code{htest} can be used here.}
 
 \item{method.args}{arguments required by \code{method}}
@@ -41,19 +41,19 @@ should return a vector of length 2.}
 \item{verbose}{print summary to screen?}
 }
 \value{
-A data frame with variables 
-	\code{lower},
-	\code{upper},
-	\code{estimate},
-	\code{cover} ('Yes' or 'No'),
-	and 
-	\code{sample}
-	is returned invisibly.  See the examples for a way to use this to display the intervals
-	graphically.
+A data frame with variables
+\code{lower},
+\code{upper},
+\code{estimate},
+\code{cover} ('Yes' or 'No'),
+and
+\code{sample}
+is returned invisibly.  See the examples for a way to use this to display the intervals
+graphically.
 }
 \description{
 This function automates the calculation of coverage rates for exploring
-	the robustness of confidence interval methods.
+the robustness of confidence interval methods.
 }
 \examples{
 # 1000 95\% intervals using t.test; population is N(0,1)

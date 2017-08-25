@@ -30,9 +30,9 @@ msummary(object, ...)
 
 \item{digits}{desired number of digits to display}
 
-\item{symbolic.cor}{see \code{\link{summary}}}
+\item{symbolic.cor}{see \code{\link[=summary]{summary()}}}
 
-\item{signif.stars}{a logical indicating whether to diplay stars to 
+\item{signif.stars}{a logical indicating whether to diplay stars to
 indicate significance}
 
 \item{...}{aditional arguments}
@@ -41,9 +41,9 @@ indicate significance}
 }
 \description{
 \code{msummary} provides modified summary objects that typically produce
-output that is either identical to or somewhat terser than their 
-\code{\link{summary}} analogs.  The contents of the object itself are unchanged 
-(except for an augmented class) so that other downstream functions should work as 
+output that is either identical to or somewhat terser than their
+\code{\link[=summary]{summary()}} analogs.  The contents of the object itself are unchanged
+(except for an augmented class) so that other downstream functions should work as
 before.
 }
 \examples{

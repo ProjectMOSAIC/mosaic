@@ -1,6 +1,6 @@
 
 #' @details
-#' \code{.do.safe.call} avoids conflicts between named arguments and ... by taking named arguments
+#' `.do.safe.call` avoids conflicts between named arguments and ... by taking named arguments
 #' preferentially.
 #'
 #' @rdname mosaic-internal
@@ -12,7 +12,7 @@
 #'	This will be most useful if what is a character string and the arguments are symbols or quoted expressions.
 #' @return The result of the (evaluated) function call.
 #'
-#' @seealso \code{\link{do.call}}
+#' @seealso [do.call()]
 #' @keywords internal
 
 .do.safe.call <- function (what, args, quote = FALSE, envir = parent.frame(), ...) {

@@ -1,15 +1,15 @@
 #' Convert objects to xtabs format
 #' 
-#' Convert a data frame or a matrix into an \code{xtabs} object.
+#' Convert a data frame or a matrix into an `xtabs` object.
 #' 
 #' The intended use is to convert a two-way contingency table stored in a data
-#' frame or a matrix into an \code{xtabs} object.
+#' frame or a matrix into an `xtabs` object.
 #' 
 #' @aliases as.xtabs as.xtabs.data.frame as.xtabs.matrix
-#' @param x object (typically a data frame) to be converted to \code{xtabs}
+#' @param x object (typically a data frame) to be converted to `xtabs`
 #' format
 #' @param ... additional arguments to be passed to or from methods.
-#' @return An \code{xtabs} object.
+#' @return An `xtabs` object.
 #' @keywords manipulate
 #' @rdname as-xtabs
 #' @examples

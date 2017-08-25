@@ -1,9 +1,9 @@
 #' Exact Tests for Proportions
 #' 
-#' The \code{binom.test} function
+#' The `binom.test` function
 #' performs an exact test of a simple null hypothesis about the probability of success in a 
 #' Bernoulli experiment from summarized data or from raw data.
-#' The mosaic \code{binom.test} provides wrapper functions around the function of the same name in \pkg{stats}.
+#' The mosaic `binom.test` provides wrapper functions around the function of the same name in \pkg{stats}.
 #' These wrappers provide an extended interface (including formulas).  
 #' 
 # @usage binom.test( x, n, p = 0.5, alternative = c("two.sided", "less", "greater"), conf.level = 0.95,...) 
@@ -18,32 +18,32 @@
 #' @param conf.level  confidence level for confidence interval 
 #' @param success  level of variable to be considered success.  All other levels are 
 #'   	considered failure.
-#' @param data a data frame (if missing, \code{n} may be a data frame)
+#' @param data a data frame (if missing, `n` may be a data frame)
 #' @param ci.method a method to use for computing the confidence interval 
 #'   (case insensitive and may be abbreviated).  See details below.
 #' @param ... additional arguments (often ignored) 
 #' 
-#' @return an object of class \code{htest}
+#' @return an object of class `htest`
 #' 
-#' @note When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
-#' for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.
+#' @note When `x` is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
+#' for a logical vector `TRUE` is treated as success and `FALSE` as failure.
 #' 
 #'
-#' @seealso \code{\link[mosaic]{prop.test}}, \code{\link[stats]{binom.test}}
+#' @seealso [mosaic::prop.test()], [stats::binom.test()]
 #' 
 
 #' @details
-#' \code{binom.test} is a wrapper around \code{\link{binom.test}} from the \code{base} 
+#' `binom.test` is a wrapper around [binom.test()] from the `base` 
 #' package to simplify its use when the raw data are available, in which case 
-#' an extended syntax for \code{binom.test} is provided.  See the examples.
+#' an extended syntax for `binom.test` is provided.  See the examples.
 #' 
 #' Also, five confidence interval methods are provided:
 #' \describe{
-#' \item{Clopper-Pearson, binom.test}{This is the interval produced when using \code{\link[stats]{binom.test}}
-#'   from the \code{stats} package.  It guarantees a coverage rate at least as large as 
+#' \item{Clopper-Pearson, binom.test}{This is the interval produced when using [stats::binom.test()]
+#'   from the `stats` package.  It guarantees a coverage rate at least as large as 
 #'   the nominal coverage rate, but may produce wider intervals than some of the methods
 #'   below, which may either under- or over-cover depending on the data.}
-#' \item{Score, Wilson, prop.test}{This is the usual method used by \code{\link[stats]{prop.test}}
+#' \item{Score, Wilson, prop.test}{This is the usual method used by [stats::prop.test()]
 #'   and is computed by inverting p-values from score tests. It is often atrributed to 
 #'   Edwin Wilson.}
 #'   \item{Wald}{This is the interval traditionally taught in entry level statistics courses.

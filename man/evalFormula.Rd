@@ -7,7 +7,7 @@
 evalFormula(formula, data = parent.frame(), subset, ops = c("+", "&"))
 }
 \arguments{
-\item{formula}{a formula (\code{ y ~ x | z}) to evaluate}
+\item{formula}{a formula (\code{y ~ x | z}) to evaluate}
 
 \item{data}{a data frame or environment in which evaluation occurs}
 

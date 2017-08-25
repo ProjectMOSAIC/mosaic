@@ -3,7 +3,7 @@
 #' 
 #' counting missing elements
 #' 
-#' @param type one of \code{"any"} (default) or \code{"all"}.
+#' @param type one of `"any"` (default) or `"all"`.
 #' @param ... vectors of equal length to be checked in parallel for missing values.
 #' 
 #' @export

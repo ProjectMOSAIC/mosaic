@@ -8,15 +8,15 @@ utils::globalVariables(c("nlab", "cover"))
 #' @param n size of each sample
 #' @param samples number of samples to simulate
 #' @param rdist function used to draw random samples
-#' @param args arguments required by \code{rdist}
-#' @param plot one of \code{"print"}, \code{"return"}, \code{"horizontal"}, or \code{"none"} 
+#' @param args arguments required by `rdist`
+#' @param plot one of `"print"`, `"return"`, `"horizontal"`, or `"none"` 
 #'   describing whether a plot should be printed, returned, printed with horizontal intervals,
 #'   or not generated at all.
 #' @param estimand true value of the parameter being estimated
 #' @param conf.level confidence level for intervals
 #' @param method function used to compute intervals.  Standard functions that 
-#' 	  produce an object of class \code{htest} can be used here.
-#' @param method.args arguments required by \code{method}
+#' 	  produce an object of class `htest` can be used here.
+#' @param method.args arguments required by `method`
 #' @param interval a function that computes a confidence interval from data.  Function
 #' 	  should return a vector of length 2.
 #' @param estimate a function that computes an estimate from data
@@ -24,12 +24,12 @@ utils::globalVariables(c("nlab", "cover"))
 #' 
 #' 
 #' @return A data frame with variables 
-#' 	\code{lower},
-#' 	\code{upper},
-#' 	\code{estimate},
-#' 	\code{cover} ('Yes' or 'No'),
+#' 	`lower`,
+#' 	`upper`,
+#' 	`estimate`,
+#' 	`cover` ('Yes' or 'No'),
 #' 	and 
-#' 	\code{sample}
+#' 	`sample`
 #' 	is returned invisibly.  See the examples for a way to use this to display the intervals
 #' 	graphically.
 #'

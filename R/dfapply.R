@@ -1,19 +1,19 @@
 #' apply-type function for data frames
 #' 
-#' An \code{apply}-type function for data frames.
+#' An `apply`-type function for data frames.
 #' @param data  data frame 
 #' @param FUN 
 #'   a function to apply to (some) variables in the data frame
 #' @param select a logical, character (naming variables), or numeric vector or a 
-#'   function used to select variables to which \code{FUN} is applied.  If a function,
+#'   function used to select variables to which `FUN` is applied.  If a function,
 #'   it should take a vector as input and return a single logical. See examples.
-#' @param \dots arguments passed along to \code{FUN} 
+#' @param \dots arguments passed along to `FUN` 
 #' 
-#' @seealso \code{\link{apply}},
-#' \code{\link{sapply}},
-#' \code{\link{tapply}},
-#' \code{\link{lapply}},
-#' \code{\link{inspect}}
+#' @seealso [apply()],
+#' [sapply()],
+#' [tapply()],
+#' [lapply()],
+#' [inspect()]
 #' 
 #' @examples
 #' dfapply(iris, favstats, select = is.numeric)

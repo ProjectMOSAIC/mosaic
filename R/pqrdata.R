@@ -9,9 +9,9 @@
 #' @param p a vector of probabilities
 #' @param q a vector of quantiles
 #' @param formula a formula or a vector
-#' @param data a data frame in which to evaluate \code{formula}
-#' @param \dots additional arguments passed to \code{quantile} or \code{sample}
-#' @return For \code{qdata}, a vector of quantiles
+#' @param data a data frame in which to evaluate `formula`
+#' @param \dots additional arguments passed to `quantile` or `sample`
+#' @return For `qdata`, a vector of quantiles
 #' @examples
 #' data(iris)
 #' qdata(Sepal.Length ~ Species, 0.5, data=iris)
@@ -39,17 +39,17 @@ qdata <- function( formula, p = seq(0, 1, 0.25), data = NULL, ...) {
 #' and random generation from data.
 #' 
 #' @rdname pqrdata2
-#' @seealso  \code{\link{ddata}}, \code{\link{pdata}}, \code{\link{qdata}},  
-#' \code{\link{rdata}}, \code{\link{cdata}}
+#' @seealso  [ddata()], [pdata()], [qdata()],  
+#' [rdata()], [cdata()]
 #' @param p a vector of probabilities
 #' @param q a vector of quantiles
 #' @param x a vector containing the data
-#' @param data a data frame in which to evaluate \code{formula}
+#' @param data a data frame in which to evaluate `formula`
 #' @param n number of values to sample
 #' @param replace  a logical indicating whether to sample with replacement
-#' @param groups a grouping variable, typically the name of a variable in \code{data}
-#' @param \dots additional arguments passed to \code{quantile} or \code{sample}
-#' @param na.rm a logical indicating whether \code{NA}s should be removed before computing.
+#' @param groups a grouping variable, typically the name of a variable in `data`
+#' @param \dots additional arguments passed to `quantile` or `sample`
+#' @param na.rm a logical indicating whether `NA`s should be removed before computing.
 #' @param log  a logical indicating whether the result should be log transformed
 #' @export
  
@@ -72,7 +72,7 @@ qdata_v <- function( x, p=seq(0, 1, 0.25), na.rm=TRUE, ... ) {
 qdata_f <- aggregatingFunction1(qdata_v, output.multiple = TRUE, na.rm = TRUE)
 
 #' @rdname pqrdata
-#' @return for \code{cdata}, a named numerical vector or a data frame giving
+#' @return for `cdata`, a named numerical vector or a data frame giving
 #' upper and lower limits and the central proportion requested
 #' @examples
 #' data(iris)
@@ -116,7 +116,7 @@ cdata_f <- aggregatingFunction1( cdata_v, output.multiple = TRUE, na.rm = TRUE )
 
   
 #' @rdname pqrdata
-#' @return For \code{pdata}, a vector of probabilities
+#' @return For `pdata`, a vector of probabilities
 #' @examples
 #' data(iris)
 #' pdata(iris$Sepal.Length, 3:6)
@@ -158,7 +158,7 @@ pdata_f <- aggregatingFunction1( pdata_v, output.multiple=TRUE, na.rm=TRUE )
 
 #' @rdname pqrdata
 #' @param n number of values to sample
-#' @return For \code{rdata}, a vector of sampled values.
+#' @return For `rdata`, a vector of sampled values.
 #' @examples
 #' data(iris)
 #' rdata(iris$Species, 10)
@@ -191,7 +191,7 @@ rdata_v <- function(x, n, replace=TRUE, ... ) {
 rdata_f <- aggregatingFunction1( rdata_v, output.multiple=TRUE, na.rm=TRUE )
 
 #' @rdname pqrdata
-#' @return For \code{ddata}, a vector of probabilities (empirical densities)
+#' @return For `ddata`, a vector of probabilities (empirical densities)
 #' @examples
 #' data(iris)
 #' ddata(iris$Species, 'setosa')

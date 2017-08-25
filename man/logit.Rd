@@ -13,10 +13,10 @@ ilogit(x)
 \item{x}{a numeric vector}
 }
 \value{
-For \code{logit} the value is 
+For \code{logit} the value is
 \deqn{log(x/(1 - x))}
 
-For \code{ilogit} the value is 
+For \code{ilogit} the value is
 \deqn{exp(x)/(1 + exp(x))}
 }
 \description{

@@ -8,11 +8,11 @@ NA
 #' 
 #' @param x A formula or numeric vector.
 #' @param width The historam bin width.
-#' @param adjust A numeric adjustment to \code{width}.  Primarily useful when \code{width} is 
-#'   not specified.  Increasing \code{adjust} makes the plot smoother.
+#' @param adjust A numeric adjustment to `width`.  Primarily useful when `width` is 
+#'   not specified.  Increasing `adjust` makes the plot smoother.
 #' @param panel A panel funtion.
 #' @param prepanel A prepanel function.
-#' @param ... Additional arguments passed to panel and prepanel functions or \code{data}, a 
+#' @param ... Additional arguments passed to panel and prepanel functions or `data`, a 
 #'   data frame in which to find the variales used for the plot.
 #' @param data A data frame.
 #' @export
@@ -72,12 +72,12 @@ prepanel.default.ashplot <- function(
 }
 
 #' @rdname ashplot
-#' @param plot.points One of \code{TRUE}, \code{FALSE}, \code{"jitter"}, or \code{"rug"} 
+#' @param plot.points One of `TRUE`, `FALSE`, `"jitter"`, or `"rug"` 
 #' @param ref a logical indicating whether a reference line should be displayed
-#' @param jitter.amount when \code{plot.points="jitter"}, the value to use as the amount 
-#' argument to \code{\link{jitter}}.
+#' @param jitter.amount when `plot.points="jitter"`, the value to use as the amount 
+#' argument to [jitter()].
 #' @param type type argument used to plot points, if requested. 
-#'   This is not expected to be useful, it is available mostly to protect a \code{type} argument, 
+#'   This is not expected to be useful, it is available mostly to protect a `type` argument, 
 #'   if specified, from affecting the display of the ASH.
 #' @param identifier A character string that is prepended to the names of i
 #'   grobs that are created by this panel function.

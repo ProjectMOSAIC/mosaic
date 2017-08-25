@@ -37,16 +37,16 @@ Left-hand sides of formulas should be a single quantity}
 \item{coefficients}{For \code{project(y ~ x)} indicates whether the projection
 coeffients should be returned or the projection vector.}
 
-\item{type}{one of \code{"length"} or \code{"vector"} determining the type of the 
+\item{type}{one of \code{"length"} or \code{"vector"} determining the type of the
 returned value}
 
 \item{v}{a numeric vector}
 }
 \value{
-\code{project} returns the projection of \code{x} onto \code{u} 
+\code{project} returns the projection of \code{x} onto \code{u}
 (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
 
-\code{vlength} returns the length of the vector 
+\code{vlength} returns the length of the vector
 (i.e., the square root of the sum of the squares of the components)
 
 \code{dot} returns the dot product of \code{u} and \code{v}
@@ -56,19 +56,19 @@ Compute projections onto the span of a vector or a model space, dot products, an
 vector lengths in Euclidean space.
 }
 \details{
-\code{project} (preferably pronounced "pro-JECT" as in "projection") 
+\code{project} (preferably pronounced "pro-JECT" as in "projection")
 does either of two related things:
-(1) Given two vectors as arguments, it will project the first onto the 
+(1) Given two vectors as arguments, it will project the first onto the
 second, returning the point in the subspace of the second that is as
 close as possible to the first vector.  (2) Given a formula as an argument,
 will work very much like \code{lm()}, constructing a model matrix from
-the right-hand side of the formula and projecting the vector on the 
-left-hand side onto the subspace of that model matrix.  
+the right-hand side of the formula and projecting the vector on the
+left-hand side onto the subspace of that model matrix.
 
-In (2), rather than 
+In (2), rather than
 returning the projected vector, \code{project()} returns the coefficients
 on each of the vectors in the model matrix.
-UNLIKE \code{lm()}, the intercept vector is NOT included by default.  If 
+UNLIKE \code{lm()}, the intercept vector is NOT included by default.  If
 you want an intercept vector, include \code{+1} in your formula.
 }
 \examples{

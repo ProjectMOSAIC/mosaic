@@ -24,7 +24,7 @@ restoreLatticeOptions()
 mosaicLatticeOptions()
 }
 \arguments{
-\item{\dots}{additional arguments that are turned into a list if a list cannot be inferred from 
+\item{\dots}{additional arguments that are turned into a list if a list cannot be inferred from
 \code{theme}, \code{name}, and \code{value}.}
 
 \item{name}{the name of the option being set}
@@ -45,6 +45,6 @@ A mechanism for setting options in the mosaic package.
 options that were changed when the mosiac package was loaded
 back to their pre-mosaic state.
 
-\code{mosaicLatticeOptions} sets a number 
+\code{mosaicLatticeOptions} sets a number
 of defaults for lattice graphics.
 }

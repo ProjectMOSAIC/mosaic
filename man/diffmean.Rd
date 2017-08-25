@@ -10,13 +10,13 @@ diffmean(x, ..., data = parent.frame(), only.2 = TRUE)
 diffprop(x, ..., data = parent.frame(), only.2 = TRUE)
 }
 \arguments{
-\item{x, data, ...}{as in \code{\link[mosaic]{mean}} or \code{\link[mosaic]{prop}}}
+\item{x, data, ...}{as in \code{\link[mosaic:mean]{mosaic::mean()}} or \code{\link[mosaic:prop]{mosaic::prop()}}}
 
 \item{only.2}{a logical indicating whether differences should only be computed
 between two groups.}
 }
 \description{
-Wrappers around \code{diff(mean(...))} and \code{diff(prop(...))} that 
+Wrappers around \code{diff(mean(...))} and \code{diff(prop(...))} that
 facilitate better naming of the result
 }
 \examples{

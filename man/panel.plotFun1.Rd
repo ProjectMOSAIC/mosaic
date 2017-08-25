@@ -13,12 +13,12 @@ panel.plotFun1(..f.., ..., x, y, type = "l",
 \item{..f..}{an object (e.g., a formula) describing a function}
 
 \item{...}{additional arguments, typically processed by \code{lattice} panel functions
-such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
+such as \code{\link[lattice:panel.xyplot]{lattice::panel.xyplot()}} or \code{\link[lattice:panel.levelplot]{lattice::panel.levelplot()}}.
 Frequently used arguments include
 \describe{
-  \item{\code{lwd}}{line width}
-    \item{\code{lty}}{line type}
-    \item{\code{col}}{a color}
+\item{\code{lwd}}{line width}
+\item{\code{lty}}{line type}
+\item{\code{col}}{a color}
 }}
 
 \item{x, y}{ignored, but there for compatibility with other lattice panel functions}
@@ -41,12 +41,12 @@ Frequently used arguments include
 
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
 
-\item{discontinuity}{a positive number determining how sensitive the plot is to 
-potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
+\item{discontinuity}{a positive number determining how sensitive the plot is to
+potential discontinuity.  Larger values result in less sensitivity.  The default is 1.
 Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
 uses a crude numerical heuristic and may not give the desired results in all cases.}
 
-\item{discontinuities}{a vector of input values at which a function is 
+\item{discontinuities}{a vector of input values at which a function is
 discontinuous or \code{NULL} to use
 a heuristic to auto-detect.}
 }

@@ -6,17 +6,17 @@
 #' @param lty vector of line type codes
 #' @param lwd vector of line widths
 #' @param ... additional named arguments passed to 
-#'   \code{\link{trellis.par.set}}
+#'   [trellis.par.set()]
 #' 
-#' @return Returns a list that can be supplied as the \code{theme} to 
-#' \code{\link{trellis.par.set}()}.
+#' @return Returns a list that can be supplied as the `theme` to 
+#' [trellis.par.set()].
 #' @note
-#'   These two functions are identical.  \code{col.mosaic} is named 
-#' similarly to \code{\link[lattice]{col.whitebg}}, but since more 
-#' than just colors are set, \code{theme.mosaic} is a preferable name.
+#'   These two functions are identical.  `col.mosaic` is named 
+#' similarly to [lattice::col.whitebg()], but since more 
+#' than just colors are set, `theme.mosaic` is a preferable name.
 #'
 #'
-#' @seealso \code{\link{trellis.par.set}}, \code{\link{show.settings}} 
+#' @seealso [trellis.par.set()], [show.settings()] 
 #' 
 #' @rdname themes
 #'

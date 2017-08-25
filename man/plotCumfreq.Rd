@@ -40,6 +40,6 @@ A high-level function for producing a cumulative frequency plot using
 plotCumfreq(~eruptions, faithful, xlab = 'duration of eruptions')
 }
 \seealso{
-\code{\link{histogram}}, \code{\link{densityplot}}
+\code{\link[=histogram]{histogram()}}, \code{\link[=densityplot]{densityplot()}}
 }
 \keyword{graphics}

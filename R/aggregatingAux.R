@@ -37,7 +37,7 @@ safe_eval <- function(x) {
 #' @param x a formula
 #'
 #' @return TRUE if formula has no left-hand side or a simple right-hand side 
-#' (e.g., \code{NULL}, ., 1,  or 0)
+#' (e.g., `NULL`, ., 1,  or 0)
 #'
 #' @rdname mosaic-internal
 #' @keywords internal
@@ -86,19 +86,19 @@ safe_eval <- function(x) {
 #'                            describe subsets.  If the left side is empty, right side and condition are
 #'                            shifted over as a convenience.
 #' @param data a data frame.  
-#' Note that the default is \code{data=parent.frame()}.  This makes it convenient to
+#' Note that the default is `data=parent.frame()`.  This makes it convenient to
 #' use this function interactively by treating the working envionment as if it were 
 #' a data frame.  But this may not be appropriate for programming uses.  
-#' When programming, it is best to use an explicit \code{data} argument
+#' When programming, it is best to use an explicit `data` argument
 #' -- ideally supplying a data frame that contains the variables mentioned
-#' in \code{formula}.
+#' in `formula`.
 #' @param FUN a function to apply to each subset 
 #' @param groups grouping variable that will be folded into the formula (if there is room for it).  
 #' This offers some additional flexibility in how formulas can be specified.
-#' @param subset a logical indicating a subset of \code{data} to be processed.
+#' @param subset a logical indicating a subset of `data` to be processed.
 #' @param drop a logical indicating whether unused levels should be dropped.
-#' @param \dots additional arguments passed to \code{FUN}
-#' @param .format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
+#' @param \dots additional arguments passed to `FUN`
+#' @param .format format used for aggregation. `"default"` and `"flat"` are equivalent.  
 # #' @param format format used for aggregation. \code{"default"} and \code{"flat"} are equivalent.  
 # #'   Ignored  if \code{.format} is not \code{NULL}.
 #' @param .overall currently unused
@@ -109,7 +109,7 @@ safe_eval <- function(x) {
 # #'   Ignored if \code{.envir} is not \code{NULL}.
 #' @param .multiple a logical indicating whether FUN returns multiple values
 # #' @param multiple a logical indicating whether FUN returns multiple values
-#'   Ignored if \code{.multiple} is not \code{NULL}.
+#'   Ignored if `.multiple` is not `NULL`.
 #'
 #' @examples
 #' if (require(mosaicData)) {

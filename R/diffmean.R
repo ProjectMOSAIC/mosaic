@@ -1,9 +1,9 @@
 #' Difference in means and proportions
 #' 
-#' Wrappers around \code{diff(mean(...))} and \code{diff(prop(...))} that 
+#' Wrappers around `diff(mean(...))` and `diff(prop(...))` that 
 #' facilitate better naming of the result
 #' 
-#' @param x,data,... as in \code{\link[mosaic]{mean}} or \code{\link[mosaic]{prop}}
+#' @param x,data,... as in [mosaic::mean()] or [mosaic::prop()]
 #' @param only.2 a logical indicating whether differences should only be computed
 #'   between two groups.
 #' @examples

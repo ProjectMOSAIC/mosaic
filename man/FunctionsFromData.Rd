@@ -25,7 +25,7 @@ output quantity}
 
 \item{data}{a data frame}
 
-\item{method}{a method for splining.  See \code{\link{spline}}.}
+\item{method}{a method for splining.  See \code{\link[=spline]{spline()}}.}
 
 \item{monotonic}{a \code{TRUE/FALSE} flag specifying whether the spline should
 respect monotonicity in the data}
@@ -34,7 +34,7 @@ respect monotonicity in the data}
 
 \item{degree}{parameter to smoother. 1 is locally linear, 2 is locally quadratic.}
 
-\item{\dots}{additional arguments to \code{\link[stats]{loess}} or \code{\link[stats]{lm}}}
+\item{\dots}{additional arguments to \code{\link[stats:loess]{stats::loess()}} or \code{\link[stats:lm]{stats::lm()}}}
 }
 \description{
 These functions create mathematical functions from data, by smoothing, splining, or linear
@@ -51,7 +51,7 @@ It differs from \code{project} in that \code{linearModel} returns a function
 whereas \code{project} returns the coefficients.  NOTE: An intercept term is not included
 unless that is explicitly part of the formula with \code{+1}.  This conflicts with the
 standard usage of formulas as found in \code{lm}.  Another option for creating
-such functions is to combine \code{\link{lm}} and \code{\link{makeFun}}.
+such functions is to combine \code{\link[=lm]{lm()}} and \code{\link[=makeFun]{makeFun()}}.
 
 \code{spliner} and \code{connector} currently work for only one input variable.
 }
@@ -72,5 +72,5 @@ f2 <- connector(x~y)
 }
 }
 \seealso{
-\code{\link{project}} method for formulas
+\code{\link[=project]{project()}} method for formulas
 }

@@ -11,13 +11,13 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @aliases plotFun
 #'
 #' @param object a mathematical expression or a function "of one variable" which will
-#' converted to something intuitively equivalent to \code{object(x) ~ x}. (See examples)
+#' converted to something intuitively equivalent to `object(x) ~ x`. (See examples)
 #' @param plot a trellis object; by default, the most recently created trellis plot.  
-#' When \code{add} is \code{TRUE}, the new function will
+#' When `add` is `TRUE`, the new function will
 #' be plotted into a layer added to this object.
-#' @param add if \code{TRUE}, then add a layer to an existing plot rather than creating a new plot.  
-#' If \code{NULL}, this will be determined by the value of \code{under}.
-#' @param under if \code{TRUE}, then new layer is added beneath existing layers
+#' @param add if `TRUE`, then add a layer to an existing plot rather than creating a new plot.  
+#' If `NULL`, this will be determined by the value of `under`.
+#' @param under if `TRUE`, then new layer is added beneath existing layers
 #' @param xlim limits for x axis (or use variable names, see examples)
 #' @param ylim limits for y axis (or use variable names, see examples)
 #' @param npts number of points for plotting. 
@@ -27,46 +27,46 @@ tryCatch(utils::globalVariables(c('slider','picker','button','checkbox','rot','e
 #' @param col vector of colors for line graphs and contours
 #' @param lwd vector of line widths for line graphs
 #' @param lty vector of line types for line graphs
-#' @param filled fill with color between the contours (\code{TRUE} by default)
+#' @param filled fill with color between the contours (`TRUE` by default)
 #' @param levels levels at which to draw contours
-#' @param nlevels number of contours to draw (if \code{levels} not specified)
-#' @param labels if \code{FALSE}, don't label contours
+#' @param nlevels number of contours to draw (if `levels` not specified)
+#' @param labels if `FALSE`, don't label contours
 #' @param surface draw a surface plot rather than a contour plot
-#' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
-#' @param type type of plot (\code{"l"} by default)
+#' @param col.regions  a vector of colors or a function (`topo.colors` by default) for generating such
+#' @param type type of plot (`"l"` by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param groups grouping argument ala lattice graphics
 #' @param discontinuities a vector of input values at which a function is 
-#'   discontinuous or \code{NULL} to use
+#'   discontinuous or `NULL` to use
 #'   a heuristic to auto-detect.
 #' @param discontinuity a positive number determining how sensitive the plot is to 
 #'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
-#'   Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
+#'   Use `discontinuity = Inf` to disable discontinuity detection.  Discontinuity detection
 #'   uses a crude numerical heuristic and may not give the desired results in all cases.
 #' @param interactive a logical indicating whether the surface plot should be 
 #'   interactive.
-#' @param ... additional parameters, typically processed by \code{lattice} functions such as 
-#' \code{\link[lattice]{xyplot}}, \code{\link[lattice]{levelplot}} or their panel functions.  
+#' @param ... additional parameters, typically processed by `lattice` functions such as 
+#' [lattice::xyplot()], [lattice::levelplot()] or their panel functions.  
 #' Frequently used parameters include 
 #' \describe{ 
-#' \item{\code{main}}{main title for plot }
-#' \item{\code{sub}}{subtitle for plot }
-#' \item{\code{lwd}}{line width }
-#' \item{\code{lty}}{line type }
-#' \item{\code{col}}{a color or a (small) integer indicating which color in the current
+#' \item{`main`}{main title for plot }
+#' \item{`sub`}{subtitle for plot }
+#' \item{`lwd`}{line width }
+#' \item{`lty`}{line type }
+#' \item{`col`}{a color or a (small) integer indicating which color in the current
 #' color scheme is desired.} 
 #' }
 #' Additionally, these arguments can be used to specify parameters for the function being 
 #' plotted and to specify the plotting window with natural names.  See the examples for such usage.
 #'
-#' @return a \code{trellis} object
+#' @return a `trellis` object
 #'
 #' @details
 #' makes plots of mathematical expressions using the formula syntax.  Will
 #' draw both line plots and contour/surface plots (for functions of two variables).
 #' In RStudio, the surface plot comes with sliders to set orientation.
-#' If the colors in filled surface plots are too blocky, increase \code{npts} 
-#' beyond the default of 50, though \code{npts=300} is as much as you're likely to ever need.
+#' If the colors in filled surface plots are too blocky, increase `npts` 
+#' beyond the default of 50, though `npts=300` is as much as you're likely to ever need.
 #' See examples for overplotting a constraint function on an objective function.
 #' 
 #' @examples
@@ -500,26 +500,26 @@ branch_lengths <- function(x, y, discontinuities = NULL, discontinuity = 1) {
 #' @param col a vector of colors
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
-#' @param filled fill with color between the contours (\code{TRUE} by default)
+#' @param filled fill with color between the contours (`TRUE` by default)
 #' @param levels levels at which to draw contours
-#' @param nlevels number of contours to draw (if \code{levels} not specified)
+#' @param nlevels number of contours to draw (if `levels` not specified)
 #' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
-#' @param type type of plot (\code{"l"} by default)
+#' @param type type of plot (`"l"` by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param discontinuities a vector of input values at which a function is 
-#'   discontinuous or \code{NULL} to use
+#'   discontinuous or `NULL` to use
 #'   a heuristic to auto-detect.
 #' @param discontinuity a positive number determining how sensitive the plot is to 
 #'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
-#'   Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
+#'   Use `discontinuity = Inf` to disable discontinuity detection.  Discontinuity detection
 #'   uses a crude numerical heuristic and may not give the desired results in all cases.
-#' @param ... additional arguments, typically processed by \code{lattice} panel functions
-#'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
+#' @param ... additional arguments, typically processed by `lattice` panel functions
+#'        such as [lattice::panel.xyplot()] or [lattice::panel.levelplot()].
 #'        Frequently used arguments include
 #'        \describe{
-#'          \item{\code{lwd}}{line width}
-#'        	\item{\code{lty}}{line type}
-#'        	\item{\code{col}}{a color}
+#'          \item{`lwd`}{line width}
+#'        	\item{`lty`}{line type}
+#'        	\item{`col`}{a color}
 #'        }
 #'
 #' @examples
@@ -741,27 +741,27 @@ panel.plotFun1a <- function( ..f.., ...,
 #' @param object an object (e.g., a formula) describing a function
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
-#' @param filled fill with color between the contours (\code{TRUE} by default)
+#' @param filled fill with color between the contours (`TRUE` by default)
 #' @param levels levels at which to draw contours
-#' @param nlevels number of contours to draw (if \code{levels} not specified)
+#' @param nlevels number of contours to draw (if `levels` not specified)
 #' @param surface a logical indicating whether to draw a surface plot rather than a contour plot
-#' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
-#' @param type type of plot (\code{"l"} by default)
+#' @param col.regions  a vector of colors or a function (`topo.colors` by default) for generating such
+#' @param type type of plot (`"l"` by default)
 #' @param alpha number from 0 (transparent) to 1 (opaque) for the fill colors 
 #' @param discontinuities a vector of input values at which a function is 
-#'   discontinuous or \code{NULL} to use
+#'   discontinuous or `NULL` to use
 #'   a heuristic to auto-detect.
 #' @param discontinuity a positive number determining how sensitive the plot is to 
 #'   potential discontinuity.  Larger values result in less sensitivity.  The default is 1. 
-#'   Use \code{discontinuity = Inf} to disable discontinuity detection.  Discontinuity detection
+#'   Use `discontinuity = Inf` to disable discontinuity detection.  Discontinuity detection
 #'   uses a crude numerical heuristic and may not give the desired results in all cases.
-#' @param ... additional arguments, typically processed by \code{lattice} panel functions
-#'        such as \code{\link[lattice]{panel.xyplot}} or \code{\link[lattice]{panel.levelplot}}.
+#' @param ... additional arguments, typically processed by `lattice` panel functions
+#'        such as [lattice::panel.xyplot()] or [lattice::panel.levelplot()].
 #'        Frequently used arguments include
 #'        \describe{
-#'          \item{\code{lwd}}{line width}
-#'        	\item{\code{lty}}{line type}
-#'        	\item{\code{col}}{a color}
+#'          \item{`lwd`}{line width}
+#'        	\item{`lty`}{line type}
+#'        	\item{`col`}{a color}
 #'        }
 #'
 #' @examples
@@ -908,16 +908,16 @@ panel.plotFun <- function( object, ...,
 #' 
 #' The primary purpose is for inferring argument settings from names derived from variables
 #' occurring in a formula.  For example, the default use is to infer limits for variables
-#' without having to call them \code{xlim} and \code{ylim} when the variables in the formula
-#' have other names.  Other uses could easily be devised by specifying different \code{variants}.
+#' without having to call them `xlim` and `ylim` when the variables in the formula
+#' have other names.  Other uses could easily be devised by specifying different `variants`.
 #' 
 #' @param vars a vector of variable names to look for
 #' @param dots a named list of argument values
 #' @param defaults named list or alist of default values for limits
 #' @param variants a vector of optional postfixes for limit-specifying variable names
-#' @return a named list or alist of limits.  The names are determined by the names in \code{defaults}.
+#' @return a named list or alist of limits.  The names are determined by the names in `defaults`.
 #'
-#' If multiple \code{variants} are matched, the first is used.
+#' If multiple `variants` are matched, the first is used.
 #' @examples
 #' inferArgs(c('x','u','t'), list(t=c(1,3), x.lim=c(1,10), u=c(1,3), u.lim=c(2,4)))
 #' inferArgs(c('x','u'), list(u=c(1,3)), defaults=list(xlim=c(0,1), ylim=NULL)) 
@@ -969,7 +969,7 @@ inferArgs <- function( vars, dots, defaults=alist(xlim=, ylim=, zlim=), variants
 #' @param lwd width for contour
 #' @param border type of border
 #' @param ... dots additional arguments
-#' @param col.regions  a vector of colors or a function (\code{topo.colors} by default) for generating such
+#' @param col.regions  a vector of colors or a function (`topo.colors` by default) for generating such
 #' @param filled whether to fill the contours with color
 #' @param alpha.regions transparency of regions
 #' @export
@@ -1017,7 +1017,7 @@ panel.levelcontourplot <- function(x, y, z, subscripts=1,
 #' Create a color generating function from a vector of colors
 #'
 #' @param col a vector of colors
-#' @return a function that generates a vector of colors interpolated among the colors in \code{col}
+#' @return a function that generates a vector of colors interpolated among the colors in `col`
 #'
 #' @examples
 #' cs <- makeColorscheme( c('red','white','blue') )

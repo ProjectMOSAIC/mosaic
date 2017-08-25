@@ -28,7 +28,7 @@ are useful for extracting various features of the value returned by \code{mm}
 }
 \description{
 This has been removed from the package.  Watch for improved modeling functions in
-the `mosaicModel` package.
+the \code{mosaicModel} package.
 }
 \details{
 \code{gwm} (groupwise model) is a sort of training function for
@@ -40,6 +40,6 @@ interaction terms (i.e., use \code{*} instead of \code{+}) and remove the
 intercept term.  See the examples.
 }
 \seealso{
-\code{\link{lm}},
-\code{\link{do}}
+\code{\link[=lm]{lm()}},
+\code{\link[=do]{do()}}
 }

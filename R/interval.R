@@ -1,13 +1,13 @@
 #' Extract summary statistics
 #' 
 #' Extract confidence intervals, test statistics or p-values from an 
-#'   \code{htest} object.
+#'   `htest` object.
 #' @rdname interval
 #' @param object a fitted model object or an htest object.
 #' @param parm a specification of which parameters are to be given confidence intervals, 
 #'   either a vector of numbers or a vector of names. If missing, all parameters are considered.
 #' @param level the confidence level required.
-#' @param x An object of class \code{htest}.
+#' @param x An object of class `htest`.
 #' @param \dots Additional arguments.
 #' @return the extracted p-value, confidence interval, or test statistic
 #' 

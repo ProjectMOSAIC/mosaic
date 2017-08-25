@@ -23,16 +23,16 @@ If \code{"first"}, the first \code{TRUE} rule defines the level.
 If \code{"last"}, the last \code{TRUE} rule defines the level.}
 
 \item{.debug}{one of \code{"default"}, \code{"always"}, and \code{"never"}, indicating
-whehter debugging information should be printed.  If \code{"default"}, debugging 
-information is printed only when multiple rules give conflicting definitions 
+whehter debugging information should be printed.  If \code{"default"}, debugging
+information is printed only when multiple rules give conflicting definitions
 for some positions.}
 
-\item{.sort}{One of \code{"given"} (the default) or \code{"alpha"} or 
-a vector of integers the same length as the number of levels indicating the 
-order in which the levels should appear in the resulting factor. 
+\item{.sort}{One of \code{"given"} (the default) or \code{"alpha"} or
+a vector of integers the same length as the number of levels indicating the
+order in which the levels should appear in the resulting factor.
 Ignored if \code{.asFactor} is \code{FALSE}.}
 
-\item{.default}{character vector of length 1 giving name of default level or 
+\item{.default}{character vector of length 1 giving name of default level or
 \code{NULL} for no default.}
 
 \item{.asFactor}{A logical indicating whether the returned value should be a factor.}
@@ -41,15 +41,15 @@ Ignored if \code{.asFactor} is \code{FALSE}.}
 Utility functions for creating new variables from logicals describing the levels
 }
 \details{
-Each logical "rule" corresponds to a level in the resulting variable.  
-If \code{.default} is defined, an implicit rule is added that is \code{TRUE} 
+Each logical "rule" corresponds to a level in the resulting variable.
+If \code{.default} is defined, an implicit rule is added that is \code{TRUE}
 whenever all other rules are \code{FALSE}.
 When there are multiple \code{TRUE} rules for a slot, the first or last such is used
-or an error is generated, depending on the value of \code{method}.   
+or an error is generated, depending on the value of \code{method}.
 
-\code{derivedVariable} is designed to be used with \code{\link{transform}} or 
-\code{\link[dplyr]{mutate}} to add new 
-variables to a data frame.  \code{derivedFactor}() is the same but that the 
+\code{derivedVariable} is designed to be used with \code{\link[=transform]{transform()}} or
+\code{\link[dplyr:mutate]{dplyr::mutate()}} to add new
+variables to a data frame.  \code{derivedFactor}() is the same but that the
 default value for \code{.asFactor} is \code{TRUE}.  See the examples.
 }
 \examples{

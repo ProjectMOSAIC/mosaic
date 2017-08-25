@@ -11,32 +11,32 @@ utils::globalVariables(c('u'))
 #'
 #' @rdname project-methods
 #' @docType methods
-#' @param x a numeric vector (all functions) or a formula (only for \code{project}).  
+#' @param x a numeric vector (all functions) or a formula (only for `project`).  
 #' Left-hand sides of formulas should be a single quantity
 #' @param u a numeric vector 
 #' @param v a numeric vector
 #' @param data a data frame.
-#' @param type one of \code{"length"} or \code{"vector"} determining the type of the 
+#' @param type one of `"length"` or `"vector"` determining the type of the 
 #' returned value
-#' @param coefficients For \code{project(y ~ x)} indicates whether the projection
+#' @param coefficients For `project(y ~ x)` indicates whether the projection
 #' coeffients should be returned or the projection vector.
 #' @param ... additional arguments
 
 #' @details
-#' \code{project} (preferably pronounced "pro-JECT" as in "projection") 
+#' `project` (preferably pronounced "pro-JECT" as in "projection") 
 #' does either of two related things:
 #' (1) Given two vectors as arguments, it will project the first onto the 
 #' second, returning the point in the subspace of the second that is as
 #' close as possible to the first vector.  (2) Given a formula as an argument,
-#' will work very much like \code{lm()}, constructing a model matrix from
+#' will work very much like `lm()`, constructing a model matrix from
 #' the right-hand side of the formula and projecting the vector on the 
 #' left-hand side onto the subspace of that model matrix.  
 #' 
 #' In (2), rather than 
-#' returning the projected vector, \code{project()} returns the coefficients
+#' returning the projected vector, `project()` returns the coefficients
 #' on each of the vectors in the model matrix.
-#' UNLIKE \code{lm()}, the intercept vector is NOT included by default.  If 
-#' you want an intercept vector, include \code{+1} in your formula.
+#' UNLIKE `lm()`, the intercept vector is NOT included by default.  If 
+#' you want an intercept vector, include `+1` in your formula.
 #' @export
 
 setGeneric( 
@@ -47,8 +47,8 @@ setGeneric(
 )
 ##################
 #' @rdname project-methods
-#' @return \code{project} returns the projection of \code{x} onto \code{u} 
-#' (or its length if \code{u} and \code{v} are numeric vectors and \code{type == "length"})
+#' @return `project` returns the projection of `x` onto `u` 
+#' (or its length if `u` and `v` are numeric vectors and `type == "length"`)
 #'
 #' @examples
 #' x1 <- c(1,0,0); x2 <- c(1,2,3); y1 <- c(3,4,5); y2 <- rnorm(3)
@@ -164,7 +164,7 @@ setMethod(
 		  )
  
 #' @rdname project-methods
-#' @return \code{vlength} returns the length of the vector 
+#' @return `vlength` returns the length of the vector 
 #' (i.e., the square root of the sum of the squares of the components)
 #' @seealso \code{link{project}}
 #' @examples
@@ -195,7 +195,7 @@ vlength <- function(x, ...) {
 }
 
 #' @rdname project-methods
-#' @return \code{dot} returns the dot product of \code{u} and \code{v}
+#' @return `dot` returns the dot product of `u` and `v`
 #' @export
 
 dot <- function(u, v){

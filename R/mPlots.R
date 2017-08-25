@@ -21,7 +21,7 @@ system_choices <- function() {
 #' @param formula a formula. 
 #'   The right-hand side selects variables;  
 #'   the left-hand side, if present, is used to set row names. 
-#'   A \code{.} on the right-hand side
+#'   A `.` on the right-hand side
 #'   indicates to use all variables not in the LHS.
 #' @param intercept a logical indicating whether to include the intercept in the
 #'   model default: FALSE (no intercept)
@@ -76,9 +76,9 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' console, whence it can be copied to a document for later direct, non-interactive 
 #' use.
 #' 
-#' Only \code{mPlot} is required by end users.  The other plotting functions 
-#' are dispatched based on the value of \code{default}.  Furthermore, \code{\link{mplot}} 
-#' will dispatch \code{mPlot} when provided a data frame.
+#' Only `mPlot` is required by end users.  The other plotting functions 
+#' are dispatched based on the value of `default`.  Furthermore, [mplot()] 
+#' will dispatch `mPlot` when provided a data frame.
 #' 
 #' @details
 #' Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
@@ -88,30 +88,30 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' @param data a data frame containing the variables that might be used in the plot.
 #' Note that for maps, the data frame must contain coordinates of the polygons 
 #' comprising the map and a variable for determining which corodiantes are part
-#' of the same region.  See \code{\link{sp2df}} for one way to create such
-#' a data frame.  Typically \code{\link{merge}} will be used to combine the map
+#' of the same region.  See [sp2df()] for one way to create such
+#' a data frame.  Typically [merge()] will be used to combine the map
 #' data with some auxilliary data to be displayed as fill color on the map, although
 #' this is not necessary if all one wants is a map.
-#' @param format a synonym for \code{default}.
+#' @param format a synonym for `default`.
 #' @param default default type of plot to create; one of 
-#' \code{"scatter"},
-#' \code{"jitter"},
-#' \code{"boxplot"},
-#' \code{"violin"},
-#' \code{"histogram"},
-#' \code{"density"},
-#' \code{"frequency polygon"},
-#' \code{"xyplot"}, 
+#' `"scatter"`,
+#' `"jitter"`,
+#' `"boxplot"`,
+#' `"violin"`,
+#' `"histogram"`,
+#' `"density"`,
+#' `"frequency polygon"`,
+#' `"xyplot"`, 
 #' or
-#' \code{"map"}.  Unique prefixes suffice.
+#' `"map"`.  Unique prefixes suffice.
 #' @param system which graphics system to use (initially) for plotting (\pkg{ggplot2} 
 #' or \pkg{lattice}).  A check box will allow on the fly change of plotting system.
-#' @param show a logical, if \code{TRUE}, the code will be displayed each time the plot is 
+#' @param show a logical, if `TRUE`, the code will be displayed each time the plot is 
 #' changed.
 #' @param title a title for the plot
 #' @param \dots additional arguments 
 #' @param data_text A text string describing the data.  It must be possible to recover the data
-#' from this string using \code{\link{eval}()}.  Typically users will not need to
+#' from this string using [eval()].  Typically users will not need to
 #' modify this from the default value.
 #' @return Nothing.  Just for side effects.  
 #' @examples

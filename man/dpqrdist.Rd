@@ -7,13 +7,13 @@
 dpqrdist(dist, type = c("d", "p", "q", "r"), ...)
 }
 \arguments{
-\item{dist}{a character discription of a distribution, for example 
+\item{dist}{a character discription of a distribution, for example
 \code{"norm"}, \code{"t"}, or \code{"chisq"}}
 
 \item{type}{one of \code{"x"}, \code{"p"}, \code{"q"}, or \code{"r"}}
 
 \item{...}{additional arguments passed on to underlying distribution function.
-Note that one of \code{d}, \code{p}, \code{q}, or \code{n} must 
+Note that one of \code{d}, \code{p}, \code{q}, or \code{n} must
 be a named argument in ...}
 }
 \description{

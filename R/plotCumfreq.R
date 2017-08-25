@@ -1,15 +1,15 @@
 #' Cumulative frequency plots
 #' 
 #' A high-level function for producing a cumulative frequency plot using
-#' \code{lattice} graphics.
+#' `lattice` graphics.
 #' 
 #' 
 #' @rdname plotCumfreq
 #' @param x a formula or numeric vector
-#' @param data a data frame in which \code{x} is evaluated if \code{x} is a
+#' @param data a data frame in which `x` is evaluated if `x` is a
 #' formula.
 #' @param \dots other lattice arguments
-#' @seealso \code{\link{histogram}}, \code{\link{densityplot}}
+#' @seealso [histogram()], [densityplot()]
 #' @keywords graphics
 #' @examples
 #' plotCumfreq(~eruptions, faithful, xlab = 'duration of eruptions')

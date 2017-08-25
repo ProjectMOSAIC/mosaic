@@ -9,7 +9,7 @@ swap(data, which)
 \arguments{
 \item{data}{a data frame}
 
-\item{which}{a formula or an integer or character vector specifying columns in 
+\item{which}{a formula or an integer or character vector specifying columns in
 \code{data}}
 }
 \description{

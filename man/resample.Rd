@@ -34,9 +34,9 @@ sample(x, size, replace = FALSE, ...)
   groups = NULL, orig.ids = FALSE, drop.unused.levels = FALSE, ...)
 }
 \arguments{
-\item{\dots}{additional arguments passed to 
-\code{\link[base]{sample}}
-or \code{\link[mosaic]{sample}}.}
+\item{\dots}{additional arguments passed to
+\code{\link[base:sample]{base::sample()}}
+or \code{\link[mosaic:sample]{mosaic::sample()}}.}
 
 \item{replace}{Should sampling be with replacement?}
 
@@ -67,7 +67,7 @@ examples.}
 These functions simplify and unify sampling in various ways.
 }
 \details{
-These functions are wrappers around \code{\link{sample}} providing different defaults and 
+These functions are wrappers around \code{\link[=sample]{sample()}} providing different defaults and
 natural names.
 }
 \examples{

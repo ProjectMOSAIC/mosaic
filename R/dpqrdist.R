@@ -6,10 +6,10 @@
 #' Utility function wrapping up the d/p/q/r distribution functions
 #' 
 #' @param dist a character discription of a distribution, for example 
-#'   \code{"norm"}, \code{"t"}, or \code{"chisq"}
-#' @param type one of \code{"x"}, \code{"p"}, \code{"q"}, or \code{"r"}
+#'   `"norm"`, `"t"`, or `"chisq"`
+#' @param type one of `"x"`, `"p"`, `"q"`, or `"r"`
 #' @param ... additional arguments passed on to underlying distribution function.
-#'   Note that one of \code{d}, \code{p}, \code{q}, or \code{n} must 
+#'   Note that one of `d`, `p`, `q`, or `n` must 
 #'   be a named argument in ...
 #' @export
 #' @examples
@@ -34,7 +34,7 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 #' Illustrated probability calculations from distributions
 #' 
 #' @param dist a character discription of a distribution, for example 
-#'   \code{"norm"}, \code{"t"}, or \code{"chisq"}
+#'   `"norm"`, `"t"`, or `"chisq"`
 #' @param q a vector of quantiles
 #' @param plot a logical indicating whether a plot should be created
 #' @param verbose a logical
@@ -50,9 +50,9 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 #'        that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... Additional arguments, including parameters of the distribution
 #' and additional options for the plot
-#' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
-#' @param refinements A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.
-#' @details The most general function is \code{pdist} which can work with 
+#' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
+#' @param refinements A list of refinements to the plot.  See [ggformula::gf_refine()].
+#' @details The most general function is `pdist` which can work with 
 #' any distribution for which a p-function exists.  As a convenience, wrappers are 
 #' provided for several common distributions.
 #' @return A vector of probabilities; a plot is printed as a side effect.
@@ -121,7 +121,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #' Illustrated quantile calculations from distributions
 #' 
 #' @param dist a character discription of a distribution, for example 
-#'   \code{"norm"}, \code{"t"}, or \code{"chisq"}
+#'   `"norm"`, `"t"`, or `"chisq"`
 #' @param p a vector of probabilities
 #' @param plot a logical indicating whether a plot should be created
 #' @param verbose a logical
@@ -138,9 +138,9 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #'   that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #'   and additional options for the plot
-#' @param refinements A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.
-#' @param return If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.
-#' @details The most general function is \code{qdist} which can work with 
+#' @param refinements A list of refinements to the plot.  See [ggformula::gf_refine()].
+#' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
+#' @details The most general function is `qdist` which can work with 
 #' any distribution for which a q-function exists.  As a convenience, wrappers are 
 #' provided for several common distributions.
 #' 
@@ -380,7 +380,7 @@ plot_multi_dist <-
 
 
 #' @rdname pdist
-#' @seealso \code{\link{qdist}}, \code{\link{xpnorm}}, \code{\link{xqnorm}}.
+#' @seealso [qdist()], [xpnorm()], [xqnorm()].
 #' @export
 xpgamma <- function(...)  pdist("gamma", ...)
 #' @rdname qdist

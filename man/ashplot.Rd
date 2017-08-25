@@ -20,12 +20,12 @@ panel.ashplot(x, darg = list(), plot.points = FALSE, ref = FALSE,
 
 \item{data}{A data frame.}
 
-\item{...}{Additional arguments passed to panel and prepanel functions or \code{data}, a 
+\item{...}{Additional arguments passed to panel and prepanel functions or \code{data}, a
 data frame in which to find the variales used for the plot.}
 
 \item{width}{The historam bin width.}
 
-\item{adjust}{A numeric adjustment to \code{width}.  Primarily useful when \code{width} is 
+\item{adjust}{A numeric adjustment to \code{width}.  Primarily useful when \code{width} is
 not specified.  Increasing \code{adjust} makes the plot smoother.}
 
 \item{panel}{A panel funtion.}
@@ -42,11 +42,11 @@ not specified.  Increasing \code{adjust} makes the plot smoother.}
 
 \item{ref}{a logical indicating whether a reference line should be displayed}
 
-\item{jitter.amount}{when \code{plot.points="jitter"}, the value to use as the amount 
-argument to \code{\link{jitter}}.}
+\item{jitter.amount}{when \code{plot.points="jitter"}, the value to use as the amount
+argument to \code{\link[=jitter]{jitter()}}.}
 
-\item{type}{type argument used to plot points, if requested. 
-This is not expected to be useful, it is available mostly to protect a \code{type} argument, 
+\item{type}{type argument used to plot points, if requested.
+This is not expected to be useful, it is available mostly to protect a \code{type} argument,
 if specified, from affecting the display of the ASH.}
 
 \item{identifier}{A character string that is prepended to the names of i

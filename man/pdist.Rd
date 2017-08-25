@@ -36,7 +36,7 @@ xpnbinom(...)
 xpbeta(...)
 }
 \arguments{
-\item{dist}{a character discription of a distribution, for example 
+\item{dist}{a character discription of a distribution, for example
 \code{"norm"}, \code{"t"}, or \code{"chisq"}}
 
 \item{q}{a vector of quantiles}
@@ -62,7 +62,7 @@ that have many distinct values, especially if these values are not evenly spaced
 \item{...}{Additional arguments, including parameters of the distribution
 and additional options for the plot}
 
-\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula]{gf_refine}()}.}
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
 }
 \value{
 A vector of probabilities; a plot is printed as a side effect.
@@ -71,8 +71,8 @@ A vector of probabilities; a plot is printed as a side effect.
 Illustrated probability calculations from distributions
 }
 \details{
-The most general function is \code{pdist} which can work with 
-any distribution for which a p-function exists.  As a convenience, wrappers are 
+The most general function is \code{pdist} which can work with
+any distribution for which a p-function exists.  As a convenience, wrappers are
 provided for several common distributions.
 }
 \examples{
@@ -83,5 +83,5 @@ pdist("f", 1, df1 = 2, df2 = 10)
 pdist("gamma", 2, shape = 3, rate = 4)
 }
 \seealso{
-\code{\link{qdist}}, \code{\link{xpnorm}}, \code{\link{xqnorm}}.
+\code{\link[=qdist]{qdist()}}, \code{\link[=xpnorm]{xpnorm()}}, \code{\link[=xqnorm]{xqnorm()}}.
 }

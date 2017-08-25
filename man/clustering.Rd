@@ -32,7 +32,7 @@ to identify leaves of the tree.}
 \item{heatmap}{the ratio of size of heatmap to size of dendrogram.
 Use \code{0} or \code{FALSE} to omit the heatmap.}
 
-\item{enumerate}{a color used for numbers within heatmap.  Use 
+\item{enumerate}{a color used for numbers within heatmap.  Use
 \code{"transparent"} to hide.}
 }
 \description{

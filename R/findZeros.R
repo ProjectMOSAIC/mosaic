@@ -2,30 +2,30 @@
 #' 
 #' Compute numerically zeros of a function or simultaneous zeros of multiple functions.
 #' @param expr A formula.  The right side names the variable with respect to which the zeros should be found.  
-#' The left side is an expression, e.g. \code{sin(x) ~ x}.  
+#' The left side is an expression, e.g. `sin(x) ~ x`.  
 #' All free variables (all but the variable on the right side) named in the expression must be assigned 
-#' a value via \code{\ldots}
+#' a value via `\ldots`
 #' @param \dots Formulas corresponding to additional functions to use in simultaneous zero finding
 #' and/or specific numerical values for the free variables in the expression.
-#' @param xlim The range of the dependent variable to search for zeros. \code{Inf} is a legitimate value, 
+#' @param xlim The range of the dependent variable to search for zeros. `Inf` is a legitimate value, 
 #' but is interpreted in the numerical sense as the non-Inf largest floating point number.  This can also
-#' be specified replacing \code{x} with the name of the variable.  See the examples.
+#' be specified replacing `x` with the name of the variable.  See the examples.
 #' @param near a value near which zeros are desired
-#' @param within only look for zeros at least this close to near.  \code{near} and \code{within} provide an
-#' alternative to using \code{xlim} to specify the search space.
+#' @param within only look for zeros at least this close to near.  `near` and `within` provide an
+#' alternative to using `xlim` to specify the search space.
 #' @param nearest the number of nearest zeros to return.  Fewer are returned if fewer are found.
 #' @param iterate maximum number of times to iterate the search. Subsequent searches take place with the range
 #'        of previously found zeros.  Choosing a large number here is likely to kill performance without 
-#'        improving results, but a value of 1 (the default) or 2 works well when searching in \code{c(-Inf,Inf)} for
-#'        a modest number of zeros near \code{near}.
-#' @param npts How many sub-intervals to divide the \code{xlim} into when looking for candidates for zeros.  
+#'        improving results, but a value of 1 (the default) or 2 works well when searching in `c(-Inf,Inf)` for
+#'        a modest number of zeros near `near`.
+#' @param npts How many sub-intervals to divide the `xlim` into when looking for candidates for zeros.  
 #' The default is usually good enough.
-#' If \code{Inf} is involved, the intervals are logarithmically spaced up to the largest finite floating point number.  
+#' If `Inf` is involved, the intervals are logarithmically spaced up to the largest finite floating point number.  
 #' There is no guarantee that all the roots will be found.
 #' @param sortBy specifies how the zeros found will be sorted. Options are 'byx', 'byy', or 'radial'.
 #' 
 #' @details
-#' Searches numerically using \code{uniroot}.
+#' Searches numerically using `uniroot`.
 #' 
 #' @return A dataframe of zero or more numerical values.  Plugging these into the
 #' expression on the left side of the formula should result in values near zero.

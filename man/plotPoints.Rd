@@ -11,7 +11,7 @@ plotPoints(x, data = parent.frame(), add = NULL, under = FALSE,
 \arguments{
 \item{x}{A formula specifying y ~ x or z ~ x&y}
 
-\item{data}{Data frame containing the variables to be plotted.  If not specified, 
+\item{data}{Data frame containing the variables to be plotted.  If not specified,
 the variables will be looked up in the local environment}
 
 \item{add}{If \code{TRUE}, add points as a new layer to an existing plot.
@@ -46,5 +46,5 @@ plotFun( f(length=length,sex="B")~length, add=TRUE)
 }
 }
 \seealso{
-\code{\link{plotFun}}
+\code{\link[=plotFun]{plotFun()}}
 }

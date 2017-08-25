@@ -10,7 +10,7 @@
 #' @name linear.algebra
 # @aliases mat singvals dot
 #'
-#' @param A a formula.  In \code{mat} and \code{singvals},
+#' @param A a formula.  In `mat` and `singvals`,
 #' only the right-hand side is used.
 #' 
 #' @param data a data frame from which to pull out numerical values
@@ -19,16 +19,16 @@
 #' @param \dots additional arguments (currently ignored)
 #'
 #' 
-#' \code{mat} returns a model matrix
+#' `mat` returns a model matrix
 #' 
-#' To demonstrate singularity, use \code{singvals}.
+#' To demonstrate singularity, use `singvals`.
 #' 
-#' @return \code{mat} returns a matrix 
+#' @return `mat` returns a matrix 
 #' 
-#' @seealso \code{\link{project}}
+#' @seealso [project()]
 #'
 # @usage mat(A,data=NULL)
-#' @seealso \code{\link{linearModel}}, which returns a function.
+#' @seealso [linearModel()], which returns a function.
 #' @examples
 #' a <- c(1,0,0); b <- c(1,2,3); c <- c(4,5,6); x <- rnorm(3)
 #' # Formula interface
@@ -57,7 +57,7 @@ mat <- function(A, data=parent.frame()) {
 #
 ##################
 #' @rdname linear.algebra
-#' @return \code{singvals} gives singular values for each column in the model matrix
+#' @return `singvals` gives singular values for each column in the model matrix
 #' @export
 
 singvals <- function(A, data=parent.frame()){
