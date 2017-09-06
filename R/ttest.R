@@ -66,12 +66,16 @@ t_test.formula <-
         envir = if (is.environment(data)) data else environment(formula))
     dots <- list(...)
    
-    print(formula)
-    
     if (length(formula) == 3) {
-      return(
-        stats::t.test(formula, data = data, ...)
-        )
+      if (missing(data)) {
+        return( stats::t.test(formula, ...) )
+      } else {
+        return( stats::t.test(formula, data = data, ...) )
+      }
+    }
+    
+    if (missing(data)) {
+      data <- parent.frame()
     }
     
     evalF <- evalFormula(formula, data)
