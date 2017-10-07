@@ -347,7 +347,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
-  print(list(system, system_choices()))
+  # print(list(system, system_choices()))
   manipulate::manipulate( { .doScatter(data, data_text = data_text, variables, show = show, system = system, x = x, y = y, plotType = plotType, 
                                        flipCoords = flipCoords, color = color, size = size, facet = facet, 
                                        logScales = logScales, model = model, key = key, title = title) },
