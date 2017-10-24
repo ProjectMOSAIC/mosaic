@@ -17,6 +17,16 @@
 #'  
 #' @param system graphics system to use for the plot
 #' 
+#' @param shade a color to use for shading. 
+#' 
+#' @param alpha opacity of shading.
+#' 
+#' @param binwidth bin width for histogram.
+#' 
+#' @param fill fill color for histogram.
+#' 
+#' @param color border color for histogram.
+#' 
 #' @param stemplot 
 #' indicates whether a stem plot should be displayed
 #' @param q quantiles of sampling distribution to display
@@ -43,14 +53,15 @@
 #' @examples
 #' # is my spinner fair?
 #' x <- c(10, 18, 9, 15)   # counts in four cells
-#' rdata <- rmultinom(999, sum(x), prob=rep(.25, 4))
-#' statTally(x, rdata, fun=max)  # unusual test statistic
-#' statTally(x, rdata, fun=var)  # equivalent to chi-squared test
+#' rdata <- rmultinom(999, sum(x), prob = rep(.25, 4))
+#' statTally(x, rdata, fun = max, binwidth = 1)  # unusual test statistic
+#' statTally(x, rdata, fun = var, shade = "red", binwidth = 2)  # equivalent to chi-squared test
 #' # Can also be used with test stats that are precomputed.
 #' if (require(mosaicData)) {
-#' D <- diffmean( age ~ sex, data=HELPrct); D
-#' nullDist <- do(999) * diffmean( age ~ shuffle(sex), data=HELPrct)
-#' statTally( D, nullDist)
+#' D <- diffmean( age ~ sex, data = HELPrct); D
+#' nullDist <- do(999) * diffmean( age ~ shuffle(sex), data = HELPrct)
+#' statTally(D, nullDist)
+#' statTally(D, nullDist, system = "lattice")
 #' }
 #' 
 #' @keywords inference 
@@ -61,6 +72,9 @@ function (sample, rdata, FUN, direction = NULL,
           alternative=c('default','two.sided','less','greater'), 
           sig.level = 0.1, 
           system = c("gg", "lattice"),
+          shade = "navy",
+          alpha = 0.10,
+          binwidth = NULL, fill = "gray80", color = "black",
           center = NULL, stemplot = dim(rdata)[direction] < 201, 
           q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim, ...) 
 {
@@ -126,21 +140,25 @@ function (sample, rdata, FUN, direction = NULL,
 	    system,
 	    gg = 
 	      tryCatch( 
-	        gf_dhistogram( ~ stat, data = results, fill = "gray80", color = "black") %>%
-	          gf_rect(0 + Inf ~ xleft + xright, fill = "navy", alpha = 0.1, data = Rect_Data,
+	        gf_dhistogram( ~ stat, data = results, fill = fill, color = color, binwidth = binwidth) %>%
+	          gf_rect(0 + Inf ~ xleft + xright, fill = shade, alpha = alpha, data = Rect_Data,
 	                  inherit = FALSE) %>%
 	          gf_lims(x = xlim), 
 	        error = function(e) NULL
 	      ),
 	    lattice = 
 	      tryCatch( histogram(~stat, data=results,  #groups=stat >= dstat, 
-	                          xlim = xlim, ...,
+	                          xlim = xlim, width = binwidth, col = fill, border = color, ...,
 	                          panel = function(x,...){
-	                            panel.histogram(x,...)
-	                            grid.rect( x=grid::unit(lo,'native'), y=0.5, hjust=1,
-	                                       gp=gpar(fill='navy',col='navy', alpha=.05))
-	                            grid.rect( x=grid::unit(hi,'native'), y=0.5, hjust=0,
-	                                       gp=gpar(fill='navy',col='navy', alpha=.05))
+	                            panel.xhistogram(x, ...)
+	                            grid.rect( x=grid::unit(lo, "native"), y = grid::unit(0, "native"),
+	                                       hjust = 1,
+	                                       height = unit(1, "npc"), vjust = 0,
+	                                       gp=gpar(fill = shade, col = shade, alpha = alpha))
+	                            grid.rect( x=grid::unit(hi, "native"), y = grid::unit(0, "native"),
+	                                       hjust = 0,
+	                                       height = unit(1, "npc"), vjust = 0,
+	                                       gp=gpar(fill = shade, col = shade, alpha = alpha))
 	                          }
 	      ) , error = function(e) NULL
 	      )
