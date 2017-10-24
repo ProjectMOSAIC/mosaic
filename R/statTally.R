@@ -14,6 +14,8 @@
 #' 
 #' @param direction 1 or 2 indicating whether samples in `rdata`
 #'   are in rows (1) or columns (2).
+#'  
+#' @param system graphics system to use for the plot
 #' 
 #' @param stemplot 
 #' indicates whether a stem plot should be displayed
@@ -55,17 +57,21 @@
 #' @export
  
 statTally <-
-function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sided','less','greater'),
-		  sig.level=0.1, center=NULL,
-	stemplot = dim(rdata)[direction] < 201, q = c(0.5, 0.9, 0.95, 0.99), fun=function(x) x, xlim, ...) 
+function (sample, rdata, FUN, direction = NULL, 
+          alternative=c('default','two.sided','less','greater'), 
+          sig.level = 0.1, 
+          system = c("gg", "lattice"),
+          center = NULL, stemplot = dim(rdata)[direction] < 201, 
+          q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim, ...) 
 {
 
-	alternative = match.arg(alternative) 
-	#rdata <- matrix(rdata)
+  system <- match.arg(system)
+	alternative <- match.arg(alternative) 
 
 	if (missing(FUN)) {
 		FUN = fun
 	}
+	
 	if ( is.null(direction) ) {
 		size <- max(NROW(sample), NCOL(sample))
 		if ( NROW (rdata) == size ) {
@@ -110,22 +116,40 @@ function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sid
 	lo <- center - abs(dstat - center)
 	if (alternative == 'greater') lo <- -Inf
 	if (alternative == 'less')    hi <-  Inf
-
-    plot1 <- tryCatch( histogram(~stat, data=results,  #groups=stat >= dstat, 
-						xlim = xlim, ...,
-						panel = function(x,...){
-							panel.histogram(x,...)
-							grid.rect( x=grid::unit(lo,'native'), y=0.5, hjust=1,
-									  gp=gpar(fill='navy',col='navy', alpha=.05))
-							grid.rect( x=grid::unit(hi,'native'), y=0.5, hjust=0,
-									  gp=gpar(fill='navy',col='navy', alpha=.05))
-						}
-						) , error = function(e) NULL
+	Rect_Data <- data.frame(
+	  xleft = c(-Inf, hi),
+	  xright = c(lo, Inf)
 	)
 
-  # add in observed statistic for the remaining summaries.
-  stats <- c(dstat, stats)
-    message("\nOf the ", length(stats), " samples (1 original + ", length(stats) -1, " random),")
+	plot1 <- 
+	  switch(
+	    system,
+	    gg = 
+	      tryCatch( 
+	        gf_dhistogram( ~ stat, data = results, fill = "gray80", color = "black") %>%
+	          gf_rect(0 + Inf ~ xleft + xright, fill = "navy", alpha = 0.1, data = Rect_Data,
+	                  inherit = FALSE) %>%
+	          gf_lims(x = xlim), 
+	        error = function(e) NULL
+	      ),
+	    lattice = 
+	      tryCatch( histogram(~stat, data=results,  #groups=stat >= dstat, 
+	                          xlim = xlim, ...,
+	                          panel = function(x,...){
+	                            panel.histogram(x,...)
+	                            grid.rect( x=grid::unit(lo,'native'), y=0.5, hjust=1,
+	                                       gp=gpar(fill='navy',col='navy', alpha=.05))
+	                            grid.rect( x=grid::unit(hi,'native'), y=0.5, hjust=0,
+	                                       gp=gpar(fill='navy',col='navy', alpha=.05))
+	                          }
+	      ) , error = function(e) NULL
+	      )
+	  )
+	
+	
+	# add in observed statistic for the remaining summaries.
+	stats <- c(dstat, stats)
+	message("\nOf the ", length(stats), " samples (1 original + ", length(stats) -1, " random),")
     message("\n\t", paste(sum(stats == dstat), "(", round(100 * 
         sum(stats == dstat)/length(stats), 2), "% )", "had test stats =", 
         signif(dstat, 4)))

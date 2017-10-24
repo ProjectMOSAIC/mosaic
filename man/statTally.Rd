@@ -5,9 +5,9 @@
 \title{Tally test statistics}
 \usage{
 statTally(sample, rdata, FUN, direction = NULL, alternative = c("default",
-  "two.sided", "less", "greater"), sig.level = 0.1, center = NULL,
-  stemplot = dim(rdata)[direction] < 201, q = c(0.5, 0.9, 0.95, 0.99),
-  fun = function(x) x, xlim, ...)
+  "two.sided", "less", "greater"), sig.level = 0.1, system = c("gg",
+  "lattice"), center = NULL, stemplot = dim(rdata)[direction] < 201,
+  q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim, ...)
 }
 \arguments{
 \item{sample}{sample data}
@@ -26,6 +26,8 @@ are in rows (1) or columns (2).}
 \item{alternative}{one of \code{default}, \code{two.sided}, \code{less}, or \code{greater}}
 
 \item{sig.level}{significance threshold for \code{wilcox.test} used to detect lack of symmetry}
+
+\item{system}{graphics system to use for the plot}
 
 \item{center}{center of null distribution}
 
