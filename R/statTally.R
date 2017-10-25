@@ -76,11 +76,14 @@ function (sample, rdata, FUN, direction = NULL,
           alpha = 0.10,
           binwidth = NULL, fill = "gray80", color = "black",
           center = NULL, stemplot = dim(rdata)[direction] < 201, 
-          q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim, ...) 
+          q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim, 
+          ...) 
 {
 
   system <- match.arg(system)
 	alternative <- match.arg(alternative) 
+	
+	dots <- list(...)
 
 	if (missing(FUN)) {
 		FUN = fun
@@ -148,7 +151,8 @@ function (sample, rdata, FUN, direction = NULL,
 	      ),
 	    lattice = 
 	      tryCatch( histogram(~stat, data=results,  #groups=stat >= dstat, 
-	                          xlim = xlim, width = binwidth, col = fill, border = color, ...,
+	                          xlim = xlim, width = binwidth, col = fill, border = color, 
+	                          ...,
 	                          panel = function(x,...){
 	                            panel.xhistogram(x, ...)
 	                            grid.rect( x=grid::unit(lo, "native"), y = grid::unit(0, "native"),
@@ -163,6 +167,11 @@ function (sample, rdata, FUN, direction = NULL,
 	      ) , error = function(e) NULL
 	      )
 	  )
+	
+	# for backward compatibility with a code chunk in fast 2e
+	if (system == "gg" && !is.null(dots$xlab)) {
+	  plot1 <- plot1 %>% gf_labs(x = dots$xlab)
+	}
 	
 	
 	# add in observed statistic for the remaining summaries.
