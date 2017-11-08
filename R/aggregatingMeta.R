@@ -288,7 +288,7 @@ aggregatingFunction1or2 <-
 #' if(require(mosaicData)) {
 #'   foo <- aggregatingFunction2(stats::cor)
 #'   foo(length ~ width, data = KidsFeet)
-#'    stats::cor(KidsFeet$length, KidsFeet$width)
+#'   stats::cor(KidsFeet$length, KidsFeet$width)
 #' }
 #' @export
 
@@ -487,6 +487,11 @@ cor <- aggregatingFunction2(stats::cor)
 #' 
 #' cor(length ~ width, data = KidsFeet)
 #' cov(length ~ width, data = KidsFeet)
+#' tally(is.na(mcs) ~ is.na(pcs), data = HELPmiss)
+#' cov(mcs ~ pcs, data = HELPmiss)             # NA because of missing data
+#' cov(mcs ~ pcs, data = HELPmiss, use = "complete")  # ignore missing data
+#' # alternative approach using filter explicitly
+#' cov(mcs ~ pcs, data = HELPmiss %>% filter(!is.na(mcs) & !is.na(pcs)))    
 #' @export
 
 cov <- aggregatingFunction2(stats::cov)

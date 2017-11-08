@@ -38,6 +38,6 @@ and (c) difficult to maintain.
 if(require(mosaicData)) {
   foo <- aggregatingFunction2(stats::cor)
   foo(length ~ width, data = KidsFeet)
-   stats::cor(KidsFeet$length, KidsFeet$width)
+  stats::cor(KidsFeet$length, KidsFeet$width)
 }
 }
