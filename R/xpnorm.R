@@ -85,12 +85,12 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
                   ") = ", format(1 - p, digits = digits), "", sep = ""))
         message("\n")
     }
-    if (plot & length(q) == 1) {
+    if (length(q) == 1) {
 		  res_plot <- .plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
 		      # vlwd=vlwd, vcol=vcol, rot=rot, 
 		      ...)
     }
-    if (plot & length(q) > 1) {
+    if (length(q) > 1) {
       res_plot <- 
         .plot_multi_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
                          # vlwd=vlwd, vcol=vcol, rot=rot, 
@@ -103,7 +103,7 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
         return(res_plot)
       }
     } else {
-      print(res_plot)
+      if(plot) print(res_plot)
       if (invisible) { 
         return(invisible(pnorm(q, mean = mean, sd = sd, lower.tail = lower.tail, log.p = log.p)))
       }
@@ -137,12 +137,12 @@ xqnorm <-
       p <- 1 - p
     }
     
-    if (plot & length(p) == 1) {
+    if (length(p) == 1) {
 		  res_plot <- .plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
 		      # vlwd=vlwd, vcol=vcol, rot=rot, 
 		      ...)
     }
-    if (plot & length(p) > 1) {
+    if (length(p) > 1) {
 		  res_plot <- .plot_multi_norm(p=sort(p), q=sort(q), mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
 		      # vlwd=vlwd, vcol=vcol, rot=rot, 
 		      ...)
@@ -155,7 +155,7 @@ xqnorm <-
         return(res_plot)
       }
     } else {
-      print(res_plot)
+      if (plot) print(res_plot)
       if (invisible) { 
         return(invisible(q))
       }

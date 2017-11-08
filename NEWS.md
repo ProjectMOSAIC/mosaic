@@ -4,6 +4,7 @@
 
  * A few more things have moved to `mosaicCore`.
  * Two of the vignettes have been moved out of the package to reduce CRAN size.
+
  
 ## mosaic 1.0
 
