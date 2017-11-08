@@ -39,6 +39,10 @@ utils::globalVariables(
 #' @examples
 #' xpnorm(650, 500, 100)
 #' xqnorm(.75, 500, 100)
+#' xpnorm(-3:3, return = "plot", system = "gg") %>% 
+#'   gf_labs(title = "My Plot", x = "") %>% 
+#'   gf_theme(theme_bw())
+#' 
 #' \dontrun{
 #' if (rstudio_is_available() & require(manipulate)) {
 #'   manipulate(xpnorm(score, 500, 100, verbose=verbose),
