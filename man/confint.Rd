@@ -101,7 +101,7 @@ if (require(mosaicData)) {
   bootstrap2 <- do(500)*mean( resample(1:10) ) 
   confint(bootstrap2)
 }
-confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
+confint( summary(lm(width ~ length * sex, data = KidsFeet)) )
 }
 \references{
 Tim C. Hesterberg (2015): What Teachers Should Know about the Bootstrap:
