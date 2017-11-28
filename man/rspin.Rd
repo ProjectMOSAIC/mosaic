@@ -2,7 +2,7 @@
 % Please edit documentation in R/resample.R
 \name{rspin}
 \alias{rspin}
-\title{Simulate spinning a spinnner}
+\title{Simulate spinning a spinner}
 \usage{
 rspin(n, probs, labels = 1:length(probs))
 }
@@ -10,7 +10,7 @@ rspin(n, probs, labels = 1:length(probs))
 \item{n}{number of spins of spinner}
 
 \item{probs}{a vector of probabilities.  If the sum is not 1, the
-probabiliies will be rescaled.}
+probabilities will be rescaled.}
 
 \item{labels}{a character vector of labels for the categories}
 }

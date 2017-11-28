@@ -8,7 +8,7 @@
 #' If `"first"`, the first `TRUE` rule defines the level.
 #' If `"last"`, the last `TRUE` rule defines the level.
 #' @param .debug one of `"default"`, `"always"`, and `"never"`, indicating
-#' whehter debugging information should be printed.  If `"default"`, debugging 
+#' whether debugging information should be printed.  If `"default"`, debugging 
 #' information is printed only when multiple rules give conflicting definitions 
 #' for some positions.  
 #' @param .ordered a logical indicating whether the resulting factored should be ordered

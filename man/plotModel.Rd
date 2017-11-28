@@ -41,7 +41,7 @@ generalized linear regression models are supported.
 \section{Caution}{
 
 This is still underdevelopment.  The API is subject to change, and some
-use cases may not work yet.  Watch for improvments in subsequent versions of the package.
+use cases may not work yet.  Watch for improvements in subsequent versions of the package.
 }
 
 \examples{

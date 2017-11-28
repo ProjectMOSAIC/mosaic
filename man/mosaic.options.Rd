@@ -42,7 +42,7 @@ A mechanism for setting options in the mosaic package.
 }
 \details{
 \code{restoreLatticeOptions} returns any lattice
-options that were changed when the mosiac package was loaded
+options that were changed when the mosaic package was loaded
 back to their pre-mosaic state.
 
 \code{mosaicLatticeOptions} sets a number

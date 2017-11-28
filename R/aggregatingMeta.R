@@ -528,11 +528,11 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #' 
 #' @param x a numeric vector or a formula.  
 #' @param ... additional arguments passed through to `MAD_` 
-#'   or `SAD_`.  If `x` is a formala, `...` should
+#'   or `SAD_`.  If `x` is a formula, `...` should
 #'   include an argument named `data` if the intent is to 
-#'   interpret the formala in a data frame.
+#'   interpret the formula in a data frame.
 #' @param na.rm a logical indicating whether NAs should be removed before
-#'   calculaing.
+#'   calculating.
 #' @param groups a grouping variable, typically a name of a variable in `data`
 #' @param data a data frame in which to evaluate formulas (or bare names).
 #'   Note that the default is `data = parent.frame()`.  This makes it convenient to

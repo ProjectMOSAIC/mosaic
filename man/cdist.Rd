@@ -8,7 +8,7 @@ cdist(dist, p, ..., verbose = FALSE)
 }
 \arguments{
 \item{dist}{a character string naming a distribution family (e.g., "norm").
-This wil work for any family for which the usual d/p/q functions exist.}
+This will work for any family for which the usual d/p/q functions exist.}
 
 \item{p}{the proportion to be in the central region, with equal proportions
 in either "tail".}
@@ -24,9 +24,9 @@ a pair of numbers indicating the upper and lower bounds, unless \code{verbose} i
 the central probability, the tail probabilities, and the name of the distribution.
 }
 \description{
-This function determines the critial values for isolating
+This function determines the critical values for isolating
 a central portion of a distribution with a specified probability.
-This is designed to work especially well for symmteric distributions,
+This is designed to work especially well for symmetric distributions,
 but it can be used with any distribution.
 }
 \note{

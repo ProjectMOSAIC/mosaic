@@ -47,7 +47,7 @@ NA
 #' 
 #' The plots are done referencing a data frame with variables
 #' `x` and `y` giving points on the graph of the 
-#' pdf, pmf, or cdf for the distribution.  This can be useful in conjuction
+#' pdf, pmf, or cdf for the distribution.  This can be useful in conjunction
 #' with the `groups` argument.  See the examples.
 #' 
 #' @examples

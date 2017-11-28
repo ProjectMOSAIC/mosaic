@@ -23,7 +23,7 @@ If \code{"first"}, the first \code{TRUE} rule defines the level.
 If \code{"last"}, the last \code{TRUE} rule defines the level.}
 
 \item{.debug}{one of \code{"default"}, \code{"always"}, and \code{"never"}, indicating
-whehter debugging information should be printed.  If \code{"default"}, debugging
+whether debugging information should be printed.  If \code{"default"}, debugging
 information is printed only when multiple rules give conflicting definitions
 for some positions.}
 

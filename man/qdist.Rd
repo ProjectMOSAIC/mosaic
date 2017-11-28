@@ -36,7 +36,7 @@ xqnbinom(...)
 xqbeta(...)
 }
 \arguments{
-\item{dist}{a character discription of a distribution, for example
+\item{dist}{a character description of a distribution, for example
 \code{"norm"}, \code{"t"}, or \code{"chisq"}}
 
 \item{p}{a vector of probabilities}
@@ -48,7 +48,7 @@ xqbeta(...)
 \item{invisible}{a logical}
 
 \item{resolution}{number of points used for detecting discreteness and generating plots.
-The defaut value of 5000 should work well except for discrete distributions
+The default value of 5000 should work well except for discrete distributions
 that have many distinct values, especially if these values are not evenly spaced.}
 
 \item{digits}{the number of digits desired}

@@ -10,5 +10,5 @@ deltaMethod(...)
 \item{...}{arguments (ignored, since this is defunct)}
 }
 \description{
-\code{deltaMethod} has moved to its own separate package.
+\code{deltaMethod()} has moved to its own separate package.
 }

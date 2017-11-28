@@ -34,7 +34,7 @@ relrisk(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
 
 \item{verbose}{a logical indicating whether verbose output should be displayed}
 
-\item{quiet}{a logical indicating whether verbose outoput should be supressed}
+\item{quiet}{a logical indicating whether verbose output should be suppressed}
 
 \item{digits}{number of digits to display}
 

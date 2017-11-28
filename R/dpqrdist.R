@@ -5,7 +5,7 @@
 #' 
 #' Utility function wrapping up the d/p/q/r distribution functions
 #' 
-#' @param dist a character discription of a distribution, for example 
+#' @param dist a character description of a distribution, for example 
 #'   `"norm"`, `"t"`, or `"chisq"`
 #' @param type one of `"x"`, `"p"`, `"q"`, or `"r"`
 #' @param ... additional arguments passed on to underlying distribution function.
@@ -33,7 +33,7 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 #' 
 #' Illustrated probability calculations from distributions
 #' 
-#' @param dist a character discription of a distribution, for example 
+#' @param dist a character description of a distribution, for example 
 #'   `"norm"`, `"t"`, or `"chisq"`
 #' @param q a vector of quantiles
 #' @param plot a logical indicating whether a plot should be created
@@ -46,7 +46,7 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 # #' @param vcol color of vertical lines
 # #' @param rot angle for rotating text indicating probability
 #' @param resolution Number of points used for detecting discreteness and generating plots.  
-#'        The defaut value of 5000 should work well except for discrete distributions
+#'        The default value of 5000 should work well except for discrete distributions
 #'        that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... Additional arguments, including parameters of the distribution
 #' and additional options for the plot
@@ -120,7 +120,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #' 
 #' Illustrated quantile calculations from distributions
 #' 
-#' @param dist a character discription of a distribution, for example 
+#' @param dist a character description of a distribution, for example 
 #'   `"norm"`, `"t"`, or `"chisq"`
 #' @param p a vector of probabilities
 #' @param plot a logical indicating whether a plot should be created
@@ -134,7 +134,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 # #' @param vcol color of vertical lines
 # #' @param rot angle for rotating text indicating probability
 #' @param resolution number of points used for detecting discreteness and generating plots.  
-#'   The defaut value of 5000 should work well except for discrete distributions
+#'   The default value of 5000 should work well except for discrete distributions
 #'   that have many distinct values, especially if these values are not evenly spaced.
 #' @param ... additional arguments, including parameters of the distribution
 #'   and additional options for the plot

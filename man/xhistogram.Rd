@@ -61,7 +61,7 @@ not using \code{groups}.}
 
 \item{args}{a list of additional arguments for \code{dmath}}
 
-\item{labels}{should counts/densities/precents be displayed or each bin?}
+\item{labels}{should counts/densities/percents be displayed or each bin?}
 
 \item{density}{a logical indicating whether to overlay a density curve}
 

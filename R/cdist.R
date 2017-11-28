@@ -1,12 +1,12 @@
 #' Central portion of a distribution
 #' 
-#' This function determines the critial values for isolating 
+#' This function determines the critical values for isolating 
 #' a central portion of a distribution with a specified probability.
-#' This is designed to work especially well for symmteric distributions,
+#' This is designed to work especially well for symmetric distributions,
 #' but it can be used with any distribution.
 #' 
 #' @param dist a character string naming a distribution family (e.g., "norm").
-#' This wil work for any family for which the usual d/p/q functions exist.
+#' This will work for any family for which the usual d/p/q functions exist.
 #' @param p the proportion to be in the central region, with equal proportions 
 #' in either "tail".
 #' @param verbose a logical indicating whether a more verbose output value should be returned.

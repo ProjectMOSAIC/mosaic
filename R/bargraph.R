@@ -28,7 +28,7 @@
 #' and then calling [lattice::barchart()] using modified version of the formula and this
 #' new data frame as inputs.  This has implications on, for example, conditional plots where 
 #' one desires to condition on some expression that will be evaluated in `data`.  This typically
-#' does not work becuase the required variables do not exist in the output of `xtabs`.  One solution
+#' does not work because the required variables do not exist in the output of `xtabs`.  One solution
 #' is to first add a new variable to `data` first and then to condition using this new variable.
 #' See the examples.
 #'

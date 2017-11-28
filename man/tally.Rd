@@ -50,7 +50,7 @@ which case proportions are used instead.  Note that prior to version 0.9.3,
 \item{margins}{a logical indicating whether marginal distributions should be displayed.}
 
 \item{quiet}{a logical indicating whether messages about order in which
-marginal distributions are calculated should be surpressed.
+marginal distributions are calculated should be suppressed.
 See \code{\link[=addmargins]{addmargins()}}.}
 
 \item{subset}{an expression evaluating to a logical vector used to select a subset of \code{data}}
@@ -79,22 +79,22 @@ easier to have the two packages coexist.
 
 Otherwise, \code{tally()} is designed as an alternative to \code{\link[=table]{table()}} and
 \code{\link[=xtabs]{xtabs()}}.  The primary use case it to describe a (possibly multi-dimensional)
-table using a formula.  For a table of counts, each component of the formala becomes one
+table using a formula.  For a table of counts, each component of the formula becomes one
 of the dimensions of the cross table.  For tables of proportions or percents, conditional
 proportions and percents are computed, conditioned on each level of all "secondary"
 (i.e., conditioning) variables, defined as everything other than the left hand side,
-if there is a left hand side to the formala; and everything except the right hand side
+if there is a left hand side to the formula; and everything except the right hand side
 if the left hand side of the formula is empty.  Note that \code{groups} is folded into
 the formula prior to this determination and becomes part of the conditioning.
 
 When marginal totals are added, they are added for all of the conditioning dimensions, and
 proportions should sum to 1 for each level of the conditioning variables.  This can be
-useful to make it clear which conditional proportions are beign computed.
+useful to make it clear which conditional proportions are being computed.
 
 See the examples for some typical use cases.
 }
 \note{
-The curent implementation when \code{format = "sparse"} first creates the full data frame
+The current implementation when \code{format = "sparse"} first creates the full data frame
 and then removes the unneeded rows.  So the savings is in terms of space, not time.
 }
 \examples{

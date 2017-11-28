@@ -9,7 +9,7 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 #'
 #' @section Caution:
 #' This is still underdevelopment.  The API is subject to change, and some
-#' use cases may not work yet.  Watch for improvments in subsequent versions of the package.
+#' use cases may not work yet.  Watch for improvements in subsequent versions of the package.
 #' 
 #' @details The goal of this function is to assist with visualization
 #' of statistical models. Namely, to plot the model on top of the data

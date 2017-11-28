@@ -69,7 +69,7 @@ use of the formula interface.
 This is a wrapper around \code{\link[stats:t.test]{stats::t.test()}} from the \pkg{stats} package
 to extend the functionality of the formula interface.  In particular, one can
 now use the formula interface for a 1-sample t-test.  Before, the formula interface
-was only permitted for a 2-sample test.  The type of formala that can be used
+was only permitted for a 2-sample test.  The type of formula that can be used
 for the 2-sample test has also be broadened.  See the examples.
 }
 \examples{

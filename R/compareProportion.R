@@ -8,7 +8,7 @@
 #' formula.
 #' @param \dots other arguments
 #' @return the difference in proportions between the second and first group
-#' @note This funciton has been deprecated. Use [diffprop()] instead.
+#' @note This function has been deprecated. Use [diffprop()] instead.
 #' @keywords iteration
 #' @keywords stats
 #' @examples

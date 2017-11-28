@@ -27,7 +27,7 @@ when matching.}
 \item{returnAlternatives}{a logical indicating whether all alternatives should
 be returned in addition to the standard name.}
 
-\item{quiet}{a logical indicating whether warnings should be surpressed}
+\item{quiet}{a logical indicating whether warnings should be suppressed}
 }
 \description{
 Often different sources of geographical data will use different names for

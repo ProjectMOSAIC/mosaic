@@ -27,7 +27,7 @@ A function to calculate the difference between the means of a continuous
 variable for two groups.
 }
 \note{
-This funciton has been deprecated. Use \code{\link[=diffmean]{diffmean()}} instead.
+This function has been deprecated. Use \code{\link[=diffmean]{diffmean()}} instead.
 }
 \examples{
 if (require(mosaicData)) {

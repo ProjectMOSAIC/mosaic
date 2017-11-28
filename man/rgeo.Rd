@@ -45,7 +45,7 @@ translated into latitude and longitude.
 
 \code{rlatlon} is an alias for \code{rgeo} and
 \code{rlonlat} is too, expect that it reverses the
-order in which the lattitude and longitute values are
+order in which the latitude and longitude values are
 returned.
 
 \code{rgeo2} samples points in a cube by independently sampling each coordinate.  It then

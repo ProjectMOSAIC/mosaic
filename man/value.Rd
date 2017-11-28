@@ -20,7 +20,7 @@ value(object, ...)
 \description{
 Functions like \code{\link[=integrate]{integrate()}} and \code{\link[=nlm]{nlm()}} return objects that contain more
 information that simply the value of the integration or optimization.  \code{value()} extracts
-the primary value from such objects.  Currenlty implemented situations include the output from
+the primary value from such objects.  Currently implemented situations include the output from
 \code{\link[=integrate]{integrate()}},
 \code{\link[=nlm]{nlm()}},
 \code{\link[cubature:adaptIntegrate]{cubature::adaptIntegrate()}}, and

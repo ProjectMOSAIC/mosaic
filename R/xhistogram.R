@@ -124,7 +124,7 @@ prepanel.xhistogram <-
 #' @param dn number of points to sample from density curve
 #' @param dlwd,glwd like `lwd` but affecting the density line and guide lines, respectively
 #' @param args a list of additional arguments for `dmath`
-#' @param labels should counts/densities/precents be displayed or each bin?
+#' @param labels should counts/densities/percents be displayed or each bin?
 #' @param density a logical indicating whether to overlay a density curve
 #' @param under a logical indicating whether the density layers should be under or 
 #' over other layers of the plot.

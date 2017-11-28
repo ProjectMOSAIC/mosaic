@@ -102,7 +102,7 @@ Generic function plotting for R objects.  Currently plots exist for
 \code{data.frame}s, \code{lm}s, (including \code{glm}s).
 }
 \details{
-The method for models (lm and glm) is still a work in progress, but should be useable for
+The method for models (lm and glm) is still a work in progress, but should be usable for
 relatively simple models.  When the results for a logistic regression model created with
 \code{\link[=glm]{glm()}} are satisfactory will depend on the format and structure of the data
 used to fit the model.

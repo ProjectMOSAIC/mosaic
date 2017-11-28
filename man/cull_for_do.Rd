@@ -12,12 +12,12 @@ cull_for_do(object, ...)
 \item{...}{additional arguments (currently ignored)}
 }
 \description{
-The \code{\link[=do]{do()}} function facilitates easy repliaction for
+The \code{\link[=do]{do()}} function facilitates easy replication for
 randomization tests and bootstrapping (among other things).  Part of what
 makes this particularly useful is the ability to cull from the objects
 produced those elements that are useful for subsequent analysis.
 \code{cull_for_do} does this culling.  It is generic, and users
-can add new methods to either change behavoir or to hanlde additional
+can add new methods to either change behavior or to handle additional
 classes of objects.
 }
 \details{

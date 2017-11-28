@@ -21,7 +21,7 @@ the difference in proportions between the second and first group
 A function to facilitate 2 group permutation tests for a categorical outcome variable
 }
 \note{
-This funciton has been deprecated. Use \code{\link[=diffprop]{diffprop()}} instead.
+This function has been deprecated. Use \code{\link[=diffprop]{diffprop()}} instead.
 }
 \examples{
 if (require(mosaicData)) {

@@ -7,13 +7,13 @@ NA
 #' An ASH plot is the average over all histograms of a fixed bin width. 
 #' 
 #' @param x A formula or numeric vector.
-#' @param width The historam bin width.
+#' @param width The histogram bin width.
 #' @param adjust A numeric adjustment to `width`.  Primarily useful when `width` is 
 #'   not specified.  Increasing `adjust` makes the plot smoother.
-#' @param panel A panel funtion.
+#' @param panel A panel function.
 #' @param prepanel A prepanel function.
 #' @param ... Additional arguments passed to panel and prepanel functions or `data`, a 
-#'   data frame in which to find the variales used for the plot.
+#'   data frame in which to find the variables used for the plot.
 #' @param data A data frame.
 #' @export
 #' @examples

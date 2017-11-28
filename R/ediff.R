@@ -15,7 +15,7 @@
 #' @param pad.value the value to be used for padding.
 #' @param frontPad logical indicating whether padding is on the front (head) or 
 #' back (tail) end. This exists for backward compatibility. New code should use
-#' `pad` instaed.
+#' `pad` instead.
 #' @param \dots further arguments to be passed to or from methods
 #' @examples
 #' ediff(1:10)

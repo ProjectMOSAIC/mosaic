@@ -15,7 +15,7 @@ cor_test.default(x, y, ...)
 \arguments{
 \item{formula}{a formula}
 
-\item{...}{other orguments passed to \code{\link[stats:cor.test]{stats::cor.test()}}.}
+\item{...}{other arguments passed to \code{\link[stats:cor.test]{stats::cor.test()}}.}
 
 \item{x, y}{numeric vectors of data values. x and y must have the same length.}
 }

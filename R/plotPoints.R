@@ -10,7 +10,7 @@
 #' @param add If `TRUE`, add points as a new layer to an existing plot.
 #' If `NULL`, the value of `under` will be used.
 #' 
-#' @param under If `TRUE`, the new layer will be underneat existing layers.
+#' @param under If `TRUE`, the new layer will be underneath existing layers.
 #' 
 #' @param panelfun Lattice panel function to be used for adding.  Set only if you want something other
 #' than a scatter plot.  Mainly, this is intended to add new functionality through other functions.

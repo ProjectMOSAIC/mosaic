@@ -21,14 +21,14 @@ panel.ashplot(x, darg = list(), plot.points = FALSE, ref = FALSE,
 \item{data}{A data frame.}
 
 \item{...}{Additional arguments passed to panel and prepanel functions or \code{data}, a
-data frame in which to find the variales used for the plot.}
+data frame in which to find the variables used for the plot.}
 
-\item{width}{The historam bin width.}
+\item{width}{The histogram bin width.}
 
 \item{adjust}{A numeric adjustment to \code{width}.  Primarily useful when \code{width} is
 not specified.  Increasing \code{adjust} makes the plot smoother.}
 
-\item{panel}{A panel funtion.}
+\item{panel}{A panel function.}
 
 \item{prepanel}{A prepanel function.}
 

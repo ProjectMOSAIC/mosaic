@@ -40,7 +40,7 @@ mplot.default <- function(object, ...) {
 # comprising the map and a variable for determining which corodiantes are part
 # of the same region.  See \code{\link{sp2df}} for one way to create such
 # a data frame.  Typically \code{\link{merge}} will be used to combine the map
-# data with some auxilliary data to be displayed as fill color on the map, although
+# data with some auxiliary data to be displayed as fill color on the map, although
 # this is not necessary if all one wants is a map.
 #' @param format,default default type of plot to create; one of 
 #' `"scatter"`,
@@ -77,7 +77,7 @@ mplot.default <- function(object, ...) {
 #' @param id.size Size of id labels.
 #' @param id.color Color of id labels.
 #' @details
-#' The method for models (lm and glm) is still a work in progress, but should be useable for 
+#' The method for models (lm and glm) is still a work in progress, but should be usable for 
 #' relatively simple models.  When the results for a logistic regression model created with
 #' [glm()] are satisfactory will depend on the format and structure of the data
 #' used to fit the model.

@@ -47,7 +47,7 @@ or \code{\link[mosaic:sample]{mosaic::sample()}}.}
 \item{groups}{a vector (or variable in a data frame) specifying
 groups to sample within. This will be recycled if necessary.}
 
-\item{orig.ids}{a logical; should origianal ids be included in returned data frame?}
+\item{orig.ids}{a logical; should original ids be included in returned data frame?}
 
 \item{size}{a non-negative integer giving the number of items to choose.}
 

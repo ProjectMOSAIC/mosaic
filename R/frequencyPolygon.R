@@ -15,7 +15,7 @@
 #' this works reasonably well but sometimes it does not. In particular, when `groups` is
 #' used to overlay multiple frequency polygons, there is often too little head room.  
 #' In the latter cases, it may be 
-#' necessary to use `ylim` to determine an approprate viewing rectangle for the 
+#' necessary to use `ylim` to determine an appropriate viewing rectangle for the 
 #' plot.
 #' 
 #' @examples
@@ -141,7 +141,7 @@ freqpoly <- function(x, plot = TRUE, ...) {
 
 #' @export
 #' @rdname freqpoly
-#' @param hist a histgram object produced by \code{link{hist}()}.
+#' @param hist a histogram object produced by \code{link{hist}()}.
 #' 
 hist2freqpolygon <- function(hist) {
   res <- hist
@@ -187,9 +187,9 @@ hist2freqpolygon <- function(hist) {
 #' @param sub A sub-title for the plot.
 #' @param xlab Label for the horizontal axis.
 #' @param ylab Label for the vertical axis.
-#' @param xlim A numeric vector of lenght 2.
-#' @param ylim A numeric vector of lenght 2.
-#' @param axes A logical indicating whehter axes should be drawn.
+#' @param xlim A numeric vector of length 2.
+#' @param ylim A numeric vector of length 2.
+#' @param axes A logical indicating whether axes should be drawn.
 #' @param labels A logical indicating whether labels should be printed or a character
 #' vector of labels to add.
 #' @param add A logical indicating whether the plot should be added to the current plot

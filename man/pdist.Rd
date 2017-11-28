@@ -36,7 +36,7 @@ xpnbinom(...)
 xpbeta(...)
 }
 \arguments{
-\item{dist}{a character discription of a distribution, for example
+\item{dist}{a character description of a distribution, for example
 \code{"norm"}, \code{"t"}, or \code{"chisq"}}
 
 \item{q}{a vector of quantiles}
@@ -54,7 +54,7 @@ xpbeta(...)
 \item{ylim}{y limits}
 
 \item{resolution}{Number of points used for detecting discreteness and generating plots.
-The defaut value of 5000 should work well except for discrete distributions
+The default value of 5000 should work well except for discrete distributions
 that have many distinct values, especially if these values are not evenly spaced.}
 
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}

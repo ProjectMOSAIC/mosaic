@@ -1,10 +1,10 @@
 utils::globalVariables(c('panel.plotFun1')) 
 
-#' show confidence and preciction bands on plots
+#' show confidence and prediction bands on plots
 #' 
 #' @param x,y numeric vectors
 #' @param interval a vector subset of `'confidence'` and `'prediction'`
-#' @param level conficence level
+#' @param level confidence level
 #' @param model model to be used for generating bands
 #' @param band.col a vector of length 1 or 2 giving the color of bands 
 #' @param band.lty a vector of length 1 or 2 giving the line type for bands

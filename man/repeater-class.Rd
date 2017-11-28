@@ -13,7 +13,7 @@ format from that used by, for example, \code{\link[=replicate]{replicate()}}.
 
 \describe{
 \item{\code{n}:}{Object of class \code{"numeric"} indicating how many times to repeat something.}
-\item{\code{cull}:}{Object of class \code{"function"} that culls the ouput from each repetition.}
+\item{\code{cull}:}{Object of class \code{"function"} that culls the output from each repetition.}
 \item{\code{mode}:}{Object of class \code{"character"} indicating the output mode
 ('default', 'data.frame', 'matrix', 'vector', or 'list').  For most purposes 'default' (the default)
 should suffice.}

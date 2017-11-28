@@ -1,6 +1,6 @@
 #' deltaMethod has moved to a separate package
 #' 
-#' `deltaMethod` has moved to its own separate package.
+#' `deltaMethod()` has moved to its own separate package.
 #' 
 #' @param ... arguments (ignored, since this is defunct)
 #' @export

@@ -81,7 +81,7 @@ score_ci <- function(x, n, conf.level = 0.95,
 #' `binom.test` using one of several alternative methods.
 #' 
 #' @param object An `"htest"` object produced by [binom.test()]
-#' @param method a method for computing a confidence interval for a propotion.
+#' @param method a method for computing a confidence interval for a proportion.
 #' @return an `"htest"` object with an updated confidence interval
 #' 
 #' @export

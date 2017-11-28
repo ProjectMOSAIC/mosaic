@@ -44,7 +44,7 @@ utils::globalVariables(c('coordinates',"Name","Code","long","lat"))
 #' non-standard names (names of vector) to standard names (values of vector)
 #' @param ignore.case a logical indicating whether case should be ignored 
 #' when matching.
-#' @param quiet a logical indicating whether warnings should be surpressed
+#' @param quiet a logical indicating whether warnings should be suppressed
 #' @export
 standardName <- function(x, standard, ignore.case=TRUE, returnAlternatives=FALSE, quiet=FALSE) {
   nn <- names(x)  

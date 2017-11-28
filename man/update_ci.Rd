@@ -10,7 +10,7 @@ update_ci(object, method = c("clopper-pearson", "wald", "agresti-coull",
 \arguments{
 \item{object}{An \code{"htest"} object produced by \code{\link[=binom.test]{binom.test()}}}
 
-\item{method}{a method for computing a confidence interval for a propotion.}
+\item{method}{a method for computing a confidence interval for a proportion.}
 }
 \value{
 an \code{"htest"} object with an updated confidence interval

@@ -32,10 +32,10 @@ msummary(object, ...)
 
 \item{symbolic.cor}{see \code{\link[=summary]{summary()}}}
 
-\item{signif.stars}{a logical indicating whether to diplay stars to
+\item{signif.stars}{a logical indicating whether to display stars to
 indicate significance}
 
-\item{...}{aditional arguments}
+\item{...}{additional arguments}
 
 \item{object}{an object to summarise}
 }
