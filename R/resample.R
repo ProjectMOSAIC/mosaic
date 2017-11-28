@@ -373,11 +373,24 @@ sample.lm <-
 
 #' Resample a Linear Model
 #' 
-#' Residual resampling from a linear model
+#' Fit a new model to data created using `resample(model)`.
+#' 
 #' 
 #' @param model a linear model object produced using [lm()].
 #' @param ...  additional arguments passed through to [resample()].
 #' @param envir an environment in which to (re)evaluate the linear model.
+#' @seealso `resample()`
+#' 
+#' @examples
+#' mod <- lm(length ~ width, data = KidsFeet)
+#' do(1) * mod 
+#' do(3) * relm(mod) 
+#' # use residual resampling to estimate standard error
+#' Boot <- do(1000) * relm(mod)
+#' sd(~ width, data = Boot)
+#' # standard error as produced by summary() for comparison
+#' mod %>% summary() %>% coef() 
+#' 
 #' @export
 relm <- function(model, ..., envir = environment(formula(model))) {
   mcall <- model$call
