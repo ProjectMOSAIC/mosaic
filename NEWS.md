@@ -4,7 +4,7 @@
 
  * A few more things have moved to `mosaicCore`.
  * Two of the vignettes have been moved out of the package to reduce CRAN size.
-
+ * Several plots now default to using `ggplot2` rather than `lattice`.
  
 ## mosaic 1.0
 
