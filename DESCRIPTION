@@ -24,7 +24,8 @@ Imports:
     latticeExtra,
     ggdendro,
     gridExtra,
-    glue
+    glue,
+    broom
 Suggests: 
     lubridate,
     fastR,
