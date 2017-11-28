@@ -5,9 +5,9 @@ utils::globalVariables(c('pair','lwr','upr','fitted','.resid',
                          '.hat', 'grid.arrange',  'estimate','se')) 
 
 #' @importFrom ggplot2 fortify
-NA
-
+#' @importFrom stats qqnorm
 #' @importFrom broom augment
+#' 
 NA
 
 #' Generic plotting
