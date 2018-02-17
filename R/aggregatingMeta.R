@@ -542,7 +542,7 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #'   -- ideally supplying a data frame that contains the variables mentioned.
 #' @return the mean or sum of the absolute differences between each pair
 #'   of values in `c(x,...)`.
-#' @seealso \code{link{mad}}, [MAD_()]
+#' @seealso [mad()], [MAD_()]
 #' @rdname MAD
 #' @export
 #' @examples

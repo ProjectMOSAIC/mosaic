@@ -42,5 +42,5 @@ MAD(1:3)
 MAD(~eruptions, data = faithful)
 }
 \seealso{
-\code{link{mad}}, \code{\link[=MAD_]{MAD_()}}
+\code{\link[=mad]{mad()}}, \code{\link[=MAD_]{MAD_()}}
 }
