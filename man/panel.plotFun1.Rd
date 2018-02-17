@@ -5,6 +5,8 @@
 \title{Panel function for plotting functions}
 \usage{
 panel.plotFun1(..f.., ..., x, y, type = "l",
+  lwd = trellis.par.get("superpose.line")$lwd,
+  lty = trellis.par.get("superpose.line")$lty,
   col = trellis.par.get("superpose.line")$col, npts = NULL, zlab = NULL,
   filled = TRUE, levels = NULL, nlevels = 10, surface = FALSE,
   alpha = NULL, discontinuity = NULL, discontinuities = NULL)
