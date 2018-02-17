@@ -34,7 +34,12 @@ the mean or sum of the absolute differences between each pair
 of values in \code{c(x,...)}.
 }
 \description{
-All pairs mean and sum of absolute differences
+The functions compute the sum or mean of all pairwise absolute
+differences.  This differs from \code{\link[stats:mad]{stats::mad()}}, which computes
+the median absolute difference of each value from the median of
+all the values.  See the \code{ISIwithR} package (and the textbook it
+accompanies) for examples using these functions in the context of
+simulation-based inference.
 }
 \examples{
 SAD(1:3)
