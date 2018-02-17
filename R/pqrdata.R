@@ -109,6 +109,26 @@ cdata_v <- function( x, p = .95, na.rm = TRUE, ... ) {
   return(result)
 }
 
+# xcdata <- function( formula, p = 0.95, data = NULL, ...) { 
+#   vals_call <- substitute(formula)
+#   if (! is.numeric(p) || any(p < 0) || any(p > 1)) {
+#     stop("Invalid values of p.  Are your arguments in the wrong order?")
+#   }
+#   
+#   args <- eval(substitute(alist(vals_call, ...)))
+#   args [["p"]] <- p # substitute(p, parent.frame())
+#   args [["data"]] <- data
+#   cd <- do.call( "cdata_f", args )
+#   data %>%
+#     mutate(
+#       status = dplyr::case_when(
+#         cd$low ~ "tail"
+#   gf_histogram(formula, data = data, fill = ~cut(cd[1:2]
+#   
+# }
+
+#' @rdname pqrdata2
+#' @export
 #' @rdname pqrdata2
 #' @export
 
