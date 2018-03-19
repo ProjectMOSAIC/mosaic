@@ -177,6 +177,7 @@ xcnorm <-
     p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
     lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
     ..., return = c("value", "plot")) {
+    if (length(mean) > 1 || length(sd) > 1) stop("Only 1 mean and 1 sd allowed.")
     p <- c((1-p)/2, p + (1-p)/2)
     xqnorm(
       p, mean = mean, sd = sd, verbose = verbose, digits = digits, 
@@ -201,10 +202,15 @@ xcnorm <-
 #' @export
 #' 
 #' @examples
-#' cnorm(.95)
 #' qnorm(.975)
-#' cnorm(.95, mean = 100, sd = 10)
+#' cnorm(.95)
 #' xcnorm(.95)
+#' xcnorm(.95, verbose = FALSE, return = "plot") %>%
+#'   gf_refine(
+#'   scale_fill_manual( values = c("navy", "limegreen")),
+#'   scale_color_manual(values = c("black", "black")))
+#' cnorm(.95, mean = 100, sd = 10)
+#' xcnorm(.95, mean = 100, sd = 10)
 #' 
 cnorm <- 
   function(p, mean = 0, sd = 1, log.p = FALSE,
