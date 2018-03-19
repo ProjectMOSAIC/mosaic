@@ -396,6 +396,9 @@ xpt <- function(...)  pdist("t", ...)
 #' @rdname qdist
 #' @export
 xqt <- function(...)  qdist("t", ...)
+#' @rdname cdist
+#' @export
+xct <- function(...)  cdist("t", ...)
 
 #' @rdname pdist
 #' @export

@@ -3,6 +3,7 @@
 \name{xpnorm}
 \alias{xpnorm}
 \alias{xqnorm}
+\alias{xcnorm}
 \title{Augmented versions of pnorm and qnorm}
 \usage{
 xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
@@ -11,6 +12,10 @@ xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   manipulate = FALSE, ..., return = c("value", "plot"))
 
 xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
+  digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
+  ylim, invisible = FALSE, ..., return = c("value", "plot"))
+
+xcnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
   ylim, invisible = FALSE, ..., return = c("value", "plot"))
 }

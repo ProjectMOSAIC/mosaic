@@ -133,8 +133,10 @@ xqnorm <-
       message("\n")
       message(paste("If X ~ N(",format(mean, digits = digits),", ", 
                 format(sd, digits = digits),"), then \n",sep=""))
-      message(paste("\tP(X", " <= ", format(q, digits = digits), ") = ", p, "", sep = ""))
-      message(paste("\tP(X", " >  ", format(q, digits = digits), ") = ", 1 - p, "", sep = ""))
+      message(paste("\tP(X", " <= ", format(q, digits = digits), ") = ", 
+                    format(p, digits = digits), "", sep = ""))
+      message(paste("\tP(X", " >  ", format(q, digits = digits), ") = ", 
+                    format(1 - p, digits = digits), "", sep = ""))
       message("\n")
     }
     if (! lower.tail) { # make sure we have lower tail probs from here on
@@ -165,6 +167,77 @@ xqnorm <-
       }
       return(q)
     }
+}
+
+#' @rdname xpnorm
+#' @export
+#' 
+xcnorm <-
+  function (
+    p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
+    lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
+    ..., return = c("value", "plot")) {
+    p <- c((1-p)/2, p + (1-p)/2)
+    xqnorm(
+      p, mean = mean, sd = sd, verbose = verbose, digits = digits, 
+      lower.tail = lower.tail, log.p = log.p, xlim = xlim, ylim = ylim, 
+      invisible = invisible, ..., return = return)
+  }
+    
+
+#' Central Probability in a Normal or T Distribution
+#' 
+#' These versions of the quantile functions take a vector of 
+#' *central* probabilities as its first argument.
+#' 
+#' @seealso [stats::qnorm()], [cdist()]
+#' 
+#' @inheritParams stats::qnorm
+#' 
+#' @param side One of "upper", "lower", or "both" indicating
+#' whether a vector of upper or lower quantiles or a matrix of 
+#' both should be returned.
+#' 
+#' @export
+#' 
+#' @examples
+#' cnorm(.95)
+#' qnorm(.975)
+#' cnorm(.95, mean = 100, sd = 10)
+#' xcnorm(.95)
+#' 
+cnorm <- 
+  function(p, mean = 0, sd = 1, log.p = FALSE,
+           side = c("both", "upper", "lower")
+  ) {
+    side <- match.arg(side)
+    upper <- qnorm(p + (1-p)/2, mean = mean, sd = sd, log.p = log.p) 
+    lower <- qnorm((1-p)/2,     mean = mean, sd = sd, log.p = log.p) 
+    switch(
+      side,
+      upper = upper,
+      lower = lower,
+      both  = cbind(lower, upper)
+    )
+}
+
+#' @rdname cnorm
+#' @inheritParams stats::qt
+#' 
+#' @export
+ct <- 
+  function(p, df, ncp, log.p = FALSE,
+           side = c("upper", "lower", "both")
+  ) {
+    side <- match.arg(side)
+    upper <- qt(p + (1-p)/2, df = df, ncp = ncp, log.p = log.p) 
+    lower <- qt((1-p)/2,     df = df, ncp = ncp, log.p = log.p) 
+    switch(
+      side,
+      upper = upper,
+      lower = lower,
+      both  = cbind(lower, upper)
+    )
 }
 
 #' midpoints along a sequence
@@ -213,25 +286,40 @@ mid <- function(x) {
 
 	D <- 
 	  data.frame(x = xdata, density = ydata) %>%
-	  mutate(group = apply(sapply(x, function(x) {x < q}), 2, sum))
+	  mutate(group = apply(sapply(x, function(x) {x >= q}), 2, sum)) %>%
+	  head(-1) %>% tail(-1)
+	
 	Q <- 
 	  data.frame(q = mid(q), m = 1.1 * max(D$density)) %>%
-	  mutate(group = apply(sapply(q, function(x) {x < q}), 2, sum))
+	  mutate(group = apply(sapply(q, function(x) {x >= q}), 2, sum))
 	
-	plot <- 
-	  ggplot() +
-	  geom_area(aes(y = density, x = x, fill = factor(group)), data = D, show.legend = FALSE) +
-	  geom_text(aes(y = m,  x = q, color = factor(group)), data = Q, 
-	            label = paste("", round(diff(p), 3), sep = ""),
-	            angle = 45, show.legend = FALSE) +
-	  geom_point(aes(y = 1.1 * m, x = q), color = "transparent", data = Q)
+	# plot <- 
+	#   ggplot() +
+	#   geom_area(aes(y = density, x = x, fill = factor(group)), data = D, show.legend = FALSE) +
+	#   geom_text(aes(y = m,  x = q, color = factor(group)), data = Q, 
+	#             label = paste("", round(diff(p), 3), sep = ""),
+	#             angle = 45, show.legend = FALSE) +
+	#   geom_point(aes(y = 1.1 * m, x = q), color = "transparent", data = Q)
 	  
+	plot <- 
+	  gf_area(density ~ x, fill = ~as.character(group %% 2), data = D, 
+	          group = ~group,
+	          show.legend = FALSE, ...) %>%
+	  gf_text(m ~ q, color = ~ as.character(group %% 2), data = Q, 
+	            label = paste("", round(diff(p), 3), sep = ""),
+	            angle = 45, show.legend = FALSE) %>%
+	  gf_point((1.1 * m) ~ q, color = "transparent", data = Q, 
+	           inherit = FALSE, show.legend = FALSE) %>%
+	  gf_refine(
+	    scale_fill_brewer(type = "qual", palette = 6),
+	    scale_color_brewer(type = "qual", palette = 6)
+	  )
+	
 	return(plot)
 }
 
 
 .plot_one_norm <- function(p, q, mean, sd, xlim, ylim, digits=4, 
-    # vlwd=2, vcol=trellis.par.get('add.line')$col, 
     ...) 
 {
 	z <- (q - mean) / sd
@@ -251,24 +339,38 @@ mid <- function(x) {
 	   )
 	
 	Dtext <- 
-	  data_frame(
+	  dplyr::data_frame(
 	    x = q,
 	    z = (q - mean)/sd,
-	    y1 = dnorm(mean, mean, sd),
-	    y2 = 1.1 * dnorm(mean, mean, sd),
+	    y1 = stats::dnorm(mean, mean, sd),
+	    y2 = 1.1 * stats::dnorm(mean, mean, sd),
 	    label = paste("z = ", round(z, 2))
 	  )
 	  
 
-	res_plot <-
-	  ggplot(data = Ddensity, aes(x = x, y = density, group = tail, fill = tail)) +
-	    geom_area() + 
-	    geom_text(aes(x = x, y = y2, label = label), data = Dtext, 
-	              vjust = 1, hjust = 0.5, inherit.aes = FALSE) +
-	    geom_segment(aes(x = x, xend = x, y = 0, yend = y1), data = Dtext, inherit.aes = FALSE) +
-	    guides(fill = guide_legend(title = "")) +
-	    theme(legend.position = "top")
+	# res_plot <-
+	#   ggplot(data = Ddensity, aes(x = x, y = density, group = tail, fill = tail)) +
+	#     geom_area() + 
+	#     geom_text(aes(x = x, y = y2, label = label), data = Dtext, 
+	#               vjust = 1, hjust = 0.5, inherit.aes = FALSE) +
+	#     geom_segment(aes(x = x, xend = x, y = 0, yend = y1), data = Dtext, inherit.aes = FALSE) +
+	#     guides(fill = guide_legend(title = "")) +
+	#     theme(legend.position = "top")
 
+	res_plot <-
+	  gf_area(density ~ x, data = Ddensity, group = ~ tail, fill = ~ tail, 
+	          show.legend = FALSE, ...) %>%
+	  gf_text(y2 ~ x, label = ~label, data = Dtext, 
+	          vjust = 1, hjust = 0.5, inherit = FALSE,
+	          show.legend = FALSE) %>%
+	  gf_segment(0 + y1 ~ x + x, data = Dtext, inherit = FALSE)  %>%
+	  gf_refine(
+	    scale_fill_brewer(type = "qual", palette = 2),
+	    scale_color_brewer(type = "qual", palette = 2)
+	  )
+	  
+	    # gf_refine(guides(fill = guide_legend(title = ""))) %>%
+	
 	return(res_plot)
 	
 }
