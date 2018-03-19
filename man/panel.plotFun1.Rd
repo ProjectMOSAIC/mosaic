@@ -27,6 +27,10 @@ Frequently used arguments include
 
 \item{type}{type of plot (\code{"l"} by default)}
 
+\item{lwd}{width of the line}
+
+\item{lty}{line type}
+
 \item{col}{a vector of colors}
 
 \item{npts}{an integer giving the number of points (in each dimension) to sample the function}

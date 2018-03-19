@@ -38,6 +38,10 @@ Frequently used arguments include
 
 \item{col.regions}{a vector of colors or a function (\code{topo.colors} by default) for generating such}
 
+\item{lwd}{width of the line}
+
+\item{lty}{line type}
+
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
 
 \item{discontinuity}{a positive number determining how sensitive the plot is to

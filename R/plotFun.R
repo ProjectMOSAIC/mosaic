@@ -501,6 +501,8 @@ branch_lengths <- function(x, y, discontinuities = NULL, discontinuity = 1) {
 #' @param ..f.. an object (e.g., a formula) describing a function
 #' @param x,y ignored, but there for compatibility with other lattice panel functions
 #' @param col a vector of colors
+#' @param lwd width of the line
+#' @param lty line type
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
 #' @param filled fill with color between the contours (`TRUE` by default)
@@ -753,6 +755,8 @@ panel.plotFun1a <- function( ..f.., ...,
 #' @param object an object (e.g., a formula) describing a function
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
+#' @param lwd width of the line
+#' @param lty line type
 #' @param filled fill with color between the contours (`TRUE` by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if `levels` not specified)
