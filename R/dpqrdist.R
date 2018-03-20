@@ -24,9 +24,9 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
   type <- match.arg(type)
   dots <- list(...)
   distFunName <- paste0(type, dist)
-  distdots <- dots[names(dots) %in% names(formals(distFunName))]
+  dist_dots <- dots[names(dots) %in% names(formals(distFunName))]
 
-  do.call(distFunName, distdots)
+  do.call(distFunName, dist_dots)
 }
 
 #' Illustrated probability calculations from distributions
@@ -67,9 +67,6 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE, 
                    digits = 3L, 
                    xlim, ylim,
-                   # vlwd = NULL, 
-                   # vcol = trellis.par.get('add.line')$col, 
-                   # rot = 45, 
                    resolution = 500L,
                    return = c("values", "plot"),
                    ...,
@@ -99,7 +96,6 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
           xlim = xlim, ylim = ylim, 
           digits = digits, 
           resolution = resolution,
-          # vlwd = vlwd, vcol = vcol, rot = rot, 
           ...)),
         refinements)
     )
@@ -136,9 +132,12 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #' @param resolution number of points used for detecting discreteness and generating plots.  
 #'   The default value of 5000 should work well except for discrete distributions
 #'   that have many distinct values, especially if these values are not evenly spaced.
-#' @param ... additional arguments, including parameters of the distribution
-#'   and additional options for the plot
 #' @param refinements A list of refinements to the plot.  See [ggformula::gf_refine()].
+#' @param ... additional arguments, including parameters of the distribution
+#'   and additional options for the plot.  To help with name collisions (eg `size` for binomial 
+#'   distributions and `shape` for gamma distributions), argument names beginning `plot_` will
+#'   be renamed to remove `plot_` and passed only to the plot.  The unprefixed version will 
+#'   used as a paramter for the the distribution.
 #' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
 #' @details The most general function is `qdist` which can work with 
 #' any distribution for which a q-function exists.  As a convenience, wrappers are 
@@ -146,31 +145,33 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #' 
 #' @return a vector of quantiles; a plot is printed as a side effect
 #' @examples
-#' qdist("norm", seq(.2, .8, by = 0.10))
-#' xqnorm(seq(.2, .8, by = 0.10), mean = 100, sd = 10)
+#' qdist("norm", seq(.1, .9, by = 0.10), 
+#'       title = "Deciles of a normal distribution", show.legend = FALSE,
+#'       pattern = "rings")
+#' xqnorm(seq(.2, .8, by = 0.20), mean = 100, sd = 10)
 #' qdist("unif", .5)
 #' xqgamma(.5, shape = 3, scale = 4)
-#' xqgamma(.5, shape = 3, scale = 4, dlwd = 1)
+#' xqgamma(.5, shape = 3, scale = 4, color = "black")
 #' xqbeta(.5, shape1 = .9, shape2 = 1.4, dlwd = 1)
 #' xqchisq(c(.25,.5,.75), df = 3)
-#' xqbinom(c(0.25, 0.85), size = 1000, prob = 0.40)
+#' xcbinom(c(0.80, 0.90), size = 1000, prob = 0.40)
 #' # displayed as if continuous
-#' xqbinom(c(0.25, 0.85), size = 5000, prob = 0.40)
-#' xpbinom( c(480, 500, 510), size = 1000, prob = 0.48)
-#' xpbinom( c(40, 60), size = 100, prob = 0.5)
-#' xqpois( c(0.25, 0.5, 0.75), lambda = 6, lwd = 3, vlwd = 2)
+#' xcbinom(c(0.80, 0.90), size = 5000, prob = 0.40)
+#' xpbinom(c(480, 500, 520), size = 1000, prob = 0.48)
+#' xpbinom(c(40, 60), size = 100, prob = 0.5)
+#' xqpois(c(0.25, 0.5, 0.75), lambda = 12)
+#' xcpois(0.50, lambda = 12)
+#' xcpois(0.50, lambda = 12, refinements = list(scale_color_brewer(type = "qual", palette = 5)))
 #' @export 
 
 qdist <- function (dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE, 
                    resolution = 500L,
                    digits = 3L, 
                    xlim, ylim,
-                   # vlwd = NULL, 
-                   # vcol = trellis.par.get('add.line')$col, 
-                   # rot = 45, 
                    return = c("values", "plot"),
-                   ...,
-                   refinements = list())
+                   refinements = list(),
+                   ...
+                   )
 {
   return = match.arg(return)
   dots <- list(...)
@@ -195,7 +196,6 @@ qdist <- function (dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = F
           xlim = xlim, ylim = ylim, 
           digits = digits, 
           resolution = resolution,
-          # vlwd = vlwd, vcol = vcol, rot = rot, 
           ...)
       ), refinements)
     )
@@ -216,15 +216,16 @@ plot_multi_dist <-
   function(dist, p, q, xlim, ylim, digits = 3L, resolution = 500L,
            lower.tail = TRUE,
            dlwd = 0, 
-           # vlwd = if (discrete) 0 else 2, 
-           # vcol = trellis.par.get('add.line')$col, rot = 0, 
+           pattern = c("stripes", "rings"),
            ...) 
 {
   dots <- list(...)
-  latticedots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
-  distdots <- dots[ names(dots) %in% names(formals(paste0("p",dist))) ]
+  pattern <- match.arg(pattern)
   
-  discrete <- do.call(is_discrete_dist, c(list(dist), distdots))
+  plot_dots <- dots[ ! names(dots) %in% names(formals(paste0("p",dist))) ]
+  dist_dots <- dots[   names(dots) %in% names(formals(paste0("p",dist))) ]
+  
+  discrete <- do.call(is_discrete_dist, c(list(dist), dist_dots))
   
   if (missing(p)) {
     if (missing(q)) { stop( "one of p or q must be specified") }
@@ -239,9 +240,13 @@ plot_multi_dist <-
     q <- sort(dpqrdist(dist, type = "q", p = p, lower.tail = lower.tail, ...))
     p_less <- dpqrdist(dist, type = "p", q = q, ...)
   }
+ 
+  names(plot_dots) <- gsub("plot_", "", names(plot_dots)) 
+  if ('lty' %in% names(plot_dots)) { plot_dots$linetype <- plot_dots$lty; plot_dots$lty <- NULL }
+  if ('pch' %in% names(plot_dots)) { plot_dots$shape <- plot_dots$pch;    plot_dots$pch <- NULL }
+  if ('cex' %in% names(plot_dots)) { plot_dots$size <- plot_dots$cex;     plot_dots$cex <- NULL }
   
-  if (! 'lty' %in% names(latticedots)) { latticedots$lty <- 1 }
-  if (! 'pch' %in% names(latticedots)) { latticedots$pch <- 16 }
+  if (! 'xlab' %in% names(plot_dots)) { plot_dots$xlab <- "" }
   
   if (missing(xlim) || is.null(xlim)) {
     xlim_opts <- dpqrdist(dist, type = "q", p = c(0, 0.001, 0.999, 1), ...)
@@ -277,78 +282,57 @@ plot_multi_dist <-
   p_less <- sort(unique(c(0, p_less, 1)))
   q <- dpqrdist(dist, type = "q", p = p_less, ...) #  c(xlim[1], q, xlim[2])
   
-  if (discrete) {
-    if (is.null(latticedots$pch)) latticedots$pch = 16
-  }
+  # if (discrete) {
+  #   if (is.null(plot_dots$pch)) plot_dots$pch = 16
+  # }
   
  
   
-  args <- c(
-    list(
-      ydata ~ xdata, 
-      xlim = xlim, ylim = ylim, 
-      groups = sapply(xdata, function(x) {sum(x <= q, na.rm = TRUE)}),
-      type= if (discrete) c('p','h') else 'h',
-      xlab = "", 
-      ylab = if (discrete) "probability" else "density" 
-    #   panel = 
-    #     if (discrete) {
-    #       function(x, y, ...) {
-    #         # panel.xyplot(x,y,...)
-    #         panel.segments(q, 0, q, grid::unit(ymax,'native') + grid::unit(.2,'lines'), 
-    #                        col = vcol, lwd = vlwd)
-    #         grid.text(x = mid(q), y = grid::unit(ymax,'native') + grid::unit(1.0,'lines'), default.units = 'native',
-    #                   rot = rot,
-    #                   check.overlap = TRUE,
-    #                   paste("", round(diff(p), 3), sep = ""), 
-    #                   just = c('center','center'),  gp = gpar(cex = 1.0))
-    #         panel.xyplot(x, y, ...)
-    #       } 
-    #     } else {
-    #       function(x, y, ...) {
-    #         panel.xyplot(x, y, ...)
-    #         panel.segments(q, 0, q, grid::unit(ymax,'native') + grid::unit(.2,'lines'), 
-    #                        col = vcol, lwd = vlwd)
-    #         grid.text(x = mid(q), y = grid::unit(ymax,'native') + grid::unit(1.0,'lines'), default.units = 'native',
-    #                   rot = rot,
-    #                   check.overlap = TRUE,
-    #                   paste("", round(diff(p), 3), sep = ""), 
-    #                   just = c('center','center'),  gp = gpar(cex = 1.0))
-    #         panel.xyplot(x,y, type = 'l', lwd = dlwd, col = "black")
-    #       }
-    #     } 
-    ),
-    latticedots
-  )
-  
+  # args <- c(
+  #   list(
+  #     ydata ~ xdata, 
+  #     xlim = xlim, ylim = ylim, 
+  #     xlab = "", 
+  #     ylab = if (discrete) "probability" else "density" 
+  #   ),
+  #   plot_dots
+  # )
+  # 
   # res_plot <- do.call("xyplot", args)
-
+  
+  Groups <- 
+    data_frame(p = diff(p_less)) %>%
+    mutate(
+      i = 1 : n(),
+      name = if (pattern == "stripes") LETTERS[i] else LETTERS[ceiling(1 + abs(i - mean(i)))]
+    ) %>% 
+    group_by(name) %>%
+    mutate(
+      p_all = sum(p),
+      label = paste(first(name), ":", formatC(p_all, format = "f", digits = digits), sep = "")
+    )
+  
   if (discrete) { 
-    q <- tail(q, -1)
-    labels <- paste(LETTERS[1:(length(p_less) - 1)], ": ", 
-                        formatC(diff(p_less), format = "f", digits = digits), sep = "")
-    names(labels) <- LETTERS[1:(length(p_less) - 1)]
-    
+    # q <- tail(q, -1)
     Ddensity <- 
       data_frame(
         x = xdata, density = ydata, 
-        group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)}),
+        group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
       ) %>%
       mutate(
         group = pmax(1, group),
-        probability = labels[group] # factor(group, labels = labels[sort(unique(group))])
-      )
+        probability = Groups$label[group] 
+      ) 
+    
+    # print(Ddensity)
     
     plot <- 
-      ggplot(aes(y = density, x = x, color = probability, group = probability), data = Ddensity) +
-      geom_point() + 
-      geom_segment(aes(yend = 0, xend = x)) +
-      labs(x = "")
+      do.call(gf_point, c(list(density ~ x, color = ~ probability, group = ~ group, fill = ~ probability,
+               data = Ddensity), plot_dots)) %>%
+      gf_segment(density + 0 ~ x + x) %>%
+      gf_labs(x = "", y = "probability")
     
   } else {
-    labels <- paste(LETTERS[1:(length(p_less) - 1)], ": ", 
-                        formatC(diff(p_less), format = "f", digits = digits), sep = "")
-    names(labels) <- LETTERS[1:(length(p_less) - 1)]
     Ddensity <- 
       data_frame(
         x = xdata, density = ydata, 
@@ -356,27 +340,13 @@ plot_multi_dist <-
       ) %>%
       mutate(
         group = pmax(1, group),
-        probability = labels[group] # factor(group, labels = labels[sort(unique(group))])
+        probability = Groups$label[group] # factor(group, labels = labels[sort(unique(group))])
       ) %>%
       dplyr::filter(!is.na(probability))  # avoids issues when xlim is wider than support
     
-    Dtext <- Ddensity %>% group_by(group) %>% 
-      summarise(
-        x = mean(x, na.rm = TRUE) 
-      ) %>%
-      mutate(
-        y = base::max(Ddensity$density, na.rm = TRUE) * 1.1
-        # label = paste("", formatC(diff(p), format = "f", digits = digits), sep = "")
-      )
-    
     plot <- 
-      ggplot(aes(y = density, x = x, fill = probability, group = probability), data = Ddensity) +
-      geom_area() + 
-      geom_line(size = dlwd) +
-      labs(x = "")
-    # plot <- plot + 
-    #     geom_text(aes(y = y, x = x, color = group, label = label), data = Dtext,
-    #               angle = 45, size = 3, show.legend = FALSE)
+      do.call(gf_area, c(list(density ~ x, fill = ~ probability, 
+                              group = ~ group, data = Ddensity), plot_dots)) 
   }  
   return(plot)
 }
@@ -389,6 +359,9 @@ xpgamma <- function(...)  pdist("gamma", ...)
 #' @rdname qdist
 #' @export
 xqgamma <- function(...)  qdist("gamma", ...)
+#' @rdname cdist
+#' @export
+xcgamma <- function(...)  cdist("gamma", ...)
 
 #' @rdname pdist
 #' @export
@@ -406,6 +379,9 @@ xpchisq <- function(...)  pdist("chisq", ...)
 #' @rdname qdist
 #' @export
 xqchisq <- function(...)  qdist("chisq", ...)
+#' @rdname cdist
+#' @export
+xcchisq <- function(...)  cdist("chisq", ...)
 
 #' @rdname pdist
 #' @export
@@ -413,6 +389,10 @@ xpf <- function(...)  pdist("f", ...)
 #' @rdname qdist
 #' @export
 xqf <- function(...)  qdist("f", ...)
+#' @rdname cdist
+#' @export
+xcf <- function(...)  cdist("f", ...)
+
 
 #' @rdname pdist
 #' @export
@@ -420,6 +400,9 @@ xpbinom <- function(...)  pdist("binom", ...)
 #' @rdname qdist
 #' @export
 xqbinom <- function(...)  qdist("binom", ...)
+#' @rdname cdist
+#' @export
+xcbinom <- function(...)  cdist("binom", ...)
 
 #' @rdname pdist
 #' @export
@@ -427,6 +410,10 @@ xppois <- function(...)  pdist("pois", ...)
 #' @rdname qdist
 #' @export
 xqpois <- function(...)  qdist("pois", ...)
+#' @rdname cdist
+#' @export
+xcpois <- function(...)  cdist("pois", ...)
+
 
 #' @rdname pdist
 #' @export
@@ -434,6 +421,9 @@ xpgeom <- function(...)  pdist("geom", ...)
 #' @rdname qdist
 #' @export
 xqgeom <- function(...)  qdist("geom", ...)
+#' @rdname cdist
+#' @export
+xcgeom <- function(...)  cdist("geom", ...)
 
 #' @rdname pdist
 #' @export
@@ -441,6 +431,9 @@ xpnbinom <- function(...)  pdist("nbinom", ...)
 #' @rdname qdist
 #' @export
 xqnbinom <- function(...)  qdist("nbinom", ...)
+#' @rdname cdist
+#' @export
+xcnbinom <- function(...)  qdist("cbinom", ...)
 
 #' @rdname pdist
 #' @export
@@ -448,6 +441,9 @@ xpbeta <- function(...)  pdist("beta", ...)
 #' @rdname qdist
 #' @export
 xqbeta <- function(...)  qdist("beta", ...)
+#' @rdname cdist
+#' @export
+xcbeta <- function(...)  cdist("beta", ...)
 
 
 is_discrete_dist <- function(dist, n = 100L, ... ) {

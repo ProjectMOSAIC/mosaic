@@ -2,12 +2,38 @@
 % Please edit documentation in R/cdist.R, R/dpqrdist.R
 \name{cdist}
 \alias{cdist}
+\alias{xcgamma}
 \alias{xct}
+\alias{xcchisq}
+\alias{xcf}
+\alias{xcbinom}
+\alias{xcpois}
+\alias{xcgeom}
+\alias{xcnbinom}
+\alias{xcbeta}
 \title{Central portion of a distribution}
 \usage{
-cdist(dist, p, ..., verbose = FALSE)
+cdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
+  digits = 3L, xlim, ylim, resolution = 500L, return = c("values",
+  "plot"), pattern = c("rings", "stripes"), ..., refinements = list())
+
+xcgamma(...)
 
 xct(...)
+
+xcchisq(...)
+
+xcf(...)
+
+xcbinom(...)
+
+xcpois(...)
+
+xcgeom(...)
+
+xcnbinom(...)
+
+xcbeta(...)
 }
 \arguments{
 \item{dist}{a character string naming a distribution family (e.g., "norm").
@@ -16,10 +42,10 @@ This will work for any family for which the usual d/p/q functions exist.}
 \item{p}{the proportion to be in the central region, with equal proportions
 in either "tail".}
 
+\item{verbose}{a logical indicating whether a more verbose output value should be returned.}
+
 \item{...}{additional arguments passed to the distribution functions.  Typically
 these specify the parameters of the particular distribution desired.  See the examples.}
-
-\item{verbose}{a logical indicating whether a more verbose output value should be returned.}
 }
 \value{
 a pair of numbers indicating the upper and lower bounds, unless \code{verbose} is

@@ -13,11 +13,13 @@ xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
 
 xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
-  ylim, invisible = FALSE, ..., return = c("value", "plot"))
+  ylim, invisible = FALSE, ..., return = c("value", "plot"),
+  pattern = c("stripes", "rings"))
 
 xcnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
-  ylim, invisible = FALSE, ..., return = c("value", "plot"))
+  ylim, invisible = FALSE, ..., return = c("value", "plot"),
+  pattern = "rings")
 }
 \arguments{
 \item{q}{quantile}

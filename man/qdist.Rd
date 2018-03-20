@@ -15,7 +15,7 @@
 \usage{
 qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
   resolution = 500L, digits = 3L, xlim, ylim, return = c("values",
-  "plot"), ..., refinements = list())
+  "plot"), refinements = list(), ...)
 
 xqgamma(...)
 
@@ -60,10 +60,13 @@ of the distribution.}
 
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
-\item{...}{additional arguments, including parameters of the distribution
-and additional options for the plot}
-
 \item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
+
+\item{...}{additional arguments, including parameters of the distribution
+and additional options for the plot.  To help with name collisions (eg \code{size} for binomial
+distributions and \code{shape} for gamma distributions), argument names beginning \code{plot_} will
+be renamed to remove \code{plot_} and passed only to the plot.  The unprefixed version will
+used as a paramter for the the distribution.}
 }
 \value{
 a vector of quantiles; a plot is printed as a side effect
@@ -77,17 +80,21 @@ any distribution for which a q-function exists.  As a convenience, wrappers are
 provided for several common distributions.
 }
 \examples{
-qdist("norm", seq(.2, .8, by = 0.10))
-xqnorm(seq(.2, .8, by = 0.10), mean = 100, sd = 10)
+qdist("norm", seq(.1, .9, by = 0.10), 
+      title = "Deciles of a normal distribution", show.legend = FALSE,
+      pattern = "rings")
+xqnorm(seq(.2, .8, by = 0.20), mean = 100, sd = 10)
 qdist("unif", .5)
 xqgamma(.5, shape = 3, scale = 4)
-xqgamma(.5, shape = 3, scale = 4, dlwd = 1)
+xqgamma(.5, shape = 3, scale = 4, color = "black")
 xqbeta(.5, shape1 = .9, shape2 = 1.4, dlwd = 1)
 xqchisq(c(.25,.5,.75), df = 3)
-xqbinom(c(0.25, 0.85), size = 1000, prob = 0.40)
+xcbinom(c(0.80, 0.90), size = 1000, prob = 0.40)
 # displayed as if continuous
-xqbinom(c(0.25, 0.85), size = 5000, prob = 0.40)
-xpbinom( c(480, 500, 510), size = 1000, prob = 0.48)
-xpbinom( c(40, 60), size = 100, prob = 0.5)
-xqpois( c(0.25, 0.5, 0.75), lambda = 6, lwd = 3, vlwd = 2)
+xcbinom(c(0.80, 0.90), size = 5000, prob = 0.40)
+xpbinom(c(480, 500, 520), size = 1000, prob = 0.48)
+xpbinom(c(40, 60), size = 100, prob = 0.5)
+xqpois(c(0.25, 0.5, 0.75), lambda = 12)
+xcpois(0.50, lambda = 12)
+xcpois(0.50, lambda = 12, refinements = list(scale_color_brewer(type = "qual", palette = 5)))
 }

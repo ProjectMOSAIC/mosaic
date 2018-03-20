@@ -54,33 +54,33 @@ utils::globalVariables(
 #' @export
 
 xpnorm <-
-function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, digits = 4, 
+function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible = FALSE, digits = 4, 
     lower.tail = TRUE, log.p = FALSE, xlim = mean + c(-4,4) * sd, ylim = c(0, 1.4 * dnorm(mean,mean,sd)), 
-    # vlwd=2, vcol=trellis.par.get('add.line')$col, rot=45, 
-    manipulate=FALSE, ..., return = c("value", "plot")) 
+    # vlwd = 2, vcol = trellis.par.get('add.line')$col, rot = 45, 
+    manipulate = FALSE, ..., return = c("value", "plot")) 
 {
   return <- match.arg(return)
   
 	if (manipulate && rstudio_is_available() && requireNamespace("manipulate")) {
 		return(manipulate::manipulate( 
-			xpnorm(q=Q, mean=MEAN, sd=SD, plot=TRUE, verbose=FALSE, invisible=invisible,
-						   digits=digits, lower.tail=lower.tail, log.p=log.p, 
-						   xlim=xlim, ylim=ylim, 
-						   # vlwd=vlwd, vcol=vcol, rot=rot, 
-						   manipulate=FALSE,
+			xpnorm(q = Q, mean = MEAN, sd = SD, plot = TRUE, verbose = FALSE, invisible = invisible,
+						   digits = digits, lower.tail = lower.tail, log.p = log.p, 
+						   xlim = xlim, ylim = ylim, 
+						   # vlwd = vlwd, vcol = vcol, rot = rot, 
+						   manipulate = FALSE,
 						   ...),
-				   Q = manipulate::slider(mean-4*sd, mean+4*sd, initial=q, step=8*sd/200, label='q'),
-				   MEAN = manipulate::slider(mean-4*sd, mean+4*sd, initial=mean, step=8*sd/200, label='mean'),
-				   SD = manipulate::slider(0, 4*sd, initial=sd, step=4*sd/100, label='st dev')
+				   Q = manipulate::slider(mean-4*sd, mean+4*sd, initial = q[1], step = 8*sd/200, label = 'q'),
+				   MEAN = manipulate::slider(mean-4*sd, mean+4*sd, initial = mean, step = 8*sd/200, label = 'mean'),
+				   SD = manipulate::slider(0, 4*sd, initial = sd, step = 4*sd/100, label = 'st dev')
 				   )
 		)
 	}
-    p = pnorm(q, mean = mean, sd = sd) 
-    z = (q - mean)/sd
+    p <- pnorm(q, mean = mean, sd = sd) 
+    z <- (q - mean)/sd
     if (verbose) {
 		message("\n")
 		message(paste("If X ~ N(",format(mean, digits = digits),", ", 
-		          format(sd, digits = digits),"), then \n",sep=""))
+		          format(sd, digits = digits),"), then \n",sep = ""))
         message(paste("\tP(X <= ", format(q, digits = digits), ") = P(Z <= ", 
                   format(z, digits = digits), 
             ") = ", format(p, digits = digits), "", sep = ""))
@@ -90,15 +90,13 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
         message("\n")
     }
     if (length(q) == 1) {
-		  res_plot <- .plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      # vlwd=vlwd, vcol=vcol, rot=rot, 
-		      ...)
+		  res_plot <- .plot_one_norm(p = p, q = q, mean = mean, sd = sd, xlim = xlim, ylim = ylim, 
+		                             digits = digits, ...)
     }
     if (length(q) > 1) {
       res_plot <- 
-        .plot_multi_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-                         # vlwd=vlwd, vcol=vcol, rot=rot, 
-                         ...)
+        plot_multi_dist("norm", q = q, mean = mean, sd = sd, xlim = xlim, ylim = ylim, 
+                        digits = digits, ...)
     }
     if (return == "plot") {
       if (invisible) {
@@ -120,11 +118,12 @@ function (q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, invisible=FALSE, dig
 
 xqnorm <-
   function (p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
-            lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
-            # vlwd=2, vcol=trellis.par.get('add.line')$col, rot=45, 
-            ..., return = c("value", "plot")) 
+            lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible = FALSE, 
+            # vlwd = 2, vcol = trellis.par.get('add.line')$col, rot = 45, 
+            ..., return = c("value", "plot"), pattern = c("stripes", "rings")) 
 {
     return <- match.arg(return)
+    pattern <- match.arg(pattern)
     q = qnorm(p, mean = mean, sd = sd, lower.tail = lower.tail, 
         log.p = log.p)
     z = (q - mean)/sd
@@ -132,7 +131,7 @@ xqnorm <-
     if (verbose) {
       message("\n")
       message(paste("If X ~ N(",format(mean, digits = digits),", ", 
-                format(sd, digits = digits),"), then \n",sep=""))
+                format(sd, digits = digits),"), then \n",sep = ""))
       message(paste("\tP(X", " <= ", format(q, digits = digits), ") = ", 
                     format(p, digits = digits), "", sep = ""))
       message(paste("\tP(X", " >  ", format(q, digits = digits), ") = ", 
@@ -144,13 +143,15 @@ xqnorm <-
     }
     
     if (length(p) == 1) {
-		  res_plot <- .plot_one_norm(p=p, q=q, mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      # vlwd=vlwd, vcol=vcol, rot=rot, 
+		  res_plot <- .plot_one_norm(p = p, q = q, mean, sd, xlim = xlim, ylim = ylim, digits = digits, 
+		      # vlwd = vlwd, vcol = vcol, rot = rot, 
 		      ...)
     }
     if (length(p) > 1) {
-		  res_plot <- .plot_multi_norm(p=sort(p), q=sort(q), mean, sd, xlim=xlim, ylim=ylim, digits=digits, 
-		      # vlwd=vlwd, vcol=vcol, rot=rot, 
+		  res_plot <- 
+		    plot_multi_dist("norm", p = sort(p), # q = sort(q), 
+		                    mean = mean, sd = sd, 
+		                    xlim = xlim, ylim = ylim, digits = digits, pattern = pattern,
 		      ...)
     }
     
@@ -175,14 +176,15 @@ xqnorm <-
 xcnorm <-
   function (
     p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE, digits = getOption("digits"), 
-    lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible=FALSE, 
-    ..., return = c("value", "plot")) {
+    lower.tail = TRUE, log.p = FALSE, xlim, ylim, invisible = FALSE, 
+    ..., return = c("value", "plot"), pattern = "rings") {
+    pattern <- match.arg(pattern)
     if (length(mean) > 1 || length(sd) > 1) stop("Only 1 mean and 1 sd allowed.")
     p <- c((1-p)/2, p + (1-p)/2)
     xqnorm(
       p, mean = mean, sd = sd, verbose = verbose, digits = digits, 
       lower.tail = lower.tail, log.p = log.p, xlim = xlim, ylim = ylim, 
-      invisible = invisible, ..., return = return)
+      invisible = invisible, ..., return = return, pattern = pattern)
   }
     
 
@@ -265,8 +267,8 @@ mid <- function(x) {
 }
 
 
-.plot_multi_norm <- function(p, q, mean, sd, xlim, ylim, digits=4, dlwd=2, 
-    # vlwd=2, vcol=trellis.par.get('add.line')$col, rot=0, 
+.plot_multi_norm <- function(p, q, mean, sd, xlim, ylim, digits = 4, dlwd = 2, 
+    # vlwd = 2, vcol = trellis.par.get('add.line')$col, rot = 0, 
     ...) 
 {
 	dots <- list(...)
@@ -283,8 +285,8 @@ mid <- function(x) {
 	if (missing(ylim)) {
 		ylim = c(0, 1.4 * ymax)
 	}
-	xdata = seq(xlim[1], xlim[2], length.out=800)
-	ydata = dnorm(xdata, mean=mean, sd=sd)
+	xdata = seq(xlim[1], xlim[2], length.out = 800)
+	ydata = dnorm(xdata, mean = mean, sd = sd)
 	groups = apply(sapply(xdata, function(x) {x < q}), 2, sum)
 
 	p <- c(0, p, 1)
@@ -325,7 +327,7 @@ mid <- function(x) {
 }
 
 
-.plot_one_norm <- function(p, q, mean, sd, xlim, ylim, digits=4, 
+.plot_one_norm <- function(p, q, mean, sd, xlim, ylim, digits = 4, 
     ...) 
 {
 	z <- (q - mean) / sd

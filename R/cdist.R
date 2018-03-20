@@ -37,57 +37,106 @@
 #' confint(t.test(x))
 #' cdist("t", p = 0.95, df=22, verbose = TRUE)
 #' @export
-# another possible implementation
-cdist <- 
-  function( dist, p, ..., verbose = FALSE ) {
-    alpha <- (1-p)/2
-    lo <- alpha
-    hi <- 1 - alpha
-    qdist <- paste0("q", dist)
-    loQ <- do.call( dpqrdist, c(list(dist = dist, type="q", p=lo), list(...) ) ) 
-    hiQ <- do.call( dpqrdist, c(list(dist = dist, type="q", p=hi), list(...) ) ) 
-    if (verbose) {
-      as.data.frame(
-        c( 
-          list(
-            lo = loQ,
-            hi = hiQ,
-            central_p = p, 
-            tail_p = alpha,
-            dist = dist
-            ),
-          list(...)
-        )
-      )
-    } else {
-       res <- cbind(loQ, hiQ)
-       if (nrow(res) == 1) {
-         res <- res[1, , drop=TRUE]
-         names(res) <- NULL
-       }
-       res
-    }
-  }
+# # another possible implementation
+# cdist <- 
+#   function( dist, p, ..., verbose = FALSE ) {
+#     alpha <- (1-p)/2
+#     lo <- alpha
+#     hi <- 1 - alpha
+#     qdist <- paste0("q", dist)
+#     loQ <- do.call( dpqrdist, c(list(dist = dist, type="q", p=lo), list(...) ) ) 
+#     hiQ <- do.call( dpqrdist, c(list(dist = dist, type="q", p=hi), list(...) ) ) 
+#     if (verbose) {
+#       as.data.frame(
+#         c( 
+#           list(
+#             lo = loQ,
+#             hi = hiQ,
+#             central_p = p, 
+#             tail_p = alpha,
+#             dist = dist
+#             ),
+#           list(...)
+#         )
+#       )
+#     } else {
+#        res <- cbind(loQ, hiQ)
+#        if (nrow(res) == 1) {
+#          res <- res[1, , drop=TRUE]
+#          names(res) <- NULL
+#        }
+#        res
+#     }
+#   }
 
-
-.cdist <- function( dist, p, ... , tail=c("upper","lower"), warn=TRUE) {
-  tail = match.arg(tail)
+cdist <- function (
+  dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE, 
+  digits = 3L, 
+  xlim, ylim,
+  resolution = 500L,
+  return = c("values", "plot"),
+  pattern = c("rings", "stripes"),
+  ...,
+  refinements = list())
+{
+  
+  pattern <- match.arg(pattern)
+  return <- match.arg(return)
+  
+  dots <- list(...)
   alpha <- (1-p)/2
-  lo <- alpha
-  hi <- 1 - alpha
-  qdist <- paste0("q", dist)
-  loT <- do.call( dpqrdist, c(list(dist = dist, type="q", lo), list(...) ) ) 
-  hiT <- do.call( dpqrdist, c(list(dist = dist, type="q", hi), list(...) ) ) 
-  # hiT <- do.call( qdist, c(list(hi), list(...) ) ) 
-  if ( any( abs(hiT) - abs(loT) > 1e-5 ) ) {
-    if (warn) warning(paste0("It looks like your distribution is not symmetric.  I'm providing ", tail, " tails.") )
+  p <- sort(c(alpha, 1-alpha))
+  q <- dpqrdist(dist, type = "q", p = p, ...) 
+  
+  if (verbose) {
+    cat("Verbose output not yet implemented.\n")
   }
   
-  return(
-    switch( tail,
-            "lower" = loT,
-            "upper" = hiT
+  res_plot <-
+    do.call(
+      gf_refine,
+      c(list(
+        plot_multi_dist(
+          dist = dist, p = p, 
+          xlim = xlim, ylim = ylim, 
+          digits = digits, 
+          resolution = resolution,
+          pattern = pattern,
+          ...)),
+        refinements)
     )
-  )
+  
+  if (return == "plot") {
+    return(res_plot)
+  }
+  if (plot) {
+    print(res_plot)
+  }
+  if (invisible) { 
+    return(invisible(q))
+  }
+  return(q)
 }
 
+# 
+# .cdist <- function( dist, p, ... , tail=c("upper","lower"), warn=TRUE) {
+#   tail = match.arg(tail)
+#   alpha <- (1-p)/2
+#   lo <- alpha
+#   hi <- 1 - alpha
+#   qdist <- paste0("q", dist)
+#   loT <- do.call( dpqrdist, c(list(dist = dist, type="q", lo), list(...) ) ) 
+#   hiT <- do.call( dpqrdist, c(list(dist = dist, type="q", hi), list(...) ) ) 
+#   # hiT <- do.call( qdist, c(list(hi), list(...) ) ) 
+#   if ( any( abs(hiT) - abs(loT) > 1e-5 ) ) {
+#     if (warn) warning(paste0("It looks like your distribution is not symmetric.  I'm providing ", tail, " tails.") )
+#   }
+#   
+#   return(
+#     switch( tail,
+#             "lower" = loT,
+#             "upper" = hiT
+#     )
+#   )
+# }
+# 
