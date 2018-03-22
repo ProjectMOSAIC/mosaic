@@ -26,7 +26,7 @@
 #' `"oddsRatio"` or `"relrisk"`.
 #' @param conf.level the confidence interval level
 #' @param verbose a logical indicating whether verbose output should be displayed
-#' @param quiet a logical indicating whether verbose outoput should be supressed
+#' @param quiet a logical indicating whether verbose output should be suppressed
 #' @param relrisk a logical indicating whether the relative risk should be returned
 #' instead of the odds ratio
 #' @param digits number of digits to display

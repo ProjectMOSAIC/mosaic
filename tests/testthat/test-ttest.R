@@ -2,8 +2,15 @@
 context("t.test()")
 
 Boys <- filter(mosaicData::Galton, sex=="M")
+y <- Galton$height
+a <- Galton$sex
 
 test_that("2-sample tests give same results as stats::t.test", {
+  
+  expect_equivalent( 
+    confint(stats::t.test(y ~ a)),
+    confint(t.test(y ~ a))
+  )
   
   expect_equivalent( 
     confint(stats::t.test(height ~ sex, data=mosaicData::Galton)),
@@ -25,19 +32,19 @@ test_that("2-sample tests give same results as stats::t.test", {
     confint(with(Boys, t.test(father, height)))
   )
   
-  expect_equivalent( 
-    confint(stats::t.test(Boys$father, Boys$height)),
-    confint(t.test(father, height, data=Boys))
-  )
+  # expect_equivalent( 
+  #   confint(stats::t.test(Boys$father, Boys$height)),
+  #   confint(t.test(father, height, data=Boys))
+  # )
 })
 
 test_that("paired tests give same results as stats::t.test", {
   
-  expect_equivalent( 
-    confint(stats::t.test(Boys$father, Boys$height, paired=TRUE)),
-    confint(t.test(father, height, data=Boys, paired=TRUE))
-  )
-  
+  # expect_equivalent( 
+  #   confint(stats::t.test(Boys$father, Boys$height, paired=TRUE)),
+  #   confint(t.test(father, height, data=Boys, paired=TRUE))
+  # )
+   
   expect_equivalent( 
     confint(stats::t.test(Boys$father, Boys$height, paired=TRUE)),
     confint(t.test(Boys$father, Boys$height, paired=TRUE))
@@ -61,10 +68,10 @@ test_that("1-sample tests give same results as stats::t.test", {
     confint(t.test(~ height, data=Boys))
   )
   
-  expect_equivalent(
-    confint(stats::t.test(Boys$height)),
-    confint(t.test(height, data=Boys))
-  )
+  # expect_equivalent(
+  #   confint(stats::t.test(Boys$height)),
+  #   confint(t.test(height, data=Boys))
+  # )
   
   expect_equivalent(
     confint(stats::t.test(Boys$height)),

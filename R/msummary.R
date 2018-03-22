@@ -12,9 +12,9 @@ withClass <- function(object, class, add=TRUE) {
 #' @param x an object to summarize
 #' @param digits desired number of digits to display
 #' @param symbolic.cor see [summary()]
-#' @param signif.stars a logical indicating whether to diplay stars to 
+#' @param signif.stars a logical indicating whether to display stars to 
 #'   indicate significance
-#' @param ... aditional arguments
+#' @param ... additional arguments
 #' @export
 print.msummary.lm <-
   function (x, digits = max(3L, getOption("digits") - 3L), 

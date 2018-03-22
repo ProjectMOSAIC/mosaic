@@ -17,7 +17,7 @@ the variables will be looked up in the local environment}
 \item{add}{If \code{TRUE}, add points as a new layer to an existing plot.
 If \code{NULL}, the value of \code{under} will be used.}
 
-\item{under}{If \code{TRUE}, the new layer will be underneat existing layers.}
+\item{under}{If \code{TRUE}, the new layer will be underneath existing layers.}
 
 \item{panelfun}{Lattice panel function to be used for adding.  Set only if you want something other
 than a scatter plot.  Mainly, this is intended to add new functionality through other functions.}

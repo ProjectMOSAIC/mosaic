@@ -13,10 +13,11 @@ mplot(object, ...)
 
 \method{mplot}{default}(object, ...)
 
-\method{mplot}{lm}(object, which = c(1:3, 7), system = c("lattice",
-  "ggplot2", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
+\method{mplot}{lm}(object, which = c(1:3, 7), system = c("ggplot2",
+  "lattice", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
   search(), par.settings = theme.mosaic(), level = 0.95,
-  title = paste("model: ", deparse(object$call), "\\n"), rows = TRUE, ...)
+  title = paste("model: ", deparse(object$call), "\\n"), rows = TRUE,
+  id.n = 3L, id.size = 6, id.color = "red", id.nudge = 1, ...)
 
 \method{mplot}{data.frame}(object, format, default = format,
   system = c("lattice", "ggplot2"), show = FALSE, title = "", ...)
@@ -59,6 +60,15 @@ displayed together.}
 \item{rows}{rows to show.  This may be a numeric vector,
 \code{TRUE} (for all rows), or a character vector of row names.}
 
+\item{id.n}{Number of id labels to display.}
+
+\item{id.size}{Size of id labels.}
+
+\item{id.color}{Color of id labels.}
+
+\item{id.nudge}{a numeric used to increase (>1) or decrease (<1) the amount that observation labels are
+nudged.  Use a negative value to nudge down instead of up.}
+
 \item{format, default}{default type of plot to create; one of
 \code{"scatter"},
 \code{"jitter"},
@@ -92,21 +102,21 @@ Generic function plotting for R objects.  Currently plots exist for
 \code{data.frame}s, \code{lm}s, (including \code{glm}s).
 }
 \details{
-The method for models (lm and glm) is still a work in progress, but should be useable for
+The method for models (lm and glm) is still a work in progress, but should be usable for
 relatively simple models.  When the results for a logistic regression model created with
 \code{\link[=glm]{glm()}} are satisfactory will depend on the format and structure of the data
 used to fit the model.
 }
 \examples{
-mplot( lm( width ~ length * sex, data=KidsFeet) )
-mplot( lm( width ~ length * sex, data=KidsFeet), rows=2:3, which=7 )
+mplot( lm( width ~ length * sex, data = KidsFeet) )
+mplot( lm( width ~ length * sex, data = KidsFeet), rows = 2:3, which = 7 )
 \dontrun{
 mplot( HELPrct )
 mplot( HELPrct, "histogram" )
 }
-mplot(summary(lm(width ~ length * sex, data=KidsFeet)), system="ggplot2")
-mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=c("sex", "length"))
-mplot(summary(lm(width ~ length * sex, data=KidsFeet)), rows=TRUE)
-mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ) )
-mplot(TukeyHSD( lm(age ~ substance, data=HELPrct) ), system="ggplot2" )
+mplot(summary(lm(width ~ length * sex, data = KidsFeet)), system = "ggplot2")
+mplot(summary(lm(width ~ length * sex, data = KidsFeet)), rows = c("sex", "length"))
+mplot(summary(lm(width ~ length * sex, data = KidsFeet)), rows = TRUE)
+mplot(TukeyHSD( lm(age ~ substance, data = HELPrct) ) )
+mplot(TukeyHSD( lm(age ~ substance, data = HELPrct) ), system = "ggplot2" )
 }

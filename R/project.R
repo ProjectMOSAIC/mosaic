@@ -19,7 +19,7 @@ utils::globalVariables(c('u'))
 #' @param type one of `"length"` or `"vector"` determining the type of the 
 #' returned value
 #' @param coefficients For `project(y ~ x)` indicates whether the projection
-#' coeffients should be returned or the projection vector.
+#' coefficents should be returned or the projection vector.
 #' @param ... additional arguments
 
 #' @details

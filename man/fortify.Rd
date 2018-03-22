@@ -30,5 +30,5 @@ are displayed on the plot.}
 Extract data from R objects
 }
 \examples{
-fortify(TukeyHSD(lm(age ~ substance, data=HELPrct)))
+fortify(TukeyHSD(lm(age ~ substance, data = HELPrct)))
 }

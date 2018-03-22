@@ -21,7 +21,7 @@ indicating where the \code{pad.value} padding should be added to the result.}
 
 \item{frontPad}{logical indicating whether padding is on the front (head) or
 back (tail) end. This exists for backward compatibility. New code should use
-\code{pad} instaed.}
+\code{pad} instead.}
 
 \item{\dots}{further arguments to be passed to or from methods}
 }

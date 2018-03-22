@@ -2,7 +2,7 @@
 % Please edit documentation in R/panel.lmbands.R
 \name{panel.lmbands}
 \alias{panel.lmbands}
-\title{show confidence and preciction bands on plots}
+\title{show confidence and prediction bands on plots}
 \usage{
 panel.lmbands(x, y, interval = "confidence", level = 0.95, model = lm(y ~
   x), band.col = c(conf = slcol[3], pred = slcol[2]), band.lty = c(conf =
@@ -14,7 +14,7 @@ panel.lmbands(x, y, interval = "confidence", level = 0.95, model = lm(y ~
 
 \item{interval}{a vector subset of \code{'confidence'} and \code{'prediction'}}
 
-\item{level}{conficence level}
+\item{level}{confidence level}
 
 \item{model}{model to be used for generating bands}
 
@@ -36,5 +36,5 @@ confidence and prediction bands should be shown}
 \item{\dots}{additional arguments}
 }
 \description{
-show confidence and preciction bands on plots
+show confidence and prediction bands on plots
 }

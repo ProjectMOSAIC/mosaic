@@ -7,7 +7,7 @@
 dpqrdist(dist, type = c("d", "p", "q", "r"), ...)
 }
 \arguments{
-\item{dist}{a character discription of a distribution, for example
+\item{dist}{a character description of a distribution, for example
 \code{"norm"}, \code{"t"}, or \code{"chisq"}}
 
 \item{type}{one of \code{"x"}, \code{"p"}, \code{"q"}, or \code{"r"}}

@@ -62,7 +62,7 @@ logical2factor.data.frame  <- function( x, ... ) {
 #'        
 #' @param subset an expression evaluating to a logical vector used to select a subset of `data`
 #' @param quiet a logical indicating whether messages about order in which 
-#'   marginal distributions are calculated should be surpressed.  
+#'   marginal distributions are calculated should be suppressed.  
 #'   See [addmargins()].
 #' @param groups used to specify a condition as an alternative to using a formula
 #' with a condition.
@@ -83,21 +83,21 @@ logical2factor.data.frame  <- function( x, ... ) {
 #' 
 #' Otherwise, `tally()` is designed as an alternative to [table()] and 
 #' [xtabs()].  The primary use case it to describe a (possibly multi-dimensional)
-#' table using a formula.  For a table of counts, each component of the formala becomes one 
+#' table using a formula.  For a table of counts, each component of the formula becomes one 
 #' of the dimensions of the cross table.  For tables of proportions or percents, conditional
 #' proportions and percents are computed, conditioned on each level of all "secondary" 
 #' (i.e., conditioning) variables, defined as everything other than the left hand side, 
-#' if there is a left hand side to the formala; and everything except the right hand side
+#' if there is a left hand side to the formula; and everything except the right hand side
 #' if the left hand side of the formula is empty.  Note that `groups` is folded into
 #' the formula prior to this determination and becomes part of the conditioning.
 #' 
 #' When marginal totals are added, they are added for all of the conditioning dimensions, and 
 #' proportions should sum to 1 for each level of the conditioning variables.  This can be 
-#' useful to make it clear which conditional proportions are beign computed.
+#' useful to make it clear which conditional proportions are being computed.
 #' 
 #' See the examples for some typical use cases.
 #' 
-#' @note The curent implementation when `format = "sparse"` first creates the full data frame
+#' @note The current implementation when `format = "sparse"` first creates the full data frame
 #' and then removes the unneeded rows.  So the savings is in terms of space, not time.
 #' @examples
 #' tally( ~ substance, data = HELPrct)
@@ -268,14 +268,14 @@ rows <- function(x, default=c()) {
 #' @param \dots arguments passed through to [tally()]
 #' @param success the level for which counts, proportions or percents are 
 #'         calculated
-#' @param level Depricated.  Use `sucess`.
+#' @param level Deprecated.  Use `sucess`.
 #' @param long.names a logical indicating whether long names should be 
 #'         when there is a conditioning variable
 #' @param sep a character used to separate portions of long names
 #' @param useNA an indication of how NA's should be handled.  By default, they are
 #'   ignored.
 #' @param format one of `proportion`, `percent`, or `count`,
-#'        possibly abbrevaited
+#'        possibly abbreviated
 #' @param pval.adjust a logical indicating whether the "p-value" adjustment should be 
 #' applied.  This adjustment adds 1 to the numerator and denominator counts.
 #' @param quiet a logical indicating whether messages regarding the 
@@ -335,6 +335,8 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
       result <- ((T[idx,] + pval.adjust) / (colSums(T) + pval.adjust)) * scale
     if (long.names)
       names(result) <- paste(success, names(result), sep=sep)
+    names(result) <- paste(switch(format, count = "n", proportion = "prop", percent = "perc"), 
+                           names(result), sep = "_")
     return(result)
   }
   if ( length(dim(T)) == 1) {
@@ -343,6 +345,8 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
       T[idx] 
     else
       (T[idx] + pval.adjust) / (sum(T) + pval.adjust) * scale
+    names(result) <- paste(switch(format, count = "n", proportion = "prop", percent = "perc"), 
+                           names(result), sep = "_")
     return(result)
   }
   stop(paste('Too many dimensions (', length(dim(T)), ")",sep=""))

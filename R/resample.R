@@ -5,7 +5,7 @@
 #' Tossing Coins
 #'
 #' These functions simplify simulating coin tosses for those (students primarily)
-#' who are not yet familair with the binomial distributions or just like this syntax
+#' who are not yet familiar with the binomial distributions or just like this syntax
 #' and verbosity better.
 #'
 #' @rdname rflip
@@ -234,7 +234,7 @@ sample.default <- function(x, size, replace=FALSE, prob=NULL,
 #' @rdname resample
 #' @param groups a vector (or variable in a data frame) specifying
 #' groups to sample within. This will be recycled if necessary.
-#' @param orig.ids  a logical; should origianal ids be included in returned data frame?
+#' @param orig.ids  a logical; should original ids be included in returned data frame?
 #' @param \dots additional arguments passed to 
 #' [base::sample()]
 #' or [mosaic::sample()].
@@ -373,11 +373,24 @@ sample.lm <-
 
 #' Resample a Linear Model
 #' 
-#' Residual resampling from a linear model
+#' Fit a new model to data created using `resample(model)`.
+#' 
 #' 
 #' @param model a linear model object produced using [lm()].
 #' @param ...  additional arguments passed through to [resample()].
 #' @param envir an environment in which to (re)evaluate the linear model.
+#' @seealso `resample()`
+#' 
+#' @examples
+#' mod <- lm(length ~ width, data = KidsFeet)
+#' do(1) * mod 
+#' do(3) * relm(mod) 
+#' # use residual resampling to estimate standard error (very crude because so few replications)
+#' Boot <- do(100) * relm(mod)
+#' sd(~ width, data = Boot)
+#' # standard error as produced by summary() for comparison
+#' mod %>% summary() %>% coef() 
+#' 
 #' @export
 relm <- function(model, ..., envir = environment(formula(model))) {
   mcall <- model$call
@@ -386,13 +399,13 @@ relm <- function(model, ..., envir = environment(formula(model))) {
 }
 
 #' 
-#' Simulate spinning a spinnner
+#' Simulate spinning a spinner
 #' 
 #' This is essentially `rmultinom` with a different interface.
 #' 
 #' @param n number of spins of spinner
 #' @param probs a vector of probabilities.  If the sum is not 1, the 
-#' probabiliies will be rescaled.
+#' probabilities will be rescaled.
 #' @param labels a character vector of labels for the categories
 #' @export
 #' @examples

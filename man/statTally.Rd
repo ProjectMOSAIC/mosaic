@@ -5,7 +5,9 @@
 \title{Tally test statistics}
 \usage{
 statTally(sample, rdata, FUN, direction = NULL, alternative = c("default",
-  "two.sided", "less", "greater"), sig.level = 0.1, center = NULL,
+  "two.sided", "less", "greater"), sig.level = 0.1, system = c("gg",
+  "lattice"), shade = "navy", alpha = 0.1, binwidth = NULL,
+  fill = "gray80", color = "black", center = NULL,
   stemplot = dim(rdata)[direction] < 201, q = c(0.5, 0.9, 0.95, 0.99),
   fun = function(x) x, xlim, ...)
 }
@@ -26,6 +28,18 @@ are in rows (1) or columns (2).}
 \item{alternative}{one of \code{default}, \code{two.sided}, \code{less}, or \code{greater}}
 
 \item{sig.level}{significance threshold for \code{wilcox.test} used to detect lack of symmetry}
+
+\item{system}{graphics system to use for the plot}
+
+\item{shade}{a color to use for shading.}
+
+\item{alpha}{opacity of shading.}
+
+\item{binwidth}{bin width for histogram.}
+
+\item{fill}{fill color for histogram.}
+
+\item{color}{border color for histogram.}
 
 \item{center}{center of null distribution}
 
@@ -54,14 +68,15 @@ from a simulated null distribution
 \examples{
 # is my spinner fair?
 x <- c(10, 18, 9, 15)   # counts in four cells
-rdata <- rmultinom(999, sum(x), prob=rep(.25, 4))
-statTally(x, rdata, fun=max)  # unusual test statistic
-statTally(x, rdata, fun=var)  # equivalent to chi-squared test
+rdata <- rmultinom(999, sum(x), prob = rep(.25, 4))
+statTally(x, rdata, fun = max, binwidth = 1)  # unusual test statistic
+statTally(x, rdata, fun = var, shade = "red", binwidth = 2)  # equivalent to chi-squared test
 # Can also be used with test stats that are precomputed.
 if (require(mosaicData)) {
-D <- diffmean( age ~ sex, data=HELPrct); D
-nullDist <- do(999) * diffmean( age ~ shuffle(sex), data=HELPrct)
-statTally( D, nullDist)
+D <- diffmean( age ~ sex, data = HELPrct); D
+nullDist <- do(999) * diffmean( age ~ shuffle(sex), data = HELPrct)
+statTally(D, nullDist)
+statTally(D, nullDist, system = "lattice")
 }
 
 }

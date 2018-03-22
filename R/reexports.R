@@ -18,3 +18,7 @@ mosaicCore::rhs
 mosaicCore::condition
 #' @export
 mosaicCore::makeFun
+#' @export
+mosaicCore::counts
+#' @export
+mosaicCore::props

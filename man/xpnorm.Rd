@@ -3,6 +3,7 @@
 \name{xpnorm}
 \alias{xpnorm}
 \alias{xqnorm}
+\alias{xcnorm}
 \title{Augmented versions of pnorm and qnorm}
 \usage{
 xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
@@ -12,7 +13,13 @@ xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
 
 xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
-  ylim, invisible = FALSE, ..., return = c("value", "plot"))
+  ylim, invisible = FALSE, ..., return = c("value", "plot"),
+  pattern = c("stripes", "rings"))
+
+xcnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
+  digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
+  ylim, invisible = FALSE, ..., return = c("value", "plot"),
+  pattern = "rings")
 }
 \arguments{
 \item{q}{quantile}
@@ -41,6 +48,9 @@ then sliders are added for interactivity.}
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
 \item{p}{probability}
+
+\item{pattern}{One of \code{"stripes"} or \code{"rings"}.  In the latter case, pairs of regions
+(from inside to outside) are grouped together for coloring and probability calculation.}
 }
 \description{
 These functions behave similarly to the functions with the initial \code{x}
@@ -49,11 +59,15 @@ removed from their names but add more verbose output and graphics.
 \examples{
 xpnorm(650, 500, 100)
 xqnorm(.75, 500, 100)
+xpnorm(-3:3, return = "plot", system = "gg") \%>\% 
+  gf_labs(title = "My Plot", x = "") \%>\% 
+  gf_theme(theme_bw())
+
 \dontrun{
 if (rstudio_is_available() & require(manipulate)) {
-  manipulate(xpnorm(score, 500, 100, verbose=verbose),
-    score = slider(200,800),
-	   verbose = checkbox(TRUE, label="Verbose Output")
+  manipulate(xpnorm(score, 500, 100, verbose = verbose),
+    score = slider(200, 800),
+	   verbose = checkbox(TRUE, label = "Verbose Output")
   )
 }
 }

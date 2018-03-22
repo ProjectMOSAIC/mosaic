@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 1.1.0
-Date: 2017-08-25
+Version: 1.1.1.9002
+Date: 2018-03-20
 Depends:
     R (>= 3.0.0),
     dplyr,
@@ -24,7 +24,8 @@ Imports:
     latticeExtra,
     ggdendro,
     gridExtra,
-    glue
+    glue,
+    broom
 Suggests: 
     lubridate,
     fastR,

@@ -117,7 +117,7 @@ rlonlat <- function(...){
 #' 
 #' `rlatlon` is an alias for `rgeo` and 
 #' `rlonlat` is too, expect that it reverses the 
-#' order in which the lattitude and longitute values are 
+#' order in which the latitude and longitude values are 
 #' returned.
 #' 
 #' `rgeo2` samples points in a cube by independently sampling each coordinate.  It then

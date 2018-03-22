@@ -30,7 +30,7 @@ ignored.}
 \item{success}{the level for which counts, proportions or percents are
 calculated}
 
-\item{level}{Depricated.  Use \code{sucess}.}
+\item{level}{Deprecated.  Use \code{sucess}.}
 
 \item{long.names}{a logical indicating whether long names should be
 when there is a conditioning variable}
@@ -38,7 +38,7 @@ when there is a conditioning variable}
 \item{sep}{a character used to separate portions of long names}
 
 \item{format}{one of \code{proportion}, \code{percent}, or \code{count},
-possibly abbrevaited}
+possibly abbreviated}
 
 \item{quiet}{a logical indicating whether messages regarding the
 success level should be supressed.}

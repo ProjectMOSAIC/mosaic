@@ -1,5 +1,13 @@
 # mosaic package NEWS
 
+## mosaic 1.1
+
+ * A few more things have moved to `mosaicCore`.
+ * Two of the vignettes have been moved out of the package to reduce CRAN size.
+ * Several plots now default to using `ggplot2` rather than `lattice`.
+ * Improvements to `mplot()` on linear models when system = `"gg"`.
+ * Work-around added to avoid the old work-around no longer needed due to the updated `formals()`.
+ 
 ## mosaic 1.0
 
  * `xpnorm()` and friends now use `ggplot2` and can return the plot object, if requested.

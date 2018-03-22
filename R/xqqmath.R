@@ -25,7 +25,7 @@ xqqmath <-
 #' @rdname xqqmath
 #' @param qqmathline a logical: should line be displayed passing through first and third quartiles?
 #' @param idline a logical; should the line y=x be added to the plot?
-#' @param fitline a logical; should a ftted line be added to plot?  Such a line will use `slope`
+#' @param fitline a logical; should a fitted line be added to plot?  Such a line will use `slope`
 #'        and `intercept` if provided, else the standard deviation and mean of the data.
 #'        If `slope` is specified, the line will be added unless `fitline` is 
 #'        `FALSE`.

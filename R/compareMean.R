@@ -14,7 +14,7 @@
 #' -- ideally supplying a data frame that contains the variables mentioned
 #' @param \dots other arguments
 #' @return the difference in means between the second and first group
-#' @note This funciton has been deprecated. Use [diffmean()] instead.
+#' @note This function has been deprecated. Use [diffmean()] instead.
 #' @seealso [do()], [compareProportion()] and [shuffle()]
 #' @keywords iteration
 #' @keywords stats

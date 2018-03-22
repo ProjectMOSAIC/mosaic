@@ -14,6 +14,18 @@
 #' 
 #' @param direction 1 or 2 indicating whether samples in `rdata`
 #'   are in rows (1) or columns (2).
+#'  
+#' @param system graphics system to use for the plot
+#' 
+#' @param shade a color to use for shading. 
+#' 
+#' @param alpha opacity of shading.
+#' 
+#' @param binwidth bin width for histogram.
+#' 
+#' @param fill fill color for histogram.
+#' 
+#' @param color border color for histogram.
 #' 
 #' @param stemplot 
 #' indicates whether a stem plot should be displayed
@@ -41,31 +53,42 @@
 #' @examples
 #' # is my spinner fair?
 #' x <- c(10, 18, 9, 15)   # counts in four cells
-#' rdata <- rmultinom(999, sum(x), prob=rep(.25, 4))
-#' statTally(x, rdata, fun=max)  # unusual test statistic
-#' statTally(x, rdata, fun=var)  # equivalent to chi-squared test
+#' rdata <- rmultinom(999, sum(x), prob = rep(.25, 4))
+#' statTally(x, rdata, fun = max, binwidth = 1)  # unusual test statistic
+#' statTally(x, rdata, fun = var, shade = "red", binwidth = 2)  # equivalent to chi-squared test
 #' # Can also be used with test stats that are precomputed.
 #' if (require(mosaicData)) {
-#' D <- diffmean( age ~ sex, data=HELPrct); D
-#' nullDist <- do(999) * diffmean( age ~ shuffle(sex), data=HELPrct)
-#' statTally( D, nullDist)
+#' D <- diffmean( age ~ sex, data = HELPrct); D
+#' nullDist <- do(999) * diffmean( age ~ shuffle(sex), data = HELPrct)
+#' statTally(D, nullDist)
+#' statTally(D, nullDist, system = "lattice")
 #' }
 #' 
 #' @keywords inference 
 #' @export
  
 statTally <-
-function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sided','less','greater'),
-		  sig.level=0.1, center=NULL,
-	stemplot = dim(rdata)[direction] < 201, q = c(0.5, 0.9, 0.95, 0.99), fun=function(x) x, xlim, ...) 
+function (sample, rdata, FUN, direction = NULL, 
+          alternative=c('default','two.sided','less','greater'), 
+          sig.level = 0.1, 
+          system = c("gg", "lattice"),
+          shade = "navy",
+          alpha = 0.10,
+          binwidth = NULL, fill = "gray80", color = "black",
+          center = NULL, stemplot = dim(rdata)[direction] < 201, 
+          q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim, 
+          ...) 
 {
 
-	alternative = match.arg(alternative) 
-	#rdata <- matrix(rdata)
+  system <- match.arg(system)
+	alternative <- match.arg(alternative) 
+	
+	dots <- list(...)
 
 	if (missing(FUN)) {
 		FUN = fun
 	}
+	
 	if ( is.null(direction) ) {
 		size <- max(NROW(sample), NCOL(sample))
 		if ( NROW (rdata) == size ) {
@@ -110,22 +133,50 @@ function (sample, rdata, FUN, direction = NULL, alternative=c('default','two.sid
 	lo <- center - abs(dstat - center)
 	if (alternative == 'greater') lo <- -Inf
 	if (alternative == 'less')    hi <-  Inf
-
-    plot1 <- tryCatch( histogram(~stat, data=results,  #groups=stat >= dstat, 
-						xlim = xlim, ...,
-						panel = function(x,...){
-							panel.histogram(x,...)
-							grid.rect( x=grid::unit(lo,'native'), y=0.5, hjust=1,
-									  gp=gpar(fill='navy',col='navy', alpha=.05))
-							grid.rect( x=grid::unit(hi,'native'), y=0.5, hjust=0,
-									  gp=gpar(fill='navy',col='navy', alpha=.05))
-						}
-						) , error = function(e) NULL
+	Rect_Data <- data.frame(
+	  xleft = c(-Inf, hi),
+	  xright = c(lo, Inf)
 	)
 
-  # add in observed statistic for the remaining summaries.
-  stats <- c(dstat, stats)
-    message("\nOf the ", length(stats), " samples (1 original + ", length(stats) -1, " random),")
+	plot1 <- 
+	  switch(
+	    system,
+	    gg = 
+	      tryCatch( 
+	        gf_dhistogram( ~ stat, data = results, fill = fill, color = color, binwidth = binwidth) %>%
+	          gf_rect(0 + Inf ~ xleft + xright, fill = shade, alpha = alpha, data = Rect_Data,
+	                  inherit = FALSE) %>%
+	          gf_lims(x = xlim), 
+	        error = function(e) NULL
+	      ),
+	    lattice = 
+	      tryCatch( histogram(~stat, data=results,  #groups=stat >= dstat, 
+	                          xlim = xlim, width = binwidth, col = fill, border = color, 
+	                          ...,
+	                          panel = function(x,...){
+	                            panel.xhistogram(x, ...)
+	                            grid.rect( x=grid::unit(lo, "native"), y = grid::unit(0, "native"),
+	                                       hjust = 1,
+	                                       height = unit(1, "npc"), vjust = 0,
+	                                       gp=gpar(fill = shade, col = shade, alpha = alpha))
+	                            grid.rect( x=grid::unit(hi, "native"), y = grid::unit(0, "native"),
+	                                       hjust = 0,
+	                                       height = unit(1, "npc"), vjust = 0,
+	                                       gp=gpar(fill = shade, col = shade, alpha = alpha))
+	                          }
+	      ) , error = function(e) NULL
+	      )
+	  )
+	
+	# for backward compatibility with a code chunk in fast 2e
+	if (system == "gg" && !is.null(dots$xlab)) {
+	  plot1 <- plot1 %>% gf_labs(x = dots$xlab)
+	}
+	
+	
+	# add in observed statistic for the remaining summaries.
+	stats <- c(dstat, stats)
+	message("\nOf the ", length(stats), " samples (1 original + ", length(stats) -1, " random),")
     message("\n\t", paste(sum(stats == dstat), "(", round(100 * 
         sum(stats == dstat)/length(stats), 2), "% )", "had test stats =", 
         signif(dstat, 4)))

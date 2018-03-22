@@ -37,7 +37,7 @@ for \code{nflip}, a numeric vector
 }
 \description{
 These functions simplify simulating coin tosses for those (students primarily)
-who are not yet familair with the binomial distributions or just like this syntax
+who are not yet familiar with the binomial distributions or just like this syntax
 and verbosity better.
 }
 \examples{

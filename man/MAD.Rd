@@ -13,9 +13,9 @@ SAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 \item{x}{a numeric vector or a formula.}
 
 \item{...}{additional arguments passed through to \code{MAD_}
-or \code{SAD_}.  If \code{x} is a formala, \code{...} should
+or \code{SAD_}.  If \code{x} is a formula, \code{...} should
 include an argument named \code{data} if the intent is to
-interpret the formala in a data frame.}
+interpret the formula in a data frame.}
 
 \item{data}{a data frame in which to evaluate formulas (or bare names).
 Note that the default is \code{data = parent.frame()}.  This makes it convenient to
@@ -27,14 +27,19 @@ When programming, it is best to use an explicit \code{data} argument
 \item{groups}{a grouping variable, typically a name of a variable in \code{data}}
 
 \item{na.rm}{a logical indicating whether NAs should be removed before
-calculaing.}
+calculating.}
 }
 \value{
 the mean or sum of the absolute differences between each pair
 of values in \code{c(x,...)}.
 }
 \description{
-All pairs mean and sum of absolute differences
+The functions compute the sum or mean of all pairwise absolute
+differences.  This differs from \code{\link[stats:mad]{stats::mad()}}, which computes
+the median absolute difference of each value from the median of
+all the values.  See the \code{ISIwithR} package (and the textbook it
+accompanies) for examples using these functions in the context of
+simulation-based inference.
 }
 \examples{
 SAD(1:3)
@@ -42,5 +47,5 @@ MAD(1:3)
 MAD(~eruptions, data = faithful)
 }
 \seealso{
-\code{link{mad}}, \code{\link[=MAD_]{MAD_()}}
+\code{\link[=mad]{mad()}}, \code{\link[=MAD_]{MAD_()}}
 }

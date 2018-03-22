@@ -75,7 +75,7 @@ This function make use of \code{histogram} to determine overall layout.  Often
 this works reasonably well but sometimes it does not. In particular, when \code{groups} is
 used to overlay multiple frequency polygons, there is often too little head room.
 In the latter cases, it may be
-necessary to use \code{ylim} to determine an approprate viewing rectangle for the
+necessary to use \code{ylim} to determine an appropriate viewing rectangle for the
 plot.
 }
 \examples{

@@ -98,8 +98,8 @@ test_that('Can make functions from glm models (Gamma)', {
   lot2 = c(69,35,26,21,18,16,13,12,12))
   f <- makeFun(glm(lot1 ~ log(u), data=clotting, family=Gamma))
   g <- makeFun(glm(lot2 ~ log(u), data=clotting, family=Gamma))
-  # expect_equivalent( abs( f(10) - 53.26389 ) < 0.001)
-  # expect_true( abs( g(10) - 32.86152 ) < 0.001)
+  expect_true( abs( f(10) - 53.26389 ) < 0.001)
+  expect_true( abs( g(10) - 32.86152 ) < 0.001)
 })
 
 

@@ -87,7 +87,7 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' @aliases mPlot
 #' @param data a data frame containing the variables that might be used in the plot.
 #' Note that for maps, the data frame must contain coordinates of the polygons 
-#' comprising the map and a variable for determining which corodiantes are part
+#' comprising the map and a variable for determining which coordinates are part
 #' of the same region.  See [sp2df()] for one way to create such
 #' a data frame.  Typically [merge()] will be used to combine the map
 #' data with some auxilliary data to be displayed as fill color on the map, although
@@ -347,7 +347,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
                  "E (lattice)" = "E", "SE (lattice)" = "SE", 
                  "S (lattice)" = "S", "SW (lattice)" = "SW", 
                  "W (lattice)" = "W", "NW (lattice)" = "NW")
-  print(list(system, system_choices()))
+  # print(list(system, system_choices()))
   manipulate::manipulate( { .doScatter(data, data_text = data_text, variables, show = show, system = system, x = x, y = y, plotType = plotType, 
                                        flipCoords = flipCoords, color = color, size = size, facet = facet, 
                                        logScales = logScales, model = model, key = key, title = title) },

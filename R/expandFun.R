@@ -68,13 +68,24 @@ expandFun <- function(formula,...){
     }
   }
   #Substitute lhs of formula for new expression
-  newbody=parse(text=newbody)
-  formula[[2]] = newbody[[1]]
-  #update formals
-  sformals = strsplit(sformals, "[[\\(\\)]]*")[[1]][2]
-  sformals = paste("as.pairlist(alist(", sformals, "))", sep="")
-  formals(func) = eval(parse(text=sformals))
-  formals=formals(func)
   
-  return(list(formula=formula, formals=formals))
+  # old version -- conflicts with changes to formals()
+  # newbody=parse(text=newbody)
+  # formula[[2]] = newbody[[1]]
+  # #update formals
+  # sformals = strsplit(sformals, "[[\\(\\)]]*")[[1]][2]
+  # sformals = paste("as.pairlist(alist(", sformals, "))", sep="")
+  # formals(func) = eval(parse(text=sformals))
+  # formals=formals(func)
+ 
+  # replacement code  
+  newbody <- parse(text = newbody)
+  formula[[2]] <- newbody[[1]]
+  #update formals
+  sformals <- gsub(pattern = "^as.pairlist\\(alist", replacement = "pairlist", sformals)
+  sformals <- strsplit(sformals, "[[\\(\\)]]*")[[1]][2]
+  sformals <- paste("as.pairlist(alist(", sformals, "))", sep="")
+  formals(func) <- eval(parse(text = sformals))
+  
+  return(list(formula = formula, formals = formals))
 }

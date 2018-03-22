@@ -21,7 +21,7 @@
 #' This is a wrapper around [stats::t.test()] from the \pkg{stats} package
 #' to extend the functionality of the formula interface.  In particular, one can 
 #' now use the formula interface for a 1-sample t-test.  Before, the formula interface
-#' was only permitted for a 2-sample test.  The type of formala that can be used
+#' was only permitted for a 2-sample test.  The type of formula that can be used
 #' for the 2-sample test has also be broadened.  See the examples.
 #'
 #' @seealso [mosaic::prop.test()], [mosaic::binom.test()], 
@@ -66,12 +66,16 @@ t_test.formula <-
         envir = if (is.environment(data)) data else environment(formula))
     dots <- list(...)
    
-    print(formula)
-    
     if (length(formula) == 3) {
-      return(
-        stats::t.test(formula, data = data, ...)
-        )
+      if (missing(data)) {
+        return( stats::t.test(formula, ...) )
+      } else {
+        return( stats::t.test(formula, data = data, ...) )
+      }
+    }
+    
+    if (missing(data)) {
+      data <- parent.frame()
     }
     
     evalF <- evalFormula(formula, data)

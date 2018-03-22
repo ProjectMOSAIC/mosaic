@@ -2,7 +2,7 @@
 #' 
 #' Functions like [integrate()] and [nlm()] return objects that contain more 
 #' information that simply the value of the integration or optimization.  `value()` extracts
-#' the primary value from such objects.  Currenlty implemented situations include the output from
+#' the primary value from such objects.  Currently implemented situations include the output from
 #' [integrate()],
 #' [nlm()],
 #' [cubature::adaptIntegrate()], and 

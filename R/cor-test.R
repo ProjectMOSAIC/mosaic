@@ -6,7 +6,7 @@
 #' 
 #' @param formula a formula
 #' @param x,y numeric vectors of data values. x and y must have the same length.
-#' @param ... other orguments passed to [stats::cor.test()].
+#' @param ... other arguments passed to [stats::cor.test()].
 #' @seealso [stats::cor.test()] in the \pkg{stats} package.
 #' @examples
 #' # This is an example from example(stats::cor.test) done in old and new style

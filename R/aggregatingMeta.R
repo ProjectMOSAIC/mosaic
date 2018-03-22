@@ -288,7 +288,7 @@ aggregatingFunction1or2 <-
 #' if(require(mosaicData)) {
 #'   foo <- aggregatingFunction2(stats::cor)
 #'   foo(length ~ width, data = KidsFeet)
-#'    stats::cor(KidsFeet$length, KidsFeet$width)
+#'   stats::cor(KidsFeet$length, KidsFeet$width)
 #' }
 #' @export
 
@@ -487,6 +487,11 @@ cor <- aggregatingFunction2(stats::cor)
 #' 
 #' cor(length ~ width, data = KidsFeet)
 #' cov(length ~ width, data = KidsFeet)
+#' tally(is.na(mcs) ~ is.na(pcs), data = HELPmiss)
+#' cov(mcs ~ pcs, data = HELPmiss)             # NA because of missing data
+#' cov(mcs ~ pcs, data = HELPmiss, use = "complete")  # ignore missing data
+#' # alternative approach using filter explicitly
+#' cov(mcs ~ pcs, data = HELPmiss %>% filter(!is.na(mcs) & !is.na(pcs)))    
 #' @export
 
 cov <- aggregatingFunction2(stats::cov)
@@ -519,15 +524,20 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 
 #' All pairs mean and sum of absolute differences
 #' 
-#' All pairs mean and sum of absolute differences
+#' The functions compute the sum or mean of all pairwise absolute 
+#' differences.  This differs from [stats::mad()], which computes
+#' the median absolute difference of each value from the median of 
+#' all the values.  See the `ISIwithR` package (and the textbook it
+#' accompanies) for examples using these functions in the context of 
+#' simulation-based inference.
 #' 
 #' @param x a numeric vector or a formula.  
 #' @param ... additional arguments passed through to `MAD_` 
-#'   or `SAD_`.  If `x` is a formala, `...` should
+#'   or `SAD_`.  If `x` is a formula, `...` should
 #'   include an argument named `data` if the intent is to 
-#'   interpret the formala in a data frame.
+#'   interpret the formula in a data frame.
 #' @param na.rm a logical indicating whether NAs should be removed before
-#'   calculaing.
+#'   calculating.
 #' @param groups a grouping variable, typically a name of a variable in `data`
 #' @param data a data frame in which to evaluate formulas (or bare names).
 #'   Note that the default is `data = parent.frame()`.  This makes it convenient to
@@ -537,7 +547,7 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #'   -- ideally supplying a data frame that contains the variables mentioned.
 #' @return the mean or sum of the absolute differences between each pair
 #'   of values in `c(x,...)`.
-#' @seealso \code{link{mad}}, [MAD_()]
+#' @seealso [mad()], [MAD_()]
 #' @rdname MAD
 #' @export
 #' @examples

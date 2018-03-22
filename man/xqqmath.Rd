@@ -19,7 +19,7 @@ panel.xqqmath(x, qqmathline = !(fitline || idline), idline = FALSE,
 
 \item{idline}{a logical; should the line y=x be added to the plot?}
 
-\item{fitline}{a logical; should a ftted line be added to plot?  Such a line will use \code{slope}
+\item{fitline}{a logical; should a fitted line be added to plot?  Such a line will use \code{slope}
 and \code{intercept} if provided, else the standard deviation and mean of the data.
 If \code{slope} is specified, the line will be added unless \code{fitline} is
 \code{FALSE}.}

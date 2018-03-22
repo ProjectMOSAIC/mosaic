@@ -111,6 +111,32 @@ densityplot(~ age, data = HELPrct,
 
 \newpage
 
+## Density over histograms (ggformula)
+
+We can use stacked layers to add a density curve based on a 
+maximum likelhihood fit or a kernel density estimate.
+
+```{r, message = FALSE}
+gf_dhistogram( ~ age, data = HELPrct, 
+               alpha = 0.5) %>%
+  gf_fitdistr(color = "red") %>% # MLE 
+  gf_dens(color = "blue")        # KDE
+```
+
+
+\newpage
+
+## Density over histograms (lattice)
+
+`mosaic` makes it easy to add a fitted distribution to a histogram.
+
+```{r, message = FALSE}
+histogram(~ age, data = HELPrct, 
+          fit = "normal", dcol = "red")
+```
+
+\newpage
+
 ## Side by side box plots (ggformula)
 
 ```{r, message = FALSE}

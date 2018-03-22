@@ -35,7 +35,7 @@ Left-hand sides of formulas should be a single quantity}
 \item{data}{a data frame.}
 
 \item{coefficients}{For \code{project(y ~ x)} indicates whether the projection
-coeffients should be returned or the projection vector.}
+coefficents should be returned or the projection vector.}
 
 \item{type}{one of \code{"length"} or \code{"vector"} determining the type of the
 returned value}

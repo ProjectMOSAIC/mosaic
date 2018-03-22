@@ -200,7 +200,8 @@ plotFun <- function(object, ...,
                             filled=filled, levels=levels, 
                             nlevels=nlevels, surface=surface, 
                             col.regions=col.regions, 
-                            type=type, alpha=alpha, col=col), 
+                            type=type, alpha=alpha, col=col,
+                            lty = lty, lwd = lwd), 
                        dots )), 
             data=as.list(environment()), 
             ...,
@@ -213,7 +214,8 @@ plotFun <- function(object, ...,
                c(list( object=object, npts=npts, 
                        discontinuity = discontinuity, discontinuities = discontinuities,
                        filled=filled, levels=levels, nlevels=nlevels, suface=surface,
-                       col.regions=col.regions, type=type, alpha=alpha),
+                       col.regions=col.regions, type=type, alpha=alpha,
+                       lwd = lwd, lty = lty),
                  dots) ),
       data=as.list(environment()),
       under=under )
@@ -291,7 +293,8 @@ plotFun <- function(object, ...,
                                  npts = npts, 
                                  discontinuity = discontinuity,
                                  discontinuities = discontinuities,
-                                 col=col ),
+                                 col=col,
+                                 lwd = lwd, lty = lty),
                             cleanDots
                          )
       )
@@ -309,7 +312,7 @@ plotFun <- function(object, ...,
         npts=npts, 
         discontinuity = discontinuity,
         discontinuities = discontinuities,
-        col=col),
+        col=col, lty = lty, lwd = lwd, alpha = alpha),
         cleanDots)
       )
     }
@@ -498,6 +501,8 @@ branch_lengths <- function(x, y, discontinuities = NULL, discontinuity = 1) {
 #' @param ..f.. an object (e.g., a formula) describing a function
 #' @param x,y ignored, but there for compatibility with other lattice panel functions
 #' @param col a vector of colors
+#' @param lwd width of the line
+#' @param lty line type
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
 #' @param filled fill with color between the contours (`TRUE` by default)
@@ -534,6 +539,8 @@ branch_lengths <- function(x, y, discontinuities = NULL, discontinuity = 1) {
 panel.plotFun1 <- function( ..f.., ...,
                             x, y,
                             type="l", 
+                            lwd = trellis.par.get("superpose.line")$lwd,
+                            lty = trellis.par.get("superpose.line")$lty,
                             col = trellis.par.get('superpose.line')$col,
                             npts=NULL,
                             zlab=NULL, 
@@ -608,7 +615,9 @@ panel.plotFun1 <- function( ..f.., ...,
         c(list(x=.xvals, y=.yvals, default.units = "native",
                gp=do.call(
                  grid::gpar, 
-                 c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
+                 c(list(alpha=alpha, col=.getColor(idx, col), 
+                   lty = lty, lwd = lwd),
+                   cleandots)
                ), 
                id.lengths = branch_lengths(.xvals, .yvals, discontinuities)  
         ))
@@ -616,7 +625,8 @@ panel.plotFun1 <- function( ..f.., ...,
     } else {
       do.call(
         panel.xyplot,
-        c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, col=.getColor(idx,col)),  cleandots)
+        c(list(x=.xvals, y=.yvals, type=type,  alpha=alpha, 
+               lwd = lwd, lty = lty, col=.getColor(idx,col)),  cleandots)
       )
     }
   }
@@ -626,6 +636,8 @@ panel.plotFun1a <- function( ..f.., ...,
                              x, y,
                              type="l", 
                              col = trellis.par.get('superpose.line')$col,
+                             lwd = trellis.par.get("superpose.line")$lwd,
+                             lty = trellis.par.get("superpose.line")$lty,
                              npts=NULL,
                              zlab=NULL, 
                              filled=TRUE, 
@@ -720,7 +732,8 @@ panel.plotFun1a <- function( ..f.., ...,
       c(list(x=points_data$x, y=points_data$y, default.units = "native",
              gp=do.call(
                grid::gpar, 
-               c(list(alpha=alpha, col=.getColor(groups_data$id, col)), cleandots)
+               c(list(alpha=alpha, col=.getColor(groups_data$id, col),
+                      lwd = lwd, lty = lty), cleandots)
              ), 
              id.lengths = groups_data$length
       ))
@@ -729,6 +742,7 @@ panel.plotFun1a <- function( ..f.., ...,
     do.call(
       panel.xyplot,
       c(list(x=points_data$x, y=points_data$y, type=type,  
+             lwd = lwd, lty = lty,
              alpha=alpha, col=.getColor(points_data$id, col)),  cleandots)
     )
   }
@@ -741,6 +755,8 @@ panel.plotFun1a <- function( ..f.., ...,
 #' @param object an object (e.g., a formula) describing a function
 #' @param npts an integer giving the number of points (in each dimension) to sample the function
 #' @param zlab label for z axis (when in surface-plot mode)
+#' @param lwd width of the line
+#' @param lty line type
 #' @param filled fill with color between the contours (`TRUE` by default)
 #' @param levels levels at which to draw contours
 #' @param nlevels number of contours to draw (if `levels` not specified)
@@ -782,6 +798,8 @@ panel.plotFun <- function( object, ...,
                            nlevels=10,
                            surface=FALSE,
                            col.regions =topo.colors, 
+                           lwd = trellis.par.get("superpose.line")$lwd,
+                           lty = trellis.par.get("superpose.line")$lty,
                            alpha=NULL,
                            discontinuity = NULL,
                            discontinuities = NULL ) { 
@@ -843,14 +861,18 @@ panel.plotFun <- function( object, ...,
           c(list(x=.xvals, y=.yvals, default.units = "native",
                  gp=do.call(
                    grid::gpar, 
-                   c(list(alpha=alpha, col=.getColor(idx, col)), cleandots)
+                   c(list(alpha=alpha, col=.getColor(idx, col),
+                          lty = lty, lwd = lwd), cleandots)
                  ), 
                  id.lengths = branch_lengths(.xvals, .yvals, discontinuities) 
           ))
         )
       )
     } else {
-      return(do.call(panel.xyplot,c(list(x=.xvals, y=.yvals, type=type, alpha=alpha), cleandots)))
+      return(do.call(
+        panel.xyplot,
+        c(list(x=.xvals, y=.yvals, type=type, alpha=alpha, lty = lty, lwd = lwd), 
+          cleandots)))
     }
   }
   

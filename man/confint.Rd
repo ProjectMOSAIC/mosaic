@@ -72,7 +72,7 @@ None of the methods include explicit bias correction.
 Let \eqn{q_a} be the \eqn{a} quantile of the bootstrap distribution,
 let \eqn{t_a, df} be the \eqn{a} quantile of the t distribution with \eqn{df}
 degrees of freedom,
-let \eqn{SE_b} be the standard deviation of the bootsrap distribution,
+let \eqn{SE_b} be the standard deviation of the bootstrap distribution,
 and let \eqn{\hat{\theta}} be the estimate computed from the original data.
 Then the confidence intervals with confidence level \eqn{1 - 2a} are
 \describe{
@@ -84,7 +84,7 @@ at attempt is made to determine an appropriate value, but this should be double 
 In particular, missing data an lead to unreliable results.
 }
 The bootstrap-t confidence interval is computed much like the reverse confidence interval
-but the bootstrap t distribution is used in place of a theoretical t distriubiton.
+but the bootstrap t distribution is used in place of a theoretical t distribuiton.
 This interval has much better properties than the reverse (or basic) method, which
 is here for comparison purposes only and is not recommended.
 }
@@ -101,7 +101,7 @@ if (require(mosaicData)) {
   bootstrap2 <- do(500)*mean( resample(1:10) ) 
   confint(bootstrap2)
 }
-confint( summary(lm(width ~ length * sex, data=KidsFeet)) )
+confint( summary(lm(width ~ length * sex, data = KidsFeet)) )
 }
 \references{
 Tim C. Hesterberg (2015): What Teachers Should Know about the Bootstrap:

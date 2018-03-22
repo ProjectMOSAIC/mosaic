@@ -23,7 +23,7 @@ hist2freqpolygon(hist)
 
 \item{...}{additional arguments passed on to \code{\link[=hist]{hist()}}.}
 
-\item{hist}{a histgram object produced by \code{link{hist}()}.}
+\item{hist}{a histogram object produced by \code{link{hist}()}.}
 
 \item{freq}{A logical indicating whether the vertical scale should be frequency (count).}
 
@@ -41,11 +41,11 @@ hist2freqpolygon(hist)
 
 \item{ylab}{Label for the vertical axis.}
 
-\item{xlim}{A numeric vector of lenght 2.}
+\item{xlim}{A numeric vector of length 2.}
 
-\item{ylim}{A numeric vector of lenght 2.}
+\item{ylim}{A numeric vector of length 2.}
 
-\item{axes}{A logical indicating whehter axes should be drawn.}
+\item{axes}{A logical indicating whether axes should be drawn.}
 
 \item{labels}{A logical indicating whether labels should be printed or a character
 vector of labels to add.}

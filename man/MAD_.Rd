@@ -15,7 +15,7 @@ SAD_(x, ..., na.rm = getOption("na.omit", FALSE))
 \item{...}{additional arguments appended to \code{x}}
 
 \item{na.rm}{a logical indicating whether NAs should be removed before
-calculaing.}
+calculating.}
 }
 \value{
 the mean or sum of the absolute differences between each pair

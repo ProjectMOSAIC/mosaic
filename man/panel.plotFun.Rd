@@ -6,8 +6,9 @@
 \usage{
 panel.plotFun(object, ..., type = "l", npts = NULL, zlab = NULL,
   filled = TRUE, levels = NULL, nlevels = 10, surface = FALSE,
-  col.regions = topo.colors, alpha = NULL, discontinuity = NULL,
-  discontinuities = NULL)
+  col.regions = topo.colors, lwd = trellis.par.get("superpose.line")$lwd,
+  lty = trellis.par.get("superpose.line")$lty, alpha = NULL,
+  discontinuity = NULL, discontinuities = NULL)
 }
 \arguments{
 \item{object}{an object (e.g., a formula) describing a function}
@@ -36,6 +37,10 @@ Frequently used arguments include
 \item{surface}{a logical indicating whether to draw a surface plot rather than a contour plot}
 
 \item{col.regions}{a vector of colors or a function (\code{topo.colors} by default) for generating such}
+
+\item{lwd}{width of the line}
+
+\item{lty}{line type}
 
 \item{alpha}{number from 0 (transparent) to 1 (opaque) for the fill colors}
 

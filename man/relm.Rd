@@ -14,5 +14,19 @@ relm(model, ..., envir = environment(formula(model)))
 \item{envir}{an environment in which to (re)evaluate the linear model.}
 }
 \description{
-Residual resampling from a linear model
+Fit a new model to data created using \code{resample(model)}.
+}
+\examples{
+mod <- lm(length ~ width, data = KidsFeet)
+do(1) * mod 
+do(3) * relm(mod) 
+# use residual resampling to estimate standard error (very crude because so few replications)
+Boot <- do(100) * relm(mod)
+sd(~ width, data = Boot)
+# standard error as produced by summary() for comparison
+mod \%>\% summary() \%>\% coef() 
+
+}
+\seealso{
+\code{resample()}
 }

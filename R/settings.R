@@ -111,7 +111,7 @@ mosaic.par.get <- function (name = NULL)
        )
 #' @rdname mosaic.options
 #' @details `restoreLatticeOptions` returns any lattice
-#' options that were changed when the mosiac package was loaded
+#' options that were changed when the mosaic package was loaded
 #' back to their pre-mosaic state.
 #' @export
 

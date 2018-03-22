@@ -42,7 +42,7 @@ currently aware of objects of types
 
 \item{mode}{target mode for value returned}
 
-\item{algorithm}{a number usd to select the algorithm used.  Currently numbers below 1
+\item{algorithm}{a number used to select the algorithm used.  Currently numbers below 1
 use an older algorithm and numbers >=1 use a newer algorithm which is faster in some
 situations.}
 

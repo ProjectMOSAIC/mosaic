@@ -54,11 +54,11 @@ from the \code{stats} package.  It guarantees a coverage rate at least as large 
 the nominal coverage rate, but may produce wider intervals than some of the methods
 below, which may either under- or over-cover depending on the data.}
 \item{Score, Wilson, prop.test}{This is the usual method used by \code{\link[stats:prop.test]{stats::prop.test()}}
-and is computed by inverting p-values from score tests. It is often atrributed to
+and is computed by inverting p-values from score tests. It is often attributed to
 Edwin Wilson.}
 \item{Wald}{This is the interval traditionally taught in entry level statistics courses.
 It uses the sample proportion to estimate the standard error and uses normal
-theory to determine how many standard deviations to add and/or substract from
+theory to determine how many standard deviations to add and/or subtract from
 the sample proportion to determine an interval.}
 \item{Agresti-Coull}{
 This is the Wald method after setting \eqn{n' = n + z^2} and
@@ -66,7 +66,7 @@ This is the Wald method after setting \eqn{n' = n + z^2} and
 in place of \eqn{x} and \eqn{n}.
 }
 \item{Plus4}{
-This is Wald after adding in two artifical success and two artificial failures.  It
+This is Wald after adding in two artificial success and two artificial failures.  It
 is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
 \eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.}
 }

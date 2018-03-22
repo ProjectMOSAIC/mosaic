@@ -66,7 +66,7 @@ fool this algorithm and be considered continuous.
 
 The plots are done referencing a data frame with variables
 \code{x} and \code{y} giving points on the graph of the
-pdf, pmf, or cdf for the distribution.  This can be useful in conjuction
+pdf, pmf, or cdf for the distribution.  This can be useful in conjunction
 with the \code{groups} argument.  See the examples.
 }
 \examples{

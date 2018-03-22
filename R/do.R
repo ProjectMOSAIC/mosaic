@@ -53,7 +53,7 @@ set.rseed <- function(seed) {
 #'   
 #' @param mode  target mode for value returned
 #' 
-#' @param algorithm a number usd to select the algorithm used.  Currently numbers below 1 
+#' @param algorithm a number used to select the algorithm used.  Currently numbers below 1 
 #'   use an older algorithm and numbers >=1 use a newer algorithm which is faster in some 
 #'   situations.
 #' @param parallel a logical indicating whether parallel computation should be attempted
@@ -145,7 +145,7 @@ null2na <- function(x) if (is.null(x)) NA else x
 #' @section Slots:
 #' \describe{
 #'   \item{`n`:}{Object of class `"numeric"` indicating how many times to repeat something.}
-#'   \item{`cull`:}{Object of class `"function"` that culls the ouput from each repetition.}
+#'   \item{`cull`:}{Object of class `"function"` that culls the output from each repetition.}
 #'   \item{`mode`:}{Object of class `"character"` indicating the output mode 
 #'   ('default', 'data.frame', 'matrix', 'vector', or 'list').  For most purposes 'default' (the default)
 #'   should suffice.}
@@ -272,12 +272,12 @@ print.repeater <- function(x, ...)
 
 #' Cull objects used with do()
 #' 
-#' The [do()] function facilitates easy repliaction for
+#' The [do()] function facilitates easy replication for
 #' randomization tests and bootstrapping (among other things).  Part of what
 #' makes this particularly useful is the ability to cull from the objects
 #' produced those elements that are useful for subsequent analysis. 
 #' `cull_for_do` does this culling.  It is generic, and users
-#' can add new methods to either change behavoir or to hanlde additional
+#' can add new methods to either change behavior or to handle additional
 #' classes of objects.
 #' 
 #' @param object an object to be culled
