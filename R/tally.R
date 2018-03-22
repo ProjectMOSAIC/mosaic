@@ -335,6 +335,8 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
       result <- ((T[idx,] + pval.adjust) / (colSums(T) + pval.adjust)) * scale
     if (long.names)
       names(result) <- paste(success, names(result), sep=sep)
+    names(result) <- paste(switch(format, count = "n", proportion = "prop", percent = "perc"), 
+                           names(result), sep = "_")
     return(result)
   }
   if ( length(dim(T)) == 1) {
@@ -343,6 +345,8 @@ prop <- function(x, data=parent.frame(), useNA = "no", ...,
       T[idx] 
     else
       (T[idx] + pval.adjust) / (sum(T) + pval.adjust) * scale
+    names(result) <- paste(switch(format, count = "n", proportion = "prop", percent = "perc"), 
+                           names(result), sep = "_")
     return(result)
   }
   stop(paste('Too many dimensions (', length(dim(T)), ")",sep=""))
