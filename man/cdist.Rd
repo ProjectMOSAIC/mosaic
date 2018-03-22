@@ -42,10 +42,33 @@ This will work for any family for which the usual d/p/q functions exist.}
 \item{p}{the proportion to be in the central region, with equal proportions
 in either "tail".}
 
+\item{plot}{a logical indicating whether a plot should be created}
+
 \item{verbose}{a logical indicating whether a more verbose output value should be returned.}
+
+\item{invisible}{a logical}
+
+\item{digits}{the number of digits desired}
+
+\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\%
+of the distribution.}
+
+\item{ylim}{y limits}
+
+\item{resolution}{number of points used for detecting discreteness and generating plots.
+The default value of 5000 should work well except for discrete distributions
+that have many distinct values, especially if these values are not evenly spaced.}
+
+\item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
+
+\item{pattern}{One of \code{"stripes"} or \code{"rings"}.
+In the latter case, pairs of regions (from the outside to the inside)
+are grouped together for coloring and probability calculation.}
 
 \item{...}{additional arguments passed to the distribution functions.  Typically
 these specify the parameters of the particular distribution desired.  See the examples.}
+
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
 }
 \value{
 a pair of numbers indicating the upper and lower bounds, unless \code{verbose} is

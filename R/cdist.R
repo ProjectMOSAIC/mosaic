@@ -5,22 +5,27 @@
 #' This is designed to work especially well for symmetric distributions,
 #' but it can be used with any distribution.
 #' 
+#' @inheritParams qdist
 #' @param dist a character string naming a distribution family (e.g., "norm").
-#' This will work for any family for which the usual d/p/q functions exist.
+#'   This will work for any family for which the usual d/p/q functions exist.
 #' @param p the proportion to be in the central region, with equal proportions 
-#' in either "tail".
+#'   in either "tail".
 #' @param verbose a logical indicating whether a more verbose output value should be returned.
+#' @param pattern One of `"stripes"` or `"rings"`. 
+#'   In the latter case, pairs of regions (from the outside to the inside) 
+#'   are grouped together for coloring and probability calculation.
+#' 
 #' @param ... additional arguments passed to the distribution functions.  Typically
-#' these specify the parameters of the particular distribution desired.  See the examples.
+#'   these specify the parameters of the particular distribution desired.  See the examples.
 # @param tail one of \code{"upper"} or \code{"lower"} specifying whether 
-# the lower or upper critical value is returned.  
+#   the lower or upper critical value is returned.  
 # @param warn a logical indicating whether a warning should be given when
-# using a distribution that is not symmetric.
+#   using a distribution that is not symmetric.
 #' @return a pair of numbers indicating the upper and lower bounds, unless `verbose` is 
 #'   `TRUE`, in which case a 1-row data frame is returned containing these bounds, 
 #'   the central probability, the tail probabilities, and the name of the distribution.
 #' @note This function is still experimental and changes the input or output
-#' formats are possible in future versions of the package.
+#'   formats are possible in future versions of the package.
 #' 
 #' @examples
 #' cdist( "norm", .95)

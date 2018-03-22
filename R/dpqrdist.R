@@ -212,6 +212,8 @@ qdist <- function (dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = F
 }
 
 
+utils::globalVariables(c("i", "name", "p_all"))
+
 plot_multi_dist <- 
   function(dist, p, q, xlim, ylim, digits = 3L, resolution = 500L,
            lower.tail = TRUE,

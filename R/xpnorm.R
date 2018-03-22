@@ -25,6 +25,8 @@ utils::globalVariables(
 #' @param manipulate logical.  If TRUE and in RStudio,
 #'  	then sliders are added for interactivity.
 #' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
+#' @param pattern One of `"stripes"` or `"rings"`.  In the latter case, pairs of regions 
+#' (from inside to outside) are grouped together for coloring and probability calculation.
 #' @param \dots additional arguments.
 #' 
 #' 

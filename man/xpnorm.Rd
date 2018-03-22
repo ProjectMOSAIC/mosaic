@@ -48,6 +48,9 @@ then sliders are added for interactivity.}
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
 \item{p}{probability}
+
+\item{pattern}{One of \code{"stripes"} or \code{"rings"}.  In the latter case, pairs of regions
+(from inside to outside) are grouped together for coloring and probability calculation.}
 }
 \description{
 These functions behave similarly to the functions with the initial \code{x}
