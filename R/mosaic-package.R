@@ -31,7 +31,7 @@ NA
 #' @importFrom ggdendro segment label dendro_data
 #' @import methods
 #' @importFrom MASS fitdistr fractions
-#' @import dplyr
+#' @importFrom dplyr bind_rows filter do mutate
 #' @importFrom tidyr gather
 #' @importFrom grid grid.polyline grid.text grid.lines grid.points grid.rect grid.layout gpar unit.c 
 #' @import lattice

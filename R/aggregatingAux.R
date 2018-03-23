@@ -170,7 +170,7 @@ maggregate <-
   groupName <- ".group"  # gets changed to something better later when possible.
   
   .format <- match.arg(.format, c('default', 'table', 'flat'))
-  evalF <- evalFormula(formula, data=data)
+  evalF <- mosaicCore::evalFormula(formula, data=data)
   
   if (!missing(subset)) {
     subset <- eval(substitute(subset), data, environment(formula))
@@ -210,7 +210,7 @@ maggregate <-
     if (ncol(evalF$left) > 1) warning("Too many variables in lhs; ignoring all but first.")
     if (.format=='table') {
       if (.multiple) stop ("table view unavailable for this function.")
-      ldata <- joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
+      ldata <- mosaicCore::joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
       ldata$.var <- ldata[, 1]
       gdata <- do.call( group_by, c(list(ldata),  
                                     lapply(union(names(evalF$right), names(evalF$condition)),
@@ -219,14 +219,14 @@ maggregate <-
         dplyr::do(gdata, foo = FUN( as.data.frame(.)[, 1], ...) ) )
       names(res)[ncol(res)] <- gsub(".*::", "", .name)
       #      res <-  plyr::ddply( 
-      #        joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
+      #        mosaicCore::joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
       #        union(names(evalF$right), names(evalF$condition)),
       #        function(x) do.call(FUN, list(x[,1], ...))
       #      )
       
     } else {
       res <- lapply( split( evalF$left[, 1], 
-                            joinFrames(evalF$right, evalF$condition), 
+                            mosaicCore::joinFrames(evalF$right, evalF$condition), 
                             drop=drop),
                      function(x) { do.call(FUN, alist(x, ...) ) }
       )
@@ -286,7 +286,7 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
   
   .format <- match.arg(.format)
   
-  evalF <- evalFormula(formula, data=data)
+  evalF <- mosaicCore::evalFormula(formula, data=data)
   
   if (!missing(subset)) {
     subset <- eval(substitute(subset), data, environment(formula))
@@ -308,14 +308,14 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
   
   if (.format=='table') {
     if (.multiple) stop ("table view unavailable.")
-    ldata <- joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
+    ldata <- mosaicCore::joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
     ldata$.var <- ldata[, 1]
     gdata <- do.call( group_by, c(list(ldata),  as.name(names(evalF$condition)) ) )
     res <- as.data.frame( dplyr::do(gdata, foo = FUN( as.data.frame(.)[,1], as.data.frame(.)[,2], ...) ) )
     names(res)[ncol(res)] <- gsub(".*::", "", .name)
   } else {
     res <- lapply( split( evalF$left[,1], 
-                          joinFrames(evalF$right, evalF$condition), 
+                          mosaicCore::joinFrames(evalF$right, evalF$condition), 
                           drop=drop),
                    function(x) { do.call(FUN, alist(x, ...) ) }
     )

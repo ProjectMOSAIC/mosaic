@@ -20,6 +20,16 @@
 \alias{counts}
 \alias{reexports}
 \alias{props}
+\alias{reexports}
+\alias{prop}
+\alias{reexports}
+\alias{prop1}
+\alias{reexports}
+\alias{perc}
+\alias{reexports}
+\alias{count}
+\alias{reexports}
+\alias{tally}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -29,6 +39,6 @@ below to see their documentation.
 \describe{
   \item{MASS}{\code{\link[MASS]{fitdistr}}, \code{\link[MASS]{fractions}}}
 
-  \item{mosaicCore}{\code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{lhs}}, \code{\link[mosaicCore]{rhs}}, \code{\link[mosaicCore]{condition}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{counts}}, \code{\link[mosaicCore]{props}}}
+  \item{mosaicCore}{\code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{lhs}}, \code{\link[mosaicCore]{rhs}}, \code{\link[mosaicCore]{condition}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{counts}}, \code{\link[mosaicCore]{props}}, \code{\link[mosaicCore]{prop}}, \code{\link[mosaicCore]{prop1}}, \code{\link[mosaicCore]{perc}}, \code{\link[mosaicCore]{count}}, \code{\link[mosaicCore]{tally}}}
 }}
 

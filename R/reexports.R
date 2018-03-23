@@ -9,7 +9,7 @@ MASS::fitdistr
 MASS::fractions
 
 
-#' @importFrom mosaicCore lhs rhs condition makeFun 
+#' @importFrom mosaicCore lhs rhs condition makeFun prop prop1 count tally
 #' @export
 mosaicCore::lhs
 #' @export
@@ -22,3 +22,13 @@ mosaicCore::makeFun
 mosaicCore::counts
 #' @export
 mosaicCore::props
+#' @export
+mosaicCore::prop
+#' @export
+mosaicCore::prop1
+#' @export
+mosaicCore::perc
+#' @export
+mosaicCore::count
+#' @export
+mosaicCore::tally

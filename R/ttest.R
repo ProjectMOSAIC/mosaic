@@ -78,7 +78,7 @@ t_test.formula <-
       data <- parent.frame()
     }
     
-    evalF <- evalFormula(formula, data)
+    evalF <- mosaicCore::evalFormula(formula, data)
     if (ncol(evalF$right) < 1L) 
       stop("No data specified in rhs of formula.") 
     
