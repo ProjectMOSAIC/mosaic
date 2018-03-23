@@ -13,6 +13,25 @@ system_choices <- function() {
   choices[available]
 }
 
+ggdir2pos <- function(x) {
+  switch(x,
+    'N'  = 'c(0.5, 0.9)', 
+    'NE' = 'c(0.9, 0.9)', 
+    'E'  = 'c(0.9, 0.5)', 
+    'SE' = 'c(0.9, 0.1)', 
+    'S'  = 'c(0.5, 0.1)', 
+    'SW' = 'c(0.1, 0.1)', 
+    'W'  = 'c(0.1, 0.5)', 
+    'NW' = 'c(0.1, 0.9)',
+    "none" = '"none"',
+    "top" = '"top"',
+    "bottom" = '"bottom"',
+    "left" = '"left"',
+    "right" = '"right"',
+    '"none"'
+  )
+}
+
 #' Extract data from a data frame using a formula interface
 #' 
 #' Uses the full model syntax.
@@ -130,6 +149,7 @@ mPlot <- function(data,
                   data_text = expr_text(data),
                   ...)
 {
+      
   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
                  'density', 'frequency polygon', 'ASH plot', 'xyplot', 'map')
   
@@ -227,10 +247,10 @@ mMap <- function(data, default = 'map',
                  "sp_mercator", 
                  "sp_albers, lat0=-50, lat1=50")
   lnames <- list("none","top","right","left",
-                 "N (lattice)" = "N", "NE (lattice)" = "NE", 
-                 "E (lattice)" = "E", "SE (lattice)" = "SE", 
-                 "S (lattice)" = "S", "SW (lattice)" = "SW", 
-                 "W (lattice)" = "W", "NW (lattice)" = "NW")
+                 "N" = "N", "NE" = "NE", 
+                 "E" = "E", "SE" = "SE", 
+                 "S" = "S", "SW" = "SW", 
+                 "W" = "W", "NW" = "NW")
   manipulate::manipulate( { .doMap(data, variables, show = show, system = system, 
                                    x = x, y = y, 
                                    color = color, 
@@ -304,8 +324,8 @@ mMap <- function(data, default = 'map',
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
       res<-paste(res, " + facet_wrap(~", s$facet, ", ncol = 4)", sep = "")
     res <- paste( res, '+ coord_map(', s$projection, ')', sep = "" )
-    if ((!is.null(s$color) && !is.na(s$color)) && (s$key %in% c('none','top','bottom','left'))) {
-      res <- paste(res, ' + theme(legend.position = "', s$key, '")', sep = "")
+    if (!is.null(s$color) && !is.na(s$color)) {
+      res <- paste(res, ' + theme(legend.position = ', ggdir2pos(s$key), ')', sep = "")
     }  
     res <- paste( res, '+ labs(title = "', s$title, '")', sep = "")
     res <- paste( res, '+ theme(',
@@ -343,10 +363,10 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
   cnames <- .NAprepend(variables$c)
   mnames <- list("none", linear = "linear", "smooth", "spline")
   lnames <- list("none","top","right","left",
-                 "N (lattice)" = "N", "NE (lattice)" = "NE", 
-                 "E (lattice)" = "E", "SE (lattice)" = "SE", 
-                 "S (lattice)" = "S", "SW (lattice)" = "SW", 
-                 "W (lattice)" = "W", "NW (lattice)" = "NW")
+                 "N" = "N", "NE" = "NE", 
+                 "E" = "E", "SE" = "SE", 
+                 "S" = "S", "SW" = "SW", 
+                 "W" = "W", "NW" = "NW")
   # print(list(system, system_choices()))
   manipulate::manipulate( { .doScatter(data, data_text = data_text, variables, show = show, system = system, x = x, y = y, plotType = plotType, 
                                        flipCoords = flipCoords, color = color, size = size, facet = facet, 
@@ -428,10 +448,9 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
       if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
         res <- glue::glue("{res} %>%\n  gf_facet_wrap(~ {s$facet}, ncol = 4)")
       
-      if ((!is.null(s$color) && !is.na(s$color)) && 
-          (!is.null(s$size) && !is.na(s$size)) && 
-          (s$key %in% c('none','top','bottom','left'))) {
-        res <- glue::glue('{res} %>% \n  gf_theme(legend.position = "{s$key}")')
+      if ((!is.null(s$color) && !is.na(s$color)) || 
+          (!is.null(s$size)  && !is.na(s$size))) {
+        res <- glue::glue('{res} %>% \n  gf_theme(legend.position = {ggdir2pos(s$key)})')
       } 
       res <- glue::glue('{res} %>% \n  gf_labs(title = "{s$title}", caption = "")')
       if ( s$flipCoords) {
@@ -451,8 +470,8 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
       if (s$model=="spline") res <- paste(res, " + stat_spline()")
       if (s$model=="linear") res <- paste(res, " + stat_smooth(method = lm)")
       if (s$model=="smooth") res <- paste(res, " + stat_smooth(method = loess)") 
-      if ((!is.null(s$color) && !is.na(s$color)) && (!is.null(s$size) && !is.na(s$size)) && (s$key %in% c('none','top','bottom','left'))) {
-        res <- paste(res, ' + theme(legend.position = "', s$key, '")', sep = "")
+      if ((!is.null(s$color) && !is.na(s$color)) || (!is.null(s$size) && !is.na(s$size))){
+        res <- paste(res, ' + theme(legend.position = ', ggdir2pos(s$key), ')', sep = "")
       }  
       res <- paste(res, ' + labs(title = "', s$title, '")', sep = "")
       if ( s$flipCoords) {
@@ -544,10 +563,10 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
   cnames <- .NAprepend(variables$c)
   if (length(variables$q) < 1) stop("data must have at least 1 quantitative variable")
   lnames <- list("none","top","right","left",
-                 "N (lattice)" = "N", "NE (lattice)" = "NE", 
-                 "E (lattice)" = "E", "SE (lattice)" = "SE", 
-                 "S (lattice)" = "S", "SW (lattice)" = "SW", 
-                 "W (lattice)" = "W", "NW (lattice)" = "NW")
+                 "N" = "N", "NE" = "NE", 
+                 "E" = "E", "SE" = "SE", 
+                 "S" = "S", "SW" = "SW", 
+                 "W" = "W", "NW" = "NW")
   manipulate::manipulate( 
     { .doUniplot(data, variables = variables, show = show, system = system, plotType = plotType, x = x, 
                  nbins = nbins, color = color, 
@@ -638,9 +657,8 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
       res <- glue::glue("{res} %>%\n   gf_facet_wrap(~ {s$facet})")
     res <- glue::glue('{res} %>%\n   gf_labs(title = "{s$title}")')
     
-    if ((!is.null(s$color) && !is.na(s$color)) && 
-        (s$key %in% c('none','top','bottom','left'))) {
-      res <- glue::glue('{res} %>%\n   gf_theme(legend.position = "{s$key}")')
+    if (!is.null(s$color) && !is.na(s$color)){
+      res <- glue::glue('{res} %>% \n  gf_theme(legend.position = {ggdir2pos(s$key)})')
     }  
   } else if (system == "ggplot2") {
     res <- paste0("ggplot( data = ", s$dataName, ", aes(x = ", s$x, "))", sep = "")
@@ -663,9 +681,8 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
       res<-paste(res, " + facet_wrap(~", s$facet, ", ncol = 4)", sep = "")
     res <- paste(res, ' + labs(title = "', s$title, '")', sep = "")
-    if ((!is.null(s$color) && !is.na(s$color)) && 
-        (s$key %in% c('none','top','bottom','left'))) {
-      res <- paste(res, ' + theme(legend.position = "', s$key, '")', sep = "")
+    if (!is.null(s$color) && !is.na(s$color)){
+      res <- paste(res, ' + theme(legend.position = ', ggdir2pos(s$key), ')', sep = "")
     }  
     
   } else {
