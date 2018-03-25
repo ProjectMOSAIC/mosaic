@@ -14,7 +14,7 @@ system_choices <- function() {
 }
 
 ggdir2pos <- function(x) {
-  switch(x,
+  switch(EXPR = x,
     'N'  = 'c(0.5, 0.9)', 
     'NE' = 'c(0.9, 0.9)', 
     'E'  = 'c(0.9, 0.5)', 
@@ -27,8 +27,7 @@ ggdir2pos <- function(x) {
     "top" = '"top"',
     "bottom" = '"bottom"',
     "left" = '"left"',
-    "right" = '"right"',
-    '"none"'
+    "right" = '"right"'
   )
 }
 
