@@ -203,7 +203,7 @@ plotModel.parsedModel <-
     if (length(restVars) > 0L && is.null(auto.key)) {
       auto.key <- 
         list(points = TRUE, lines=TRUE, 
-             columns = min(length(unique(point_data$.color)), 3))
+             columns = base::min(length(unique(point_data$.color)), 3))
     } else { 
       if (is.null(auto.key)) auto.key <- FALSE
     }
