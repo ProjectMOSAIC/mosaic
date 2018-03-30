@@ -338,7 +338,7 @@ plot_multi_dist <-
     Ddensity <- 
       data_frame(
         x = xdata, density = ydata, 
-        group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)}),
+        group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
       ) %>%
       mutate(
         group = pmax(1, group),
