@@ -42,3 +42,7 @@ mosaicCore::inspect
 mosaicCore::msummary
 #' @export
 mosaicCore::n_missing
+#' @export
+mosaicCore::logit
+#' @export
+mosaicCore::ilogit
