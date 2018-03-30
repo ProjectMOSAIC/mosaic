@@ -32,3 +32,13 @@ mosaicCore::perc
 mosaicCore::count
 #' @export
 mosaicCore::tally
+#' @export
+mosaicCore::dfapply
+#' @export
+mosaicCore::ediff
+#' @export
+mosaicCore::inspect
+#' @export
+mosaicCore::msummary
+#' @export
+mosaicCore::n_missing
