@@ -28,7 +28,7 @@ mod <- lm( mpg ~ wt, data = mtcars)
 plotModel(mod, pch = 19)
 
 # parallel slopes
-mod <- lm( mpg ~ wt + factor(cyl), data=mtcars)
+mod <- lm( mpg ~ wt + factor(cyl), data = mtcars)
 plotModel(mod)
 
 # multiple categorical vars
