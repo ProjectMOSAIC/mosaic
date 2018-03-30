@@ -26,7 +26,7 @@ contingency table of the percents or proportions at each combination of factor l
 See \code{\link[=table]{table()}}.
 }
 \examples{
-# perctable() has been deprecated.  Use tally() instead
+# perctable() is now defunct.  Use `tally()` instead
 example(tally)
 
 }

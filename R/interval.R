@@ -166,6 +166,6 @@ rsquared <- function(x, ...) {
 #' @export
 
 r.squared <- function(x, ...) {
-  .Deprecated("rsquared")
+  .Defunct("rsquared")
   rsquared(x, ...)
 }

@@ -14,7 +14,7 @@
 #' -- ideally supplying a data frame that contains the variables mentioned
 #' @param \dots other arguments
 #' @return the difference in means between the second and first group
-#' @note This function has been deprecated. Use [diffmean()] instead.
+#' @note This function is now defunct.  Use [diffmean()] instead.
 #' @seealso [do()], [compareProportion()] and [shuffle()]
 #' @keywords iteration
 #' @keywords stats
@@ -32,7 +32,7 @@
 #' }
 #' @export
 compareMean <- function(formula, data=parent.frame(), ...) {
-  .Deprecated("diffmean")
+  .Defunct("diffmean")
   means <- mean( formula, data=data, ... )
   if (length(means) != 2) {
   	stop("number of levels for grouping variable must be 2\n")

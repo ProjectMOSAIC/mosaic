@@ -8,7 +8,7 @@
 #' formula.
 #' @param \dots other arguments
 #' @return the difference in proportions between the second and first group
-#' @note This function has been deprecated. Use [diffprop()] instead.
+#' @note This function is now defunct. Use [diffprop()] instead.
 #' @keywords iteration
 #' @keywords stats
 #' @examples
@@ -24,7 +24,7 @@
 #' }
 #' @export
 compareProportion <- function(formula, data=NULL, ...) {
-  .Deprecated("diffprop")
+  .Defunct("diffprop")
   means <- mean( formula, data=data, ... )
   if (length(means) != 2) {
   	stop("number of levels for grouping variable must be 2\n")

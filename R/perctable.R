@@ -11,7 +11,7 @@
 #' @return a contingency table, an object of class "table", an array of percentage or proportion
 #' values. Note that unlike S the result is always an array, a 1D array if one factor is given.
 #' @examples
-#' # perctable() has been deprecated.  Use tally() instead
+#' # perctable() is now defunct.  Use `tally()` instead
 #' example(tally)
 #' 
 #' @keywords manipulate 
@@ -19,7 +19,7 @@
 
 perctable <- function(...) 
 {
-  .Deprecated("tally")
+  .Defunct("tally")
 	t <- table(...)
 	t/sum(t) * 100
 }
