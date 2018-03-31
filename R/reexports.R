@@ -9,7 +9,10 @@ MASS::fitdistr
 MASS::fractions
 
 
-#' @importFrom mosaicCore lhs rhs condition makeFun prop prop1 count tally
+#' @importFrom mosaicCore lhs rhs condition makeFun 
+#' @importFrom mosaicCore counts props prop prop1 perc count tally 
+#' @importFrom mosaicCore dfapply ediff inspect msummary n_missing
+#' @importFrom mosaicCore logit ilogit
 #' @export
 mosaicCore::lhs
 #' @export
