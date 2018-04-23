@@ -143,10 +143,22 @@ function (sample, rdata, FUN, direction = NULL,
 	    system,
 	    gg = 
 	      tryCatch( 
-	        gf_dhistogram( ~ stat, data = results, fill = fill, color = color, binwidth = binwidth) %>%
-	          gf_rect(0 + Inf ~ xleft + xright, fill = shade, alpha = alpha, data = Rect_Data,
-	                  inherit = FALSE) %>%
-	          gf_lims(x = xlim), 
+	        ggplot() +
+	          geom_histogram(
+	            aes(y = ..density.., x = stat),
+	            data = results,
+	            fill = fill, color = color, binwidth = binwidth) +
+	          geom_rect(
+	            aes(ymin = 0, ymax = Inf, xmin = xleft, xmax = xright),
+	            data = Rect_Data,
+	            fill = shade, color = "transparent", alpha = alpha, inherit.aes = FALSE) +
+	          lims(x = xlim),
+	        #             
+	        #                  
+	        # gf_dhistogram( ~ stat, data = results, fill = fill, color = color, binwidth = binwidth) %>%
+	        #   gf_rect(0 + Inf ~ xleft + xright, fill = shade, alpha = alpha, data = Rect_Data,
+	        #           inherit = FALSE) %>%
+	        #   gf_lims(x = xlim), 
 	        error = function(e) NULL
 	      ),
 	    lattice = 
