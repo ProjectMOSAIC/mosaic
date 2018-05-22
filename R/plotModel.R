@@ -111,7 +111,7 @@ plotModel.default <- function(mod, ...) {
 
 plotModel.parsedModel <- 
   function(x, formula = NULL, ..., auto.key = NULL, drop = TRUE, 
-           max.levels = 9L, system=c("lattice", "ggplot2")) {
+           max.levels = 9L, system=c("ggplot2", "lattice")) {
     
     system <- match.arg(system)
   

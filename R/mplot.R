@@ -90,7 +90,7 @@ mplot.lm <-
   function(
     object, 
     which = c(1:3, 7), 
-    system = c("ggplot2","lattice","base"),
+    system = c("ggplot2", "lattice", "base"),
     ask = FALSE, 
     multiplot = "package:gridExtra" %in% search(),
     par.settings = theme.mosaic(),
@@ -366,7 +366,7 @@ mplot.lm <-
 #' @export
 
 mplot.data.frame <- function (object, format, default = format, 
-                              system = c("lattice", "ggplot2"),  show = FALSE, 
+                              system = c("ggformula", "ggplot2", "lattice"),  show = FALSE, 
                               title = "", ...
                               ) {
   return(
@@ -487,7 +487,7 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @export
  
 mplot.summary.lm <- function(object, 
-                             system = c("lattice","ggplot2"),
+                             system = c("ggplot2", "lattice"),
                              level = 0.95,
                              par.settings = trellis.par.get(),
                              rows = TRUE,
@@ -619,7 +619,7 @@ fortify.TukeyHSD <- function(model, data, order = c("asis", "pval", "difference"
 #' mplot(TukeyHSD( lm(age ~ substance, data = HELPrct) ), system = "ggplot2" )
 #' @export
 
-mplot.TukeyHSD <- function(object, system = c("lattice", "ggplot2"), 
+mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"), 
                            ylab = "", xlab = "difference in means", 
                            title = paste0(attr(object, "conf.level") * 100, "% family-wise confidence level"),
                            par.settings = trellis.par.get(),
