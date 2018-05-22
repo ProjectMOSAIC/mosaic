@@ -1,3 +1,5 @@
+utils::globalVariables(c("..density..", "xleft", "xright"))
+
 #' Tally test statistics
 #' 
 #' Tally test statistics from data and from multiple draws
