@@ -4,8 +4,6 @@
 \alias{as.xtabs}
 \alias{as.xtabs.data.frame}
 \alias{as.xtabs.matrix}
-\alias{as.xtabs.data.frame}
-\alias{as.xtabs.matrix}
 \title{Convert objects to xtabs format}
 \usage{
 as.xtabs(x, ...)

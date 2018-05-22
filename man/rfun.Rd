@@ -3,7 +3,6 @@
 \name{rfun}
 \alias{rfun}
 \alias{rpoly2}
-\alias{rpoly2}
 \title{Generate a natural-looking function}
 \usage{
 rfun(vars = ~x & y, seed = NULL, n = 0)

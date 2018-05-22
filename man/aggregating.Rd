@@ -12,23 +12,12 @@
 \alias{cov}
 \alias{cor}
 \alias{favstats}
-\alias{mean}
-\alias{median}
 \alias{range}
-\alias{sd}
-\alias{max}
-\alias{min}
-\alias{sum}
 \alias{IQR}
 \alias{fivenum}
 \alias{iqr}
 \alias{prod}
-\alias{sum}
-\alias{favstats}
 \alias{quantile}
-\alias{var}
-\alias{cor}
-\alias{cov}
 \title{Aggregating functions}
 \usage{
 mean_(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",

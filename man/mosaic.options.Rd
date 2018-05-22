@@ -5,7 +5,6 @@
 \alias{mosaicGetOption}
 \alias{mosaic.par.set}
 \alias{mosaic.getOption}
-\alias{mosaic.par.set}
 \alias{mosaic.par.get}
 \alias{restoreLatticeOptions}
 \alias{mosaicLatticeOptions}

@@ -6,9 +6,6 @@
 \alias{smoother}
 \alias{linearModel}
 \alias{connector}
-\alias{connector}
-\alias{smoother}
-\alias{linearModel}
 \title{Create function from data}
 \usage{
 spliner(formula, data = NULL, method = "fmm", monotonic = FALSE)

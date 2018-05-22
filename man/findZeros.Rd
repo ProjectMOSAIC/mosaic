@@ -54,8 +54,6 @@ a dataframe with solutions to the expression.
 }
 \description{
 Compute numerically zeros of a function or simultaneous zeros of multiple functions.
-
-Solve an equation
 }
 \details{
 Searches numerically using \code{uniroot}.
