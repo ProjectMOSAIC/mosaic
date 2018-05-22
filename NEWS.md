@@ -2,6 +2,12 @@
 
 ## mosaic 1.2
 
+ * A few more plots now default to using `ggplot2` rather than `lattice` by default.
+ * Some long deprecated functions are now defunct.
+ * `cnorm()`, `ct()`, `xcnorm()`, and `xct()` added to find central portions of distributions.
+ * several functions have been moved to `mosaicCore`
+ * A number of bug fixes and behavior enhancements.
+
 ## mosaic 1.1
 
  * A few more things have moved to `mosaicCore`.
