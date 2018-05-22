@@ -1,5 +1,7 @@
 # mosaic package NEWS
 
+## mosaic 1.2
+
 ## mosaic 1.1
 
  * A few more things have moved to `mosaicCore`.
