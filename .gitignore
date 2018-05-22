@@ -23,7 +23,15 @@ RBuildIgnore/sandbox/Vignettes/*/*.gz
 RBuildIgnore/sandbox/Vignettes/*/*.idx
 RBuildIgnore/sandbox/Vignettes/*/cache/*
 RBuildIgnore/sandbox/Vignettes/*/*.notes
+RBuildIgnore/sandbox/Vignettes/*.R
+RBuildIgnore/sandbox/Vignettes/*.html
+RBuildIgnore/sandbox/Vignettes/*.md
+RBuildIgnore/CheatSheets/
 RBuildIgnore/builds/*gz
+README.html
+ExtraDocs/*R
+ExtraDocs/*cache
+ExtraDocs/*_files
 *.Rcheck
 data/*.csv.bz2
 .Rd2dvi*
@@ -41,3 +49,4 @@ vignettes/*.R
 vignettes/*.html
 vignettes/*.md
 vignettes/*.out
+revdep/
