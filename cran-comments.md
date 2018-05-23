@@ -1,7 +1,8 @@
 ## Context
 
-This is a minor revision primarily motivated by the need to repond to a change in `formals()` and 
-the desire to respond to a few feature requests/bug reports.
+This release fixes a few minor bugs, improves some behavior, and moves some functionality
+from `mosaic` to `mosaicCore` (on CRAN earlier today).
+
 
 ## Test environments
 
