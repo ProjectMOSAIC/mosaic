@@ -12,6 +12,13 @@ the desire to respond to a few feature requests/bug reports.
   
 * win-builder via devtools::build_win()
 
+  * after adding the version dependency for mosaicCore, I get
+  
+      Package required and available but unsuitable version: 'mosaicCore'
+      
+    presumably this is because the new version of mosaicCore is not yet available where this is being
+    checked.
+
 ## R CMD check results
 
 There were no ERRORs or WARNINGs locally.  One note about size (5.1Mb) seems to come
