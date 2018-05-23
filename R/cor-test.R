@@ -30,6 +30,12 @@ cor_test.formula <- function(formula, ...) {
 cor.test <- function(x, ...) {
   UseMethod("cor_test")
 }
+
+#' @export
+#' @rdname cor.test
+cor_test <- function(x, ...) {
+  UseMethod("cor_test")
+}
     
 #' @export
 #' @rdname cor.test
