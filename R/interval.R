@@ -143,6 +143,20 @@ stat.htest <- function(x,...) {
 	x $ statistic
 }
 
+# This is added for compatibility with ggplo2 version 2.3
+
+#' @rdname interval
+#' @export
+#' 
+stat.uneval <- function(x, ...) {
+  if (packageVersion("ggplot2") <= "2.2.1") {
+    stop("ggplot2 > 2.2.1 required for ggplot2::stat().")
+  } else {
+	  ggplot2::stat(x, ...)
+  }
+}
+
+
 #' Extract r-squared value
 #' 
 #' Attempts to extract an r-squared value from a model or model-like object.
