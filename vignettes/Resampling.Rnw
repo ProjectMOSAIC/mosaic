@@ -727,7 +727,7 @@ like the Chi-squared distribution.}
 
 <<fig.width=4, fig.height=2>>=
 prop(~ (p.value < 0.05), data = Chisq.null)
-gf_histogram(~ p.value, data = Chisq.null, bins = 10)
+gf_histogram(~ p.value, data = Chisq.null, binwidth = 0.1, center = 0.05)
 @
 <<fig.width=4, fig.height=2>>=
 qqmath(~ p.value, data = Chisq.null, dist = qunif)

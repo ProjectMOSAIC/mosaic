@@ -33,7 +33,7 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the `ggformula` system. 
+This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the improved `ggformula` system. 
 
 \vfill
 
@@ -114,13 +114,14 @@ densityplot(~ age, data = HELPrct,
 ## Density over histograms (ggformula)
 
 We can use stacked layers to add a density curve based on a 
-maximum likelhihood fit or a kernel density estimate.
+maximum likelihood fit or a kernel density estimate (see also `gf_dist()`)
 
 ```{r, message = FALSE}
 gf_dhistogram( ~ age, data = HELPrct, 
                alpha = 0.5) %>%
-  gf_fitdistr(color = "red") %>% # MLE 
-  gf_dens(color = "blue")        # KDE
+  gf_fitdistr(color = "red",
+              dist = dnorm) %>% # MLE 
+  gf_dens(color = "blue")       # KDE
 ```
 
 
@@ -209,7 +210,7 @@ xyplot(cesd ~ age,  data = HELPrct,
 ```{r, message = FALSE}
 gf_point(cesd ~ age | sex, 
          data = HELPrct) %>%
-  gf_smooth()
+  gf_smooth(se = FALSE)
 ``````
 
 
@@ -221,7 +222,7 @@ gf_point(cesd ~ age, data = HELPrct,
          color = ~ sex) %>%
   gf_lm() %>% 
   gf_theme(legend.position = "top") %>% 
-  gf_labs(title = "This is my plot", 
+  gf_labs(title = "This is my ggformula plot", 
     x = "age (in years)", 
     y = "CES-D measure of
 depressive symptoms")
@@ -247,16 +248,33 @@ xyplot(cesd ~ age | sex,  data = HELPrct,
 xyplot(cesd ~ age, groups = sex, 
        type = c("p", "r"), 
        auto.key = TRUE, 
-       main = "This is my plot", 
+       main = "This is my lattice plot", 
        xlab = "age (in years)", 
        ylab = "CES-D measure of
 depressive symptoms",
        data = HELPrct)
 ```
 
+\newpage
+
+## Refine graphs (ggformula)
+
+```{r}
+gf_point(cesd ~ age, data = HELPrct) %>%
+  gf_refine(scale_x_reverse())
+```
+
+\newpage
+
+## Refine graphs (lattice)
+
+```{r}
+xyplot(cesd ~ -age, data = HELPrct)
+```
+
 ## Want to explore more?
 
-Within RStudio, after loading the `mosaic` package, ry running the command `mplot(ds)` where `ds` is a dataframe.  This will open up an interactive visualizer that will output the code to generate the figure (using `lattice`, `ggplot2`, or `ggformula`) when you click on `Show Expression`. 
+Within RStudio, after loading the `mosaic` package, try running the command `mplot(ds)` where `ds` is a dataframe.  This will open up an interactive visualizer that will output the code to generate the figure (using `lattice`, `ggplot2`, or `ggformula`) when you click on `Show Expression`. 
 
 
 
