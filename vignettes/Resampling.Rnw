@@ -169,13 +169,13 @@ so any of the data facilities within \R{} can be used to
 provide data sets to students.  In particular, \R{} functions 
 such as \function{read.csv} and \function{read.table} support 
 accessing data files via a website URL, avoiding the need to download data 
-files to individual student machines.  The \pkg{mosaic} package provides the function
-\function{read.file} that can read files of several different types and provides 
-a common set of defaults across these file types.  
+files to individual student machines.  %The \pkg{mosaic} package provides the function
+%\function{read.file} that can read files of several different types and provides 
+%a common set of defaults across these file types.  
 
 Here, one of the Lock data sets are read into \R{} via the Internet:
 <<>>=
-Mustangs <- read.file("http://www.mosaic-web.org/go/datasets/MustangPrice.csv")
+Mustangs <- read.csv("http://www.mosaic-web.org/go/datasets/MustangPrice.csv")
 @
 
 \section{The Lock problems}
@@ -194,7 +194,7 @@ The Lock problems are a series of short problems in statistical inference provid
 \end{quotation}
 
 Students should learn to examine data before undertaking formal inference.  Any of the 
-standard \R{} tools can be used for this.  We advocate the use of \pkg{lattice}-style graphics functions for two reasons:
+standard \R{} tools can be used for this.  We advocate the use of \pkg{ggformula}-style graphics functions for two reasons:
 \begin{enumerate}
 \item They use a syntax that is consistent with the syntax used in \pkg{mosaic}.  
 \item They extend naturally to more complicated settings.
