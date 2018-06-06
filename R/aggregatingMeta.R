@@ -296,6 +296,18 @@ aggregatingFunction2 <- function(fun) {
   
   template <- 
     function(x, y = NULL, ..., data = NULL) { 
+      
+      tryCatch(y, error = function(e) {
+        if (!is.null(data)) {
+          stop("When `data' is specified, `y' should not be used.",
+               call. = FALSE)
+        }
+      })
+      
+      if (!is.null(y) && !is.null(data)) {
+        stop("When `data' is specified, `y' should not be used.", 
+             call. = FALSE)
+      }
       if (lazyeval::is_formula(x)) {
         if (lazyeval::is_formula(y)) {
           x <- lazyeval::f_eval(x, data)
