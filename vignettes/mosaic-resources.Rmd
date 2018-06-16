@@ -1,6 +1,6 @@
 ---
 title: "Resources Related to the mosaic Package"
-author: "Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton"
+author: "Randall Pruim, Daniel T. Kaplan, and Nicholas J. Horton"
 date: "`r Sys.Date()`"
 
   
@@ -106,12 +106,13 @@ but much of the code originally in the `fastR` package has been moved into the `
 
 		
  * *Introduction to the Practice of Statistics in R* (NJ Horton and BS Baumer)
-		describes how to undertake analyses in R that are introduced as examples in the first
-		chapters of the Sixth Edition of *Introduction to the Practice of
-		Statistics* (2007), by David Moore, George McCabe,
+		describes how to undertake analyses in R that are introduced as examples in 
+		*Introduction to the Practice of
+		Statistics*, by David Moore, George McCabe,
 		and Bruce Craig. 
 		
-    * [nhorton.people.amherst.edu/ips6e](http://nhorton.people.amherst.edu/ips6e) 
+    * [9th edition: nhorton.people.amherst.edu/ips9](http://nhorton.people.amherst.edu/ips9) 
+    * [6th edition: nhorton.people.amherst.edu/ips6e](http://nhorton.people.amherst.edu/ips6e) 
 
  * *Statistics: Unlocking the Power of Data* (Lock, Lock, Lock, Lock, and Lock) 
 		is an introductory statistics textbook that embraces a resampling approach. 
@@ -135,11 +136,12 @@ but much of the code originally in the `fastR` package has been moved into the `
 
  * *Intro Stats* (P Frenett and NJ Horton)
 		describes how to undertake analyses in R for the
-		examples in the Fourth Edition of the
+		examples in the Fourth and Fifth Editions of 
 		*Intro Stats* (2013),
 		by Dick De Veaux, Paul Velleman, and Dave Bock.
 
-    * [nhorton.people.amherst.edu/is4](http://nhorton.people.amherst.edu/is4)
+    * [5th edition: nhorton.people.amherst.edu/is5](http://nhorton.people.amherst.edu/is5)
+    * [4th edition: nhorton.people.amherst.edu/is4](http://nhorton.people.amherst.edu/is4)
 
 
  * *Introduction to Statistical Investigations* (Tintle *et al*) 
@@ -159,7 +161,7 @@ but much of the code originally in the `fastR` package has been moved into the `
     OpenIntro Stats now has versions of their labs designed for 
     use with the `mosaic` package.  
     The `mosaic` labs were adapted by 
-    Ben Baumer and Galen Long of Smith College.
+    Ben Baumer and Galen Long of Smith College and updated to `ggformula` by Bonnie Lin and Nicholas Horton of Amherst College.
 
 ## Articles
  * GW Cobb, "The introductory statistics course: a Ptolemaic curriculum?", 
