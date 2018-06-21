@@ -16,9 +16,6 @@ output:
 
 ```{r, setup, include=FALSE}
 require(mosaic)   # Load additional packages here 
-
-# Some customization.  You can alter or delete as desired (if you know what you are doing).
-trellis.par.set(theme=theme.mosaic()) # change default color scheme for lattice
 knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small")   # slightly smaller font for code
@@ -26,3 +23,8 @@ knitr::opts_chunk$set(
 
 
 Delete this sentence and enter your text here.
+
+```{r}
+
+```
+

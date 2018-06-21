@@ -16,9 +16,6 @@ output:
 
 ```{r, setup, include=FALSE}
 require(mosaic)   # Load additional packages here 
-
-# Some customization.  You can alter or delete as desired (if you know what you are doing).
-trellis.par.set(theme=theme.mosaic()) # change default color scheme for lattice
 knitr::opts_chunk$set(
   tidy=FALSE,     # display code as typed
   size="small")   # slightly smaller font for code
@@ -35,7 +32,6 @@ Text can be decorated with **bold** or *italics*.  It is also possible to
 * include mathematics like $e=mc^2$ or 
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
 
-
 Be sure to put a space after the * when you are creating bullets and a space after # when 
 creating section headers, but **not** between $ and the mathematical formulas.
 
@@ -43,13 +39,13 @@ creating section headers, but **not** between $ and the mathematical formulas.
 
 If the code of an R chunk produces a plot, this plot can be displayed in the resulting file.
 ```{r}
-xyplot(births ~ date, data=Births78)
+gf_point(births ~ date, data = Births78)
 ```
 
 ### R output
 Other forms of R output are also displayed as they are produced.
 ```{r}
-favstats(~ births, data=Births78)
+favstats(~ births, data = Births78)
 ```
 
 ### Destination formats
