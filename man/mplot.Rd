@@ -30,7 +30,7 @@ mplot(object, ...)
   ylab = "", xlab = "difference in means", title = paste0(attr(object,
   "conf.level") * 100, "\% family-wise confidence level"),
   par.settings = trellis.par.get(), order = c("asis", "pval", "difference"),
-  ...)
+  which = 1L:2L, ...)
 }
 \arguments{
 \item{object}{an R object from which a plot will be constructed.}

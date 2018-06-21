@@ -624,21 +624,37 @@ mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"),
                            title = paste0(attr(object, "conf.level") * 100, "% family-wise confidence level"),
                            par.settings = trellis.par.get(),
                            order = c("asis", "pval", "difference"),
+                           which = 1L:2L,
                            ...) {
   system <- match.arg(system)
   order <- match.arg(order) 
   fdata <- fortify(object, order = order)
+ 
+  res <- list()
   
   if (system == "ggplot2") {
-    return(
-      ggplot( data = fdata,
-              aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
+    if (1 %in% which) {
+      p1 <-
+        ggplot( data = fdata,
+                aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
         geom_point(size = 2) +
         geom_segment(aes(x = lwr, xend = upr, y = pair, yend = pair) ) +
         geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
         facet_grid( var ~ ., scales = "free_y") +
         labs(x = xlab, y = ylab, title = title) 
-    )
+      res <- c(res, p1)
+    }
+    if (2 %in% which) {
+      p2 <- 
+        ggplot( data = fdata,
+                aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
+        geom_point(size = 2) +
+        geom_segment(aes(x = lwr, xend = upr, y = pair, yend = pair) ) +
+        geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
+        facet_grid( var ~ ., scales = "free_y") +
+        labs(x = xlab, y = ylab, title = title) 
+      res <- c(res, p2)
+    }
   }
 
   cols <- par.settings$superpose.line$col[1 + 
