@@ -3,14 +3,17 @@
 \name{cor_test.formula}
 \alias{cor_test.formula}
 \alias{cor.test}
+\alias{cor_test}
 \alias{cor_test.default}
 \title{Alternative formula interface for cor.test}
 \usage{
-cor_test.formula(formula, ...)
+\method{cor_test}{formula}(formula, ...)
 
 cor.test(x, ...)
 
-cor_test.default(x, y, ...)
+cor_test(x, ...)
+
+\method{cor_test}{default}(x, y, ...)
 }
 \arguments{
 \item{formula}{a formula}

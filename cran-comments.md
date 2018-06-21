@@ -1,7 +1,8 @@
 ## Context
 
-This is a minor revision primarily motivated by the need to repond to a change in `formals()` and 
-the desire to respond to a few feature requests/bug reports.
+This release fixes a few minor bugs, improves some behavior, and moves some functionality
+from `mosaic` to `mosaicCore` (on CRAN earlier today).
+
 
 ## Test environments
 
@@ -11,6 +12,13 @@ the desire to respond to a few feature requests/bug reports.
   * Running under: macOS High Sierra 10.13.4
   
 * win-builder via devtools::build_win()
+
+  * after adding the version dependency for mosaicCore, I get
+  
+      Package required and available but unsuitable version: 'mosaicCore'
+      
+    presumably this is because the new version of mosaicCore is not yet available where this is being
+    checked.
 
 ## R CMD check results
 

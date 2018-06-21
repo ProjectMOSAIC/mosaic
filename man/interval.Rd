@@ -6,6 +6,7 @@
 \alias{pval.htest}
 \alias{stat}
 \alias{stat.htest}
+\alias{stat.uneval}
 \title{Extract summary statistics}
 \usage{
 \method{confint}{htest}(object, parm, level, ...)
@@ -17,6 +18,8 @@ pval(x, ...)
 stat(x, ...)
 
 \method{stat}{htest}(x, ...)
+
+\method{stat}{uneval}(x, ...)
 }
 \arguments{
 \item{object}{a fitted model object or an htest object.}

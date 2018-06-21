@@ -43,9 +43,10 @@ safe_eval <- function(x) {
 #' @keywords internal
 .is.simple.formula <-  function(x){
   inherits(x, "formula") &&
-    (length(x)==2 || is.null(x[[3]]) ||
-       (length(x[[3]])==1 &&
-          ((is.numeric(x[[3]]) && (x[[3]]==0 || x[[3]]==1)) ||  (all.names(x[[3]]) %in% c(".")))))
+    (length(x) == 2 || is.null(x[[3]]) ||
+       (length(x[[3]]) == 1 &&
+          ((is.numeric(x[[3]]) && (x[[3]] == 0 || x[[3]] == 1)) ||  
+             (all.names(x[[3]]) %in% c(".")))))
 }
 
 # This could use a better name and a better desription
