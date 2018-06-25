@@ -143,7 +143,7 @@ stat.htest <- function(x,...) {
 	x $ statistic
 }
 
-# This is added for compatibility with ggplo2 version 2.3
+# This is added for compatibility with ggplot2 version 2.3
 
 #' @rdname interval
 #' @importFrom utils packageVersion
