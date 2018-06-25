@@ -84,12 +84,15 @@ The `mosaic` package is used throughout.
 
     * [www.mosaic-web.org/StatisticalModeling](http://www.mosaic-web.org/StatisticalModeling)
 
- * *Foundations and Applications of Statistics: An Introduction Using R* (R Pruim) 
-is an R-infused probability and mathematical statistics text that emphasizes 
-connections between probability and statistics. The book predates the `mosaic` package, 
-but much of the code originally in the `fastR` package has been moved into the `mosaic` package.
-
-    * [www.ams.org/publications/authors/books/postpub/amstext-13](http://www.ams.org/publications/authors/books/postpub/amstext-13)
+ * *Foundations and Applications of Statistics: An Introduction Using R* (R Pruim, second edition) 
+is an R-infused probability and mathematical statistics text that emphasizes
+connections between probability and statistics. The first edition of the book 
+predates the `mosaic` package, but much of the code originally in the `fastR` 
+package has been moved into the `mosaic` package. 
+The second edition is supported by the `fastR2` package and uses `ggformula` for
+plotting.
+    * [https://bookstore.ams.org/amstext-28](https://bookstore.ams.org/amstext-28)
+    * [www.ams.org/publications/authors/books/postpub/amstext-28](http://www.ams.org/publications/authors/books/postpub/amstext-28)
 
  * *Modern Data Science with R* (BS Baumer, DT Kaplan, and NJ Horton)
 		is an R-infused data science text that emphasizes conceptual understanding and computation.
