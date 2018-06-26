@@ -33,13 +33,13 @@ revdep_check() report:
 
 Checked abd        : 0 errors | 0 warnings | 0 notes
 Checked fastR      : 0 errors | 0 warnings | 0 notes
-Checked fastR2     : 0 errors | 0 warnings | 0 notes
+Checked fastR2     : 0 errors | 1 warning  | 0 notes *
 Checked FDRreg     : 1 error  | 0 warnings | 0 notes **
-Checked ggformula  : 0 errors | 0 warnings | 0 notes
+Checked ggformula  : 1 error  | 1 warning  | 0 notes ***
 Checked Lock5withR : 0 errors | 0 warnings | 0 notes
-Checked mdsr       : 0 errors | 0 warnings | 1 note  ***
+Checked mdsr       : 0 errors | 0 warnings | 1 note  ****
 Checked mosaicCalc : 0 errors | 0 warnings | 0 notes
-Checked mosaicCore : 1 error  | 0 warnings | 0 notes *
+Checked mosaicCore : 0 errors | 0 warnings | 0 notes
 Checked mosaicData : 0 errors | 0 warnings | 0 notes
 Checked mosaicModel: 0 errors | 0 warnings | 0 notes
 Checked NHANES     : 0 errors | 0 warnings | 0 notes
@@ -49,12 +49,17 @@ Checked supernova  : 0 errors | 0 warnings | 0 notes
 Checked tigerstats : 0 errors | 0 warnings | 0 notes
 
 
-* mosaicCore error should go away when `mosaic`, `mosaicCore`, and `ggformula` have all been updated.  (Local checks all pass with versions being submitted.)
+* fastR2 will be heading to CRAN in the next couple days.  The error is due to 
+ggplot2 now exporting stat().  This version of mosaic handles this by dispatching to ggplot2::stat() when needed.  The forthcoming version of fastR2 checks cleanly locally.
 
 ** FDRreg doesn't install in revdep_check() and hasn't been updated on CRAN since
 2014-03-05, but my locally installed version appears to work.  (The package only
 has two functions and the examples for each run with the new version of this
 package installed.)
 
-*** The note for `mdsr` is unrelated to `mosaic`.
+*** ggformula was just submitted to CRAN and the new version was built (locally) with
+the version of mosaic being submitted.  There were no problems.
+
+**** The note for `mdsr` is unrelated to `mosaic`.
+
 
