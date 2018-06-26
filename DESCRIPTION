@@ -34,7 +34,6 @@ Suggests:
     RCurl,
     sp,
     maptools,
-    rgeos,
     vcd,
     testthat,
     knitr,
