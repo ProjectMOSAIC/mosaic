@@ -120,7 +120,7 @@ maximum likelihood fit or a kernel density estimate (see also `gf_dist()`)
 gf_dhistogram( ~ age, data = HELPrct, 
                alpha = 0.5) %>%
   gf_fitdistr(color = "red",
-              dist = dnorm) %>% # MLE 
+              dist = "dnorm") %>% # MLE 
   gf_dens(color = "blue")       # KDE
 ```
 
