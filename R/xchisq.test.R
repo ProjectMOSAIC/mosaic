@@ -25,11 +25,13 @@ function (x, y=NULL, correct=TRUE, p = rep(1/length(x), length(x)),
           rescale.p=FALSE, simulate.p.value=FALSE, B=2000, data = environment(x)) 
 {
   if (inherits(x, "formula")) {
-    orig <- chisq.test(tally(x, data = data), correct=correct, p = p, 
+    x.orig <- x
+    x <- tally(x, data = data) 
+    orig <- chisq.test(x, correct = correct, p = p, 
                        rescale.p = rescale.p, 
-                       simulate.p.value=simulate.p.value, B=B)
+                       simulate.p.value = simulate.p.value, B = B)
   } else {
-    orig <- chisq.test(x=x, y=y, correct=correct, p = p, 
+    orig <- chisq.test(x = x, y = y, correct = correct, p = p, 
                        rescale.p = rescale.p, 
                        simulate.p.value=simulate.p.value, B=B)
   }
