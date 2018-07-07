@@ -4,7 +4,7 @@
 #' output.
 #'
 #' @param x,y,correct,p,rescale.p,simulate.p.value,B as in [chisq.test()], but 
-#' `x` may also be a formula, in which case `x` is replaced by `tally(~ x, data)`
+#' `x` may also be a formula, in which case `x` is replaced by `tally(x, data)`
 #' prior to the call to [chisq.test()].
 #' @param data a data frame for use when `x` is a formula.
 #' 
@@ -25,7 +25,6 @@ function (x, y=NULL, correct=TRUE, p = rep(1/length(x), length(x)),
           rescale.p=FALSE, simulate.p.value=FALSE, B=2000, data = environment(x)) 
 {
   if (inherits(x, "formula")) {
-    x.orig <- x
     x <- tally(x, data = data) 
     orig <- chisq.test(x, correct = correct, p = p, 
                        rescale.p = rescale.p, 
