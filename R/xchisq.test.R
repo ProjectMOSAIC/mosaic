@@ -4,7 +4,7 @@
 #' output.
 #'
 #' @param x,y,correct,p,rescale.p,simulate.p.value,B as in [chisq.test()], but 
-#' `x` may also be a formula, in which case `x` is replaced by `tally(x, data)`
+#' `x` may also be a formula, in which case `x` is replaced by `tally(~ x, data)`
 #' prior to the call to [chisq.test()].
 #' @param data a data frame for use when `x` is a formula.
 #' 
