@@ -3,6 +3,17 @@ Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
 Version: 1.3.0
 Date: 2018-06-25
+Description: Data sets and utilities from Project MOSAIC (<http://mosaic-web.org>) used
+    to teach mathematics, statistics, computation and modeling.  Funded by the
+    NSF, Project MOSAIC is a community of educators working to tie together
+    aspects of quantitative work that students in science, technology,
+    engineering and mathematics will need in their professional lives, but
+    which are usually taught in isolation, if at all.
+Authors@R: c(
+    person(given = "Randall",  family = "Pruim", email = "rpruim@calvin.edu", role = c("aut", "cre")), 
+    person(given = "Daniel T.",   family = "Kaplan", email = "dtkaplan@macalester.edu", role = "aut"), 
+    person(given = "Nicholas J.", family = "Horton", email = "nhorton@amherst.edu", role = "aut")
+    )
 Depends:
     R (>= 3.0.0),
     dplyr,
@@ -44,15 +55,6 @@ Suggests:
     rmarkdown
 Enhances: manipulate
 VignetteBuilder: knitr
-Author: Randall Pruim <rpruim@calvin.edu>, Daniel T. Kaplan
-    <kaplan@macalester.edu>, Nicholas J. Horton <nhorton@amherst.edu>
-Maintainer: Randall Pruim <rpruim@calvin.edu>
-Description: Data sets and utilities from Project MOSAIC (<http://mosaic-web.org>) used
-    to teach mathematics, statistics, computation and modeling.  Funded by the
-    NSF, Project MOSAIC is a community of educators working to tie together
-    aspects of quantitative work that students in science, technology,
-    engineering and mathematics will need in their professional lives, but
-    which are usually taught in isolation, if at all.
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
