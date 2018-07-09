@@ -1,8 +1,8 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 1.3.0
-Date: 2018-06-25
+Version: 1.3.0.9000
+Date: 2018-07-09
 Description: Data sets and utilities from Project MOSAIC (<http://mosaic-web.org>) used
     to teach mathematics, statistics, computation and modeling.  Funded by the
     NSF, Project MOSAIC is a community of educators working to tie together
@@ -62,3 +62,4 @@ URL: https://github.com/ProjectMOSAIC/mosaic
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
