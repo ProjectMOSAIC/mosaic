@@ -16,6 +16,7 @@ complicated for beginners.
 You install from CRAN using 
 
 ```r
+install.packages("ggplot2")  # Get the newest version of ggplot2 FIRST
 install.packages("mosaic")
 ```
 or from github with
