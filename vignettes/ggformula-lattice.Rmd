@@ -40,16 +40,19 @@ package for Project MOSAIC.
 
 \vfill
 
+## Histograms 
+
 <div class = "row">
 <div class = "col-md-6">
-## Histograms (ggformula)
+
+### Histograms (ggformula)
 
 ```{r}
 library(mosaic)   # also loads ggformula 
 gf_histogram(~ age, data = HELPrct)
 ```
 
-## Histogram options (ggformula)
+### Histogram options (ggformula)
 
 ```{r}
 gf_histogram(~ age, data = HELPrct,
@@ -61,14 +64,14 @@ gf_histogram(~ age, data = HELPrct,
 \newpage
 
 <div class = "col-md-6">
-## Histograms (lattice)
+### Histograms (lattice)
 
 ```{r}
 library(mosaic)     # also loads lattice
 histogram(~ age, data = HELPrct)
 ```
 
-## Histogram options (lattice)
+### Histogram options (lattice)
 
 ```{r}
 histogram(~ age, width = 5, data = HELPrct)
@@ -80,16 +83,18 @@ histogram(~ age, width = 5, data = HELPrct)
 
 \newpage
 
+## Density Plots
+
 <div class = "row">
 <div class = "col-md-6">
 
-## Density plots (ggformula)
+### Density plots (ggformula)
 
 ```{r, message = FALSE}
 gf_dens(~ age, data = HELPrct)
 ```
 
-## Overlaid density plots (ggformula)
+### Overlaid density plots (ggformula)
 
 ```{r, message = FALSE}
 gf_dens(~ age, data = HELPrct,
@@ -101,13 +106,13 @@ gf_dens(~ age, data = HELPrct,
 \newpage
 
 <div class = "col-md-6">
-## Density plots (lattice)
+### Density plots (lattice)
 
 ```{r, message = FALSE}
 densityplot(~ age, data = HELPrct)
 ```
 
-## Overlaid density plots (lattice)
+### Overlaid density plots (lattice)
 
 ```{r}
 densityplot(~ age, data = HELPrct,
@@ -119,11 +124,11 @@ densityplot(~ age, data = HELPrct,
 
 \newpage
 
+
 <div class = "row">
 <div class = "col-md-6">
 
-
-## Density over histograms (ggformula)
+### Density over histograms (ggformula)
 
 We can use stacked layers to add a density curve based on a 
 maximum likelihood fit or a kernel density estimate (see also `gf_dist()`)
@@ -131,9 +136,8 @@ maximum likelihood fit or a kernel density estimate (see also `gf_dist()`)
 ```{r, message = FALSE}
 gf_dhistogram( ~ age, data = HELPrct, 
                alpha = 0.5) %>%
-  gf_fitdistr(color = "red",
-              dist = "dnorm") %>% # MLE 
-  gf_dens(color = "blue")       # KDE
+  gf_fitdistr(color = ~"MLE", dist = "dnorm") %>% 
+  gf_dens(color = ~"KDE")   
 ```
 
 
@@ -142,7 +146,7 @@ gf_dhistogram( ~ age, data = HELPrct,
 
 <div class = "col-md-6">
 
-## Density over histograms (lattice)
+### Density over histograms (lattice)
 
 `mosaic` makes it easy to add a fitted distribution to a histogram.
 
@@ -157,16 +161,18 @@ histogram(~ age, data = HELPrct,
 
 \newpage
 
+## Side by side box plots 
+
 <div class = "row">
 <div class = "col-md-6">
 
-## Side by side box plots (ggformula)
+### Side by side box plots (ggformula)
 
 ```{r, message = FALSE}
 gf_boxplot(age ~ sex, data = HELPrct)
 ```
 
-## Faceted side by side box plots (ggformula)
+### Faceted side by side box plots (ggformula)
 
 ```{r, message = FALSE}
 gf_boxplot(age ~ sex | homeless, 
@@ -180,13 +186,13 @@ gf_boxplot(age ~ sex | homeless,
 <div class = "col-md-6">
 
 
-## Side by side plots (lattice)
+### Side by side plots (lattice)
 
 ```{r, message = FALSE}
 bwplot(age ~ sex, data = HELPrct)
 ```
 
-## Faceted side by side plots (lattice)
+### Faceted side by side plots (lattice)
 
 ```{r, message = FALSE}
 bwplot(age ~ sex | homeless, 
@@ -199,11 +205,12 @@ bwplot(age ~ sex | homeless,
 
 \newpage
 
+## Scatterplots
+
 <div class = "row">
 <div class = "col-md-6">
 
-
-## Scatterplot (ggformula)
+### Basic scatterplot (ggformula)
 
 ```{r, message = FALSE}
 gf_point(cesd ~ age, data = HELPrct)
@@ -211,7 +218,7 @@ gf_point(cesd ~ age, data = HELPrct)
 
 
 
-## Overlaid scatterplot with linear fit (ggformula)
+### Overlaid scatterplot with linear fit (ggformula)
 
 ```{r, message = FALSE}
 gf_point(cesd ~ age, data = HELPrct,
@@ -224,13 +231,13 @@ gf_point(cesd ~ age, data = HELPrct,
 
 <div class = "col-md-6">
 
-## Scatterplot (lattice)
+### Basic Scatterplot (lattice)
 
 ```{r, message = FALSE}
 xyplot(cesd ~ age, data = HELPrct)
 ```
 
-## Overlaid scatterplot with linear fit (lattice)
+### Overlaid scatterplot with linear fit (lattice)
 
 ```{r, message = FALSE}
 xyplot(cesd ~ age,  data = HELPrct,
@@ -245,9 +252,11 @@ xyplot(cesd ~ age,  data = HELPrct,
 
 \newpage
 
+
 <div class = "row">
 <div class = "col-md-6">
-## Faceted scatterplot with smooth fit (ggformula)
+
+### Faceted scatterplot with smooth fit (ggformula)
 
 ```{r, message = FALSE}
 gf_point(cesd ~ age | sex, 
@@ -266,8 +275,7 @@ gf_point(cesd ~ age, data = HELPrct,
   gf_theme(legend.position = "top") %>% 
   gf_labs(title = "This is my ggformula plot", 
     x = "age (in years)", 
-    y = "CES-D measure of
-depressive symptoms")
+    y = "CES-D measure of \ndepressive symptoms")
 ```
 
 
@@ -296,8 +304,7 @@ xyplot(cesd ~ age, groups = sex,
        auto.key = TRUE, 
        main = "This is my lattice plot", 
        xlab = "age (in years)", 
-       ylab = "CES-D measure of
-depressive symptoms",
+       ylab = "CES-D measure of \ndepressive symptoms",
        data = HELPrct)
 ```
 
@@ -306,13 +313,26 @@ depressive symptoms",
 
 \newpage
 
+## Refining graphs
+
 <div class = "row">
 <div class = "col-md-6">
-## Refine graphs (ggformula)
+
+### Custom Colors (ggformula)
+
+```{r}
+gf_dens( ~ cesd, color = ~ sex, data = HELPrct) %>%
+  gf_rug(0 ~ cesd, 
+         position = position_jitter(height = 0)) %>%
+  gf_refine(
+    scale_color_manual(values = c("navy", "red"))) 
+```
+
+### Log scales (ggformula)
 
 ```{r}
 gf_point(cesd ~ age, data = HELPrct) %>%
-  gf_refine(scale_x_reverse())
+  gf_refine(scale_y_log10()) 
 ```
 
 </div>
@@ -320,10 +340,25 @@ gf_point(cesd ~ age, data = HELPrct) %>%
 
 <div class = "col-md-6">
 
-## Refine graphs (lattice)
+### Custom Colors (lattice)
 
 ```{r}
-xyplot(cesd ~ -age, data = HELPrct)
+densityplot( ~ cesd, groups = sex, data = HELPrct, 
+             rug = FALSE,
+             par.settings = 
+               list(
+                 superpose.line = 
+                   list(col = c("navy", "red")),
+                 superpose.symbol = 
+                   list(col = c("navy", "red"))
+               )) 
+```
+
+### Log scales (lattice)
+
+```{r}
+xyplot(cesd ~ age, data = HELPrct,
+       scales = list(y = list(log = TRUE)))
 ```
 </div>
 </div>
@@ -335,9 +370,9 @@ Within RStudio, after loading the `mosaic` package, try running the command `mpl
 
 ## References 
 
-More information about `ggformula` can be found at https://github.com/ProjectMOSAIC/ggformula.
+More information about `ggformula` can be found at https://projectmosaic/github.io/ggformula.
 
-More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at http://www.mosaic-web.org.  Further information regarding the `mosaic` package can be found at https://github.com/ProjectMOSAIC/mosaic and https://journal.r-project.org/archive/2017/RJ-2017-02.
+More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at http://www.mosaic-web.org.  Further information regarding the `mosaic` package can be found at https://projectmosaic.github.io/mosaic and https://journal.r-project.org/archive/2017/RJ-2017-02.
 
 Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
 

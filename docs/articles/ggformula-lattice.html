@@ -85,7 +85,7 @@
       <h1>ggformula/lattice Comparison</h1>
                         <h4 class="author">Nicholas Horton (<a href="mailto:nhorton@amherst.edu">nhorton@amherst.edu</a>)</h4>
             
-            <h4 class="date">2018-07-07</h4>
+            <h4 class="date">2018-07-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/master/vignettes/ggformula-lattice.Rmd"><code>vignettes/ggformula-lattice.Rmd</code></a></small>
       <div class="hidden name"><code>ggformula-lattice.Rmd</code></div>
@@ -97,232 +97,222 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This document is intended to help users of the <code>mosaic</code> package migrate their <code>lattice</code> package graphics to <code>ggformula</code>. The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics. Originally, the <code>mosaic</code> package used <code>lattice</code> graphics but now support is also available for the improved <code>ggformula</code> system.</p>
+<p>This document is intended to help users of the <code>mosaic</code> package migrate their <code>lattice</code> package graphics to <code>ggformula</code>. The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics. Originally, the <code>mosaic</code> package used <code>lattice</code> graphics but now support is also available for the improved <code>ggformula</code> system. Going forward, <code>ggformula</code> will be the preferred graphics package for Project MOSAIC.</p>
 
 </div>
-<div id="histograms-ggformula" class="section level2">
+<div id="histograms" class="section level2">
 <h2 class="hasAnchor">
-<a href="#histograms-ggformula" class="anchor"></a>Histograms (ggformula)</h2>
+<a href="#histograms" class="anchor"></a>Histograms</h2>
+<div class="row">
+<div class="col-md-6">
+<h3 id="histograms-ggformula">Histograms (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)   <span class="co"># also loads ggformula </span>
 <span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
-</div>
-<div id="histogram-options-ggformula" class="section level2">
-<h2 class="hasAnchor">
-<a href="#histogram-options-ggformula" class="anchor"></a>Histogram options (ggformula)</h2>
+<h3 id="histogram-options-ggformula">Histogram options (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
              <span class="dt">binwidth =</span> <span class="dv">5</span>) </code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
-<p>More information about <code>ggformula</code> can be found at <a href="https://github.com/ProjectMOSAIC/ggformula" class="uri">https://github.com/ProjectMOSAIC/ggformula</a>.</p>
-<p>More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at <a href="http://www.mosaic-web.org" class="uri">http://www.mosaic-web.org</a>. Further information regarding the <code>mosaic</code> package can be found at <a href="https://github.com/ProjectMOSAIC/mosaic" class="uri">https://github.com/ProjectMOSAIC/mosaic</a> and <a href="https://journal.r-project.org/archive/2017/RJ-2017-02" class="uri">https://journal.r-project.org/archive/2017/RJ-2017-02</a>.</p>
-<p>Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at <a href="http://escholarship.org/uc/item/84v3774z" class="uri">http://escholarship.org/uc/item/84v3774z</a>.</p>
 
-</div>
-<div id="histograms-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#histograms-lattice" class="anchor"></a>Histograms (lattice)</h2>
+<div class="col-md-6">
+<h3 id="histograms-lattice">Histograms (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)     <span class="co"># also loads lattice</span>
 <span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-</div>
-<div id="histogram-options-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#histogram-options-lattice" class="anchor"></a>Histogram options (lattice)</h2>
+<h3 id="histogram-options-lattice">Histogram options (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">width =</span> <span class="dv">5</span>, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+</div>
+</div>
 
 </div>
-<div id="density-plots-ggformula" class="section level2">
+<div id="density-plots" class="section level2">
 <h2 class="hasAnchor">
-<a href="#density-plots-ggformula" class="anchor"></a>Density plots (ggformula)</h2>
+<a href="#density-plots" class="anchor"></a>Density Plots</h2>
+<div class="row">
+<div class="col-md-6">
+<h3 id="density-plots-ggformula">Density plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-</div>
-<div id="overlaid-density-plots-ggformula" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overlaid-density-plots-ggformula" class="anchor"></a>Overlaid density plots (ggformula)</h2>
+<h3 id="overlaid-density-plots-ggformula">Overlaid density plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
         <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-
 </div>
-<div id="density-plots-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#density-plots-lattice" class="anchor"></a>Density plots (lattice)</h2>
+
+<div class="col-md-6">
+<h3 id="density-plots-lattice">Density plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-</div>
-<div id="overlaid-density-plots-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overlaid-density-plots-lattice" class="anchor"></a>Overlaid density plots (lattice)</h2>
+<h3 id="overlaid-density-plots-lattice">Overlaid density plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
             <span class="dt">groups =</span> sex,  <span class="dt">auto.key =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-
 </div>
-<div id="density-over-histograms-ggformula" class="section level2">
-<h2 class="hasAnchor">
-<a href="#density-over-histograms-ggformula" class="anchor"></a>Density over histograms (ggformula)</h2>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<h3 id="density-over-histograms-ggformula">Density over histograms (ggformula)</h3>
 <p>We can use stacked layers to add a density curve based on a maximum likelihood fit or a kernel density estimate (see also <code>gf_dist()</code>)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dhistogram</span>( <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct, 
                <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_fitdistr</span>(<span class="dt">color =</span> <span class="st">"red"</span>,
-              <span class="dt">dist =</span> dnorm) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># MLE </span>
-<span class="st">  </span><span class="kw">gf_dens</span>(<span class="dt">color =</span> <span class="st">"blue"</span>)       <span class="co"># KDE</span></code></pre></div>
-<pre><code>## Warning in if (grepl("^pois", dist_name)) {: the condition has length &gt; 1
-## and only the first element will be used</code></pre>
-<pre><code>## Warning in if (!grepl("^d", ddist_name)) {: the condition has length &gt; 1
-## and only the first element will be used</code></pre>
-<pre><code>## Warning in if (distname %in% c("dlnorm")) {: the condition has length &gt; 1
-## and only the first element will be used</code></pre>
-<pre><code>## Warning in if (distname == "dnorm") {: the condition has length &gt; 1 and
-## only the first element will be used</code></pre>
-<pre><code>## Warning in if (distname == "poisson") {: the condition has length &gt; 1 and
-## only the first element will be used</code></pre>
-<pre><code>## Warning in if (distname == "dexp") {: the condition has length &gt; 1 and only
-## the first element will be used</code></pre>
-<pre><code>## Warning in if (distname == "dgeom") {: the condition has length &gt; 1 and
-## only the first element will be used</code></pre>
-<pre><code>## Warning: Computation failed in `stat_fitdistr()`:
-## EXPR must be a length 1 vector</code></pre>
+<span class="st">  </span><span class="kw">gf_fitdistr</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"MLE"</span>, <span class="dt">dist =</span> <span class="st">"dnorm"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">gf_dens</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"KDE"</span>)   </code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-
 </div>
-<div id="density-over-histograms-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#density-over-histograms-lattice" class="anchor"></a>Density over histograms (lattice)</h2>
+
+<div class="col-md-6">
+<h3 id="density-over-histograms-lattice">Density over histograms (lattice)</h3>
 <p><code>mosaic</code> makes it easy to add a fitted distribution to a histogram.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct, 
           <span class="dt">fit =</span> <span class="st">"normal"</span>, <span class="dt">dcol =</span> <span class="st">"red"</span>)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+</div>
+</div>
 
 </div>
-<div id="side-by-side-box-plots-ggformula" class="section level2">
+<div id="side-by-side-box-plots" class="section level2">
 <h2 class="hasAnchor">
-<a href="#side-by-side-box-plots-ggformula" class="anchor"></a>Side by side box plots (ggformula)</h2>
+<a href="#side-by-side-box-plots" class="anchor"></a>Side by side box plots</h2>
+<div class="row">
+<div class="col-md-6">
+<h3 id="side-by-side-box-plots-ggformula">Side by side box plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-</div>
-<div id="faceted-side-by-side-box-plots-ggformula" class="section level2">
-<h2 class="hasAnchor">
-<a href="#faceted-side-by-side-box-plots-ggformula" class="anchor"></a>Faceted side by side box plots (ggformula)</h2>
+<h3 id="faceted-side-by-side-box-plots-ggformula">Faceted side by side box plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, 
   <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-
 </div>
-<div id="side-by-side-plots-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#side-by-side-plots-lattice" class="anchor"></a>Side by side plots (lattice)</h2>
+
+<div class="col-md-6">
+<h3 id="side-by-side-plots-lattice">Side by side plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-</div>
-<div id="faceted-side-by-side-plots-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#faceted-side-by-side-plots-lattice" class="anchor"></a>Faceted side by side plots (lattice)</h2>
+<h3 id="faceted-side-by-side-plots-lattice">Faceted side by side plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, 
        <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+</div>
+</div>
 
 </div>
-<div id="scatterplot-ggformula" class="section level2">
+<div id="scatterplots" class="section level2">
 <h2 class="hasAnchor">
-<a href="#scatterplot-ggformula" class="anchor"></a>Scatterplot (ggformula)</h2>
+<a href="#scatterplots" class="anchor"></a>Scatterplots</h2>
+<div class="row">
+<div class="col-md-6">
+<h3 id="basic-scatterplot-ggformula">Basic scatterplot (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
-</div>
-<div id="overlaid-scatterplot-with-linear-fit-ggformula" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overlaid-scatterplot-with-linear-fit-ggformula" class="anchor"></a>Overlaid scatterplot with linear fit (ggformula)</h2>
+<h3 id="overlaid-scatterplot-with-linear-fit-ggformula">Overlaid scatterplot with linear fit (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
          <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_lm</span>()</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
-
 </div>
-<div id="scatterplot-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#scatterplot-lattice" class="anchor"></a>Scatterplot (lattice)</h2>
+
+<div class="col-md-6">
+<h3 id="basic-scatterplot-lattice">Basic Scatterplot (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
-</div>
-<div id="overlaid-scatterplot-with-linear-fit-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overlaid-scatterplot-with-linear-fit-lattice" class="anchor"></a>Overlaid scatterplot with linear fit (lattice)</h2>
+<h3 id="overlaid-scatterplot-with-linear-fit-lattice">Overlaid scatterplot with linear fit (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age,  <span class="dt">data =</span> HELPrct,
        <span class="dt">groups =</span> sex, 
        <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), 
        <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
-
 </div>
-<div id="faceted-scatterplot-with-smooth-fit-ggformula" class="section level2">
-<h2 class="hasAnchor">
-<a href="#faceted-scatterplot-with-smooth-fit-ggformula" class="anchor"></a>Faceted scatterplot with smooth fit (ggformula)</h2>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<h3 id="faceted-scatterplot-with-smooth-fit-ggformula">Faceted scatterplot with smooth fit (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex, 
          <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
-</div>
-<div id="more-options-for-scatterplot-with-linear-fit-ggformula" class="section level2">
-<h2 class="hasAnchor">
-<a href="#more-options-for-scatterplot-with-linear-fit-ggformula" class="anchor"></a>More options for scatterplot with linear fit (ggformula)</h2>
+<h2 id="more-options-for-scatterplot-with-linear-fit-ggformula">More options for scatterplot with linear fit (ggformula)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
          <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_lm</span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">gf_theme</span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">gf_labs</span>(<span class="dt">title =</span> <span class="st">"This is my ggformula plot"</span>, 
     <span class="dt">x =</span> <span class="st">"age (in years)"</span>, 
-    <span class="dt">y =</span> <span class="st">"CES-D measure of</span>
-<span class="st">depressive symptoms"</span>)</code></pre></div>
+    <span class="dt">y =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
-
 </div>
-<div id="faceted-scatterplot-with-smooth-fit-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#faceted-scatterplot-with-smooth-fit-lattice" class="anchor"></a>Faceted scatterplot with smooth fit (lattice)</h2>
+
+<div class="col-md-6">
+<h2 id="faceted-scatterplot-with-smooth-fit-lattice">Faceted scatterplot with smooth fit (lattice)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex,  <span class="dt">data =</span> HELPrct,
        <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"smooth"</span>), 
        <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
-</div>
-<div id="more-options-for-scatterplot-with-linear-fit-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#more-options-for-scatterplot-with-linear-fit-lattice" class="anchor"></a>More options for scatterplot with linear fit (lattice)</h2>
+<h2 id="more-options-for-scatterplot-with-linear-fit-lattice">More options for scatterplot with linear fit (lattice)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">groups =</span> sex, 
        <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), 
        <span class="dt">auto.key =</span> <span class="ot">TRUE</span>, 
        <span class="dt">main =</span> <span class="st">"This is my lattice plot"</span>, 
        <span class="dt">xlab =</span> <span class="st">"age (in years)"</span>, 
-       <span class="dt">ylab =</span> <span class="st">"CES-D measure of</span>
-<span class="st">depressive symptoms"</span>,
+       <span class="dt">ylab =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>,
        <span class="dt">data =</span> HELPrct)</code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+</div>
+</div>
 
 </div>
-<div id="refine-graphs-ggformula" class="section level2">
+<div id="refining-graphs" class="section level2">
 <h2 class="hasAnchor">
-<a href="#refine-graphs-ggformula" class="anchor"></a>Refine graphs (ggformula)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_refine</span>(<span class="kw">scale_x_reverse</span>())</code></pre></div>
+<a href="#refining-graphs" class="anchor"></a>Refining graphs</h2>
+<div class="row">
+<div class="col-md-6">
+<h3 id="custom-colors-ggformula">Custom Colors (ggformula)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gf_rug</span>(<span class="dv">0</span> <span class="op">~</span><span class="st"> </span>cesd, 
+         <span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">height =</span> <span class="dv">0</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gf_refine</span>(
+    <span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))) </code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
-
-</div>
-<div id="refine-graphs-lattice" class="section level2">
-<h2 class="hasAnchor">
-<a href="#refine-graphs-lattice" class="anchor"></a>Refine graphs (lattice)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span><span class="op">-</span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<h3 id="log-scales-ggformula">Log scales (ggformula)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gf_refine</span>(<span class="kw">scale_y_log10</span>()) </code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+</div>
+
+<div class="col-md-6">
+<h3 id="custom-colors-lattice">Custom Colors (lattice)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">groups =</span> sex, <span class="dt">data =</span> HELPrct, 
+             <span class="dt">rug =</span> <span class="ot">FALSE</span>,
+             <span class="dt">par.settings =</span> 
+               <span class="kw">list</span>(
+                 <span class="dt">superpose.line =</span> 
+                   <span class="kw">list</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>)),
+                 <span class="dt">superpose.symbol =</span> 
+                   <span class="kw">list</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))
+               )) </code></pre></div>
+<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<h3 id="log-scales-lattice">Log scales (lattice)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
+       <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">y =</span> <span class="kw">list</span>(<span class="dt">log =</span> <span class="ot">TRUE</span>)))</code></pre></div>
+<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+</div>
+</div>
 </div>
 <div id="want-to-explore-more" class="section level2">
 <h2 class="hasAnchor">
 <a href="#want-to-explore-more" class="anchor"></a>Want to explore more?</h2>
 <p>Within RStudio, after loading the <code>mosaic</code> package, try running the command <code><a href="../reference/mplot.html">mplot(ds)</a></code> where <code>ds</code> is a dataframe. This will open up an interactive visualizer that will output the code to generate the figure (using <code>lattice</code>, <code>ggplot2</code>, or <code>ggformula</code>) when you click on <code>Show Expression</code>.</p>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<p>More information about <code>ggformula</code> can be found at <a href="https://projectmosaic/github.io/ggformula" class="uri">https://projectmosaic/github.io/ggformula</a>.</p>
+<p>More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at <a href="http://www.mosaic-web.org" class="uri">http://www.mosaic-web.org</a>. Further information regarding the <code>mosaic</code> package can be found at <a href="https://projectmosaic.github.io/mosaic" class="uri">https://projectmosaic.github.io/mosaic</a> and <a href="https://journal.r-project.org/archive/2017/RJ-2017-02" class="uri">https://journal.r-project.org/archive/2017/RJ-2017-02</a>.</p>
+<p>Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at <a href="http://escholarship.org/uc/item/84v3774z" class="uri">http://escholarship.org/uc/item/84v3774z</a>.</p>
+
 </div>
   </div>
 
@@ -332,32 +322,13 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#histograms-ggformula">Histograms (ggformula)</a></li>
-      <li><a href="#histogram-options-ggformula">Histogram options (ggformula)</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#histograms-lattice">Histograms (lattice)</a></li>
-      <li><a href="#histogram-options-lattice">Histogram options (lattice)</a></li>
-      <li><a href="#density-plots-ggformula">Density plots (ggformula)</a></li>
-      <li><a href="#overlaid-density-plots-ggformula">Overlaid density plots (ggformula)</a></li>
-      <li><a href="#density-plots-lattice">Density plots (lattice)</a></li>
-      <li><a href="#overlaid-density-plots-lattice">Overlaid density plots (lattice)</a></li>
-      <li><a href="#density-over-histograms-ggformula">Density over histograms (ggformula)</a></li>
-      <li><a href="#density-over-histograms-lattice">Density over histograms (lattice)</a></li>
-      <li><a href="#side-by-side-box-plots-ggformula">Side by side box plots (ggformula)</a></li>
-      <li><a href="#faceted-side-by-side-box-plots-ggformula">Faceted side by side box plots (ggformula)</a></li>
-      <li><a href="#side-by-side-plots-lattice">Side by side plots (lattice)</a></li>
-      <li><a href="#faceted-side-by-side-plots-lattice">Faceted side by side plots (lattice)</a></li>
-      <li><a href="#scatterplot-ggformula">Scatterplot (ggformula)</a></li>
-      <li><a href="#overlaid-scatterplot-with-linear-fit-ggformula">Overlaid scatterplot with linear fit (ggformula)</a></li>
-      <li><a href="#scatterplot-lattice">Scatterplot (lattice)</a></li>
-      <li><a href="#overlaid-scatterplot-with-linear-fit-lattice">Overlaid scatterplot with linear fit (lattice)</a></li>
-      <li><a href="#faceted-scatterplot-with-smooth-fit-ggformula">Faceted scatterplot with smooth fit (ggformula)</a></li>
-      <li><a href="#more-options-for-scatterplot-with-linear-fit-ggformula">More options for scatterplot with linear fit (ggformula)</a></li>
-      <li><a href="#faceted-scatterplot-with-smooth-fit-lattice">Faceted scatterplot with smooth fit (lattice)</a></li>
-      <li><a href="#more-options-for-scatterplot-with-linear-fit-lattice">More options for scatterplot with linear fit (lattice)</a></li>
-      <li><a href="#refine-graphs-ggformula">Refine graphs (ggformula)</a></li>
-      <li><a href="#refine-graphs-lattice">Refine graphs (lattice)</a></li>
+      <li><a href="#histograms">Histograms</a></li>
+      <li><a href="#density-plots">Density Plots</a></li>
+      <li><a href="#side-by-side-box-plots">Side by side box plots</a></li>
+      <li><a href="#scatterplots">Scatterplots</a></li>
+      <li><a href="#refining-graphs">Refining graphs</a></li>
       <li><a href="#want-to-explore-more">Want to explore more?</a></li>
+      <li><a href="#references">References</a></li>
       </ul>
 </div>
       </div>
