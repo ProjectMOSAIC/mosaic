@@ -108,21 +108,21 @@
 <h3 id="histograms-ggformula">Histograms (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)   <span class="co"># also loads ggformula </span>
 <span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/hist-gg-1.png" width="700"></p>
 <h3 id="histogram-options-ggformula">Histogram options (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
              <span class="dt">binwidth =</span> <span class="dv">5</span>) </code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/hist-opt-gg-1.png" width="700"></p>
 </div>
 
 <div class="col-md-6">
 <h3 id="histograms-lattice">Histograms (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)     <span class="co"># also loads lattice</span>
 <span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/hist-lattice-1.png" width="700"></p>
 <h3 id="histogram-options-lattice">Histogram options (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">width =</span> <span class="dv">5</span>, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/hist-opt-lattice-1.png" width="700"></p>
 </div>
 </div>
 
@@ -134,21 +134,21 @@
 <div class="col-md-6">
 <h3 id="density-plots-ggformula">Density plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/dens-gg-1.png" width="700"></p>
 <h3 id="overlaid-density-plots-ggformula">Overlaid density plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
         <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/dens2-gg-1.png" width="700"></p>
 </div>
 
 <div class="col-md-6">
 <h3 id="density-plots-lattice">Density plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/dens-lattice-1.png" width="700"></p>
 <h3 id="overlaid-density-plots-lattice">Overlaid density plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
             <span class="dt">groups =</span> sex,  <span class="dt">auto.key =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/dens2-lattice-1.png" width="700"></p>
 </div>
 </div>
 
@@ -160,7 +160,7 @@
                <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_fitdistr</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"MLE"</span>, <span class="dt">dist =</span> <span class="st">"dnorm"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">gf_dens</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"KDE"</span>)   </code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/dens-hist-gg-1.png" width="700"></p>
 </div>
 
 <div class="col-md-6">
@@ -168,7 +168,7 @@
 <p><code>mosaic</code> makes it easy to add a fitted distribution to a histogram.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct, 
           <span class="dt">fit =</span> <span class="st">"normal"</span>, <span class="dt">dcol =</span> <span class="st">"red"</span>)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/dens-hist-lattice-1.png" width="700"></p>
 </div>
 </div>
 
@@ -180,21 +180,21 @@
 <div class="col-md-6">
 <h3 id="side-by-side-box-plots-ggformula">Side by side box plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/boxplot-gg-1.png" width="700"></p>
 <h3 id="faceted-side-by-side-box-plots-ggformula">Faceted side by side box plots (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, 
   <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/boxplot-facets-gg-1.png" width="700"></p>
 </div>
 
 <div class="col-md-6">
 <h3 id="side-by-side-plots-lattice">Side by side plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/boxplot-lattice-1.png" width="700"></p>
 <h3 id="faceted-side-by-side-plots-lattice">Faceted side by side plots (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, 
        <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/boxplot-facet-lattice-1.png" width="700"></p>
 </div>
 </div>
 
@@ -206,24 +206,24 @@
 <div class="col-md-6">
 <h3 id="basic-scatterplot-ggformula">Basic scatterplot (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter-gg-1.png" width="700"></p>
 <h3 id="overlaid-scatterplot-with-linear-fit-ggformula">Overlaid scatterplot with linear fit (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
          <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_lm</span>()</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter2-gg-1.png" width="700"></p>
 </div>
 
 <div class="col-md-6">
 <h3 id="basic-scatterplot-lattice">Basic Scatterplot (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter-lattice-1.png" width="700"></p>
 <h3 id="overlaid-scatterplot-with-linear-fit-lattice">Overlaid scatterplot with linear fit (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age,  <span class="dt">data =</span> HELPrct,
        <span class="dt">groups =</span> sex, 
        <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), 
        <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter2-lattice-1.png" width="700"></p>
 </div>
 </div>
 
@@ -233,7 +233,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex, 
          <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter3-gg-1.png" width="700"></p>
 <h2 id="more-options-for-scatterplot-with-linear-fit-ggformula">More options for scatterplot with linear fit (ggformula)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
          <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span>
@@ -242,7 +242,7 @@
 <span class="st">  </span><span class="kw">gf_labs</span>(<span class="dt">title =</span> <span class="st">"This is my ggformula plot"</span>, 
     <span class="dt">x =</span> <span class="st">"age (in years)"</span>, 
     <span class="dt">y =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter4-gg-1.png" width="700"></p>
 </div>
 
 <div class="col-md-6">
@@ -250,7 +250,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex,  <span class="dt">data =</span> HELPrct,
        <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"smooth"</span>), 
        <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter3-lattice-1.png" width="700"></p>
 <h2 id="more-options-for-scatterplot-with-linear-fit-lattice">More options for scatterplot with linear fit (lattice)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">groups =</span> sex, 
        <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), 
@@ -259,7 +259,7 @@
        <span class="dt">xlab =</span> <span class="st">"age (in years)"</span>, 
        <span class="dt">ylab =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>,
        <span class="dt">data =</span> HELPrct)</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/scatter4-lattice-1.png" width="700"></p>
 </div>
 </div>
 
@@ -269,20 +269,24 @@
 <a href="#refining-graphs" class="anchor"></a>Refining graphs</h2>
 <div class="row">
 <div class="col-md-6">
+<h3 id="log-scales-ggformula">Log scales (ggformula)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gf_refine</span>(<span class="kw">scale_y_log10</span>()) </code></pre></div>
+<p><img src="ggformula-lattice_files/figure-html/log-scales-gg-1.png" width="700"></p>
 <h3 id="custom-colors-ggformula">Custom Colors (ggformula)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_rug</span>(<span class="dv">0</span> <span class="op">~</span><span class="st"> </span>cesd, 
          <span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">height =</span> <span class="dv">0</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gf_refine</span>(
     <span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))) </code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
-<h3 id="log-scales-ggformula">Log scales (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_refine</span>(<span class="kw">scale_y_log10</span>()) </code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/refine-gg-1.png" width="700"></p>
 </div>
 
 <div class="col-md-6">
+<h3 id="log-scales-lattice">Log scales (lattice)</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
+       <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">y =</span> <span class="kw">list</span>(<span class="dt">log =</span> <span class="ot">TRUE</span>)))</code></pre></div>
+<p><img src="ggformula-lattice_files/figure-html/log-scales-lattice-1.png" width="700"></p>
 <h3 id="custom-colors-lattice">Custom Colors (lattice)</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">groups =</span> sex, <span class="dt">data =</span> HELPrct, 
              <span class="dt">rug =</span> <span class="ot">FALSE</span>,
@@ -293,11 +297,7 @@
                  <span class="dt">superpose.symbol =</span> 
                    <span class="kw">list</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))
                )) </code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
-<h3 id="log-scales-lattice">Log scales (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
-       <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">y =</span> <span class="kw">list</span>(<span class="dt">log =</span> <span class="ot">TRUE</span>)))</code></pre></div>
-<p><img src="ggformula-lattice_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+<p><img src="ggformula-lattice_files/figure-html/refine-lattice-1.png" width="700"></p>
 </div>
 </div>
 </div>

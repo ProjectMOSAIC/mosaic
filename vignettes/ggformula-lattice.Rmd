@@ -47,14 +47,14 @@ package for Project MOSAIC.
 
 ### Histograms (ggformula)
 
-```{r}
+```{r, hist-gg}
 library(mosaic)   # also loads ggformula 
 gf_histogram(~ age, data = HELPrct)
 ```
 
 ### Histogram options (ggformula)
 
-```{r}
+```{r, hist-opt-gg}
 gf_histogram(~ age, data = HELPrct,
              binwidth = 5) 
 ```
@@ -66,14 +66,14 @@ gf_histogram(~ age, data = HELPrct,
 <div class = "col-md-6">
 ### Histograms (lattice)
 
-```{r}
+```{r, hist-lattice}
 library(mosaic)     # also loads lattice
 histogram(~ age, data = HELPrct)
 ```
 
 ### Histogram options (lattice)
 
-```{r}
+```{r, hist-opt-lattice}
 histogram(~ age, width = 5, data = HELPrct)
 ```
 
@@ -90,13 +90,13 @@ histogram(~ age, width = 5, data = HELPrct)
 
 ### Density plots (ggformula)
 
-```{r, message = FALSE}
+```{r, dens-gg, message = FALSE}
 gf_dens(~ age, data = HELPrct)
 ```
 
 ### Overlaid density plots (ggformula)
 
-```{r, message = FALSE}
+```{r, dens2-gg, message = FALSE}
 gf_dens(~ age, data = HELPrct,
         color = ~ sex)
 ```
@@ -108,13 +108,13 @@ gf_dens(~ age, data = HELPrct,
 <div class = "col-md-6">
 ### Density plots (lattice)
 
-```{r, message = FALSE}
+```{r, dens-lattice, message = FALSE}
 densityplot(~ age, data = HELPrct)
 ```
 
 ### Overlaid density plots (lattice)
 
-```{r}
+```{r, dens2-lattice}
 densityplot(~ age, data = HELPrct,
             groups = sex,  auto.key = TRUE)
 ```
@@ -133,7 +133,7 @@ densityplot(~ age, data = HELPrct,
 We can use stacked layers to add a density curve based on a 
 maximum likelihood fit or a kernel density estimate (see also `gf_dist()`)
 
-```{r, message = FALSE}
+```{r, dens-hist-gg, message = FALSE}
 gf_dhistogram( ~ age, data = HELPrct, 
                alpha = 0.5) %>%
   gf_fitdistr(color = ~"MLE", dist = "dnorm") %>% 
@@ -150,7 +150,7 @@ gf_dhistogram( ~ age, data = HELPrct,
 
 `mosaic` makes it easy to add a fitted distribution to a histogram.
 
-```{r, message = FALSE}
+```{r, dens-hist-lattice, message = FALSE}
 histogram(~ age, data = HELPrct, 
           fit = "normal", dcol = "red")
 ```
@@ -168,13 +168,13 @@ histogram(~ age, data = HELPrct,
 
 ### Side by side box plots (ggformula)
 
-```{r, message = FALSE}
+```{r, boxplot-gg, message = FALSE}
 gf_boxplot(age ~ sex, data = HELPrct)
 ```
 
 ### Faceted side by side box plots (ggformula)
 
-```{r, message = FALSE}
+```{r, boxplot-facets-gg, message = FALSE}
 gf_boxplot(age ~ sex | homeless, 
   data = HELPrct)
 ```
@@ -188,13 +188,13 @@ gf_boxplot(age ~ sex | homeless,
 
 ### Side by side plots (lattice)
 
-```{r, message = FALSE}
+```{r, boxplot-lattice, message = FALSE}
 bwplot(age ~ sex, data = HELPrct)
 ```
 
 ### Faceted side by side plots (lattice)
 
-```{r, message = FALSE}
+```{r, boxplot-facet-lattice, message = FALSE}
 bwplot(age ~ sex | homeless, 
        data = HELPrct)
 ```
@@ -212,7 +212,7 @@ bwplot(age ~ sex | homeless,
 
 ### Basic scatterplot (ggformula)
 
-```{r, message = FALSE}
+```{r, scatter-gg, message = FALSE}
 gf_point(cesd ~ age, data = HELPrct)
 ```
 
@@ -220,7 +220,7 @@ gf_point(cesd ~ age, data = HELPrct)
 
 ### Overlaid scatterplot with linear fit (ggformula)
 
-```{r, message = FALSE}
+```{r, scatter2-gg, message = FALSE}
 gf_point(cesd ~ age, data = HELPrct,
          color = ~ sex) %>%
   gf_lm()
@@ -233,13 +233,13 @@ gf_point(cesd ~ age, data = HELPrct,
 
 ### Basic Scatterplot (lattice)
 
-```{r, message = FALSE}
+```{r, scatter-lattice, message = FALSE}
 xyplot(cesd ~ age, data = HELPrct)
 ```
 
 ### Overlaid scatterplot with linear fit (lattice)
 
-```{r, message = FALSE}
+```{r, scatter2-lattice, message = FALSE}
 xyplot(cesd ~ age,  data = HELPrct,
        groups = sex, 
        type = c("p", "r"), 
@@ -258,7 +258,7 @@ xyplot(cesd ~ age,  data = HELPrct,
 
 ### Faceted scatterplot with smooth fit (ggformula)
 
-```{r, message = FALSE}
+```{r, scatter3-gg, message = FALSE}
 gf_point(cesd ~ age | sex, 
          data = HELPrct) %>%
   gf_smooth(se = FALSE)
@@ -268,7 +268,7 @@ gf_point(cesd ~ age | sex,
 
 ## More options for scatterplot with linear fit (ggformula)
 
-```{r}
+```{r, scatter4-gg}
 gf_point(cesd ~ age, data = HELPrct,
          color = ~ sex) %>%
   gf_lm() %>% 
@@ -287,7 +287,7 @@ gf_point(cesd ~ age, data = HELPrct,
 
 ## Faceted scatterplot with smooth fit (lattice)
 
-```{r, message = FALSE}
+```{r, scatter3-lattice, message = FALSE}
 xyplot(cesd ~ age | sex,  data = HELPrct,
        type = c("p", "smooth"), 
        auto.key = TRUE) 
@@ -298,7 +298,7 @@ xyplot(cesd ~ age | sex,  data = HELPrct,
 
 ## More options for scatterplot with linear fit (lattice)
 
-```{r, message = FALSE}
+```{r, scatter4-lattice, message = FALSE}
 xyplot(cesd ~ age, groups = sex, 
        type = c("p", "r"), 
        auto.key = TRUE, 
@@ -318,9 +318,16 @@ xyplot(cesd ~ age, groups = sex,
 <div class = "row">
 <div class = "col-md-6">
 
+### Log scales (ggformula)
+
+```{r log-scales-gg}
+gf_point(cesd ~ age, data = HELPrct) %>%
+  gf_refine(scale_y_log10()) 
+```
+
 ### Custom Colors (ggformula)
 
-```{r}
+```{r refine-gg}
 gf_dens( ~ cesd, color = ~ sex, data = HELPrct) %>%
   gf_rug(0 ~ cesd, 
          position = position_jitter(height = 0)) %>%
@@ -328,21 +335,21 @@ gf_dens( ~ cesd, color = ~ sex, data = HELPrct) %>%
     scale_color_manual(values = c("navy", "red"))) 
 ```
 
-### Log scales (ggformula)
-
-```{r}
-gf_point(cesd ~ age, data = HELPrct) %>%
-  gf_refine(scale_y_log10()) 
-```
-
 </div>
 \newpage
 
 <div class = "col-md-6">
 
+### Log scales (lattice)
+
+```{r, log-scales-lattice}
+xyplot(cesd ~ age, data = HELPrct,
+       scales = list(y = list(log = TRUE)))
+```
+
 ### Custom Colors (lattice)
 
-```{r}
+```{r, refine-lattice}
 densityplot( ~ cesd, groups = sex, data = HELPrct, 
              rug = FALSE,
              par.settings = 
@@ -352,13 +359,6 @@ densityplot( ~ cesd, groups = sex, data = HELPrct,
                  superpose.symbol = 
                    list(col = c("navy", "red"))
                )) 
-```
-
-### Log scales (lattice)
-
-```{r}
-xyplot(cesd ~ age, data = HELPrct,
-       scales = list(y = list(log = TRUE)))
 ```
 </div>
 </div>
