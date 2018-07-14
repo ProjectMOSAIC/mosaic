@@ -49,7 +49,7 @@ safe_eval <- function(x) {
              (all.names(x[[3]]) %in% c(".")))))
 }
 
-# This could use a better name and a better desription
+# This could use a better name and a better description
 
 
 
@@ -88,7 +88,7 @@ safe_eval <- function(x) {
 #'                            shifted over as a convenience.
 #' @param data a data frame.  
 #' Note that the default is `data=parent.frame()`.  This makes it convenient to
-#' use this function interactively by treating the working envionment as if it were 
+#' use this function interactively by treating the working environment as if it were 
 #' a data frame.  But this may not be appropriate for programming uses.  
 #' When programming, it is best to use an explicit `data` argument
 #' -- ideally supplying a data frame that contains the variables mentioned
@@ -272,7 +272,7 @@ maggregate <-
   return( res )
 }
 
-# for hanlding functions of two inputs
+# for handling functions of two inputs
 # under construction still
 
 maggregate2 <- function(formula, data=parent.frame(), FUN, subset, 

@@ -380,7 +380,7 @@ aggregatingFunction2 <- function(fun) {
 #' @param groups a grouping variable, typically a name of a variable in `data`
 #' @param data a data frame in which to evaluate formulas (or bare names).
 #' Note that the default is `data = parent.frame()`.  This makes it convenient to
-#' use this function interactively by treating the working envionment as if it were 
+#' use this function interactively by treating the working environment as if it were 
 #' a data frame.  But this may not be appropriate for programming uses.  
 #' When programming, it is best to use an explicit `data` argument
 #' -- ideally supplying a data frame that contains the variables mentioned.
@@ -392,7 +392,7 @@ aggregatingFunction2 <- function(fun) {
 #' interface.  Old behavior should be unchanged.  But if the first argument is a formula,
 #' that formula, together with `data` are used to generate the numeric vector(s) 
 #' to be summarized.  Formulas of the shape `x ~ a` or `~ x | a` can be used to
-#' produce summaries of `x` for each subsect defined by `a`.  Two-way aggregation
+#' produce summaries of `x` for each subset defined by `a`.  Two-way aggregation
 #' can be achieved using formulas of the form `x ~ a + b` or ` x ~ a | b`.  See
 #' the examples.
 #' 
@@ -553,7 +553,7 @@ SAD_ <- function(x, ..., na.rm = getOption("na.omit", FALSE)) {
 #' @param groups a grouping variable, typically a name of a variable in `data`
 #' @param data a data frame in which to evaluate formulas (or bare names).
 #'   Note that the default is `data = parent.frame()`.  This makes it convenient to
-#'   use this function interactively by treating the working envionment as if it were 
+#'   use this function interactively by treating the working environment as if it were 
 #'   a data frame.  But this may not be appropriate for programming uses.  
 #'   When programming, it is best to use an explicit `data` argument
 #'   -- ideally supplying a data frame that contains the variables mentioned.
