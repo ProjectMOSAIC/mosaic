@@ -655,8 +655,8 @@ mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"),
     #     labs(x = xlab, y = ylab, title = title) 
     #   res <- c(res, list(p2))
     # }
-  }
   return(p1)
+  }
 
   cols <- par.settings$superpose.line$col[1 + 
             as.numeric( sign(fdata$lwr) * sign(fdata$upr) < 0)]
