@@ -4,7 +4,7 @@ NA
 #' Additional interfaces to TukeyHSD
 #' 
 #' [TukeyHSD()] requires use of [aov()].  
-#' Since this is a hinderence for beginners, wrappers
+#' Since this is a hindrance for beginners, wrappers
 #' have been provided to remove this need.
 #' @rdname TukeyHSD.lm
 #' @param x an object, for example of class `lm` or `formula`

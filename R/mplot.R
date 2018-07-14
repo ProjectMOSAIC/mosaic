@@ -37,7 +37,7 @@ mplot.default <- function(object, ...) {
 #' @rdname mplot
 #' @param data a data frame containing the variables that might be used in the plot.
 # Note that for maps, the data frame must contain coordinates of the polygons 
-# comprising the map and a variable for determining which corodiantes are part
+# comprising the map and a variable for determining which coordinates are part
 # of the same region.  See \code{\link{sp2df}} for one way to create such
 # a data frame.  Typically \code{\link{merge}} will be used to combine the map
 # data with some auxiliary data to be displayed as fill color on the map, although
