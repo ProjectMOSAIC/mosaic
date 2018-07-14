@@ -624,16 +624,16 @@ mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"),
                            title = paste0(attr(object, "conf.level") * 100, "% family-wise confidence level"),
                            par.settings = trellis.par.get(),
                            order = c("asis", "pval", "difference"),
-                           which = 1L:2L,
+                           # which = 1L:2L,
                            ...) {
   system <- match.arg(system)
   order <- match.arg(order) 
   fdata <- fortify(object, order = order)
  
-  res <- list()
+  # res <- list()
   
   if (system == "ggplot2") {
-    if (1 %in% which) {
+    # if (1 %in% which) {
       p1 <-
         ggplot( data = fdata,
                 aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
@@ -642,39 +642,38 @@ mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"),
         geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
         facet_grid( var ~ ., scales = "free_y") +
         labs(x = xlab, y = ylab, title = title) 
-      res <- c(res, p1)
-    }
-    if (2 %in% which) {
-      p2 <- 
-        ggplot( data = fdata,
-                aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
-        geom_point(size = 2) +
-        geom_segment(aes(x = lwr, xend = upr, y = pair, yend = pair) ) +
-        geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
-        facet_grid( var ~ ., scales = "free_y") +
-        labs(x = xlab, y = ylab, title = title) 
-      res <- c(res, p2)
-    }
+    #   res <- c(res, list(p1))
+    # }
+    # if (2 %in% which) {
+    #   p2 <- 
+    #     ggplot( data = fdata,
+    #             aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
+    #     geom_point(size = 2) +
+    #     geom_segment(aes(x = lwr, xend = upr, y = pair, yend = pair) ) +
+    #     geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
+    #     facet_grid( var ~ ., scales = "free_y") +
+    #     labs(x = xlab, y = ylab, title = title) 
+    #   res <- c(res, list(p2))
+    # }
   }
+  return(p1)
 
   cols <- par.settings$superpose.line$col[1 + 
             as.numeric( sign(fdata$lwr) * sign(fdata$upr) < 0)]
-    
-  return( 
-    xyplot( factor(pair, levels = rev(levels(pair))) ~ diff + lwr + upr | var, data = fdata, 
-            panel = function(x,y,subscripts,...) {
-              n <- length(x)
-              m <- round(n/3)
-              panel.abline(v = 0, col = "red", lty = 2, alpha = .5)
-              panel.segments(x0 = x[(m+1):(2*m)], x1 = x[(2*m+1):(3*m)], y0 = y, y1 = y, col = cols[subscripts])
-              panel.xyplot(x[1:m], y, cex = 1.4, pch = 16, col = cols[subscripts])
-            },
-            scales = list( y = list(relation = "free", rot = 30) ),
-            xlab = xlab,
-            ylab = ylab,
-            main = title,
-            ...
-    )
+  
+  xyplot( factor(pair, levels = rev(levels(pair))) ~ diff + lwr + upr | var, data = fdata, 
+          panel = function(x,y,subscripts,...) {
+            n <- length(x)
+            m <- round(n/3)
+            panel.abline(v = 0, col = "red", lty = 2, alpha = .5)
+            panel.segments(x0 = x[(m+1):(2*m)], x1 = x[(2*m+1):(3*m)], y0 = y, y1 = y, col = cols[subscripts])
+            panel.xyplot(x[1:m], y, cex = 1.4, pch = 16, col = cols[subscripts])
+          },
+          scales = list( y = list(relation = "free", rot = 30) ),
+          xlab = xlab,
+          ylab = ylab,
+          main = title,
+          ...
   )
 }
 
