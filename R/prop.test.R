@@ -106,6 +106,20 @@ prop.test <- function( x, n, p = NULL,
   }
 }
 
+#' Internal function for testing proportion
+#' 
+#' This function is wrapped by [`prop.test()`], which most users should use instead.
+#' 
+#' @param x a vector, count, or formula.
+#' @param n a vector of counts of trials (not needed when `x` is a table or matrix).
+#' @param p a vector of probabilities of success (for the null hypothesis).  
+#'   The length must be the same as the number of groups specified by `x`.
+#' @param ... additional arguments passed to methods.
+# #' @param data a data frame
+# #' @param data.name a character string used to label the data in output.
+# #' @param groups an expression defining groups when `x` is a formula.
+# #' @param success the level to be considered "success".
+#' @inheritParams stats::prop.test
 #' @export
 prop_test <- 
   function(
