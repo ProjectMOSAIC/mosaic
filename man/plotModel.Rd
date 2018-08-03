@@ -59,6 +59,7 @@ plotModel(mod, pch = 19)
 mod <- lm( mpg ~ wt + factor(cyl), data=mtcars)
 plotModel(mod)
 
+\dontrun{ 
 # multiple categorical vars
 mod <- lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data = mtcars)
 plotModel(mod)
@@ -91,7 +92,7 @@ plotModel(mod)
 mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
 plotModel(mod)
 plotModel(mod, system="g") + facet_wrap( ~ cyl )
-
+}
 }
 \seealso{
 \code{\link[=plotPoints]{plotPoints()}}, \code{\link[=plotFun]{plotFun()}}

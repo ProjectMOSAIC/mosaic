@@ -40,11 +40,11 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 # or in the case of a 3D model, nothing
 # but an RGL window will pop up.
 #' 
-#' @seealso [plotPoints()], [plotFun()]
+#' @seealso [`plotPoints()`], [`plotFun()`]
 #' @author Ben Baumer, Galen Long, Randall Pruim
 #' @export
 #' @examples
-#' 
+#'
 #' require(mosaic)
 #' 
 #' mod <- lm( mpg ~ factor(cyl), data = mtcars)
@@ -58,6 +58,7 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 #' mod <- lm( mpg ~ wt + factor(cyl), data=mtcars)
 #' plotModel(mod)
 #' 
+#' \dontrun{ 
 #' # multiple categorical vars
 #' mod <- lm( mpg ~ wt + factor(cyl) + factor(vs) + factor(am), data = mtcars)
 #' plotModel(mod)
@@ -91,7 +92,7 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 #' mod <- lm( mpg ~ wt + hp + wt * factor(cyl), data = mtcars)
 #' plotModel(mod)
 #' plotModel(mod, system="g") + facet_wrap( ~ cyl )
-#' 
+#' }
 
 # ------------------------------------------------------------------------------
 # TODO
