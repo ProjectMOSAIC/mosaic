@@ -194,6 +194,15 @@ prop_test.formula <-
     
     if (! is.null(form$left) || !is.null(form$condition) ) {
       table_from_formula <-  tally( formula, data=data, margin=FALSE, format="count" )
+      if (! is.null(success)) {
+        key <- names(dimnames(table_from_formula))[1]
+        # if (! success %in% data[, key]) {
+        #   stop("(in prop_test) `", success, "' is not a value of `", key, "'", 
+        #        call. = FALSE)
+        # }
+        data[, key] <- factor(data[, key] == success, levels = c("TRUE", "FALSE"))
+        table_from_formula <-  tally( formula, data=data, margin=FALSE, format="count" )
+      }
       res <- stats::prop.test( t(table_from_formula), 
                                p=p,
                                conf.level=conf.level, 
