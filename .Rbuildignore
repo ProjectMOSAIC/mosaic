@@ -1,5 +1,6 @@
 ^sandbox$
 ^bin$
+^docs$
 ^RBuildIgnore$
 ^README.Rmd$
 ^README.html$
