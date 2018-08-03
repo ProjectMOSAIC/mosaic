@@ -14,23 +14,23 @@ mplot(object, ...)
 \method{mplot}{default}(object, ...)
 
 \method{mplot}{lm}(object, which = c(1:3, 7), system = c("ggplot2",
-  "lattice", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
-  search(), par.settings = theme.mosaic(), level = 0.95,
+  "lattice", "base"), ask = FALSE, multiplot = "package:gridExtra"
+  \%in\% search(), par.settings = theme.mosaic(), level = 0.95,
   title = paste("model: ", deparse(object$call), "\\n"), rows = TRUE,
   id.n = 3L, id.size = 6, id.color = "red", id.nudge = 1, ...)
 
 \method{mplot}{data.frame}(object, format, default = format,
-  system = c("ggformula", "ggplot2", "lattice"), show = FALSE, title = "",
-  ...)
+  system = c("ggformula", "ggplot2", "lattice"), show = FALSE,
+  title = "", ...)
 
 \method{mplot}{summary.lm}(object, system = c("ggplot2", "lattice"),
   level = 0.95, par.settings = trellis.par.get(), rows = TRUE, ...)
 
 \method{mplot}{TukeyHSD}(object, system = c("ggplot2", "lattice"),
-  ylab = "", xlab = "difference in means", title = paste0(attr(object,
-  "conf.level") * 100, "\% family-wise confidence level"),
-  par.settings = trellis.par.get(), order = c("asis", "pval", "difference"),
-  ...)
+  ylab = "", xlab = "difference in means",
+  title = paste0(attr(object, "conf.level") * 100,
+  "\% family-wise confidence level"), par.settings = trellis.par.get(),
+  order = c("asis", "pval", "difference"), ...)
 }
 \arguments{
 \item{object}{an R object from which a plot will be constructed.}

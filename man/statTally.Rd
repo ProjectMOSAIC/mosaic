@@ -4,12 +4,12 @@
 \alias{statTally}
 \title{Tally test statistics}
 \usage{
-statTally(sample, rdata, FUN, direction = NULL, alternative = c("default",
-  "two.sided", "less", "greater"), sig.level = 0.1, system = c("gg",
-  "lattice"), shade = "navy", alpha = 0.1, binwidth = NULL,
-  fill = "gray80", color = "black", center = NULL,
-  stemplot = dim(rdata)[direction] < 201, q = c(0.5, 0.9, 0.95, 0.99),
-  fun = function(x) x, xlim, ...)
+statTally(sample, rdata, FUN, direction = NULL,
+  alternative = c("default", "two.sided", "less", "greater"),
+  sig.level = 0.1, system = c("gg", "lattice"), shade = "navy",
+  alpha = 0.1, binwidth = NULL, fill = "gray80", color = "black",
+  center = NULL, stemplot = dim(rdata)[direction] < 201, q = c(0.5,
+  0.9, 0.95, 0.99), fun = function(x) x, xlim, ...)
 }
 \arguments{
 \item{sample}{sample data}

@@ -5,11 +5,12 @@
 \title{Plotting mathematical expressions}
 \usage{
 plotFun(object, ..., plot = trellis.last.object(), add = NULL,
-  under = FALSE, xlim = NULL, ylim = NULL, npts = NULL, ylab = NULL,
-  xlab = NULL, zlab = NULL, filled = TRUE, levels = NULL,
-  nlevels = 10, labels = TRUE, surface = FALSE, groups = NULL,
-  col = trellis.par.get("superpose.line")$col, col.regions = topo.colors,
-  type = "l", lwd = trellis.par.get("superpose.line")$lwd,
+  under = FALSE, xlim = NULL, ylim = NULL, npts = NULL,
+  ylab = NULL, xlab = NULL, zlab = NULL, filled = TRUE,
+  levels = NULL, nlevels = 10, labels = TRUE, surface = FALSE,
+  groups = NULL, col = trellis.par.get("superpose.line")$col,
+  col.regions = topo.colors, type = "l",
+  lwd = trellis.par.get("superpose.line")$lwd,
   lty = trellis.par.get("superpose.line")$lty, alpha = NULL,
   discontinuities = NULL, discontinuity = 1,
   interactive = rstudio_is_available())

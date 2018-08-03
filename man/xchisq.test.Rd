@@ -4,8 +4,8 @@
 \alias{xchisq.test}
 \title{Augmented Chi-squared test}
 \usage{
-xchisq.test(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)),
-  rescale.p = FALSE, simulate.p.value = FALSE, B = 2000,
+xchisq.test(x, y = NULL, correct = TRUE, p = rep(1/length(x),
+  length(x)), rescale.p = FALSE, simulate.p.value = FALSE, B = 2000,
   data = environment(x))
 }
 \arguments{

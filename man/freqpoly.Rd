@@ -10,11 +10,11 @@ freqpoly(x, plot = TRUE, ...)
 
 hist2freqpolygon(hist)
 
-\method{plot}{freqpolygon}(x, freq = equidist, col = graphics::par("fg"),
-  lty = NULL, lwd = 1, main = paste("Frequency polygon of", paste(x$xname,
-  collapse = "\\n")), sub = NULL, xlab = x$xname, ylab, xlim = range(x$x),
-  ylim = NULL, axes = TRUE, labels = FALSE, add = FALSE, ann = TRUE,
-  ...)
+\method{plot}{freqpolygon}(x, freq = equidist,
+  col = graphics::par("fg"), lty = NULL, lwd = 1,
+  main = paste("Frequency polygon of", paste(x$xname, collapse = "\\n")),
+  sub = NULL, xlab = x$xname, ylab, xlim = range(x$x), ylim = NULL,
+  axes = TRUE, labels = FALSE, add = FALSE, ann = TRUE, ...)
 }
 \arguments{
 \item{x}{a vector of values for which a frequency polygon is desired.}

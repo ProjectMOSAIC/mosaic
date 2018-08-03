@@ -4,11 +4,12 @@
 \alias{panel.levelcontourplot}
 \title{Lattice plot that draws a filled contour plot}
 \usage{
-panel.levelcontourplot(x, y, z, subscripts = 1, at, shrink, labels = TRUE,
-  label.style = c("mixed", "flat", "align"), contour = FALSE,
-  region = TRUE, col = add.line$col, lty = add.line$lty,
-  lwd = add.line$lwd, border = "transparent", ...,
-  col.regions = regions$col, filled = TRUE, alpha.regions = regions$alpha)
+panel.levelcontourplot(x, y, z, subscripts = 1, at, shrink,
+  labels = TRUE, label.style = c("mixed", "flat", "align"),
+  contour = FALSE, region = TRUE, col = add.line$col,
+  lty = add.line$lty, lwd = add.line$lwd, border = "transparent",
+  ..., col.regions = regions$col, filled = TRUE,
+  alpha.regions = regions$alpha)
 }
 \arguments{
 \item{x}{x on a grid}

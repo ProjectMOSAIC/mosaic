@@ -13,9 +13,10 @@
 \alias{xcbeta}
 \title{Central portion of a distribution}
 \usage{
-cdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  digits = 3L, xlim, ylim, resolution = 500L, return = c("values",
-  "plot"), pattern = c("rings", "stripes"), ..., refinements = list())
+cdist(dist = "norm", p, plot = TRUE, verbose = FALSE,
+  invisible = FALSE, digits = 3L, xlim, ylim, resolution = 500L,
+  return = c("values", "plot"), pattern = c("rings", "stripes"), ...,
+  refinements = list())
 
 xcgamma(...)
 

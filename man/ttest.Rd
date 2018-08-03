@@ -13,8 +13,8 @@ t.test(x, ...)
 
 \method{t_test}{formula}(formula, data, ..., groups = NULL)
 
-\method{t_test}{default}(x, y = NULL, alternative = c("two.sided", "less",
-  "greater"), mu = 0, paired = FALSE, var.equal = FALSE,
+\method{t_test}{default}(x, y = NULL, alternative = c("two.sided",
+  "less", "greater"), mu = 0, paired = FALSE, var.equal = FALSE,
   conf.level = 0.95, ...)
 }
 \arguments{

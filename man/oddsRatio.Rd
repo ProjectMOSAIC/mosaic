@@ -10,8 +10,8 @@
 \alias{summary.relrisk}
 \title{Odds Ratio and Relative Risk for 2 x 2 Contingency Tables}
 \usage{
-orrr(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE, digits = 3,
-  relrisk = FALSE)
+orrr(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
+  digits = 3, relrisk = FALSE)
 
 oddsRatio(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
   digits = 3)
