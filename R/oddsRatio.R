@@ -61,6 +61,7 @@ orrr <- function(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE, digits = 
   if (any(dim(x) != c(2,2))) {
     stop("expecting something 2 x 2")
   }
+  x <- as.matrix(x)
   names(x) <- NULL
   row.names(x) <- NULL
   colnames(x) <- NULL
