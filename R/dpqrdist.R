@@ -329,10 +329,16 @@ plot_multi_dist <-
     # print(Ddensity)
     
     plot <- 
-      do.call(gf_point, c(list(density ~ x, color = ~ probability, group = ~ group, fill = ~ probability,
+      do.call(
+        gf_point, 
+        c(list(density ~ x, color = ~ probability, group = ~ group, fill = ~ probability,
                data = Ddensity), plot_dots)) %>%
       gf_segment(density + 0 ~ x + x) %>%
-      gf_labs(x = "", y = "probability")
+      gf_labs(x = "", y = "probability") %>%
+      gf_refine(
+        scale_fill_viridis_d(end = 0.9),
+        scale_color_viridis_d(end = 0.9)
+      )
     
   } else {
     Ddensity <- 
@@ -347,8 +353,13 @@ plot_multi_dist <-
       dplyr::filter(!is.na(probability))  # avoids issues when xlim is wider than support
     
     plot <- 
-      do.call(gf_area, c(list(density ~ x, fill = ~ probability, 
-                              group = ~ group, data = Ddensity), plot_dots)) 
+      do.call(gf_area, 
+              c(list(density ~ x, fill = ~ probability, 
+                     group = ~ group, data = Ddensity), plot_dots)) %>%
+      gf_refine(
+        scale_fill_viridis_d(end = 0.9),
+        scale_color_viridis_d(end = 0.9)
+      )
   }  
   return(plot)
 }
