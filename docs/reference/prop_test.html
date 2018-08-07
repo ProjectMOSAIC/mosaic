@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract r-squared value — r.squared • mosaic</title>
+<title>Internal function for testing proportion — prop_test • mosaic</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Extract r-squared value — r.squared" />
+<meta property="og:title" content="Internal function for testing proportion — prop_test" />
 
-<meta property="og:description" content="Attempts to extract an r-squared value from a model or model-like object." />
+<meta property="og:description" content="This function is wrapped by prop.test(), which most users should use instead." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,29 +115,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract r-squared value</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ProjectMOSAIC/mosaic/blob/master/R/interval.R'><code>R/interval.R</code></a></small>
-    <div class="hidden name"><code>r.squared.Rd</code></div>
+    <h1>Internal function for testing proportion</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ProjectMOSAIC/mosaic/blob/master/R/prop.test.R'><code>R/prop.test.R</code></a></small>
+    <div class="hidden name"><code>prop_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Attempts to extract an r-squared value from a model or model-like object.</p>
+    <p>This function is wrapped by <code><a href='prop.test.html'>prop.test()</a></code>, which most users should use instead.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>r.squared</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>prop_test</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>,
+  <span class='st'>"greater"</span>), <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>an object</p></td>
+      <td><p>a vector, count, or formula.</p></td>
     </tr>
     <tr>
-      <th>&#8230;</th>
-      <td><p>additional arguments</p></td>
+      <th>n</th>
+      <td><p>a vector of counts of trials (not needed when <code>x</code> is a table or matrix).</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>a vector of probabilities of success (for the null hypothesis).
+The length must be the same as the number of groups specified by <code>x</code>.</p></td>
+    </tr>
+    <tr>
+      <th>alternative</th>
+      <td><p>a character string specifying the alternative
+    hypothesis, must be one of <code>"two.sided"</code> (default),
+    <code>"greater"</code> or <code>"less"</code>.  You can specify just the initial
+    letter.  Only used for testing the null that a single proportion
+    equals a given value, or that two proportions are equal; ignored
+    otherwise.</p></td>
+    </tr>
+    <tr>
+      <th>conf.level</th>
+      <td><p>confidence level of the returned confidence
+    interval.  Must be a single number between 0 and 1.  Only used
+    when testing the null that a single proportion equals a given
+    value, or that two proportions are equal; ignored otherwise.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments passed to methods.</p></td>
     </tr>
     </table>
     

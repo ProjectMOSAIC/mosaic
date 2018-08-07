@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0.9001</span>
       </span>
     </div>
 
@@ -186,30 +186,40 @@ use cases may not work yet.  Watch for improvements in subsequent versions of th
 <span class='co'># parallel slopes</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>( <span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='fu'>factor</span>(<span class='no'>cyl</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mtcars</span>)
 <span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-3.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'># multiple categorical vars</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>( <span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='fu'>factor</span>(<span class='no'>cyl</span>) + <span class='fu'>factor</span>(<span class='no'>vs</span>) + <span class='fu'>factor</span>(<span class='no'>am</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotModel</span>(<span class='no'>mod</span>, <span class='no'>mpg</span> ~ <span class='no'>am</span>)</div><div class='img'><img src='plotModel-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>, <span class='no'>mpg</span> ~ <span class='no'>am</span>)
+
 <span class='co'># interaction</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>( <span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='fu'>factor</span>(<span class='no'>cyl</span>) + <span class='no'>wt</span>:<span class='fu'>factor</span>(<span class='no'>cyl</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+
 <span class='co'># polynomial terms</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>( <span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='fu'>I</span>(<span class='no'>wt</span>^<span class='fl'>2</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+
 <span class='co'># GLM</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>vs</span> ~ <span class='no'>wt</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mtcars</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>'binomial'</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-8.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+
 <span class='co'># GLM with interaction</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(<span class='no'>vs</span> ~ <span class='no'>wt</span> + <span class='fu'>factor</span>(<span class='no'>cyl</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mtcars</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>'binomial'</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># 3D model</span>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+<span class='co'># 3D model</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>( <span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='no'>hp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-10.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+
 <span class='co'># parallel planes</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>( <span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='no'>hp</span> + <span class='fu'>factor</span>(<span class='no'>cyl</span>) + <span class='fu'>factor</span>(<span class='no'>vs</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-11.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+
 <span class='co'># interaction planes</span>
 <span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>( <span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='no'>hp</span> + <span class='no'>wt</span> * <span class='fu'>factor</span>(<span class='no'>cyl</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>plotModel</span>(<span class='no'>mod</span>)</div><div class='img'><img src='plotModel-12.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotModel</span>(<span class='no'>mod</span>, <span class='kw'>system</span><span class='kw'>=</span><span class='st'>"g"</span>) + <span class='fu'>facet_wrap</span>( ~ <span class='no'>cyl</span> )</div><div class='img'><img src='plotModel-13.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>)
+<span class='fu'>plotModel</span>(<span class='no'>mod</span>, <span class='kw'>system</span><span class='kw'>=</span><span class='st'>"g"</span>) + <span class='fu'>facet_wrap</span>( ~ <span class='no'>cyl</span> )
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
