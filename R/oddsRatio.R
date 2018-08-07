@@ -21,7 +21,7 @@
 #' 
 #' 
 #' @rdname oddsRatio
-#' @param x a 2 X 2 matrix, data frame or table of counts
+#' @param x a 2 x 2 matrix, data frame, or table of counts
 #' @param object an R object to print or summarise.  Here an object of class
 #' `"oddsRatio"` or `"relrisk"`.
 #' @param conf.level the confidence interval level
@@ -48,16 +48,16 @@
 #' colnames(M2) <- c("No", "Yes")
 #' M2
 #' oddsRatio(M2)
-#' oddsRatio(M2, verbose=TRUE)
-#' relrisk(M2, verbose=TRUE)
+#' oddsRatio(M2, verbose = TRUE)
+#' relrisk(M2, verbose = TRUE)
 #' if (require(mosaicData)) {
-#' relrisk(tally(~ homeless + sex, data=HELPrct) )
-#' do(3) * relrisk( tally( ~ homeless + shuffle(sex), data=HELPrct) )
+#' relrisk(tally(~ homeless + sex, data = HELPrct) )
+#' do(3) * relrisk( tally( ~ homeless + shuffle(sex), data = HELPrct) )
 #' }
 #' @export
 
-orrr <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3,
-                      relrisk=FALSE){
+orrr <- function(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE, digits = 3,
+                      relrisk = FALSE){
   if (any(dim(x) != c(2,2))) {
     stop("expecting something 2 x 2")
   }
@@ -124,25 +124,25 @@ orrr <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3,
 
 #' @rdname oddsRatio
 #' @export
-oddsRatio <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3) {
-  orrr(x, conf.level=conf.level, verbose=verbose, digits=digits, relrisk=FALSE)
+oddsRatio <- function(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE, digits = 3) {
+  orrr(x, conf.level = conf.level, verbose = verbose, digits = digits, relrisk = FALSE)
 }
 
 #' @rdname oddsRatio
 #' @export
-relrisk <- function(x, conf.level = 0.95, verbose=!quiet, quiet=TRUE, digits=3) {
-  orrr(x, conf.level=conf.level, verbose=verbose, digits=digits, relrisk=TRUE)
+relrisk <- function(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE, digits = 3) {
+  orrr(x, conf.level = conf.level, verbose = verbose, digits = digits, relrisk = TRUE)
 }
 
 #' @rdname oddsRatio
 #' @export
-print.oddsRatio <- function(x, digits  = 4, ...) {
+print.oddsRatio <- function(x, digits = 4, ...) {
   print(as.numeric(x))
 }
 
 #' @rdname oddsRatio
 #' @export
-print.relrisk <- function(x, digits  = 4, ...) {
+print.relrisk <- function(x, digits = 4, ...) {
   print(as.numeric(x))
 }
 
@@ -150,14 +150,14 @@ print.relrisk <- function(x, digits  = 4, ...) {
 #' @export
 summary.oddsRatio <-
           function(object, digits = 4, ...){
-            summary_relrisk_oddsratio(object, digits=digits, ...) 
+            summary_relrisk_oddsratio(object, digits = digits, ...) 
           }
 
 #' @rdname oddsRatio
 #' @export
 summary.relrisk <- 
   function(object, digits = 4, ...){
-    summary_relrisk_oddsratio(object, digits=digits, ...) 
+    summary_relrisk_oddsratio(object, digits = digits, ...) 
   }
 
 summary_relrisk_oddsratio <- function(x, digits = 4, ...){
