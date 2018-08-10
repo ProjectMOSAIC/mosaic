@@ -1,10 +1,24 @@
 
+# mosaic 1.4
+
+ * Bug fix: `mplot.lm()` now removed points with leverage 1 to avoid errors and warnings; a 
+   warning messaes notifies which points have been removed.
+ * Bug fix: `TukeyHSD()` now correctly follows `system = "gg"`
+ * `mplot.lm()` now uses `ggrapel` to place labels and offers additional controls for 
+   the smooth curve that is overlaid. [gg version of plots only]
+ * viridis color palette used in some plots to improve readability for color-blind viewers.
+ * `orrr()`, `oddsRatio()`, and `relrisk()` now accept a 2x2 data frame to match claims in
+   documentation.
+ * Support added for `cor(~y, ~x)`
+ * New website: http://projectmosaic.github.io/mosaic/
+   
 # mosaic 1.3
 
  * Bug fix in `prop.test()` so it handles `success` argument properly for 2-way tables.
- * Support added for `cor(~y, ~x)`
- * New website: http://projectmosaic.github.io/mosaic/
- 
+ * Updated template documents now use `ggformula`.
+ * `which` argument added to `mplot.TukeyHSD()`.
+ * Updated vignettes to reflect new or updated resources and to use `ggformula`.
+ * Some changes implemented to make `mosaic` compatible with `ggplot2` version 3.0.
  
 # mosaic 1.2
 
