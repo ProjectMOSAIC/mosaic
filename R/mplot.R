@@ -91,7 +91,7 @@ mplot.default <- function(object, ...) {
 #' used to fit the model.
 #' @examples
 #' lm( width ~ length * sex, data = KidsFeet) %>%
-#'   mplot(which = 1:3)
+#'   mplot(which = 1:3, id.n = 5)
 #' lm( width ~ length * sex, data = KidsFeet) %>%
 #'   mplot(smooth.color = "blue", smooth.size = 1.2, smooth.alpha = 0.3, id.size = 3)
 #' lm(width ~ length * sex, data = KidsFeet) %>%
