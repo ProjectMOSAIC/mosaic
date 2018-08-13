@@ -304,8 +304,8 @@ aggregatingFunction2 <- function(fun) {
         }
       })
       
-      if (!is.null(y) && !is.null(data)) {
-        stop("When `data' is specified, `y' should not be used.", 
+      if (!(is.null(y) || inherits(y, "formula")) && !is.null(data)) {
+        stop("When `data' is specified, `y' should be a formula or NULL.", 
              call. = FALSE)
       }
       if (lazyeval::is_formula(x)) {

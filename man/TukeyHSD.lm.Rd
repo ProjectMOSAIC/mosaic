@@ -5,10 +5,11 @@
 \alias{TukeyHSD.formula}
 \title{Additional interfaces to TukeyHSD}
 \usage{
-\method{TukeyHSD}{lm}(x, which, ordered = FALSE, conf.level = 0.95, ...)
+\method{TukeyHSD}{lm}(x, which, ordered = FALSE, conf.level = 0.95,
+  ...)
 
-\method{TukeyHSD}{formula}(x, which, ordered = FALSE, conf.level = 0.95,
-  data = parent.frame(), ...)
+\method{TukeyHSD}{formula}(x, which, ordered = FALSE,
+  conf.level = 0.95, data = parent.frame(), ...)
 }
 \arguments{
 \item{x}{an object, for example of class \code{lm} or \code{formula}}

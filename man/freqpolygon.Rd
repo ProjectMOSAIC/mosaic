@@ -10,9 +10,10 @@ freqpolygon(x, ..., panel = "panel.freqpolygon",
   prepanel = "prepanel.default.freqpolygon")
 
 prepanel.default.freqpolygon(x, darg = list(), plot.points = FALSE,
-  ref = FALSE, groups = NULL, subscripts = TRUE, jitter.amount = 0.01 *
-  diff(current.panel.limits()$ylim), center = NULL, nint = NULL,
-  breaks = NULL, width = darg$width, type = "density", ...)
+  ref = FALSE, groups = NULL, subscripts = TRUE,
+  jitter.amount = 0.01 * diff(current.panel.limits()$ylim),
+  center = NULL, nint = NULL, breaks = NULL, width = darg$width,
+  type = "density", ...)
 
 panel.freqpolygon(x, darg = list(), plot.points = FALSE, ref = FALSE,
   groups = NULL, weights = NULL, jitter.amount = 0.01 *

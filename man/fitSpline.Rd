@@ -5,7 +5,8 @@
 \title{Fit splines to data}
 \usage{
 fitSpline(formula, data = parent.frame(), df = NULL, knots = NULL,
-  degree = 3, type = c("natural", "linear", "cubic", "polynomial"), ...)
+  degree = 3, type = c("natural", "linear", "cubic", "polynomial"),
+  ...)
 }
 \arguments{
 \item{formula}{a formula.  Only one quantity is allowed on the left-hand side, the

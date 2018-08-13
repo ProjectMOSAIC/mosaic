@@ -9,8 +9,9 @@ findZeros(expr, ..., xlim = c(near - within, near + within), near = 0,
   within = Inf, nearest = 10, npts = 1000, iterate = 1,
   sortBy = c("byx", "byy", "radial"))
 
-\method{solve}{formula}(form, ..., near = 0, within = Inf, nearest = 10,
-  npts = 1000, iterate = 1, sortBy = c("byx", "byy", "radial"))
+\method{solve}{formula}(form, ..., near = 0, within = Inf,
+  nearest = 10, npts = 1000, iterate = 1, sortBy = c("byx", "byy",
+  "radial"))
 }
 \arguments{
 \item{expr}{A formula.  The right side names the variable with respect to which the zeros should be found.

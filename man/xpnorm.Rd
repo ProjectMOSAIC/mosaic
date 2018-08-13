@@ -8,17 +8,17 @@
 \usage{
 xpnorm(q, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
   invisible = FALSE, digits = 4, lower.tail = TRUE, log.p = FALSE,
-  xlim = mean + c(-4, 4) * sd, ylim = c(0, 1.4 * dnorm(mean, mean, sd)),
-  manipulate = FALSE, ..., return = c("value", "plot"))
+  xlim = mean + c(-4, 4) * sd, ylim = c(0, 1.4 * dnorm(mean, mean,
+  sd)), manipulate = FALSE, ..., return = c("value", "plot"))
 
 xqnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
-  digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
-  ylim, invisible = FALSE, ..., return = c("value", "plot"),
+  digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE,
+  xlim, ylim, invisible = FALSE, ..., return = c("value", "plot"),
   pattern = c("stripes", "rings"))
 
 xcnorm(p, mean = 0, sd = 1, plot = TRUE, verbose = TRUE,
-  digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE, xlim,
-  ylim, invisible = FALSE, ..., return = c("value", "plot"),
+  digits = getOption("digits"), lower.tail = TRUE, log.p = FALSE,
+  xlim, ylim, invisible = FALSE, ..., return = c("value", "plot"),
   pattern = "rings")
 }
 \arguments{

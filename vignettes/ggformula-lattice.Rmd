@@ -7,19 +7,20 @@ vignette: |
   %\VignetteEngine{knitr::rmarkdown} 
   \usepackage[utf8]{inputenc}
 output: 
+  html_document:
+    fig_height: 3
+    fig_width: 5
   pdf_document:
     fig_height: 3
     fig_width: 5
     pandoc_args: [
       "-V", "classoption=twocolumn"
     ]
-  html_document:
-    fig_height: 3
-    fig_width: 5
   word_document:
     fig_height: 3
     fig_width: 5
 ---
+
 ```{r, setup, include = FALSE}
 require(mosaic)   # Load additional packages here 
 require(ggformula)
@@ -33,181 +34,231 @@ knitr::opts_chunk$set(
 ```
 
 ## Introduction
-This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the improved `ggformula` system. 
+
+This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the improved `ggformula` system.  Going forward, `ggformula` will be the preferred graphics 
+package for Project MOSAIC.
 
 \vfill
 
-## Histograms (ggformula)
+## Histograms 
 
-```{r}
+<div class = "row">
+<div class = "col-md-6">
+
+### Histograms (ggformula)
+
+```{r, hist-gg}
 library(mosaic)   # also loads ggformula 
 gf_histogram(~ age, data = HELPrct)
 ```
 
-## Histogram options (ggformula)
+### Histogram options (ggformula)
 
-```{r}
+```{r, hist-opt-gg}
 gf_histogram(~ age, data = HELPrct,
              binwidth = 5) 
 ```
 
+
+</div>
 \newpage
 
-## References 
+<div class = "col-md-6">
+### Histograms (lattice)
 
-More information about `ggformula` can be found at https://github.com/ProjectMOSAIC/ggformula.
-
-More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at http://www.mosaic-web.org.  Further information regarding the `mosaic` package can be found at https://github.com/ProjectMOSAIC/mosaic and https://journal.r-project.org/archive/2017/RJ-2017-02.
-
-Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
-
-\vfill
-
-## Histograms (lattice)
-
-```{r}
+```{r, hist-lattice}
 library(mosaic)     # also loads lattice
 histogram(~ age, data = HELPrct)
 ```
 
-## Histogram options (lattice)
+### Histogram options (lattice)
 
-```{r}
+```{r, hist-opt-lattice}
 histogram(~ age, width = 5, data = HELPrct)
 ```
 
 
-
+</div>
+</div>
 
 \newpage
 
-## Density plots (ggformula)
+## Density Plots
 
-```{r, message = FALSE}
+<div class = "row">
+<div class = "col-md-6">
+
+### Density plots (ggformula)
+
+```{r, dens-gg, message = FALSE}
 gf_dens(~ age, data = HELPrct)
 ```
 
-## Overlaid density plots (ggformula)
+### Overlaid density plots (ggformula)
 
-```{r, message = FALSE}
+```{r, dens2-gg, message = FALSE}
 gf_dens(~ age, data = HELPrct,
         color = ~ sex)
 ```
 
+
+</div>
 \newpage
 
-## Density plots (lattice)
+<div class = "col-md-6">
+### Density plots (lattice)
 
-```{r, message = FALSE}
+```{r, dens-lattice, message = FALSE}
 densityplot(~ age, data = HELPrct)
 ```
 
-## Overlaid density plots (lattice)
+### Overlaid density plots (lattice)
 
-```{r}
+```{r, dens2-lattice}
 densityplot(~ age, data = HELPrct,
             groups = sex,  auto.key = TRUE)
 ```
 
+</div>
+</div>
+
 \newpage
 
-## Density over histograms (ggformula)
+
+<div class = "row">
+<div class = "col-md-6">
+
+### Density over histograms (ggformula)
 
 We can use stacked layers to add a density curve based on a 
 maximum likelihood fit or a kernel density estimate (see also `gf_dist()`)
 
-```{r, message = FALSE}
+```{r, dens-hist-gg, message = FALSE}
 gf_dhistogram( ~ age, data = HELPrct, 
                alpha = 0.5) %>%
-  gf_fitdistr(color = "red",
-              dist = "dnorm") %>% # MLE 
-  gf_dens(color = "blue")       # KDE
+  gf_fitdistr(color = ~"MLE", dist = "dnorm") %>% 
+  gf_dens(color = ~"KDE")   
 ```
 
 
+</div>
 \newpage
 
-## Density over histograms (lattice)
+<div class = "col-md-6">
+
+### Density over histograms (lattice)
 
 `mosaic` makes it easy to add a fitted distribution to a histogram.
 
-```{r, message = FALSE}
+```{r, dens-hist-lattice, message = FALSE}
 histogram(~ age, data = HELPrct, 
           fit = "normal", dcol = "red")
 ```
 
+
+</div>
+</div>
+
 \newpage
 
-## Side by side box plots (ggformula)
+## Side by side box plots 
 
-```{r, message = FALSE}
+<div class = "row">
+<div class = "col-md-6">
+
+### Side by side box plots (ggformula)
+
+```{r, boxplot-gg, message = FALSE}
 gf_boxplot(age ~ sex, data = HELPrct)
 ```
 
-## Faceted side by side box plots (ggformula)
+### Faceted side by side box plots (ggformula)
 
-```{r, message = FALSE}
+```{r, boxplot-facets-gg, message = FALSE}
 gf_boxplot(age ~ sex | homeless, 
   data = HELPrct)
 ```
 
 
+</div>
 \newpage
 
-## Side by side plots (lattice)
+<div class = "col-md-6">
 
-```{r, message = FALSE}
+
+### Side by side plots (lattice)
+
+```{r, boxplot-lattice, message = FALSE}
 bwplot(age ~ sex, data = HELPrct)
 ```
 
-## Faceted side by side plots (lattice)
+### Faceted side by side plots (lattice)
 
-```{r, message = FALSE}
+```{r, boxplot-facet-lattice, message = FALSE}
 bwplot(age ~ sex | homeless, 
        data = HELPrct)
 ```
 
+
+</div>
+</div>
+
 \newpage
 
+## Scatterplots
 
-## Scatterplot (ggformula)
+<div class = "row">
+<div class = "col-md-6">
 
-```{r, message = FALSE}
+### Basic scatterplot (ggformula)
+
+```{r, scatter-gg, message = FALSE}
 gf_point(cesd ~ age, data = HELPrct)
 ```
 
 
 
-## Overlaid scatterplot with linear fit (ggformula)
+### Overlaid scatterplot with linear fit (ggformula)
 
-```{r, message = FALSE}
+```{r, scatter2-gg, message = FALSE}
 gf_point(cesd ~ age, data = HELPrct,
          color = ~ sex) %>%
   gf_lm()
 ``````
 
-\newpage 
+</div>
+\newpage
 
-## Scatterplot (lattice)
+<div class = "col-md-6">
 
-```{r, message = FALSE}
+### Basic Scatterplot (lattice)
+
+```{r, scatter-lattice, message = FALSE}
 xyplot(cesd ~ age, data = HELPrct)
 ```
 
-## Overlaid scatterplot with linear fit (lattice)
+### Overlaid scatterplot with linear fit (lattice)
 
-```{r, message = FALSE}
+```{r, scatter2-lattice, message = FALSE}
 xyplot(cesd ~ age,  data = HELPrct,
        groups = sex, 
        type = c("p", "r"), 
        auto.key = TRUE) 
 ```
 
-\newpage 
 
-## Faceted scatterplot with smooth fit (ggformula)
+</div>
+</div>
 
-```{r, message = FALSE}
+\newpage
+
+
+<div class = "row">
+<div class = "col-md-6">
+
+### Faceted scatterplot with smooth fit (ggformula)
+
+```{r, scatter3-gg, message = FALSE}
 gf_point(cesd ~ age | sex, 
          data = HELPrct) %>%
   gf_smooth(se = FALSE)
@@ -217,23 +268,26 @@ gf_point(cesd ~ age | sex,
 
 ## More options for scatterplot with linear fit (ggformula)
 
-```{r}
+```{r, scatter4-gg}
 gf_point(cesd ~ age, data = HELPrct,
          color = ~ sex) %>%
   gf_lm() %>% 
   gf_theme(legend.position = "top") %>% 
   gf_labs(title = "This is my ggformula plot", 
     x = "age (in years)", 
-    y = "CES-D measure of
-depressive symptoms")
+    y = "CES-D measure of \ndepressive symptoms")
 ```
 
 
+</div>
 \newpage
+
+<div class = "col-md-6">
+
 
 ## Faceted scatterplot with smooth fit (lattice)
 
-```{r, message = FALSE}
+```{r, scatter3-lattice, message = FALSE}
 xyplot(cesd ~ age | sex,  data = HELPrct,
        type = c("p", "smooth"), 
        auto.key = TRUE) 
@@ -244,37 +298,85 @@ xyplot(cesd ~ age | sex,  data = HELPrct,
 
 ## More options for scatterplot with linear fit (lattice)
 
-```{r, message = FALSE}
+```{r, scatter4-lattice, message = FALSE}
 xyplot(cesd ~ age, groups = sex, 
        type = c("p", "r"), 
        auto.key = TRUE, 
        main = "This is my lattice plot", 
        xlab = "age (in years)", 
-       ylab = "CES-D measure of
-depressive symptoms",
+       ylab = "CES-D measure of \ndepressive symptoms",
        data = HELPrct)
 ```
 
+</div>
+</div>
+
 \newpage
 
-## Refine graphs (ggformula)
+## Refining graphs
 
-```{r}
+<div class = "row">
+<div class = "col-md-6">
+
+### Log scales (ggformula)
+
+```{r log-scales-gg}
 gf_point(cesd ~ age, data = HELPrct) %>%
-  gf_refine(scale_x_reverse())
+  gf_refine(scale_y_log10()) 
 ```
 
+### Custom Colors (ggformula)
+
+```{r refine-gg}
+gf_dens( ~ cesd, color = ~ sex, data = HELPrct) %>%
+  gf_rug(0 ~ cesd, 
+         position = position_jitter(height = 0)) %>%
+  gf_refine(
+    scale_color_manual(values = c("navy", "red"))) 
+```
+
+</div>
 \newpage
 
-## Refine graphs (lattice)
+<div class = "col-md-6">
 
-```{r}
-xyplot(cesd ~ -age, data = HELPrct)
+### Log scales (lattice)
+
+```{r, log-scales-lattice}
+xyplot(cesd ~ age, data = HELPrct,
+       scales = list(y = list(log = TRUE)))
 ```
+
+### Custom Colors (lattice)
+
+```{r, refine-lattice}
+densityplot( ~ cesd, groups = sex, data = HELPrct, 
+             rug = FALSE,
+             par.settings = 
+               list(
+                 superpose.line = 
+                   list(col = c("navy", "red")),
+                 superpose.symbol = 
+                   list(col = c("navy", "red"))
+               )) 
+```
+</div>
+</div>
 
 ## Want to explore more?
 
 Within RStudio, after loading the `mosaic` package, try running the command `mplot(ds)` where `ds` is a dataframe.  This will open up an interactive visualizer that will output the code to generate the figure (using `lattice`, `ggplot2`, or `ggformula`) when you click on `Show Expression`. 
+
+
+## References 
+
+More information about `ggformula` can be found at https://projectmosaic/github.io/ggformula.
+
+More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at http://www.mosaic-web.org.  Further information regarding the `mosaic` package can be found at https://projectmosaic.github.io/mosaic and https://journal.r-project.org/archive/2017/RJ-2017-02.
+
+Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
+
+\vfill
 
 
 

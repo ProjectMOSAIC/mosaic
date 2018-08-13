@@ -6,7 +6,8 @@
 \usage{
 panel.plotFun(object, ..., type = "l", npts = NULL, zlab = NULL,
   filled = TRUE, levels = NULL, nlevels = 10, surface = FALSE,
-  col.regions = topo.colors, lwd = trellis.par.get("superpose.line")$lwd,
+  col.regions = topo.colors,
+  lwd = trellis.par.get("superpose.line")$lwd,
   lty = trellis.par.get("superpose.line")$lty, alpha = NULL,
   discontinuity = NULL, discontinuities = NULL)
 }

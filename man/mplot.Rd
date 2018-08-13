@@ -14,23 +14,25 @@ mplot(object, ...)
 \method{mplot}{default}(object, ...)
 
 \method{mplot}{lm}(object, which = c(1:3, 7), system = c("ggplot2",
-  "lattice", "base"), ask = FALSE, multiplot = "package:gridExtra" \%in\%
-  search(), par.settings = theme.mosaic(), level = 0.95,
+  "lattice", "base"), ask = FALSE, multiplot = "package:gridExtra"
+  \%in\% search(), par.settings = theme.mosaic(), level = 0.95,
   title = paste("model: ", deparse(object$call), "\\n"), rows = TRUE,
-  id.n = 3L, id.size = 6, id.color = "red", id.nudge = 1, ...)
+  id.n = 3L, id.size = 5, id.color = "red", id.nudge = 1,
+  add.smooth = TRUE, smooth.color = "red", smooth.alpha = 0.6,
+  smooth.size = 0.7, span = 3/4, ...)
 
 \method{mplot}{data.frame}(object, format, default = format,
-  system = c("ggformula", "ggplot2", "lattice"), show = FALSE, title = "",
-  ...)
+  system = c("ggformula", "ggplot2", "lattice"), show = FALSE,
+  title = "", ...)
 
 \method{mplot}{summary.lm}(object, system = c("ggplot2", "lattice"),
   level = 0.95, par.settings = trellis.par.get(), rows = TRUE, ...)
 
 \method{mplot}{TukeyHSD}(object, system = c("ggplot2", "lattice"),
-  ylab = "", xlab = "difference in means", title = paste0(attr(object,
-  "conf.level") * 100, "\% family-wise confidence level"),
-  par.settings = trellis.par.get(), order = c("asis", "pval", "difference"),
-  which = 1L:2L, ...)
+  ylab = "", xlab = "difference in means",
+  title = paste0(attr(object, "conf.level") * 100,
+  "\% family-wise confidence level"), par.settings = trellis.par.get(),
+  order = c("asis", "pval", "difference"), ...)
 }
 \arguments{
 \item{object}{an R object from which a plot will be constructed.}
@@ -69,6 +71,17 @@ displayed together.}
 
 \item{id.nudge}{a numeric used to increase (>1) or decrease (<1) the amount that observation labels are
 nudged.  Use a negative value to nudge down instead of up.}
+
+\item{add.smooth}{A logicial indicating whether a LOESS smooth should be added
+(where this makes sense to do).
+Currently ignored for lattice plots.}
+
+\item{smooth.color, smooth.size, smooth.alpha}{Color, size, and alpha used for
+LOESS curve.  Currently ignored for lattice plots.}
+
+\item{span}{A positive number indicating the amount of smoothing.
+A larger number indicates more smoothing. See \code{\link[stats:loess]{stats::loess()}} for details.
+Currently ignored for lattice plots.}
 
 \item{format, default}{default type of plot to create; one of
 \code{"scatter"},
@@ -109,15 +122,31 @@ relatively simple models.  When the results for a logistic regression model crea
 used to fit the model.
 }
 \examples{
-mplot( lm( width ~ length * sex, data = KidsFeet) )
-mplot( lm( width ~ length * sex, data = KidsFeet), rows = 2:3, which = 7 )
+lm( width ~ length * sex, data = KidsFeet) \%>\%
+  mplot(which = 1:3, id.n = 5)
+lm( width ~ length * sex, data = KidsFeet) \%>\%
+  mplot(smooth.color = "blue", smooth.size = 1.2, smooth.alpha = 0.3, id.size = 3)
+lm(width ~ length * sex, data = KidsFeet) \%>\%
+  mplot(rows = 2:3, which = 7)
 \dontrun{
 mplot( HELPrct )
 mplot( HELPrct, "histogram" )
 }
-mplot(summary(lm(width ~ length * sex, data = KidsFeet)), system = "ggplot2")
-mplot(summary(lm(width ~ length * sex, data = KidsFeet)), rows = c("sex", "length"))
-mplot(summary(lm(width ~ length * sex, data = KidsFeet)), rows = TRUE)
-mplot(TukeyHSD( lm(age ~ substance, data = HELPrct) ) )
-mplot(TukeyHSD( lm(age ~ substance, data = HELPrct) ), system = "ggplot2" )
+lm(width ~ length * sex, data = KidsFeet) \%>\%
+  summary() \%>\%
+  mplot()
+  
+lm(width ~ length * sex, data = KidsFeet) \%>\%
+  summary() \%>\%
+  mplot(rows = c("sex", "length"))
+  
+lm(width ~ length * sex, data = KidsFeet) \%>\%
+  summary() \%>\%
+  mplot(rows = TRUE)
+lm(age ~ substance, data = HELPrct) \%>\%
+  TukeyHSD() \%>\%
+  mplot()
+lm(age ~ substance, data = HELPrct) \%>\%
+  TukeyHSD() \%>\%
+  mplot(system = "lattice")
 }

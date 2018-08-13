@@ -13,9 +13,9 @@
 \alias{xqbeta}
 \title{Illustrated quantile calculations from distributions}
 \usage{
-qdist(dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE,
-  resolution = 500L, digits = 3L, xlim, ylim, return = c("values",
-  "plot"), refinements = list(), ...)
+qdist(dist = "norm", p, plot = TRUE, verbose = FALSE,
+  invisible = FALSE, resolution = 500L, digits = 3L, xlim, ylim,
+  return = c("values", "plot"), refinements = list(), ...)
 
 xqgamma(...)
 

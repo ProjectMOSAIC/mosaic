@@ -321,8 +321,8 @@ mid <- function(x) {
 	  gf_point((1.1 * m) ~ q, color = "transparent", data = Q, 
 	           inherit = FALSE, show.legend = FALSE) %>%
 	  gf_refine(
-	    scale_fill_brewer(type = "qual", palette = 6),
-	    scale_color_brewer(type = "qual", palette = 6)
+	    scale_fill_viridis_d(end = 0.9),
+	    scale_color_viridis_d(end = 0.9)
 	  )
 	
 	return(plot)
@@ -375,8 +375,8 @@ mid <- function(x) {
 	          show.legend = FALSE) %>%
 	  gf_segment(0 + y1 ~ x + x, data = Dtext, inherit = FALSE)  %>%
 	  gf_refine(
-	    scale_fill_brewer(type = "qual", palette = 2),
-	    scale_color_brewer(type = "qual", palette = 2)
+	    scale_fill_viridis_d(end = 0.9),
+	    scale_color_viridis_d(end = 0.9)
 	  )
 	  
 	    # gf_refine(guides(fill = guide_legend(title = ""))) %>%

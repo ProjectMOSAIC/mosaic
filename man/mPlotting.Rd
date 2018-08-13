@@ -13,13 +13,13 @@ mPlot(data, format, default = format, system = system_choices()[1],
 mMap(data, default = "map", system = "ggplot2", show = FALSE,
   title = title, data_text = expr_text(data), ...)
 
-mScatter(data, default = c("scatter", "jitter", "boxplot", "violin", "line"),
-  system = "ggformula", show = FALSE, title = "",
+mScatter(data, default = c("scatter", "jitter", "boxplot", "violin",
+  "line"), system = "ggformula", show = FALSE, title = "",
   data_text = lazyeval::expr_text(data))
 
 mUniplot(data, default = c("histogram", "density", "frequency polygon",
-  "ASH plot"), system = system_choices()[1], show = FALSE, title = "",
-  data_text = expr_text(data))
+  "ASH plot"), system = system_choices()[1], show = FALSE,
+  title = "", data_text = expr_text(data))
 }
 \arguments{
 \item{data}{a data frame containing the variables that might be used in the plot.

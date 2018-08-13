@@ -21,7 +21,7 @@ install.packages("mosaic")
 or from github with
 
 ```r
-devtools::install_github("ProjectMOSAIC/mosaic")
+devtools::install_github("ProjectMOSAIC/mosaic", build_vignettes = TRUE)
 ```
 If you want to try out our developmental code (the beta branch), use
 

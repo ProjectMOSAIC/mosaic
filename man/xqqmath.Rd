@@ -8,9 +8,10 @@
 xqqmath(x, data = NULL, panel = "panel.xqqmath", ...)
 
 panel.xqqmath(x, qqmathline = !(fitline || idline), idline = FALSE,
-  fitline = NULL, slope = NULL, intercept = NULL, overlines = FALSE,
-  groups = NULL, ..., col.line = trellis.par.get("add.line")$col,
-  pch = 16, lwd = 2, lty = 2)
+  fitline = NULL, slope = NULL, intercept = NULL,
+  overlines = FALSE, groups = NULL, ...,
+  col.line = trellis.par.get("add.line")$col, pch = 16, lwd = 2,
+  lty = 2)
 }
 \arguments{
 \item{x, data, panel, xqqmath, \dots}{as in \code{\link[lattice:qqmath]{lattice::qqmath()}}}

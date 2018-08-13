@@ -76,14 +76,27 @@ mplot.default <- function(object, ...) {
 #' @param id.n Number of id labels to display.
 #' @param id.size Size of id labels.
 #' @param id.color Color of id labels.
+#' @param add.smooth A logicial indicating whether a LOESS smooth should be added 
+#'   (where this makes sense to do).
+#'   Currently ignored for lattice plots.
+#' @param span A positive number indicating the amount of smoothing. 
+#'   A larger number indicates more smoothing. See [`stats::loess()`] for details.
+#'   Currently ignored for lattice plots.
+#' @param smooth.color,smooth.size,smooth.alpha Color, size, and alpha used for 
+#'   LOESS curve.  Currently ignored for lattice plots.
 #' @details
 #' The method for models (lm and glm) is still a work in progress, but should be usable for 
 #' relatively simple models.  When the results for a logistic regression model created with
 #' [glm()] are satisfactory will depend on the format and structure of the data
 #' used to fit the model.
 #' @examples
-#' mplot( lm( width ~ length * sex, data = KidsFeet) )
-#' mplot( lm( width ~ length * sex, data = KidsFeet), rows = 2:3, which = 7 )
+#' lm( width ~ length * sex, data = KidsFeet) %>%
+#'   mplot(which = 1:3, id.n = 5)
+#' lm( width ~ length * sex, data = KidsFeet) %>%
+#'   mplot(smooth.color = "blue", smooth.size = 1.2, smooth.alpha = 0.3, id.size = 3)
+#' lm(width ~ length * sex, data = KidsFeet) %>%
+#'   mplot(rows = 2:3, which = 7)
+#' @importFrom ggrepel geom_text_repel
 #' @export
 
 mplot.lm <- 
@@ -98,12 +111,24 @@ mplot.lm <-
     title = paste("model: ", deparse(object$call), "\n"),
     rows = TRUE,
     id.n = 3L,
-    id.size = 6,
+    id.size = 5,
     id.color = "red",
     id.nudge = 1,
-    ...){
+    add.smooth = TRUE, 
+    smooth.color = "red",
+    smooth.alpha = 0.6,
+    smooth.size = 0.7,
+    span = 3/4, 
+    ...) {
   
   system <- match.arg(system)
+  
+  geom_smooth_or_not <-  
+    if (add.smooth)
+      geom_line(stat = "smooth", method = "loess", span = span, 
+                alpha = smooth.alpha, color = smooth.color, size = smooth.size) 
+    else
+      geom_blank() 
   
   dots <- list(...)
   if ("col" %in% names(dots)) {
@@ -126,6 +151,15 @@ mplot.lm <-
     mutate(
       .row = 1L:nrow(fdata)
     )
+  
+  fdata_clean <- fdata %>% filter(!is.na(.std.resid))
+  
+  removed_idx <- which(fdata$.hat >= 1)
+  if (any(c(2, 3, 5, 6) %in% which) && length(removed_idx)) {
+    warning("Observations with leverage 1 not plotted: ", 
+            paste(removed_idx, collapse = ", "),
+            call. = FALSE)
+  }
     
 #  fdata <- cbind(fdata, row = 1:nrow(fdata))
   
@@ -145,13 +179,13 @@ mplot.lm <-
   # residuals vs fitted
   g1 <- ggplot(fdata, aes(.fitted, .resid)) +
     geom_point()  +
-    geom_smooth(se = FALSE) +
+    geom_smooth_or_not +
     geom_hline(linetype = 2, size = .2, yintercept = 0) +
-    geom_text(
+    ggrepel::geom_text_repel(
       data = fdata %>% arrange(-abs(.std.resid)) %>% head(id.n),
       aes(label = .row), 
-      nudge_y = 0.06 * id.nudge * diff(range(fdata$.resid)),
       color = id.color,
+      segment.color = id.color,
       size = id.size) + 
     scale_x_continuous("Fitted Values") +
     scale_y_continuous("Residual") +
@@ -172,28 +206,31 @@ mplot.lm <-
   )
   
   # normal qq
-  a <- quantile(fdata$.std.resid, c(0.25, 0.75))
+  # remove NAs and NaNs before computing quantiles
+  
+  a <- quantile(fdata$.std.resid, c(0.25, 0.75), na.rm = TRUE)
   b <- qnorm(c(0.25, 0.75))
   slope <- diff(a)/diff(b)
   int <- a[1] - slope * b[1]
   QN <- 
     as.data.frame(qqnorm(fdata$.std.resid, plot.it = FALSE)) %>% 
     mutate(.row = 1:nrow(fdata))
-  g2 <- ggplot(fdata, aes(sample = .std.resid)) +
+  g2 <- ggplot(fdata_clean, aes(sample = .std.resid)) +
     stat_qq() +
-    geom_abline(slope = slope, intercept = int) +
-    geom_text(inherit.aes = FALSE,
-      aes(y = y,  x = x, label = .row),
+    geom_abline(slope = slope, intercept = int, linetype = "dashed") +
+    ggrepel::geom_text_repel(
+      inherit.aes = FALSE,
       data = QN %>% arrange(-abs(y)) %>% head(id.n),
-      nudge_y = 0.06 * id.nudge * diff(range(QN$y)),
+      aes(y = y,  x = x, label = .row),
       color = id.color,
-      size = id.size) +
+      segment.color = id.color,
+      size = id.size) + 
     scale_x_continuous("Theoretical Quantiles") +
     scale_y_continuous("Standardized Residuals") +
     labs(title = "Normal Q-Q")
   
   l2 <- do.call(qqmath, 
-                c(list( ~ .std.resid, data = fdata, 
+                c(list( ~ .std.resid, data = fdata_clean, 
                         panel = function(x,...) {
                           panel.abline(a = int, b = slope)
                           panel.qqmath(x,...)
@@ -207,14 +244,14 @@ mplot.lm <-
   
   # scale-location
   
-  g3 <- ggplot(fdata, aes(.fitted, sqrt(abs(.std.resid)))) +
+  g3 <- ggplot(fdata_clean, aes(.fitted, sqrt(abs(.std.resid)))) +
     geom_point() +
-    geom_smooth(se = FALSE) +
-    geom_text(
-      data = fdata %>% arrange(-abs(.std.resid)) %>% head(id.n),
+    geom_smooth_or_not +
+    ggrepel::geom_text_repel(
+      data = fdata_clean %>% arrange(-abs(.std.resid)) %>% head(id.n),
       aes(label = .row), 
-      nudge_y = 0.06 * id.nudge * diff(range(fdata$.std.resid)),
       color = id.color,
+      segment.color = id.color,
       size = id.size) + 
     scale_x_continuous("Fitted Values") +
     scale_y_continuous(as.expression(
@@ -222,7 +259,7 @@ mplot.lm <-
     labs(title = "Scale-Location")
   
   l3 <- do.call(xyplot, 
-                c(list( sqrt(abs(.std.resid)) ~ .fitted, data = fdata,
+                c(list( sqrt(abs(.std.resid)) ~ .fitted, data = fdata_clean,
                         type = c("p","smooth"),
                         main = "Scale-Location",
                         xlab = "Fitted Value",
@@ -243,12 +280,12 @@ mplot.lm <-
     labs(title = "Cook's Distance") 
   if (id.n > 0L) {
     g4 <- g4 + 
-      geom_text(
+      ggrepel::geom_text_repel(
         data = fdata %>% arrange(-abs(.cooksd)) %>% head(id.n),
         aes(x = .row, y = .cooksd, label = .row),
-        nudge_y = 0.06 * id.nudge * diff(range(fdata$.cooksd)),
         color = id.color,
-      size = id.size) 
+        segment.color = id.color,
+        size = id.size) 
   }
   
   l4 <- do.call( xyplot,
@@ -262,22 +299,24 @@ mplot.lm <-
   )
   
   # residuals vs leverage
-  g5 <- ggplot(fdata, aes(.hat, .std.resid)) +
+  g5 <- 
+    ggplot(fdata_clean, aes(x = .hat, y = .std.resid)) +
     geom_point() +
-    geom_smooth(se = FALSE) +
-    geom_text(
-      data = fdata %>% arrange(-abs(.std.resid)) %>% head(id.n),
+    geom_smooth_or_not +
+    ggrepel::geom_text_repel(
+      data = fdata_clean %>% arrange(-abs(.std.resid)) %>% head(id.n),
       aes(label = .row), 
-      nudge_y = 0.06 * id.nudge * diff(range(fdata$.std.resid)),
       color = id.color,
+      segment.color = id.color,
       size = id.size) + 
     geom_hline(linetype = 2, size = .2, yintercept = 0) +
-    scale_x_continuous("Leverage") +
-    scale_y_continuous("Standardized Residuals") +
-    labs(title = "Residuals vs Leverage")
+    labs(title = "Residuals vs Leverage",
+         x     = "Leverage",
+         y     = "Standardized Residuals") +
+    lims(x = c(0, NA))
   
   l5 <- do.call( xyplot, 
-                 c(list( .std.resid ~ .hat, data = fdata,
+                 c(list( .std.resid ~ .hat, data = fdata_clean,
                          type = c('p','smooth'),
                          panel = function(x,y,...) {
                            panel.abline( h = 0, lty = 2, lwd = .5)
@@ -291,21 +330,21 @@ mplot.lm <-
   )
   
   # cooksd vs leverage
-  g6 <- ggplot(fdata, aes(.hat, .cooksd)) +
+  g6 <- ggplot(fdata_clean, aes(.hat, .cooksd)) +
     geom_point() +
-    geom_smooth(se = FALSE) +
-    geom_text(
-      data = fdata %>% arrange(-abs(.std.resid)) %>% head(id.n),
+    geom_smooth_or_not +
+    ggrepel::geom_text_repel(
+      data = fdata_clean %>% arrange(-abs(.std.resid)) %>% head(id.n),
       aes(label = .row), 
-      nudge_y = 0.06 * id.nudge * diff(range(fdata$.cooksd)),
       color = id.color,
+      segment.color = id.color,
       size = id.size) + 
     scale_x_continuous("Leverage") +
     scale_y_continuous("Cook's distance") +
     labs(title = "Cook's dist vs Leverage")
   
   l6 <- do.call(xyplot,
-                c(list( .cooksd ~ .hat, data = fdata,
+                c(list( .cooksd ~ .hat, data = fdata_clean,
                         type = c("p", "smooth"),
                         main = "Cook's dist vs Leverage",
                         xlab = "Leverage",
@@ -454,7 +493,9 @@ fortify.summary.glm <- function(model, data = NULL, level = 0.95, ...) {
 #' @param parm a vector of parameters
 #' @param level a confidence level
 #' @examples
-#' confint( summary(lm(width ~ length * sex, data = KidsFeet)) )
+#' lm(width ~ length * sex, data = KidsFeet) %>%
+#'   summary() %>%
+#'   confint()
 #' @export
 
 confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
@@ -481,9 +522,17 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @param rows rows to show.  This may be a numeric vector, 
 #' `TRUE` (for all rows), or a character vector of row names.
 #' @examples
-#' mplot(summary(lm(width ~ length * sex, data = KidsFeet)), system = "ggplot2")
-#' mplot(summary(lm(width ~ length * sex, data = KidsFeet)), rows = c("sex", "length"))
-#' mplot(summary(lm(width ~ length * sex, data = KidsFeet)), rows = TRUE)
+#' lm(width ~ length * sex, data = KidsFeet) %>%
+#'   summary() %>%
+#'   mplot()
+#'   
+#' lm(width ~ length * sex, data = KidsFeet) %>%
+#'   summary() %>%
+#'   mplot(rows = c("sex", "length"))
+#'   
+#' lm(width ~ length * sex, data = KidsFeet) %>%
+#'   summary() %>%
+#'   mplot(rows = TRUE)
 #' @export
  
 mplot.summary.lm <- function(object, 
@@ -563,8 +612,6 @@ mplot.summary.glm <- mplot.summary.lm
 #' @param order one of `"pval"`, `"diff"`, or `"asis"` determining the 
 #'   order of the `pair` factor, which determines the order in which the differences
 #'   are displayed on the plot.
-#' @examples
-#' fortify(TukeyHSD(lm(age ~ substance, data = HELPrct)))
 #' @export
  
 # fortify.TukeyHSD <- function(model, data, ...) {
@@ -615,8 +662,12 @@ fortify.TukeyHSD <- function(model, data, order = c("asis", "pval", "difference"
 #'   order of the `pair` factor, which determines the order in which the differences
 #'   are displayed on the plot.
 #' @examples
-#' mplot(TukeyHSD( lm(age ~ substance, data = HELPrct) ) )
-#' mplot(TukeyHSD( lm(age ~ substance, data = HELPrct) ), system = "ggplot2" )
+#' lm(age ~ substance, data = HELPrct) %>%
+#'   TukeyHSD() %>%
+#'   mplot()
+#' lm(age ~ substance, data = HELPrct) %>%
+#'   TukeyHSD() %>%
+#'   mplot(system = "lattice")
 #' @export
 
 mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"), 
@@ -624,16 +675,16 @@ mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"),
                            title = paste0(attr(object, "conf.level") * 100, "% family-wise confidence level"),
                            par.settings = trellis.par.get(),
                            order = c("asis", "pval", "difference"),
-                           which = 1L:2L,
+                           # which = 1L:2L,
                            ...) {
   system <- match.arg(system)
   order <- match.arg(order) 
   fdata <- fortify(object, order = order)
  
-  res <- list()
+  # res <- list()
   
   if (system == "ggplot2") {
-    if (1 %in% which) {
+    # if (1 %in% which) {
       p1 <-
         ggplot( data = fdata,
                 aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
@@ -642,39 +693,38 @@ mplot.TukeyHSD <- function(object, system = c("ggplot2", "lattice"),
         geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
         facet_grid( var ~ ., scales = "free_y") +
         labs(x = xlab, y = ylab, title = title) 
-      res <- c(res, p1)
-    }
-    if (2 %in% which) {
-      p2 <- 
-        ggplot( data = fdata,
-                aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
-        geom_point(size = 2) +
-        geom_segment(aes(x = lwr, xend = upr, y = pair, yend = pair) ) +
-        geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
-        facet_grid( var ~ ., scales = "free_y") +
-        labs(x = xlab, y = ylab, title = title) 
-      res <- c(res, p2)
-    }
+    #   res <- c(res, list(p1))
+    # }
+    # if (2 %in% which) {
+    #   p2 <- 
+    #     ggplot( data = fdata,
+    #             aes(x = diff, color = log10(pval), y = factor(pair, levels = rev(levels(pair)))) ) +
+    #     geom_point(size = 2) +
+    #     geom_segment(aes(x = lwr, xend = upr, y = pair, yend = pair) ) +
+    #     geom_vline( xintercept = 0, color = "red", linetype = 2, alpha = .5 ) + 
+    #     facet_grid( var ~ ., scales = "free_y") +
+    #     labs(x = xlab, y = ylab, title = title) 
+    #   res <- c(res, list(p2))
+    # }
+  return(p1)
   }
 
   cols <- par.settings$superpose.line$col[1 + 
             as.numeric( sign(fdata$lwr) * sign(fdata$upr) < 0)]
-    
-  return( 
-    xyplot( factor(pair, levels = rev(levels(pair))) ~ diff + lwr + upr | var, data = fdata, 
-            panel = function(x,y,subscripts,...) {
-              n <- length(x)
-              m <- round(n/3)
-              panel.abline(v = 0, col = "red", lty = 2, alpha = .5)
-              panel.segments(x0 = x[(m+1):(2*m)], x1 = x[(2*m+1):(3*m)], y0 = y, y1 = y, col = cols[subscripts])
-              panel.xyplot(x[1:m], y, cex = 1.4, pch = 16, col = cols[subscripts])
-            },
-            scales = list( y = list(relation = "free", rot = 30) ),
-            xlab = xlab,
-            ylab = ylab,
-            main = title,
-            ...
-    )
+  
+  xyplot( factor(pair, levels = rev(levels(pair))) ~ diff + lwr + upr | var, data = fdata, 
+          panel = function(x,y,subscripts,...) {
+            n <- length(x)
+            m <- round(n/3)
+            panel.abline(v = 0, col = "red", lty = 2, alpha = .5)
+            panel.segments(x0 = x[(m+1):(2*m)], x1 = x[(2*m+1):(3*m)], y0 = y, y1 = y, col = cols[subscripts])
+            panel.xyplot(x[1:m], y, cex = 1.4, pch = 16, col = cols[subscripts])
+          },
+          scales = list( y = list(relation = "free", rot = 30) ),
+          xlab = xlab,
+          ylab = ylab,
+          main = title,
+          ...
   )
 }
 

@@ -5,9 +5,11 @@
 \alias{SAD}
 \title{All pairs mean and sum of absolute differences}
 \usage{
-MAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
+MAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 
-SAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
+SAD(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
+  FALSE))
 }
 \arguments{
 \item{x}{a numeric vector or a formula.}

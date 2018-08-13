@@ -6,8 +6,8 @@
 \usage{
 plotDist(dist, ..., xlim = NULL, ylim = NULL, add, under = FALSE,
   packets = NULL, rows = NULL, columns = NULL, kind = c("density",
-  "cdf", "qq", "histogram"), xlab = "", ylab = "", breaks = NULL, type,
-  resolution = 5000L, params = NULL)
+  "cdf", "qq", "histogram"), xlab = "", ylab = "", breaks = NULL,
+  type, resolution = 5000L, params = NULL)
 }
 \arguments{
 \item{dist}{A string identifying the distribution.  This should work

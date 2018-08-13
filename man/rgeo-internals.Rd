@@ -7,8 +7,8 @@
 \title{rgeo internal functions}
 \usage{
 .googleMapURL(latitude, longitude, position = NULL, zoom = 11,
-  maptype = c("roadmap", "satellite", "terrain", "hybrid"), mark = FALSE,
-  radius = 0)
+  maptype = c("roadmap", "satellite", "terrain", "hybrid"),
+  mark = FALSE, radius = 0)
 
 .googleMapURL2(latitude, longitude, position = NULL, zoom = 12,
   width = 600, height = 400, maptype = c("roadmap", "satellite",

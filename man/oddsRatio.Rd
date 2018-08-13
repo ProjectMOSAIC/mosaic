@@ -10,8 +10,8 @@
 \alias{summary.relrisk}
 \title{Odds Ratio and Relative Risk for 2 x 2 Contingency Tables}
 \usage{
-orrr(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE, digits = 3,
-  relrisk = FALSE)
+orrr(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
+  digits = 3, relrisk = FALSE)
 
 oddsRatio(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
   digits = 3)
@@ -28,7 +28,7 @@ relrisk(x, conf.level = 0.95, verbose = !quiet, quiet = TRUE,
 \method{summary}{relrisk}(object, digits = 4, ...)
 }
 \arguments{
-\item{x}{a 2 X 2 matrix, data frame or table of counts}
+\item{x}{a 2 x 2 matrix, data frame, or table of counts}
 
 \item{conf.level}{the confidence interval level}
 
@@ -70,11 +70,11 @@ rownames(M2) <- c("Placebo", "Aspirin")
 colnames(M2) <- c("No", "Yes")
 M2
 oddsRatio(M2)
-oddsRatio(M2, verbose=TRUE)
-relrisk(M2, verbose=TRUE)
+oddsRatio(M2, verbose = TRUE)
+relrisk(M2, verbose = TRUE)
 if (require(mosaicData)) {
-relrisk(tally(~ homeless + sex, data=HELPrct) )
-do(3) * relrisk( tally( ~ homeless + shuffle(sex), data=HELPrct) )
+relrisk(tally(~ homeless + sex, data = HELPrct) )
+do(3) * relrisk( tally( ~ homeless + shuffle(sex), data = HELPrct) )
 }
 }
 \seealso{

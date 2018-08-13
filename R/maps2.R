@@ -292,18 +292,22 @@ mUSMap <- function(data = NULL, key, fill = NULL,
 #' sets.
 #' 
 #' @examples
+#' \dontrun{
 #' head(CIAdata())
 #' Population <- CIAdata("pop")
 #' nrow(Population)
 #' head(Population)
 #' 
-#' PopArea <- CIAdata(c("pop","area")) %>% mutate(density = pop / area)
+#' PopArea <- 
+#'   CIAdata(c("pop","area")) %>% 
+#'   mutate(density = pop / area)
 #' nrow(PopArea)
 #' head(PopArea)
 #' PopArea %>% 
 #'   filter(!is.na(density)) %>%
 #'   arrange(density) %>% 
-#'   tail
+#'   tail()
+#' }
 #' @export
 CIAdata <- function (name = NULL) {
   
