@@ -68,7 +68,7 @@ backtransformed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0.9001</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.0</span>
       </span>
     </div>
 
@@ -166,7 +166,7 @@ backtransformed.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a 2 X 2 matrix, data frame or table of counts</p></td>
+      <td><p>a 2 x 2 matrix, data frame, or table of counts</p></td>
     </tr>
     <tr>
       <th>conf.level</th>
@@ -220,7 +220,7 @@ more details and the confidence intervals are displayed.</p>
 <span class='fu'>colnames</span>(<span class='no'>M2</span>) <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"No"</span>, <span class='st'>"Yes"</span>)
 <span class='no'>M2</span></div><div class='output co'>#&gt;            No  Yes
 #&gt; Placebo 18515 1427
-#&gt; Aspirin 18496 1438</div><div class='input'><span class='fu'>oddsRatio</span>(<span class='no'>M2</span>)</div><div class='output co'>#&gt; [1] 0.9913321</div><div class='input'><span class='fu'>oddsRatio</span>(<span class='no'>M2</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt; Aspirin 18496 1438</div><div class='input'><span class='fu'>oddsRatio</span>(<span class='no'>M2</span>)</div><div class='output co'>#&gt; [1] 0.9913321</div><div class='input'><span class='fu'>oddsRatio</span>(<span class='no'>M2</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt; Odds Ratio
 #&gt; 
 #&gt; Proportions
@@ -236,7 +236,7 @@ more details and the confidence intervals are displayed.</p>
 #&gt; 95 percent confidence interval:
 #&gt; 	 0.9939 &lt; RR &lt; 1.005 
 #&gt; 	 0.9188 &lt; OR &lt; 1.07 
-#&gt; NULL</div><div class='output co'>#&gt; [1] 0.9913321</div><div class='input'><span class='fu'>relrisk</span>(<span class='no'>M2</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+#&gt; NULL</div><div class='output co'>#&gt; [1] 0.9913321</div><div class='input'><span class='fu'>relrisk</span>(<span class='no'>M2</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt; Odds Ratio
 #&gt; 
 #&gt; Proportions
@@ -253,8 +253,8 @@ more details and the confidence intervals are displayed.</p>
 #&gt; 	 0.9939 &lt; RR &lt; 1.005 
 #&gt; 	 0.9188 &lt; OR &lt; 1.07 
 #&gt; NULL</div><div class='output co'>#&gt; [1] 0.9993747</div><div class='input'><span class='kw'>if</span> (<span class='fu'>require</span>(<span class='no'>mosaicData</span>)) {
-<span class='fu'>relrisk</span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>(~ <span class='no'>homeless</span> + <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>) )
-<span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>relrisk</span>( <span class='fu'><a href='http://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>( ~ <span class='no'>homeless</span> + <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>) )
+<span class='fu'>relrisk</span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>(~ <span class='no'>homeless</span> + <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>) )
+<span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>relrisk</span>( <span class='fu'><a href='http://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>( ~ <span class='no'>homeless</span> + <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>) )
 }</div><div class='output co'>#&gt;         RR
 #&gt; 1 1.135870
 #&gt; 2 1.135870

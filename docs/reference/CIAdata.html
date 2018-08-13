@@ -65,7 +65,7 @@ will return the corresponding dataset." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0.9001</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.0</span>
       </span>
     </div>
 
@@ -149,35 +149,22 @@ sets.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>head</span>(<span class='fu'>CIAdata</span>())</div><div class='output co'>#&gt;             Category                  Field   Name Code                 Unit
-#&gt; 1          Geography                   Area   area 2147                sq km
-#&gt; 2 People and Society             Population    pop 2119               people
-#&gt; 3 People and Society Population growth rate growth 2002                    %
-#&gt; 4 People and Society             Birth rate  birth 2054   births/1000 people
-#&gt; 5 People and Society             Death rate  death 2066   deaths/1000 people
-#&gt; 6 People and Society     Net migration rate   migr 2112 migrants/1000 people</div><div class='input'><span class='no'>Population</span> <span class='kw'>&lt;-</span> <span class='fu'>CIAdata</span>(<span class='st'>"pop"</span>)</div><div class='output co'>#&gt; <span class='message'>Retrieving data from https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_2119.txt</span></div><div class='output co'>#&gt; <span class='message'>Loading required namespace: RCurl</span></div><div class='input'><span class='fu'>nrow</span>(<span class='no'>Population</span>)</div><div class='output co'>#&gt; [1] 237</div><div class='input'><span class='fu'>head</span>(<span class='no'>Population</span>)</div><div class='output co'>#&gt;         country        pop
-#&gt; 1         China 1379302771
-#&gt; 2         India 1281935911
-#&gt; 3 United States  326625791
-#&gt; 4     Indonesia  260580739
-#&gt; 5        Brazil  207353391
-#&gt; 6      Pakistan  204924861</div><div class='input'>
-<span class='no'>PopArea</span> <span class='kw'>&lt;-</span> <span class='fu'>CIAdata</span>(<span class='fu'>c</span>(<span class='st'>"pop"</span>,<span class='st'>"area"</span>)) <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>density</span> <span class='kw'>=</span> <span class='no'>pop</span> / <span class='no'>area</span>)</div><div class='output co'>#&gt; <span class='message'>Retrieving data from https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_2119.txt</span></div><div class='output co'>#&gt; <span class='message'>Retrieving data from https://www.cia.gov/library/publications/the-world-factbook/rankorder/rawdata_2147.txt</span></div><div class='input'><span class='fu'>nrow</span>(<span class='no'>PopArea</span>)</div><div class='output co'>#&gt; [1] 254</div><div class='input'><span class='fu'>head</span>(<span class='no'>PopArea</span>)</div><div class='output co'>#&gt;          country      pop    area   density
-#&gt; 1    Afghanistan 34124811  652230  52.32021
-#&gt; 2       Akrotiri       NA     123        NA
-#&gt; 3        Albania  3047987   28748 106.02431
-#&gt; 4        Algeria 40969443 2381741  17.20147
-#&gt; 5 American Samoa    51504     199 258.81407
-#&gt; 6        Andorra    85702     468 183.12393</div><div class='input'><span class='no'>PopArea</span> <span class='kw'>%&gt;%</span>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>head</span>(<span class='fu'>CIAdata</span>())
+<span class='no'>Population</span> <span class='kw'>&lt;-</span> <span class='fu'>CIAdata</span>(<span class='st'>"pop"</span>)
+<span class='fu'>nrow</span>(<span class='no'>Population</span>)
+<span class='fu'>head</span>(<span class='no'>Population</span>)
+
+<span class='no'>PopArea</span> <span class='kw'>&lt;-</span>
+  <span class='fu'>CIAdata</span>(<span class='fu'>c</span>(<span class='st'>"pop"</span>,<span class='st'>"area"</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span>(<span class='kw'>density</span> <span class='kw'>=</span> <span class='no'>pop</span> / <span class='no'>area</span>)
+<span class='fu'>nrow</span>(<span class='no'>PopArea</span>)
+<span class='fu'>head</span>(<span class='no'>PopArea</span>)
+<span class='no'>PopArea</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>filter</span>(!<span class='fu'>is.na</span>(<span class='no'>density</span>)) <span class='kw'>%&gt;%</span>
   <span class='fu'>arrange</span>(<span class='no'>density</span>) <span class='kw'>%&gt;%</span>
-  <span class='no'>tail</span></div><div class='output co'>#&gt;                     country     pop area   density
-#&gt; 232              Gaza Strip 1795183  360  4986.619
-#&gt; 233               Hong Kong 7191503 1108  6490.526
-#&gt; 234               Singapore 5888926  697  8448.961
-#&gt; 235                  Monaco   30645    2 15322.500
-#&gt; 236                   Macau  601969   28 21498.893
-#&gt; 237 Holy See (Vatican City)    1000    0       Inf</div></pre>
+  <span class='fu'>tail</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.3.0.9001</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.4.0</span>
       </span>
     </div>
 
@@ -116,16 +116,36 @@
       <small>Source: <a href='https://github.com/ProjectMOSAIC/mosaic/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="mosaic-1-4" class="section level1">
+<h1 class="page-header">
+<a href="#mosaic-1-4" class="anchor"></a>mosaic 1.4<small> Unreleased </small>
+</h1>
+<ul>
+<li>Bug fix: <code><a href="../reference/mplot.html">mplot.lm()</a></code> now removed points with leverage 1 to avoid errors and warnings; a warning messaes notifies which points have been removed.</li>
+<li>Bug fix: <code>TukeyHSD()</code> now correctly follows <code>system = "gg"</code>
+</li>
+<li>
+<code><a href="../reference/mplot.html">mplot.lm()</a></code> now uses <code>ggrapel</code> to place labels and offers additional controls for the smooth curve that is overlaid. [gg version of plots only]</li>
+<li>viridis color palette used in some plots to improve readability for color-blind viewers.</li>
+<li>
+<code><a href="../reference/oddsRatio.html">orrr()</a></code>, <code><a href="../reference/oddsRatio.html">oddsRatio()</a></code>, and <code><a href="../reference/oddsRatio.html">relrisk()</a></code> now accept a 2x2 data frame to match claims in documentation.</li>
+<li>Support added for <code><a href="../reference/aggregating.html">cor(~y, ~x)</a></code>
+</li>
+<li>New website: <a href="http://projectmosaic.github.io/mosaic/" class="uri">http://projectmosaic.github.io/mosaic/</a>
+</li>
+</ul>
+</div>
     <div id="mosaic-1-3" class="section level1">
 <h1 class="page-header">
 <a href="#mosaic-1-3" class="anchor"></a>mosaic 1.3<small> Unreleased </small>
 </h1>
 <ul>
 <li>Bug fix in <code><a href="../reference/prop.test.html">prop.test()</a></code> so it handles <code>success</code> argument properly for 2-way tables.</li>
-<li>Support added for <code><a href="../reference/aggregating.html">cor(~y, ~x)</a></code>
-</li>
-<li>New website: <a href="http://projectmosaic.github.io/mosaic/" class="uri">http://projectmosaic.github.io/mosaic/</a>
-</li>
+<li>Updated template documents now use <code>ggformula</code>.</li>
+<li>
+<code>which</code> argument added to <code><a href="../reference/mplot.html">mplot.TukeyHSD()</a></code>.</li>
+<li>Updated vignettes to reflect new or updated resources and to use <code>ggformula</code>.</li>
+<li>Some changes implemented to make <code>mosaic</code> compatible with <code>ggplot2</code> version 3.0.</li>
 </ul>
 </div>
     <div id="mosaic-1-2" class="section level1">
@@ -476,6 +496,7 @@ It was deprecated in version 0.5. Use <code>HELPrct</code> instead.</li>
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#mosaic-1-4">1.4</a></li>
         <li><a href="#mosaic-1-3">1.3</a></li>
         <li><a href="#mosaic-1-2">1.2</a></li>
         <li><a href="#mosaic-1-1">1.1</a></li>
