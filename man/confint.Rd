@@ -84,7 +84,7 @@ at attempt is made to determine an appropriate value, but this should be double 
 In particular, missing data an lead to unreliable results.
 }
 The bootstrap-t confidence interval is computed much like the reverse confidence interval
-but the bootstrap t distribution is used in place of a theoretical t distribuiton.
+but the bootstrap t distribution is used in place of a theoretical t distribution.
 This interval has much better properties than the reverse (or basic) method, which
 is here for comparison purposes only and is not recommended.
 }
