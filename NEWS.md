@@ -1,5 +1,5 @@
 
-# mosaic 1.4
+# mosaic 1.4.0
 
  * Bug fix: `mplot.lm()` now removed points with leverage 1 to avoid errors and warnings; a 
    warning messaes notifies which points have been removed.
@@ -12,7 +12,7 @@
  * Support added for `cor(~y, ~x)`
  * New website: http://projectmosaic.github.io/mosaic/
    
-# mosaic 1.3
+# mosaic 1.3.0
 
  * Bug fix in `prop.test()` so it handles `success` argument properly for 2-way tables.
  * Updated template documents now use `ggformula`.
@@ -20,7 +20,7 @@
  * Updated vignettes to reflect new or updated resources and to use `ggformula`.
  * Some changes implemented to make `mosaic` compatible with `ggplot2` version 3.0.
  
-# mosaic 1.2
+# mosaic 1.2.0
 
  * A few more plots now default to using `ggplot2` rather than `lattice` by default.
  * Some long deprecated functions are now defunct.
@@ -28,7 +28,7 @@
  * several functions have been moved to `mosaicCore`
  * A number of bug fixes and behavior enhancements.
 
-# mosaic 1.1
+# mosaic 1.1.0
 
  * A few more things have moved to `mosaicCore`.
  * Two of the vignettes have been moved out of the package to reduce CRAN size.
@@ -36,7 +36,7 @@
  * Improvements to `mplot()` on linear models when system = `"gg"`.
  * Work-around added to avoid the old work-around no longer needed due to the updated `formals()`.
  
-# mosaic 1.0
+# mosaic 1.0.0
 
  * `xpnorm()` and friends now use `ggplot2` and can return the plot object, if requested.
  * `t.test()` has been completely reimplemented.  It no longer supports "bare variable mode",
