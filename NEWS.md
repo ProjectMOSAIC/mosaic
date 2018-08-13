@@ -1,5 +1,5 @@
 
-# mosaic 1.4
+# mosaic 1.4.0
 
  * Bug fix: `mplot.lm()` now removed points with leverage 1 to avoid errors and warnings; a 
    warning messaes notifies which points have been removed.
@@ -12,7 +12,7 @@
  * Support added for `cor(~y, ~x)`
  * New website: http://projectmosaic.github.io/mosaic/
    
-# mosaic 1.3
+# mosaic 1.3.0
 
  * Bug fix in `prop.test()` so it handles `success` argument properly for 2-way tables.
  * Updated template documents now use `ggformula`.
@@ -20,7 +20,7 @@
  * Updated vignettes to reflect new or updated resources and to use `ggformula`.
  * Some changes implemented to make `mosaic` compatible with `ggplot2` version 3.0.
  
-# mosaic 1.2
+# mosaic 1.2.0
 
  * A few more plots now default to using `ggplot2` rather than `lattice` by default.
  * Some long deprecated functions are now defunct.
@@ -28,7 +28,7 @@
  * several functions have been moved to `mosaicCore`
  * A number of bug fixes and behavior enhancements.
 
-# mosaic 1.1
+# mosaic 1.1.0
 
  * A few more things have moved to `mosaicCore`.
  * Two of the vignettes have been moved out of the package to reduce CRAN size.
@@ -36,7 +36,7 @@
  * Improvements to `mplot()` on linear models when system = `"gg"`.
  * Work-around added to avoid the old work-around no longer needed due to the updated `formals()`.
  
-# mosaic 1.0
+# mosaic 1.0.0
 
  * `xpnorm()` and friends now use `ggplot2` and can return the plot object, if requested.
  * `t.test()` has been completely reimplemented.  It no longer supports "bare variable mode",
@@ -80,7 +80,7 @@
  * Bug fix that caused `prop(a ~ b)` to compute joint rather than conditional proportions.
  * add stat and geom for spline smoothing
  
-# mosaic 0.14
+# mosaic 0.14.0
 
  * Aggregating functions (`favstats()`, `mean()`, `sd()`, etc.) now require that the 
  first argument be a formula.  This
@@ -108,7 +108,7 @@ favstats( ~ age, data = HELPrct)
  * `makeMap()` updated to work with new version of `ggplot2`.
  
  
-# mosaic 0.13
+# mosaic 0.13.0
 
  * Arguments to `cdata()`, `ddata()`, `pdata()`, `qdata()` and `rdata()` have been reordered 
  so that the formula comes first.
@@ -116,7 +116,7 @@ favstats( ~ age, data = HELPrct)
  * Bug fix in `dfapply()`, also default value for `select` changed to `TRUE`.
  * Introduce `inspect()`, which is primarily intended to give an over view of the variables in a data frame, but handles some additional objects as well.
   
-# mosaic 0.12
+# mosaic 0.12.0
 
  * Aggregating functions now generate user friendly errors when the `data` argument is not an environment or data frame.
  * We have fixed some bugs that arose in the "emergency" release of 0.11
@@ -127,7 +127,7 @@ favstats( ~ age, data = HELPrct)
  * Dots in `dotPlot()` are now the same size in all panels of multi-panel plots.
  * `cdist()` has been rewritten.
  * 
-# mosaic 0.11
+# mosaic 0.11.0
 
  * `mplot()` on a data frame now (a) prompts the user for the type of plot to create and (b) has an added option to make line plots for time series and the like.
  * `resample()` can now do residual resampling from a linear model.
@@ -141,7 +141,7 @@ favstats( ~ age, data = HELPrct)
  
  
 
-# mosaic 0.10
+# mosaic 0.10.0
 
  * At the request of several users, and with CRAN's approval, we have made 
  `mosaicData` a dependency of `mosaic`.  This avoids the problem of users 
@@ -211,7 +211,7 @@ Use their `summary()` methods or `verbose=TRUE` to see more information
 (including confidence intervals).
  * Added `Birthdays` data set.
 
-# mosaic 0.9
+# mosaic 0.9.0
 
  * A generic `mplot()` and several instances have been
   added to make a number of plots easy to generate.  There are methods 
@@ -248,7 +248,7 @@ by extension.
  * introduction of `derivedFactor()` for creating factors
   from logical "cases".
 
-# mosaic 0.8
+# mosaic 0.8.0
 
  * The `HELP` data set has been removed from the package.  
 It was deprecated in version 0.5.  Use `HELPrct` instead.
@@ -305,7 +305,7 @@ as counts of heads and tails.
  * removed the deprecated HELP dataset (now called HELPrct)
  * Various minor bug fixes and internal improvements. 
 
-# mosaic 0.7
+# mosaic 0.7.0
 
  * Various improvements and bug fixes to `D()` and `antiD()`.
  * In RStudio, `mPlot()` provides an interactive environment for
@@ -326,7 +326,7 @@ as counts of heads and tails.
  * Plan to deprecate datasets from the Carnegie Melon University Online Learning Initiative Statistics Modules in next release.
  * `xhistogram()` is now deprecated.  Use `histogram()` instead.
 
-# mosaic 0.6
+# mosaic 0.6.0
 
  * Added vignette: Minimal R for Intro Stats.
  * Implemented symbolic integration for simple functions.
@@ -343,7 +343,7 @@ as counts of heads and tails.
  * Modified names of data frame produced by `do()` so that hyphens ('-') are turned into dots ('.')
  * Improvements to `fetchData()`.
 
-# mosaic 0.5
+# mosaic 0.5.0
 
 We are still in beta, but we hope things are beginning to stabilize as we settle on 
 syntax and coding idioms for the package.  Here are some of the key updates since 0.4:
@@ -366,7 +366,7 @@ syntax and coding idioms for the package.  Here are some of the key updates sinc
 						Each of these returns the model fit as a function.
  * improvements to the vignettes.
 
-# mosaic 0.4
+# mosaic 0.4.0
 
  * renamed mtable() to tally(), added new functionality
  * reimplemented D() and antiD()
