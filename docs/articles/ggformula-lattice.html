@@ -85,7 +85,7 @@
       <h1>ggformula/lattice Comparison</h1>
                         <h4 class="author">Nicholas Horton (<a href="mailto:nhorton@amherst.edu">nhorton@amherst.edu</a>)</h4>
             
-            <h4 class="date">2018-08-13</h4>
+            <h4 class="date">2018-08-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/master/vignettes/ggformula-lattice.Rmd"><code>vignettes/ggformula-lattice.Rmd</code></a></small>
       <div class="hidden name"><code>ggformula-lattice.Rmd</code></div>
@@ -106,22 +106,21 @@
 <div class="row">
 <div class="col-md-6">
 <h3 id="histograms-ggformula">Histograms (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)   <span class="co"># also loads ggformula </span>
-<span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(mosaic)   <span class="co"># also loads ggformula </span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/hist-gg-1.png" width="700"></p>
 <h3 id="histogram-options-ggformula">Histogram options (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
-             <span class="dt">binwidth =</span> <span class="dv">5</span>) </code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">gf_histogram</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">             <span class="dt">binwidth =</span> <span class="dv">5</span>) </a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/hist-opt-gg-1.png" width="700"></p>
 </div>
-
 <div class="col-md-6">
 <h3 id="histograms-lattice">Histograms (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)     <span class="co"># also loads lattice</span>
-<span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(mosaic)     <span class="co"># also loads lattice</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/hist-lattice-1.png" width="700"></p>
 <h3 id="histogram-options-lattice">Histogram options (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">width =</span> <span class="dv">5</span>, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">width =</span> <span class="dv">5</span>, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/hist-opt-lattice-1.png" width="700"></p>
 </div>
 </div>
@@ -133,21 +132,20 @@
 <div class="row">
 <div class="col-md-6">
 <h3 id="density-plots-ggformula">Density plots (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/dens-gg-1.png" width="700"></p>
 <h3 id="overlaid-density-plots-ggformula">Overlaid density plots (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
-        <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">gf_dens</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">        <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/dens2-gg-1.png" width="700"></p>
 </div>
-
 <div class="col-md-6">
 <h3 id="density-plots-lattice">Density plots (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/dens-lattice-1.png" width="700"></p>
 <h3 id="overlaid-density-plots-lattice">Overlaid density plots (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
-            <span class="dt">groups =</span> sex,  <span class="dt">auto.key =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">densityplot</span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">            <span class="dt">groups =</span> sex,  <span class="dt">auto.key =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/dens2-lattice-1.png" width="700"></p>
 </div>
 </div>
@@ -156,18 +154,17 @@
 <div class="col-md-6">
 <h3 id="density-over-histograms-ggformula">Density over histograms (ggformula)</h3>
 <p>We can use stacked layers to add a density curve based on a maximum likelihood fit or a kernel density estimate (see also <code>gf_dist()</code>)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dhistogram</span>( <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct, 
-               <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_fitdistr</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"MLE"</span>, <span class="dt">dist =</span> <span class="st">"dnorm"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gf_dens</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"KDE"</span>)   </code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">gf_dhistogram</span>( <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct, </a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">               <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw">gf_fitdistr</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"MLE"</span>, <span class="dt">dist =</span> <span class="st">"dnorm"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw">gf_dens</span>(<span class="dt">color =</span> <span class="op">~</span><span class="st">"KDE"</span>)   </a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/dens-hist-gg-1.png" width="700"></p>
 </div>
-
 <div class="col-md-6">
 <h3 id="density-over-histograms-lattice">Density over histograms (lattice)</h3>
 <p><code>mosaic</code> makes it easy to add a fitted distribution to a histogram.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct, 
-          <span class="dt">fit =</span> <span class="st">"normal"</span>, <span class="dt">dcol =</span> <span class="st">"red"</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/xhistogram.html">histogram</a></span>(<span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct, </a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">          <span class="dt">fit =</span> <span class="st">"normal"</span>, <span class="dt">dcol =</span> <span class="st">"red"</span>)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/dens-hist-lattice-1.png" width="700"></p>
 </div>
 </div>
@@ -179,21 +176,20 @@
 <div class="row">
 <div class="col-md-6">
 <h3 id="side-by-side-box-plots-ggformula">Side by side box plots (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/boxplot-gg-1.png" width="700"></p>
 <h3 id="faceted-side-by-side-box-plots-ggformula">Faceted side by side box plots (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, 
-  <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">gf_boxplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, </a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/boxplot-facets-gg-1.png" width="700"></p>
 </div>
-
 <div class="col-md-6">
 <h3 id="side-by-side-plots-lattice">Side by side plots (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/boxplot-lattice-1.png" width="700"></p>
 <h3 id="faceted-side-by-side-plots-lattice">Faceted side by side plots (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, 
-       <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">bwplot</span>(age <span class="op">~</span><span class="st"> </span>sex <span class="op">|</span><span class="st"> </span>homeless, </a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">       <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/boxplot-facet-lattice-1.png" width="700"></p>
 </div>
 </div>
@@ -205,24 +201,23 @@
 <div class="row">
 <div class="col-md-6">
 <h3 id="basic-scatterplot-ggformula">Basic scatterplot (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter-gg-1.png" width="700"></p>
 <h3 id="overlaid-scatterplot-with-linear-fit-ggformula">Overlaid scatterplot with linear fit (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
-         <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_lm</span>()</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">         <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw">gf_lm</span>()</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter2-gg-1.png" width="700"></p>
 </div>
-
 <div class="col-md-6">
 <h3 id="basic-scatterplot-lattice">Basic Scatterplot (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter-lattice-1.png" width="700"></p>
 <h3 id="overlaid-scatterplot-with-linear-fit-lattice">Overlaid scatterplot with linear fit (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age,  <span class="dt">data =</span> HELPrct,
-       <span class="dt">groups =</span> sex, 
-       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), 
-       <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age,  <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">       <span class="dt">groups =</span> sex, </a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), </a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">       <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter2-lattice-1.png" width="700"></p>
 </div>
 </div>
@@ -230,35 +225,34 @@
 <div class="row">
 <div class="col-md-6">
 <h3 id="faceted-scatterplot-with-smooth-fit-ggformula">Faceted scatterplot with smooth fit (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex, 
-         <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex, </a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">         <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">  </span><span class="kw">gf_smooth</span>(<span class="dt">se =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter3-gg-1.png" width="700"></p>
 <h2 id="more-options-for-scatterplot-with-linear-fit-ggformula">More options for scatterplot with linear fit (ggformula)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
-         <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_lm</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gf_theme</span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">gf_labs</span>(<span class="dt">title =</span> <span class="st">"This is my ggformula plot"</span>, 
-    <span class="dt">x =</span> <span class="st">"age (in years)"</span>, 
-    <span class="dt">y =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">         <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw">gf_lm</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">  </span><span class="kw">gf_theme</span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="st">  </span><span class="kw">gf_labs</span>(<span class="dt">title =</span> <span class="st">"This is my ggformula plot"</span>, </a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">    <span class="dt">x =</span> <span class="st">"age (in years)"</span>, </a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">    <span class="dt">y =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter4-gg-1.png" width="700"></p>
 </div>
-
 <div class="col-md-6">
 <h2 id="faceted-scatterplot-with-smooth-fit-lattice">Faceted scatterplot with smooth fit (lattice)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex,  <span class="dt">data =</span> HELPrct,
-       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"smooth"</span>), 
-       <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age <span class="op">|</span><span class="st"> </span>sex,  <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"smooth"</span>), </a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">       <span class="dt">auto.key =</span> <span class="ot">TRUE</span>) </a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter3-lattice-1.png" width="700"></p>
 <h2 id="more-options-for-scatterplot-with-linear-fit-lattice">More options for scatterplot with linear fit (lattice)</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">groups =</span> sex, 
-       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), 
-       <span class="dt">auto.key =</span> <span class="ot">TRUE</span>, 
-       <span class="dt">main =</span> <span class="st">"This is my lattice plot"</span>, 
-       <span class="dt">xlab =</span> <span class="st">"age (in years)"</span>, 
-       <span class="dt">ylab =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>,
-       <span class="dt">data =</span> HELPrct)</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">groups =</span> sex, </a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"p"</span>, <span class="st">"r"</span>), </a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">       <span class="dt">auto.key =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">       <span class="dt">main =</span> <span class="st">"This is my lattice plot"</span>, </a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">       <span class="dt">xlab =</span> <span class="st">"age (in years)"</span>, </a>
+<a class="sourceLine" id="cb22-6" data-line-number="6">       <span class="dt">ylab =</span> <span class="st">"CES-D measure of </span><span class="ch">\n</span><span class="st">depressive symptoms"</span>,</a>
+<a class="sourceLine" id="cb22-7" data-line-number="7">       <span class="dt">data =</span> HELPrct)</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter4-lattice-1.png" width="700"></p>
 </div>
 </div>
@@ -270,33 +264,32 @@
 <div class="row">
 <div class="col-md-6">
 <h3 id="log-scales-ggformula">Log scales (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_refine</span>(<span class="kw">scale_y_log10</span>()) </code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">gf_point</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">gf_refine</span>(<span class="kw">scale_y_log10</span>()) </a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/log-scales-gg-1.png" width="700"></p>
 <h3 id="custom-colors-ggformula">Custom Colors (ggformula)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gf_dens</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_rug</span>(<span class="dv">0</span> <span class="op">~</span><span class="st"> </span>cesd, 
-         <span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">height =</span> <span class="dv">0</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gf_refine</span>(
-    <span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))) </code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">gf_dens</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">color =</span> <span class="op">~</span><span class="st"> </span>sex, <span class="dt">data =</span> HELPrct) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">gf_rug</span>(<span class="dv">0</span> <span class="op">~</span><span class="st"> </span>cesd, </a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">         <span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">height =</span> <span class="dv">0</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="st">  </span><span class="kw">gf_refine</span>(</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">    <span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))) </a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/refine-gg-1.png" width="700"></p>
 </div>
-
 <div class="col-md-6">
 <h3 id="log-scales-lattice">Log scales (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,
-       <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">y =</span> <span class="kw">list</span>(<span class="dt">log =</span> <span class="ot">TRUE</span>)))</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">xyplot</span>(cesd <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> HELPrct,</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">       <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">y =</span> <span class="kw">list</span>(<span class="dt">log =</span> <span class="ot">TRUE</span>)))</a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/log-scales-lattice-1.png" width="700"></p>
 <h3 id="custom-colors-lattice">Custom Colors (lattice)</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">groups =</span> sex, <span class="dt">data =</span> HELPrct, 
-             <span class="dt">rug =</span> <span class="ot">FALSE</span>,
-             <span class="dt">par.settings =</span> 
-               <span class="kw">list</span>(
-                 <span class="dt">superpose.line =</span> 
-                   <span class="kw">list</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>)),
-                 <span class="dt">superpose.symbol =</span> 
-                   <span class="kw">list</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))
-               )) </code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">densityplot</span>( <span class="op">~</span><span class="st"> </span>cesd, <span class="dt">groups =</span> sex, <span class="dt">data =</span> HELPrct, </a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">             <span class="dt">rug =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">             <span class="dt">par.settings =</span> </a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">               <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">                 <span class="dt">superpose.line =</span> </a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">                   <span class="kw">list</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>)),</a>
+<a class="sourceLine" id="cb26-7" data-line-number="7">                 <span class="dt">superpose.symbol =</span> </a>
+<a class="sourceLine" id="cb26-8" data-line-number="8">                   <span class="kw">list</span>(<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"navy"</span>, <span class="st">"red"</span>))</a>
+<a class="sourceLine" id="cb26-9" data-line-number="9">               )) </a></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/refine-lattice-1.png" width="700"></p>
 </div>
 </div>
