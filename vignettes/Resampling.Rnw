@@ -665,19 +665,19 @@ Here, \function{do} has been used without any randomization, merely to format th
 Shuffling \texttt{Age} allows the actual change in $R^2$ to be compared to what would be expected under the null hypothesis:
 <<>>=
 Mustangs.Age.boot <- do(1000) * lm(Price ~ Miles + shuffle(Age), data = Mustangs )
-confint(Mustangs.Age.boot)
+favstats(~ r.squared, data = Mustangs.Age.boot)
 @
 
 The observed $R^2$ from \verb-Price ~ Miles + Age- falls right in the middle of the 
-observed range when \texttt{Age} is shuffled.
+observed range when \texttt{Age} is shuffled.  We can conclude that \texttt{Age} is not an important predictor.
 
 The result is very different when \texttt{Miles} is shuffled instead.
 <<>>=
 Mustangs.Miles.boot <- do(1000) * lm(Price ~ shuffle(Miles) + Age, data = Mustangs)
-confint(Mustangs.Miles.boot)
+favstats(~ r.squared, data = Mustangs.Miles.boot)
 @
-The observed value of $R^2 = 0.681$ falls well above the confidence interval, 
-leading to a rejection of a null hypothesis on \texttt{Miles}.
+The observed value of $R^2 = 0.681$ falls well above the resampled values: we conclude that 
+\texttt{Miles} is an important predictor.
 
 \section{Using simulations in other ways}
 
