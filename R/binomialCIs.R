@@ -68,10 +68,13 @@ clopper_ci <- function(x, n, conf.level = 0.95,
 }
 
 score_ci <- function(x, n, conf.level = 0.95, 
-                     alternative = c("two.sided", "less", "greater") ) 
+                     alternative = c("two.sided", "less", "greater"),
+                     correct = TRUE) 
 {
-  interval <- stats::prop.test(x, n, conf.level = conf.level, alternative = alternative)$conf.int
-  attr(interval, "method") <- "Score"
+  interval <- stats::prop.test(x, n, conf.level = conf.level, alternative = alternative,
+                               correct = correct)$conf.int
+  attr(interval, "method") <- 
+    if (correct) "Score (with continuity correction)" else "Score (without continuity correction)"
   interval
 }
 
@@ -87,7 +90,7 @@ score_ci <- function(x, n, conf.level = 0.95,
 #' @export
 #' @seealso [mosaic::binom.test()]
 #' 
-update_ci <- function( object, method = c("clopper-pearson", "wald", "agresti-coull", "plus4", "score") ) {
+update_ci <- function( object, method = c("clopper-pearson", "wald", "agresti-coull", "plus4", "score", "prop.test") ) {
   if (! inherits(object, "htest") && !grepl("^Exact binomial test", object$method) )
     stop( "I don't know how to handle that type of object.")
   
@@ -126,19 +129,27 @@ update_ci <- function( object, method = c("clopper-pearson", "wald", "agresti-co
            score = 
              score_ci(x = object$statistic, 
                       n = object$parameter, 
-                      conf.level = level, alternative = object$alternative),
+                      conf.level = level, alternative = object$alternative,
+                      correct = FALSE),
            wilson =   # same as score
              score_ci(x = object$statistic, 
                       n = object$parameter, 
-                      conf.level = level, alternative = object$alternative)
+                      conf.level = level, alternative = object$alternative,
+                      correct = FALSE),
+           prop.test = # continuity correction + score
+             score_ci(x = object$statistic, 
+                      n = object$parameter, 
+                      conf.level = level, alternative = object$alternative,
+                      correct = TRUE),
     )
   
   object$method <- 
     switch(method,
-           wald = "Exact binomial test (with Wald CI)",
-           plus4 = "Exact binomial test (with Plus 4 CI)",
-           `agresti-coull` = "Exact binomial test (with Agresti-Coull CI)",
-           score = "Exact binomial test (with Score CI)"
+           wald = "Exact binomial test (Wald CI)",
+           plus4 = "Exact binomial test (Plus 4 CI)",
+           `agresti-coull` = "Exact binomial test (Agresti-Coull CI)",
+           score = "Exact binomial test (Score CI without continuity correction)",
+           prop.test = "Exact binomial test (Score CI with continuity correction)"
     )
              
   object

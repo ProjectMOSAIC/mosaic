@@ -5,7 +5,7 @@
 \title{Update confidence interval}
 \usage{
 update_ci(object, method = c("clopper-pearson", "wald", "agresti-coull",
-  "plus4", "score"))
+  "plus4", "score", "prop.test"))
 }
 \arguments{
 \item{object}{An \code{"htest"} object produced by \code{\link[=binom.test]{binom.test()}}}

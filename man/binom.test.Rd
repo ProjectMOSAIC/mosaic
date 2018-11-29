@@ -42,35 +42,6 @@ Bernoulli experiment from summarized data or from raw data.
 The mosaic \code{binom.test} provides wrapper functions around the function of the same name in \pkg{stats}.
 These wrappers provide an extended interface (including formulas).
 }
-\details{
-\code{binom.test} is a wrapper around \code{\link[=binom.test]{binom.test()}} from the \code{base}
-package to simplify its use when the raw data are available, in which case
-an extended syntax for \code{binom.test} is provided.  See the examples.
-
-Also, five confidence interval methods are provided:
-\describe{
-\item{Clopper-Pearson, binom.test}{This is the interval produced when using \code{\link[stats:binom.test]{stats::binom.test()}}
-from the \code{stats} package.  It guarantees a coverage rate at least as large as
-the nominal coverage rate, but may produce wider intervals than some of the methods
-below, which may either under- or over-cover depending on the data.}
-\item{Score, Wilson, prop.test}{This is the usual method used by \code{\link[stats:prop.test]{stats::prop.test()}}
-and is computed by inverting p-values from score tests. It is often attributed to
-Edwin Wilson.}
-\item{Wald}{This is the interval traditionally taught in entry level statistics courses.
-It uses the sample proportion to estimate the standard error and uses normal
-theory to determine how many standard deviations to add and/or subtract from
-the sample proportion to determine an interval.}
-\item{Agresti-Coull}{
-This is the Wald method after setting \eqn{n' = n + z^2} and
-\eqn{p'= (x + z^2/2) / n}' and using \eqn{x' = n' p'} and \eqn{n'}
-in place of \eqn{x} and \eqn{n}.
-}
-\item{Plus4}{
-This is Wald after adding in two artificial success and two artificial failures.  It
-is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
-\eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.}
-}
-}
 \note{
 When \code{x} is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
 for a logical vector \code{TRUE} is treated as success and \code{FALSE} as failure.

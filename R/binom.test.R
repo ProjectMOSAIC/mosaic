@@ -45,7 +45,9 @@
 #'   below, which may either under- or over-cover depending on the data.}
 #' \item{Score, Wilson, prop.test}{This is the usual method used by [stats::prop.test()]
 #'   and is computed by inverting p-values from score tests. It is often attributed to 
-#'   Edwin Wilson.}
+#'   Edwin Wilson.  If specified with \code{"prop.test"}, the continuity correction is applied
+#'   (as is the deafult in \code{\link{prop.test}()}), else the continuity correction is not 
+#'   applied.
 #'   \item{Wald}{This is the interval traditionally taught in entry level statistics courses.
 #'   It uses the sample proportion to estimate the standard error and uses normal
 #'   theory to determine how many standard deviations to add and/or subtract from
@@ -117,7 +119,7 @@ binom.test <-
         choices = c("clopper-pearson", "binom.test", "prop.test", "score", "wilson", 
                     "wald", "agresti-coull", "plus4"))
     
-    if (ci.method %in% c("prop.test", "wilson")) ci.method <- "score"
+    if (ci.method %in% c("wilson")) ci.method <- "score"
     if (ci.method %in% c("binom.test")) ci.method <- "clopper-pearson"
     
     res <- update_ci(
@@ -196,7 +198,7 @@ setMethod(
       cond <- list(gl(1, length(x)))
     }
     
-    binom_test(x, p=p, alternative=alternative, 
+    binom_test(x, p = p, alternative = alternative, 
                conf.level = conf.level, success = success, data.name = data.name, ...)
   }
 )
