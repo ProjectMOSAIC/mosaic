@@ -280,34 +280,72 @@ googleMap <- function(latitude, longitude, position=NULL,
 		sep="")))
 }
 
-#' @rdname rgeo-internals
-#' @param width,height width and height of window containing google map
-#' @keywords internal
-#'
-.googleMapURL2 <- function(latitude, longitude, position=NULL,
-	zoom=12, 
-	width=600, 
-	height=400, 
-	maptype=c('roadmap','satellite','terrain','hybrid'),
-	mark=FALSE
-	) 
-{
-	latitude  <- position[,1]
-	longitude <- position[,2]
-	url <- "http://maps.google.com/maps/api/staticmap?"
-	maptype <- match.arg(maptype)
-	center <- paste(latitude,",",longitude,sep="")
-	size <- paste(width,'x',height,sep="")
-	markString <- ""
-	if (mark == TRUE) { markString <- paste('&markers=size:tiny|', center,sep="") } 
-
-	return(invisible(paste(
-		url,
-		'center=', center,
-		markString,
-		'&zoom=', zoom,
-		'&size=', size,
-		'&sensor=false', 
-		'&maptype=', maptype,
-		sep="")))
-}
+#' .openStreetMapURL <- function(latitude, longitude, position=NULL,
+#' 	zoom=11, 
+#' 	maptype=c('roadmap','satellite','terrain','hybrid'),
+#' 	mark=FALSE,
+#' 	radius=0
+#' 	) 
+#' {
+#' 	filename <- "openstreet.html"
+#' 
+#' 	if (FALSE) { # can't get browseURL to accept a file with parameters added on
+#' 		package <- "mosaic"
+#' 		paths <- .find.package(package, verbose = TRUE)
+#' 		paths <- paths[file_test("-d", file.path(paths, "google"))]
+#' 		paths <- file.path(paths, "google")
+#' 		paths <- paths[file_test("-f", file.path(paths, filename))]
+#' 		url <- file.path(paths, filename)
+#' 		url <- paste("file://",url,sep="")
+#' 	}
+#' 	url <- paste('http://mosaic-web.org/go/',filename,sep="")
+#' 	if (is.null(position)) {
+#' 		position <- data.frame(lat=latitude,lon=longitude)
+#' 	}
+#' 	latitude  <- position[,1]
+#' 	longitude <- position[,2]
+#' 	maptype <- match.arg(maptype)
+#' 	center <- paste(latitude,",",longitude,sep="")
+#' 	markString <- ""
+#' 	if (mark == TRUE) { markString <- paste('&mlat=',round(latitude,6),'&mlon=',round(longitude,6) ,sep="") } 
+#' 
+#' 	return(invisible(paste(
+#' 		url,
+#' 		'?lat=', round(latitude,6),
+#' 		'&lon=', round(longitude,6),
+#' 		markString,
+#' 		'&zoom=', zoom,
+#' 		'&radius=', paste(as.character(radius),collapse=","),
+#' 		sep="")))
+#' }
+#' #' @rdname rgeo-internals
+#' #' @param width,height width and height of window containing google map
+#' #' @keywords internal
+#' #'
+#' .googleMapURL2 <- function(latitude, longitude, position=NULL,
+#' 	zoom=12, 
+#' 	width=600, 
+#' 	height=400, 
+#' 	maptype=c('roadmap','satellite','terrain','hybrid'),
+#' 	mark=FALSE
+#' 	) 
+#' {
+#' 	latitude  <- position[,1]
+#' 	longitude <- position[,2]
+#' 	url <- "http://maps.google.com/maps/api/staticmap?"
+#' 	maptype <- match.arg(maptype)
+#' 	center <- paste(latitude,",",longitude,sep="")
+#' 	size <- paste(width,'x',height,sep="")
+#' 	markString <- ""
+#' 	if (mark == TRUE) { markString <- paste('&markers=size:tiny|', center,sep="") } 
+#' 
+#' 	return(invisible(paste(
+#' 		url,
+#' 		'center=', center,
+#' 		markString,
+#' 		'&zoom=', zoom,
+#' 		'&size=', size,
+#' 		'&sensor=false', 
+#' 		'&maptype=', maptype,
+#' 		sep="")))
+#' }
