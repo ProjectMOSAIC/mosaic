@@ -17,23 +17,25 @@ pdist(dist = "norm", q, plot = TRUE, verbose = FALSE,
   invisible = FALSE, digits = 3L, xlim, ylim, resolution = 500L,
   return = c("values", "plot"), ..., refinements = list())
 
-xpgamma(...)
+xpgamma(q, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
+  log.p = FALSE, ...)
 
-xpt(...)
+xpt(q, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
-xpchisq(...)
+xpchisq(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
 
-xpf(...)
+xpf(q, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)
 
-xpbinom(...)
+xpbinom(q, size, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
-xppois(...)
+xppois(q, lambda, lower.tail = TRUE, log.p = FALSE, ...)
 
-xpgeom(...)
+xpgeom(q, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
-xpnbinom(...)
+xpnbinom(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)
 
-xpbeta(...)
+xpbeta(q, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE,
+  ...)
 }
 \arguments{
 \item{dist}{a character description of a distribution, for example
@@ -63,6 +65,32 @@ that have many distinct values, especially if these values are not evenly spaced
 and additional options for the plot}
 
 \item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
+
+\item{lower.tail}{logical; if TRUE (default), probabilities are
+    \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
+
+\item{log.p}{logical; if TRUE, probabilities p are given as log(p).}
+
+\item{df}{degrees of freedom (\eqn{> 0}, maybe non-integer).  \code{df
+      = Inf} is allowed.}
+
+\item{ncp}{non-centrality parameter \eqn{\delta}{delta};
+    currently except for \code{rt()}, only for \code{abs(ncp) <= 37.62}.
+    If omitted, use the central t distribution.}
+
+\item{df1}{degrees of freedom.  \code{Inf} is allowed.}
+
+\item{df2}{degrees of freedom.  \code{Inf} is allowed.}
+
+\item{size}{number of trials (zero or more).}
+
+\item{prob}{probability of success on each trial.}
+
+\item{lambda}{vector of (non-negative) means.}
+
+\item{shape1}{non-negative parameters of the Beta distribution.}
+
+\item{shape2}{non-negative parameters of the Beta distribution.}
 }
 \value{
 A vector of probabilities; a plot is printed as a side effect.

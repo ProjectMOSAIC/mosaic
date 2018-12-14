@@ -17,23 +17,25 @@ qdist(dist = "norm", p, plot = TRUE, verbose = FALSE,
   invisible = FALSE, resolution = 500L, digits = 3L, xlim, ylim,
   return = c("values", "plot"), refinements = list(), ...)
 
-xqgamma(...)
+xqgamma(p, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
+  log.p = FALSE, ...)
 
-xqt(...)
+xqt(p, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
-xqchisq(...)
+xqchisq(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
 
-xqf(...)
+xqf(p, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)
 
-xqbinom(...)
+xqbinom(p, size, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
-xqpois(...)
+xqpois(p, lambda, lower.tail = TRUE, log.p = FALSE, ...)
 
-xqgeom(...)
+xqgeom(p, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
-xqnbinom(...)
+xqnbinom(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)
 
-xqbeta(...)
+xqbeta(p, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE,
+  ...)
 }
 \arguments{
 \item{dist}{a character description of a distribution, for example
@@ -67,6 +69,36 @@ and additional options for the plot.  To help with name collisions (eg \code{siz
 distributions and \code{shape} for gamma distributions), argument names beginning \code{plot_} will
 be renamed to remove \code{plot_} and passed only to the plot.  The unprefixed version will
 used as a paramter for the the distribution.}
+
+\item{shape}{shape and scale parameters.  Must be positive,
+    \code{scale} strictly.}
+
+\item{rate}{an alternative way to specify the scale.}
+
+\item{scale}{shape and scale parameters.  Must be positive,
+    \code{scale} strictly.}
+
+\item{lower.tail}{logical; if TRUE (default), probabilities are
+    \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
+
+\item{log.p}{logical; if \code{TRUE}, probabilities/densities \eqn{p}
+    are returned as \eqn{log(p)}.}
+
+\item{ncp}{non-centrality parameter. If omitted the central F is assumed.}
+
+\item{df1}{degrees of freedom.  \code{Inf} is allowed.}
+
+\item{df2}{degrees of freedom.  \code{Inf} is allowed.}
+
+\item{size}{number of trials (zero or more).}
+
+\item{prob}{probability of success on each trial.}
+
+\item{lambda}{vector of (non-negative) means.}
+
+\item{shape1}{non-negative parameters of the Beta distribution.}
+
+\item{shape2}{non-negative parameters of the Beta distribution.}
 }
 \value{
 a vector of quantiles; a plot is printed as a side effect

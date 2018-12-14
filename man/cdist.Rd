@@ -18,23 +18,25 @@ cdist(dist = "norm", p, plot = TRUE, verbose = FALSE,
   return = c("values", "plot"), pattern = c("rings", "stripes"), ...,
   refinements = list())
 
-xcgamma(...)
+xcgamma(p, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
+  log.p = FALSE, ...)
 
-xct(...)
+xct(p, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcchisq(...)
+xcchisq(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
 
-xcf(...)
+xcf(p, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcbinom(...)
+xcbinom(p, size, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcpois(...)
+xcpois(p, lambda, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcgeom(...)
+xcgeom(p, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcnbinom(...)
+xcnbinom(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcbeta(...)
+xcbeta(p, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE,
+  ...)
 }
 \arguments{
 \item{dist}{a character string naming a distribution family (e.g., "norm").
@@ -70,6 +72,36 @@ are grouped together for coloring and probability calculation.}
 these specify the parameters of the particular distribution desired.  See the examples.}
 
 \item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
+
+\item{shape}{shape and scale parameters.  Must be positive,
+    \code{scale} strictly.}
+
+\item{rate}{an alternative way to specify the scale.}
+
+\item{scale}{shape and scale parameters.  Must be positive,
+    \code{scale} strictly.}
+
+\item{lower.tail}{logical; if TRUE (default), probabilities are
+    \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
+
+\item{log.p}{logical; if \code{TRUE}, probabilities/densities \eqn{p}
+    are returned as \eqn{log(p)}.}
+
+\item{ncp}{non-centrality parameter. If omitted the central F is assumed.}
+
+\item{df1}{degrees of freedom.  \code{Inf} is allowed.}
+
+\item{df2}{degrees of freedom.  \code{Inf} is allowed.}
+
+\item{size}{number of trials (zero or more).}
+
+\item{prob}{probability of success on each trial.}
+
+\item{lambda}{vector of (non-negative) means.}
+
+\item{shape1}{non-negative parameters of the Beta distribution.}
+
+\item{shape2}{non-negative parameters of the Beta distribution.}
 }
 \value{
 a pair of numbers indicating the upper and lower bounds, unless \code{verbose} is
