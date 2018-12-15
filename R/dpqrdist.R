@@ -48,8 +48,7 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 #' @param resolution Number of points used for detecting discreteness and generating plots.  
 #'        The default value of 5000 should work well except for discrete distributions
 #'        that have many distinct values, especially if these values are not evenly spaced.
-#' @param ... Additional arguments, including parameters of the distribution
-#' and additional options for the plot
+#' @param ... Additional arguments, typically for fine tuning the plot.
 #' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
 #' @param refinements A list of refinements to the plot.  See [ggformula::gf_refine()].
 #' @details The most general function is `pdist` which can work with 

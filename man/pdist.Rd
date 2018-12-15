@@ -61,8 +61,7 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
-\item{...}{Additional arguments, including parameters of the distribution
-and additional options for the plot}
+\item{...}{Additional arguments, typically for fine tuning the plot.}
 
 \item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
 
