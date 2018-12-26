@@ -308,6 +308,7 @@ mUSMap <- function(data = NULL, key, fill = NULL,
 #'   arrange(density) %>% 
 #'   tail()
 #' }
+#' @importFrom readr parse_number
 #' @export
 CIAdata <- function (name = NULL) {
   
@@ -344,8 +345,8 @@ CIAdata <- function (name = NULL) {
   table <- as.data.frame(do.call(rbind, strsplit( lines, "  +")), stringsAsFactors=FALSE)
   table[, 1] <- NULL
   names(table) <- c("country", name)
-  table[[2]] = as.numeric(gsub("[^.+[:digit:] ]", "",
-                               table[[2]]))
+  table[[2]] = readr::parse_number(table[[2]])
+    # as.numeric(gsub("[^.+[:digit:] ]", "", table[[2]]))
   return(table)
 }
 
