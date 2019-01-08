@@ -99,6 +99,8 @@ these specify the parameters of the particular distribution desired.  See the ex
 
 \item{lambda}{vector of (non-negative) means.}
 
+\item{mu}{alternative parametrization via mean: see \sQuote{Details}.}
+
 \item{shape1}{non-negative parameters of the Beta distribution.}
 
 \item{shape2}{non-negative parameters of the Beta distribution.}
@@ -122,8 +124,8 @@ formats are possible in future versions of the package.
 cdist( "norm", .95)
 cdist( "t", c(.90, .95, .99), df=5)
 cdist( "t", c(.90, .95, .99), df=50)
-cdist( "t", .95, df=c(3,5,10,20))
-cdist( "t", .95, df=c(3,5,10,20), verbose = TRUE )
+# plotting doesn't work well when the parameters are not constant
+cdist( "t", .95, df=c(3,5,10,20), plot = FALSE)
 cdist( "norm", .95, mean=500, sd=100 )
 cdist( "chisq", c(.90, .95), df=3 )
 # CI
