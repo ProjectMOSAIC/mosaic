@@ -399,8 +399,13 @@ xpt <- function(q, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
 #' @rdname qdist
 #' @export
 xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
-  qdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
-        log.p = log.p, ...)
+  if (missing(ncp)) {
+    qdist("t", p = p, df = df, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  } else {
+    qdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  }
 #' @rdname cdist
 #' @export
 xct <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
@@ -410,15 +415,15 @@ xct <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
 #' @rdname pdist
 #' @export
 xpchisq <- function(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  pdist("chisq", q, df, ncp = ncp, lower.tail = lower.tail, log.p = log.p, ...)
+  pdist("chisq", q = q, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
 #' @rdname qdist
 #' @export
 xqchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  pdist("chisq", p, df, ncp = ncp, lower.tail = lower.tail, log.p = log.p, ...)
+  qdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
 #' @rdname cdist
 #' @export
 xcchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  cdist("chisq", p, df, ncp = ncp, lower.tail = lower.tail, log.p = log.p, ...)
+  cdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
 
 #' @rdname pdist
 #' @inheritParams stats::pf
@@ -509,21 +514,21 @@ xcgeom <- function(p, prob, lower.tail = TRUE, log.p = FALSE, ...)
         lower.tail = lower.tail, log.p = log.p, ...)
 
 #' @rdname pdist
-#' @inheritParams pnbinom
+#' @inheritParams stats::pnbinom
 #' @export
 xpnbinom <- function(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
   pdist("nbinom", q = q, size = size, prob =prob, mu = mu, 
         lower.tail = lower.tail, log.p = log.p, ...)
 
 #' @rdname qdist
-#' @inheritParams qnbinom
+#' @inheritParams stats::qnbinom
 #' @export
 xqnbinom <- function(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
   qdist("nbinom", p = p, size = size, prob =prob, mu = mu, 
         lower.tail = lower.tail, log.p = log.p, ...)
 
 #' @rdname cdist
-#' @inheritParams qnbinom
+#' @inheritParams stats::qnbinom
 #' @export
 xcnbinom <- function(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
   cdist("nbinom", p = p, size = size, prob =prob, mu = mu, 

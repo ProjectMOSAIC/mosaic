@@ -87,6 +87,8 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{lambda}{vector of (non-negative) means.}
 
+\item{mu}{alternative parametrization via mean: see \sQuote{Details}.}
+
 \item{shape1}{non-negative parameters of the Beta distribution.}
 
 \item{shape2}{non-negative parameters of the Beta distribution.}
