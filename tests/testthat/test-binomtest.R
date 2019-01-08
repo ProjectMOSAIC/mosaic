@@ -131,16 +131,16 @@ test_that("CI methods correct", {
   # Score/Wilson/prop.test  
   expect_equivalent(
     confint(stats::prop.test(26,200)),
-    confint(binom.test(26,200, ci.method="wilson")))
+    confint(binom.test(26,200, ci.method="prop.test", correct = TRUE)))
   
   expect_equivalent(
-    confint(binom.test(26,200, ci.method="score")),
-    confint(binom.test(26,200, ci.method="wilson")))
+    confint(stats::prop.test(26,200, correct = FALSE)),
+    confint(binom.test(26,200, ci.method = "wilson")))
   
   expect_equivalent(
-    confint(binom.test(26,200, ci.method="score")),
-    confint(binom.test(26,200, ci.method="prop.test")))
- 
+    confint(binom.test(26,200, ci.method = "score")),
+    confint(binom.test(26,200, ci.method = "wilson")))
+  
   # Clopper vs external reference 
   # NIST example from http://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm
   ci <- confint(binom.test(4, 20, ci.method="clopper", conf.level=.9))
