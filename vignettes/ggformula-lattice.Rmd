@@ -7,13 +7,13 @@ vignette: |
   \usepackage[utf8]{inputenc}
   %\VignetteEngine{knitr::rmarkdown} 
 output: 
+  html_document:
+    fig_height: 2.6
+    fig_width: 5
   pdf_document:
     fig_height: 2.4
     fig_width: 5
     pandoc_args: ["-V", "classoption=twocolumn"]
-  html_document:
-    fig_height: 2.6
-    fig_width: 5
   word_document:
     fig_height: 2.6
     fig_width: 5
