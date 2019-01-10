@@ -192,11 +192,11 @@ early on.
 Here are some variations on the template.
 ```{r, eval = FALSE}
 # simpler version
-goal( ~ x, data = mydata )          
+goal(~ x, data = mydata)          
 # fancier version
-goal( y ~ x | z , data = mydata )   
+goal(y ~ x | z , data = mydata)   
 # unified version
-goal( formula , data = mydata )     
+goal(formula, data = mydata)     
 ```
 
 ## 2 Questions
@@ -270,13 +270,13 @@ Some things you will need to know:
 #### Answer
 
 ```{r, echo=TRUE}
-gf_boxplot( age ~ substance, data = HELPrct)
+gf_boxplot(age ~ substance, data=HELPrct)
 ```
 
 ### Your turn: How about this one?
 
 ```{r, echo=FALSE}
-gf_boxploth( substance ~ age, data = HELPrct)
+gf_boxploth(substance ~ age, data = HELPrct)
 ```
 
 Some things you will need to know:
@@ -292,7 +292,7 @@ Some things you will need to know:
 #### Answer
 
 ```{r, echo=TRUE}
-gf_boxploth( substance ~ age, data = HELPrct )
+gf_boxploth(substance ~ age, data = HELPrct)
 ```
 
 Note that we have reversed which variable is mapped to the x-axis and which
@@ -348,7 +348,7 @@ consumed per day in the past 30 days (measured at baseline)
 </h3></center>
 
 
- * `gf_point()`, `gf_boxplot()`
+ * `gf_point()`, `gf_line()`, `gf_boxplot()`
 
 ### Your turn
 Create a plot of your own choosing with one of these data sets
@@ -540,7 +540,7 @@ doing in an Intro Stats course.
 ```{r, eval=FALSE}
       mean(age ~ sex, data = HELPrct)
 gf_boxplot(age ~ sex, data = HELPrct) 
-    lm(age ~ sex, data = HELPrct)
+        lm(age ~ sex, data = HELPrct)
 ```
 
 ```{r, echo=FALSE}
