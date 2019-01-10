@@ -296,7 +296,7 @@ to the y-axis by reversing their order in the formula.
 
 ### Graphical Summaries: One Variable
 ```{r, }
-histogram( ~ age, data=HELPrct) 
+gf_histogram(~ age, data = HELPrct) 
 ```
 
 Note: When there is **one variable** it is on 
@@ -306,20 +306,18 @@ the **right side** of the formula.
 
 #### One Variable
 ```{r, eval=FALSE, tidy=FALSE}
-  histogram( ~age, data=HELPrct ) 
-densityplot( ~age, data=HELPrct ) 
-     bwplot( ~age, data=HELPrct ) 
-     qqmath( ~age, data=HELPrct ) 
-freqpolygon( ~age, data=HELPrct ) 
-   bargraph( ~sex, data=HELPrct )
+  gf_histogram(~ age, data = HELPrct) 
+    gf_density(~ age, data = HELPrct) 
+    gf_boxplot(~ age, data = HELPrct) 
+         gf_qq(~ age, data = HELPrct) 
+   gf_freqpoly(~ age, data = HELPrct) 
 ```
 
 #### Two Variables
 
 ```{r, eval=FALSE, tidy=FALSE}
-xyplot(  i1 ~ age,       data=HELPrct ) 
-bwplot( age ~ substance, data=HELPrct ) 
-bwplot( substance ~ age, data=HELPrct ) 
+gf_point(i1 ~ age,          data = HELPrct) 
+gf_boxplot(age ~ substance, data = HELPrct) 
 ```
 
 **Note:** `i1` is the average number of drinks (standard units) 
@@ -334,7 +332,7 @@ consumed per day in the past 30 days (measured at baseline)
 ~ <span class="boxed">&nbsp;x&nbsp;</span> , data = <span class="boxed">mydata</span> , ...)</strong> 
 </h3></center>
 
- * `histogram()`,  `qqmath()`,  `densityplot()`, `freqpolygon()`, `bargraph()` 
+ * `gf_histogram()`,  `gf_qq()`,  `gf_density()`, `gf_freqpoly()`
 
 &nbsp;
 
@@ -345,7 +343,7 @@ consumed per day in the past 30 days (measured at baseline)
 </h3></center>
 
 
- * `xyplot()`, `bwplot()`
+ * `gf_point()`, `gf_boxplot()`
 
 ### Your turn
 Create a plot of your own choosing with one of these data sets
@@ -366,16 +364,15 @@ names(NHANES)      # body shape, etc.
 
 ### groups and panels
 
- * Add `groups = `<span class="invboxed">group</span> to overlay.
+ * Add `color = ~ `<span class="invboxed">group</span> to overlay.
  
  * Use `y ~ x | z` to create multipanel plots.
 
 Here is an example.
 
 ```{r, tidy=FALSE}
-densityplot( ~ age | sex, data=HELPrct,  
-               groups=substance,  
-               auto.key=TRUE)   
+gf_density( ~ age | sex, data = HELPrct,  
+               fill = ~ substance)
 ```
 
 Beginners can create plots with 3 or 4 variables easily and quickly using
@@ -384,7 +381,7 @@ this template.
 Bells & Whistles
 ================
 
-The `lattice` graphics system includes lots of bells and whistles including
+The `ggformula` graphics system includes lots of bells and whistles including
 
  * titles
  * axis labels
@@ -400,21 +397,11 @@ I used to introduce these too early.  My current approach:
 
 #### An example with some bells and whistles
 
-```{r, out.width="85%", tidy=FALSE}
-require(lubridate)
-xyplot( births ~ date, data=Births78,  
-  groups=wday(date, label=TRUE, abbr=TRUE), 
-  type='l',
-  auto.key=list(columns=4, lines=TRUE, points=FALSE),
-  par.settings=list(
-    superpose.line=list( lty=1 ) ))
-```
-```{r, eval = FALSE, include = FALSE}
-xyplot( births ~ date, data=Births78,  
-        groups=wday(date, label=TRUE, abbr=TRUE), type='l',
-        auto.key=list(columns=4),
-        superpose.symbol=list(
-            pch=16, cex=1.2, alpha=.8)))
+```{r}
+library(lubridate)
+Births78 <- Births78 %>%
+  mutate(weekday = wday(date, label = TRUE, abbr = TRUE))
+gf_line(births ~ date, color = ~ weekday, data = Births78)
 ```
 
 **Notes** 
