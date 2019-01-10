@@ -436,8 +436,8 @@ Big idea:
  * Nothing else changes
  
 ```{r, fig.show='hold'}
-histogram( ~ age, data=HELPrct )  # width=5 (or 10) might be good here
-     mean( ~ age, data=HELPrct )
+gf_histogram(~ age, data = HELPrct)  # binwidth=5 (or 10) might be good here
+     mean(~ age, data = HELPrct)
 ```
 
 #### Other summaries
@@ -452,7 +452,7 @@ The mosaic package includes formula aware versions of
 
 Also provides `favstats()` to compute our favorites.
 ```{r}
-favstats( ~ age, data=HELPrct )
+favstats(~ age, data=HELPrct)
 ```
 
 `favstats()` quickly becomes a go-to function in our courses.
@@ -460,20 +460,21 @@ favstats( ~ age, data=HELPrct )
 ### Tallying 
 
 ```{r}
-tally( ~ sex, data=HELPrct)
-tally( ~ substance, data=HELPrct)
+tally(~ sex, data = HELPrct)
+tally(~ substance, data = HELPrct)
 ```
 
 ### Numerical Summaries: Two Variables
 
 There are three ways to think about this.  All do the same thing.
 ```{r, eval = FALSE}
-sd(   age ~ substance, data=HELPrct )
-sd( ~ age | substance, data=HELPrct )
-sd( ~ age, groups=substance, data=HELPrct )
+sd(age ~ substance, data = HELPrct)
+sd(~ age | substance, data=HELPrct)
+sd(~ age, groups = substance, data = HELPrct)  
+# note option color = ~ substance is used for graphics
 ```
 ```{r, echo=FALSE}
-sd( ~ age, groups=substance, data=HELPrct )
+sd(~ age, groups = substance, data = HELPrct)
 ```
 
 This makes it possible to easily convert three different types of plots
@@ -484,8 +485,8 @@ into the (same) corresponding numerical summary.
 2-way tables are just tallies of 2 variables.
 
 ```{r}
-tally( sex ~ substance, data=HELPrct )
-tally( ~ sex + substance, data=HELPrct )
+tally(sex ~ substance, data = HELPrct)
+tally(~ sex + substance, data = HELPrct)
 ```
 
 Other output formats are available
