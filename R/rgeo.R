@@ -232,7 +232,11 @@ googleMap <- function(latitude, longitude, position=NULL,
 		return(invisible(urls))
 	}
 }
-
+#' Simple Leaflet Maps
+#' 
+#' Primarily designed to work with [rgeo()] to display randomly sampled
+#' points on the globe.
+#' 
 #' @param latitude,longitude vectors of latitude and longitude values
 #' @param position a data frame containing latitude and longitude positions
 #' @param zoom zoom level for initial map (1-20)
@@ -251,8 +255,7 @@ googleMap <- function(latitude, longitude, position=NULL,
 leaflet_map <- 
   function(latitude, longitude, position = NULL,
            zoom = 12,  
-           maptype = c('roadmap','satellite','terrain','hybrid'),
-           mark = FALSE, radius = 0, browse = TRUE, ...
+           mark = FALSE, radius = 0, ...
   ) {
     if (! is.null(position)) {
       if (!missing(latitude) || !missing(longitude)) {
