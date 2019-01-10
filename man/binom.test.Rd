@@ -43,13 +43,12 @@ The mosaic \code{binom.test} provides wrapper functions around the function of t
 These wrappers provide an extended interface (including formulas).
 }
 \details{
-\code{binom.test()} is a wrapper around \code{\link[base:binom.test]{base::binom.test()}} from the base
+\code{binom.test()} is a wrapper around \code{\link[stats:binom.test]{stats::binom.test()}} from the stats
 package to simplify its use when the raw data are available, in which case
 an extended syntax for \code{binom.test()} is provided.  See the examples.
 
 Also, five confidence interval methods are provided:
 *
-\item{
 \code{"Clopper-Pearson", "binom.test"}: This is the interval produced when using
 \code{\link[stats:binom.test]{stats::binom.test()}}
 from the stats package.  It guarantees a coverage rate at least as large as
@@ -73,7 +72,7 @@ in place of \eqn{x} and \eqn{n}.
 \item \code{"Plus4"}
 This is Wald after adding in two artificial success and two artificial failures.  It
 is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
-\eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.}
+\eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.
 }
 }
 }

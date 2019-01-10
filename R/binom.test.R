@@ -33,13 +33,12 @@
 #' 
 
 #' @details 
-#' `binom.test()` is a wrapper around [base::binom.test()] from the base 
+#' `binom.test()` is a wrapper around [stats::binom.test()] from the stats 
 #' package to simplify its use when the raw data are available, in which case 
 #' an extended syntax for `binom.test()` is provided.  See the examples.
 #' 
 #' Also, five confidence interval methods are provided:
 #' * 
-#' \item{
 #' `"Clopper-Pearson", "binom.test"`: This is the interval produced when using 
 #'   [stats::binom.test()]
 #'   from the stats package.  It guarantees a coverage rate at least as large as 
@@ -62,7 +61,7 @@
 #'   * `"Plus4"`
 #'   This is Wald after adding in two artificial success and two artificial failures.  It 
 #'   is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
-#'   \eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.}
+#'   \eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.
 #'   
 #' 
 #' @examples
