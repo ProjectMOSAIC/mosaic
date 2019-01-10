@@ -91,7 +91,7 @@ function (file, header = T, na.strings = "NA",
       }
       
       if ( regexpr("\\.rdata$", tolower(file)) > 0 || 
-            regexpr("\\.rda", tolower(file)) >0 ){
+           regexpr("\\.rda", tolower(file)) >0 ){
         filetype <- "rdata"
       } 
     }
