@@ -91,14 +91,15 @@ is here for comparison purposes only and is not recommended.
 }
 \examples{
 if (require(mosaicData)) {
-  bootstrap <- do(500) * diffmean( age ~ sex, data=resample(HELPrct) )
+  bootstrap <- do(500) * diffmean( age ~ sex, data = resample(HELPrct) )
   confint(bootstrap)
   confint(bootstrap, method = "percentile")
   confint(bootstrap, method = "boot")
-  confint(bootstrap, method = "se", df=nrow(HELPrct) - 1)
+  confint(bootstrap, method = "se", df = nrow(HELPrct) - 1)
   confint(bootstrap, margin.of.error = FALSE)
-  confint(bootstrap, margin.of.error = TRUE, level=0.99, method=c("boot", "se", "perc") )
-  bootstrap2 <- do(500)*mean( resample(1:10) ) 
+  confint(bootstrap, margin.of.error = TRUE, level = 0.99, 
+    method = c("boot", "se", "perc") )
+  bootstrap2 <- do(500) * mean( resample(1:10) ) 
   confint(bootstrap2)
 }
 lm(width ~ length * sex, data = KidsFeet) \%>\%

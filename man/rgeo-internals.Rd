@@ -3,16 +3,11 @@
 \name{rgeo-internals}
 \alias{rgeo-internals}
 \alias{.googleMapURL}
-\alias{.googleMapURL2}
 \title{rgeo internal functions}
 \usage{
 .googleMapURL(latitude, longitude, position = NULL, zoom = 11,
   maptype = c("roadmap", "satellite", "terrain", "hybrid"),
   mark = FALSE, radius = 0)
-
-.googleMapURL2(latitude, longitude, position = NULL, zoom = 12,
-  width = 600, height = 400, maptype = c("roadmap", "satellite",
-  "terrain", "hybrid"), mark = FALSE)
 }
 \arguments{
 \item{latitude}{vectors of latitude and longitude values}
@@ -28,8 +23,6 @@
 \item{mark}{a logical indicating whether the location should be marked with a pin}
 
 \item{radius}{a vector of radii of circles centered at position that are displayed on the map}
-
-\item{width, height}{width and height of window containing google map}
 }
 \value{
 a URL as a string

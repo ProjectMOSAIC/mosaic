@@ -36,39 +36,45 @@ considered failure.}
 an object of class \code{htest}
 }
 \description{
-The \code{binom.test} function
+The \code{binom.test()} function
 performs an exact test of a simple null hypothesis about the probability of success in a
 Bernoulli experiment from summarized data or from raw data.
 The mosaic \code{binom.test} provides wrapper functions around the function of the same name in \pkg{stats}.
 These wrappers provide an extended interface (including formulas).
 }
 \details{
-\code{binom.test} is a wrapper around \code{\link[=binom.test]{binom.test()}} from the \code{base}
+\code{binom.test()} is a wrapper around \code{\link[base:binom.test]{base::binom.test()}} from the base
 package to simplify its use when the raw data are available, in which case
-an extended syntax for \code{binom.test} is provided.  See the examples.
+an extended syntax for \code{binom.test()} is provided.  See the examples.
 
 Also, five confidence interval methods are provided:
-\describe{
-\item{Clopper-Pearson, binom.test}{This is the interval produced when using \code{\link[stats:binom.test]{stats::binom.test()}}
-from the \code{stats} package.  It guarantees a coverage rate at least as large as
+*
+\item{
+\code{"Clopper-Pearson", "binom.test"}: This is the interval produced when using
+\code{\link[stats:binom.test]{stats::binom.test()}}
+from the stats package.  It guarantees a coverage rate at least as large as
 the nominal coverage rate, but may produce wider intervals than some of the methods
-below, which may either under- or over-cover depending on the data.}
-\item{Score, Wilson, prop.test}{This is the usual method used by \code{\link[stats:prop.test]{stats::prop.test()}}
+below, which may either under- or over-cover depending on the data.
+\itemize{
+\item `"Score", "Wilson", "prop.test":  This is the usual method used by \code{\link[stats:prop.test]{stats::prop.test()}}
 and is computed by inverting p-values from score tests. It is often attributed to
-Edwin Wilson.}
-\item{Wald}{This is the interval traditionally taught in entry level statistics courses.
+Edwin Wilson.  If specified with \code{"prop.test"}, the continuity correction is applied
+(as is the deafult in \code{\link{prop.test}()}), else the continuity correction is not
+applied.
+\itemize{
+\item \code{"Wald"} This is the interval traditionally taught in entry level statistics courses.
 It uses the sample proportion to estimate the standard error and uses normal
 theory to determine how many standard deviations to add and/or subtract from
-the sample proportion to determine an interval.}
-\item{Agresti-Coull}{
+the sample proportion to determine an interval.
+\item "Agresti-Coull"`
 This is the Wald method after setting \eqn{n' = n + z^2} and
 \eqn{p'= (x + z^2/2) / n}' and using \eqn{x' = n' p'} and \eqn{n'}
 in place of \eqn{x} and \eqn{n}.
-}
-\item{Plus4}{
+\item \code{"Plus4"}
 This is Wald after adding in two artificial success and two artificial failures.  It
 is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
 \eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.}
+}
 }
 }
 \note{

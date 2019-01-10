@@ -70,7 +70,7 @@ not using \code{groups}.}
 over other layers of the plot.}
 
 \item{fit}{a character string describing the distribution to fit.  Known distributions include
-\code{"exponential"}, \code{"normal"}, \code{"lognormal"}, \code{"poisson"}, \code{"beta"}, \code{"geometric"},
+\code{"exponential"}, \code{"normal"}, \code{"lognormal" }, \code{"poisson"}, \code{"beta"}, \code{"geometric"},
 \code{"t"}, \code{"weibull"}, \code{"cauchy"}, \code{"gamma"}, \code{"chisq"}, and \code{"chi-squared"}}
 
 \item{start}{numeric value passed to \code{\link[MASS:fitdistr]{MASS::fitdistr()}}}

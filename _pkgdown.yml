@@ -1,0 +1,141 @@
+pandoc: 2.2.1
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles:
+  ggformula-lattice: ggformula-lattice.html
+  mosaic-resources: mosaic-resources.html
+reference:
+- title: Plotting
+  desc: Plotting utilities.  But see also the ggformula package.
+  contents:
+  - '`ashplot`'
+  - '`bargraph`'
+  - '`dotPlot`'
+  - '`freqpoly`'
+  - '`freqpolygon`'
+  - '`googleMap`'
+  - '`ladd`'
+  - '`mPlot`'
+  - '`mUSMap`'
+  - '`mWorldMap`'
+  - '`makeColorscheme`'
+  - '`makeMap`'
+  - '`mplot`'
+  - '`panel.levelcontourplot`'
+  - '`panel.lmbands`'
+  - '`panel.plotFun`'
+  - '`panel.plotFun1`'
+  - '`plotCumfreq`'
+  - '`plotDist`'
+  - '`plotFun`'
+  - '`plotModel`'
+  - '`plotPoints`'
+  - '`sp2df`'
+  - '`theme_map`'
+  - '`theme.mosaic`'
+  - '`xqqmath`'
+- title: Numerical Summaries
+  desc: ~
+  contents:
+  - '`fav_stats`'
+  - '`MAD`'
+  - '`MAD_`'
+  - '`mean_`'
+  - '`ntiles`'
+  - '`orrr`'
+  - '`zscore`'
+- title: Models and Distributions
+  desc: ~
+  contents:
+  - '`TukeyHSD.lm`'
+  - '`binom.test`'
+  - '`cdist`'
+  - '`chisq`'
+  - '`cnorm`'
+  - '`confint`'
+  - '`cor_test.formula`'
+  - '`diffmean`'
+  - '`dpqrdist`'
+  - '`fitModel`'
+  - '`fitSpline`'
+  - '`fortify.summary.lm`'
+  - '`fortify.hclust`'
+  - '`pdist`'
+  - '`prop.test`'
+  - '`prop_test`'
+  - '`qdata`'
+  - '`qdata_v`'
+  - '`qdist`'
+  - '`t_test`'
+  - '`update_ci`'
+  - '`xchisq.test`'
+  - '`xpnorm`'
+- title: Simulation
+  desc: ~
+  contents:
+  - '`cull_for_do`'
+  - '`do`'
+  - '`CIsim`'
+  - '`rand`'
+  - '`relm`'
+  - '`repeater-class`'
+  - '`resample`'
+  - '`rfun`'
+  - '`rflip`'
+  - '`rlatlon`'
+  - '`rspin`'
+  - '`statTally`'
+  - '`swap`'
+- title: Extractors
+  desc: ~
+  contents:
+  - '`confint.htest`'
+  - '`rsquared`'
+  - '`value`'
+- title: Other functions
+  desc: ~
+  contents:
+  - '`Broyden`'
+  - '`CIAdata`'
+  - '`FunctionsFromData`'
+  - '`adapt_seq`'
+  - '`aggregatingFunction1`'
+  - '`aggregatingFunction1or2`'
+  - '`aggregatingFunction2`'
+  - '`as.xtabs`'
+  - '`cross`'
+  - '`deg2rad`'
+  - '`derivedVariable`'
+  - '`docFile`'
+  - '`expandFun`'
+  - '`factorize`'
+  - '`findZeros`'
+  - '`findZerosMult`'
+  - '`getVarFormula`'
+  - '`inferArgs`'
+  - '`is.wholenumber`'
+  - '`linear.algebra`'
+  - '`mid`'
+  - '`maggregate`'
+  - '`mosaic-package`'
+  - '`mosaic.options`'
+  - '`perctable`'
+  - '`project`'
+  - '`read.file`'
+  - '`rescale`'
+  - '`rstudio_is_available`'
+  - '`set.rseed`'
+  - '`standardName`'
+  - '`surround`'
+  - '`xyz2latlon`'
+- title: Deprecated and Defunct
+  desc: ~
+  contents:
+  - '`compareMean`'
+  - '`compareProportion`'
+  - '`deltaMethod`'
+  - '`fetchData`'
+  - '`gwm`'
+  - '`mm`'
+  - '`r.squared`'
+  - '`xhistogram`' 

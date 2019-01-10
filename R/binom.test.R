@@ -1,6 +1,6 @@
 #' Exact Tests for Proportions
 #' 
-#' The `binom.test` function
+#' The `binom.test()` function
 #' performs an exact test of a simple null hypothesis about the probability of success in a 
 #' Bernoulli experiment from summarized data or from raw data.
 #' The mosaic `binom.test` provides wrapper functions around the function of the same name in \pkg{stats}.
@@ -32,34 +32,38 @@
 #' @seealso [mosaic::prop.test()], [stats::binom.test()]
 #' 
 
-#' @details
-#' `binom.test` is a wrapper around [binom.test()] from the `base` 
+#' @details 
+#' `binom.test()` is a wrapper around [base::binom.test()] from the base 
 #' package to simplify its use when the raw data are available, in which case 
-#' an extended syntax for `binom.test` is provided.  See the examples.
+#' an extended syntax for `binom.test()` is provided.  See the examples.
 #' 
 #' Also, five confidence interval methods are provided:
-#' \describe{
-#' \item{Clopper-Pearson, binom.test}{This is the interval produced when using [stats::binom.test()]
-#'   from the `stats` package.  It guarantees a coverage rate at least as large as 
+#' * 
+#' \item{
+#' `"Clopper-Pearson", "binom.test"`: This is the interval produced when using 
+#'   [stats::binom.test()]
+#'   from the stats package.  It guarantees a coverage rate at least as large as 
 #'   the nominal coverage rate, but may produce wider intervals than some of the methods
-#'   below, which may either under- or over-cover depending on the data.}
-#' \item{Score, Wilson, prop.test}{This is the usual method used by [stats::prop.test()]
+#'   below, which may either under- or over-cover depending on the data.
+#' * `"Score", "Wilson", "prop.test":  This is the usual method used by [stats::prop.test()]
 #'   and is computed by inverting p-values from score tests. It is often attributed to 
-#'   Edwin Wilson.}
-#'   \item{Wald}{This is the interval traditionally taught in entry level statistics courses.
+#'   Edwin Wilson.  If specified with \code{"prop.test"}, the continuity correction is applied
+#'   (as is the deafult in \code{\link{prop.test}()}), else the continuity correction is not 
+#'   applied.
+#'   * `"Wald"` This is the interval traditionally taught in entry level statistics courses.
 #'   It uses the sample proportion to estimate the standard error and uses normal
 #'   theory to determine how many standard deviations to add and/or subtract from
-#'   the sample proportion to determine an interval.}
-#'   \item{Agresti-Coull}{
+#'   the sample proportion to determine an interval.
+#'   * \"Agresti-Coull"`
 #'   This is the Wald method after setting \eqn{n' = n + z^2} and 
 #'   \eqn{p'= (x + z^2/2) / n}' and using \eqn{x' = n' p'} and \eqn{n'}
 #'   in place of \eqn{x} and \eqn{n}.
-#'   }
-#'   \item{Plus4}{
+#'   
+#'   * `"Plus4"`
 #'   This is Wald after adding in two artificial success and two artificial failures.  It 
 #'   is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
 #'   \eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.}
-#'   }
+#'   
 #' 
 #' @examples
 #' # Several ways to get a confidence interval for the proportion of Old Faithful
@@ -117,7 +121,7 @@ binom.test <-
         choices = c("clopper-pearson", "binom.test", "prop.test", "score", "wilson", 
                     "wald", "agresti-coull", "plus4"))
     
-    if (ci.method %in% c("prop.test", "wilson")) ci.method <- "score"
+    if (ci.method %in% c("wilson")) ci.method <- "score"
     if (ci.method %in% c("binom.test")) ci.method <- "clopper-pearson"
     
     res <- update_ci(
@@ -196,7 +200,7 @@ setMethod(
       cond <- list(gl(1, length(x)))
     }
     
-    binom_test(x, p=p, alternative=alternative, 
+    binom_test(x, p = p, alternative = alternative, 
                conf.level = conf.level, success = success, data.name = data.name, ...)
   }
 )

@@ -97,7 +97,7 @@ interface.  Old behavior should be unchanged.  But if the first argument is a fo
 that formula, together with \code{data} are used to generate the numeric vector(s)
 to be summarized.  Formulas of the shape \code{x ~ a} or \code{~ x | a} can be used to
 produce summaries of \code{x} for each subset defined by \code{a}.  Two-way aggregation
-can be achieved using formulas of the form \code{x ~ a + b} or \code{x ~ a | b}.  See
+can be achieved using formulas of the form \code{x ~ a + b} or \code{ x ~ a | b}.  See
 the examples.
 }
 \section{Note}{

@@ -45,6 +45,15 @@ The following vignette-like documents are available via github
  * [*Graphics with the mosaic package*](https://cdn.rawgit.com/ProjectMOSAIC/mosaic/27c09830/ExtraDocs/GraphicsWithMosaic.html) 
  is gallery of plots made using tools from the `mosaic` package.
 
+## Auxiliary packages
+
+Some features of the mosaic package are provided through auxiliary packages. These include:
+
+* mosaicModel -- implements high-level systems for working with statistical models: effect-size calculation, bootstrapped confidence intervals, prediction error, graphics for models with multiple inputs. The package contains an introductory vignette.
+* mosaicCalc -- provides the calculus components of mosaic, including integration, differentiation, and differential equation solving. See *[Modeling-based calculus with R/mosaic](http://mosaic-web.org/wp-content/uploads/2019/01/UMAP-mosaic-calculus.pdf)* for an instructor-oriented introduction and *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* for a student-facing guide.
+
+Install these packages using `install.packages(c("mosaicCalc", "mosaicModel"))`.
+
 ## Mosaic paper
 
 Pruim R, Kaplan DT and Horton NJ (2017). The mosaic Package: Helping
@@ -73,7 +82,6 @@ an Intro Stats course.
 of R and the `mosaic` package that can be used to teach 
 calculus with R.
 
- * *Start Modeling in R* (coming soon).
  
 ## Textbook Related
 

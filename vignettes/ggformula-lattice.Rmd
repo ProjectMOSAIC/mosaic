@@ -4,20 +4,18 @@ author: "Nicholas Horton (nhorton@amherst.edu)"
 date: '`r Sys.Date()`'
 vignette: |
   %\VignetteIndexEntry{ggformula/lattice Comparison} 
-  %\VignetteEngine{knitr::rmarkdown} 
   \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown} 
 output: 
   html_document:
-    fig_height: 3
+    fig_height: 2.6
     fig_width: 5
   pdf_document:
-    fig_height: 3
+    fig_height: 2.4
     fig_width: 5
-    pandoc_args: [
-      "-V", "classoption=twocolumn"
-    ]
+    pandoc_args: ["-V", "classoption=twocolumn"]
   word_document:
-    fig_height: 3
+    fig_height: 2.6
     fig_width: 5
 ---
 
@@ -35,10 +33,17 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  Originally, the `mosaic` package used `lattice` graphics but now support is also available for the improved `ggformula` system.  Going forward, `ggformula` will be the preferred graphics 
+This document is intended to help users of the `mosaic` package migrate their `lattice` package graphics to `ggformula`.  The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics.  
+
+\newpage
+
+\vspace*{.10in}
+Originally, the `mosaic` package used `lattice` graphics but now support is also available for the improved `ggformula` system.  Going forward, `ggformula` will be the preferred graphics 
 package for Project MOSAIC.
 
 \vfill
+
+\newpage
 
 ## Histograms 
 
@@ -62,6 +67,7 @@ gf_histogram(~ age, data = HELPrct,
 
 </div>
 \newpage
+\vspace*{.03in}
 
 <div class = "col-md-6">
 ### Histograms (lattice)
@@ -101,33 +107,6 @@ gf_dens(~ age, data = HELPrct,
         color = ~ sex)
 ```
 
-
-</div>
-\newpage
-
-<div class = "col-md-6">
-### Density plots (lattice)
-
-```{r, dens-lattice, message = FALSE}
-densityplot(~ age, data = HELPrct)
-```
-
-### Overlaid density plots (lattice)
-
-```{r, dens2-lattice}
-densityplot(~ age, data = HELPrct,
-            groups = sex,  auto.key = TRUE)
-```
-
-</div>
-</div>
-
-\newpage
-
-
-<div class = "row">
-<div class = "col-md-6">
-
 ### Density over histograms (ggformula)
 
 We can use stacked layers to add a density curve based on a 
@@ -143,9 +122,21 @@ gf_dhistogram( ~ age, data = HELPrct,
 
 </div>
 \newpage
+\vspace*{.03in}
 
 <div class = "col-md-6">
+### Density plots (lattice)
 
+```{r, dens-lattice, message = FALSE}
+densityplot(~ age, data = HELPrct)
+```
+
+### Overlaid density plots (lattice)
+
+```{r, dens2-lattice}
+densityplot(~ age, data = HELPrct,
+            groups = sex,  auto.key = TRUE)
+```
 ### Density over histograms (lattice)
 
 `mosaic` makes it easy to add a fitted distribution to a histogram.
@@ -161,44 +152,58 @@ histogram(~ age, data = HELPrct,
 
 \newpage
 
-## Side by side box plots 
+
+
+## Side by side boxplots 
 
 <div class = "row">
 <div class = "col-md-6">
 
-### Side by side box plots (ggformula)
+### Side by side boxplots (ggformula)
 
 ```{r, boxplot-gg, message = FALSE}
 gf_boxplot(age ~ sex, data = HELPrct)
 ```
 
-### Faceted side by side box plots (ggformula)
+### Faceted side by side boxplots (ggformula)
 
 ```{r, boxplot-facets-gg, message = FALSE}
 gf_boxplot(age ~ sex | homeless, 
   data = HELPrct)
 ```
 
+### Horizontal boxplots (ggformula)
+
+```{r, boxploth-gg, message = FALSE}
+gf_boxploth(sex ~ age, data = HELPrct)
+```
+
 
 </div>
 \newpage
+\vspace*{.03in}
 
 <div class = "col-md-6">
 
 
-### Side by side plots (lattice)
+### Side by side boxplots (lattice)
 
 ```{r, boxplot-lattice, message = FALSE}
 bwplot(age ~ sex, data = HELPrct)
 ```
 
-### Faceted side by side plots (lattice)
+### Faceted side by side boxplots (lattice)
 
 ```{r, boxplot-facet-lattice, message = FALSE}
 bwplot(age ~ sex | homeless, 
        data = HELPrct)
 ```
 
+### Horizontal boxplots (lattice)
+
+```{r, boxploth-lattice, message = FALSE}
+bwplot(sex ~ age, data = HELPrct)
+```
 
 </div>
 </div>
@@ -228,6 +233,7 @@ gf_point(cesd ~ age, data = HELPrct,
 
 </div>
 \newpage
+\vspace*{.03in}
 
 <div class = "col-md-6">
 
@@ -273,9 +279,11 @@ gf_point(cesd ~ age, data = HELPrct,
          color = ~ sex) %>%
   gf_lm() %>% 
   gf_theme(legend.position = "top") %>% 
-  gf_labs(title = "This is my ggformula plot", 
-    x = "age (in years)", 
-    y = "CES-D measure of \ndepressive symptoms")
+  gf_labs(
+    title = "This is my ggformula plot", 
+    x     = "age (in years)", 
+    y     = "CES-D measure of
+depressive symptoms")
 ```
 
 
@@ -304,7 +312,8 @@ xyplot(cesd ~ age, groups = sex,
        auto.key = TRUE, 
        main = "This is my lattice plot", 
        xlab = "age (in years)", 
-       ylab = "CES-D measure of \ndepressive symptoms",
+       ylab = "CES-D measure of
+depressive symptoms",
        data = HELPrct)
 ```
 
@@ -328,45 +337,57 @@ gf_point(cesd ~ age, data = HELPrct) %>%
 ### Custom Colors (ggformula)
 
 ```{r refine-gg}
-gf_dens( ~ cesd, color = ~ sex, data = HELPrct) %>%
-  gf_rug(0 ~ cesd, 
-         position = position_jitter(height = 0)) %>%
+gf_dens(
+  ~ cesd, data = HELPrct, 
+  color = ~ sex) %>%
+  gf_rug(
+    0 ~ cesd, 
+    position = position_jitter(height = 0)
+  ) %>%
   gf_refine(
-    scale_color_manual(values = c("navy", "red"))) 
+    scale_color_manual(
+      values = c("navy", "red"))) 
 ```
 
 </div>
 \newpage
+\vspace*{.03in}
 
 <div class = "col-md-6">
 
 ### Log scales (lattice)
 
 ```{r, log-scales-lattice}
-xyplot(cesd ~ age, data = HELPrct,
-       scales = list(y = list(log = TRUE)))
+xyplot(
+  cesd ~ age, data = HELPrct,
+  scales = list(y = list(log = TRUE)))
 ```
 
 ### Custom Colors (lattice)
 
 ```{r, refine-lattice}
-densityplot( ~ cesd, groups = sex, data = HELPrct, 
-             rug = FALSE,
-             par.settings = 
-               list(
-                 superpose.line = 
-                   list(col = c("navy", "red")),
-                 superpose.symbol = 
-                   list(col = c("navy", "red"))
-               )) 
+densityplot( 
+  ~ cesd, data = HELPrct, groups = sex,
+  rug = FALSE,
+  par.settings = 
+    list(
+      superpose.line = 
+        list(col = c("navy", "red")),
+      superpose.symbol = 
+        list(col = c("navy", "red"))
+    )) 
 ```
 </div>
 </div>
+
+\newpage
 
 ## Want to explore more?
 
 Within RStudio, after loading the `mosaic` package, try running the command `mplot(ds)` where `ds` is a dataframe.  This will open up an interactive visualizer that will output the code to generate the figure (using `lattice`, `ggplot2`, or `ggformula`) when you click on `Show Expression`. 
 
+
+\newpage
 
 ## References 
 

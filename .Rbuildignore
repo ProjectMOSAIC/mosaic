@@ -36,4 +36,5 @@ vignettes-source$
 ^data-raw$
 ^revdep$
 ^_output\.yaml$
+^_pkgdown\.yml$
 ^cran-comments\.md$

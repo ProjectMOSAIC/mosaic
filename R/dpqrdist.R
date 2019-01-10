@@ -48,8 +48,7 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 #' @param resolution Number of points used for detecting discreteness and generating plots.  
 #'        The default value of 5000 should work well except for discrete distributions
 #'        that have many distinct values, especially if these values are not evenly spaced.
-#' @param ... Additional arguments, including parameters of the distribution
-#' and additional options for the plot
+#' @param ... Additional arguments, typically for fine tuning the plot.
 #' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
 #' @param refinements A list of refinements to the plot.  See [ggformula::gf_refine()].
 #' @details The most general function is `pdist` which can work with 
@@ -368,95 +367,196 @@ plot_multi_dist <-
 #' @rdname pdist
 #' @seealso [qdist()], [xpnorm()], [xqnorm()].
 #' @export
-xpgamma <- function(...)  pdist("gamma", ...)
+xpgamma <- function(q, shape, rate = 1, scale = 1/rate, 
+        lower.tail = TRUE, log.p = FALSE, ...)
+  pdist("gamma", q = q, shape = shape, rate = rate, scale = scale,
+        lower.tail = lower.tail, log.p = log.p, ...)
+#' @rdname qdist
+#' @inheritParams stats::qgamma
+#' @export
+xqgamma <- function(p, shape, rate = 1, scale = 1/rate, 
+                    lower.tail = TRUE, log.p = FALSE, ...)
+  qdist("gamma", p = p, shape = shape,
+        rate = rate, scale = scale,
+        lower.tail = lower.tail, log.p = log.p,
+        ...)
+#' @rdname cdist
+#' @inheritParams stats::qgamma
+#' @export
+xcgamma <- function(p, shape, rate = 1, scale = 1/rate, 
+                    lower.tail = TRUE, log.p = FALSE, ...)
+  cdist("gamma", q = q, shape = shape,
+        rate = rate, scale = scale,
+        lower.tail = lower.tail, log.p = log.p,
+        ...)
+
+#' @rdname pdist
+#' @inheritParams stats::pt
+#' @export
+xpt <- function(q, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
+  pdist("t", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 #' @rdname qdist
 #' @export
-xqgamma <- function(...)  qdist("gamma", ...)
+xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
+  if (missing(ncp)) {
+    qdist("t", p = p, df = df, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  } else {
+    qdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  }
 #' @rdname cdist
 #' @export
-xcgamma <- function(...)  cdist("gamma", ...)
+xct <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
+  cdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 
 #' @rdname pdist
 #' @export
-xpt <- function(...)  pdist("t", ...)
+xpchisq <- function(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
+  pdist("chisq", q = q, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
 #' @rdname qdist
 #' @export
-xqt <- function(...)  qdist("t", ...)
+xqchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
+  qdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
 #' @rdname cdist
 #' @export
-xct <- function(...)  cdist("t", ...)
+xcchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
+  cdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
 
 #' @rdname pdist
+#' @inheritParams stats::pf
 #' @export
-xpchisq <- function(...)  pdist("chisq", ...)
-#' @rdname qdist
-#' @export
-xqchisq <- function(...)  qdist("chisq", ...)
-#' @rdname cdist
-#' @export
-xcchisq <- function(...)  cdist("chisq", ...)
+xpf <- function(q, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)  
+  pdist("f", q = q, df1 = df1, df2 =df2, 
+        lower.tail = lower.tail, log.p = log.p, ...)
 
-#' @rdname pdist
-#' @export
-xpf <- function(...)  pdist("f", ...)
 #' @rdname qdist
+#' @inheritParams stats::qf
 #' @export
-xqf <- function(...)  qdist("f", ...)
-#' @rdname cdist
-#' @export
-xcf <- function(...)  cdist("f", ...)
+xqf <- function(p, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)  
+  qdist("f", p = p, df1 = df1, df2 =df2, 
+        lower.tail = lower.tail, log.p = log.p, ...)
 
-
-#' @rdname pdist
-#' @export
-xpbinom <- function(...)  pdist("binom", ...)
-#' @rdname qdist
-#' @export
-xqbinom <- function(...)  qdist("binom", ...)
 #' @rdname cdist
+#' @inheritParams stats::qf
 #' @export
-xcbinom <- function(...)  cdist("binom", ...)
-
-#' @rdname pdist
-#' @export
-xppois <- function(...)  pdist("pois", ...)
-#' @rdname qdist
-#' @export
-xqpois <- function(...)  qdist("pois", ...)
-#' @rdname cdist
-#' @export
-xcpois <- function(...)  cdist("pois", ...)
+xcf <- function(p, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)  
+  cdist("f", p = p, df1 = df1, df2 =df2, 
+        lower.tail = lower.tail, log.p = log.p, ...)
 
 
 #' @rdname pdist
+#' @inheritParams stats::pbinom
 #' @export
-xpgeom <- function(...)  pdist("geom", ...)
+xpbinom <- function(q, size, prob, lower.tail = TRUE, log.p = FALSE, ...)  
+  pdist("binom", q = q, size = size, prob = prob, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
 #' @rdname qdist
+#' @inheritParams stats::qbinom
 #' @export
-xqgeom <- function(...)  qdist("geom", ...)
+xqbinom <- function(p, size, prob, lower.tail = TRUE, log.p = FALSE, ...)  
+  qdist("binom", p = p, size = size, prob = prob, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
 #' @rdname cdist
+#' @inheritParams stats::qbinom
 #' @export
-xcgeom <- function(...)  cdist("geom", ...)
+xcbinom <- function(p, size, prob, lower.tail = TRUE, log.p = FALSE, ...)  
+  cdist("binom", p = p, size = size, prob = prob, 
+        lower.tail = lower.tail, log.p = log.p, ...)
 
 #' @rdname pdist
+#' @inheritParams stats::ppois
 #' @export
-xpnbinom <- function(...)  pdist("nbinom", ...)
+xppois <- function(q, lambda, lower.tail = TRUE, log.p = FALSE, ...)  
+  pdist("pois", q = q, lambda = lambda, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
 #' @rdname qdist
+#' @inheritParams stats::qpois
 #' @export
-xqnbinom <- function(...)  qdist("nbinom", ...)
+xqpois <- function(p, lambda, lower.tail = TRUE, log.p = FALSE, ...)  
+  qdist("pois", p = p, lambda = lambda, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+
 #' @rdname cdist
+#' @inheritParams stats::qpois
 #' @export
-xcnbinom <- function(...)  qdist("cbinom", ...)
+xcpois <- function(p, lambda, lower.tail = TRUE, log.p = FALSE, ...)  
+  cdist("pois", p = p, lambda = lambda, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
 
 #' @rdname pdist
+#' @inheritParams stats::pgeom
 #' @export
-xpbeta <- function(...)  pdist("beta", ...)
+xpgeom <- function(q, prob, lower.tail = TRUE, log.p = FALSE, ...)  
+  pdist("geom", q = q, prob = prob, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
 #' @rdname qdist
+#' @inheritParams stats::qgeom
 #' @export
-xqbeta <- function(...)  qdist("beta", ...)
+xqgeom <- function(p, prob, lower.tail = TRUE, log.p = FALSE, ...)  
+  qdist("geom", p = p, prob = prob, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+
 #' @rdname cdist
+#' @inheritParams stats::qgeom
 #' @export
-xcbeta <- function(...)  cdist("beta", ...)
+xcgeom <- function(p, prob, lower.tail = TRUE, log.p = FALSE, ...)  
+  cdist("geom", p = p, prob = prob, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+#' @rdname pdist
+#' @inheritParams stats::pnbinom
+#' @export
+xpnbinom <- function(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
+  pdist("nbinom", q = q, size = size, prob =prob, mu = mu, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+#' @rdname qdist
+#' @inheritParams stats::qnbinom
+#' @export
+xqnbinom <- function(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
+  qdist("nbinom", p = p, size = size, prob =prob, mu = mu, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+#' @rdname cdist
+#' @inheritParams stats::qnbinom
+#' @export
+xcnbinom <- function(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
+  cdist("nbinom", p = p, size = size, prob =prob, mu = mu, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+#' @rdname pdist
+#' @inheritParams stats::pbeta
+#' @export
+xpbeta <- function(q, shape1, shape2, ncp = 0, 
+                   lower.tail = TRUE, log.p = FALSE, ...)  
+  pdist("beta", q = q, shape1 = shape1, shape2 = shape2, ncp = 0, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+#' @rdname qdist
+#' @inheritParams stats::qbeta
+#' @export
+xqbeta <- function(p, shape1, shape2, ncp = 0, 
+                   lower.tail = TRUE, log.p = FALSE, ...)  
+  qdist("beta", p = p, shape1 = shape1, shape2 = shape2, ncp = 0, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+
+#' @rdname cdist
+#' @inheritParams stats::qbeta
+#' @export
+xcbeta <- function(p, shape1, shape2, ncp = 0, 
+                   lower.tail = TRUE, log.p = FALSE, ...)  
+  cdist("beta", p = p, shape1 = shape1, shape2 = shape2, ncp = 0, 
+        lower.tail = lower.tail, log.p = log.p, ...)
 
 
 is_discrete_dist <- function(dist, n = 100L, ... ) {
