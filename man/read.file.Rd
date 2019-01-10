@@ -63,7 +63,6 @@ Otherwise, \code{\link[=read.table]{read.table()}} is used.
 \dontrun{
 Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
 }
-Mustangs <- read.file("MustangPrice.csv", package="mosaic")
 }
 \seealso{
 \code{\link[=read.csv]{read.csv()}}, \code{\link[=read.table]{read.table()}},

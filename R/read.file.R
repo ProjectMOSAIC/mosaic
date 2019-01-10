@@ -59,7 +59,6 @@ NA
 #' \dontrun{
 #' Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
 #' }
-#' Mustangs <- read.file("MustangPrice.csv", package="mosaic")
 #' @export
 
 read.file <-
@@ -68,7 +67,7 @@ function (file, header = T, na.strings = "NA",
     filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"), 
     stringsAsFactors = FALSE,
     readr = FALSE,
-    package=NULL, ...) 
+    package = NULL, ...) 
 {
     readr_available <- readr && requireNamespace("readr")
     using_readr <- FALSE
