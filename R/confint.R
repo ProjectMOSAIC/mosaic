@@ -66,23 +66,27 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #' 
 #' @examples
 #' if (require(mosaicData)) {
-#'   bootstrap <- do(500) * diffmean( age ~ sex, data=resample(HELPrct) )
+#'   bootstrap <- do(500) * diffmean( age ~ sex, data = resample(HELPrct) )
 #'   confint(bootstrap)
 #'   confint(bootstrap, method = "percentile")
 #'   confint(bootstrap, method = "boot")
-#'   confint(bootstrap, method = "se", df=nrow(HELPrct) - 1)
+#'   confint(bootstrap, method = "se", df = nrow(HELPrct) - 1)
 #'   confint(bootstrap, margin.of.error = FALSE)
-#'   confint(bootstrap, margin.of.error = TRUE, level=0.99, method=c("boot", "se", "perc") )
-#'   bootstrap2 <- do(500)*mean( resample(1:10) ) 
+#'   confint(bootstrap, margin.of.error = TRUE, level = 0.99, 
+#'     method = c("boot", "se", "perc") )
+#'   bootstrap2 <- do(500) * mean( resample(1:10) ) 
 #'   confint(bootstrap2)
 #' }
 #' @export
 
 confint.numeric <- function(object, parm, level = 0.95, ...,
                             method = "percentile", 
-                           margin.of.error="stderr" %in% method=="stderr") {
+                            margin.of.error = "stderr" %in% method == "stderr") {
   
-  method <- match.arg(method, c("stderr","percentile","quantile"), several.ok=TRUE)
+  if ("conf.level" %in% names(list(...))) {
+    stop("Use `level` to set the confidence level, not `conf.level`.")
+  }
+  method <- match.arg(method, c("stderr","percentile","quantile"), several.ok = TRUE)
   result <- list()
   for (m in method) {
     vals <- .mosaic.get.ci( object, level, m )
@@ -150,10 +154,13 @@ extract_estimate <- function(x) {
 #' @rdname confint
 #' @export
 confint.do.tbl_df <- function(object, parm, level = 0.95, ..., 
-                                 method="percentile", 
-                                 margin.of.error="stderr" %in% method,
+                                 method = "percentile", 
+                                 margin.of.error = "stderr" %in% method,
                                  df = NULL) {
   
+  if ("conf.level" %in% names(list(...))) {
+    stop("Use `level` to set the confidence level, not `conf.level`.")
+  }
   class(object) <- c("do.data.frame", class(object))
   confint(object, parm, level = level, ..., method = method,
           margin.of.error = margin.of.error, df = df) 
@@ -161,19 +168,19 @@ confint.do.tbl_df <- function(object, parm, level = 0.95, ...,
 
 #' @rdname confint
 #' @export
-confint.do.data.frame <- function(object, parm, level=0.95, ..., 
-                                 method="percentile", 
-                                 margin.of.error="stderr" %in% method,
+confint.do.data.frame <- function(object, parm, level = 0.95, ..., 
+                                 method = "percentile", 
+                                 margin.of.error = "stderr" %in% method,
                                  df = NULL) {
  
   method <- tolower(method) 
   method <- 
     match.arg(method, 
               c("percentile", "se", "stderr", "basic", "reverse", "quantile", "bootstrap-t"), 
-                      several.ok=TRUE) # which method was selected
-  method[method=="quantile"] <- "percentile"
-  method[method=="basic"] <- "reverse"
-  method[method=='se'] <- 'stderr'
+                      several.ok = TRUE) # which method was selected
+  method[method == "quantile"] <- "percentile"
+  method[method == "basic"] <- "reverse"
+  method[method == 'se'] <- 'stderr'
   method <- unique(method)
   
   bootT <- ("bootstrap-t" %in% method) & (lazyeval::f_rhs(attr(object, "lazy"))[[1]] == "favstats")
@@ -206,12 +213,12 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   
   if (is.null(df) || length(df) != 1) {
     df <- Inf
-    if ("stderr" %in% method) warning("confint: Using df=Inf.", call. = FALSE)
+    if ("stderr" %in% method) warning("confint: Using df = Inf.", call. = FALSE)
   }
   
   if (missing(parm)) parm <- names(object)
   nms <- intersect(names(object),parm)
-  res <- data.frame( matrix( nrow=0, ncol=5) )
+  res <- data.frame( matrix( nrow = 0, ncol = 5) )
   names(res) <- c("name", "lower","upper","level","method")
   row <- 0
   culler <- attr(object, "culler")
@@ -226,10 +233,10 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
         if (is.numeric( object[[nms[k]]] )) {
           if (! nms[k] %in% names(estimate) ) next
           row <- row + 1
-          # vals <- .mosaic.get.ci2( object[[nms[k]]], l, m, df=df)
+          # vals <- .mosaic.get.ci2( object[[nms[k]]], l, m, df = df)
           vals <- 
             bootstrap_ci( 
-              object[[nms[k]]], level = l, method = m, df=df, 
+              object[[nms[k]]], level = l, method = m, df = df, 
               estimate =  estimate[[ nms[k] ]]
             )
           res[row, "name"] <- nms[k]
@@ -253,8 +260,8 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
   if( margin.of.error && prod(dim(res)) > 0 ) {
 #     res[, "estimate"] <- with( res, (upper+lower)/2 )
     res[, "margin.of.error"] <- with( res,  (res$upper-res$lower)/2 )
-#    res[ res$method!="stderr", "estimate"] <- NA
-    res[ res$method!="stderr", "margin.of.error"] <- NA
+#    res[ res$method != "stderr", "estimate"] <- NA
+    res[ res$method != "stderr", "margin.of.error"] <- NA
   } 
 #  else {
 #    res <- res[ , setdiff(names(res), "estimate") ]
@@ -262,7 +269,7 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
 
   # Change the names to those given by confint.default
 #  colnames(res) <- 
-#    if (method=="quantile") 
+#    if (method == "quantile") 
 #      c("name", paste(c((1-level)/2, 1-(1-level)/2)*100, "%" ))
 #    else c("name", "lower", "upper")
   
@@ -278,27 +285,27 @@ confint.do.data.frame <- function(object, parm, level=0.95, ...,
 }
 
 .turn.to.margin <- function(res) {
-  data.frame( name=res$name, center=(res[[2]]+res[[3]])/2,
-              margin.of.error=(res[[3]]-res[[2]])/2)
+  data.frame( name = res$name, center = (res[[2]]+res[[3]])/2,
+              margin.of.error = (res[[3]]-res[[2]])/2)
 }
 
-.mosaic.get.ci <- function( vals, level, method, df=NULL) {
+.mosaic.get.ci <- function( vals, level, method, df = NULL) {
   alpha <- (1-level)/2
   if( method == "stderr" ) {
     if (is.null(df)) { df <- sum(!is.na(vals)) - 1 }
-    res = mean(vals, na.rm=TRUE) + 
-      c(-1,1) * sd(vals, na.rm=TRUE) * qt(1-alpha, df)
+    res = mean(vals, na.rm = TRUE) + 
+      c(-1,1) * sd(vals, na.rm = TRUE) * qt(1-alpha, df)
   }
   # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
   else res = stats::quantile(vals, c(alpha, 1-alpha) )
   return(res)
 }
 
-.mosaic.get.ci2 <- function( vals, level, method, df=Inf) {
+.mosaic.get.ci2 <- function( vals, level, method, df = Inf) {
   alpha <- (1 - level) / 2
   if( method == "stderr" ) {
-    res = mean(vals, na.rm=TRUE) + 
-    c(-1,1) * sd(vals, na.rm=TRUE) * qt(1-alpha, df)
+    res = mean(vals, na.rm = TRUE) + 
+    c(-1,1) * sd(vals, na.rm = TRUE) * qt(1-alpha, df)
   }
   # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
   else res = stats::quantile(vals, c(alpha, 1-alpha) )
@@ -309,7 +316,7 @@ bootstrap_ci <- function( x, level = 0.95, method,
                           df = Inf, t, ... ) {
   switch(
     method,
-    `stderr` = tse_bootstrap_ci(x, level = level, df=df, ...),
+    `stderr` = tse_bootstrap_ci(x, level = level, df = df, ...),
     `percentile` = percentile_bootstrap_ci(x, level = level, ...),
     `reverse` = basic_bootstrap_ci(x, level = level, ...),
     `bootstrap-t` = boott_bootstrap_ci(x, level = level, estimate, ...)
@@ -328,14 +335,14 @@ percentile_bootstrap_ci <- function( x, ..., level = 0.95 ) {
 
 tse_bootstrap_ci <- function( x, ..., df = Inf, level = 0.95 ) {
   alpha <- (1 - level) / 2
-  mean(x, na.rm=TRUE) + 
-    c(-1,1) * sd(x, na.rm=TRUE) * qt(1-alpha, df)
+  mean(x, na.rm = TRUE) + 
+    c(-1,1) * sd(x, na.rm = TRUE) * qt(1-alpha, df)
 }
 
 boott_bootstrap_ci <- function( x, se, ..., level = 0.95, estimate ) {
   alpha <- (1-level)/2
   t <- (x - mean(x)) / se
-  q <- stats::quantile(t, c(hi = 1 - alpha, lo=alpha), na.rm = TRUE)
+  q <- stats::quantile(t, c(hi = 1 - alpha, lo = alpha), na.rm = TRUE)
   as.vector( estimate - q * SE)
 }
 
@@ -344,20 +351,23 @@ boott_bootstrap_ci <- function( x, se, ..., level = 0.95, estimate ) {
 #' @rdname confint
 #' @export
  
-confint.data.frame <- function(object, parm, level=0.95, ... )  {
+confint.data.frame <- function(object, parm, level = 0.95, ... )  {
+  if ("conf.level" %in% names(list(...))) {
+    stop("Use `level` to set the confidence level, not `conf.level`.")
+  }
   results <- list()
   for (c in 1:ncol(object)) {
     x <- object[,c]
     if (is.numeric(x)) { 
       newCI <- confint(t.test(x, ...))
-      newRow <- data.frame( method="t.test", estimate=newCI[1], lower=newCI[2], 
-                            upper=newCI[3], level=newCI[4])
+      newRow <- data.frame( method = "t.test", estimate = newCI[1], lower = newCI[2], 
+                            upper = newCI[3], level = newCI[4])
       
     } else if ( (is.factor(x) && nlevels(x) <= 2) || (is.character(x) && length(unique(x)) <= 2) || is.logical(x)) { 
       newCI <- confint(binom.test(x, ...)) 
-      newRow <- data.frame( method="binom.test", estimate=newCI[1], lower=newCI[2], upper=newCI[3], level=newCI[4])
+      newRow <- data.frame( method = "binom.test", estimate = newCI[1], lower = newCI[2], upper = newCI[3], level = newCI[4])
     } else {
-      newRow <- data.frame(method="none", estimate=NA, lower=NA, upper=NA, level=NA)
+      newRow <- data.frame(method = "none", estimate = NA, lower = NA, upper = NA, level = NA)
     }
     results <- rbind(results,newRow)
   }  
