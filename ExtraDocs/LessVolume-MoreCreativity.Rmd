@@ -1,6 +1,6 @@
 ---
 title: "Less Volume, More Creativity -- Getting Started with the mosaic Package"
-author: "Randall Pruim"
+author: "Randall Pruim (updated by Nicholas Horton)"
 date: '`r Sys.Date()`'
 vignette: |
   %\VignetteIndexEntry{Less Volume, More Creativity} 
@@ -87,7 +87,7 @@ not to add too much complexity to the game plan.
 <img src="images/MikeMcCarthy.jpg" align="top" width="200"></td>
 <td align="top"> A lot of times you end up putting in a lot more volume, because you are teaching fundamentals  and you are teaching concepts that you need to put in, but you may not necessarily use because they are building blocks for other concepts and variations that will come off of that ... In the offseason you have a chance to take a step back and tailor it more specifically towards your  team and towards your players." 
 <br><br>
-Mike McCarthy, Head Coach, Green Bay Packers 
+Mike McCarthy, former Head Coach, Green Bay Packers 
 </td>
 </tr>
 </table>
@@ -220,7 +220,7 @@ are useful in the context of nearly all computer tools, just substitute "the com
 
 ## How do we make this plot? (Questions)
 ```{r, echo=FALSE, out.width="60%", out.height="35%"}
-xyplot( births ~ date, data=Births78) 
+gf_point(births ~ date, data = Births78) 
 ```
 
 ### What is the Goal?
@@ -241,25 +241,25 @@ xyplot( births ~ date, data=Births78)
 #### What does R need to know?
 
  * which variable goes where (`births ~ date`)
- * which data set (`data=Births78`)
+ * which data set (`data = Births78`)
     * use `?Births78` for documentation
 
 #### Putting it all together
 
 ```{r, echo=TRUE, out.width="60%"}
-xyplot( births ~ date, data=Births78) 
+gf_point(births ~ date, data = Births78) 
 ```
 
 ### Your turn: How do you make this plot?
 
 
 ```{r, echo=FALSE}
-bwplot( age ~ substance, data=HELPrct, xlab="substance" )
+gf_boxplot(age ~ substance, data = HELPrct, xlab = "substance")
 ```
 
 Some things you will need to know:
 
-1. Command: <code>bwplot()</code>
+1. Command: <code>gf_boxplot()</code>
 
 2. The data: <code>HELPrct</code>
  * Variables: <code>age</code>, <code>substance</code>
