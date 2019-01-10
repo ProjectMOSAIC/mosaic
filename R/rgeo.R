@@ -230,6 +230,66 @@ googleMap <- function(latitude, longitude, position=NULL,
 	}
 }
 
+#' @param latitude,longitude vectors of latitude and longitude values
+#' @param position a data frame containing latitude and longitude positions
+#' @param zoom zoom level for initial map (1-20)
+# #' @param maptype one of `'roadmap'`, `'satellite'`, `'terrain'`, and `'hybrid'`
+#' @param mark a logical indicating whether the location should be marked with a pin
+#' @param radius a vector of radii of circles (in miles) centered at position that are displayed on the map
+#' @param \dots additional arguments passed to [leaflet::addCircles()]
+#' @return a leaflet map
+#' @examples
+#'   leaflet_map(40.7566, -73.9863, radius = 1)  # Times Square
+#'   leaflet_map(position = rgeo(3), radius = 1) # 3 random locations
+#' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
+#' @importFrom leaflet leaflet addTiles addCircles addMarkers
+#' @export
+ 
+leaflet_map <- 
+  function(latitude, longitude, position = NULL,
+           zoom = 12,  
+           maptype = c('roadmap','satellite','terrain','hybrid'),
+           mark = FALSE, radius = 0, browse = TRUE, ...
+  ) {
+    if (! is.null(position)) {
+      if (!missing(latitude) || !missing(longitude)) {
+        stop("Specify either position or lat/lon, but not both.")
+      }
+      if ("latitude" %in% names(position)) {
+        latitude  <- position[, "latitude"]
+      } else {
+        latitude  <- position[, 1]
+      }
+      if ("longitude" %in% names(position)) {
+        longitude  <- position[, "longitude"]
+      } else {
+        longitude  <- position[, 2]
+      }
+    }
+    
+    m <-
+      leaflet::leaflet() %>%
+      leaflet::addTiles() # Add default OpenStreetMap map tiles
+    if (mark) {
+      m <- m %>% leaflet::addMarkers(
+        lng = longitude, lat = latitude, 
+        popup = paste("lat/lon: ", format(latitude, digits = 5), 
+                      "/", format(longitude, digits = 5), sep = "")
+      )
+    }
+    m <- m %>% 
+      addCircles(
+        lng = longitude,
+        lat = latitude,
+        radius = radius * 1609.34,  # convert from miles to meters
+        popup = paste("radius:", radius, "miles"),
+        ...
+      )
+    
+    return(m) 
+    
+  }
+
 
 #' rgeo internal functions
 #' 
