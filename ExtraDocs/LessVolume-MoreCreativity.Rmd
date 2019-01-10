@@ -26,22 +26,23 @@ border:0px;
 }
 </style>
 
-```{r, include=FALSE}
+```{r, include = FALSE}
 require(lubridate)
 require(dplyr)
 require(mosaic)
 require(mosaicData)
-trellis.par.set(theme=col.mosaic())
+theme_set(theme_bw())
+trellis.par.set(theme = col.mosaic())
 require(knitr)
 opts_chunk$set(
-  size='tiny', 
-  tidy=FALSE,
-  fig.width=6, 
-  fig.height=3,
-  fig.align="center",
-  out.width="70%"
+  size = 'tiny', 
+  tidy = FALSE,
+  fig.width = 6, 
+  fig.height = 3,
+  fig.align = "center",
+  out.width = "70%"
 )
-options(width=90)
+options(width = 90)
 ```
 
 ## Project MOSAIC and the `mosaic` package
@@ -57,9 +58,9 @@ and modeling to students in colleges and universities.
          * updates more frequently than CRAN
          * use `devtools::install_github(ProjectMOSAIC/mosaic)` to install 
          directly from github
-         * add the optional `ref="beta"` to install from the beta (developmental) 
+         * add the optional `ref = "beta"` to install from the beta (developmental) 
          branch
-         * add `build_vignettes=TRUE` if your system is equipped to build vignettes.
+         * add `build_vignettes = TRUE` if your system is equipped to build vignettes.
      
 ### A note about this document  
 
@@ -119,8 +120,9 @@ One key to successfully introducing R is finding a set of commands that is
 It is not enough to use R, it must be used elegantly.
 
 Two examples of this principle:
- * the **mosaic** package
- * the **dplyr** package (Hadley Wickham)
+
+* the **mosaic** package
+* the **dplyr** package (Hadley Wickham)
 
 ### Minimal R
 
@@ -236,7 +238,7 @@ gf_point(births ~ date, data = Births78)
 
 #### What is the Goal?
 
-* a scatter plot (`xyplot()`)
+* a scatter plot (`gf_point()`)
 
 #### What does R need to know?
 
@@ -268,31 +270,34 @@ Some things you will need to know:
 #### Answer
 
 ```{r, echo=TRUE}
-bwplot( age ~ substance, data=HELPrct)
+gf_boxplot( age ~ substance, data = HELPrct)
 ```
 
 ### Your turn: How about this one?
 
 ```{r, echo=FALSE}
-bwplot( substance ~ age, data=HELPrct)
+gf_boxploth( substance ~ age, data = HELPrct)
 ```
 
 Some things you will need to know:
 
-1. Command: <code>bwplot()</code>
+1. Command: <code>gf_boxploth()</code> for horizontal boxplots
 
-2. The data: <code>HELPrct</code>
- * Variables: <code>age</code>, <code>substance</code>
- * use `?HELPrct` for info about data
+
+2. The data: <code>HELPrct</code
+>
+   * Variables: <code>age</code>, <code>substance</code>
+   * use `?HELPrct` for info about data
 
 #### Answer
 
 ```{r, echo=TRUE}
-bwplot( substance ~ age, data=HELPrct )
+gf_boxploth( substance ~ age, data = HELPrct )
 ```
 
 Note that we have reversed which variable is mapped to the x-axis and which
-to the y-axis by reversing their order in the formula.
+to the y-axis by reversing their order in the formula and using
+`gf_boxploth()` instead of `gf_boxplot()`.
 
 ### Graphical Summaries: One Variable
 ```{r, }
@@ -306,11 +311,11 @@ the **right side** of the formula.
 
 #### One Variable
 ```{r, eval=FALSE, tidy=FALSE}
-  gf_histogram(~ age, data = HELPrct) 
-    gf_density(~ age, data = HELPrct) 
-    gf_boxplot(~ age, data = HELPrct) 
-         gf_qq(~ age, data = HELPrct) 
-   gf_freqpoly(~ age, data = HELPrct) 
+  gf_histogram( ~ age, data = HELPrct) 
+    gf_density( ~ age, data = HELPrct) 
+    gf_boxplot( ~ age, data = HELPrct) 
+         gf_qq( ~ age, data = HELPrct) 
+   gf_freqpoly( ~ age, data = HELPrct) 
 ```
 
 #### Two Variables
@@ -364,15 +369,16 @@ names(NHANES)      # body shape, etc.
 
 ### groups and panels
 
- * Add `color = ~ `<span class="invboxed">group</span> to overlay.
+* Add `color = ~ `<span class="invboxed">group</span> 
+ or `fill = ~ `<span class="invboxed">group</span> 
+to overlay with different colors.
  
- * Use `y ~ x | z` to create multipanel plots.
+* Use `y ~ x | z` to create multipanel plots.
 
 Here is an example.
 
 ```{r, tidy=FALSE}
-gf_density( ~ age | sex, data = HELPrct,  
-               fill = ~ substance)
+gf_density( ~ age | sex, data = HELPrct, fill = ~ substance)
 ```
 
 Beginners can create plots with 3 or 4 variables easily and quickly using
@@ -423,8 +429,8 @@ Big idea:
  * Nothing else changes
  
 ```{r, fig.show='hold'}
-gf_histogram(~ age, data = HELPrct)  # binwidth=5 (or 10) might be good here
-     mean(~ age, data = HELPrct)
+gf_histogram( ~ age, data = HELPrct)  # binwidth = 5 (or 10) might be good here
+        mean( ~ age, data = HELPrct)
 ```
 
 #### Other summaries
@@ -439,16 +445,27 @@ The mosaic package includes formula aware versions of
 
 Also provides `favstats()` to compute our favorites.
 ```{r}
-favstats(~ age, data=HELPrct)
+favstats( ~ age, data = HELPrct)
 ```
 
 `favstats()` quickly becomes a go-to function in our courses.
+
+`df_stats()` is similar, but
+
+* stores the results in a data frame
+* can be used to make custom summary tables
+
+```{r, df-stats}
+df_stats( ~ age, data = HELPrct)
+df_stats( ~ age, data = HELPrct, mean, sd, median, iqr)
+```
 
 ### Tallying 
 
 ```{r}
 tally(~ sex, data = HELPrct)
 tally(~ substance, data = HELPrct)
+df_stats(~ substance, data = HELPrct, counts, props)
 ```
 
 ### Numerical Summaries: Two Variables
@@ -456,7 +473,7 @@ tally(~ substance, data = HELPrct)
 There are three ways to think about this.  All do the same thing.
 ```{r, eval = FALSE}
 sd(age ~ substance, data = HELPrct)
-sd(~ age | substance, data=HELPrct)
+sd(~ age | substance, data = HELPrct)
 sd(~ age, groups = substance, data = HELPrct)  
 # note option color = ~ substance is used for graphics
 ```
@@ -467,13 +484,22 @@ sd(~ age, groups = substance, data = HELPrct)
 This makes it possible to easily convert three different types of plots
 into the (same) corresponding numerical summary.
 
+`df_stats()` can also be used with multiple variables
+and provides a different output format.
+
+```{r, df-stats2}
+df_stats(age ~ substance, data = HELPrct, sd)  
+```
+
 ### Numerical Summaries: Tables
 
 2-way tables are just tallies of 2 variables.
 
 ```{r}
 tally(sex ~ substance, data = HELPrct)
-tally(~ sex + substance, data = HELPrct)
+tally( ~ sex + substance, data = HELPrct)
+df_stats(sex ~ substance, data = HELPrct, counts)
+
 ```
 
 Other output formats are available
@@ -482,11 +508,12 @@ tally(sex ~ substance,   data = HELPrct, format = "proportion")
 tally(substance ~ sex,   data = HELPrct, format = "proportion", margins = TRUE)
 tally(~ sex + substance, data = HELPrct, format = "proportion", margins = TRUE)
 tally(sex ~ substance,   data = HELPrct, format = "percent")
+df_stats(sex ~ substance,   data = HELPrct, props, percs)
 ```
 
 #### More examples
 ```{r, echo=FALSE}
-HELPrct <- mutate(HELPrct, sex=factor(sex, labels = c('F','M')),
+HELPrct <- mutate(HELPrct, sex = factor(sex, labels = c('F','M')),
                      substance = factor(substance, labels = c('A', 'C', 'H')))
 ```
 ```{r, size='small'}
@@ -511,8 +538,8 @@ doing in an Intro Stats course.
  * linear models
  
 ```{r, eval=FALSE}
-  mean(age ~ sex, data = HELPrct)
-bwplot(age ~ sex, data = HELPrct) 
+      mean(age ~ sex, data = HELPrct)
+gf_boxplot(age ~ sex, data = HELPrct) 
     lm(age ~ sex, data = HELPrct)
 ```
 
@@ -586,7 +613,7 @@ gf_point(width ~ length, data = KidsFeet,
 ```
 
 ```{r, include=FALSE}
-trellis.par.set(theme=col.mosaic())
+theme_set(theme_bw())
 ```
 
 ## Resampling -- You can do() it!
@@ -606,12 +633,13 @@ random distirubtions involved.
    
    * Question: How do we test this claim?
    
-```{r, echo=FALSE }
+```{r, echo = FALSE }
 require(mosaic)
-trellis.par.set(theme=col.mosaic())
+trellis.par.set(theme = col.mosaic())
+theme_set(theme_bw())
 require(knitr)
-opts_chunk$set(size='small', cache=TRUE)
-options(width=90)
+opts_chunk$set(size = 'small', cache = TRUE)
+options(width = 90)
 set.seed(12345)
 ```
 
@@ -649,7 +677,7 @@ Now let's simulate 5000 guessing ladies
 
 ```{r, ladies5000}
 Ladies <- do(5000) * rflip(10)
-head(Ladies, 1)
+head(Ladies, 2)
 gf_histogram(~ heads, data = Ladies, binwidth = 1)
 ```
 
@@ -659,7 +687,7 @@ Here are 3 ways to find out
 
 ```{r}
 tally( ~ (heads >= 9), data = Ladies)
-tally( ~ (heads >= 9), data = Ladies, format="prop")
+tally( ~ (heads >= 9), data = Ladies, format = "prop")
  prop( ~ (heads >= 9), data = Ladies)
 ```
 
@@ -683,8 +711,8 @@ Null <- do(5000) *
 ```
 
 ```{r}
-prop( ~(abs(diffmean) > 0.7841), data = Null) 
-gf_histogram(~ diffmean, data = Null) %>%
+prop( ~ (abs(diffmean) > 0.7841), data = Null) 
+gf_histogram( ~ diffmean, data = Null) %>%
   gf_vline(xintercept = -0.7841) 
 ```
 
@@ -694,12 +722,12 @@ gf_histogram(~ diffmean, data = Null) %>%
 Bootstrap <- do(5000) * 
   diffmean(age ~ sex, data = resample(HELPrct))
 
-gf_histogram( ~diffmean, data=Bootstrap) %>%
-  gf_vline(xintercept = -0.7841, lwd = 2)
+gf_histogram( ~ diffmean, data = Bootstrap) %>%
+  gf_vline(xintercept = -0.7841)
 ```
 
 ```{r}
-cdata(~diffmean, data = Bootstrap, p = 0.95)
+cdata( ~ diffmean, data = Bootstrap, p = 0.95)
 confint(Bootstrap, method = "quantile")
 confint(Bootstrap)  # default uses bootstrap st. err.
 ```
@@ -724,13 +752,13 @@ do(3) *
 Null <- do(5000) * 
   lm(width ~ length + shuffle(sex), 
                        data = KidsFeet)
-gf_histogram( ~ sexG, data = Null) %>%
-  gf_vline(xintercept = -0.2325, lwd = 2)
+gf_histogram( ~ sexG, data = Null, boundary = -0.2325) %>%
+  gf_vline(xintercept = -0.2325)
 ```
 
 ```{r}
-gf_histogram(~ sexG, data = Null) %>%
-  gf_vline(xintercept = -0.2325, lwd = 2)
+gf_histogram(~ sexG, data = Null, boundary = -0.2325) %>%
+  gf_vline(xintercept = -0.2325)
 prop(~ (sexG <= -0.2325), data = Null)
 ```
 
