@@ -8,9 +8,8 @@ MASS::fitdistr
 #' @export
 MASS::fractions
 
-
 #' @importFrom mosaicCore lhs rhs condition makeFun 
-#' @importFrom mosaicCore counts props prop prop1 perc count tally 
+#' @importFrom mosaicCore counts props prop prop1 perc percs count counts tally 
 #' @importFrom mosaicCore dfapply ediff inspect msummary n_missing
 #' @importFrom mosaicCore logit ilogit
 #' @export
@@ -32,7 +31,11 @@ mosaicCore::prop1
 #' @export
 mosaicCore::perc
 #' @export
+mosaicCore::percs
+#' @export
 mosaicCore::count
+#' @export
+mosaicCore::counts
 #' @export
 mosaicCore::tally
 #' @export
