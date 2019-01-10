@@ -78,14 +78,17 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #' }
 #' @export
 
-confint.numeric <- function(object, parm, level = 0.95, ..., method = "percentile", 
+confint.numeric <- function(object, parm, level = 0.95, ...,
+                            method = "percentile", 
                            margin.of.error="stderr" %in% method=="stderr") {
+  
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok=TRUE)
   result <- list()
   for (m in method) {
     vals <- .mosaic.get.ci( object, level, m )
     result[[m]] <-  if( margin.of.error ) { 
-      c(center=mean(vals), margin.of.error=diff(vals)/2, method=m, level=level)  
+      c(center = mean(vals), margin.of.error = diff(vals) / 2, 
+        method = m, level = level)  
     } else {
       vals
     }
@@ -146,7 +149,7 @@ extract_estimate <- function(x) {
 
 #' @rdname confint
 #' @export
-confint.do.tbl_df <- function(object, parm, level=0.95, ..., 
+confint.do.tbl_df <- function(object, parm, level = 0.95, ..., 
                                  method="percentile", 
                                  margin.of.error="stderr" %in% method,
                                  df = NULL) {
