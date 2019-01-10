@@ -490,20 +490,20 @@ tally( ~ sex + substance, data=HELPrct )
 
 Other output formats are available
 ```{r}
-tally( sex ~ substance,   data=HELPrct, format="proportion" )
-tally( substance ~ sex,   data=HELPrct, format="proportion", margins=TRUE )
-tally( ~ sex + substance, data=HELPrct, format="proportion", margins=TRUE )
-tally( sex ~ substance,   data=HELPrct, format="percent" )
+tally(sex ~ substance,   data = HELPrct, format = "proportion")
+tally(substance ~ sex,   data = HELPrct, format = "proportion", margins = TRUE)
+tally(~ sex + substance, data = HELPrct, format = "proportion", margins = TRUE)
+tally(sex ~ substance,   data = HELPrct, format = "percent")
 ```
 
 #### More examples
 ```{r, echo=FALSE}
-HELPrct <- transform(HELPrct, sex=factor(sex, labels=c('F','M')),
-                     substance = factor(substance, labels=c('A', 'C', 'H')))
+HELPrct <- mutate(HELPrct, sex=factor(sex, labels = c('F','M')),
+                     substance = factor(substance, labels = c('A', 'C', 'H')))
 ```
 ```{r, size='small'}
-mean( age ~ substance | sex, data=HELPrct )
-mean( age ~ substance | sex, data=HELPrct, .format="table" )
+mean(age ~ substance | sex, data = HELPrct)
+mean(age ~ substance | sex, data = HELPrct, .format = "table")
 ```
 
 ```{r, echo=FALSE}
@@ -523,14 +523,14 @@ doing in an Intro Stats course.
  * linear models
  
 ```{r, eval=FALSE}
-  mean( age ~ sex, data=HELPrct )
-bwplot( age ~ sex, data=HELPrct ) 
-    lm( age ~ sex, data=HELPrct )
+  mean(age ~ sex, data = HELPrct)
+bwplot(age ~ sex, data = HELPrct) 
+    lm(age ~ sex, data = HELPrct)
 ```
 
 ```{r, echo=FALSE}
-  mean( age ~ sex, data=HELPrct )
-    coef(lm( age ~ sex, data=HELPrct ))
+  mean(age ~ sex, data = HELPrct)
+    coef(lm(age ~ sex, data = HELPrct))
 ```
 
 It can be learned early and practiced often so that students become 
@@ -545,17 +545,17 @@ The `mosaic` package includes some other things, too
  * `mplot()` 
    * `mplot(HELPrct)` interactive plot creation
    * replacements for `plot()` in some situations
- * simplified `histogram()` controls (e.g., `width`)
- * simplified ways to add onto lattice plots (`add = TRUE` works in many situations)
+ * simplified `gf_histogram()` controls (e.g., `binwidth`)
+ * simplified ways to add onto lattice plots (`gf_refine()`)
 
 ### Examples
 
 ```{r}
-xpnorm( 700, mean=500, sd=100)
+xpnorm(700, mean = 500, sd = 100)
 ```
 
 ```{r}
-xpnorm( c(300, 700), mean=500, sd=100)
+xpnorm(c(300, 700), mean = 500, sd = 100)
 ```
 
 ```{r, echo=FALSE}
@@ -580,29 +580,21 @@ design.
 ### Models as Functions
 ```{r}
 model <- lm(width ~ length * sex, 
-            data=KidsFeet)
+            data = KidsFeet)
 Width <- makeFun(model)
-Width( length=25, sex="B")
-Width( length=25, sex="G")
+Width(length = 25, sex = "B")
+Width(length = 25, sex = "G")
 ```
 
 Once models have been converted into functions, we can easily add them
-to out plots using `plotFun()`.
+to our plots using `plotFun()`.
 
-```{r, include=FALSE}
-trellis.par.set(
-  superpose.symbol=list(col=c('navy','red'), pch=16), 
-  superpose.line=list(lty=1, col=c('navy','red'))
-)
-```
                                                        
 ```{r, fig.keep='last'}
-xyplot( width ~ length, data=KidsFeet, 
-        groups=sex, auto.key=TRUE )
-plotFun( Width(length, sex="B") ~ length, 
-         col=1, add=TRUE)
-plotFun( Width(length, sex="G") ~ length, 
-         col=2, add=TRUE)
+gf_point(width ~ length, data = KidsFeet, 
+        color = ~ sex) %>%
+  gf_fun(Width(length, sex = "B") ~ length, color = ~"B") %>%
+  gf_fun(Width(length, sex = "G") ~ length, color = ~"G")
 ```
 
 ```{r, include=FALSE}
@@ -670,7 +662,7 @@ Now let's simulate 5000 guessing ladies
 ```{r, ladies5000}
 Ladies <- do(5000) * rflip(10)
 head(Ladies, 1)
-histogram( ~ heads, data=Ladies, width=1 )
+gf_histogram(~ heads, data = Ladies, binwidth = 1)
 ```
 
 **Q.** How often does guessing score 9 or 10?
@@ -678,9 +670,9 @@ histogram( ~ heads, data=Ladies, width=1 )
 Here are 3 ways to find out
 
 ```{r}
-tally( ~(heads >= 9), data=Ladies)
-tally( ~(heads >= 9), data=Ladies, format="prop")
- prop( ~(heads >= 9), data=Ladies)
+tally( ~ (heads >= 9), data = Ladies)
+tally( ~ (heads >= 9), data = Ladies, format="prop")
+ prop( ~ (heads >= 9), data = Ladies)
 ```
 
 ### A general approach to randomization
@@ -695,16 +687,17 @@ The Lady Tasting Tea illustrates a 3-step process that can be reused in many sit
 
 ### Example: Do mean ages differ by sex?
 ```{r}
-diffmean(age ~ sex, data=HELPrct)
+diffmean(age ~ sex, data = HELPrct)
 do(1) * 
-  diffmean(age ~ shuffle(sex), data=HELPrct)
+  diffmean(age ~ shuffle(sex), data = HELPrct)
 Null <- do(5000) * 
-  diffmean(age ~ shuffle(sex), data=HELPrct)
+  diffmean(age ~ shuffle(sex), data = HELPrct)
 ```
 
 ```{r}
-prop( ~(abs(diffmean) > 0.7841), data=Null )
-histogram(~ diffmean, data=Null, v=-.7841) 
+prop( ~(abs(diffmean) > 0.7841), data = Null) 
+gf_histogram(~ diffmean, data = Null) %>%
+  gf_vline(xintercept = -0.7841) 
 ```
 
 ### Example:  Bootstrap CI for difference in means
