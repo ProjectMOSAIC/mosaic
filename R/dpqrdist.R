@@ -365,30 +365,47 @@ plot_multi_dist <-
 
 
 #' @rdname pdist
+#' @inheritParams stats::pgamma 
 #' @seealso [qdist()], [xpnorm()], [xqnorm()].
 #' @export
 xpgamma <- function(q, shape, rate = 1, scale = 1/rate, 
-        lower.tail = TRUE, log.p = FALSE, ...)
-  pdist("gamma", q = q, shape = shape, rate = rate, scale = scale,
+                    lower.tail = TRUE, log.p = FALSE, ...) {
+  if (!missing(rate) && !missing(scale)) {
+    if (abs(rate * scale - 1) < 1e-15) 
+      warning("specify 'rate' or 'scale' but not both")
+    else stop("specify 'rate' or 'scale' but not both")
+  }
+  pdist("gamma", q = q, shape = shape, scale = scale,
         lower.tail = lower.tail, log.p = log.p, ...)
+}
 #' @rdname qdist
 #' @inheritParams stats::qgamma
 #' @export
 xqgamma <- function(p, shape, rate = 1, scale = 1/rate, 
-                    lower.tail = TRUE, log.p = FALSE, ...)
-  qdist("gamma", p = p, shape = shape,
-        rate = rate, scale = scale,
+                    lower.tail = TRUE, log.p = FALSE, ...) {
+  if (!missing(rate) && !missing(scale)) {
+    if (abs(rate * scale - 1) < 1e-15) 
+      warning("specify 'rate' or 'scale' but not both")
+    else stop("specify 'rate' or 'scale' but not both")
+  }
+  qdist("gamma", p = p, shape = shape, scale = scale,
         lower.tail = lower.tail, log.p = log.p,
         ...)
+}
 #' @rdname cdist
 #' @inheritParams stats::qgamma
 #' @export
 xcgamma <- function(p, shape, rate = 1, scale = 1/rate, 
-                    lower.tail = TRUE, log.p = FALSE, ...)
-  cdist("gamma", q = q, shape = shape,
-        rate = rate, scale = scale,
+                    lower.tail = TRUE, log.p = FALSE, ...) {
+  if (!missing(rate) && !missing(scale)) {
+    if (abs(rate * scale - 1) < 1e-15) 
+      warning("specify 'rate' or 'scale' but not both")
+    else stop("specify 'rate' or 'scale' but not both")
+  }
+  cdist("gamma", q = q, shape = shape, scale = scale,
         lower.tail = lower.tail, log.p = log.p,
         ...)
+}
 
 #' @rdname pdist
 #' @inheritParams stats::pt
@@ -397,6 +414,7 @@ xpt <- function(q, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
   pdist("t", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
         log.p = log.p, ...)
 #' @rdname qdist
+#' @inheritParams stats::qt
 #' @export
 xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
   if (missing(ncp)) {
@@ -406,7 +424,11 @@ xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
     qdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
           log.p = log.p, ...)
   }
+
+
+
 #' @rdname cdist
+#' @inheritParams stats::pt
 #' @export
 xct <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
   cdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 

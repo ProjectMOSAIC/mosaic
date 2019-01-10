@@ -84,7 +84,12 @@ used as a paramter for the the distribution.}
 \item{log.p}{logical; if \code{TRUE}, probabilities/densities \eqn{p}
     are returned as \eqn{log(p)}.}
 
-\item{ncp}{non-centrality parameter. If omitted the central F is assumed.}
+\item{df}{degrees of freedom (\eqn{> 0}, maybe non-integer).  \code{df
+      = Inf} is allowed.}
+
+\item{ncp}{non-centrality parameter \eqn{\delta}{delta};
+    currently except for \code{rt()}, only for \code{abs(ncp) <= 37.62}.
+    If omitted, use the central t distribution.}
 
 \item{df1}{degrees of freedom.  \code{Inf} is allowed.}
 
