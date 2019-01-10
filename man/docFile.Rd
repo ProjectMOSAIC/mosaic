@@ -21,6 +21,3 @@ a character vector specifying the path to the file on the user's system.
 \description{
 Return the path to a documentation file in a package
 }
-\examples{
-MustangPrice <- read.file(docFile("MustangPrice.csv", "mosaic"))
-}
