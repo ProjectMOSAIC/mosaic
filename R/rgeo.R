@@ -188,7 +188,8 @@ rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 #' Display a point on earth on a Google Map
 #' 
 #' Creates a URL for Google Maps for a particular latitude and
-#' longitude position.
+#' longitude position.  This function has been deprected due to changes in
+#' Google's access policies.  Give [leaflet_map()] a try as an alternative.
 
 #' @rdname googleMap
 #' @param latitude,longitude vectors of latitude and longitude values
@@ -205,7 +206,7 @@ rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 #' googleMap(40.7566, -73.9863, radius=1)   # Times Square
 #' googleMap(position=rgeo(2), radius=1)    # 2 random locations
 #' }
-#' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
+#' @seealso [leaflet_map()], [deg2rad()], [latlon2xyz()] and [rgeo()].
 #' @export
 
 googleMap <- function(latitude, longitude, position=NULL,
@@ -217,6 +218,8 @@ googleMap <- function(latitude, longitude, position=NULL,
 	...
 	)
 {
+  .Deprecated(new = "leaflet_map")
+  
 	urls <- .googleMapURL( 
 				latitude=latitude, longitude=longitude,
 				position=position, zoom=zoom, 
