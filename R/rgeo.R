@@ -243,11 +243,14 @@ googleMap <- function(latitude, longitude, position=NULL,
 # #' @param maptype one of `'roadmap'`, `'satellite'`, `'terrain'`, and `'hybrid'`
 #' @param mark a logical indicating whether the location should be marked with a pin
 #' @param radius a vector of radii of circles (in miles) centered at position that are displayed on the map
+#' @param units units for radii of circles (km, miles, meters, or feet).
 #' @param \dots additional arguments passed to [leaflet::addCircles()]
 #' @return a leaflet map
 #' @examples
-#'   leaflet_map(40.7566, -73.9863, radius = 1)  # Times Square
-#'   leaflet_map(position = rgeo(3), radius = 1) # 3 random locations
+#'   # Times Square
+#'   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
+#'   # 3 random locations; 5 km circles
+#'   leaflet_map(position = rgeo(3), radius = 5) 
 #' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
 #' @importFrom leaflet leaflet addTiles addCircles addMarkers
 #' @export
@@ -255,8 +258,18 @@ googleMap <- function(latitude, longitude, position=NULL,
 leaflet_map <- 
   function(latitude, longitude, position = NULL,
            zoom = 12,  
-           mark = FALSE, radius = 0, ...
+           mark = FALSE, radius = 0, 
+           units = c("km", "miles", "meters", "feet"),
+           ...
   ) {
+    units <- match.arg(units)
+    # how many meters per unit?
+    conversion <- switch(
+      miles = 1609.34,
+      km = 1000,
+      meters = 1,
+      feet = 1609.34 / 5280
+    )
     if (! is.null(position)) {
       if (!missing(latitude) || !missing(longitude)) {
         stop("Specify either position or lat/lon, but not both.")
@@ -287,7 +300,7 @@ leaflet_map <-
       addCircles(
         lng = longitude,
         lat = latitude,
-        radius = radius * 1609.34,  # convert from miles to meters
+        radius = radius * conversion,  # convert from unit to meters
         popup = paste("radius:", radius, "miles"),
         ...
       )

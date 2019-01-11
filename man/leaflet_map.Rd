@@ -5,7 +5,8 @@
 \title{Simple Leaflet Maps}
 \usage{
 leaflet_map(latitude, longitude, position = NULL, zoom = 12,
-  mark = FALSE, radius = 0, ...)
+  mark = FALSE, radius = 0, units = c("km", "miles", "meters",
+  "feet"), ...)
 }
 \arguments{
 \item{latitude, longitude}{vectors of latitude and longitude values}
@@ -18,6 +19,8 @@ leaflet_map(latitude, longitude, position = NULL, zoom = 12,
 
 \item{radius}{a vector of radii of circles (in miles) centered at position that are displayed on the map}
 
+\item{units}{units for radii of circles (km, miles, meters, or feet).}
+
 \item{\dots}{additional arguments passed to \code{\link[leaflet:addCircles]{leaflet::addCircles()}}}
 }
 \value{
@@ -28,8 +31,10 @@ Primarily designed to work with \code{\link[=rgeo]{rgeo()}} to display randomly 
 points on the globe.
 }
 \examples{
-  leaflet_map(40.7566, -73.9863, radius = 1)  # Times Square
-  leaflet_map(position = rgeo(3), radius = 1) # 3 random locations
+  # Times Square
+  leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
+  # 3 random locations; 5 km circles
+  leaflet_map(position = rgeo(3), radius = 5) 
 }
 \seealso{
 \code{\link[=deg2rad]{deg2rad()}}, \code{\link[=latlon2xyz]{latlon2xyz()}} and \code{\link[=rgeo]{rgeo()}}.
