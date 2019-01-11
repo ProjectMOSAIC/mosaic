@@ -70,6 +70,22 @@ set.rseed <- function(seed) {
 #' @author Daniel Kaplan (\email{kaplan@@macalaster.edu})
 #'   and Randall Pruim (\email{rpruim@@calvin.edu})
 #'
+#' @section Naming:
+#' The names used in the object returned from `do()` are inferred from the
+#' objects created in each replication.  Roughly, this the strategy employed.
+#' 
+#' * If the objects have names, those names are inherited, if possible.
+#' * If the objects do not have names, but `do()` is used with a simple 
+#' function call, the name of that function is used. 
+#' Example: `do(3) * mean(~height, data = Galton)` produces a data frame with
+#' a variable named `mean`.
+#' * In cases where names are not easily inferred and a single result is produced,
+#' it is named `result`.
+#' 
+#' To get different names, one can rename the objects as they are created, or 
+#' rename the result returned from `do()`.  Example of the former:
+#' `do(3) * c(mean_height = mean(~height, data = resample(Galton)))`.
+#'  
 #' @seealso [replicate()], [set.rseed()]
 #' 
 #' @examples
@@ -77,15 +93,16 @@ set.rseed <- function(seed) {
 #' do(3) * "hello"
 #' do(3) * 1:4
 #' do(3) * mean(rnorm(25))
-#' if (require(mosaicData)) {
-#'   do(3) * lm(shuffle(height) ~ sex + mother, Galton)
-#'   do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
-#'   do(3) * c(sample.mean = mean(rnorm(25)))
-#'   set.rseed(1234)
-#'   do(3) * tally( ~sex|treat, data=resample(HELPrct))
-#'   set.rseed(1234)  # re-using seed gives same results again
-#'   do(3) * tally( ~sex|treat, data=resample(HELPrct))
-#' }
+#' do(3) * lm(shuffle(height) ~ sex + mother, Galton)
+#' do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
+#' do(3) * c(sample.mean = mean(rnorm(25)))
+#' # change the names on the fly
+#' do(3) * mean(~height, data = resample(Galton))
+#' do(3) * c(mean_height = mean(~height, data = resample(Galton)))
+#' set.rseed(1234)
+#' do(3) * tally( ~sex|treat, data=resample(HELPrct))
+#' set.rseed(1234)  # re-using seed gives same results again
+#' do(3) * tally( ~sex|treat, data=resample(HELPrct))
 #' @keywords iteration 
 #' @export
 

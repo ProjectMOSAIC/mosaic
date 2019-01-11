@@ -67,20 +67,40 @@ with replication and resampling methods.
 \code{do} is a thin wrapper around \code{Do} to avoid collision with
 \code{\link[dplyr:do]{dplyr::do()}} from the \pkg{dplyr} package.
 }
+\section{Naming}{
+
+The names used in the object returned from \code{do()} are inferred from the
+objects created in each replication.  Roughly, this the strategy employed.
+\itemize{
+\item If the objects have names, those names are inherited, if possible.
+\item If the objects do not have names, but \code{do()} is used with a simple
+function call, the name of that function is used.
+Example: \code{do(3) * mean(~height, data = Galton)} produces a data frame with
+a variable named \code{mean}.
+\item In cases where names are not easily inferred and a single result is produced,
+it is named \code{result}.
+}
+
+To get different names, one can rename the objects as they are created, or
+rename the result returned from \code{do()}.  Example of the former:
+\code{do(3) * c(mean_height = mean(~height, data = resample(Galton)))}.
+}
+
 \examples{
 do(3) * rnorm(1)
 do(3) * "hello"
 do(3) * 1:4
 do(3) * mean(rnorm(25))
-if (require(mosaicData)) {
-  do(3) * lm(shuffle(height) ~ sex + mother, Galton)
-  do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
-  do(3) * c(sample.mean = mean(rnorm(25)))
-  set.rseed(1234)
-  do(3) * tally( ~sex|treat, data=resample(HELPrct))
-  set.rseed(1234)  # re-using seed gives same results again
-  do(3) * tally( ~sex|treat, data=resample(HELPrct))
-}
+do(3) * lm(shuffle(height) ~ sex + mother, Galton)
+do(3) * anova(lm(shuffle(height) ~ sex + mother, Galton))
+do(3) * c(sample.mean = mean(rnorm(25)))
+# change the names on the fly
+do(3) * mean(~height, data = resample(Galton))
+do(3) * c(mean_height = mean(~height, data = resample(Galton)))
+set.rseed(1234)
+do(3) * tally( ~sex|treat, data=resample(HELPrct))
+set.rseed(1234)  # re-using seed gives same results again
+do(3) * tally( ~sex|treat, data=resample(HELPrct))
 }
 \seealso{
 \code{\link[=replicate]{replicate()}}, \code{\link[=set.rseed]{set.rseed()}}
