@@ -1,4 +1,16 @@
 
+# mosaic 1.5.0
+
+ * `googleMap()` has be deprecated due to change in policy at google. Try `leaflet_map()` as an alternative.
+ * Improved documentation about naming when using `do()`.
+ * Functions like `xpt()`, `xqt()`, etc. now have more explicit arguments.  This provides additional help and prompts for the user.
+ * `percs()` and `counts()` are re-exported from `mosaicCore`
+ * When using `confint()`, attempting to set the confidence level using `conf.level` instead of `level` throws and error and provides a reminder to use `level` for that purpose. 
+ * `confint()` methods for `binom.test()` have been modified a bit.  See documentation for how names map to methods.
+ * Several supporting documents have been update/improved. `ggformula` is used
+ for plotting in more places (replacing older `lattice` code).
+ * Bug fix: `CIdata()` now handles negative numbers correctly.
+ 
 # mosaic 1.4.0
 
  * Bug fix: `mplot.lm()` now removed points with leverage 1 to avoid errors and warnings; a 
