@@ -25,7 +25,7 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
   dots <- list(...)
   distFunName <- paste0(type, dist)
   dist_dots <- dots[names(dots) %in% names(formals(distFunName))]
-
+  
   do.call(distFunName, dist_dots)
 }
 
@@ -62,7 +62,7 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
 #' pdist("f", 1, df1 = 2, df2 = 10)
 #' pdist("gamma", 2, shape = 3, rate = 4)
 #' @export
- 
+
 pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = FALSE, 
                    digits = 3L, 
                    xlim, ylim,
@@ -71,7 +71,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
                    ...,
                    refinements = list())
 {
- 
+  
   return <- match.arg(return)
   
   dots <- list(...)
@@ -85,7 +85,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
   if (verbose) {
     cat("Verbose output not yet implemented.\n")
   }
- 
+  
   res_plot <-
     do.call(
       gf_refine,
@@ -98,7 +98,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
           ...)),
         refinements)
     )
-    
+  
   if (return == "plot") {
     return(res_plot)
   }

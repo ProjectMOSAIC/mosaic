@@ -62,12 +62,12 @@ NA
 #' @export
 
 read.file <-
-function (file, header = T, na.strings = "NA",
-    comment.char = NULL, 
-    filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"), 
-    stringsAsFactors = FALSE,
-    readr = FALSE,
-    package = NULL, ...) 
+  function (file, header = T, na.strings = "NA",
+            comment.char = NULL, 
+            filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"), 
+            stringsAsFactors = FALSE,
+            readr = FALSE,
+            package = NULL, ...) 
 {
     readr_available <- readr && requireNamespace("readr")
     using_readr <- FALSE

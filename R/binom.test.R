@@ -181,16 +181,16 @@ setMethod(
     formula <- mosaic_formula_q(x, groups = NULL, max.slots = 1)
     dots <- list(...)
     
-      form <- lattice::latticeParseFormula(formula, data, 
-                                           subscripts = TRUE, drop = TRUE)
-      if (missing(data.name)) {
-        data.name <- paste( lazyeval::expr_text(data), "$", 
-                            form$right.name,  sep="" )
-      } 
-      if (is.list(data.name)) {
-        data.name <- paste( data.name$data, "$", 
-                            form$right.name,  sep="" )
-      }
+    form <- lattice::latticeParseFormula(formula, data, 
+                                         subscripts = TRUE, drop = TRUE)
+    if (missing(data.name)) {
+      data.name <- paste( lazyeval::expr_text(data), "$", 
+                          form$right.name,  sep="" )
+    } 
+    if (is.list(data.name)) {
+      data.name <- paste( data.name$data, "$", 
+                          form$right.name,  sep="" )
+    }
     # now data.name should be set and data should hold the data
     subscr <- form$subscr
     cond <- form$condition
