@@ -34,7 +34,7 @@ points on the globe.
   # Times Square
   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
   # 3 random locations; 5 km circles
-  leaflet_map(position = rgeo(3), radius = 5) 
+  leaflet_map(position = rgeo(3), radius = 5, mark = TRUE, color = "red") 
 }
 \seealso{
 \code{\link[=deg2rad]{deg2rad()}}, \code{\link[=latlon2xyz]{latlon2xyz()}} and \code{\link[=rgeo]{rgeo()}}.

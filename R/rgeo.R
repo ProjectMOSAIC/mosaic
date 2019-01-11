@@ -250,7 +250,7 @@ googleMap <- function(latitude, longitude, position=NULL,
 #'   # Times Square
 #'   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
 #'   # 3 random locations; 5 km circles
-#'   leaflet_map(position = rgeo(3), radius = 5) 
+#'   leaflet_map(position = rgeo(3), radius = 5, mark = TRUE, color = "red") 
 #' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
 #' @importFrom leaflet leaflet addTiles addCircles addMarkers
 #' @export
@@ -265,6 +265,7 @@ leaflet_map <-
     units <- match.arg(units)
     # how many meters per unit?
     conversion <- switch(
+      units,
       miles = 1609.34,
       km = 1000,
       meters = 1,
@@ -301,7 +302,10 @@ leaflet_map <-
         lng = longitude,
         lat = latitude,
         radius = radius * conversion,  # convert from unit to meters
-        popup = paste("radius:", radius, "miles"),
+        popup = paste(
+          "radius: ", radius, " ", units, "; 
+          lat/lon: ",  format(latitude, digits = 5),  "/", format(longitude, digits = 5), 
+          sep = ""),
         ...
       )
     

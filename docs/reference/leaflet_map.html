@@ -64,7 +64,7 @@ points on the globe." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
       </span>
     </div>
 
@@ -178,8 +178,9 @@ points on the globe.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='co'># Times Square</span>
-  <span class='fu'>leaflet_map</span>(<span class='fl'>40.7566</span>, -<span class='fl'>73.9863</span>, <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"miles"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in switch(miles = 1609.34, km = 1000, meters = 1, feet = 1609.34/5280): supplied argument name 'miles' does not match 'EXPR'</span></div><div class='input'>  <span class='co'># 3 random locations; 5 km circles</span>
-  <span class='fu'>leaflet_map</span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='rgeo.html'>rgeo</a></span>(<span class='fl'>3</span>), <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div></pre>
+  <span class='fu'>leaflet_map</span>(<span class='fl'>40.7566</span>, -<span class='fl'>73.9863</span>, <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"miles"</span>)
+  <span class='co'># 3 random locations; 5 km circles</span>
+  <span class='fu'>leaflet_map</span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='rgeo.html'>rgeo</a></span>(<span class='fl'>3</span>), <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>mark</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
