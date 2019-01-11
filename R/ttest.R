@@ -90,7 +90,8 @@ t_test.formula <-
     mf <- model.frame(formula, data = data) 
     x <- evalF$right[, 1]
     res <- do.call( stats::t.test, c(list(x = x), dots) ) 
-    res$data.name <- names(mf[1])
+    # res$data.name <- names(mf[1])
+    res$data.name <- names(evalF$right)[1]
     return(res)
 }
 
