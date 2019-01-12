@@ -257,10 +257,10 @@ more details and the confidence intervals are displayed.</p>
 #&gt; NULL</div><div class='output co'>#&gt; [1] 0.9993747</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>mosaicData</span>)) {
 <span class='fu'>relrisk</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>(~ <span class='no'>homeless</span> + <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>) )
 <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>relrisk</span>( <span class='fu'><a href='https://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>( ~ <span class='no'>homeless</span> + <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>) )
-}</div><div class='output co'>#&gt;         RR
-#&gt; 1 1.052852
-#&gt; 2 0.780079
-#&gt; 3 1.226434</div></pre>
+}</div><div class='output co'>#&gt;          RR
+#&gt; 1 0.8727188
+#&gt; 2 0.8098361
+#&gt; 3 0.8406952</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

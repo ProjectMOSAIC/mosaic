@@ -218,11 +218,11 @@ natural names.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 100 Bernoulli trials -- no need for replace=TRUE</span>
-<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt;   [1] 1 0 0 1 1 1 1 1 0 0 1 0 0 0 0 1 0 1 1 0 0 0 0 0 1 0 0 0 0 1 1 0 0 1 1 0 0
-#&gt;  [38] 1 0 0 0 1 0 0 0 1 1 1 0 1 0 0 1 0 1 1 1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 0 0 1
-#&gt;  [75] 0 1 0 1 1 1 1 0 0 0 0 1 0 0 1 0 0 1 1 1 1 1 1 0 1 1</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>(<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>))</div><div class='output co'>#&gt; X
+<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt;   [1] 1 1 1 1 1 0 0 1 0 0 0 0 1 0 1 1 0 0 0 0 0 1 0 0 0 0 1 1 0 0 1 1 0 0 1 0 0
+#&gt;  [38] 0 1 0 0 0 1 1 1 0 1 0 0 1 0 1 1 1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 0 0 1 0 1 0
+#&gt;  [75] 1 1 1 1 0 0 0 0 1 0 0 1 0 0 1 1 1 1 1 1 0 1 1 1 1 1</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>(<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>))</div><div class='output co'>#&gt; X
 #&gt;  0  1 
-#&gt; 50 50 </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>mosaicData</span>)) {
+#&gt; 51 49 </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>mosaicData</span>)) {
 <span class='no'>Small</span> <span class='kw'>&lt;-</span> <span class='fu'>sample</span>(<span class='no'>KidsFeet</span>, <span class='fl'>10</span>)
 <span class='fu'>resample</span>(<span class='no'>Small</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/mosaicCore/topics/tally'>tally</a></span>(~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='fu'>resample</span>(<span class='no'>Small</span>))
@@ -236,33 +236,33 @@ natural names.</p>
    <span class='kw'>id1</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='no'>sex</span>,<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>),
    <span class='kw'>id2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='no'>sex</span>,<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>))
 <span class='fu'>resample</span>(<span class='no'>Small</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>sex</span>, <span class='kw'>shuffled</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"id1"</span>,<span class='st'>"id2"</span>))
-}</div><div class='output co'>#&gt;       name birthmonth birthyear length width sex biggerfoot domhand orig.id id1
-#&gt; 8    David          5        88   24.4   8.4   B          L       R   8.9.6 B:9
-#&gt; 6   Dwayne          8        88   23.9   9.3   B          R       L   6.8.9 B:8
-#&gt; 6.1 Dwayne          8        88   23.9   9.3   B          R       L   6.6.8 B:6
-#&gt; 8.1  David          5        88   24.4   8.4   B          L       R   8.8.6 B:8
-#&gt; 9      Cam          3        88   27.0   9.8   B          L       R   9.6.8 B:6
-#&gt; 1   Maggie          3        88   24.7   8.8   G          R       R   1.2.2 G:2
-#&gt; 1.1 Maggie          3        88   24.7   8.8   G          R       R   1.2.1 G:2
-#&gt; 2     Abby          2        88   26.1   9.5   G          L       R   2.1.2 G:1
-#&gt; 2.1   Abby          2        88   26.1   9.5   G          L       R   2.2.2 G:2
-#&gt; 2.2   Abby          2        88   26.1   9.5   G          L       R   2.1.1 G:1
-#&gt;     id2
-#&gt; 8   B:6
-#&gt; 6   B:9
-#&gt; 6.1 B:8
-#&gt; 8.1 B:6
-#&gt; 9   B:8
-#&gt; 1   G:2
-#&gt; 1.1 G:1
-#&gt; 2   G:2
-#&gt; 2.1 G:2
-#&gt; 2.2 G:1</div><div class='input'><span class='fu'>deal</span>(<span class='no'>Cards</span>, <span class='fl'>13</span>)    <span class='co'># A Bridge hand</span></div><div class='output co'>#&gt;  [1] "5C"  "3H"  "5H"  "QD"  "8D"  "4H"  "KD"  "7C"  "4S"  "7D"  "6D"  "10H"
-#&gt; [13] "10C"</div><div class='input'><span class='fu'>shuffle</span>(<span class='no'>Cards</span>)</div><div class='output co'>#&gt;  [1] "JS"  "10C" "7D"  "5H"  "6D"  "7H"  "AH"  "JC"  "9H"  "8D"  "9D"  "2H" 
-#&gt; [13] "9C"  "8C"  "9S"  "6C"  "QC"  "4C"  "KS"  "4H"  "QS"  "AS"  "QD"  "2D" 
-#&gt; [25] "5S"  "QH"  "10H" "5C"  "JD"  "8H"  "JH"  "3H"  "KC"  "AD"  "4S"  "7S" 
-#&gt; [37] "7C"  "5D"  "4D"  "AC"  "3C"  "3S"  "6H"  "6S"  "3D"  "10D" "2S"  "KD" 
-#&gt; [49] "2C"  "KH"  "10S" "8S" </div></pre>
+}</div><div class='output co'>#&gt;          name birthmonth birthyear length width sex biggerfoot domhand orig.id
+#&gt; 10      Peter          4        88   24.7   8.6   B          R       L 10.10.1
+#&gt; 10.1    Peter          4        88   24.7   8.6   B          R       L  10.1.1
+#&gt; 1         Cam          3        88   27.0   9.8   B          L       R  1.1.10
+#&gt; 1.1       Cam          3        88   27.0   9.8   B          L       R 1.10.10
+#&gt; 3     Caitlin          7        88   22.5   8.6   G          R       R   3.3.5
+#&gt; 3.1   Caitlin          7        88   22.5   8.6   G          R       R   3.5.9
+#&gt; 5      Hannah          3        88   22.9   8.5   G          L       R   5.9.8
+#&gt; 9         Lee          6        88   26.7   9.0   G          L       L   9.3.3
+#&gt; 9.1       Lee          6        88   26.7   9.0   G          L       L   9.9.3
+#&gt; 8    Caroline         12        87   24.0   8.7   G          R       L   8.8.9
+#&gt;       id1  id2
+#&gt; 10   B:10  B:1
+#&gt; 10.1  B:1  B:1
+#&gt; 1     B:1 B:10
+#&gt; 1.1  B:10 B:10
+#&gt; 3     G:3  G:5
+#&gt; 3.1   G:5  G:9
+#&gt; 5     G:9  G:8
+#&gt; 9     G:3  G:3
+#&gt; 9.1   G:9  G:3
+#&gt; 8     G:8  G:9</div><div class='input'><span class='fu'>deal</span>(<span class='no'>Cards</span>, <span class='fl'>13</span>)    <span class='co'># A Bridge hand</span></div><div class='output co'>#&gt;  [1] "KD"  "10D" "5H"  "2H"  "7C"  "7S"  "8D"  "7D"  "QH"  "JC"  "2S"  "8C" 
+#&gt; [13] "3D" </div><div class='input'><span class='fu'>shuffle</span>(<span class='no'>Cards</span>)</div><div class='output co'>#&gt;  [1] "7H"  "7D"  "9H"  "4S"  "QC"  "QH"  "10D" "8S"  "4H"  "10C" "9C"  "10H"
+#&gt; [13] "7C"  "KC"  "4C"  "5S"  "AS"  "9D"  "8H"  "AD"  "4D"  "7S"  "6C"  "KH" 
+#&gt; [25] "5H"  "KD"  "JH"  "AC"  "JD"  "2H"  "6S"  "QD"  "AH"  "8C"  "8D"  "KS" 
+#&gt; [37] "QS"  "6H"  "2S"  "5D"  "6D"  "JS"  "2D"  "9S"  "JC"  "3C"  "3H"  "5C" 
+#&gt; [49] "10S" "2C"  "3S"  "3D" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -156,11 +156,11 @@
     <pre class="examples"><div class='input'><span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>length</span> ~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>KidsFeet</span>)
 <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>1</span>) * <span class='no'>mod</span></div><div class='output co'>#&gt;   Intercept    width    sigma r.squared        F numdf dendf .row .index
 #&gt; 1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37    1      1</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>relm</span>(<span class='no'>mod</span>)</div><div class='output co'>#&gt;   Intercept    width    sigma r.squared        F numdf dendf .row .index
-#&gt; 1  13.80466 1.201707 1.009472 0.2742791 13.98378     1    37    1      1
-#&gt; 2  10.48205 1.557290 1.182482 0.3162650 17.11453     1    37    1      2
-#&gt; 3  13.18843 1.278928 1.098813 0.2654038 13.36781     1    37    1      3</div><div class='input'><span class='co'># use residual resampling to estimate standard error (very crude because so few replications)</span>
+#&gt; 1 10.181756 1.605306 1.076170 0.3724220 21.95681     1    37    1      1
+#&gt; 2  6.089006 2.047898 1.159160 0.4542743 30.79963     1    37    1      2
+#&gt; 3 12.604173 1.348758 1.070627 0.2973868 15.66055     1    37    1      3</div><div class='input'><span class='co'># use residual resampling to estimate standard error (very crude because so few replications)</span>
 <span class='no'>Boot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>100</span>) * <span class='fu'>relm</span>(<span class='no'>mod</span>)
-<span class='fu'><a href='aggregating.html'>sd</a></span>(~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Boot</span>)</div><div class='output co'>#&gt; [1] 0.3112223</div><div class='input'><span class='co'># standard error as produced by summary() for comparison</span>
+<span class='fu'><a href='aggregating.html'>sd</a></span>(~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Boot</span>)</div><div class='output co'>#&gt; [1] 0.3208901</div><div class='input'><span class='co'># standard error as produced by summary() for comparison</span>
 <span class='no'>mod</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>()</div><div class='output co'>#&gt;             Estimate Std. Error  t value     Pr(&gt;|t|)
 #&gt; (Intercept) 9.817212  2.9381078 3.341338 1.915251e-03
 #&gt; width       1.657624  0.3262257 5.081218 1.097225e-05</div><div class='input'>

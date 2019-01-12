@@ -130,16 +130,18 @@ points on the globe.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>leaflet_map</span>(<span class='no'>latitude</span>, <span class='no'>longitude</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>12</span>,
-  <span class='kw'>mark</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"km"</span>, <span class='st'>"miles"</span>, <span class='st'>"meters"</span>,
-  <span class='st'>"feet"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>leaflet_map</span>(<span class='kw'>latitude</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>longitude</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>zoom</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>mark</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"km"</span>, <span class='st'>"miles"</span>,
+  <span class='st'>"meters"</span>, <span class='st'>"feet"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>latitude, longitude</th>
-      <td><p>vectors of latitude and longitude values</p></td>
+      <td><p>vectors of latitude and longitude values.
+If <code>latitude</code> is a data frame, then it is treated as <code>position</code>.
+This facilitates "piping" from <code><a href='rgeo.html'>rgeo()</a></code>.  See examples.</p></td>
     </tr>
     <tr>
       <th>position</th>
@@ -180,7 +182,10 @@ points on the globe.</p>
     <pre class="examples"><div class='input'>  <span class='co'># Times Square</span>
   <span class='fu'>leaflet_map</span>(<span class='fl'>40.7566</span>, -<span class='fl'>73.9863</span>, <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>units</span> <span class='kw'>=</span> <span class='st'>"miles"</span>)
   <span class='co'># 3 random locations; 5 km circles</span>
-  <span class='fu'>leaflet_map</span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='rgeo.html'>rgeo</a></span>(<span class='fl'>3</span>), <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>mark</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div></pre>
+  <span class='fu'>leaflet_map</span>(<span class='kw'>position</span> <span class='kw'>=</span> <span class='fu'><a href='rgeo.html'>rgeo</a></span>(<span class='fl'>3</span>), <span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>mark</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
+  <span class='co'># using pipes</span>
+  <span class='fu'><a href='rgeo.html'>rgeo</a></span>(<span class='fl'>4</span>, <span class='kw'>latlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>25</span>,<span class='fl'>50</span>), <span class='kw'>lonlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>65</span>, -<span class='fl'>125</span>)) <span class='kw'>%&gt;%</span>
+    <span class='fu'>leaflet_map</span>(<span class='kw'>radius</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>mark</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"purple"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

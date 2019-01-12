@@ -187,17 +187,17 @@ and verbosity better.</p>
     <pre class="examples"><div class='input'><span class='fu'>rflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; 
 #&gt; Flipping 10 coins [ Prob(Heads) = 0.5 ] ...
 #&gt; 
-#&gt; T H T T H T T H T T
+#&gt; T H T T H T T T T T
 #&gt; 
-#&gt; Number of Heads: 3 [Proportion Heads: 0.3]
+#&gt; Number of Heads: 2 [Proportion Heads: 0.2]
 #&gt; </div><div class='input'><span class='fu'>rflip</span>(<span class='fl'>10</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'>rflip</span>(<span class='fl'>10</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>, <span class='kw'>summarize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    n heads tails      prob
 #&gt; 1 10     4     6 0.1666667</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>5</span>) * <span class='fu'>rflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt;    n heads tails prop
 #&gt; 1 10     4     6  0.4
-#&gt; 2 10     5     5  0.5
-#&gt; 3 10     4     6  0.4
+#&gt; 2 10     4     6  0.4
+#&gt; 3 10     7     3  0.7
 #&gt; 4 10     5     5  0.5
-#&gt; 5 10     7     3  0.7</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric</a></span>(<span class='fu'>rflip</span>(<span class='fl'>10</span>))</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'>nflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; [1] 5</div></pre>
+#&gt; 5 10     5     5  0.5</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric</a></span>(<span class='fu'>rflip</span>(<span class='fl'>10</span>))</div><div class='output co'>#&gt; [1] 4</div><div class='input'><span class='fu'>nflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; [1] 5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

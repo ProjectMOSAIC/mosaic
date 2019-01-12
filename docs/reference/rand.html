@@ -167,33 +167,33 @@ size of the data frame supplied to <code>lm</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rand</span>(<span class='fl'>2</span>,<span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>4</span>)</div><div class='output co'>#&gt;            [,1]        [,2]
-#&gt; [1,] -0.8763877  0.40723421
-#&gt; [2,]  0.1198014 -0.03366258
-#&gt; [3,]  0.5382004 -1.12735616
-#&gt; [4,] -0.1315801 -0.65620513</div><div class='input'><span class='fu'>rand</span>(<span class='fl'>2</span>,<span class='kw'>rdist</span><span class='kw'>=</span><span class='no'>rpois</span>, <span class='kw'>args</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>lambda</span><span class='kw'>=</span><span class='fl'>3</span>), <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>4</span>)</div><div class='output co'>#&gt;      [,1] [,2]
-#&gt; [1,]    2    5
-#&gt; [2,]    6    0
-#&gt; [3,]    4    0
-#&gt; [4,]    5    2</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>( <span class='no'>waiting</span> ~ <span class='no'>eruptions</span> + <span class='fu'>rand</span>(<span class='fl'>1</span>), <span class='no'>faithful</span>))</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'>rand</span>(<span class='fl'>2</span>,<span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>4</span>)</div><div class='output co'>#&gt;            [,1]       [,2]
+#&gt; [1,]  1.2466864 -0.9627566
+#&gt; [2,]  0.1538902 -0.2119918
+#&gt; [3,] -1.2497734  0.5065536
+#&gt; [4,] -0.9615854  1.7303241</div><div class='input'><span class='fu'>rand</span>(<span class='fl'>2</span>,<span class='kw'>rdist</span><span class='kw'>=</span><span class='no'>rpois</span>, <span class='kw'>args</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>lambda</span><span class='kw'>=</span><span class='fl'>3</span>), <span class='kw'>nrow</span><span class='kw'>=</span><span class='fl'>4</span>)</div><div class='output co'>#&gt;      [,1] [,2]
+#&gt; [1,]    5    2
+#&gt; [2,]    5    1
+#&gt; [3,]    0    7
+#&gt; [4,]    0    3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>( <span class='no'>waiting</span> ~ <span class='no'>eruptions</span> + <span class='fu'>rand</span>(<span class='fl'>1</span>), <span class='no'>faithful</span>))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = waiting ~ eruptions + rand(1), data = faithful)
 #&gt; 
 #&gt; Residuals:
 #&gt;      Min       1Q   Median       3Q      Max 
-#&gt; -12.1618  -4.6716   0.2225   3.8127  15.5733 
+#&gt; -12.0802  -4.4568   0.2526   3.8814  15.9877 
 #&gt; 
 #&gt; Coefficients:
 #&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
-#&gt; (Intercept)  33.4070     1.1548  28.930   &lt;2e-16 ***
-#&gt; eruptions    10.7545     0.3150  34.141   &lt;2e-16 ***
-#&gt; rand(1)       0.4881     0.3833   1.273    0.204    
+#&gt; (Intercept) 33.48525    1.16044  28.856   &lt;2e-16 ***
+#&gt; eruptions   10.72729    0.31592  33.956   &lt;2e-16 ***
+#&gt; rand(1)     -0.04138    0.34080  -0.121    0.903    
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #&gt; 
-#&gt; Residual standard error: 5.907 on 269 degrees of freedom
-#&gt; Multiple R-squared:  0.8126,	Adjusted R-squared:  0.8112 
-#&gt; F-statistic: 583.2 on 2 and 269 DF,  p-value: &lt; 2.2e-16
+#&gt; Residual standard error: 5.925 on 269 degrees of freedom
+#&gt; Multiple R-squared:  0.8115,	Adjusted R-squared:  0.8101 
+#&gt; F-statistic: 578.9 on 2 and 269 DF,  p-value: &lt; 2.2e-16
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -201,14 +201,14 @@ upper and lower limits and the central proportion requested</p>
 #&gt; 2 versicolor 5.600 6.3       0.5
 #&gt; 3  virginica 6.225 6.9       0.5</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
 <span class='fu'>pdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='fl'>3</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 0.0000000 0.0000000 0.2133333 0.5933333</div><div class='input'><span class='fu'>pdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>3</span>:<span class='fl'>6</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt; [1] 0.0000000 0.0000000 0.2133333 0.5933333</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>rdata</span>(<span class='no'>iris</span>$<span class='no'>Species</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1] versicolor versicolor virginica  versicolor versicolor versicolor
-#&gt;  [7] setosa     setosa     setosa     setosa    
-#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'>rdata</span>(~<span class='no'>Species</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;  [1] setosa     versicolor versicolor versicolor virginica  setosa    
-#&gt;  [7] setosa     virginica  virginica  virginica 
+<span class='fu'>rdata</span>(<span class='no'>iris</span>$<span class='no'>Species</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1] versicolor versicolor versicolor setosa     setosa     setosa    
+#&gt;  [7] setosa     setosa     versicolor versicolor
+#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'>rdata</span>(~<span class='no'>Species</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;  [1] versicolor virginica  setosa     setosa     virginica  virginica 
+#&gt;  [7] virginica  setosa     versicolor setosa    
 #&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'>rdata</span>(<span class='no'>Sepal.Length</span> ~ <span class='no'>Species</span>,  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species rdata_v1 rdata_v2 rdata_v3 rdata_v4 rdata_v5
-#&gt; 1     setosa      5.4      5.0      4.8      5.4      5.4
-#&gt; 2 versicolor      4.9      5.7      5.5      6.6      6.0
-#&gt; 3  virginica      6.8      7.9      6.4      6.7      5.7</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
+#&gt; 1     setosa      5.4      5.4      5.0      5.4      5.4
+#&gt; 2 versicolor      6.6      6.0      5.0      5.5      6.0
+#&gt; 3  virginica      6.7      5.7      6.7      6.5      7.3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
 <span class='fu'>ddata</span>(<span class='no'>iris</span>$<span class='no'>Species</span>, <span class='st'>'setosa'</span>)</div><div class='output co'>#&gt;    setosa 
 #&gt; 0.3333333 </div><div class='input'><span class='fu'>ddata</span>(~<span class='no'>Species</span>, <span class='st'>'setosa'</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;    setosa 
 #&gt; 0.3333333 </div></pre>
