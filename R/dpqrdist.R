@@ -136,7 +136,7 @@ pdist <- function (dist = "norm", q, plot = TRUE, verbose = FALSE, invisible = F
 #'   and additional options for the plot.  To help with name collisions (eg `size` for binomial 
 #'   distributions and `shape` for gamma distributions), argument names beginning `plot_` will
 #'   be renamed to remove `plot_` and passed only to the plot.  The unprefixed version will 
-#'   used as a paramter for the the distribution.
+#'   used as a parameter for the the distribution.
 #' @param return If `"plot"`, return a plot.  If `"values"`, return a vector of numerical values.
 #' @details The most general function is `qdist` which can work with 
 #' any distribution for which a q-function exists.  As a convenience, wrappers are 

@@ -24,7 +24,7 @@
 #' to the returned function.  
 #' @note
 #' This doesn't work with categorical explanatory variables.  Also, 
-#' this does not work with synthentic data that fit the model perfectly.
+#' this does not work with synthetic data that fit the model perfectly.
 #' See \code{link{nls}} for details.
 #'
 #' @seealso [linearModel()], [nls()]

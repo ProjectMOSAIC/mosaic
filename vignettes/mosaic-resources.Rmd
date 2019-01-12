@@ -28,7 +28,7 @@ from within R or from
  * *Resampling methods in R* demonstrates how to use the `mosaic`
 	package to compute p-values for randomization tests and bootstrap confidence 
 	intervals in a number of common situations. The examples are based on the 
-	``resamping bake off'' at USCOTS 2013.
+	``resampling bake off'' at USCOTS 2013.
 
  * *ggformula/lattice conversion examples* compares the lattice and ggformula formula interfaces for creating graphics. 
 
@@ -60,7 +60,7 @@ Pruim R, Kaplan DT and Horton NJ (2017). The mosaic Package: Helping
 Students to 'Think with Data' Using R. *The R Journal*, 9(1), pp.
 77-102.  https://journal.r-project.org/archive/2017/RJ-2017-024/index.html.
 
-Abstract: The mosaic package provides a simplified and systematic introduction to the core functional ity related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics. This introduction to the package describes some of the guiding principles behind the design of the package and provides illustrative examples of several of the most important functions it implements. These can be combined to help students 'think with data' using R in their early course work, starting with simple, yet powerful, declarative commands.
+Abstract: The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics. This introduction to the package describes some of the guiding principles behind the design of the package and provides illustrative examples of several of the most important functions it implements. These can be combined to help students 'think with data' using R in their early course work, starting with simple, yet powerful, declarative commands.
 
 ## Project MOSAIC Little Books
 

@@ -30,7 +30,7 @@ a string containing a URL.  Optionally, as a side-effect, the URL is visited in 
 }
 \description{
 Creates a URL for Google Maps for a particular latitude and
-longitude position.  This function has been deprected due to changes in
+longitude position.  This function has been deprecated due to changes in
 Google's access policies.  Give \code{\link[=leaflet_map]{leaflet_map()}} a try as an alternative.
 }
 \examples{

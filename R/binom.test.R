@@ -47,7 +47,7 @@
 #' * `"Score", "Wilson", "prop.test":  This is the usual method used by [stats::prop.test()]
 #'   and is computed by inverting p-values from score tests. It is often attributed to 
 #'   Edwin Wilson.  If specified with \code{"prop.test"}, the continuity correction is applied
-#'   (as is the deafult in \code{\link{prop.test}()}), else the continuity correction is not 
+#'   (as is the default in \code{\link{prop.test}()}), else the continuity correction is not 
 #'   applied.
 #'   * `"Wald"` This is the interval traditionally taught in entry level statistics courses.
 #'   It uses the sample proportion to estimate the standard error and uses normal

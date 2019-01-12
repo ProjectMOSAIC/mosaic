@@ -58,7 +58,7 @@ below, which may either under- or over-cover depending on the data.
 \item `"Score", "Wilson", "prop.test":  This is the usual method used by \code{\link[stats:prop.test]{stats::prop.test()}}
 and is computed by inverting p-values from score tests. It is often attributed to
 Edwin Wilson.  If specified with \code{"prop.test"}, the continuity correction is applied
-(as is the deafult in \code{\link{prop.test}()}), else the continuity correction is not
+(as is the default in \code{\link{prop.test}()}), else the continuity correction is not
 applied.
 \itemize{
 \item \code{"Wald"} This is the interval traditionally taught in entry level statistics courses.

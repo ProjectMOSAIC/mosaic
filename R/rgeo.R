@@ -106,7 +106,7 @@ rlonlat <- function(...){
 #' @examples
 #' rgeo(4)
 #' # sample from a region that contains the continental US
-#' rgeo( 4, latlim=c(25,50), lonlim=c(-65,-125) )
+#' rgeo(4, latlim = c(25,50), lonlim = c(-65, -125))
 #' @details
 #' `rgeo` and `rgeo2` differ in the algorithms used to generate random positions.  
 #' Each assumes a spherical globe.  `rgeo` uses that fact that each of the x, y and z
@@ -188,7 +188,7 @@ rgeo2 <- function( n=1, latlim=c(-90,90), lonlim=c(-180,180), verbose=FALSE ) {
 #' Display a point on earth on a Google Map
 #' 
 #' Creates a URL for Google Maps for a particular latitude and
-#' longitude position.  This function has been deprected due to changes in
+#' longitude position.  This function has been deprecated due to changes in
 #' Google's access policies.  Give [leaflet_map()] a try as an alternative.
 
 #' @rdname googleMap
@@ -237,7 +237,9 @@ googleMap <- function(latitude, longitude, position=NULL,
 #' Primarily designed to work with [rgeo()] to display randomly sampled
 #' points on the globe.
 #' 
-#' @param latitude,longitude vectors of latitude and longitude values
+#' @param latitude,longitude vectors of latitude and longitude values.
+#'   If `latitude` is a data frame, then it is treated as `position`.
+#'   This facilitates "piping" from [rgeo()].  See examples.
 #' @param position a data frame containing latitude and longitude positions
 #' @param zoom zoom level for initial map (1-20)
 # #' @param maptype one of `'roadmap'`, `'satellite'`, `'terrain'`, and `'hybrid'`
@@ -251,12 +253,15 @@ googleMap <- function(latitude, longitude, position=NULL,
 #'   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
 #'   # 3 random locations; 5 km circles
 #'   leaflet_map(position = rgeo(3), radius = 5, mark = TRUE, color = "red") 
+#'   # using pipes
+#'   rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) %>%
+#'     leaflet_map(radius = 5, mark = TRUE, color = "purple")
 #' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
 #' @importFrom leaflet leaflet addTiles addCircles addMarkers
 #' @export
  
 leaflet_map <- 
-  function(latitude, longitude, position = NULL,
+  function(latitude = NULL, longitude = NULL, position = NULL,
            zoom = 12,  
            mark = FALSE, radius = 0, 
            units = c("km", "miles", "meters", "feet"),
@@ -264,6 +269,12 @@ leaflet_map <-
   ) {
     units <- match.arg(units)
     # how many meters per unit?
+    if (inherits(latitude, "data.frame")) {
+      position <- latitude
+      latitude <- NULL
+      longitude <- NULL
+    }
+    
     conversion <- switch(
       units,
       miles = 1609.34,
@@ -272,7 +283,7 @@ leaflet_map <-
       feet = 1609.34 / 5280
     )
     if (! is.null(position)) {
-      if (!missing(latitude) || !missing(longitude)) {
+      if (!is.null(latitude) || !is.null(longitude)) {
         stop("Specify either position or lat/lon, but not both.")
       }
       if ("latitude" %in% names(position)) {

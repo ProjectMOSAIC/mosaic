@@ -108,7 +108,7 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' comprising the map and a variable for determining which coordinates are part
 #' of the same region.  See [sp2df()] for one way to create such
 #' a data frame.  Typically [merge()] will be used to combine the map
-#' data with some auxilliary data to be displayed as fill color on the map, although
+#' data with some auxiliary data to be displayed as fill color on the map, although
 #' this is not necessary if all one wants is a map.
 #' @param format a synonym for `default`.
 #' @param default default type of plot to create; one of 

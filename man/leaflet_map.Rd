@@ -4,12 +4,14 @@
 \alias{leaflet_map}
 \title{Simple Leaflet Maps}
 \usage{
-leaflet_map(latitude, longitude, position = NULL, zoom = 12,
-  mark = FALSE, radius = 0, units = c("km", "miles", "meters",
-  "feet"), ...)
+leaflet_map(latitude = NULL, longitude = NULL, position = NULL,
+  zoom = 12, mark = FALSE, radius = 0, units = c("km", "miles",
+  "meters", "feet"), ...)
 }
 \arguments{
-\item{latitude, longitude}{vectors of latitude and longitude values}
+\item{latitude, longitude}{vectors of latitude and longitude values.
+If \code{latitude} is a data frame, then it is treated as \code{position}.
+This facilitates "piping" from \code{\link[=rgeo]{rgeo()}}.  See examples.}
 
 \item{position}{a data frame containing latitude and longitude positions}
 
@@ -35,6 +37,9 @@ points on the globe.
   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
   # 3 random locations; 5 km circles
   leaflet_map(position = rgeo(3), radius = 5, mark = TRUE, color = "red") 
+  # using pipes
+  rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) \%>\%
+    leaflet_map(radius = 5, mark = TRUE, color = "purple")
 }
 \seealso{
 \code{\link[=deg2rad]{deg2rad()}}, \code{\link[=latlon2xyz]{latlon2xyz()}} and \code{\link[=rgeo]{rgeo()}}.

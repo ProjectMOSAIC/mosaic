@@ -27,7 +27,7 @@ Note that for maps, the data frame must contain coordinates of the polygons
 comprising the map and a variable for determining which coordinates are part
 of the same region.  See \code{\link[=sp2df]{sp2df()}} for one way to create such
 a data frame.  Typically \code{\link[=merge]{merge()}} will be used to combine the map
-data with some auxilliary data to be displayed as fill color on the map, although
+data with some auxiliary data to be displayed as fill color on the map, although
 this is not necessary if all one wants is a map.}
 
 \item{format}{a synonym for \code{default}.}

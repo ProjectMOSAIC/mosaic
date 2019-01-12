@@ -68,7 +68,7 @@ of the distribution.}
 and additional options for the plot.  To help with name collisions (eg \code{size} for binomial
 distributions and \code{shape} for gamma distributions), argument names beginning \code{plot_} will
 be renamed to remove \code{plot_} and passed only to the plot.  The unprefixed version will
-used as a paramter for the the distribution.}
+used as a parameter for the the distribution.}
 
 \item{shape}{shape and scale parameters.  Must be positive,
     \code{scale} strictly.}
