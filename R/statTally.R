@@ -131,10 +131,19 @@ function (sample, rdata, FUN, direction = NULL,
 	results <- data.frame(stat=stats)
 	if (missing(xlim)) xlim <- range(pretty(c(stats,dstat)))
 
-	hi <- center + abs(dstat - center)
-	lo <- center - abs(dstat - center)
-	if (alternative == 'greater') lo <- -Inf
-	if (alternative == 'less')    hi <-  Inf
+	if (alternative == 'two.sided') {
+	  hi <- center + abs(dstat - center)
+	  lo <- center - abs(dstat - center)
+	}
+	if (alternative == 'greater') {
+	  hi <- dstat
+	  lo <- -Inf
+	}
+	if (alternative == 'less') {
+	  hi <-  Inf
+	  lo <- dstat
+	}
+
 	Rect_Data <- data.frame(
 	  xleft = c(-Inf, hi),
 	  xright = c(lo, Inf)
