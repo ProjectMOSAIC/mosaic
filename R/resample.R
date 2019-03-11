@@ -249,7 +249,7 @@ sample.default <- function(x, size, replace=FALSE, prob=NULL,
 #' @export
 
 sample.data.frame <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, 
-                              orig.ids=TRUE, fixed=names(x), shuffled=c(),
+                              orig.ids = TRUE, fixed = names(x), shuffled = c(),
                               invisibly.return = NULL, ...) {
   if( missing(size) ) size = nrow(x)
   if( is.null(invisibly.return) ) invisibly.return = size>50 
