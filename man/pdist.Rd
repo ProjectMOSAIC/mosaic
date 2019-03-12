@@ -22,7 +22,7 @@ xpgamma(q, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
 
 xpt(q, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
-xpchisq(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
+xpchisq(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)
 
 xpf(q, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)
 

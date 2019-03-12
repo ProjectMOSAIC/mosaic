@@ -37,3 +37,37 @@ Adding in ability to select multiple names and get a merged data set.
 World <- CIAdata(c("pop", "area", "life", "fert"))
 head(World)
 ```
+
+
+## Issue 736: xpt() bugs
+
+This was throwing an error because of missing `ncp`:
+
+```{r}
+suppressPackageStartupMessages(library(mosaic, quietly = TRUE))
+xpt(.67, df = 49)
+```
+
+Trouble caused because there is no default for `ncp` in `pt()`  Indeed
+
+> Supplying ncp = 0 uses the algorithm for the non-central distribution, which is not the same algorithm used if ncp is omitted. This is to give consistent behaviour in extreme cases with values of ncp very near zero.
+
+Fixed with explicit test for missing.
+
+## Issue 737
+
+`...` was missing in a couple of function and so `xlim` (and other things) were
+not being passed along.
+
+```{r}
+library(mosaic) #latest vers.
+xpnorm(3, xlim = c(2, 4))
+xpt(41.944,df=4, ncp=0, xlim=c(41,43))
+xpchisq(41.944,df=4, ncp=0, xlim=c(41,43))
+xpf(41.944,df1=4,df2=3, ncp=0, xlim=c(41,43))
+# In previous mosaic vers. all the above "zooms" were working very well after adding
+# the "default" ncp=0 - in the latest vers. 1.5.0
+# xpchisq stopped with the error message:
+# Error in xpchisq(41.944, df = 4, ncp = 0, xlim = c(41, 43)) :
+# unused argument (xlim = c(41, 43))
+```

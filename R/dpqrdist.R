@@ -411,8 +411,13 @@ xcgamma <- function(p, shape, rate = 1, scale = 1/rate,
 #' @inheritParams stats::pt
 #' @export
 xpt <- function(q, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
-  pdist("t", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
-        log.p = log.p, ...)
+  if (missing(ncp)) {
+    pdist("t", q = q, df = df, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  } else {
+    pdist("t", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  }
 #' @rdname qdist
 #' @inheritParams stats::qt
 #' @export
@@ -431,21 +436,29 @@ xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
 #' @inheritParams stats::pt
 #' @export
 xct <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
-  cdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
-        log.p = log.p, ...)
+  if (missing(ncp)) {
+    cdist("t", p = p, df = df, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  } else {
+    cdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  }
 
 #' @rdname pdist
 #' @export
-xpchisq <- function(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  pdist("chisq", q = q, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
+xpchisq <- function(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)   
+  pdist("chisq", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 #' @rdname qdist
 #' @export
-xqchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  qdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
+xqchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)   
+  qdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 #' @rdname cdist
 #' @export
-xcchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  cdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
+xcchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)   
+  cdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 
 #' @rdname pdist
 #' @inheritParams stats::pf
