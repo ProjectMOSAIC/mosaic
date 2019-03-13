@@ -1,4 +1,11 @@
 
+# mosaic 1.6.0
+ 
+ * fixed bug in `xpchisq()` caused by introducing explicit arguments and failing
+ to retain `...`.  (Issue #737)
+ * fixed bug in `xpt()` caused by introducing explicit arguments and failing
+ to handle missing `ncp` correctly.  (Issue #736)
+
 # mosaic 1.5.0
 
  * `googleMap()` has be deprecated due to change in policy at google. Try `leaflet_map()` as an alternative.

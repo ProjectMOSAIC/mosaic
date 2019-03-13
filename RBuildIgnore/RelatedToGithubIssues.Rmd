@@ -60,14 +60,8 @@ Fixed with explicit test for missing.
 not being passed along.
 
 ```{r}
-library(mosaic) #latest vers.
-xpnorm(3, xlim = c(2, 4))
+suppressPackageStartupMessages(library(mosaic))
 xpt(41.944,df=4, ncp=0, xlim=c(41,43))
 xpchisq(41.944,df=4, ncp=0, xlim=c(41,43))
 xpf(41.944,df1=4,df2=3, ncp=0, xlim=c(41,43))
-# In previous mosaic vers. all the above "zooms" were working very well after adding
-# the "default" ncp=0 - in the latest vers. 1.5.0
-# xpchisq stopped with the error message:
-# Error in xpchisq(41.944, df = 4, ncp = 0, xlim = c(41, 43)) :
-# unused argument (xlim = c(41, 43))
 ```
