@@ -65,3 +65,14 @@ xpt(41.944,df=4, ncp=0, xlim=c(41,43))
 xpchisq(41.944,df=4, ncp=0, xlim=c(41,43))
 xpf(41.944,df1=4,df2=3, ncp=0, xlim=c(41,43))
 ```
+
+## qdata() return type
+
+```{r}
+suppressPackageStartupMessages(library(mosaic))
+x <- rnorm(100)
+qdata(~x, 0.9) %>% class()
+qdata(~x, c(0.8, 0.9)) %>% class()
+qdata(~x, 0.9)$quantile
+qdata(~x, c(0.8, 0.9))$quantile
+```

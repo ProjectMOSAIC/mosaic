@@ -58,6 +58,8 @@ qdata_v <- function( x, p=seq(0, 1, 0.25), na.rm=TRUE, ... ) {
   if (any(p > 1) | any(p < 0)) 
     stop("Prob outside of range 0 to 1.  Do you perhaps want pdata?")
   qs <- quantile(x, probs = p, na.rm = na.rm, ...)
+  return(qs)
+  
   if (length(p) == 1) {
     # result <- setNames( c(p, qs), c("p","quantile") )
     result <- data.frame(quantile = qs, p = p)
@@ -73,7 +75,7 @@ qdata_v <- function( x, p=seq(0, 1, 0.25), na.rm=TRUE, ... ) {
 qdata_f <- aggregatingFunction1(qdata_v, output.multiple = TRUE, na.rm = TRUE)
 
 #' @rdname pqrdata
-#' @return for `cdata`, a named numerical vector or a data frame giving
+#' @return for `cdata`, a data frame giving
 #' upper and lower limits and the central proportion requested
 #' @examples
 #' data(iris)

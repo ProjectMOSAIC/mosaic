@@ -34,7 +34,7 @@ ddata(formula, q, data = NULL, ...)
 \value{
 For \code{qdata}, a vector of quantiles
 
-for \code{cdata}, a named numerical vector or a data frame giving
+for \code{cdata}, a data frame giving
 upper and lower limits and the central proportion requested
 
 For \code{pdata}, a vector of probabilities
