@@ -73,6 +73,10 @@ suppressPackageStartupMessages(library(mosaic))
 x <- rnorm(100)
 qdata(~x, 0.9) %>% class()
 qdata(~x, c(0.8, 0.9)) %>% class()
-qdata(~x, 0.9)$quantile
-qdata(~x, c(0.8, 0.9))$quantile
+qdata(~x, 0.9)
+qdata(~x, c(0.8, 0.9))
+cdata(~x, 0.9) %>% class()
+cdata(~x, c(0.8, 0.9)) %>% class()
+cdata(~x, 0.9)
+cdata(~x, c(0.8, 0.9))
 ```

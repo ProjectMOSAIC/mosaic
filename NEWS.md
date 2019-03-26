@@ -1,9 +1,12 @@
 
 # mosaic 1.6.0
  
- * fixed bug in `xpchisq()` caused by introducing explicit arguments and failing
+ * Changed return type for `qdata()` so that it is always a named vector.
+ * Changed return type for `cdata()` so taht is is always a data frame.  Also changed 
+ names to "lo" and "hi".
+ * Fixed bug in `xpchisq()` caused by introducing explicit arguments and failing
  to retain `...`.  (Issue #737)
- * fixed bug in `xpt()` caused by introducing explicit arguments and failing
+ * Fixed bug in `xpt()` caused by introducing explicit arguments and failing
  to handle missing `ncp` correctly.  (Issue #736)
 
 # mosaic 1.5.0

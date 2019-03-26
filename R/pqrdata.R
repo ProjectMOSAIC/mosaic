@@ -106,9 +106,9 @@ cdata_v <- function( x, p = .95, na.rm = TRUE, ... ) {
   hi <- quantile( x, hi_p, na.rm=na.rm, ... )
   if (length(p) == 1) {
     # result <- setNames( c(lo, hi, p), c("low", "hi", "central.p") )
-    result <- data.frame(low = lo, hi = hi, central.p = p)
+    result <- data.frame(lo = lo, hi = hi, central.p = p)
   } else {
-    result <- data.frame(low = lo, hi = hi, central.p = p)
+    result <- data.frame(lo = lo, hi = hi, central.p = p)
   }
   return(result)
 }
