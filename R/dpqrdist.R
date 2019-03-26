@@ -302,7 +302,7 @@ plot_multi_dist <-
     # res_plot <- do.call("xyplot", args)
     
     Groups <- 
-      data_frame(p = diff(p_less)) %>%
+      dplry::tibble(p = diff(p_less)) %>%
       mutate(
         i = 1 : n(),
         name = if (pattern == "stripes") LETTERS[i] else LETTERS[ceiling(1 + abs(i - mean(i)))]
@@ -316,7 +316,7 @@ plot_multi_dist <-
     if (discrete) { 
       # q <- tail(q, -1)
       Ddensity <- 
-        data_frame(
+        dplry::tibble(
           x = xdata, density = ydata, 
           group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
         ) %>%
@@ -341,7 +341,7 @@ plot_multi_dist <-
     
   } else {
     Ddensity <- 
-      data_frame(
+      dplry::tibble(
         x = xdata, density = ydata, 
         group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
       ) %>%
