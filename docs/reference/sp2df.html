@@ -64,7 +64,7 @@ SpatialPolygonsDataFrame) and transforms it into a dataframe" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
       </span>
     </div>
 
@@ -165,7 +165,7 @@ information (ex: <code>long</code> and <code>lat</code>)</p>
   <span class='no'>World2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/merge'>merge</a></span>(<span class='no'>World</span>, <span class='no'>Countries</span>, <span class='kw'>by.x</span><span class='kw'>=</span><span class='st'>"NAME"</span>, <span class='kw'>by.y</span><span class='kw'>=</span><span class='st'>"maptools"</span>, <span class='kw'>all.y</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
   <span class='no'>Mdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/merge'>merge</a></span>(<span class='no'>Alcohol</span>, <span class='no'>World2</span>, <span class='kw'>by.x</span><span class='kw'>=</span><span class='st'>"country"</span>, <span class='kw'>by.y</span><span class='kw'>=</span><span class='st'>"gapminder"</span>, <span class='kw'>all.y</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
   <span class='no'>Mdata</span> <span class='kw'>&lt;-</span> <span class='no'>Mdata</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/order'>order</a></span>(<span class='no'>Mdata</span>$<span class='no'>order</span>),]
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/qplot.html'>qplot</a></span>( <span class='kw'>x</span><span class='kw'>=</span><span class='no'>long</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>lat</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='fu'><a href='ntiles.html'>ntiles</a></span>(<span class='no'>alcohol</span>,<span class='fl'>5</span>),
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/qplot'>qplot</a></span>( <span class='kw'>x</span><span class='kw'>=</span><span class='no'>long</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>lat</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='fu'><a href='ntiles.html'>ntiles</a></span>(<span class='no'>alcohol</span>,<span class='fl'>5</span>),
          <span class='kw'>data</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>Mdata</span>, <span class='no'>year</span><span class='kw'>==</span><span class='fl'>2008</span>), <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>group</span>,
                      <span class='kw'>geom</span><span class='kw'>=</span><span class='st'>"polygon"</span>)
 }

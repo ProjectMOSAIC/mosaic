@@ -64,7 +64,7 @@ from data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
       </span>
     </div>
 
@@ -172,7 +172,7 @@ from data.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>For <code>qdata</code>, a vector of quantiles</p>
-<p>for <code>cdata</code>, a named numerical vector or a data frame giving
+<p>for <code>cdata</code>, a data frame giving
 upper and lower limits and the central proportion requested</p>
 <p>For <code>pdata</code>, a vector of probabilities</p>
 <p>For <code>rdata</code>, a vector of sampled values.</p>
@@ -181,22 +181,22 @@ upper and lower limits and the central proportion requested</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>qdata</span>(<span class='no'>Sepal.Length</span> ~ <span class='no'>Species</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species   p quantile
-#&gt; 1     setosa 0.5      5.0
-#&gt; 2 versicolor 0.5      5.9
-#&gt; 3  virginica 0.5      6.5</div><div class='input'><span class='fu'>qdata</span>(~<span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>Species</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species   p quantile
-#&gt; 1     setosa 0.5      5.0
-#&gt; 2 versicolor 0.5      5.9
-#&gt; 3  virginica 0.5      6.5</div><div class='input'><span class='fu'>qdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;        p quantile 
-#&gt;      0.5      5.8 </div><div class='input'><span class='fu'>qdata</span>(~ <span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;        p quantile 
-#&gt;      0.5      5.8 </div><div class='input'><span class='fu'>qdata</span>(~ <span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>Species</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species   p quantile
-#&gt; 1     setosa 0.5      5.0
-#&gt; 2 versicolor 0.5      5.9
-#&gt; 3  virginica 0.5      6.5</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>cdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;       low        hi central.p 
-#&gt;       5.1       6.4       0.5 </div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='output co'>#&gt;       low        hi central.p 
-#&gt;       5.1       6.4       0.5 </div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='output co'>#&gt;       low        hi central.p 
-#&gt;       5.1       6.4       0.5 </div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span> <span class='kw'>|</span> <span class='no'>Species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>.5</span>)</div><div class='output co'>#&gt;      Species   low  hi central.p
+<span class='fu'>qdata</span>(<span class='no'>Sepal.Length</span> ~ <span class='no'>Species</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species 50%
+#&gt; 1     setosa 5.0
+#&gt; 2 versicolor 5.9
+#&gt; 3  virginica 6.5</div><div class='input'><span class='fu'>qdata</span>(~<span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>Species</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species 50%
+#&gt; 1     setosa 5.0
+#&gt; 2 versicolor 5.9
+#&gt; 3  virginica 6.5</div><div class='input'><span class='fu'>qdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; 50% 
+#&gt; 5.8 </div><div class='input'><span class='fu'>qdata</span>(~ <span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt; 50% 
+#&gt; 5.8 </div><div class='input'><span class='fu'>qdata</span>(~ <span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>Species</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species 50%
+#&gt; 1     setosa 5.0
+#&gt; 2 versicolor 5.9
+#&gt; 3  virginica 6.5</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
+<span class='fu'>cdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;      lo  hi central.p
+#&gt; 25% 5.1 6.4       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='output co'>#&gt;      lo  hi central.p
+#&gt; 25% 5.1 6.4       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='output co'>#&gt;      lo  hi central.p
+#&gt; 25% 5.1 6.4       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span> <span class='kw'>|</span> <span class='no'>Species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>.5</span>)</div><div class='output co'>#&gt;      Species    lo  hi central.p
 #&gt; 1     setosa 4.800 5.2       0.5
 #&gt; 2 versicolor 5.600 6.3       0.5
 #&gt; 3  virginica 6.225 6.9       0.5</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
