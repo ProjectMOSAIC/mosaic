@@ -1,5 +1,5 @@
 globalVariables(c("FUNCTION_TBD", "NA.RM", "OUTPUT.MULTIPLE"))
-
+require(rlang)
 
 #' 1-ary Aggregating functions
 #' 
@@ -61,7 +61,7 @@ aggregatingFunction1 <-
           subst_x <- substitute(x)
           lazy_formula <- 
             tryCatch(
-              lazyeval::lazy(x),
+              rlang::enquo(x),
               error = function(e) {
                 if (grepl("Promise has already been forced", e$message) ||
                     # next line can be deleted when lazyeval updates on CRAN
@@ -230,8 +230,8 @@ aggregatingFunction1or2 <-
            na.rm = getOption("na.rm", FALSE)) {
     template <- 
       function(x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
-        if (lazyeval::is_formula(x)) {
-          if (lazyeval::is_formula(y)) {
+        if (rlang::is_formula(x)) {
+          if (rlang::is_formula(y)) {
             x <- lazyeval::f_eval(x, data)
             y <- lazyeval::f_eval(y, data)
           } else {
@@ -308,8 +308,8 @@ aggregatingFunction2 <- function(fun) {
         stop("When `data' is specified, `y' should be a formula or NULL.", 
              call. = FALSE)
       }
-      if (lazyeval::is_formula(x)) {
-        if (lazyeval::is_formula(y)) {
+      if (rlang::is_formula(x)) {
+        if (rlang::is_formula(y)) {
           x <- lazyeval::f_eval(x, data)
           y <- lazyeval::f_eval(y, data)
         } else {
