@@ -290,7 +290,7 @@ mMap <- function(data, default = 'map',
     projection <- paste(projection, '"', sep = "")
   }
   projection <- paste('"',projection, sep = "")
-  vals <- list(dataName = lazyeval::expr_text(data), 
+  vals <- list(dataName = rlang::expr_text(data), 
                x = x, y = y, 
                color = color, 
                group = group,
@@ -346,7 +346,7 @@ mMap <- function(data, default = 'map',
 
 mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','line'),
                      system = "ggformula", show = FALSE, title = "",
-                     data_text = lazyeval::expr_text(data)) {
+                     data_text = rlang::expr_text(data)) {
   
   .require_manipulate_namespace()
   system <- match.arg(system, system_choices())

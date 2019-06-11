@@ -95,10 +95,10 @@ binom.test <-
     ...) 
   {
     missing_n <- !is.null(n)
-    x_lazy <- lazyeval::f_capture(x)
+    x_lazy <- rlang::enquo(x)
     x_eval <- 
       tryCatch(
-        lazyeval::f_eval(x_lazy, data),
+        rlang::eval_tidy(x_lazy, data),
         error = function(e) {
           if (is.null(data) && ! missing_n) {
             stop("binom.test(): Improper `n'; did you forget `data =' perhaps?", call. = FALSE) 
