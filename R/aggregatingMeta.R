@@ -47,7 +47,7 @@ aggregatingFunction1 <-
            na.rm = getOption("na.rm", FALSE),
            style = c("formula1st", "formula", "flexible")
   ) {
-    fun <- lazyeval::expr_text(fun) # deparse(substitute(fun))
+    fun <- deparse(substitute(fun))
     style = match.arg(style)
     templates <- list(
       flexible = # this should probably be removed in the near future.
@@ -113,8 +113,8 @@ aggregatingFunction1 <-
           groups = NULL, 
           na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
         {
-          if (lazyeval::is_formula(x)) {
-            if (is.null(data)) data <- lazyeval::f_env(x)
+          if (rlang::is_formula(x)) {
+            if (is.null(data)) data <- environment(x)
             formula <- mosaicCore::mosaic_formula_q(x, groups = groups, max.slots = 3) 
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
                               na.rm = na.rm,
@@ -232,11 +232,11 @@ aggregatingFunction1or2 <-
       function(x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
         if (rlang::is_formula(x)) {
           if (rlang::is_formula(y)) {
-            x <- lazyeval::f_eval(x, data)
+            x <- rlang::eval_tidy(rlang::f_rhs(rlang::expr_interp(x, as.environment(data))))
             y <- lazyeval::f_eval(y, data)
           } else {
             formula <- mosaicCore::mosaic_formula_q(x, max.slots = 2)
-            if (is.null(data)) data <- lazyeval::f_env(formula)
+            if (is.null(data)) data <- environment(formula)
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, 
                               .multiple = OUTPUT.MULTIPLE, ...))
           }
@@ -308,14 +308,24 @@ aggregatingFunction2 <- function(fun) {
         stop("When `data' is specified, `y' should be a formula or NULL.", 
              call. = FALSE)
       }
+      print("\nX: \n")
+      print(x)
+      print("\nY: \n")
+      print(y)
       if (rlang::is_formula(x)) {
         if (rlang::is_formula(y)) {
-          x <- lazyeval::f_eval(x, data)
+          #x <- rlang::eval_tidy(rlang::f_rhs(rlang::expr_interp(x, as.environment(data))))
+          x <- rlang::eval_tidy(rlang::expr_interp(x, as.environment(data)))
           y <- lazyeval::f_eval(y, data)
         } else {
           formula <- mosaicCore::mosaic_formula_q(x, max.slots = 3)
-          x <- lazyeval::f_eval_rhs(formula, data)
-          y <- lazyeval::f_eval_lhs(formula, data)
+          x <- rlang::f_rhs(eval_tidy(formula, data))
+          y <- rlang::f_lhs(rlang::eval_tidy(formula, data))
+          #y <- rlang::eval_tidy(rlang::f_lhs(rlang::expr_interp(formula, as.environment(data))))
+          print("\nX: \n")
+          print(x)
+          print("\nY: \n")
+          print(y)
         }
         FUNCTION_TBD(x, y, ...)
       }
