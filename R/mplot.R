@@ -21,7 +21,7 @@ NA
 
 mplot <- function(object, ...) {
   if (inherits(object, "data.frame")) {
-    return(mPlot(object, ..., data_text = lazyeval::expr_text(object))) 
+    return(mPlot(object, ..., data_text = rlang::expr_text(object))) 
   }
   
   UseMethod("mplot")

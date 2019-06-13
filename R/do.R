@@ -5,7 +5,6 @@ require(profvis)
 require(compiler)
 parallel::detectCores()
 NA
-profvis({
   
 
 #' Set seed in parallel compatible way
@@ -574,6 +573,3 @@ setMethod(
     if (out.mode == "data.frame") attr(result, "culler") <- cull
     return(result)
   })
-
-do(5000) * c(mean_height = mean(~height, data = resample(Galton)))
-})

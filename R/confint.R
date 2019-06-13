@@ -87,7 +87,7 @@ confint.numeric <- function(object, parm, level = 0.95, ...,
     stop("Use `level` to set the confidence level, not `conf.level`.")
   }
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok = TRUE)
-  result <- list()
+  result <- list() 
   for (m in method) {
     vals <- .mosaic.get.ci( object, level, m )
     result[[m]] <-  if( margin.of.error ) { 

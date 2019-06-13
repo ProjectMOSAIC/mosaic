@@ -315,12 +315,12 @@ aggregatingFunction2 <- function(fun) {
       if (rlang::is_formula(x)) {
         if (rlang::is_formula(y)) {
           #x <- rlang::eval_tidy(rlang::f_rhs(rlang::expr_interp(x, as.environment(data))))
-          x <- rlang::eval_tidy(rlang::expr_interp(x, as.environment(data)))
+          x <- lazyeval::f_eval(x, data)
           y <- lazyeval::f_eval(y, data)
         } else {
           formula <- mosaicCore::mosaic_formula_q(x, max.slots = 3)
-          x <- rlang::f_rhs(eval_tidy(formula, data))
-          y <- rlang::f_lhs(rlang::eval_tidy(formula, data))
+          x <- lazyeval::f_eval_rhs(formula, data)
+          y <- lazyeval::f_eval_lhs(formula, data)
           #y <- rlang::eval_tidy(rlang::f_lhs(rlang::expr_interp(formula, as.environment(data))))
           print("\nX: \n")
           print(x)
