@@ -322,10 +322,7 @@ aggregatingFunction2 <- function(fun) {
           x <- lazyeval::f_eval_rhs(formula, data)
           y <- lazyeval::f_eval_lhs(formula, data)
           #y <- rlang::eval_tidy(rlang::f_lhs(rlang::expr_interp(formula, as.environment(data))))
-          print("\nX: \n")
-          print(x)
-          print("\nY: \n")
-          print(y)
+          
         }
         FUNCTION_TBD(x, y, ...)
       }

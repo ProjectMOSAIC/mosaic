@@ -3,6 +3,7 @@ utils::globalVariables(c('.row'))
 require(parallel)
 require(profvis)
 require(compiler)
+require(rlang)
 parallel::detectCores()
 NA
   
@@ -542,9 +543,9 @@ setMethod(
                 "  * Set seed with set.rseed().\n", 
                 "  * Disable this message with options(`mosaic:parallelMessage` = FALSE)\n")
       }
-      parallel::mclapply( integer(n), function(...) { cull(eval_tidy(e2_lazy)) } )
+      parallel::mclapply( integer(n), function(...) { cull(rlang::eval_tidy(e2_lazy)) } )
     } else {
-      lapply( integer(n), function(...) { cull(eval_tidy(e2_lazy)) } )
+      lapply( integer(n), function(...) { cull(rlang:eval_tidy(e2_lazy)) } )
     }
     
     if (out.mode=='default') {  # is there any reason to be fancier?
