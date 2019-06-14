@@ -545,7 +545,7 @@ setMethod(
       }
       parallel::mclapply( integer(n), function(...) { cull(rlang::eval_tidy(e2_lazy)) } )
     } else {
-      lapply( integer(n), function(...) { cull(rlang:eval_tidy(e2_lazy)) } )
+      lapply( integer(n), function(...) { cull(rlang::eval_tidy(e2_lazy)) } )
     }
     
     if (out.mode=='default') {  # is there any reason to be fancier?
