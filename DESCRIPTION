@@ -37,7 +37,8 @@ Imports:
     gridExtra,
     glue,
     broom,
-    leaflet
+    leaflet,
+    rlang
 Suggests: 
     lubridate,
     fastR,

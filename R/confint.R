@@ -194,7 +194,7 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
       orig_data <- extract_data(object) 
       orig_data <- 
         orig_data %>%
-        select_(
+        select(
           .dots = intersect(names(orig_data), 
                             lazyeval::f_rhs(attr(object, "lazy")) %>% all.vars())
         )
