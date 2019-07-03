@@ -111,6 +111,9 @@ testthat::test_that("Confidence Intervals created", {
                             method = "percentile", estimate = 5.5), row.names = c(NA, -1L), 
                             class = "data.frame")
   
+  result7 <- structure(list(name = logical(0), lower = logical(0), upper = logical(0), 
+                            level = logical(0), method = logical(0)), class = "data.frame", row.names = integer(0))
+  
   expect_equal(confint(bootstrap), result1)
   
   expect_equal(confint(bootstrap, method="stderr"), result2)
@@ -123,6 +126,8 @@ testthat::test_that("Confidence Intervals created", {
                        method = c("boot", "se", "perc")), result5)
   
   expect_equal(confint(bootstrap2), result6)
+  
+  expect_equal(confint(bootstrap, method = "boot"), result7)
   
   
 })
