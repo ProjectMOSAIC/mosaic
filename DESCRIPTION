@@ -54,7 +54,8 @@ Suggests:
     parallel,
     mapproj,
     rgl,
-    rmarkdown
+    rmarkdown,
+    vdiffr
 Enhances: manipulate
 VignetteBuilder: knitr
 License: GPL (>=2)
