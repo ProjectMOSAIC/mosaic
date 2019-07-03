@@ -137,7 +137,6 @@ dont_randomize_estimate <- list(
 
 extract_data <- function(x) {
   x_lazy <- attr(x, "lazy")
-  print(x_lazy)
   if (is.null(x_lazy)) return(NULL)
   res <- eval( rlang::f_rhs(x_lazy)[["data"]], envir = dont_randomize_data, enclos = environment(x_lazy) )
   if (is.null(res)) {

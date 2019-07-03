@@ -6,4 +6,7 @@ require(mosaicData)
 # freqpolygon(~age | substance, data=HELPrct, groups=sex)
 # freqpolygon(~age | substance, data=HELPrct, groups=sex, ylim=c(0,0.11))
 testthat::test_that("Returns a trellis object",{
+  context("Histograms")
+  p <- ggplot(mtcars, aes(disp)) + geom_histogram()
+  vdiffr::expect_doppelganger("FirstExample", p)
 })
