@@ -127,7 +127,7 @@ prepanel.default.freqpolygon <- function(
 freqpoly <- function(x, plot = TRUE, ...) {
   h <- hist(x, plot = FALSE, warn.unused = FALSE, ...)
   res <- hist2freqpolygon(h)
-  res$xname = lazyeval::expr_text(x)
+  res$xname = rlang::expr_text(x)
   dots <- list(...)
   # remove from ... things that plot() might not like.
   bad_args <- c("breaks", "include.lowest", "right", "density", "angle", 

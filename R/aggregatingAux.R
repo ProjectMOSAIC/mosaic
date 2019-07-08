@@ -1,12 +1,12 @@
 utils::globalVariables(c('.'))
-
+require(rlang)
 #' @importFrom mosaicCore mosaic_formula_q mosaic_formula
 
 # evaluate a lazy object and return the unevaluated expression if the expression
 # doesn't evaluate to an existing object.
 
 safe_eval <- function(x) {
-  tryCatch(lazyeval::lazy_eval(x), 
+  tryCatch(rlang::eval_tidy(x), 
            error = function(e) x$expr)
 }
 
