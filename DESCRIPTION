@@ -37,7 +37,8 @@ Imports:
     gridExtra,
     glue,
     broom,
-    leaflet
+    leaflet,
+    rlang
 Suggests: 
     lubridate,
     fastR,
@@ -53,7 +54,8 @@ Suggests:
     parallel,
     mapproj,
     rgl,
-    rmarkdown
+    rmarkdown,
+    vdiffr
 Enhances: manipulate
 VignetteBuilder: knitr
 License: GPL (>=2)

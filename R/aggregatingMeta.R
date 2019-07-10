@@ -1,5 +1,5 @@
 globalVariables(c("FUNCTION_TBD", "NA.RM", "OUTPUT.MULTIPLE"))
-
+require(rlang)
 
 #' 1-ary Aggregating functions
 #' 
@@ -47,7 +47,7 @@ aggregatingFunction1 <-
            na.rm = getOption("na.rm", FALSE),
            style = c("formula1st", "formula", "flexible")
   ) {
-    fun <- lazyeval::expr_text(fun) # deparse(substitute(fun))
+    fun <- deparse(substitute(fun))
     style = match.arg(style)
     templates <- list(
       flexible = # this should probably be removed in the near future.
@@ -61,7 +61,7 @@ aggregatingFunction1 <-
           subst_x <- substitute(x)
           lazy_formula <- 
             tryCatch(
-              lazyeval::lazy(x),
+              rlang::enquo(x),
               error = function(e) {
                 if (grepl("Promise has already been forced", e$message) ||
                     # next line can be deleted when lazyeval updates on CRAN
@@ -113,8 +113,8 @@ aggregatingFunction1 <-
           groups = NULL, 
           na.rm = NA.RM)  ## getOption("na.rm", FALSE)) 
         {
-          if (lazyeval::is_formula(x)) {
-            if (is.null(data)) data <- lazyeval::f_env(x)
+          if (rlang::is_formula(x)) {
+            if (is.null(data)) data <- environment(x)
             formula <- mosaicCore::mosaic_formula_q(x, groups = groups, max.slots = 3) 
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
                               na.rm = na.rm,
@@ -230,13 +230,13 @@ aggregatingFunction1or2 <-
            na.rm = getOption("na.rm", FALSE)) {
     template <- 
       function(x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
-        if (lazyeval::is_formula(x)) {
-          if (lazyeval::is_formula(y)) {
-            x <- lazyeval::f_eval(x, data)
-            y <- lazyeval::f_eval(y, data)
+        if (rlang::is_formula(x)) {
+          if (rlang::is_formula(y)) {
+            x <- rlang::eval_tidy(rlang::f_rhs(x), as.environment(data))
+            y <- rlang::eval_tidy(rlang::f_rhs(y), as.environment(data))
           } else {
             formula <- mosaicCore::mosaic_formula_q(x, max.slots = 2)
-            if (is.null(data)) data <- lazyeval::f_env(formula)
+            if (is.null(data)) data <- environment(formula)
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, 
                               .multiple = OUTPUT.MULTIPLE, ...))
           }
@@ -308,14 +308,14 @@ aggregatingFunction2 <- function(fun) {
         stop("When `data' is specified, `y' should be a formula or NULL.", 
              call. = FALSE)
       }
-      if (lazyeval::is_formula(x)) {
-        if (lazyeval::is_formula(y)) {
-          x <- lazyeval::f_eval(x, data)
-          y <- lazyeval::f_eval(y, data)
+      if (rlang::is_formula(x)) {
+        if (rlang::is_formula(y)) {
+          x <- rlang::eval_tidy(rlang::f_rhs(x), as.environment(data))
+          y <- rlang::eval_tidy(rlang::f_rhs(y), as.environment(data))
         } else {
           formula <- mosaicCore::mosaic_formula_q(x, max.slots = 3)
-          x <- lazyeval::f_eval_rhs(formula, data)
-          y <- lazyeval::f_eval_lhs(formula, data)
+          x <- rlang::eval_tidy(rlang::f_rhs(formula), as.environment(data))
+          y <- rlang::eval_tidy(rlang::f_lhs(formula), as.environment(data))
         }
         FUNCTION_TBD(x, y, ...)
       }
