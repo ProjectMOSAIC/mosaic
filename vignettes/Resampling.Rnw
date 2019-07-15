@@ -363,7 +363,7 @@ xpbinom(239, prob = 0.5, size = 428)
 Of course, \R{} can handle all of these little details and do the entire 
 calculation for us if we use the \function{binom.test} function.
 <<>>=
-binom.test(x = 240, n = 248)
+binom.test(x = 240, n = 428)
 @
 
 Even if you want to use the deterministic probability calculation (using either
@@ -482,7 +482,7 @@ quantiles
 
 <<cor, fig.width=4, fig.height=2, tidy=FALSE>>=
 Mustangs.hist <- mutate(Mustangs.cor.boot, 
-  colorval = cut(cor, c(-Inf, quantiles$quantile, Inf),
+  colorval = cut(cor, c(-Inf, quantiles, Inf),
     labels = c("Lower", "Middle", "Upper")))
 gf_histogram(~ cor, data = Mustangs.hist, fill = ~ colorval, n = 50) 
 confint(Mustangs.cor.boot)
