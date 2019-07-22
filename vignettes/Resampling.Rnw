@@ -480,14 +480,6 @@ quantiles <- qdata(~ cor, c(.025, .975), data = Mustangs.cor.boot)
 quantiles
 @
 
-<<cor, fig.width=4, fig.height=2, tidy=FALSE>>=
-Mustangs.hist <- mutate(Mustangs.cor.boot, 
-  colorval = cut(cor, c(-Inf, quantiles$quantile, Inf),
-    labels = c("Lower", "Middle", "Upper")))
-gf_histogram(~ cor, data = Mustangs.hist, fill = ~ colorval, n = 50) 
-confint(Mustangs.cor.boot)
-@ 
-
 
 
 
