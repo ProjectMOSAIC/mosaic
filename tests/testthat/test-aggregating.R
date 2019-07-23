@@ -42,7 +42,8 @@ test_that("formulas work without data", {
 })
 
 test_that("var grabs two vectors from data frame", {
-  expect_equivalent( var( ~age, ~cesd, data=mosaicData::HELPrct ), var( mosaicData::HELPrct$age, mosaicData::HELPrct$cesd) )
+  expect_equivalent(var( ~ age, ~ cesd, data = mosaicData::HELPrct), 
+                    var(mosaicData::HELPrct$age, mosaicData::HELPrct$cesd))
 })
 
 test_that("na.rm works", {
