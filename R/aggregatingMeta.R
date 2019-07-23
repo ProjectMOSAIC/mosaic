@@ -414,12 +414,6 @@ mean <- function(x, ...) {
   the_call <- match.call()
   the_call[[1]] <- as.name("mean_")
   
-  # if (exists(deparse(substitute(x))) &&
-  
-  # this breaks with long logicals, but perhaps we don't need it anymore
-  # since we no longer support mean(length, data = KidsFeet)
-  
-  # if (exists(lazyeval::expr_text(x)) &&
   if (inherits(x, c("Matrix", "sparseMatrix", "sparseVector")))
     return(Matrix::mean(x, ...))
   
