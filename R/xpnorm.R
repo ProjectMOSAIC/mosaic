@@ -339,7 +339,7 @@ mid <- function(x) {
 	}
 	
 	Ddensity <-
-	   data_frame(
+	   dplyr::tibble(
 	     x = seq(xlim[1], xlim[2], length.out = 500),
 	     density = dnorm(x, mean, sd),
 	     tail = ifelse(x <= q, 
@@ -349,7 +349,7 @@ mid <- function(x) {
 	   )
 	
 	Dtext <- 
-	  dplyr::data_frame(
+	  dplyr::tibble(
 	    x = q,
 	    z = (q - mean)/sd,
 	    y1 = stats::dnorm(mean, mean, sd),

@@ -285,7 +285,7 @@ gwm <- function(formula, data = parent.frame(), drop = FALSE, ...) {
 #           x <- 1
 #         }
 #         dots <- dots[names(dots) != ""]
-#         transformation( do.call(predict, c(list(model, newdata = data_frame(x = x)), dots)) )
+#         transformation( do.call(predict, c(list(model, newdata = tibble(x = x)), dots)) )
 #       }
 #     } else {
 #       body(result) <-

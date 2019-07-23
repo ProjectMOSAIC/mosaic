@@ -220,7 +220,7 @@
 #'            useNA = "ifany", 
 #'            data = parent.frame(2),
 #'            ...) {
-#'     D <- data_frame(X = x)
+#'     D <- tibble(X = x)
 #'     tally( 
 #'       ~ X, data = D, format = format, margins = margins, 
 #'       quiet = quiet, subset = subset, useNA = useNA,

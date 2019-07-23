@@ -166,7 +166,7 @@ hist2freqpolygon <- function(hist) {
   brk_counts <- head(res$counts, -1) + ratio * diff(res$counts)
   
   res <-
-    data_frame(
+    dplyr::tibble(
       x = c(res$mids, head(tail(res$breaks, -1), -1)), 
       density = c(res$density, brk_density),
       counts = c(res$counts, brk_counts)) %>% 
