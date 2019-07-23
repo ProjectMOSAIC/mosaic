@@ -175,7 +175,7 @@ setMethod(
   {
     if (is.null(data)) {
       if (! is.null(n)) stop("Improper `n'; did you forget `data = ' perhaps?", call. = FALSE)
-      data <- rlang::fn_env(x)
+      data <- environment(x)
     }
     
     formula <- mosaic_formula_q(x, groups = NULL, max.slots = 1)
