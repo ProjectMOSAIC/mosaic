@@ -39,7 +39,7 @@ utils::globalVariables("model_value")
 #' [lm()],
 #' [do()]
 #' @export
-# @examples
+#' @examples
 #
 # gwm( wage ~ sex, data=CPS85 )
 # gwm( wage ~ sex + married, data = CPS85 )

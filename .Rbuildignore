@@ -38,3 +38,4 @@ vignettes-source$
 ^_output\.yaml$
 ^_pkgdown\.yml$
 ^cran-comments\.md$
+^codecov\.yml$
