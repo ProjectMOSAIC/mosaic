@@ -80,18 +80,6 @@ CIsim <-
                     
     if (verbose) {
       message("Interval coverage:")
-      # print(
-      #   CIs %>% 
-      #     group_by(n) %>% 
-      #     summarise(
-      #       num_samples = n(),
-      #       lo = sum(cover == "Lo") / n(),
-      #       covered = sum(cover == "Yes") / n(),
-      #       hi = sum(cover == "Hi") / n()
-      #     )
-      # )
-      #         
-      # print(table(CIs$cover)/samples)
       message(paste(
         capture.output(t(tally(~ cover | n, data = CIs, format = "prop"))), 
         collapse = "\n"))
