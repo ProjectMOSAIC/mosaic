@@ -86,7 +86,9 @@ In particular, missing data an lead to unreliable results.
 The bootstrap-t confidence interval is computed much like the reverse confidence interval
 but the bootstrap t distribution is used in place of a theoretical t distribution.
 This interval has much better properties than the reverse (or basic) method, which
-is here for comparison purposes only and is not recommended.
+is here for comparison purposes only and is not recommended.  Since the t-statistic
+requires both a mean and a standard deviation, this method can only be used when both
+are available and named \code{"mean"} and \code{"sd"}, as they are when using \code{\link[=favstats]{favstats()}}.
 }
 }
 \examples{
@@ -98,9 +100,11 @@ if (require(mosaicData)) {
   confint(bootstrap, method = "se", df = nrow(HELPrct) - 1)
   confint(bootstrap, margin.of.error = FALSE)
   confint(bootstrap, margin.of.error = TRUE, level = 0.99, 
-    method = c("boot", "se", "perc") )
-  bootstrap2 <- do(500) * mean( resample(1:10) ) 
-  confint(bootstrap2)
+    method = c("se", "perc") )
+    
+  # bootstrap t method requires both mean and sd
+  bootstrap2 <- do(500) * favstats(resample(1:10)) 
+  confint(bootstrap2, method = "boot")
 }
 lm(width ~ length * sex, data = KidsFeet) \%>\%
   summary() \%>\%
