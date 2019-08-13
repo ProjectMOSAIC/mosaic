@@ -1,7 +1,3 @@
-tryCatch(utils::globalVariables( c('Var') ),
-         error=function(e) message('Looks like you should update R.'))
-
-
 #' @rdname defunct-fetch
 #' @export
 

@@ -1,3 +1,11 @@
+#' @rdname defunct
+#' @export
+
+xhistogram <- function (...) { # x, data=NULL, panel=panel.xhistogram, type='density', 
+                               #       center=NULL, width=NULL, ...) {
+   .Defunct(msg = "xhistogram() is no longer needed; simply use histogram() with the mosaic package attached.")
+}
+
 #' Augmented histograms
 #' 
 #' The \pkg{mosaic} package adds some additional functionality to 
@@ -38,15 +46,7 @@
 #' for this is to shade tails of histograms, but there may be other uses
 #' as well.
 #'
-#' @export
 
-xhistogram <- function (...) { # x, data=NULL, panel=panel.xhistogram, type='density', 
-                               #       center=NULL, width=NULL, ...) {
-   .Defunct(msg = "xhistogram() is no longer needed; simply use histogram() with the mosaic package attached.")
-}
-
-
-#' @rdname xhistogram
 #' @return `xhistogramBreaks` returns a vector of break points
 #' @examples
 #' if (require(mosaicData)) {

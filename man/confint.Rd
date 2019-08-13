@@ -86,9 +86,9 @@ In particular, missing data an lead to unreliable results.
 The bootstrap-t confidence interval is computed much like the reverse confidence interval
 but the bootstrap t distribution is used in place of a theoretical t distribution.
 This interval has much better properties than the reverse (or basic) method, which
-is here for comparison purposes only and is not recommended.  Since the t-statistic
-requires both a mean and a standard deviation, this method can only be used when both
-are available and named \code{"mean"} and \code{"sd"}, as they are when using \code{\link[=favstats]{favstats()}}.
+is here for comparison purposes only and is not recommended.  The t-statistic
+is computed from a mean, a standard deviation, a sample size which much be named
+\code{"mean"}, \code{"sd"}, and \code{"n"} as they are when using \code{\link[=favstats]{favstats()}}.
 }
 }
 \examples{
