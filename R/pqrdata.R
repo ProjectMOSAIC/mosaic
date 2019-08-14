@@ -105,10 +105,10 @@ cdata_v <- function( x, p = .95, na.rm = TRUE, ... ) {
   lo <- quantile( x, lo_p, na.rm=na.rm, ... )
   hi <- quantile( x, hi_p, na.rm=na.rm, ... )
   if (length(p) == 1) {
-    # result <- setNames( c(lo, hi, p), c("low", "hi", "central.p") )
-    result <- data.frame(lo = lo, hi = hi, central.p = p)
+    # result <- setNames( c(lo, hi, p), c("lower", "upper", "central.p") )
+    result <- data.frame(lower = lo, upper = hi, central.p = p)
   } else {
-    result <- data.frame(lo = lo, hi = hi, central.p = p)
+    result <- data.frame(lower = lo, upper = hi, central.p = p)
   }
   return(result)
 }
