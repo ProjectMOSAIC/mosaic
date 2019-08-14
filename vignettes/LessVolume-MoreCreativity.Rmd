@@ -68,11 +68,11 @@ This document was originally created as an R presentation to be used as slides
 accompanying various presentations.  It has been converted into a more traditional
 document for use as a vignette in the `mosaic` package.
 
-The examples below use the `mosaic` and `mosaicData` packages.  
+The examples below use the `mosaic` and `mosaicData` packages.  An earlier version
+of this document used `lattice` graphics, but it has been updated to use `ggformula`
 
 ```{r}
-require(mosaic)
-require(mosaicData)
+library(mosaic)  # loads mosaicData and ggformula as well
 ```
 
 ## Less Volume, More Creativity
