@@ -80,3 +80,28 @@ cdata(~x, c(0.8, 0.9)) %>% class()
 cdata(~x, 0.9)
 cdata(~x, c(0.8, 0.9))
 ```
+
+## Issue 734: pdist() et al not working for hypergeometric dists
+
+Problem was the use of `n` as a parameter.
+
+```{r}
+suppressPackageStartupMessages(library(mosaic))
+pdist("hyper", 4, m = 10, n = 8, k = 7)
+phyper(4, m = 10, n = 8, k = 7)
+```
+
+## cdata() -- #738
+
+```{r}
+suppressPackageStartupMessages(library(mosaic))
+x <- rnorm(100)
+qdata(~x, 0.9) %>% class()
+qdata(~x, c(0.8, 0.9)) %>% class()
+qdata(~x, 0.9)
+qdata(~x, c(0.8, 0.9))
+cdata(~x, 0.9) %>% class()
+cdata(~x, c(0.8, 0.9)) %>% class()
+cdata(~x, 0.9)
+cdata(~x, c(0.8, 0.9))
+```
