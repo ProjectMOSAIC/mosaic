@@ -93,3 +93,13 @@ test_that("var() works.", {
 #                      favstats( ~ age, data = HELPrct) )
 # })
 
+test_that("aggregatingFunctions work", {
+  require(mosaicData)
+  foo <- aggregatingFunction1(base::mean)
+  expect_equivalent(24.7230769230769, foo( ~ length, data = KidsFeet))
+  
+ 
+  foo <- aggregatingFunction2(stats::cor)
+  expect_equivalent(0.641096051081777, foo(length ~ width, data = KidsFeet))
+})
+

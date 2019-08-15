@@ -1,3 +1,4 @@
+context("clustering")
 testthat::test_that("Clustering works", {
   require(mosaicData)
   KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2

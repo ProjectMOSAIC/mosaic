@@ -1,3 +1,4 @@
+context("bargraph()")
 testthat::test_that("bargraph works", {
   
   require(mosaicData) 

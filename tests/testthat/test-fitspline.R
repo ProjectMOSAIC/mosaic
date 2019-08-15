@@ -1,3 +1,5 @@
+context("fitSpline()")
+
 testthat::test_that("fitSpline works", {
   
   f <- fitSpline( weight ~ height, data=women, df=5 )

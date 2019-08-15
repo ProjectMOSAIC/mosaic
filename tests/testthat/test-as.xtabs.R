@@ -1,3 +1,5 @@
+context("as.xtabs()")
+
 df <- data.frame( X=c('Tea','Milk'), Tea=c(3,1), Milk=c(1,3) )
 xt <- as.xtabs(df, rowvar="Guess", colvar="Truth")
 xt

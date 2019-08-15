@@ -1,3 +1,5 @@
+context("Defunct compare functions")
+
 testthat::test_that("Compare Mean works", {
   require(mosaicData)
   data(HELPrct)

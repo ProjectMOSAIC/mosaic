@@ -1,3 +1,5 @@
+context("derivedFactor()")
+
 testthat::test_that("derivedFactor Works", {
   Kf <- mutate(KidsFeet, biggerfoot2 = derivedFactor(
                      dom = biggerfoot == domhand,

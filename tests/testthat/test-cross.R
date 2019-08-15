@@ -1,3 +1,5 @@
+context("cross")
+
 testthat::test_that("Cross works", {
   x <- letters[1:3]
   y <- c(1,2,1,1,3,1,3)

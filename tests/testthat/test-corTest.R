@@ -1,3 +1,5 @@
+context("cor.test()")
+
 testthat::test_that("Cor test works", {
   require(graphics)
   

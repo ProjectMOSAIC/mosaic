@@ -1,3 +1,5 @@
+context("expandFun()")
+
 testthat::test_that("expandFun works", {
   
   testcase <- list(formula = (z)^2 ~ z, formals = as.pairlist(alist(x = )))

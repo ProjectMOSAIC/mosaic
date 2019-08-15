@@ -1,3 +1,5 @@
+context("is.wholenumber")
+
 testthat::test_that("is.wholenumber works", {
   expect_true(is.wholenumber(1))
   expect_true(all(is.wholenumber(rbinom(100,10,.5))))

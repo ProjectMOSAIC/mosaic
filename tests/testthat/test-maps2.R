@@ -1,0 +1,28 @@
+context("maps2")
+
+gdpData <- CIAdata("GDP")      # load some world data
+gdpData <- gdpData %>% mutate(GDP5 = ntiles(-GDP, 5, format="rank"))
+
+USArrests2 <- USArrests %>% mutate(state = row.names(.))
+
+testthat::test_that("World Maps work", {
+  
+
+  vdiffr::expect_doppelganger("worldmap1", mWorldMap(gdpData, key="country", fill="GDP")) 
+  vdiffr::expect_doppelganger("worldmap2", mWorldMap(gdpData, key="country", fill="GDP5")) 
+  vdiffr::expect_doppelganger("worldmap3", mWorldMap(gdpData, key="country", plot="frame") +
+                                geom_point()) 
+  
+  mergedData <- mWorldMap(gdpData, key="country", plot="none")
+  vdiffr::expect_doppelganger("worldmap4", ggplot(mergedData, aes(x=long, y=lat, group=group, order=order)) +
+                                geom_polygon(aes(fill=GDP5), color="gray70", size=.5) + guides(fill=FALSE)) 
+  
+})
+
+
+
+
+testthat::test_that("US Maps work", {
+  vdiffr::expect_doppelganger("usmaps1", mUSMap(USArrests2, key="state", fill = "UrbanPop"))
+  
+})

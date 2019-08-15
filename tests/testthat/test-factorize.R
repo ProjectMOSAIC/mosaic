@@ -1,7 +1,7 @@
+context("factorize")
+
 testthat::test_that("factorize works", {
   data(KidsFeet, package="mosaicData")
-  factorize(KidsFeet$birthyear) %>% dput()
-  
   testcase <- structure(c(2L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 1L, 2L, 1L, 
                           2L, 1L, 2L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 1L, 2L, 
                           2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L), 
