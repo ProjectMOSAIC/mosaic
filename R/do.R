@@ -1,7 +1,12 @@
 utils::globalVariables(c('.row'))
 #' @importFrom mosaicCore vector2df nice_names
- 
+require(parallel)
+require(profvis)
+require(compiler)
+require(rlang)
+parallel::detectCores()
 NA
+  
 
 #' Set seed in parallel compatible way
 #'
@@ -517,7 +522,7 @@ setMethod(
   signature(e1 = "repeater", e2="ANY"),
   function (e1, e2) 
   {
-    e2_lazy <- lazyeval::f_capture(e2)
+    e2_lazy <- rlang::enquo(e2)
     #		e2unevaluated = substitute(e2)
     #		if ( ! is.function(e2) ) {
     #      frame <- parent.frame()
@@ -538,9 +543,9 @@ setMethod(
                 "  * Set seed with set.rseed().\n", 
                 "  * Disable this message with options(`mosaic:parallelMessage` = FALSE)\n")
       }
-      parallel::mclapply( integer(n), function(...) { cull(lazyeval::f_eval(e2_lazy)) } )
+      parallel::mclapply( integer(n), function(...) { cull(rlang::eval_tidy(e2_lazy)) } )
     } else {
-      lapply( integer(n), function(...) { cull(lazyeval::f_eval(e2_lazy)) } )
+      lapply( integer(n), function(...) { cull(rlang::eval_tidy(e2_lazy)) } )
     }
     
     if (out.mode=='default') {  # is there any reason to be fancier?

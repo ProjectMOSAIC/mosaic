@@ -64,7 +64,7 @@ contingency table of the percents or proportions at each combination of factor l
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
       </span>
     </div>
 
@@ -163,14 +163,41 @@ values. Note that unlike S the result is always an array, a 1D array if one fact
 #&gt;    n
 #&gt; 1 32
 #&gt; 
-#&gt; tally&gt; # count() is a short-hand for group_by() + tally()
-#&gt; tally&gt; mtcars %&gt;% count(cyl)
+#&gt; tally&gt; mtcars %&gt;% group_by(cyl) %&gt;% tally()
 #&gt; <span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;     cyl     n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     4    11
 #&gt; </span><span style='color: #555555;'>2</span><span>     6     7
 #&gt; </span><span style='color: #555555;'>3</span><span>     8    14
+#&gt; 
+#&gt; tally&gt; # count() is a short-hand for group_by() + tally()
+#&gt; tally&gt; mtcars %&gt;% count(cyl)
+#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
+#&gt;     cyl     n
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>     4    11
+#&gt; </span><span style='color: #555555;'>2</span><span>     6     7
+#&gt; </span><span style='color: #555555;'>3</span><span>     8    14
+#&gt; 
+#&gt; tally&gt; # Note that if the data is already grouped, count() adds
+#&gt; tally&gt; # an additional group that is removed afterwards
+#&gt; tally&gt; mtcars %&gt;% group_by(gear) %&gt;% count(carb)
+#&gt; </span><span style='color: #555555;'># A tibble: 11 x 3</span><span>
+#&gt; </span><span style='color: #555555;'># Groups:   gear [3]</span><span>
+#&gt;     gear  carb     n
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>     3     1     3
+#&gt; </span><span style='color: #555555;'> 2</span><span>     3     2     4
+#&gt; </span><span style='color: #555555;'> 3</span><span>     3     3     3
+#&gt; </span><span style='color: #555555;'> 4</span><span>     3     4     5
+#&gt; </span><span style='color: #555555;'> 5</span><span>     4     1     4
+#&gt; </span><span style='color: #555555;'> 6</span><span>     4     2     4
+#&gt; </span><span style='color: #555555;'> 7</span><span>     4     4     4
+#&gt; </span><span style='color: #555555;'> 8</span><span>     5     2     2
+#&gt; </span><span style='color: #555555;'> 9</span><span>     5     4     1
+#&gt; </span><span style='color: #555555;'>10</span><span>     5     6     1
+#&gt; </span><span style='color: #555555;'>11</span><span>     5     8     1
 #&gt; 
 #&gt; tally&gt; # add_tally() is short-hand for mutate()
 #&gt; tally&gt; mtcars %&gt;% add_tally()
@@ -206,33 +233,35 @@ values. Note that unlike S the result is always an array, a 1D array if one fact
 #&gt; </span><span style='color: #555555;'>10</span><span>  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4     7
 #&gt; </span><span style='color: #555555;'># … with 22 more rows</span><span>
 #&gt; 
-#&gt; tally&gt; # count and tally are designed so that you can call
+#&gt; tally&gt; # count() and tally() are designed so that you can call
 #&gt; tally&gt; # them repeatedly, each time rolling up a level of detail
-#&gt; tally&gt; species &lt;- starwars %&gt;% count(species, homeworld, sort = TRUE)
+#&gt; tally&gt; species &lt;-
+#&gt; tally+  starwars %&gt;%
+#&gt; tally+  count(species, homeworld, sort = TRUE)
 #&gt; 
 #&gt; tally&gt; species
 #&gt; </span><span style='color: #555555;'># A tibble: 58 x 3</span><span>
-#&gt;    species  homeworld     n
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Human    Tatooine      8
-#&gt; </span><span style='color: #555555;'> 2</span><span> Human    Naboo         5
-#&gt; </span><span style='color: #555555;'> 3</span><span> Human    </span><span style='color: #BB0000;'>NA</span><span>            5
-#&gt; </span><span style='color: #555555;'> 4</span><span> Gungan   Naboo         3
-#&gt; </span><span style='color: #555555;'> 5</span><span> Human    Alderaan      3
-#&gt; </span><span style='color: #555555;'> 6</span><span> Droid    Tatooine      2
-#&gt; </span><span style='color: #555555;'> 7</span><span> Droid    </span><span style='color: #BB0000;'>NA</span><span>            2
-#&gt; </span><span style='color: #555555;'> 8</span><span> Human    Corellia      2
-#&gt; </span><span style='color: #555555;'> 9</span><span> Human    Coruscant     2
-#&gt; </span><span style='color: #555555;'>10</span><span> Kaminoan Kamino        2
+#&gt;    species homeworld     n
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Human   Tatooine      8
+#&gt; </span><span style='color: #555555;'> 2</span><span> Human   </span><span style='color: #BB0000;'>NA</span><span>            5
+#&gt; </span><span style='color: #555555;'> 3</span><span> Human   Naboo         5
+#&gt; </span><span style='color: #555555;'> 4</span><span> Gungan  Naboo         3
+#&gt; </span><span style='color: #555555;'> 5</span><span> Human   Alderaan      3
+#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>            2
+#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #BB0000;'>NA</span><span>      Naboo         2
+#&gt; </span><span style='color: #555555;'> 8</span><span> Droid   </span><span style='color: #BB0000;'>NA</span><span>            2
+#&gt; </span><span style='color: #555555;'> 9</span><span> Droid   Tatooine      2
+#&gt; </span><span style='color: #555555;'>10</span><span> Human   Corellia      2
 #&gt; </span><span style='color: #555555;'># … with 48 more rows</span><span>
 #&gt; 
 #&gt; tally&gt; species %&gt;% count(species, sort = TRUE)
 #&gt; </span><span style='color: #555555;'># A tibble: 38 x 2</span><span>
-#&gt;    species     nn
+#&gt;    species      n
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> Human       16
-#&gt; </span><span style='color: #555555;'> 2</span><span> Droid        3
-#&gt; </span><span style='color: #555555;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>           3
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>           3
+#&gt; </span><span style='color: #555555;'> 3</span><span> Droid        3
 #&gt; </span><span style='color: #555555;'> 4</span><span> Zabrak       2
 #&gt; </span><span style='color: #555555;'> 5</span><span> Aleena       1
 #&gt; </span><span style='color: #555555;'> 6</span><span> Besalisk     1
@@ -242,8 +271,46 @@ values. Note that unlike S the result is always an array, a 1D array if one fact
 #&gt; </span><span style='color: #555555;'>10</span><span> Dug          1
 #&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span>
 #&gt; 
+#&gt; tally&gt; # Change the name of the newly created column:
+#&gt; tally&gt; species &lt;-
+#&gt; tally+  starwars %&gt;%
+#&gt; tally+  count(species, homeworld, sort = TRUE, name = "n_species_by_homeworld")
+#&gt; 
+#&gt; tally&gt; species
+#&gt; </span><span style='color: #555555;'># A tibble: 58 x 4</span><span>
+#&gt;    species homeworld name                       n
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Human   Tatooine  n_species_by_homeworld     8
+#&gt; </span><span style='color: #555555;'> 2</span><span> Human   </span><span style='color: #BB0000;'>NA</span><span>        n_species_by_homeworld     5
+#&gt; </span><span style='color: #555555;'> 3</span><span> Human   Naboo     n_species_by_homeworld     5
+#&gt; </span><span style='color: #555555;'> 4</span><span> Gungan  Naboo     n_species_by_homeworld     3
+#&gt; </span><span style='color: #555555;'> 5</span><span> Human   Alderaan  n_species_by_homeworld     3
+#&gt; </span><span style='color: #555555;'> 6</span><span> </span><span style='color: #BB0000;'>NA</span><span>      </span><span style='color: #BB0000;'>NA</span><span>        n_species_by_homeworld     2
+#&gt; </span><span style='color: #555555;'> 7</span><span> </span><span style='color: #BB0000;'>NA</span><span>      Naboo     n_species_by_homeworld     2
+#&gt; </span><span style='color: #555555;'> 8</span><span> Droid   </span><span style='color: #BB0000;'>NA</span><span>        n_species_by_homeworld     2
+#&gt; </span><span style='color: #555555;'> 9</span><span> Droid   Tatooine  n_species_by_homeworld     2
+#&gt; </span><span style='color: #555555;'>10</span><span> Human   Corellia  n_species_by_homeworld     2
+#&gt; </span><span style='color: #555555;'># … with 48 more rows</span><span>
+#&gt; 
+#&gt; tally&gt; species %&gt;%
+#&gt; tally+  count(species, sort = TRUE, name = "n_species")
+#&gt; </span><span style='color: #555555;'># A tibble: 38 x 3</span><span>
+#&gt;    species  name          n
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Human    n_species    16
+#&gt; </span><span style='color: #555555;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>       n_species     3
+#&gt; </span><span style='color: #555555;'> 3</span><span> Droid    n_species     3
+#&gt; </span><span style='color: #555555;'> 4</span><span> Zabrak   n_species     2
+#&gt; </span><span style='color: #555555;'> 5</span><span> Aleena   n_species     1
+#&gt; </span><span style='color: #555555;'> 6</span><span> Besalisk n_species     1
+#&gt; </span><span style='color: #555555;'> 7</span><span> Cerean   n_species     1
+#&gt; </span><span style='color: #555555;'> 8</span><span> Chagrian n_species     1
+#&gt; </span><span style='color: #555555;'> 9</span><span> Clawdite n_species     1
+#&gt; </span><span style='color: #555555;'>10</span><span> Dug      n_species     1
+#&gt; </span><span style='color: #555555;'># … with 28 more rows</span><span>
+#&gt; 
 #&gt; tally&gt; # add_count() is useful for groupwise filtering
-#&gt; tally&gt; # e.g.: show only species that have a single member
+#&gt; tally&gt; # e.g.: show details for species that have a single member
 #&gt; tally&gt; starwars %&gt;%
 #&gt; tally+   add_count(species) %&gt;%
 #&gt; tally+   filter(n == 1)

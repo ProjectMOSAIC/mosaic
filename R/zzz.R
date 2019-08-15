@@ -19,7 +19,8 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
     paste0("\nThe 'mosaic' package masks several functions from core packages ",
            "in order to add \nadditional features.  ",
            "The original behavior of these functions should not be affected by this.",
-           "\n\nNote: If you use the Matrix package, be sure to load it BEFORE loading mosaic."
+           "\n\nNote: If you use the Matrix package, be sure to load it BEFORE loading mosaic.",
+           "\n\nHave you tried the ggformula package for your plots?"
            ),
     appendLF = TRUE)
 }

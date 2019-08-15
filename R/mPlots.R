@@ -145,7 +145,7 @@ mPlot <- function(data,
                   system = system_choices()[1],
                   show = FALSE, 
                   title = "",
-                  data_text = expr_text(data),
+                  data_text = rlang::expr_text(data),
                   ...)
 {
       
@@ -191,7 +191,7 @@ mPlot <- function(data,
 
 mMap <- function(data, default = 'map',
                  system = "ggplot2",
-                 show = FALSE, title = title, data_text = expr_text(data), ...) {
+                 show = FALSE, title = title, data_text = rlang::expr_text(data), ...) {
   
   .require_manipulate_namespace()
   # system <- "ggplot2" # only handling ggplot2 for now.
@@ -281,7 +281,7 @@ mMap <- function(data, default = 'map',
                   facet = NA,
                   key = "right",
                   title = "",
-                  data_text = expr_text(data))
+                  data_text = rlang::expr_text(data))
 {
   system <- match.arg(system, "ggplot2")
   if (regexpr(",", projection) > 0) {
@@ -290,7 +290,7 @@ mMap <- function(data, default = 'map',
     projection <- paste(projection, '"', sep = "")
   }
   projection <- paste('"',projection, sep = "")
-  vals <- list(dataName = lazyeval::expr_text(data), 
+  vals <- list(dataName = rlang::expr_text(data), 
                x = x, y = y, 
                color = color, 
                group = group,
@@ -346,7 +346,7 @@ mMap <- function(data, default = 'map',
 
 mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','line'),
                      system = "ggformula", show = FALSE, title = "",
-                     data_text = lazyeval::expr_text(data)) {
+                     data_text = rlang::expr_text(data)) {
   
   .require_manipulate_namespace()
   system <- match.arg(system, system_choices())
@@ -394,7 +394,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
                        plotType = c("scatter", "jitter", "boxplot", "violin", "line"),
                        x = NA, y = NA, color = NA, 
                        size = NA, facet = NA, logScales = "none", flipCoords = FALSE,
-                       model = "", key = "right", title = title, data_text  =  expr_text(data))
+                       model = "", key = "right", title = title, data_text  =  rlang::expr_text(data))
 {
   system <- match.arg(system, system_choices())
   plotType <- match.arg(plotType)
@@ -549,7 +549,7 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
 
 mUniplot <- function(data, default = c("histogram","density", "frequency polygon", "ASH plot"),
                      system = system_choices()[1], show = FALSE, title = "", 
-                     data_text = expr_text(data)) {
+                     data_text = rlang::expr_text(data)) {
   .require_manipulate_namespace()
   system <- match.arg(system, system_choices())
   default <- match.arg(default)
@@ -596,7 +596,7 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
                        facet = NA, 
                        # logx = FALSE, logy = FALSE, 
                        model = "", key = "right",
-                       title = "", data_text = expr_text(data))
+                       title = "", data_text = rlang::expr_text(data))
 {
   system <- match.arg(system, system_choices())
   plotType <- match.arg(plotType)

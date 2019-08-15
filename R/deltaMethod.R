@@ -1,8 +1,5 @@
-#' deltaMethod has moved to a separate package
-#' 
-#' `deltaMethod()` has moved to its own separate package.
-#' 
-#' @param ... arguments (ignored, since this is defunct)
+
+#' @rdname defunct
 #' @export
 deltaMethod <- function(...) {
   .Defunct("deltaMethod", package="deltaMethod", 

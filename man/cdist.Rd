@@ -23,7 +23,7 @@ xcgamma(p, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
 
 xct(p, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcchisq(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)
+xcchisq(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)
 
 xcf(p, df1, df2, lower.tail = TRUE, log.p = FALSE, ...)
 

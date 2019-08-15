@@ -1,36 +1,23 @@
-#' Cross tabulation displayed as percents or proportions
+#' Defunct functions
 #' 
-#' `perctable` and `proptable` use the cross-classifying factors to build a 
-#' contingency table of the percents or proportions at each combination of factor levels.
-#' @param \dots  
-#'   arguments passed directly to [table()];  typically
-#'   one or more objects which can be interpreted as factors (including character strings), 
-#'   or a list (or data frame) whose components can be so interpreted. 
+#' The following functions were once a part of the mosaic pacakge but have
+#' been removed.  In some cases, an alternative is available and is suggested
+#' if you attempt to execute the function.
 #' 
-#' @details See [table()].
-#' @return a contingency table, an object of class "table", an array of percentage or proportion
-#' values. Note that unlike S the result is always an array, a 1D array if one factor is given.
-#' @examples
-#' # perctable() is now defunct.  Use `tally()` instead
-#' example(tally)
-#' 
-#' @keywords manipulate 
+#' @rdname defunct
+#' @param ... arguments, ignored since the function is defunct
 #' @export
 
 perctable <- function(...) 
 {
   .Defunct("tally")
-	t <- table(...)
-	t/sum(t) * 100
 }
 
-#' @rdname perctable
+#' @rdname defunct
 #' @export
 
 proptable <- function(...) 
 {
-  .Deprecated("tally")
-	t <- table(...)
-	t/sum(t) 
+  .Defunct("tally")
 }
 

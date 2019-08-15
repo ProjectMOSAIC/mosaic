@@ -95,24 +95,26 @@ binom.test <-
     ...) 
   {
     missing_n <- !is.null(n)
-    x_lazy <- lazyeval::f_capture(x)
+    x_quosure <- rlang::enquo(x)
     x_eval <- 
       tryCatch(
-        lazyeval::f_eval(x_lazy, data),
+        rlang::eval_tidy(x_quosure, data),
         error = function(e) {
           if (is.null(data) && ! missing_n) {
             stop("binom.test(): Improper `n'; did you forget `data =' perhaps?", call. = FALSE) 
           }
-          lazyeval::f_rhs(x_lazy)
+          rlang::f_rhs(x_quosure)
         }
       )
     
-    # this list will later be converted to a string using the appropriate information
-    # dependent upon which of the binom_test methods is called.  
+    # data.name should always hold a string or list of strings.
+    # these will be combined as needed later to create a single string.
     
-    data.name <- list(x = lazyeval::expr_text(x), 
-                      n = lazyeval::expr_text(n), 
-                      data = lazyeval::expr_text(data))
+    data.name <- 
+      list(x    = deparse(rlang::enexpr(x)), 
+           n    = deparse(rlang::enexpr(n)), 
+           data = deparse(substitute(data))
+      )
     
     ci.method <- 
       match.arg(
@@ -124,15 +126,16 @@ binom.test <-
     if (ci.method %in% c("binom.test")) ci.method <- "clopper-pearson"
     
     res <- update_ci(
-      binom_test( x = x_eval,
-                  n = n,
-                  p = p,
-                  alternative = alternative, 
-                  conf.level = conf.level, 
-                  data.name = data.name,    # ignored by some methods, used by others
-                  data = data,
-                  success = success,
-                  ...),
+      binom_test(
+        x = x_eval,
+        n = n,
+        p = p,
+        alternative = alternative, 
+        conf.level = conf.level, 
+        data.name = data.name,    # ignored by some methods, used by others
+        data = data,
+        success = success,
+        ...),
       method = ci.method
     )
     
@@ -175,7 +178,7 @@ setMethod(
   {
     if (is.null(data)) {
       if (! is.null(n)) stop("Improper `n'; did you forget `data = ' perhaps?", call. = FALSE)
-      data <- lazyeval::f_env(x)
+      data <- environment(x) # rlang::fn_env(x)
     }
     
     formula <- mosaic_formula_q(x, groups = NULL, max.slots = 1)
@@ -184,14 +187,15 @@ setMethod(
     form <- lattice::latticeParseFormula(formula, data, 
                                          subscripts = TRUE, drop = TRUE)
     if (missing(data.name)) {
-      data.name <- paste( lazyeval::expr_text(data), "$", 
-                          form$right.name,  sep="" )
+      data.name <- 
+        paste0(deparse(substitute(data)), "$", form$right.name)
     } 
     if (is.list(data.name)) {
-      data.name <- paste( data.name$data, "$", 
-                          form$right.name,  sep="" )
+      data.name <- 
+        paste0(data.name$data, "$", form$right.name)
     }
     # now data.name should be set and data should hold the data
+    
     subscr <- form$subscr
     cond <- form$condition
     x <- form$right
@@ -200,7 +204,8 @@ setMethod(
     }
     
     binom_test(x, p = p, alternative = alternative, 
-               conf.level = conf.level, success = success, data.name = data.name, ...)
+               conf.level = conf.level, success = success, 
+               data.name = data.name, ...)
   }
 )
 
@@ -212,35 +217,39 @@ setMethod(
             alternative = c("two.sided", "less", "greater"), 
             conf.level = 0.95, success = NULL, ..., data = NULL, data.name) 
   {
-    if (! is.null(data)) stop( "binom.test: If data is not NULL, first argument should be a formula.")
+    if (! is.null(data)) 
+      stop( "binom.test: If data is not NULL, first argument should be a formula.")
     
     if ( length(x) == 1 ) {
-      result <-  stats::binom.test(x = x, n = n, p = p, alternative = alternative,
-                                   conf.level = conf.level) 
+      result <- 
+        stats::binom.test(x = x, n = n, p = p, alternative = alternative,
+                          conf.level = conf.level) 
       if (is.list(data.name)) {  ### check this VV
         result$data.name <- paste(data.name$x, "out of", data.name$n)
       } else {
-        result$data.name <- paste(lazyeval::expr_text(x), "out of", lazyeval::expr_text(n))
+        result$data.name <- paste(rlang::enexpr(x), "out of", rlang::enexpr(n))
       }
       return(result)
     }
     
     if ( length(x) == 2 ) {
-      result <-  stats::binom.test(x=x[1], n=base::sum(x), p=p, alternative=alternative,
-                                   conf.level=conf.level) 
+      result <- 
+        stats::binom.test(
+          x = x[1], n = base::sum(x), p = p, 
+          alternative = alternative, conf.level = conf.level) 
       if (is.list(data.name)) {
-        result$data.name <- data.name$x # deparse(lazyeval::f_rhs(data.name$x))
+        result$data.name <- data.name$x 
       } else {
-        result$data.name <- lazyeval::expr_text(x)
+        result$data.name <- deparse(rlang::enexpr(x))
       }
       return(result)
     }
     
     if (missing(data.name)) { 
-      data.name <- lazyeval::expr_text(x)
+      data.name <- deparse(rlang::enexpr(x))
     }
     if (is.list(data.name)) {
-      data.name <- data.name$x  # deparse(lazyeval::f_rhs(data.name$x))
+      data.name <- data.name$x  # deparse(rlang::f_rhs(data.name$x))
     }
     
     # set a reasonable value for success if none given
@@ -265,15 +274,16 @@ setMethod(
   function(
     x,  n, p = 0.5, 
     alternative = c("two.sided", "less", "greater"), 
-    conf.level = 0.95, success=NULL, ..., data = NULL, data.name) 
+    conf.level = 0.95, success = NULL, ..., data = NULL, data.name) 
   {
-    if (! is.null(data)) stop( "binom.test: If data is not NULL, first argument should be a formula.")
+    if (! is.null(data)) 
+      stop("binom.test: If data is not NULL, first argument should be a formula.")
     
     if (missing(data.name)) { 
-      data.name <- lazyeval::expr_text(x)
+      data.name <- deparse(rlang::enexpr(x))
     }
     if (is.list(data.name)) {
-      data.name <- data.name$x  # deparse(lazyeval::f_rhs(data.name$x)) 
+      data.name <- data.name$x  # deparse(rlang::f_rhs(data.name$x)) 
     }
     binom_test(x = factor(x), p = p, alternative = alternative, 
                conf.level = conf.level, 
@@ -294,15 +304,16 @@ setMethod(
     if (! is.null(data)) stop( "binom.test: If data is not NULL, first argument should be a formula.")
     
     if (missing(data.name)) { 
-      data.name <- lazyeval::expr_text(x)
+      data.name <- deparse(rlang::enexpr(x))
     }
     if (is.list(data.name)) {
-      data.name <- data.name$x  # deparse(lazyeval::f_rhs(data.name$x)) 
+      data.name <- data.name$x  # deparse(rlang::f_rhs(data.name$x)) 
     }
-    binom_test(x=factor(x, levels=c('TRUE','FALSE')), p=p, alternative=alternative, 
-               conf.level=conf.level, 
-               success=success, 
-               data.name=data.name, ...)
+    binom_test(x = factor(x, levels = c('TRUE','FALSE')), 
+               p = p, alternative=alternative, 
+               conf.level = conf.level, 
+               success    = success, 
+               data.name  = data.name, ...)
   }
 )
 
@@ -315,13 +326,15 @@ setMethod(
     alternative = c("two.sided", "less", "greater"), 
     conf.level = 0.95, success=NULL, ..., data = NULL, data.name) 
   {
-    if (! is.null(data)) stop( "binom.test: If data is not NULL, first argument should be a formula.")
+    if (! is.null(data)) {
+      stop( "binom.test: If data is not NULL, first argument should be a formula.")
+    }
     
     if (missing(data.name)) { 
-      data.name <- lazyeval::expr_text(x)
+      data.name <- deparse(rlang::enexpr(x))
     }
     if (is.list(data.name)) { 
-      data.name <- data.name$x  # deparse(lazyeval::f_rhs(data.name$x)) 
+      data.name <- data.name$x  
     }
     if ( missing(success) || is.null(success) ) {
       success <- levels(x)[1]
@@ -333,9 +346,10 @@ setMethod(
                                  alternative = alternative,
                                  conf.level = conf.level, ...) 
     result$data.name <- data.name
-    if (!is.null(success)) 
+    if (!is.null(success)) {
       result$data.name <- 
-      paste0(data.name, "  [with success = ", success, "]")
+        paste0(data.name, "  [with success = ", success, "]")
+    }
     return(result)
   }
 )

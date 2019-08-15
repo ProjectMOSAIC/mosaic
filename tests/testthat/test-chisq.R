@@ -24,13 +24,10 @@ testthat::test_that("chisq works", {
   
   testcase2 <- c(X.squared = 7.20374769340935)
   testcase3 <- c(X.squared = 5.68847857969099)
-  testcase4 <- structure(c(`TRUE` = 0.02, `FALSE` = 0.98), class = "table", .Dim = 2L, .Dimnames = list(
-    `(X.squared >= chisq(Mites.table))` = c("TRUE", "FALSE")))
   
   expect_equivalent(chisq.test(Mites.table), testcase1)
   expect_equivalent(chisq(Mites.table), testcase2)
   expect_equivalent(chisq(chisq.test(Mites.table)), testcase3)
-  expect_equivalent(tally( ~(X.squared >= chisq(Mites.table)), data=Mites.rand, format="proportion"), testcase4)
   
   
   

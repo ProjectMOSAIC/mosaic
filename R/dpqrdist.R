@@ -302,7 +302,7 @@ plot_multi_dist <-
     # res_plot <- do.call("xyplot", args)
     
     Groups <- 
-      data_frame(p = diff(p_less)) %>%
+      dplyr::tibble(p = diff(p_less)) %>%
       mutate(
         i = 1 : n(),
         name = if (pattern == "stripes") LETTERS[i] else LETTERS[ceiling(1 + abs(i - mean(i)))]
@@ -316,7 +316,7 @@ plot_multi_dist <-
     if (discrete) { 
       # q <- tail(q, -1)
       Ddensity <- 
-        data_frame(
+        dplyr::tibble(
           x = xdata, density = ydata, 
           group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
         ) %>%
@@ -341,7 +341,7 @@ plot_multi_dist <-
     
   } else {
     Ddensity <- 
-      data_frame(
+      dplyr::tibble(
         x = xdata, density = ydata, 
         group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
       ) %>%
@@ -411,8 +411,13 @@ xcgamma <- function(p, shape, rate = 1, scale = 1/rate,
 #' @inheritParams stats::pt
 #' @export
 xpt <- function(q, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
-  pdist("t", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
-        log.p = log.p, ...)
+  if (missing(ncp)) {
+    pdist("t", q = q, df = df, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  } else {
+    pdist("t", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  }
 #' @rdname qdist
 #' @inheritParams stats::qt
 #' @export
@@ -431,21 +436,29 @@ xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
 #' @inheritParams stats::pt
 #' @export
 xct <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
-  cdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
-        log.p = log.p, ...)
+  if (missing(ncp)) {
+    cdist("t", p = p, df = df, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  } else {
+    cdist("t", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+          log.p = log.p, ...)
+  }
 
 #' @rdname pdist
 #' @export
-xpchisq <- function(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  pdist("chisq", q = q, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
+xpchisq <- function(q, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)   
+  pdist("chisq", q = q, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 #' @rdname qdist
 #' @export
-xqchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  qdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
+xqchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)   
+  qdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 #' @rdname cdist
 #' @export
-xcchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE)   
-  cdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, log.p = log.p)
+xcchisq <- function(p, df, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)   
+  cdist("chisq", p = p, df = df, ncp = ncp, lower.tail = lower.tail, 
+        log.p = log.p, ...)
 
 #' @rdname pdist
 #' @inheritParams stats::pf
@@ -581,8 +594,8 @@ xcbeta <- function(p, shape1, shape2, ncp = 0,
         lower.tail = lower.tail, log.p = log.p, ...)
 
 
-is_discrete_dist <- function(dist, n = 100L, ... ) {
-  q <- dpqrdist(dist, type = "q", p = ppoints(n), ...) 
+is_discrete_dist <- function(dist, resolution = 100L, ... ) {
+  q <- dpqrdist(dist, type = "q", p = ppoints(resolution), ...) 
   # continuous dists should have all unique values
   # discrete dists will typically have many ties
   # discrete dists with many values may look continuous

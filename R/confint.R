@@ -56,7 +56,9 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #' The bootstrap-t confidence interval is computed much like the reverse confidence interval
 #' but the bootstrap t distribution is used in place of a theoretical t distribution.  
 #' This interval has much better properties than the reverse (or basic) method, which 
-#' is here for comparison purposes only and is not recommended.
+#' is here for comparison purposes only and is not recommended.  The t-statistic
+#' is computed from a mean, a standard deviation, a sample size which much be named
+#' `"mean"`, `"sd"`, and `"n"` as they are when using [favstats()].
 #' }
 #' @references
 #' Tim C. Hesterberg (2015): What Teachers Should Know about the Bootstrap: 
@@ -73,9 +75,11 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #'   confint(bootstrap, method = "se", df = nrow(HELPrct) - 1)
 #'   confint(bootstrap, margin.of.error = FALSE)
 #'   confint(bootstrap, margin.of.error = TRUE, level = 0.99, 
-#'     method = c("boot", "se", "perc") )
-#'   bootstrap2 <- do(500) * mean( resample(1:10) ) 
-#'   confint(bootstrap2)
+#'     method = c("se", "perc") )
+#'     
+#'   # bootstrap t method requires both mean and sd
+#'   bootstrap2 <- do(500) * favstats(resample(1:10)) 
+#'   confint(bootstrap2, method = "boot")
 #' }
 #' @export
 
@@ -87,7 +91,7 @@ confint.numeric <- function(object, parm, level = 0.95, ...,
     stop("Use `level` to set the confidence level, not `conf.level`.")
   }
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok = TRUE)
-  result <- list()
+  result <- list() 
   for (m in method) {
     vals <- .mosaic.get.ci( object, level, m )
     result[[m]] <-  if( margin.of.error ) { 
@@ -138,9 +142,9 @@ dont_randomize_estimate <- list(
 extract_data <- function(x) {
   x_lazy <- attr(x, "lazy")
   if (is.null(x_lazy)) return(NULL)
-  res <- eval( lazyeval::f_rhs(x_lazy)[["data"]], envir = dont_randomize_data, enclos = lazyeval::f_env(x_lazy) )
+  res <- eval( rlang::f_rhs(x_lazy)[["data"]], envir = dont_randomize_data, enclos = environment(x_lazy) )
   if (is.null(res)) {
-    res <- eval( lazyeval::f_rhs(x_lazy), envir = dont_randomize_data, enclos = lazyeval::f_env(x_lazy) )
+    res <- eval( rlang::f_rhs(x_lazy), envir = dont_randomize_data, enclos = environment(x_lazy) )
   }
   as.data.frame(res)
 }
@@ -148,7 +152,7 @@ extract_data <- function(x) {
 extract_estimate <- function(x) {
   x_lazy <- attr(x, "lazy")
   if (is.null(x_lazy)) return(NA)
-  eval( lazyeval::f_rhs(x_lazy), envir = dont_randomize_estimate, enclos = lazyeval::f_env(x_lazy) )
+  eval( rlang::f_rhs(x_lazy), envir = dont_randomize_estimate, enclos = environment(x_lazy) )
 }
 
 #' @rdname confint
@@ -175,28 +179,31 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
  
   method <- tolower(method) 
   method <- 
-    match.arg(method, 
-              c("percentile", "se", "stderr", "basic", "reverse", "quantile", "bootstrap-t"), 
-                      several.ok = TRUE) # which method was selected
+    match.arg(
+      method, 
+      c("percentile", "se", "stderr", "basic", "reverse", 
+        "quantile", "bootstrap-t"), 
+      several.ok = TRUE) # which method was selected
   method[method == "quantile"] <- "percentile"
   method[method == "basic"] <- "reverse"
   method[method == 'se'] <- 'stderr'
   method <- unique(method)
   
-  bootT <- ("bootstrap-t" %in% method) & (lazyeval::f_rhs(attr(object, "lazy"))[[1]] == "favstats")
+  bootT <- ("bootstrap-t" %in% method) && 
+    all(c("mean", "sd", "n") %in% names(object))
   method <- setdiff(method, "bootstrap-t")
   
   compute_t_df <-
-    grepl("^diffmean$|^mean$", as.character(lazyeval::f_rhs(attr(object, "lazy"))[[1]]))
+    grepl("^diffmean$|^mean$", as.character(rlang::f_rhs(attr(object, "lazy"))[[1]]))
   
   if ("stderr" %in% method && is.null(df) && compute_t_df) {
     tryCatch({
       orig_data <- extract_data(object) 
       orig_data <- 
         orig_data %>%
-        select_(
+        select(
           .dots = intersect(names(orig_data), 
-                            lazyeval::f_rhs(attr(object, "lazy")) %>% all.vars())
+                            rlang::f_rhs(attr(object, "lazy")) %>% all.vars())
         )
       df <- nrow(orig_data) - 1
       if ( ! all(complete.cases(orig_data)) ) {
@@ -340,10 +347,10 @@ tse_bootstrap_ci <- function( x, ..., df = Inf, level = 0.95 ) {
 }
 
 boott_bootstrap_ci <- function( x, se, ..., level = 0.95, estimate ) {
-  alpha <- (1-level)/2
+  alpha <- (1 - level) / 2
   t <- (x - mean(x)) / se
-  q <- stats::quantile(t, c(hi = 1 - alpha, lo = alpha), na.rm = TRUE)
-  as.vector( estimate - q * SE)
+  q <- stats::quantile(t, c(upper = 1 - alpha, lower = alpha), na.rm = TRUE)
+  as.vector(estimate - q * SE)
 }
 
 
@@ -383,7 +390,10 @@ boott <- function(object, ...) {
 
 boott.do.data.frame <- function( object, level = 0.95, ... ) {
   lz <- attr(object, "lazy")
-  if ( ! lazyeval::f_rhs(lz)[[1]] == "favstats") stop( "Invalid object." )
+  if (! all( c("mean", "sd", "n") %in% names(object))) {
+    stop("Invalid object: Bootstrap-t requires columns named `mean', `sd', and `n'",
+         call. = FALSE)
+  }
   if (base::max(object$.row) > 2) stop("Too many groups.")
  
   estimate <- extract_estimate(object)$mean
@@ -401,7 +411,7 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
     Boot <-
       object %>%
       group_by(.index) %>%
-      summarise(estimate.star = diff(mean), SE.star = sqrt( sum( sd^2/ n))) %>% 
+      summarise(estimate.star = diff(mean), SE.star = sqrt(sum(sd^2/ n))) %>% 
       mutate(t = (estimate.star - mean(estimate.star)) / SE.star)
     estimate <- diff(estimate)
   }
@@ -411,11 +421,11 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
     data.frame(
       name = parm,
       estimate = estimate,
-      lower = estimate - q[2] * sd(~ estimate.star, data = Boot),
-      upper = estimate - q[1] * sd(~ estimate.star, data = Boot),
+      lower = estimate - q[, 2] * sd(Boot$estimate.star),
+      upper = estimate - q[, 1] * sd(Boot$estimate.star),
       level = level,
       method = "bootstrap-t"
     )
   row.names(res) <- NULL
-  as.data.frame(res)
+  res
 }

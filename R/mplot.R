@@ -21,7 +21,7 @@ NA
 
 mplot <- function(object, ...) {
   if (inherits(object, "data.frame")) {
-    return(mPlot(object, ..., data_text = lazyeval::expr_text(object))) 
+    return(mPlot(object, ..., data_text = rlang::expr_text(object))) 
   }
   
   UseMethod("mplot")
@@ -388,10 +388,10 @@ mplot.lm <-
     return(result)
   }
 
-# Not sure I like this idea, so leaving it out for now
-#  if (length(plots) == 1) {
-#    return(plots[[1]])
-#  }
+# Question: should a single plot be returned as is or in a list of length 1?
+if (length(plots) == 1) {
+  return(plots[[1]])
+}
   
   return(plots)
 }
