@@ -173,14 +173,9 @@ rsquared <- function(x, ...) {
   return(result)
 }
 
-#' Extract r-squared value
-#' 
-#' Attempts to extract an r-squared value from a model or model-like object.
-#' @param x an object
-#' @param \dots additional arguments
+#' @rdname defunct
 #' @export
 
-r.squared <- function(x, ...) {
+r.squared <- function(...) {
   .Defunct("rsquared")
-  rsquared(x, ...)
 }

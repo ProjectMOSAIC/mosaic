@@ -78,7 +78,7 @@ prop.test <- function( x, n, p = NULL,
   x_lazy <- rlang::enquo(x)
   x_eval <- 
     tryCatch(
-      rlang::eval_tidy(x_lazy, as.list(data)),
+      rlang::eval_tidy(x_lazy, data),
       error = function(e) {
         if (is.null(data) && ! missing_n) {
           stop("prop.test(): Improper `n'; did you forget `data =' perhaps?", call. = FALSE) 

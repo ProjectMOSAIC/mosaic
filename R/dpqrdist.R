@@ -594,8 +594,8 @@ xcbeta <- function(p, shape1, shape2, ncp = 0,
         lower.tail = lower.tail, log.p = log.p, ...)
 
 
-is_discrete_dist <- function(dist, n = 100L, ... ) {
-  q <- dpqrdist(dist, type = "q", p = ppoints(n), ...) 
+is_discrete_dist <- function(dist, resolution = 100L, ... ) {
+  q <- dpqrdist(dist, type = "q", p = ppoints(resolution), ...) 
   # continuous dists should have all unique values
   # discrete dists will typically have many ties
   # discrete dists with many values may look continuous

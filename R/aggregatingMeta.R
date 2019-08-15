@@ -232,8 +232,8 @@ aggregatingFunction1or2 <-
       function(x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
         if (rlang::is_formula(x)) {
           if (rlang::is_formula(y)) {
-            x <- rlang::eval_tidy(rlang::f_rhs(x), as.environment(data))
-            y <- rlang::eval_tidy(rlang::f_rhs(y), as.environment(data))
+            x <- rlang::eval_tidy(rlang::f_rhs(x), data)
+            y <- rlang::eval_tidy(rlang::f_rhs(y), data)
           } else {
             formula <- mosaicCore::mosaic_formula_q(x, max.slots = 2)
             if (is.null(data)) data <- environment(formula)
@@ -310,12 +310,12 @@ aggregatingFunction2 <- function(fun) {
       }
       if (rlang::is_formula(x)) {
         if (rlang::is_formula(y)) {
-          x <- rlang::eval_tidy(rlang::f_rhs(x), as.environment(data))
-          y <- rlang::eval_tidy(rlang::f_rhs(y), as.environment(data))
+          x <- rlang::eval_tidy(rlang::f_rhs(x), data)
+          y <- rlang::eval_tidy(rlang::f_rhs(y), data)
         } else {
           formula <- mosaicCore::mosaic_formula_q(x, max.slots = 3)
-          x <- rlang::eval_tidy(rlang::f_rhs(formula), as.environment(data))
-          y <- rlang::eval_tidy(rlang::f_lhs(formula), as.environment(data))
+          x <- rlang::eval_tidy(rlang::f_rhs(formula), data)
+          y <- rlang::eval_tidy(rlang::f_lhs(formula), data)
         }
         FUNCTION_TBD(x, y, ...)
       }
@@ -414,12 +414,6 @@ mean <- function(x, ...) {
   the_call <- match.call()
   the_call[[1]] <- as.name("mean_")
   
-  # if (exists(deparse(substitute(x))) &&
-  
-  # this breaks with long logicals, but perhaps we don't need it anymore
-  # since we no longer support mean(length, data = KidsFeet)
-  
-  # if (exists(lazyeval::expr_text(x)) &&
   if (inherits(x, c("Matrix", "sparseMatrix", "sparseVector")))
     return(Matrix::mean(x, ...))
   
