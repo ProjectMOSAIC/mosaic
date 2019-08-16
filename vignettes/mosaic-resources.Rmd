@@ -18,8 +18,9 @@ statistics with a focus on modeling and computation.
 ## Package Vignettes
 
 The `mosaic` package includes a number of vignettes. These are available 
-from within R or from 
-[cran.r-project.org/package=mosaic](https://cran.r-project.org/package=mosaic).
+from within R, from 
+[cran.r-project.org/package=mosaic](https://cran.r-project.org/package=mosaic),
+or from [projectmosaic.github.io/mosaic/](https://projectmosaic.github.io/mosaic/).
 
  * *Minimal R* describes a minimal set of R commands for use in 
 	Introductory Statistics and discusses why it is important
@@ -32,17 +33,12 @@ from within R or from
 
  * *ggformula/lattice conversion examples* compares the lattice and ggformula formula interfaces for creating graphics. 
 
-## Web vignettes
-
-The following vignette-like documents are available via github
-
- * [*Less Volume, More Creativity*](https://cdn.rawgit.com/ProjectMOSAIC/mosaic/27c09830/ExtraDocs/LessVolume-MoreCreativity.html), 
-   based on slides from an 
-	 ICOTS 2014 workshop, introduces the `mosaic` package and related tools 
-   and describes some of the philosophy behind the design choices made in the 
-	 `mosaic` package. 
+ * *Less Volume, More Creativity*,
+based on slides from an ICOTS 2014 workshop, introduces the `mosaic` package and
+related tools and describes some of the philosophy behind the design choices
+made in the `mosaic` package.
 	
- * [*Graphics with the mosaic package*](https://cdn.rawgit.com/ProjectMOSAIC/mosaic/27c09830/ExtraDocs/GraphicsWithMosaic.html) 
+ * *Graphics with the mosaic package*
  is gallery of plots made using tools from the `mosaic` package.
 
 ## Auxiliary packages
