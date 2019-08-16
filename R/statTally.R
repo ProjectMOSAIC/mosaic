@@ -119,7 +119,7 @@ function (sample, rdata, FUN, direction = NULL,
 
     message(paste("\nTest statistic applied to sample data = ", signif(dstat, 4)))
     message("\nQuantiles of test statistic applied to random data:")
-    print(quantile(stats, q, na.rm = TRUE))
+    message(capture.output(print(quantile(stats, q, na.rm = TRUE))))
     message("\n")
     if (any( ! is.finite(stats))) {
       message("** Note:  ", table(is.finite(stats))["FALSE"], " non-finite or missing values excluded.")
