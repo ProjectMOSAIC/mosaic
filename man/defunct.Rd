@@ -33,6 +33,8 @@ proptable(...)
 xhistogram(...)
 }
 \arguments{
+\item{\dots}{Additional arguments; currently ignored.}
+
 \item{...}{arguments, ignored since the function is defunct}
 }
 \description{
