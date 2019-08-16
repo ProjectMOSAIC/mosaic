@@ -58,15 +58,15 @@ test_that("dpqrdist works for binomial dist", {
   )
 })
 
-test_that("pdist works", {
-  #pdist("norm", -2:2) %>% dput()
-  # testcase <- c(0.0227501319481792, 0.158655253931457, 0.5, 0.841344746068543, 
-  #               0.977249868051821)
-  # test <- pdist("norm", -2:2)
-  # expect_equivalent(test, testcase)
-  #vdiffr::expect_doppelganger("pdist1", test <- pdist("norm", -2:2))
-  #pdist("norm", seq(80,120, by = 10), mean = 100, sd = 10)
-  # pdist("chisq", 2:4, df = 3)
-  # pdist("f", 1, df1 = 2, df2 = 10)
-  # pdist("gamma", 2, shape = 3, rate = 4)
-})
+# test_that("pdist works", {
+#   #pdist("norm", -2:2) %>% dput()
+#   # testcase <- c(0.0227501319481792, 0.158655253931457, 0.5, 0.841344746068543, 
+#   #               0.977249868051821)
+#   # test <- pdist("norm", -2:2)
+#   # expect_equivalent(test, testcase)
+#   #vdiffr::expect_doppelganger("pdist1", test <- pdist("norm", -2:2))
+#   #pdist("norm", seq(80,120, by = 10), mean = 100, sd = 10)
+#   # pdist("chisq", 2:4, df = 3)
+#   # pdist("f", 1, df1 = 2, df2 = 10)
+#   # pdist("gamma", 2, shape = 3, rate = 4)
+# })

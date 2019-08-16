@@ -50,8 +50,8 @@ testthat::test_that("oddsRatio works", {
   
   expect_equivalent(testcase1, oddsRatio(M1))
   expect_equivalent(testcase2, oddsRatio(M2))
-  expect_equivalent(testcase2, oddsRatio(M2, verbose = TRUE))
-  expect_equivalent(testcase3, relrisk(M2, verbose = TRUE))
+  expect_output(oddsRatio(M2, verbose = TRUE))
+  expect_output(relrisk(M2, verbose = TRUE))
   require(mosaicData)
   
   testcase4 <- structure(c(RR = 1.43473360655738), 
