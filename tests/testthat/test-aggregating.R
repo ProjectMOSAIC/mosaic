@@ -61,7 +61,7 @@ test_that("na.rm works", {
 })
 
 test_that("sum( a + x ) works, etc.", {
-  x <<- 1:6; a <<- 11:16
+  x <- 1:6; a <- 11:16
   expect_equivalent( sum( a + x) , base::sum( a + x) )
   expect_equivalent( mean( a + x) , base::mean( a + x) )
   expect_equivalent( median( a + x) , stats::median( a + x) )
@@ -94,4 +94,14 @@ test_that("var() works.", {
 #   expect_equivalent( favstats(   age, data = HELPrct), 
 #                      favstats( ~ age, data = HELPrct) )
 # })
+
+test_that("aggregatingFunctions work", {
+  require(mosaicData)
+  foo <- aggregatingFunction1(base::mean)
+  expect_equivalent(24.7230769230769, foo( ~ length, data = KidsFeet))
+  
+ 
+  foo <- aggregatingFunction2(stats::cor)
+  expect_equivalent(0.641096051081777, foo(length ~ width, data = KidsFeet))
+})
 

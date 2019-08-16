@@ -20,4 +20,23 @@ test_that("One-sided tests", {
                  "*833 \\( 83.22 % \\) had test stats >= -1*")
   expect_message(capture.output(tmp <- statTally(-1, rdata, alternative="less")),
                  "*169 \\( 16.88 % \\) had test stats <= -1*")
+
+})
+
+require(mosaicData)
+x <- c(10, 18, 9, 15)   # counts in four cells
+set.seed(16)
+rdata <- rmultinom(999, sum(x), prob = rep(.25, 4))
+set.seed(17)
+D <- diffmean( age ~ sex, data = HELPrct)
+set.seed(19)
+nullDist <- do(999) * diffmean( age ~ shuffle(sex), data = HELPrct)
+
+testthat::test_that("statTally works", {
+  
+  vdiffr::expect_doppelganger("statTally1", statTally(x, rdata, fun = max, binwidth = 1))
+  vdiffr::expect_doppelganger("statTally2", statTally(x, rdata, fun = var, shade = "red", binwidth = 2))
+  vdiffr::expect_doppelganger("statTally3", statTally(x, rdata, fun = max, binwidth = 1))
+  #vdiffr::expect_doppelganger("statTally4", statTally(D, nullDist))
+  #vdiffr::expect_doppelganger("statTally5", statTally(D, nullDist, system = "lattice"))
 })

@@ -1,3 +1,4 @@
+
 context("Confidence Intervals")
 
 # Examples to test
@@ -15,6 +16,7 @@ context("Confidence Intervals")
 #'   confint(bootstrap2)
 getData <- function() {
   structure(list(diffmean = c(-0.865114560236513, 0.36778884147305, 
+
   -1.69679327521794, -0.515578957538288, -1.94702093397746, -0.0728026194617826, 
   -1.86344537815125, 0.230871807028976, -0.403286509408957, -1.10612170087977, 
   -0.0187560975609742, -0.937450304797245, 0.336827195467421, -1.20303776683087, 
@@ -34,6 +36,7 @@ getData <- function() {
 
 getDataAlternate <- function() {
   structure(list(mean = c(4.9, 5.2, 6, 7.3, 6.1, 6.7, 7.1, 5.7, 
+
     5.1, 4.3, 6, 4.5, 6.4, 5.3, 5.6, 3.8, 5.9, 6.1, 5.8, 5.7, 5.6, 
     4.5, 5.6, 6.7, 4.5, 6, 6.8, 4.3, 7.5, 6.4, 6.7, 4.6, 3.9, 7.2, 
     4.6, 4.9, 4.7, 7.3, 6.7, 5.2, 5.4, 6.1, 5.6, 5.5, 6.5, 4.8, 5.1, 
@@ -74,12 +77,14 @@ getDataAlternate <- function() {
     3.9)), class = c("do.data.frame", "data.frame"), 
     row.names = c(NA, -500L), lazy = ~mean(resample(1:10)), 
     culler = function (object, ...) { UseMethod("cull_for_do") })
+
 }
 
 testthat::test_that("Confidence Intervals created", {
   bootstrap <- getData()
   bootstrap2 <- getDataAlternate()
   
+
   result1 <- 
     structure(list(name = "diffmean", lower = -2.40146349464812, 
                    upper = 1.0820789144726, level = 0.95, method = "percentile", 
@@ -136,7 +141,9 @@ testthat::test_that("Confidence Intervals created", {
   
   expect_equal(confint(bootstrap2), result6)
   
+
   # expect_equal(confint(bootstrap, method = "boot"), result7)
+
   
 })
 
