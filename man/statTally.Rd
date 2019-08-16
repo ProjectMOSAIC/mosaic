@@ -7,9 +7,10 @@
 statTally(sample, rdata, FUN, direction = NULL,
   alternative = c("default", "two.sided", "less", "greater"),
   sig.level = 0.1, system = c("gg", "lattice"), shade = "navy",
-  alpha = 0.1, binwidth = NULL, fill = "gray80", color = "black",
-  center = NULL, stemplot = dim(rdata)[direction] < 201, q = c(0.5,
-  0.9, 0.95, 0.99), fun = function(x) x, xlim, ...)
+  alpha = 0.1, binwidth = NULL, bins = NULL, fill = "gray80",
+  color = "black", center = NULL, stemplot = dim(rdata)[direction] <
+  201, q = c(0.5, 0.9, 0.95, 0.99), fun = function(x) x, xlim,
+  quiet = FALSE, ...)
 }
 \arguments{
 \item{sample}{sample data}
@@ -52,10 +53,12 @@ should be capitalized}
 
 \item{xlim}{limits for the horizontal axis of the plot.}
 
-\item{\dots}{additional arguments passed to \code{\link[=histogram]{histogram()}}}
+\item{quiet}{a logicial indicating whether the text output should be suppressed}
+
+\item{\dots}{additional arguments passed to \code{\link[lattice:histogram]{lattice::histogram()}} or \code{\link[ggplot2:geom_histogram]{ggplot2::geom_histogram()}}}
 }
 \value{
-A lattice plot showing the sampling distribution.
+A lattice or ggplot showing the sampling distribution.
 
 As side effects, information
 about the empirical sampling distribution and (optionally) a stem plot are
