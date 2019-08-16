@@ -9,7 +9,7 @@ testthat::test_that("lm mplot works", {
   testcases2 <- lm( width ~ length * sex, data = KidsFeet) %>%
     mplot(smooth.color = "blue", smooth.size = 1.2, smooth.alpha = 0.3, id.size = 3)
   
-  testcases3 <- lm(width ~ length * sex, data = KidsFeet) %>%
+  singletest <- lm(width ~ length * sex, data = KidsFeet) %>%
     mplot(rows = 2:3, which = 7)
   
   
@@ -25,10 +25,8 @@ testthat::test_that("lm mplot works", {
     num <- num + 1
   }
   
-  for(case in testcases3) {
-    vdiffr::expect_doppelganger(paste("mplot", as.character(num), sep = ""), case)
-    num <- num + 1
-  }
+  vdiffr::expect_doppelganger(paste("mplot", as.character(num), sep = ""), singletest)
+  num <- num + 1
   
   testthat::test_that("getVarFormula Works", {
     testcase <- structure(c(2.62, 2.875, 2.32, 3.215, 3.44, 3.46, 3.57, 3.19, 
