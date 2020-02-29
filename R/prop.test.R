@@ -152,7 +152,7 @@ prop_test.formula <-
   function(
     x, n, p=NULL, 
     alternative = c("two.sided", "less", "greater"), 
-    conf.level = 0.95, success = NULL, data.name, data = NULL, groups = NULL, ...) 
+    conf.level = 0.95, success = NULL, data.name, data = NULL, groups = NULL, na.rm = FALSE, ...) 
   {
     missing_n <- missing(n)
     if (is.null(data)) {
@@ -215,6 +215,35 @@ prop_test.formula <-
         # }
         data[, key] <- factor(data[, key] == success, levels = c("TRUE", "FALSE"))
         table_from_formula <-  tally( formula, data=data, margin=FALSE, format="count" )
+      }
+      
+      dims <- length(dim(table_from_formula))
+      if (isTRUE(na.rm)) {
+        na.rm <- 1:dims
+      }
+      if (1 %in% na.rm) {
+        table_from_formula <-
+          table_from_formula[ which(!is.na(dimnames(table_from_formula)[[1]])), ]
+      }
+      if (2 %in% na.rm) {
+        table_from_formula <-
+          table_from_formula[,  which(!is.na(dimnames(table_from_formula)[[2]]))]
+      }
+      
+      if (dim(table_from_formula)[1] > 2) {
+        if (any(is.na(dimnames(table_from_formula)[[1]]))) {
+          stop(paste0(names(dimnames(table_from_formula))[1], ' has ', dim(table_from_formula)[1],
+                      ' levels (including NA).  Only 2 are allowed.'), call. = FALSE)
+        }
+          stop(paste0(dimnames(table_from_formula)[1], ' has ', dim(table_from_formula)[1],
+                      ' levels.  Only 2 are allowed.'))
+      }
+      for (i in 1:dims) {
+        if (any(is.na(dimnames(table_from_formula)[[i]]))) {
+          warning(
+            call. = FALSE,
+            paste0("NA is being treated as a category for ", names(dimnames(table_from_formula))[i]))
+        }
       }
       res <- stats::prop.test( t(table_from_formula), 
                                p=p,
