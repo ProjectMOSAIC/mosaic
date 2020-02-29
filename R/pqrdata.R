@@ -133,8 +133,6 @@ cdata_v <- function( x, p = .95, na.rm = TRUE, ... ) {
 
 #' @rdname pqrdata2
 #' @export
-#' @rdname pqrdata2
-#' @export
 
 cdata_f <- aggregatingFunction1( cdata_v, output.multiple = TRUE, na.rm = TRUE )
 
