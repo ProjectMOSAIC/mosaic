@@ -5,7 +5,7 @@ require(rlang)
 #' 
 #' `aggregatinFuntion1` creates statistical summaries of one numerical vector that are formula aware.
 #' 
-#' @import lazyeval
+#' @import rlang
 #' @rdname aggregatingFunction1
 #' @aliases aggregatingFunction1 
 #' @param fun a function that takes a numeric vector and computes a summary statistic,
