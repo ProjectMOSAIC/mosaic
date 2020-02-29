@@ -17,30 +17,30 @@ NA
 #' 	  [qnorm()]).  `dist` should match the name of the 
 #' 	  distribution with the initial 'd', 'p', or 'q' removed.
 #' @param xlim a numeric vector of length 2 or `NULL`, in which case
-#'  the central 99.8\% of the distribution is used.
+#'   the central 99.8 of the distribution is used.
 #' @param ylim a numeric vector of length 2 or `NULL`, in which case
-#'  a heuristic is used to avoid chasing asymptotes in distributions like
-#'  the F distributions with 1 numerator degree of freedom.
+#'   a heuristic is used to avoid chasing asymptotes in distributions like
+#'   the F distributions with 1 numerator degree of freedom.
 #' @param add a logical indicating whether the plot should be added to the previous lattice plot.
 #'   If missing, it will be set to match `under`.
 #' @param under a logical indicating whether adding should be done in a layer under or over the existing 
-#' layers when `add = TRUE`.
+#'   layers when `add = TRUE`.
 #' @param packets,rows,columns specification of which panels will be added to when 
-#' `add` is `TRUE`.  See [latticeExtra::layer()].
+#'   `add` is `TRUE`.  See [latticeExtra::layer()].
 #' @param params a list containing parameters for the distribution.  If `NULL` (the default), 
-#' this list is created from elements of `\dots` that are either unnamed or have names among
-#' the formals of the appropriate distribution function.  See the examples.
+#'   this list is created from elements of `\dots` that are either unnamed or have names among
+#'   the formals of the appropriate distribution function.  See the examples.
 #' @param kind one of "density", "cdf", "qq", or "histogram" (or prefix 
-#' 	  of any of these)
+#' 	 of any of these)
 #' @param xlab,ylab as per other lattice functions
 #' @param breaks  a vector of break points for bins of histograms,
-#'    as in [histogram()] 
+#'   as in [histogram()] 
 #' @param type  passed along to various lattice graphing functions 
 #' @param resolution  number of points to sample when generating the plots
-#' @param \dots  other arguments passed along to lattice graphing routines
+#' @param ...  other arguments passed along to lattice graphing routines
+#' @seealso [ggformula::gf_dist()]
 #' 
-#' @details
-#' 	`plotDist` determines whether the distribution 
+#' @details `plotDist()` determines whether the distribution 
 #' 	is continuous or discrete by seeing if all the sampled quantiles are 
 #' 	unique.  A discrete random variable with many possible values could 
 #' 	fool this algorithm and be considered continuous.
