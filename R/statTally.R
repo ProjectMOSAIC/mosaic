@@ -23,6 +23,7 @@ utils::globalVariables(c("xleft", "xright"))
 #' 
 #' @param alpha opacity of shading.
 #' 
+#' @param bins number of bins for histogram.
 #' @param binwidth bin width for histogram.
 #' 
 #' @param fill fill color for histogram.
@@ -167,7 +168,7 @@ function (sample, rdata, FUN, direction = NULL,
 	    gg = 
 	      tryCatch( 
 	        ggplot() +
-	          geom_histogram(
+	          geom_histogram(na.rm = TRUE,
 	            aes(y = stat(density), x = stat),
 	            data = results,
 	            fill = fill, color = color, binwidth = binwidth, bins = bins,
