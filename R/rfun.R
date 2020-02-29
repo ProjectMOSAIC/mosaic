@@ -101,7 +101,6 @@ rfun <- function(vars=~x&y, seed=NULL, n=0) {
 #' `rpoly2` generates a random 2nd degree polynomial  (as a function)
 #'
 #' @rdname rfun
-#' @inheritParams rfun
 #'
 #' @return a function defined by a 2nd degree polynomial
 #' with coefficients selected randomly according to a Unif(-1,1) distribution.
