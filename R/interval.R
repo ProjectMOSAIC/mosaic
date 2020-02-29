@@ -25,12 +25,10 @@
 #' }
 #' @keywords stats 
 #' @keywords inference 
-#' @export
 
 # remove inverval alias to avoid conflict with lubridate::interval
 # interval <- confint
 
-#' @rdname interval
 #' @param verbose a logical
 #' @export
 

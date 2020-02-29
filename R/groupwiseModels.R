@@ -1,7 +1,5 @@
 #' @rdname defunct
 #'
-#' @param \dots Additional arguments; currently ignored.
-#'
 #' @export
 
 gwm <- function(...) { # formula, data = parent.frame(), drop = FALSE, ...) {
