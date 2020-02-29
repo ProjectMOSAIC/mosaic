@@ -4,8 +4,12 @@
 \alias{ntiles}
 \title{Create vector based on roughly equally sized groups}
 \usage{
-ntiles(x, n = 3, format = c("rank", "interval", "mean", "median",
-  "center", "left", "right"), digits = 3)
+ntiles(
+  x,
+  n = 3,
+  format = c("rank", "interval", "mean", "median", "center", "left", "right"),
+  digits = 3
+)
 }
 \arguments{
 \item{x}{a numeric vector}

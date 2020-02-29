@@ -4,10 +4,19 @@
 \alias{bargraph}
 \title{Create bar graphs from raw data}
 \usage{
-bargraph(x, data = parent.frame(), groups = NULL, horizontal = FALSE,
-  origin = 0, ylab = ifelse(horizontal, "", type),
-  xlab = ifelse(horizontal, type, ""), type = c("count", "frequency",
-  "proportion", "percent"), auto.key = TRUE, scales = list(), ...)
+bargraph(
+  x,
+  data = parent.frame(),
+  groups = NULL,
+  horizontal = FALSE,
+  origin = 0,
+  ylab = ifelse(horizontal, "", type),
+  xlab = ifelse(horizontal, type, ""),
+  type = c("count", "frequency", "proportion", "percent"),
+  auto.key = TRUE,
+  scales = list(),
+  ...
+)
 }
 \arguments{
 \item{x}{a formula describing the plot}

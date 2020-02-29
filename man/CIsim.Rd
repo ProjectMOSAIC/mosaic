@@ -4,13 +4,22 @@
 \alias{CIsim}
 \title{Compute confidence intervals from (multiple) simulated data sets}
 \usage{
-CIsim(n, samples = 100, rdist = rnorm, args = list(), plot = if
-  (samples <= 200) "draw" else "none", estimand = 0, conf.level = 0.95,
-  method = t.test, method.args = list(), interval = function(x) {    
-  do.call(method, c(list(x, conf.level = conf.level),
-  method.args))$conf.int }, estimate = function(x) {     do.call(method,
-  c(list(x, conf.level = conf.level), method.args))$estimate },
-  verbose = TRUE)
+CIsim(
+  n,
+  samples = 100,
+  rdist = rnorm,
+  args = list(),
+  plot = if (samples <= 200) "draw" else "none",
+  estimand = 0,
+  conf.level = 0.95,
+  method = t.test,
+  method.args = list(),
+  interval = function(x) {     do.call(method, c(list(x, conf.level = conf.level),
+    method.args))$conf.int },
+  estimate = function(x) {     do.call(method, c(list(x, conf.level = conf.level),
+    method.args))$estimate },
+  verbose = TRUE
+)
 }
 \arguments{
 \item{n}{size of each sample}

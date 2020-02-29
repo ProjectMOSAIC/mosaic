@@ -4,9 +4,16 @@
 \alias{xchisq.test}
 \title{Augmented Chi-squared test}
 \usage{
-xchisq.test(x, y = NULL, correct = TRUE, p = rep(1/length(x),
-  length(x)), rescale.p = FALSE, simulate.p.value = FALSE, B = 2000,
-  data = environment(x))
+xchisq.test(
+  x,
+  y = NULL,
+  correct = TRUE,
+  p = rep(1/length(x), length(x)),
+  rescale.p = FALSE,
+  simulate.p.value = FALSE,
+  B = 2000,
+  data = environment(x)
+)
 }
 \arguments{
 \item{x, y, correct, p, rescale.p, simulate.p.value, B}{as in \code{\link[=chisq.test]{chisq.test()}}, but

@@ -4,8 +4,11 @@
 \alias{aggregatingFunction1or2}
 \title{1- or 2-ary aggregating functions}
 \usage{
-aggregatingFunction1or2(fun, output.multiple = FALSE,
-  na.rm = getOption("na.rm", FALSE))
+aggregatingFunction1or2(
+  fun,
+  output.multiple = FALSE,
+  na.rm = getOption("na.rm", FALSE)
+)
 }
 \arguments{
 \item{fun}{a function that takes 1 or 2 numeric vectors and computes a summary statistic,

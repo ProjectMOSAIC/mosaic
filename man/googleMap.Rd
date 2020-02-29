@@ -4,9 +4,17 @@
 \alias{googleMap}
 \title{Display a point on earth on a Google Map}
 \usage{
-googleMap(latitude, longitude, position = NULL, zoom = 12,
+googleMap(
+  latitude,
+  longitude,
+  position = NULL,
+  zoom = 12,
   maptype = c("roadmap", "satellite", "terrain", "hybrid"),
-  mark = FALSE, radius = 0, browse = TRUE, ...)
+  mark = FALSE,
+  radius = 0,
+  browse = TRUE,
+  ...
+)
 }
 \arguments{
 \item{latitude, longitude}{vectors of latitude and longitude values}

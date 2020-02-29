@@ -5,8 +5,7 @@
 \alias{ct}
 \title{Central Probability in a Normal or T Distribution}
 \usage{
-cnorm(p, mean = 0, sd = 1, log.p = FALSE, side = c("both", "upper",
-  "lower"))
+cnorm(p, mean = 0, sd = 1, log.p = FALSE, side = c("both", "upper", "lower"))
 
 ct(p, df, ncp, log.p = FALSE, side = c("upper", "lower", "both"))
 }

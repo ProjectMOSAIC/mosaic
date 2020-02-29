@@ -11,11 +11,9 @@ rlatlon(...)
 
 rlonlat(...)
 
-rgeo(n = 1, latlim = c(-90, 90), lonlim = c(-180, 180),
-  verbose = FALSE)
+rgeo(n = 1, latlim = c(-90, 90), lonlim = c(-180, 180), verbose = FALSE)
 
-rgeo2(n = 1, latlim = c(-90, 90), lonlim = c(-180, 180),
-  verbose = FALSE)
+rgeo2(n = 1, latlim = c(-90, 90), lonlim = c(-180, 180), verbose = FALSE)
 }
 \arguments{
 \item{...}{arguments passed through to other functions}

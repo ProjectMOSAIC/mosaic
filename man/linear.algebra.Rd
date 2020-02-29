@@ -6,18 +6,18 @@
 \alias{singvals}
 \title{Functions for teaching linear algebra.}
 \usage{
-mat(A, data = parent.frame())
+mat(formula, data = parent.frame(), A = formula)
 
-singvals(A, data = parent.frame())
+singvals(formula, data = parent.frame(), A = formula)
 }
 \arguments{
-\item{A}{a formula.  In \code{mat} and \code{singvals},
+\item{formula}{a formula.  In \code{mat} and \code{singvals},
 only the right-hand side is used.}
 
 \item{data}{a data frame from which to pull out numerical values
 for the variables in the formula}
 
-\item{\dots}{additional arguments (currently ignored)
+\item{A}{an alias for \code{formula} for backward compatibility.
 
 \code{mat} returns a model matrix
 

@@ -4,10 +4,21 @@
 \alias{panel.lmbands}
 \title{show confidence and prediction bands on plots}
 \usage{
-panel.lmbands(x, y, interval = "confidence", level = 0.95,
-  model = lm(y ~ x), band.col = c(conf = slcol[3], pred = slcol[2]),
-  band.lty = c(conf = slty[3], pred = slty[2]), band.show = TRUE,
-  fit.show = TRUE, band.alpha = 0.6, band.lwd = 1, npts = 100, ...)
+panel.lmbands(
+  x,
+  y,
+  interval = "confidence",
+  level = 0.95,
+  model = lm(y ~ x),
+  band.col = c(conf = slcol[3], pred = slcol[2]),
+  band.lty = c(conf = slty[3], pred = slty[2]),
+  band.show = TRUE,
+  fit.show = TRUE,
+  band.alpha = 0.6,
+  band.lwd = 1,
+  npts = 100,
+  ...
+)
 }
 \arguments{
 \item{x, y}{numeric vectors}

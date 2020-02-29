@@ -20,48 +20,35 @@
 \alias{quantile}
 \title{Aggregating functions}
 \usage{
-mean_(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+mean_(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
 mean(x, ...)
 
-median(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+median(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-range(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+range(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-sd(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+sd(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-max(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+max(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-min(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+min(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-sum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+sum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-IQR(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+IQR(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-fivenum(x, ..., data = NULL, groups = NULL,
-  na.rm = getOption("na.rm", FALSE))
+fivenum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-iqr(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+iqr(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-prod(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+prod(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
-sum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm",
-  FALSE))
+sum(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
 favstats(x, ..., data = NULL, groups = NULL, na.rm = TRUE)
 
-quantile(x, ..., data = NULL, groups = NULL,
-  na.rm = getOption("na.rm", FALSE))
+quantile(x, ..., data = NULL, groups = NULL, na.rm = getOption("na.rm", FALSE))
 
 var(x, y = NULL, na.rm = getOption("na.rm", FALSE), ..., data = NULL)
 

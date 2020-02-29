@@ -25,7 +25,7 @@
 .do.safe.call(what, args, quote = FALSE, envir = parent.frame(), ...)
 }
 \arguments{
-\item{x}{an object}
+\item{x}{object to be converted}
 
 \item{a}{a data frame}
 
@@ -43,12 +43,6 @@
 
 \item{envir}{an environment within which to evaluate the call.
 This will be most useful if what is a character string and the arguments are symbols or quoted expressions.}
-
-\item{x}{a formula}
-
-\item{x}{a formula}
-
-\item{x}{object to be converted}
 }
 \value{
 TRUE for a formula, FALSE otherwise, even if evaluation throws an error

@@ -12,11 +12,9 @@
 \usage{
 project(x, ...)
 
-\S4method{project}{formula}(x, u = NULL, data = parent.frame(2),
-  coefficients = TRUE, ...)
+\S4method{project}{formula}(x, u = NULL, data = parent.frame(2), coefficients = TRUE, ...)
 
-\S4method{project}{numeric}(x, u = rep(1, length(x)),
-  type = c("vector", "length", "coef"), ...)
+\S4method{project}{numeric}(x, u = rep(1, length(x)), type = c("vector", "length", "coef"), ...)
 
 \S4method{project}{matrix}(x, u, data = parent.frame())
 

@@ -8,8 +8,7 @@
 \usage{
 as.xtabs(x, ...)
 
-\method{as.xtabs}{data.frame}(x, rowvar = NULL, colvar = NULL,
-  labels = 1, ...)
+\method{as.xtabs}{data.frame}(x, rowvar = NULL, colvar = NULL, labels = 1, ...)
 
 \method{as.xtabs}{matrix}(x, rowvar = NULL, colvar = NULL, ...)
 }

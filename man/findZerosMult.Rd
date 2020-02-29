@@ -26,7 +26,7 @@ original function
 \description{
 Compute numerically zeros of a function of two or more variables.
 All free variables (all but the variable on the right side) named in the expression must be assigned
-a value via \code{\ldots}
+a value via \verb{\\ldots}
 }
 \details{
 sorts points in the domain according to the sign of the function value at respective points.

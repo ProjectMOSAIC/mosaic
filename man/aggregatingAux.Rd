@@ -4,10 +4,20 @@
 \alias{maggregate}
 \title{Aggregate for mosaic}
 \usage{
-maggregate(formula, data = parent.frame(), FUN, groups = NULL, subset,
-  drop = FALSE, ..., .format = c("default", "table", "flat"),
-  .overall = mosaic.par.get("aggregate.overall"), .multiple = FALSE,
-  .name = deparse(substitute(FUN)), .envir = parent.frame())
+maggregate(
+  formula,
+  data = parent.frame(),
+  FUN,
+  groups = NULL,
+  subset,
+  drop = FALSE,
+  ...,
+  .format = c("default", "table", "flat"),
+  .overall = mosaic.par.get("aggregate.overall"),
+  .multiple = FALSE,
+  .name = deparse(substitute(FUN)),
+  .envir = parent.frame()
+)
 }
 \arguments{
 \item{formula}{a formula.  Left side provides variable to be summarized.  Right side and condition

@@ -5,9 +5,15 @@
 \alias{derivedFactor}
 \title{Create new variables from logicals}
 \usage{
-derivedVariable(..., .ordered = FALSE, .method = c("unique", "first",
-  "last"), .debug = c("default", "always", "never"), .sort = c("given",
-  "alpha"), .default = NULL, .asFactor = FALSE)
+derivedVariable(
+  ...,
+  .ordered = FALSE,
+  .method = c("unique", "first", "last"),
+  .debug = c("default", "always", "never"),
+  .sort = c("given", "alpha"),
+  .default = NULL,
+  .asFactor = FALSE
+)
 
 derivedFactor(..., .asFactor = TRUE)
 }

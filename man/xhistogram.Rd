@@ -11,15 +11,35 @@ xhistogramBreaks(x, center = NULL, width = NULL, nint, ...)
 
 prepanel.xhistogram(x, breaks = xhistogramBreaks, ...)
 
-panel.xhistogram(x, dcol = trellis.par.get("plot.line")$col,
-  dalpha = 1, dlwd = 2, gcol = trellis.par.get("add.line")$col,
-  glwd = 2, fcol = trellis.par.get("superpose.polygon")$col,
-  dmath = dnorm, verbose = FALSE, dn = 100, args = NULL,
-  labels = FALSE, density = NULL, under = FALSE, fit = NULL,
-  start = NULL, type = "density", v, h, groups = NULL,
-  center = NULL, width = NULL, breaks, nint = round(1.5 *
-  log2(length(x)) + 1), stripes = c("vertical", "horizontal", "none"),
-  alpha = 1, ...)
+panel.xhistogram(
+  x,
+  dcol = trellis.par.get("plot.line")$col,
+  dalpha = 1,
+  dlwd = 2,
+  gcol = trellis.par.get("add.line")$col,
+  glwd = 2,
+  fcol = trellis.par.get("superpose.polygon")$col,
+  dmath = dnorm,
+  verbose = FALSE,
+  dn = 100,
+  args = NULL,
+  labels = FALSE,
+  density = NULL,
+  under = FALSE,
+  fit = NULL,
+  start = NULL,
+  type = "density",
+  v,
+  h,
+  groups = NULL,
+  center = NULL,
+  width = NULL,
+  breaks,
+  nint = round(1.5 * log2(length(x)) + 1),
+  stripes = c("vertical", "horizontal", "none"),
+  alpha = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{a formula or a numeric vector}

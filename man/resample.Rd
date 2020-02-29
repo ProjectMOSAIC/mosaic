@@ -15,23 +15,53 @@ resample(..., replace = TRUE)
 
 deal(...)
 
-shuffle(x, replace = FALSE, prob = NULL, groups = NULL,
-  orig.ids = FALSE)
+shuffle(x, replace = FALSE, prob = NULL, groups = NULL, orig.ids = FALSE)
 
 sample(x, size, replace = FALSE, ...)
 
-\method{sample}{default}(x, size, replace = FALSE, prob = NULL,
-  groups = NULL, orig.ids = FALSE, ...)
+\method{sample}{default}(
+  x,
+  size,
+  replace = FALSE,
+  prob = NULL,
+  groups = NULL,
+  orig.ids = FALSE,
+  ...
+)
 
-\method{sample}{data.frame}(x, size, replace = FALSE, prob = NULL,
-  groups = NULL, orig.ids = TRUE, fixed = names(x), shuffled = c(),
-  invisibly.return = NULL, ...)
+\method{sample}{data.frame}(
+  x,
+  size,
+  replace = FALSE,
+  prob = NULL,
+  groups = NULL,
+  orig.ids = TRUE,
+  fixed = names(x),
+  shuffled = c(),
+  invisibly.return = NULL,
+  ...
+)
 
-\method{sample}{matrix}(x, size, replace = FALSE, prob = NULL,
-  groups = NULL, orig.ids = FALSE, ...)
+\method{sample}{matrix}(
+  x,
+  size,
+  replace = FALSE,
+  prob = NULL,
+  groups = NULL,
+  orig.ids = FALSE,
+  ...
+)
 
-\method{sample}{factor}(x, size, replace = FALSE, prob = NULL,
-  groups = NULL, orig.ids = FALSE, drop.unused.levels = FALSE, ...)
+\method{sample}{factor}(
+  x,
+  size,
+  replace = FALSE,
+  prob = NULL,
+  groups = NULL,
+  orig.ids = FALSE,
+  drop.unused.levels = FALSE,
+  ...
+)
 }
 \arguments{
 \item{\dots}{additional arguments passed to

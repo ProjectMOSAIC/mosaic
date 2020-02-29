@@ -4,8 +4,16 @@
 \alias{prop.test}
 \title{Exact and Approximate Tests for Proportions}
 \usage{
-prop.test(x, n, p = NULL, alternative = c("two.sided", "less",
-  "greater"), conf.level = 0.95, data = NULL, success = NULL, ...)
+prop.test(
+  x,
+  n,
+  p = NULL,
+  alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95,
+  data = NULL,
+  success = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,
@@ -34,7 +42,7 @@ considered failure.}
 
 \item{...}{additional arguments (often ignored).
 When \code{x} is a formula, \code{groups} can be used to compare groups:
-\code{x = ~ var, groups=g} is equivalent to \code{x = var ~ g}.
+\verb{x = ~ var, groups=g} is equivalent to \code{x = var ~ g}.
 See the examples.}
 }
 \value{
@@ -48,7 +56,8 @@ probability of success in a Bernoulli or multinomial experiment
 from summarized data or from raw data.
 }
 \details{
-conf.level = 0.95, ...)
+\preformatted{				conf.level = 0.95, ...)
+}
 
 This is a wrapper around \code{\link[=prop.test]{prop.test()}} to simplify its use
 when the raw data are available, in which case

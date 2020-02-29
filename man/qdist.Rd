@@ -13,12 +13,30 @@
 \alias{xqbeta}
 \title{Illustrated quantile calculations from distributions}
 \usage{
-qdist(dist = "norm", p, plot = TRUE, verbose = FALSE,
-  invisible = FALSE, resolution = 500L, digits = 3L, xlim, ylim,
-  return = c("values", "plot"), refinements = list(), ...)
+qdist(
+  dist = "norm",
+  p,
+  plot = TRUE,
+  verbose = FALSE,
+  invisible = FALSE,
+  resolution = 500L,
+  digits = 3L,
+  xlim,
+  ylim,
+  return = c("values", "plot"),
+  refinements = list(),
+  ...
+)
 
-xqgamma(p, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
-  log.p = FALSE, ...)
+xqgamma(
+  p,
+  shape,
+  rate = 1,
+  scale = 1/rate,
+  lower.tail = TRUE,
+  log.p = FALSE,
+  ...
+)
 
 xqt(p, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
@@ -34,8 +52,7 @@ xqgeom(p, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
 xqnbinom(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)
 
-xqbeta(p, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE,
-  ...)
+xqbeta(p, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)
 }
 \arguments{
 \item{dist}{a character description of a distribution, for example
@@ -55,7 +72,7 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{digits}{the number of digits desired}
 
-\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\%
+\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\\%
 of the distribution.}
 
 \item{ylim}{y limits}

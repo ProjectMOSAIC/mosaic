@@ -4,10 +4,24 @@
 \alias{plotDist}
 \title{Plots of Discrete and Continuous Distributions}
 \usage{
-plotDist(dist, ..., xlim = NULL, ylim = NULL, add, under = FALSE,
-  packets = NULL, rows = NULL, columns = NULL, kind = c("density",
-  "cdf", "qq", "histogram"), xlab = "", ylab = "", breaks = NULL,
-  type, resolution = 5000L, params = NULL)
+plotDist(
+  dist,
+  ...,
+  xlim = NULL,
+  ylim = NULL,
+  add,
+  under = FALSE,
+  packets = NULL,
+  rows = NULL,
+  columns = NULL,
+  kind = c("density", "cdf", "qq", "histogram"),
+  xlab = "",
+  ylab = "",
+  breaks = NULL,
+  type,
+  resolution = 5000L,
+  params = NULL
+)
 }
 \arguments{
 \item{dist}{A string identifying the distribution.  This should work
@@ -18,10 +32,10 @@ with 'd', 'p', and 'q' (e.g,
 \code{\link[=qnorm]{qnorm()}}).  \code{dist} should match the name of the
 distribution with the initial 'd', 'p', or 'q' removed.}
 
-\item{\dots}{other arguments passed along to lattice graphing routines}
+\item{...}{other arguments passed along to lattice graphing routines}
 
 \item{xlim}{a numeric vector of length 2 or \code{NULL}, in which case
-the central 99.8\% of the distribution is used.}
+the central 99.8 of the distribution is used.}
 
 \item{ylim}{a numeric vector of length 2 or \code{NULL}, in which case
 a heuristic is used to avoid chasing asymptotes in distributions like
@@ -49,7 +63,7 @@ as in \code{\link[=histogram]{histogram()}}}
 \item{resolution}{number of points to sample when generating the plots}
 
 \item{params}{a list containing parameters for the distribution.  If \code{NULL} (the default),
-this list is created from elements of \code{\dots} that are either unnamed or have names among
+this list is created from elements of \verb{\\dots} that are either unnamed or have names among
 the formals of the appropriate distribution function.  See the examples.}
 }
 \description{
@@ -58,11 +72,10 @@ cdfs, probability histograms, and normal-quantile plots for distributions
 known to R.
 }
 \details{
-\preformatted{`plotDist` determines whether the distribution 
-is continuous or discrete by seeing if all the sampled quantiles are 
-unique.  A discrete random variable with many possible values could 
+\code{plotDist()} determines whether the distribution
+is continuous or discrete by seeing if all the sampled quantiles are
+unique.  A discrete random variable with many possible values could
 fool this algorithm and be considered continuous.
-}
 
 The plots are done referencing a data frame with variables
 \code{x} and \code{y} giving points on the graph of the
@@ -100,6 +113,9 @@ plotDist( "norm", mean=m[1], sd=s[1], col="red", add=TRUE, packets=1)
 plotDist( "norm", mean=m[2], sd=s[2], col="blue", under=TRUE, packets=2)
 }
 
+}
+\seealso{
+\code{\link[ggformula:gf_dist]{ggformula::gf_dist()}}
 }
 \keyword{graphics}
 \keyword{stats}

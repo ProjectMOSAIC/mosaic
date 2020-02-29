@@ -13,13 +13,31 @@
 \alias{xcbeta}
 \title{Central portion of a distribution}
 \usage{
-cdist(dist = "norm", p, plot = TRUE, verbose = FALSE,
-  invisible = FALSE, digits = 3L, xlim, ylim, resolution = 500L,
-  return = c("values", "plot"), pattern = c("rings", "stripes"), ...,
-  refinements = list())
+cdist(
+  dist = "norm",
+  p,
+  plot = TRUE,
+  verbose = FALSE,
+  invisible = FALSE,
+  digits = 3L,
+  xlim,
+  ylim,
+  resolution = 500L,
+  return = c("values", "plot"),
+  pattern = c("rings", "stripes"),
+  ...,
+  refinements = list()
+)
 
-xcgamma(p, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
-  log.p = FALSE, ...)
+xcgamma(
+  p,
+  shape,
+  rate = 1,
+  scale = 1/rate,
+  lower.tail = TRUE,
+  log.p = FALSE,
+  ...
+)
 
 xct(p, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
@@ -35,8 +53,7 @@ xcgeom(p, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
 xcnbinom(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)
 
-xcbeta(p, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE,
-  ...)
+xcbeta(p, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)
 }
 \arguments{
 \item{dist}{a character string naming a distribution family (e.g., "norm").
@@ -53,7 +70,7 @@ in either "tail".}
 
 \item{digits}{the number of digits desired}
 
-\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\%
+\item{xlim}{x limits.  By default, these are chosen to show the central 99.8\\%
 of the distribution.}
 
 \item{ylim}{y limits}

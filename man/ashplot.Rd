@@ -6,16 +6,29 @@
 \alias{panel.ashplot}
 \title{Average Shifted Histograms}
 \usage{
-ashplot(x, data = data, ..., width = NULL, adjust = NULL,
-  panel = panel.ashplot, prepanel = prepanel.default.ashplot)
+ashplot(
+  x,
+  data = data,
+  ...,
+  width = NULL,
+  adjust = NULL,
+  panel = panel.ashplot,
+  prepanel = prepanel.default.ashplot
+)
 
-prepanel.default.ashplot(x, darg, groups = NULL, subscripts = TRUE,
-  ...)
+prepanel.default.ashplot(x, darg, groups = NULL, subscripts = TRUE, ...)
 
-panel.ashplot(x, darg = list(), plot.points = FALSE, ref = FALSE,
-  groups = NULL, jitter.amount = 0.01 *
-  diff(current.panel.limits()$ylim), type = "p", ...,
-  identifier = "ash")
+panel.ashplot(
+  x,
+  darg = list(),
+  plot.points = FALSE,
+  ref = FALSE,
+  groups = NULL,
+  jitter.amount = 0.01 * diff(current.panel.limits()$ylim),
+  type = "p",
+  ...,
+  identifier = "ash"
+)
 }
 \arguments{
 \item{x}{A formula or numeric vector.}

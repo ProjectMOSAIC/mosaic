@@ -4,9 +4,16 @@
 \alias{plotPoints}
 \title{Scatter plot of points}
 \usage{
-plotPoints(x, data = parent.frame(), add = NULL, under = FALSE,
-  panelfun = panel.xyplot, plotfun = xyplot, ...,
-  plot = trellis.last.object())
+plotPoints(
+  x,
+  data = parent.frame(),
+  add = NULL,
+  under = FALSE,
+  panelfun = panel.xyplot,
+  plotfun = xyplot,
+  ...,
+  plot = trellis.last.object()
+)
 }
 \arguments{
 \item{x}{A formula specifying y ~ x or z ~ x&y}

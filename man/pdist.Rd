@@ -13,12 +13,30 @@
 \alias{xpbeta}
 \title{Illustrated probability calculations from distributions}
 \usage{
-pdist(dist = "norm", q, plot = TRUE, verbose = FALSE,
-  invisible = FALSE, digits = 3L, xlim, ylim, resolution = 500L,
-  return = c("values", "plot"), ..., refinements = list())
+pdist(
+  dist = "norm",
+  q,
+  plot = TRUE,
+  verbose = FALSE,
+  invisible = FALSE,
+  digits = 3L,
+  xlim,
+  ylim,
+  resolution = 500L,
+  return = c("values", "plot"),
+  ...,
+  refinements = list()
+)
 
-xpgamma(q, shape, rate = 1, scale = 1/rate, lower.tail = TRUE,
-  log.p = FALSE, ...)
+xpgamma(
+  q,
+  shape,
+  rate = 1,
+  scale = 1/rate,
+  lower.tail = TRUE,
+  log.p = FALSE,
+  ...
+)
 
 xpt(q, df, ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
@@ -34,8 +52,7 @@ xpgeom(q, prob, lower.tail = TRUE, log.p = FALSE, ...)
 
 xpnbinom(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)
 
-xpbeta(q, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE,
-  ...)
+xpbeta(q, shape1, shape2, ncp = 0, lower.tail = TRUE, log.p = FALSE, ...)
 }
 \arguments{
 \item{dist}{a character description of a distribution, for example

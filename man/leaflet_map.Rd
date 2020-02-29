@@ -4,9 +4,16 @@
 \alias{leaflet_map}
 \title{Simple Leaflet Maps}
 \usage{
-leaflet_map(latitude = NULL, longitude = NULL, position = NULL,
-  zoom = 12, mark = FALSE, radius = 0, units = c("km", "miles",
-  "meters", "feet"), ...)
+leaflet_map(
+  latitude = NULL,
+  longitude = NULL,
+  position = NULL,
+  zoom = 12,
+  mark = FALSE,
+  radius = 0,
+  units = c("km", "miles", "meters", "feet"),
+  ...
+)
 }
 \arguments{
 \item{latitude, longitude}{vectors of latitude and longitude values.

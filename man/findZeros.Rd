@@ -5,19 +5,34 @@
 \alias{solve.formula}
 \title{Find zeros of functions}
 \usage{
-findZeros(expr, ..., xlim = c(near - within, near + within), near = 0,
-  within = Inf, nearest = 10, npts = 1000, iterate = 1,
-  sortBy = c("byx", "byy", "radial"))
+findZeros(
+  expr,
+  ...,
+  xlim = c(near - within, near + within),
+  near = 0,
+  within = Inf,
+  nearest = 10,
+  npts = 1000,
+  iterate = 1,
+  sortBy = c("byx", "byy", "radial")
+)
 
-\method{solve}{formula}(form, ..., near = 0, within = Inf,
-  nearest = 10, npts = 1000, iterate = 1, sortBy = c("byx", "byy",
-  "radial"))
+\method{solve}{formula}(
+  form,
+  ...,
+  near = 0,
+  within = Inf,
+  nearest = 10,
+  npts = 1000,
+  iterate = 1,
+  sortBy = c("byx", "byy", "radial")
+)
 }
 \arguments{
 \item{expr}{A formula.  The right side names the variable with respect to which the zeros should be found.
 The left side is an expression, e.g. \code{sin(x) ~ x}.
 All free variables (all but the variable on the right side) named in the expression must be assigned
-a value via \code{\ldots}}
+a value via \verb{\\ldots}}
 
 \item{\dots}{Formulas corresponding to additional functions to use in simultaneous zero finding
 and/or specific numerical values for the free variables in the expression.}

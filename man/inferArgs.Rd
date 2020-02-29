@@ -4,8 +4,12 @@
 \alias{inferArgs}
 \title{Infer arguments}
 \usage{
-inferArgs(vars, dots, defaults = alist(xlim = , ylim = , zlim = ),
-  variants = c(".lim", "lim"))
+inferArgs(
+  vars,
+  dots,
+  defaults = alist(xlim = , ylim = , zlim = ),
+  variants = c(".lim", "lim")
+)
 }
 \arguments{
 \item{vars}{a vector of variable names to look for}

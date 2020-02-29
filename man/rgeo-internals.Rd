@@ -5,9 +5,15 @@
 \alias{.googleMapURL}
 \title{rgeo internal functions}
 \usage{
-.googleMapURL(latitude, longitude, position = NULL, zoom = 11,
+.googleMapURL(
+  latitude,
+  longitude,
+  position = NULL,
+  zoom = 11,
   maptype = c("roadmap", "satellite", "terrain", "hybrid"),
-  mark = FALSE, radius = 0)
+  mark = FALSE,
+  radius = 0
+)
 }
 \arguments{
 \item{latitude}{vectors of latitude and longitude values}

@@ -4,8 +4,14 @@
 \alias{adapt_seq}
 \title{Adaptively generate sequences in an interval}
 \usage{
-adapt_seq(from, to, length.out = 200, f = function(x, ...) {     1 },
-  args = list(), quiet = FALSE)
+adapt_seq(
+  from,
+  to,
+  length.out = 200,
+  f = function(x, ...) {     1 },
+  args = list(),
+  quiet = FALSE
+)
 }
 \arguments{
 \item{from}{start of interval}

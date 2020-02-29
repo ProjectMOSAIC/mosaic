@@ -4,9 +4,17 @@
 \alias{read.file}
 \title{Read data files}
 \usage{
-read.file(file, header = T, na.strings = "NA", comment.char = NULL,
+read.file(
+  file,
+  header = T,
+  na.strings = "NA",
+  comment.char = NULL,
   filetype = c("default", "csv", "txt", "tsv", "fw", "rdata"),
-  stringsAsFactors = FALSE, readr = FALSE, package = NULL, ...)
+  stringsAsFactors = FALSE,
+  readr = FALSE,
+  package = NULL,
+  ...
+)
 }
 \arguments{
 \item{file}{character:

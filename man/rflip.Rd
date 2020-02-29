@@ -6,8 +6,14 @@
 \alias{nflip}
 \title{Tossing Coins}
 \usage{
-rflip(n = 1, prob = 0.5, quiet = FALSE, verbose = !quiet,
-  summarize = FALSE, summarise = summarize)
+rflip(
+  n = 1,
+  prob = 0.5,
+  quiet = FALSE,
+  verbose = !quiet,
+  summarize = FALSE,
+  summarise = summarize
+)
 
 \method{print}{cointoss}(x, ...)
 

@@ -4,10 +4,18 @@
 \alias{binom.test}
 \title{Exact Tests for Proportions}
 \usage{
-binom.test(x, n = NULL, p = 0.5, alternative = c("two.sided", "less",
-  "greater"), conf.level = 0.95, ci.method = c("Clopper-Pearson",
-  "binom.test", "Score", "Wilson", "prop.test", "Wald", "Agresti-Coull",
-  "Plus4"), data = NULL, success = NULL, ...)
+binom.test(
+  x,
+  n = NULL,
+  p = 0.5,
+  alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95,
+  ci.method = c("Clopper-Pearson", "binom.test", "Score", "Wilson", "prop.test", "Wald",
+    "Agresti-Coull", "Plus4"),
+  data = NULL,
+  success = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{count of successes, length 2 vector of success and failure counts, a formula,
@@ -49,7 +57,7 @@ an extended syntax for \code{binom.test()} is provided.  See the examples.
 
 Also, five confidence interval methods are provided:
 *
-\code{"Clopper-Pearson", "binom.test"}: This is the interval produced when using
+\verb{"Clopper-Pearson", "binom.test"}: This is the interval produced when using
 \code{\link[stats:binom.test]{stats::binom.test()}}
 from the stats package.  It guarantees a coverage rate at least as large as
 the nominal coverage rate, but may produce wider intervals than some of the methods
@@ -65,13 +73,13 @@ applied.
 It uses the sample proportion to estimate the standard error and uses normal
 theory to determine how many standard deviations to add and/or subtract from
 the sample proportion to determine an interval.
-\item "Agresti-Coull"`
+\item \"Agresti-Coull"`
 This is the Wald method after setting \eqn{n' = n + z^2} and
 \eqn{p'= (x + z^2/2) / n}' and using \eqn{x' = n' p'} and \eqn{n'}
 in place of \eqn{x} and \eqn{n}.
 \item \code{"Plus4"}
 This is Wald after adding in two artificial success and two artificial failures.  It
-is nearly the same as the Agresti-Coull method when the confidence level is 95%. since
+is nearly the same as the Agresti-Coull method when the confidence level is 95\%. since
 \eqn{z^2} is approximately 4 and \eqn{z^2/2} is approximately 2.
 }
 }

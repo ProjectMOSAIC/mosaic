@@ -4,8 +4,14 @@
 \alias{prop_test}
 \title{Internal function for testing proportion}
 \usage{
-prop_test(x, n, p = NULL, alternative = c("two.sided", "less",
-  "greater"), conf.level = 0.95, ...)
+prop_test(
+  x,
+  n,
+  p = NULL,
+  alternative = c("two.sided", "less", "greater"),
+  conf.level = 0.95,
+  ...
+)
 }
 \arguments{
 \item{x}{a vector, count, or formula.}

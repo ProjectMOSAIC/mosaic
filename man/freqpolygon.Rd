@@ -6,22 +6,49 @@
 \alias{panel.freqpolygon}
 \title{Frequency Polygons}
 \usage{
-freqpolygon(x, ..., panel = "panel.freqpolygon",
-  prepanel = "prepanel.default.freqpolygon")
+freqpolygon(
+  x,
+  ...,
+  panel = "panel.freqpolygon",
+  prepanel = "prepanel.default.freqpolygon"
+)
 
-prepanel.default.freqpolygon(x, darg = list(), plot.points = FALSE,
-  ref = FALSE, groups = NULL, subscripts = TRUE,
+prepanel.default.freqpolygon(
+  x,
+  darg = list(),
+  plot.points = FALSE,
+  ref = FALSE,
+  groups = NULL,
+  subscripts = TRUE,
   jitter.amount = 0.01 * diff(current.panel.limits()$ylim),
-  center = NULL, nint = NULL, breaks = NULL, width = darg$width,
-  type = "density", ...)
+  center = NULL,
+  nint = NULL,
+  breaks = NULL,
+  width = darg$width,
+  type = "density",
+  ...
+)
 
-panel.freqpolygon(x, darg = list(), plot.points = FALSE, ref = FALSE,
-  groups = NULL, weights = NULL, jitter.amount = 0.01 *
-  diff(current.panel.limits()$ylim), type = "density", breaks = NULL,
-  nint = NULL, center = NULL, width = darg$width,
+panel.freqpolygon(
+  x,
+  darg = list(),
+  plot.points = FALSE,
+  ref = FALSE,
+  groups = NULL,
+  weights = NULL,
+  jitter.amount = 0.01 * diff(current.panel.limits()$ylim),
+  type = "density",
+  breaks = NULL,
+  nint = NULL,
+  center = NULL,
+  width = darg$width,
   gcol = trellis.par.get("reference.line")$col,
-  glwd = trellis.par.get("reference.line")$lwd, h, v, ...,
-  identifier = "freqpoly")
+  glwd = trellis.par.get("reference.line")$lwd,
+  h,
+  v,
+  ...,
+  identifier = "freqpoly"
+)
 }
 \arguments{
 \item{x}{a formula or a numeric vector}

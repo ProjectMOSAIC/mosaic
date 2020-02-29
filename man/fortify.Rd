@@ -10,8 +10,7 @@
 
 \method{fortify}{summary.glm}(model, data = NULL, level = 0.95, ...)
 
-\method{fortify}{TukeyHSD}(model, data, order = c("asis", "pval",
-  "difference"), ...)
+\method{fortify}{TukeyHSD}(model, data, order = c("asis", "pval", "difference"), ...)
 }
 \arguments{
 \item{model}{an R object}

@@ -6,14 +6,22 @@
 \alias{standardState}
 \title{Standardization of Geographic Names}
 \usage{
-standardName(x, standard, ignore.case = TRUE,
-  returnAlternatives = FALSE, quiet = FALSE)
+standardName(
+  x,
+  standard,
+  ignore.case = TRUE,
+  returnAlternatives = FALSE,
+  quiet = FALSE
+)
 
-standardCountry(x, ignore.case = TRUE, returnAlternatives = FALSE,
-  quiet = FALSE)
+standardCountry(
+  x,
+  ignore.case = TRUE,
+  returnAlternatives = FALSE,
+  quiet = FALSE
+)
 
-standardState(x, ignore.case = TRUE, returnAlternatives = FALSE,
-  quiet = FALSE)
+standardState(x, ignore.case = TRUE, returnAlternatives = FALSE, quiet = FALSE)
 }
 \arguments{
 \item{x}{A vector with the region names to standardize}

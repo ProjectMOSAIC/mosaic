@@ -4,9 +4,16 @@
 \alias{makeMap}
 \title{Make a map with \code{ggplot2}}
 \usage{
-makeMap(data = NULL, map = NULL, key = c(key.data, key.map),
-  key.data, key.map, tr.data = identity, tr.map = identity,
-  plot = c("borders", "frame", "none"))
+makeMap(
+  data = NULL,
+  map = NULL,
+  key = c(key.data, key.map),
+  key.data,
+  key.map,
+  tr.data = identity,
+  tr.map = identity,
+  plot = c("borders", "frame", "none")
+)
 }
 \arguments{
 \item{data}{A dataframe with regions as cases}

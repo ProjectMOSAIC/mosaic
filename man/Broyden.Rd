@@ -4,8 +4,7 @@
 \alias{Broyden}
 \title{Multi-Dimensional Root Finding}
 \usage{
-Broyden(system, vars, x = 0, tol = .Machine$double.eps^0.4,
-  maxiters = 10000)
+Broyden(system, vars, x = 0, tol = .Machine$double.eps^0.4, maxiters = 10000)
 }
 \arguments{
 \item{system}{A list of functions}
