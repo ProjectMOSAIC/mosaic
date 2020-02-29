@@ -10,13 +10,15 @@
 #' @name linear.algebra
 # @aliases mat singvals dot
 #'
-#' @param A a formula.  In `mat` and `singvals`,
+#' @param formula a formula.  In `mat` and `singvals`,
 #' only the right-hand side is used.
 #' 
 #' @param data a data frame from which to pull out numerical values
 #' for the variables in the formula
+#' 
+#' @param A an alias for `formula` for backward compatibility.  
 #'
-#' @param \dots additional arguments (currently ignored)
+# @param \dots additional arguments (currently ignored)
 #'
 #' 
 #' `mat` returns a model matrix
@@ -40,7 +42,7 @@
 #' }
 #' @export
 
-mat <- function(A, data=parent.frame()) {
+mat <- function(formula, data=parent.frame(), A = formula) {
   if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")
   A <- update(A, ~-1+.) # kill off automatic Intercept term
   if( is.null(data) )
@@ -60,7 +62,7 @@ mat <- function(A, data=parent.frame()) {
 #' @return `singvals` gives singular values for each column in the model matrix
 #' @export
 
-singvals <- function(A, data=parent.frame()){
+singvals <- function(formula, data=parent.frame(), A = formula) {
   M <- mat(A, data=data)
   # formulated to give one singular value for each column in A
 	svs <- La.svd(M, nv=ncol(M), nu=ncol(M))$d;
