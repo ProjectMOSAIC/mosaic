@@ -764,6 +764,8 @@ prop(~ (sexG <= -0.2325), data = Null)
 
 ### Want to learn more?
 
-More mosaic resources can be found at https://cran.r-project.org/web/packages/mosaic/vignettes/mosaic-resources.html
+
+More mosaic resources can be found at
+https://projectmosaic.github.io/mosaic/articles/mosaic-resources.html.
 
 The *RJournal* paper entitled "mosaic Package: Helping Students to `Think with Data' Using R (https://journal.r-project.org/archive/2017/RJ-2017-024/index.html) provides further discussion of the mosaic modeling language and approach to teaching.
