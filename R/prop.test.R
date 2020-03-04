@@ -37,7 +37,9 @@
 #' 
 #' @param ... additional arguments (often ignored).  
 #'   When `x` is a formula, `groups` can be used to compare groups:  
-#'   `x = ~ var, groups=g` is equivalent to ` x = var ~ g `.
+#'   `x = ~ var, groups=g` is equivalent to ` x = var ~ g `. `na.rm` can be a logical
+#'   or an integer vector of length 1 or 2 to indicate dimension along which NA's are 
+#'   removed before coputing the test.
 #'   See the examples. 
 #' 
 #' @note When `x` is a 0-1 vector, 0 is treated as failure and 1 as success. Similarly,
@@ -63,6 +65,9 @@
 #' prop.test( homeless ~ sex, data = HELPrct )
 #' prop.test( ~ homeless | sex, data = HELPrct )
 #' prop.test( ~ homeless, groups = sex, data = HELPrct )
+#' prop.test(anysub ~ link, data = HELPrct, na.rm = TRUE)
+#' prop.test(link ~ anysub, data = HELPrct, na.rm = 1)
+#' prop.test(link ~ anysub, data = HELPrct, na.rm = TRUE)
 #' 
 #' @keywords stats
 
