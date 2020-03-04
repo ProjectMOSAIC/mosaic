@@ -24,8 +24,8 @@ xhistogram <- function (...) { # x, data=NULL, panel=panel.xhistogram, type='den
 #'        When using the \pkg{mosaic} package defaults, 
 #'        [mosaic::xhistogramBreaks()] is used.
 #' @param \dots additional arguments passed from [lattice::histogram()] 
-#' to the panel function; by default when the \pkg{mosaic} package has been loaded this will
-#' [panel.xhistogram()].
+#' to the panel function; by default when the \pkg{mosaic} package has been loaded this 
+#' will be [panel.xhistogram()].
 #'
 #' @seealso [lattice::histogram()], [mosaicLatticeOptions()],
 #' and [restoreLatticeOptions()].
@@ -116,7 +116,7 @@ prepanel.xhistogram <-
 #' @param dalpha alpha for density curve
 #' @param gcol color of guidelines
 #' @param fcol fill colors for histogram rectangles when using `groups`.  
-#' (Use `col`, which is passed through to [panel.histogram()](), when 
+#' (Use `col`, which is passed through to [lattice::panel.histogram()], when 
 #' not using `groups`.
 #' 
 #' @param dmath density function for density curve overlay
