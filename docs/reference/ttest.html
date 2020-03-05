@@ -8,21 +8,25 @@
 
 <title>Student's t-Test — t_test • mosaic</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,14 +34,15 @@
 
 
 
-<meta property="og:title" content="Student's t-Test — t_test" />
 
+<meta property="og:title" content="Student's t-Test — t_test" />
 <meta property="og:description" content="Performs one and two sample t-tests.
 The mosaic t.test provides wrapper functions around the function
 of the same name in stats.
 These wrappers provide an extended interface that allows for a more systematic
 use of the formula interface." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -49,6 +54,7 @@ use of the formula interface." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -67,7 +73,7 @@ use of the formula interface." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -75,7 +81,7 @@ use of the formula interface." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -90,6 +96,12 @@ use of the formula interface." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/GraphicsWithMosaic.html">UNKNOWN TITLE</a>
+    </li>
+    <li>
+      <a href="../articles/LessVolume-MoreCreativity.html">Less Volume, More Creativity -- Getting Started with the mosaic Package</a>
+    </li>
+    <li>
       <a href="../articles/ggformula-lattice.html">ggformula/lattice Comparison</a>
     </li>
     <li>
@@ -101,11 +113,10 @@ use of the formula interface." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -116,6 +127,7 @@ use of the formula interface." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -127,13 +139,11 @@ use of the formula interface." />
     </div>
 
     <div class="ref-description">
-    
     <p>Performs one and two sample t-tests.
 The mosaic <code>t.test</code> provides wrapper functions around the function
 of the same name in <span class="pkg">stats</span>.
 These wrappers provide an extended interface that allows for a more systematic
 use of the formula interface.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>t_test</span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -144,10 +154,17 @@ use of the formula interface.</p>
 <span class='fu'>t_test</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>t_test</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"two.sided"</span>,
-  <span class='st'>"less"</span>, <span class='st'>"greater"</span>), <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)</pre>
-    
+<span class='fu'>t_test</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
+  <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='no'>...</span>
+)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -168,9 +185,9 @@ use of the formula interface.</p>
     <tr>
       <th>data</th>
       <td><p>an optional matrix or data frame (or similar: see
-    <code><a href='https://www.rdocumentation.org/packages/stats/topics/model.frame'>model.frame</a></code>) containing the variables in the
+    <code><a href='https://rdrr.io/r/stats/model.frame.html'>model.frame</a></code>) containing the variables in the
     formula <code>formula</code>.  By default the variables are taken from
-    <code><a href='https://www.rdocumentation.org/packages/base/topics/environment'>environment(formula)</a></code>.</p></td>
+    <code><a href='https://rdrr.io/r/base/environment.html'>environment(formula)</a></code>.</p></td>
     </tr>
     <tr>
       <th>groups</th>
@@ -211,24 +228,21 @@ See the examples.</p></td>
       <td><p>confidence level of the interval.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>an object of class <code>htest</code></p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This is a wrapper around <code><a href='https://www.rdocumentation.org/packages/stats/topics/t.test'>stats::t.test()</a></code> from the <span class="pkg">stats</span> package
+    <p>This is a wrapper around <code><a href='https://rdrr.io/r/stats/t.test.html'>stats::t.test()</a></code> from the <span class="pkg">stats</span> package
 to extend the functionality of the formula interface.  In particular, one can
 now use the formula interface for a 1-sample t-test.  Before, the formula interface
 was only permitted for a 2-sample test.  The type of formula that can be used
 for the 2-sample test has also be broadened.  See the examples.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='prop.test.html'>mosaic::prop.test()</a></code>, <code><a href='binom.test.html'>mosaic::binom.test()</a></code>,
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/t.test'>stats::t.test()</a></code></p></div>
-    
+<code><a href='https://rdrr.io/r/stats/t.test.html'>stats::t.test()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>  <span class='fu'>t.test</span>(<span class='no'>HELPrct</span>$<span class='no'>age</span>)</div><div class='output co'>#&gt; 
@@ -302,7 +316,7 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; mean in group female   mean in group male 
 #&gt;             36.25234             35.46821 
 #&gt; </div><div class='input'>  <span class='co'># 2-sample t from vectors</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/with'>with</a></span>(<span class='no'>HELPrct</span>, <span class='fu'>t.test</span>(<span class='no'>age</span>[<span class='no'>sex</span> <span class='kw'>==</span> <span class='st'>"male"</span>], <span class='no'>age</span>[<span class='no'>sex</span> <span class='kw'>==</span> <span class='st'>"female"</span>]))</div><div class='output co'>#&gt; 
+  <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='no'>HELPrct</span>, <span class='fu'>t.test</span>(<span class='no'>age</span>[<span class='no'>sex</span> <span class='kw'>==</span> <span class='st'>"male"</span>], <span class='no'>age</span>[<span class='no'>sex</span> <span class='kw'>==</span> <span class='st'>"female"</span>]))</div><div class='output co'>#&gt; 
 #&gt; 	Welch Two Sample t-test
 #&gt; 
 #&gt; data:  age[sex == "male"] and age[sex == "female"]
@@ -321,18 +335,15 @@ for the 2-sample test has also be broadened.  See the examples.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -340,13 +351,16 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

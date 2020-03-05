@@ -8,21 +8,25 @@
 
 <title>Fit a nonlinear least squares model — fitModel • mosaic</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +34,13 @@
 
 
 
-<meta property="og:title" content="Fit a nonlinear least squares model — fitModel" />
 
+<meta property="og:title" content="Fit a nonlinear least squares model — fitModel" />
 <meta property="og:description" content="Allows you to specify a formula with parameters, along with starting
 guesses for the parameters.  Refines those guesses to find the
 least-squares fit." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,6 +52,7 @@ least-squares fit." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -65,7 +71,7 @@ least-squares fit." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
       </span>
     </div>
 
@@ -73,7 +79,7 @@ least-squares fit." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -88,6 +94,12 @@ least-squares fit." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/GraphicsWithMosaic.html">UNKNOWN TITLE</a>
+    </li>
+    <li>
+      <a href="../articles/LessVolume-MoreCreativity.html">Less Volume, More Creativity -- Getting Started with the mosaic Package</a>
+    </li>
+    <li>
       <a href="../articles/ggformula-lattice.html">ggformula/lattice Comparison</a>
     </li>
     <li>
@@ -99,11 +111,10 @@ least-squares fit." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -114,6 +125,7 @@ least-squares fit." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -125,14 +137,12 @@ least-squares fit." />
     </div>
 
     <div class="ref-description">
-    
     <p>Allows you to specify a formula with parameters, along with starting
 guesses for the parameters.  Refines those guesses to find the
 least-squares fit.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>fitModel</span>(<span class='no'>formula</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>parent.frame</a></span>(), <span class='kw'>start</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>fitModel</span>(<span class='no'>formula</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>start</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
 <span class='fu'>model</span>(<span class='no'>object</span>, <span class='no'>...</span>)
 
@@ -140,11 +150,11 @@ least-squares fit.</p>
 <span class='fu'>model</span>(<span class='no'>object</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for nlsfunction</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for nlsfunction</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
-    
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -158,23 +168,22 @@ least-squares fit.</p>
     </tr>
     <tr>
       <th>start</th>
-      <td><p>passed as <code>start</code> to <code><a href='https://www.rdocumentation.org/packages/stats/topics/nls'>nls()</a></code>.  If and empty list,
+      <td><p>passed as <code>start</code> to <code><a href='https://rdrr.io/r/stats/nls.html'>nls()</a></code>.  If and empty list,
 a simple starting point is used (thus avoiding the usual warning message).</p></td>
     </tr>
     <tr>
-      <th>&#8230;</th>
-      <td><p>additional arguments passed to <code><a href='https://www.rdocumentation.org/packages/stats/topics/nls'>nls()</a></code></p></td>
+      <th>...</th>
+      <td><p>additional arguments passed to <code><a href='https://rdrr.io/r/stats/nls.html'>nls()</a></code></p></td>
     </tr>
     <tr>
       <th>object</th>
       <td><p>an R object (typically a the result of fitModel)</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a function</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Fits a nonlinear least squares model to data.  In contrast
@@ -184,24 +193,21 @@ simply contains the formula together with pre-assigned
 arguments setting the parameter value.  Variables used in the
 fitting (as opposed to parameters) are unassigned arguments
 to the returned function.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This doesn't work with categorical explanatory variables.  Also,
 this does not work with synthetic data that fit the model perfectly.
 See <code>link{nls}</code> for details.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='FunctionsFromData.html'>linearModel()</a></code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/nls'>nls()</a></code></p></div>
-    
+    <div class='dont-index'><p><code><a href='FunctionsFromData.html'>linearModel()</a></code>, <code><a href='https://rdrr.io/r/stats/nls.html'>nls()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>fitModel</span>(<span class='no'>temp</span> ~ <span class='no'>A</span>+<span class='no'>B</span>*<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(-<span class='no'>k</span>*<span class='no'>time</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>CoolingWater</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>50</span>,<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>50</span>,<span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>/<span class='fl'>20</span>))
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
+<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='fu'>fitModel</span>(<span class='no'>temp</span> ~ <span class='no'>A</span>+<span class='no'>B</span>*<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(-<span class='no'>k</span>*<span class='no'>time</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>CoolingWater</span>, <span class='kw'>start</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>A</span><span class='kw'>=</span><span class='fl'>50</span>,<span class='kw'>B</span><span class='kw'>=</span><span class='fl'>50</span>,<span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>/<span class='fl'>20</span>))
 <span class='fu'>f</span>(<span class='kw'>time</span><span class='kw'>=</span><span class='fl'>50</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>f</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>f</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>f</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>f</span>)
 <span class='fu'>model</span>(<span class='no'>f</span>)
 }</div><div class='output co'>#&gt; Nonlinear regression model
 #&gt;   model: temp ~ A + B * exp(-k * time)
@@ -217,20 +223,16 @@ See <code>link{nls}</code> for details.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#note">Note</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -238,13 +240,16 @@ See <code>link{nls}</code> for details.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
