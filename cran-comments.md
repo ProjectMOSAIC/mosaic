@@ -51,7 +51,7 @@ does not appear locally or in your windows check.
 
 ## R CMD check results
 
-0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+0 errors ✓ | 0 warnings ✓ | 1 note x
 
 R CMD check succeeded
 
