@@ -51,8 +51,8 @@ panel.xhistogram(
 \item{nint}{approximate number of bins}
 
 \item{\dots}{additional arguments passed from \code{\link[lattice:histogram]{lattice::histogram()}}
-to the panel function; by default when the \pkg{mosaic} package has been loaded this will
-\code{\link[=panel.xhistogram]{panel.xhistogram()}}.}
+to the panel function; by default when the \pkg{mosaic} package has been loaded this
+will be \code{\link[=panel.xhistogram]{panel.xhistogram()}}.}
 
 \item{breaks}{break points for histogram bins, a function for computing such,
 or a method \code{\link[=hist]{hist()}} knows about given as a character string.
@@ -68,8 +68,8 @@ When using the \pkg{mosaic} package defaults,
 \item{gcol}{color of guidelines}
 
 \item{fcol}{fill colors for histogram rectangles when using \code{groups}.
-(Use \code{col}, which is passed through to \url{panel.histogram()}, when
-not using \code{groups}.}
+(Use \code{col}, which is passed through to \code{\link[lattice:panel.histogram]{lattice::panel.histogram()}}
+when not using \code{groups}.)}
 
 \item{dmath}{density function for density curve overlay}
 

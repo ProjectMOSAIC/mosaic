@@ -116,8 +116,8 @@ prepanel.xhistogram <-
 #' @param dalpha alpha for density curve
 #' @param gcol color of guidelines
 #' @param fcol fill colors for histogram rectangles when using `groups`.  
-#' (Use `col`, which is passed through to [lattice::panel.histogram()], when 
-#' not using `groups`.
+#' (Use `col`, which is passed through to the histogram panel function,
+#' when not using `groups`.)
 #' 
 #' @param dmath density function for density curve overlay
 #' @param verbose be verbose?
