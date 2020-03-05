@@ -39,3 +39,4 @@ vignettes-source$
 ^_pkgdown\.yml$
 ^cran-comments\.md$
 ^codecov\.yml$
+^CRAN-RELEASE$
