@@ -68,7 +68,7 @@ When using the \pkg{mosaic} package defaults,
 \item{gcol}{color of guidelines}
 
 \item{fcol}{fill colors for histogram rectangles when using \code{groups}.
-(Use \code{col}, which is passed through to \code{\link[lattice:panel.histogram]{lattice::panel.histogram()}}
+(Use \code{col}, which is passed through to the histogram panel function,
 when not using \code{groups}.)}
 
 \item{dmath}{density function for density curve overlay}
