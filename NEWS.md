@@ -1,8 +1,8 @@
 
 # mosaic 1.6.0
- 
+ * add `na.rm` argument to prop.test().
  * Changed return type for `qdata()` so that it is always a named vector.
- * Changed return type for `cdata()` so taht is is always a data frame.  Also changed 
+ * Changed return type for `cdata()` so that is is always a data frame.  Also changed 
  names to "lo" and "hi".
  * Fixed bug in `xpchisq()` caused by introducing explicit arguments and failing
  to retain `...`.  (Issue #737)
