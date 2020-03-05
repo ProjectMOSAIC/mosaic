@@ -22,17 +22,17 @@ fortify.hclust <- function(model, data,
   
   if (which == "segments") {
     grps <- cutree(model, k=k)
-    return( segment(dendro_data(model, ...)) %>%
-              mutate(order=ord[round(xend)], 
-                     group=grps[ord[round(xend)]])
+    return( ggdendro::segment(ggdendro::dendro_data(model, ...)) %>%
+              dplyr::mutate(order = ord[round(xend)], 
+                     group = grps[ord[round(xend)]])
             
     )
   }
   
   if (which %in% c("leaves", "labels")) { 
     ord <- model$order
-    return( label(dendro_data(model, ...)) %>% 
-              mutate( order = ord )
+    return( ggdendro::label(ggdendro::dendro_data(model, ...)) %>% 
+              dplyr::mutate( order = ord )
     )
   }
   
@@ -51,7 +51,7 @@ fortify.hclust <- function(model, data,
   if (which == "heatmap") {
     res <- fortify(model, data, which="data") %>% 
       tidyr::gather(variable, value, -idx, -position) %>%
-      mutate(variable = as.character(variable))
+      dplyr::mutate(variable = as.character(variable))
     uv <- unique(res$variable)
     res$variable_num <-  sapply( 
       res$variable, 
@@ -65,7 +65,7 @@ fortify.hclust <- function(model, data,
     } else {
       return( 
         data %>% 
-          mutate(idx = 1:nrow(data),
+          dplyr::mutate(idx = 1:nrow(data),
                  position = order(ord))
       )
     }
