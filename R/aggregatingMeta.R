@@ -232,8 +232,8 @@ aggregatingFunction1or2 <-
       function(x, y = NULL, na.rm = NA.RM, ..., data = NULL) { 
         if (rlang::is_formula(x)) {
           if (rlang::is_formula(y)) {
-            x <- rlang::eval_tidy(rlang::f_rhs(x), data, caller_env())
-            y <- rlang::eval_tidy(rlang::f_rhs(y), data, caller_env())
+            x <- rlang::eval_tidy(rlang::f_rhs(x), data, environment(x))
+            y <- rlang::eval_tidy(rlang::f_rhs(y), data, environment(y))
           } else {
             formula <- mosaicCore::mosaic_formula_q(x, max.slots = 2)
             if (is.null(data)) data <- environment(formula)
@@ -310,12 +310,12 @@ aggregatingFunction2 <- function(fun) {
       }
       if (rlang::is_formula(x)) {
         if (rlang::is_formula(y)) {
-          x <- rlang::eval_tidy(rlang::f_rhs(x), data, caller_env())
-          y <- rlang::eval_tidy(rlang::f_rhs(y), data, caller_env())
+          x <- rlang::eval_tidy(rlang::f_rhs(x), data, environment(x))
+          y <- rlang::eval_tidy(rlang::f_rhs(y), data, environment(y))
         } else {
           formula <- mosaicCore::mosaic_formula_q(x, max.slots = 3)
-          x <- rlang::eval_tidy(rlang::f_rhs(formula), data, caller_env())
-          y <- rlang::eval_tidy(rlang::f_lhs(formula), data, caller_env())
+          x <- rlang::eval_tidy(rlang::f_rhs(formula), data, environment(formula))
+          y <- rlang::eval_tidy(rlang::f_lhs(formula), data, environment(formula))
         }
         FUNCTION_TBD(x, y, ...)
       }
