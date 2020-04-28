@@ -40,3 +40,4 @@ vignettes-source$
 ^cran-comments\.md$
 ^codecov\.yml$
 ^CRAN-RELEASE$
+^mosaic\.Rproj$
