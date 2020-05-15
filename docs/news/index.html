@@ -86,8 +86,29 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Resampling.html">Simulation-based inference with mosaic</a>
+    </li>
+    <li>
+      <a href="../articles/mosaic-resources.html">Resources Related to the mosaic Package</a>
+    </li>
+    <li>
+      <a href="../articles/web-only/GraphicsWithMosaic.html">Graphics with the mosaic and lattice packages</a>
+    </li>
+    <li>
+      <a href="../articles/web-only/LessVolume-MoreCreativity.html">Less Volume, More Creativity -- Getting Started with the mosaic Package</a>
+    </li>
+    <li>
+      <a href="../articles/web-only/ggformula-lattice.html">ggformula/lattice Comparison</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -122,8 +143,10 @@
 <a href="#mosaic-170" class="anchor"></a>mosaic 1.7.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>fix dplyr 1.0.0 failure by stabilizing types</li>
-<li>fix a few bugs leftover from migration from tidyeval to rlang</li>
+<li>Fixed dplyr 1.0.0 failure by stabilizing types</li>
+<li>Fixed a few bugs leftover from migration from tidyeval to rlang</li>
+<li>Moved several vignettes out of the package to reduce size of package. These are still available at <a href="https://projectmosaic.github.io/mosaic/" class="uri">https://projectmosaic.github.io/mosaic/</a>
+</li>
 </ul>
 </div>
     <div id="mosaic-160" class="section level1">
@@ -131,7 +154,7 @@
 <a href="#mosaic-160" class="anchor"></a>mosaic 1.6.0<small> 2020-03-06 </small>
 </h1>
 <ul>
-<li>add <code>na.rm</code> argument to prop.test().</li>
+<li>Added <code>na.rm</code> argument to prop.test().</li>
 <li>Changed return type for <code><a href="../reference/pqrdata.html">qdata()</a></code> so that it is always a named vector.</li>
 <li>Changed return type for <code><a href="../reference/pqrdata.html">cdata()</a></code> so that is is always a data frame. Also changed names to “lo” and “hi”.</li>
 <li>Fixed bug in <code><a href="../reference/pdist.html">xpchisq()</a></code> caused by introducing explicit arguments and failing to retain <code>...</code>. (Issue <a href='https://github.com/ProjectMOSAIC/mosaic/issues/737'>#737</a>)</li>
