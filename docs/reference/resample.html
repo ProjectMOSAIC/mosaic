@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="More Random Samples — resample" />
 <meta property="og:description" content="These functions simplify and unify sampling in various ways." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
       </span>
     </div>
 
@@ -84,26 +87,8 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/GraphicsWithMosaic.html">UNKNOWN TITLE</a>
-    </li>
-    <li>
-      <a href="../articles/LessVolume-MoreCreativity.html">Less Volume, More Creativity -- Getting Started with the mosaic Package</a>
-    </li>
-    <li>
-      <a href="../articles/ggformula-lattice.html">ggformula/lattice Comparison</a>
-    </li>
-    <li>
-      <a href="../articles/mosaic-resources.html">Resources Related to the mosaic Package</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -111,7 +96,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/ProjectMOSAIC/mosaic">
+  <a href="https://github.com/ProjectMOSAIC/mosaic/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -257,11 +242,14 @@ natural names.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 100 Bernoulli trials -- no need for replace=TRUE</span>
-<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt;   [1] 1 1 0 0 1 0 0 1 0 1 1 0 0 1 0 1 1 1 0 1 0 1 1 0 0 1 0 1 0 0 1 0 0 0 0 1 1
-#&gt;  [38] 1 1 1 1 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 1
-#&gt;  [75] 1 0 1 0 1 1 1 0 1 1 1 0 0 1 1 0 0 1 0 1 1 0 0 1 1 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>))</div><div class='output co'>#&gt; X
+<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt;   [1] 1 1 1 1 1 1 1 0 0 0 1 0 0 1 1 0 0 1 0 0 0 1 1 1 1 0 1 1 1 0 1 1 0 1 1 1 0
+#&gt;  [38] 1 1 0 0 1 0 0 1 1 0 0 0 1 1 1 0 0 1 1 0 0 1 1 1 0 0 0 1 0 1 1 1 0 0 0 1 1
+#&gt;  [75] 1 1 0 1 0 1 0 1 1 1 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `data_frame()` is deprecated as of tibble 1.1.0.</span>
+#&gt; <span class='warning'>Please use `tibble()` instead.</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; X
 #&gt;  0  1 
-#&gt; 53 47 </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
+#&gt; 54 46 </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
 <span class='no'>Small</span> <span class='kw'>&lt;-</span> <span class='fu'>sample</span>(<span class='no'>KidsFeet</span>, <span class='fl'>10</span>)
 <span class='fu'>resample</span>(<span class='no'>Small</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='fu'>resample</span>(<span class='no'>Small</span>))
@@ -275,42 +263,37 @@ natural names.</p>
    <span class='kw'>id1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>sex</span>,<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>),
    <span class='kw'>id2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>sex</span>,<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>))
 <span class='fu'>resample</span>(<span class='no'>Small</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>sex</span>, <span class='kw'>shuffled</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id1"</span>,<span class='st'>"id2"</span>))
-}</div><div class='output co'>#&gt;         name birthmonth birthyear length width sex biggerfoot domhand orig.id
-#&gt; 2     Scotty          3        88   25.7   9.7   B          R       R   2.2.2
-#&gt; 2.1   Scotty          3        88   25.7   9.7   B          R       R   2.2.2
-#&gt; 5      Julie         11        87   26.0   9.3   G          L       R   5.5.6
-#&gt; 5.1    Julie         11        87   26.0   9.3   G          L       R   5.6.4
-#&gt; 8      Laura          9        88   24.0   8.3   G          R       L   8.4.8
-#&gt; 4     Hayley          1        88   21.6   7.9   G          R       R   4.5.1
-#&gt; 7   Danielle          6        88   24.0   9.3   G          L       R   7.1.7
-#&gt; 1    Caitlin          6        88   23.0   8.8   G          L       R   1.5.5
-#&gt; 6       Abby          2        88   26.1   9.5   G          L       R   6.7.5
-#&gt; 5.2    Julie         11        87   26.0   9.3   G          L       R   5.8.5
-#&gt;     id1 id2
-#&gt; 2   B:2 B:2
-#&gt; 2.1 B:2 B:2
-#&gt; 5   G:5 G:6
-#&gt; 5.1 G:6 G:4
-#&gt; 8   G:4 G:8
-#&gt; 4   G:5 G:1
-#&gt; 7   G:1 G:7
-#&gt; 1   G:5 G:5
-#&gt; 6   G:7 G:5
-#&gt; 5.2 G:8 G:5</div><div class='input'><span class='fu'>deal</span>(<span class='no'>Cards</span>, <span class='fl'>13</span>)    <span class='co'># A Bridge hand</span></div><div class='output co'>#&gt;  [1] "AD"  "3S"  "KS"  "7C"  "2H"  "QD"  "6S"  "JH"  "10H" "AC"  "5S"  "KH" 
-#&gt; [13] "3H" </div><div class='input'><span class='fu'>shuffle</span>(<span class='no'>Cards</span>)</div><div class='output co'>#&gt;  [1] "8H"  "9H"  "10H" "8C"  "AD"  "7C"  "4C"  "AC"  "6D"  "JC"  "6H"  "4H" 
-#&gt; [13] "4S"  "3C"  "7D"  "2D"  "QD"  "2H"  "10D" "JS"  "KH"  "6C"  "JD"  "4D" 
-#&gt; [25] "KS"  "QS"  "5C"  "9C"  "2C"  "5S"  "QC"  "10C" "3S"  "8S"  "KC"  "6S" 
-#&gt; [37] "9D"  "QH"  "9S"  "5H"  "3D"  "8D"  "KD"  "10S" "2S"  "7H"  "JH"  "AS" 
-#&gt; [49] "3H"  "5D"  "7S"  "AH" </div></pre>
+}</div><div class='output co'>#&gt;          name birthmonth birthyear length width sex biggerfoot domhand orig.id
+#&gt; 1       David          5        88   24.4   8.4   B          L       R  10.3.3
+#&gt; 2        Lars         10        87   25.4   8.8   B          L       L   8.8.8
+#&gt; 22       Josh          7        88   24.4   8.6   B          L       R   3.8.8
+#&gt; 2.1      Lars         10        87   25.4   8.8   B          L       L  8.10.4
+#&gt; 13        Cal          8        87   26.1   9.1   B          L       R  4.8.10
+#&gt; 22.1     Josh          7        88   24.4   8.6   B          L       R   3.3.8
+#&gt; 2.2      Lars         10        87   25.4   8.8   B          L       L   8.4.3
+#&gt; 31   Danielle          6        88   24.0   9.3   G          L       R   5.5.5
+#&gt; 31.1 Danielle          6        88   24.0   9.3   G          L       R   5.5.6
+#&gt; 32    Caitlin          7        88   22.5   8.6   G          R       R   6.6.5
+#&gt;       id1  id2
+#&gt; 1     B:3  B:3
+#&gt; 2     B:8  B:8
+#&gt; 22    B:8  B:8
+#&gt; 2.1  B:10  B:4
+#&gt; 13    B:8 B:10
+#&gt; 22.1  B:3  B:8
+#&gt; 2.2   B:4  B:3
+#&gt; 31    G:5  G:5
+#&gt; 31.1  G:5  G:6
+#&gt; 32    G:6  G:5</div><div class='input'><span class='fu'>deal</span>(<span class='no'>Cards</span>, <span class='fl'>13</span>)    <span class='co'># A Bridge hand</span></div><div class='output co'>#&gt;  [1] "5H" "AD" "4S" "6H" "5D" "JD" "AH" "7D" "4C" "9H" "QD" "5S" "6S"</div><div class='input'><span class='fu'>shuffle</span>(<span class='no'>Cards</span>)</div><div class='output co'>#&gt;  [1] "6H"  "QC"  "QS"  "4C"  "KC"  "AH"  "KD"  "10C" "2D"  "KS"  "3C"  "4H" 
+#&gt; [13] "9S"  "QD"  "10D" "QH"  "9C"  "JH"  "8C"  "8D"  "2C"  "5S"  "7H"  "9H" 
+#&gt; [25] "6D"  "KH"  "3S"  "9D"  "8H"  "7S"  "2H"  "7C"  "AC"  "JD"  "4D"  "3H" 
+#&gt; [37] "6S"  "5H"  "10H" "3D"  "JC"  "5D"  "10S" "JS"  "5C"  "AS"  "6C"  "7D" 
+#&gt; [49] "4S"  "AD"  "8S"  "2S" </div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -321,7 +304,7 @@ natural names.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
