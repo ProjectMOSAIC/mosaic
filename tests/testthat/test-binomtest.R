@@ -159,4 +159,12 @@ test_that("CI methods correct", {
   expect_equal(ci[1,3], 0.0456, tolerance = 1e-3)
   
 })
-  
+
+test_that("binom.test compatibile with dplyr", {
+  expect_equivalent(
+    data.frame(x = rep(c('a', 'b'), c(5, 10))) %>%
+      summarise(pval = pval(binom.test( ~ x))),
+    data.frame(x = rep(c('a', 'b'), c(5, 10))) %>%
+      summarise(pval = pval(stats::binom.test(5, 15)))
+  )
+})
