@@ -2,10 +2,6 @@
 title: "Less Volume, More Creativity -- Getting Started with the mosaic Package"
 author: "Randall Pruim (updated by Nicholas Horton)"
 date: '`r Sys.Date()`'
-vignette: |
-  %\VignetteIndexEntry{Less Volume, More Creativity} 
-  %\VignetteEngine{knitr::rmarkdown} 
-  \usepackage[utf8]{inputenc}
 ---
 
 <style type="text/css">
