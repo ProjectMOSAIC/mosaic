@@ -21,3 +21,7 @@ to successfully build when the new dplyr hits CRAN.
 
 R CMD check succeeded
 
+## Note
+
+We have moved several vignettes out of the package to reduce the size.
+
