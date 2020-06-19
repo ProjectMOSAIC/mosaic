@@ -296,8 +296,8 @@ cdata(~ mean, 0.90, data = Mustangs.Price.boot)
  
 
 #. Using normal theory and the standard error.
-First calculate the critical value $t_TEX COMMAND NOT FOUND star   for
-the appropriate degrees of freedom.  Or use $z_TEX COMMAND NOT FOUND star  , either for simplicity or to demonstrate how $t_TEX COMMAND NOT FOUND star   differs.  In either case, the confidence level needs to be converted to the appropriate tail probability, e.g. a level of 90\<!--  corresponds to a tail probability of 0.95. -->
+First calculate the critical value $t_\star$ for
+the appropriate degrees of freedom.  Or use $z_\star$, either for simplicity or to demonstrate how $t_\star$ differs.  In either case, the confidence level needs to be converted to the appropriate tail probability, e.g. a level of 90\<!--  corresponds to a tail probability of 0.95. -->
 
 ```{r tstar}
 tstar <- qt(.95, df = 24)
@@ -467,7 +467,7 @@ set.seed(134) # make sure the result below is "typical"
 Sleep.null <- do(1000) * diff(mean(Words ~ shuffle(Group), data = Sleep))
 gf_histogram(~ Sleep, fill = ~ (Sleep >= obs), data = Sleep.null, 
   binwidth = 0.4,
-  xlab = "Distribution of difference in meansTEX COMMAND NOT FOUND nunder  the null hypothesis")
+  xlab = "Distribution of difference in means under the null hypothesis")
 ```
  
 
@@ -686,20 +686,20 @@ evidence for an `Age` effect.  The inflation of the confidence intervals for
 `Miles` and `Age` is a result of the collinearity 
 between those explanatory variables. 
 
-\subsection{Simulation and {TEX COMMAND NOT FOUND sc  ANOVA}}
+#### Simulation and ANOVA
 
-One way to think about {TEX COMMAND NOT FOUND sc  ANOVA} is a way of quantifying the extent to which a model term, in the context of other model terms, is better than random "junk." Consider, for example, the role of `Age` in a model of the Mustang prices that includes `Miles`.  Here's one {TEX COMMAND NOT FOUND sc  ANOVA} report:
+One way to think about ANOVA is a way of quantifying the extent to which a model term, in the context of other model terms, is better than random "junk." Consider, for example, the role of `Age` in a model of the Mustang prices that includes `Miles`.  Here's one ANOVA report:
 ```{r }
 anova(lm(Price ~ Miles + Age, data = Mustangs))
 ```
 
-The p-value on `Age` suggests that `Age` is not contributing to the model.  But there's a different {TEX COMMAND NOT FOUND sc  ANOVA} report available that suggests a different conclusion.
+The p-value on `Age` suggests that `Age` is not contributing to the model.  But there's a different ANOVA report available that suggests a different conclusion.
 ```{r }
 anova(lm(Price ~ Age + Miles, data = Mustangs))
 ```
 
-The difference between the two {TEX COMMAND NOT FOUND sc  ANOVA} reports can be explained in 
-several ways, for example by regarding {TEX COMMAND NOT FOUND sc  ANOVA} as a sequential report 
+The difference between the two ANOVA reports can be explained in 
+several ways, for example by regarding ANOVA as a sequential report 
 on a nested sequence of models, so that the order of model terms makes 
 a difference.  For instance, the $R^2$ from this sequence of models suggests 
 that `Age` doesn't add much to `Miles`.
@@ -730,7 +730,7 @@ favstats(~ r.squared, data = Mustangs.Miles.boot)
 cdata(~ r.squared, .95, data = Mustangs.Miles.boot)
 ```
 
-The observed value of $R^2 = 0.681$ falls well above the central 95\<!--  of resampled values:  -->
+The observed value of $R^2 = 0.681$ falls well above the central 95% of resampled values;
 we conclude that  `Miles` is an important predictor.
 
 ## Using simulations in other ways
@@ -740,7 +740,7 @@ demonstrate many other concepts in statistics than the generation of
 confidence intervals and p-values.  For example, it is very useful for
 showing the origins of distributions such as t and F.  
 
-For the sake of illustration, consider a $TEX COMMAND NOT FOUND chi  2$-test of the independence of `homeless` and `sex` in the `HELPrct` data.
+For the sake of illustration, consider a $\chi^2$-test of the independence of `homeless` and `sex` in the `HELPrct` data.
 To illustrate, here is a simulation to construct the distribution of p-values from a simple test under the null hypothesis.  The 
 
 <!-- begin enumerate -->
@@ -795,7 +795,7 @@ qqmath(~ p.value, data = Chisq.null, dist = qunif)
 ```
 
 
-Perhaps more important, with the simulation approach it's straightforward to segue into more advanced and appropriate models and tests.  So, rather than the esteemed $TEX COMMAND NOT FOUND chi  2$ test, perhaps something a bit more modern and flexible such as logistic regression with `age` as a covariate:
+Perhaps more important, with the simulation approach it's straightforward to segue into more advanced and appropriate models and tests.  So, rather than the esteemed $\chi^2$ test, perhaps something a bit more modern and flexible such as logistic regression with `age` as a covariate:
 ```{r }
 HELP.logistic.boot <- do(1000) * 
    glm(homeless=="homeless" ~ age + sex, 
