@@ -137,7 +137,7 @@ plotting.
 		describes how to undertake analyses in R for the
 		examples in the Fourth Edition of 
 		*Stats: Data and Models* (2015),
-		by Dick De Veaux, Paul Velleman, and Dave Bock.
+		by Dick de Veaux, Paul Velleman, and Dave Bock.
 
     * [nhorton.people.amherst.edu/sdm4](http://nhorton.people.amherst.edu/sdm4)
 
@@ -145,7 +145,7 @@ plotting.
 		describes how to undertake analyses in R for the
 		examples in the Fourth and Fifth Editions of 
 		*Intro Stats* (2013),
-		by Dick De Veaux, Paul Velleman, and Dave Bock.
+		by Dick de Veaux, Paul Velleman, and Dave Bock.
 
     * [5th edition: nhorton.people.amherst.edu/is5](http://nhorton.people.amherst.edu/is5)
     * [4th edition: nhorton.people.amherst.edu/is4](http://nhorton.people.amherst.edu/is4)
