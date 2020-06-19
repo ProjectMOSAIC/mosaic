@@ -29,7 +29,7 @@ or from [projectmosaic.github.io/mosaic/](https://projectmosaic.github.io/mosaic
  * *Resampling methods in R* demonstrates how to use the `mosaic`
 	package to compute p-values for randomization tests and bootstrap confidence 
 	intervals in a number of common situations. The examples are based on the 
-	``resampling bake off'' at USCOTS 2013.
+	``resampling bake off'' at USCOTS 2011.
 
  * *ggformula/lattice conversion examples* compares the lattice and ggformula formula interfaces for creating graphics. 
 
