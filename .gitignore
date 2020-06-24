@@ -10,6 +10,9 @@
 *.toc
 *.ilg
 *.log
+vignettes/*/*_cache/*
+vignettes/*/*_files/*
+figure/
 TeachingStatsWithR/cache
 TeachingStatsWithR/figures
 TeachingStatsWithR/Chap-*.R

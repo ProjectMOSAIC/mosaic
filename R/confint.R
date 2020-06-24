@@ -225,8 +225,14 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
   
   if (missing(parm)) parm <- names(object)
   nms <- intersect(names(object),parm)
-  res <- data.frame( matrix( nrow = 0, ncol = 5) )
-  names(res) <- c("name", "lower","upper","level","method")
+  res <- data.frame(
+    name = character(),
+    lower = double(),
+    upper = double(),
+    level = double(),
+    method = character(),
+    stringsAsFactors = FALSE
+  )
   row <- 0
   culler <- attr(object, "culler")
   estimate <- culler(extract_estimate(object))
@@ -424,7 +430,8 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
       lower = estimate - q[, 2] * sd(Boot$estimate.star),
       upper = estimate - q[, 1] * sd(Boot$estimate.star),
       level = level,
-      method = "bootstrap-t"
+      method = "bootstrap-t",
+      stringsAsFactors = FALSE
     )
   row.names(res) <- NULL
   res

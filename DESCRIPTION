@@ -1,7 +1,7 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 1.6.0
+Version: 1.7.0
 Description: Data sets and utilities from Project MOSAIC (<http://mosaic-web.org>) used
     to teach mathematics, statistics, computation and modeling.  Funded by the
     NSF, Project MOSAIC is a community of educators working to tie together
@@ -41,7 +41,6 @@ Imports:
 Suggests: 
     vdiffr,
     lubridate,
-    fastR,
     magrittr,
     NHANES,
     RCurl,
@@ -55,7 +54,8 @@ Suggests:
     mapproj,
     rgl,
     rmarkdown,
-    covr
+    covr,
+    formatR
 Enhances: manipulate
 VignetteBuilder: knitr
 License: GPL (>=2)
@@ -63,6 +63,6 @@ LazyLoad: yes
 LazyData: yes
 URL: https://github.com/ProjectMOSAIC/mosaic, https://projectmosaic.github.io/mosaic/
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8

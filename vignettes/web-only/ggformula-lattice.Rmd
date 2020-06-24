@@ -2,10 +2,6 @@
 title: "ggformula/lattice Comparison"
 author: "Nicholas Horton (nhorton@amherst.edu)"
 date: '`r Sys.Date()`'
-vignette: |
-  %\VignetteIndexEntry{ggformula/lattice Comparison} 
-  \usepackage[utf8]{inputenc}
-  %\VignetteEngine{knitr::rmarkdown} 
 output: 
   html_document:
     fig_height: 2.6

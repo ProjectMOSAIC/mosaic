@@ -1,4 +1,5 @@
 ---
+title: Graphics with the mosaic and lattice packages
 date: "`r Sys.Date()`"
 vignette: >
   %\VignetteIndexEntry{Graphics with the mosaic package}
@@ -6,18 +7,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Graphics with the mosaic and lattice packages
-
-### Randall Pruim
-#### August, 2014
 
 ```{r include=FALSE}
-# Don't delete this chunk if you are using the mosaic package
-# This loads the mosaic and dplyr packages
-require(mosaic)
-require(mosaicData)
-require(NHANES)
-require(gridExtra)
+library(mosaic)
+library(mosaicData)
+library(NHANES)
+library(gridExtra)
 ```
 
 ```{r include=FALSE}
@@ -36,7 +31,6 @@ opts_chunk$set(
   fig.height=3
 )
 ```
-
 
 This vignette is simply a suite of plots that exist primarily as part of our quality
 control for the package. But since the examples might be useful to others as well, 

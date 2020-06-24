@@ -1,6 +1,14 @@
 
+# mosaic 1.7.0
+
+* Fixed dplyr 1.0.0 failure by stabilizing types
+* Fixed a few bugs leftover from migration from tidyeval to rlang
+* Moved several vignettes out of the package to reduce size of package.  These are 
+  still available at <https://projectmosaic.github.io/mosaic/>
+
 # mosaic 1.6.0
- * add `na.rm` argument to prop.test().
+
+ * Added `na.rm` argument to prop.test().
  * Changed return type for `qdata()` so that it is always a named vector.
  * Changed return type for `cdata()` so that is is always a data frame.  Also changed 
  names to "lo" and "hi".

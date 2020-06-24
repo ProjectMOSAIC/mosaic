@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +42,6 @@
 <meta property="og:title" content="Tally test statistics — statTally" />
 <meta property="og:description" content="Tally test statistics from data and from multiple draws
 from a simulated null distribution" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -56,7 +59,7 @@ from a simulated null distribution" />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -70,7 +73,7 @@ from a simulated null distribution" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
       </span>
     </div>
 
@@ -93,16 +96,19 @@ from a simulated null distribution" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/GraphicsWithMosaic.html">UNKNOWN TITLE</a>
-    </li>
-    <li>
-      <a href="../articles/LessVolume-MoreCreativity.html">Less Volume, More Creativity -- Getting Started with the mosaic Package</a>
-    </li>
-    <li>
-      <a href="../articles/ggformula-lattice.html">ggformula/lattice Comparison</a>
+      <a href="../articles/Resampling.html">Simulation-based inference with mosaic</a>
     </li>
     <li>
       <a href="../articles/mosaic-resources.html">Resources Related to the mosaic Package</a>
+    </li>
+    <li>
+      <a href="../articles/web-only/GraphicsWithMosaic.html">Graphics with the mosaic and lattice packages</a>
+    </li>
+    <li>
+      <a href="../articles/web-only/LessVolume-MoreCreativity.html">Less Volume, More Creativity -- Getting Started with the mosaic Package</a>
+    </li>
+    <li>
+      <a href="../articles/web-only/ggformula-lattice.html">ggformula/lattice Comparison</a>
     </li>
   </ul>
 </li>
@@ -112,7 +118,7 @@ from a simulated null distribution" />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/ProjectMOSAIC/mosaic">
+  <a href="https://github.com/ProjectMOSAIC/mosaic/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -266,71 +272,65 @@ printed to the screen.</p>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>18</span>, <span class='fl'>9</span>, <span class='fl'>15</span>)   <span class='co'># counts in four cells</span>
 <span class='no'>rdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Multinom.html'>rmultinom</a></span>(<span class='fl'>999</span>, <span class='fu'><a href='aggregating.html'>sum</a></span>(<span class='no'>x</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>.25</span>, <span class='fl'>4</span>))
 <span class='fu'>statTally</span>(<span class='no'>x</span>, <span class='no'>rdata</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>max</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>)  <span class='co'># unusual test statistic</span></div><div class='output co'>#&gt; 
-#&gt; Null distribution appears to be asymmetric. (p = 0.00144) 
+#&gt; Null distribution appears to be asymmetric. (p = 3.22e-34) 
 #&gt; 
 #&gt; Test statistic applied to sample data =  18 
 #&gt; 
 #&gt; Quantiles of test statistic applied to random data: 
-#&gt; 50% 90% 95% 99% 
-#&gt;  17  20  21  23  
+#&gt;   50%   90%   95%   99% 
+#&gt; 16.00 19.00 20.00 22.02  
 #&gt; 
 #&gt; Of the  1000  samples (1 original +  999  random), 
-#&gt; 	 131 ( 13.1 % ) had test stats = 18 
-#&gt; 	 321 ( 32.1 % ) had test stats &gt;= 18 </div><div class='img'><img src='statTally-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>statTally</span>(<span class='no'>x</span>, <span class='no'>rdata</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>var</span>, <span class='kw'>shade</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>)  <span class='co'># equivalent to chi-squared test</span></div><div class='output co'>#&gt; 
-#&gt; Null distribution appears to be asymmetric. (p = 7.94e-06) 
+#&gt; 	 132 ( 13.2 % ) had test stats = 18 
+#&gt; 	 305 ( 30.5 % ) had test stats &gt;= 18 </div><div class='img'><img src='statTally-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>statTally</span>(<span class='no'>x</span>, <span class='no'>rdata</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>var</span>, <span class='kw'>shade</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>)  <span class='co'># equivalent to chi-squared test</span></div><div class='output co'>#&gt; 
+#&gt; Null distribution appears to be asymmetric. (p = 9.63e-08) 
 #&gt; 
 #&gt; Test statistic applied to sample data =  18 
 #&gt; 
 #&gt; Quantiles of test statistic applied to random data: 
 #&gt;      50%      90%      95%      99% 
-#&gt; 10.66667 28.00000 36.66667 51.33333  
+#&gt; 10.00000 26.00000 32.66667 48.70667  
 #&gt; 
 #&gt; Of the  1000  samples (1 original +  999  random), 
-#&gt; 	 24 ( 2.4 % ) had test stats = 18 
-#&gt; 	 261 ( 26.1 % ) had test stats &gt;= 18 </div><div class='img'><img src='statTally-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Can also be used with test stats that are precomputed.</span>
+#&gt; 	 39 ( 3.9 % ) had test stats = 18 
+#&gt; 	 255 ( 25.5 % ) had test stats &gt;= 18 </div><div class='img'><img src='statTally-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Can also be used with test stats that are precomputed.</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
 <span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffmean.html'>diffmean</a></span>( <span class='no'>age</span> ~ <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>); <span class='no'>D</span>
 <span class='no'>nullDist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>999</span>) * <span class='fu'><a href='diffmean.html'>diffmean</a></span>( <span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)
 <span class='fu'>statTally</span>(<span class='no'>D</span>, <span class='no'>nullDist</span>)
 <span class='fu'>statTally</span>(<span class='no'>D</span>, <span class='no'>nullDist</span>, <span class='kw'>system</span> <span class='kw'>=</span> <span class='st'>"lattice"</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
-#&gt; <span class='message'>  * Set seed with set.rseed().</span>
-#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; 
-#&gt; Null distribution appears to be symmetric. (p =  0.894 ) 
+}</div><div class='output co'>#&gt; 
+#&gt; Null distribution appears to be symmetric. (p =  0.338 ) 
 #&gt; 
 #&gt; Test statistic applied to sample data =  -0.7841 
 #&gt; 
 #&gt; Quantiles of test statistic applied to random data: 
-#&gt;         50%         90%         95%         99% 
-#&gt; -0.06220626  1.02679488  1.34615364  1.81014154  
+#&gt;        50%        90%        95%        99% 
+#&gt; 0.02344552 1.17362649 1.47952569 1.95770731  
 #&gt; 
 #&gt; Of the  1000  samples (1 original +  999  random), 
-#&gt; 	 9 ( 0.9 % ) had test stats = -0.7841 
-#&gt; 	 205 ( 20.5 % ) had test stats &lt;= -0.7841 
-#&gt; 	 194 ( 19.4 % ) had test stats &gt;= 0.6597 
+#&gt; 	 6 ( 0.6 % ) had test stats = -0.7841 
+#&gt; 	 155 ( 15.5 % ) had test stats &lt;= -0.7841 
+#&gt; 	 185 ( 18.5 % ) had test stats &gt;= 0.831 
 #&gt; 
-#&gt; Null distribution appears to be symmetric. (p =  0.894 ) 
+#&gt; Null distribution appears to be symmetric. (p =  0.338 ) 
 #&gt; 
 #&gt; Test statistic applied to sample data =  -0.7841 
 #&gt; 
 #&gt; Quantiles of test statistic applied to random data: 
-#&gt;         50%         90%         95%         99% 
-#&gt; -0.06220626  1.02679488  1.34615364  1.81014154  
+#&gt;        50%        90%        95%        99% 
+#&gt; 0.02344552 1.17362649 1.47952569 1.95770731  
 #&gt; 
 #&gt; Of the  1000  samples (1 original +  999  random), 
-#&gt; 	 9 ( 0.9 % ) had test stats = -0.7841 
-#&gt; 	 205 ( 20.5 % ) had test stats &lt;= -0.7841 
-#&gt; 	 194 ( 19.4 % ) had test stats &gt;= 0.6597 </div><div class='img'><img src='statTally-3.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; 	 6 ( 0.6 % ) had test stats = -0.7841 
+#&gt; 	 155 ( 15.5 % ) had test stats &lt;= -0.7841 
+#&gt; 	 185 ( 18.5 % ) had test stats &gt;= 0.831 </div><div class='img'><img src='statTally-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -341,7 +341,7 @@ printed to the screen.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
