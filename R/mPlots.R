@@ -145,7 +145,7 @@ mPlot <- function(data,
                   system = system_choices()[1],
                   show = FALSE, 
                   title = "",
-                  data_text = rlang::expr_text(data),
+                  data_text = substitute(data), # rlang::expr_text(data),
                   ...)
 {
       

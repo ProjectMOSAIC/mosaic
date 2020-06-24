@@ -21,7 +21,7 @@ NA
 
 mplot <- function(object, ...) {
   if (inherits(object, "data.frame")) {
-    return(mPlot(object, ..., data_text = rlang::expr_text(object))) 
+    return(mPlot(object, ..., data_text = substitute(object))) 
   }
   
   UseMethod("mplot")
@@ -404,13 +404,18 @@ if (length(plots) == 1) {
 #' }
 #' @export
 
-mplot.data.frame <- function (object, format, default = format, 
-                              system = c("ggformula", "ggplot2", "lattice"),  show = FALSE, 
-                              title = "", ...
-                              ) {
+mplot.data.frame <- 
+  function(
+    object, format, default = format, 
+    system = c("ggformula", "ggplot2", "lattice"),  
+    show = FALSE, 
+    data_text = substitute(object),
+    title = "", ...
+  ) {
+  print(data_text)
   return(
     mPlot(object, format = format, default = default, system = system, 
-        show = show, title = title, ...)
+        show = show, title = title, data_text = data_text, ...)
   )
 }  
 #   plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
