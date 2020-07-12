@@ -30,7 +30,7 @@ This facilitates "piping" from \code{\link[=rgeo]{rgeo()}}.  See examples.}
 
 \item{units}{units for radii of circles (km, miles, meters, or feet).}
 
-\item{\dots}{additional arguments passed to \code{\link[leaflet:addCircles]{leaflet::addCircles()}}}
+\item{\dots}{additional arguments passed to \code{\link[leaflet:map-layers]{leaflet::addCircles()}}}
 }
 \value{
 a leaflet map

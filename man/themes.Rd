@@ -28,7 +28,7 @@ A theme for use with lattice graphics.
 }
 \note{
 These two functions are identical.  \code{col.mosaic} is named
-similarly to \code{\link[lattice:col.whitebg]{lattice::col.whitebg()}}, but since more
+similarly to \code{\link[lattice:trellis.device]{lattice::col.whitebg()}}, but since more
 than just colors are set, \code{theme.mosaic} is a preferable name.
 }
 \examples{

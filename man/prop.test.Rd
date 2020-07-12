@@ -86,6 +86,6 @@ prop.test(link ~ anysub, data = HELPrct, na.rm = TRUE)
 
 }
 \seealso{
-\code{\link[mosaic:binom.test]{mosaic::binom.test()}}, \code{\link[stats:prop.test]{stats::prop.test()}}
+\code{\link[=binom.test]{binom.test()}}, \code{\link[stats:prop.test]{stats::prop.test()}}
 }
 \keyword{stats}

@@ -17,6 +17,7 @@ NA
 #' 
 #' @rdname mplot
 #' @param object an R object from which a plot will be constructed.
+#' @param data_text text representation of the data set.  In typical use cases, the default value should suffice.
 #' @export
 
 mplot <- function(object, ...) {

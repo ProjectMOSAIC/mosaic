@@ -64,7 +64,7 @@ Unless \code{filetype} is specified,
 \code{read.file} uses the (case insensitive) file extension to determine how to read
 data from the file.  If \code{file} ends in \code{.rda} or \code{.rdata}, then
 \code{\link[=load]{load()}} is used to load the file.  If \code{file}
-ends in \code{.csv}, then \code{\link[readr:read_csv]{readr::read_csv()}} or \code{\link[=read.csv]{read.csv()}} is used.
+ends in \code{.csv}, then \code{\link[readr:read_delim]{readr::read_csv()}} or \code{\link[=read.csv]{read.csv()}} is used.
 Otherwise, \code{\link[=read.table]{read.table()}} is used.
 }
 \examples{
@@ -74,7 +74,7 @@ Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
 }
 \seealso{
 \code{\link[=read.csv]{read.csv()}}, \code{\link[=read.table]{read.table()}},
-\code{\link[readr:read_table]{readr::read_table()}}, \code{\link[readr:read_csv]{readr::read_csv()}},
+\code{\link[readr:read_table]{readr::read_table()}}, \code{\link[readr:read_delim]{readr::read_csv()}},
 \code{\link[=load]{load()}}.
 }
 \keyword{util}

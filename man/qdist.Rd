@@ -79,7 +79,7 @@ of the distribution.}
 
 \item{return}{If \code{"plot"}, return a plot.  If \code{"values"}, return a vector of numerical values.}
 
-\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_aux]{ggformula::gf_refine()}}.}
 
 \item{...}{additional arguments, including parameters of the distribution
 and additional options for the plot.  To help with name collisions (eg \code{size} for binomial

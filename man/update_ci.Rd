@@ -22,5 +22,5 @@ Update the confidence interval portion of an object returned from
 \code{binom.test} using one of several alternative methods.
 }
 \seealso{
-\code{\link[mosaic:binom.test]{mosaic::binom.test()}}
+\code{\link[=binom.test]{binom.test()}}
 }

@@ -66,7 +66,7 @@ sample(x, size, replace = FALSE, ...)
 \arguments{
 \item{\dots}{additional arguments passed to
 \code{\link[base:sample]{base::sample()}}
-or \code{\link[mosaic:sample]{mosaic::sample()}}.}
+or \code{\link[=sample]{sample()}}.}
 
 \item{replace}{Should sampling be with replacement?}
 

@@ -80,7 +80,7 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{...}{Additional arguments, typically for fine tuning the plot.}
 
-\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_aux]{ggformula::gf_refine()}}.}
 
 \item{shape}{shape and scale parameters.  Must be positive,
     \code{scale} strictly.}

@@ -23,12 +23,12 @@ bargraph(
 
 \item{data}{a data frame in which the formula \code{x} is evaluated}
 
-\item{groups}{a variable or expression used for grouping.  See \code{\link[lattice:barchart]{lattice::barchart()}}.}
+\item{groups}{a variable or expression used for grouping.  See \code{\link[lattice:xyplot]{lattice::barchart()}}.}
 
 \item{horizontal}{a logical indicating whether bars should be horizontal}
 
 \item{origin}{beginning point for bars.  For the default behavior used by
-\code{\link[lattice:barchart]{lattice::barchart()}} set \code{origin} to \code{NULL}, but
+\code{\link[lattice:xyplot]{lattice::barchart()}} set \code{origin} to \code{NULL}, but
 0 is often a better default. If 0 is not good, perhaps you should use
 a different kind of plot as the results may be misleading.}
 
@@ -43,20 +43,20 @@ indicating what type of scale to use.  Unique prefixes are sufficient.}
 
 \item{scales}{is a list determining how the x- and y-axes are drawn}
 
-\item{\dots}{additional arguments passed to \code{\link[lattice:barchart]{lattice::barchart()}}}
+\item{\dots}{additional arguments passed to \code{\link[lattice:xyplot]{lattice::barchart()}}}
 }
 \value{
 a trellis object describing the plot
 }
 \description{
-\code{\link[lattice:barchart]{lattice::barchart()}} from the \code{lattice} package makes bar graphs from
+\code{\link[lattice:xyplot]{lattice::barchart()}} from the \code{lattice} package makes bar graphs from
 pre-tabulated data.  Raw data can be tabulated using \code{\link[=xtabs]{xtabs()}}, but the syntax
 is unusual compared to the other lattice plotting functions.  \code{bargraph} provides
 an interface that is consistent with the other \code{lattice} functions.
 }
 \details{
 \code{bargraph(formula, data=data, ...)} works by creating a new data frame from \code{xtabs(formula, data=data)}
-and then calling \code{\link[lattice:barchart]{lattice::barchart()}} using modified version of the formula and this
+and then calling \code{\link[lattice:xyplot]{lattice::barchart()}} using modified version of the formula and this
 new data frame as inputs.  This has implications on, for example, conditional plots where
 one desires to condition on some expression that will be evaluated in \code{data}.  This typically
 does not work because the required variables do not exist in the output of \code{xtabs}.  One solution
@@ -76,5 +76,5 @@ bargraph( ~ substance | older, data = HELPrct2)
 }
 }
 \seealso{
-\code{\link[lattice:barchart]{lattice::barchart()}}
+\code{\link[lattice:xyplot]{lattice::barchart()}}
 }

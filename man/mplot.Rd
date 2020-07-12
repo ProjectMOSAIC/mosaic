@@ -41,6 +41,7 @@ mplot(object, ...)
   default = format,
   system = c("ggformula", "ggplot2", "lattice"),
   show = FALSE,
+  data_text = substitute(object),
   title = "",
   ...
 )
@@ -128,6 +129,8 @@ Unique prefixes suffice.}
 
 \item{show}{a logical, if \code{TRUE}, the code will be displayed each time the plot is
 changed.}
+
+\item{data_text}{text representation of the data set.  In typical use cases, the default value should suffice.}
 
 \item{ylab}{label for y-axis}
 

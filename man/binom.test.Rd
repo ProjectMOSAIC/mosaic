@@ -106,6 +106,6 @@ with(faithful, binom.test(long))
 
 }
 \seealso{
-\code{\link[mosaic:prop.test]{mosaic::prop.test()}}, \code{\link[stats:binom.test]{stats::binom.test()}}
+\code{\link[=prop.test]{prop.test()}}, \code{\link[stats:binom.test]{stats::binom.test()}}
 }
 \keyword{stats}

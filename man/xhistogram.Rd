@@ -57,7 +57,7 @@ will be \code{\link[=panel.xhistogram]{panel.xhistogram()}}.}
 \item{breaks}{break points for histogram bins, a function for computing such,
 or a method \code{\link[=hist]{hist()}} knows about given as a character string.
 When using the \pkg{mosaic} package defaults,
-\code{\link[mosaic:xhistogramBreaks]{mosaic::xhistogramBreaks()}} is used.}
+\code{\link[=xhistogramBreaks]{xhistogramBreaks()}} is used.}
 
 \item{dcol}{color of density curve}
 

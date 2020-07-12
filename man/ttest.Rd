@@ -98,6 +98,6 @@ for the 2-sample test has also be broadened.  See the examples.
   mean(age ~ sex, data = HELPrct)
 }
 \seealso{
-\code{\link[mosaic:prop.test]{mosaic::prop.test()}}, \code{\link[mosaic:binom.test]{mosaic::binom.test()}},
+\code{\link[=prop.test]{prop.test()}}, \code{\link[=binom.test]{binom.test()}},
 \code{\link[stats:t.test]{stats::t.test()}}
 }

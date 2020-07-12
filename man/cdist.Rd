@@ -88,7 +88,7 @@ are grouped together for coloring and probability calculation.}
 \item{...}{additional arguments passed to the distribution functions.  Typically
 these specify the parameters of the particular distribution desired.  See the examples.}
 
-\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_aux]{ggformula::gf_refine()}}.}
 
 \item{shape}{shape and scale parameters.  Must be positive,
     \code{scale} strictly.}

@@ -46,5 +46,5 @@ xcnorm(.95, mean = 100, sd = 10)
 
 }
 \seealso{
-\code{\link[stats:qnorm]{stats::qnorm()}}, \code{\link[=cdist]{cdist()}}
+\code{\link[stats:Normal]{stats::qnorm()}}, \code{\link[=cdist]{cdist()}}
 }
