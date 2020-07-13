@@ -30,8 +30,8 @@ mMap(
 
 mScatter(
   data,
-  default = c("scatter", "jitter", "boxplot", "violin", "line", "sina", "density_2d",
-    "density_2d_filled"),
+  default = c("scatter", "jitter", "boxplot", "violin", "line", "sina",
+    "density (contours)", "density (filled)"),
   system = "ggformula",
   show = FALSE,
   title = "",
@@ -66,8 +66,8 @@ this is not necessary if all one wants is a map.}
 \code{"sina"},
 \code{"histogram"},
 \code{"density"},
-\code{"density_2d"},
-\code{"density_2d_filled"},
+\code{"density (contours)"},
+\code{"density (filled)"},
 \code{"frequency polygon"},
 \code{"xyplot"},
 or

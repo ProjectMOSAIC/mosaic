@@ -119,8 +119,8 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' `"sina"`,
 #' `"histogram"`,
 #' `"density"`,
-#' `"density_2d"`,
-#' `"density_2d_filled"`,
+#' `"density (contours)"`,
+#' `"density (filled)"`,
 #' `"frequency polygon"`,
 #' `"xyplot"`, 
 #' or
@@ -153,7 +153,7 @@ mPlot <- function(data,
 {
       
   plotTypes <- 
-    c('scatter', 'jitter', 'boxplot', 'violin', 'sina', 'density_2d', 'density_2d_filled',
+    c('scatter', 'jitter', 'boxplot', 'violin', 'sina', 'density (contours)', 'density (filled)',
       'histogram', 'density', 'frequency polygon', 'ASH plot', 'xyplot', 'map')
   
   if (missing(default) & missing(format)) {
@@ -170,7 +170,7 @@ mPlot <- function(data,
   default <- match.arg(default, plotTypes)
   system <- match.arg(system, system_choices())
   if (default == 'xyplot') default <- 'scatter'
-  if (default %in% c('scatter','jitter','boxplot','violin', 'sina', 'density_2d', 'density_2d_filled')) {
+  if (default %in% c('scatter','jitter','boxplot','violin', 'sina', 'density (contours)', 'density (filled)')) {
     return( 
       mScatter(data, default = default, system = system, show = show, 
                title = title, data_text = data_text)
@@ -352,7 +352,7 @@ mScatter <-
   function(
     data, 
     default = c('scatter','jitter','boxplot','violin','line', 'sina', 
-                'density_2d', 'density_2d_filled'),
+                'density (contours)', 'density (filled)'),
     system = "ggformula", show = FALSE, title = "",
     data_text = rlang::expr_text(data)) {
   
@@ -363,7 +363,7 @@ mScatter <-
   variables <- .varsByType(head(data))
   # variables$q is the quantitative variables.
   plotnames <- 
-    list("scatter", "jitter","boxplot", "violin", "line", "sina", "density_2d", "density_2d_filled")
+    list("scatter", "jitter","boxplot", "violin", "line", "sina", "density (contours)", "density (filled)")
   snames <- .NAprepend(variables$all)
   if (length(variables$all) < 2 || length(variables$q) < 1) {
     stop("data must have at least 2 variables, at least one of which is quantitative")
@@ -402,14 +402,15 @@ mScatter <-
 .doScatter <- function(data, variables, show = FALSE, 
                        system = system_choices()[1],
                        plotType = 
-                         c("scatter", "jitter", "boxplot", "violin", "line", "sina", "density_2d", "density_2d_filled"),
+                         c("scatter", "jitter", "boxplot", "violin", "line", "sina", "density (contours)", "density (filled)"),
                        x = NA, y = NA, color = NA, 
                        size = NA, facet = NA, logScales = "none", flipCoords = FALSE,
                        model = "", key = "right", title = title, data_text  =  rlang::expr_text(data))
 {
   system <- match.arg(system, system_choices())
   plotType <- match.arg(plotType)
-  if (system == "lattice" && plotType %in% c("sina", "density_2d", "density_2d_filled")) {
+  
+  if (system == "lattice" && plotType %in% c("sina", "density (contours)", "density (filled)")) {
     message('plot type ', plotType, ' unavailable in lattice.')
     return(gf_text(0 ~ 0, label = paste0("plot type ", plotType, " unavailable in lattice.")) %>%
              gf_theme(theme_void()))
@@ -430,12 +431,12 @@ mScatter <-
   function(s, system = system_choices()[1], variables) {
     gf_fun <- c(scatter = "gf_point", jitter = "gf_jitter", boxplot = "gf_boxplot", 
                 violin = "gf_violin", line = "gf_line", sina = "gf_sina", 
-                'density_2d' = "gf_density_2d", 
-                'density_2d_filled' = 'gf_density_2d_filled')
+                'density (contours)' = "gf_density_2d", 
+                'density (filled)' = 'gf_density_2d_filled')
     geom <- c(scatter = "geom_point()", jitter = "geom_jitter()", boxplot = "geom_boxplot()", 
               violin = "geom_violin()", line = "geom_line()",
-                'density_2d' = "geom_density_2d()", 
-                'density_2d_filled' = 'geom_density_2d_filled()'
+                'density (contours)' = "geom_density_2d()", 
+                'density (filled)' = 'geom_density_2d_filled()'
               )
     system <- match.arg(system, system_choices())
     s$logx <- s$logScales %in% c("both","x")
