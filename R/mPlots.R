@@ -116,8 +116,11 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' `"jitter"`,
 #' `"boxplot"`,
 #' `"violin"`,
+#' `"sina"`,
 #' `"histogram"`,
 #' `"density"`,
+#' `"density_2d"`,
+#' `"density_2d_filled"`,
 #' `"frequency polygon"`,
 #' `"xyplot"`, 
 #' or
@@ -149,8 +152,9 @@ mPlot <- function(data,
                   ...)
 {
       
-  plotTypes <- c('scatter', 'jitter', 'boxplot', 'violin', 'histogram', 
-                 'density', 'frequency polygon', 'ASH plot', 'xyplot', 'map')
+  plotTypes <- 
+    c('scatter', 'jitter', 'boxplot', 'violin', 'sina', 'density_2d', 'density_2d_filled',
+      'histogram', 'density', 'frequency polygon', 'ASH plot', 'xyplot', 'map')
   
   if (missing(default) & missing(format)) {
     choice <- 
@@ -166,7 +170,7 @@ mPlot <- function(data,
   default <- match.arg(default, plotTypes)
   system <- match.arg(system, system_choices())
   if (default == 'xyplot') default <- 'scatter'
-  if (default %in% c('scatter','jitter','boxplot','violin')) {
+  if (default %in% c('scatter','jitter','boxplot','violin', 'sina', 'density_2d', 'density_2d_filled')) {
     return( 
       mScatter(data, default = default, system = system, show = show, 
                title = title, data_text = data_text)
@@ -344,9 +348,13 @@ mMap <- function(data, default = 'map',
 #' @rdname mPlotting
 #' @export
 
-mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','line'),
-                     system = "ggformula", show = FALSE, title = "",
-                     data_text = rlang::expr_text(data)) {
+mScatter <- 
+  function(
+    data, 
+    default = c('scatter','jitter','boxplot','violin','line', 'sina', 
+                'density_2d', 'density_2d_filled'),
+    system = "ggformula", show = FALSE, title = "",
+    data_text = rlang::expr_text(data)) {
   
   .require_manipulate_namespace()
   system <- match.arg(system, system_choices())
@@ -354,7 +362,8 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
   keyDefault <- ifelse ( system == "lattice", "none", "right" )
   variables <- .varsByType(head(data))
   # variables$q is the quantitative variables.
-  plotnames <- list("scatter", "jitter","boxplot", "violin", "line")
+  plotnames <- 
+    list("scatter", "jitter","boxplot", "violin", "line", "sina", "density_2d", "density_2d_filled")
   snames <- .NAprepend(variables$all)
   if (length(variables$all) < 2 || length(variables$q) < 1) {
     stop("data must have at least 2 variables, at least one of which is quantitative")
@@ -367,37 +376,45 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
                  "S" = "S", "SW" = "SW", 
                  "W" = "W", "NW" = "NW")
   # print(list(system, system_choices()))
-  manipulate::manipulate( { .doScatter(data, data_text = data_text, variables, show = show, system = system, x = x, y = y, plotType = plotType, 
-                                       flipCoords = flipCoords, color = color, size = size, facet = facet, 
-                                       logScales = logScales, model = model, key = key, title = title) },
-                          show = manipulate::button("Show Expression"),
-                          system = manipulate::picker(as.list(system_choices()), initial = system, label = "Graphics System"),
-                          plotType = manipulate::picker(plotnames, initial = default, label = "Type of plot      "),
-                          x = if (length(variables$q) >= 2) 
-                            manipulate::picker(variables$all, initial = variables$q[[2]], label = "   Any variable (x)   ")
-                          else 
-                            manipulate::picker(variables$all, initial = variables$c[[1]], label = "   Any variable (x)   ")
-                          ,
-                          y = manipulate::picker(variables$q, initial = variables$q[[1]],   label = "   Quant. variable (y)"),
-                          color = manipulate::picker(snames, initial = "none ", label = "Color"),
-                          facet = manipulate::picker(cnames, initial = "none ", label = "Facets"),
-                          model = manipulate::picker(mnames, initial = "none", label = "Model"),
-                          key = manipulate::picker(lnames, label = "Key", initial = keyDefault),
-                          size = manipulate::picker(snames, initial = "none ", label = "Size (gg only)"),
-                          logScales = manipulate::picker(list("none","x","y","both"), initial = "none", label = "log scales"),
-                          flipCoords = manipulate::checkbox(label = "Flip coordinates")
+  manipulate::manipulate( { 
+    .doScatter(data, data_text = data_text, variables, show = show, system = system, x = x, y = y, plotType = plotType, 
+               flipCoords = flipCoords, color = color, size = size, facet = facet, 
+               logScales = logScales, model = model, key = key, title = title) },
+    show = manipulate::button("Show Expression"),
+    system = manipulate::picker(as.list(system_choices()), initial = system, label = "Graphics System"),
+    plotType = manipulate::picker(plotnames, initial = default, label = "Type of plot      "),
+    x = if (length(variables$q) >= 2) 
+      manipulate::picker(variables$all, initial = variables$q[[2]], label = "   Any variable (x)   ")
+    else 
+      manipulate::picker(variables$all, initial = variables$c[[1]], label = "   Any variable (x)   ")
+    ,
+    y = manipulate::picker(variables$q, initial = variables$q[[1]],   label = "   Quant. variable (y)"),
+    color = manipulate::picker(snames, initial = "none ", label = "Color"),
+    facet = manipulate::picker(cnames, initial = "none ", label = "Facets"),
+    model = manipulate::picker(mnames, initial = "none", label = "Model"),
+    key = manipulate::picker(lnames, label = "Key", initial = keyDefault),
+    size = manipulate::picker(snames, initial = "none ", label = "Size (gg only)"),
+    logScales = manipulate::picker(list("none","x","y","both"), initial = "none", label = "log scales"),
+    flipCoords = manipulate::checkbox(label = "Flip coordinates")
   )
-}
+  }
 
 .doScatter <- function(data, variables, show = FALSE, 
                        system = system_choices()[1],
-                       plotType = c("scatter", "jitter", "boxplot", "violin", "line"),
+                       plotType = 
+                         c("scatter", "jitter", "boxplot", "violin", "line", "sina", "density_2d", "density_2d_filled"),
                        x = NA, y = NA, color = NA, 
                        size = NA, facet = NA, logScales = "none", flipCoords = FALSE,
                        model = "", key = "right", title = title, data_text  =  rlang::expr_text(data))
 {
   system <- match.arg(system, system_choices())
   plotType <- match.arg(plotType)
+  if (system == "lattice" && plotType %in% c("sina", "density_2d", "density_2d_filled")) {
+    message('plot type ', plotType, ' unavailable in lattice.')
+    return(gf_text(0 ~ 0, label = paste0("plot type ", plotType, " unavailable in lattice.")) %>%
+             gf_theme(theme_void()))
+  }
+  
   vals <- list(dataName = data_text, x = x, y = y, color = color, size = size, 
                plotType = plotType, flipCoords = flipCoords, facet = facet, 
                logScales = logScales , model = model, key = key, title = title)
@@ -412,13 +429,18 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
 .scatterString <- 
   function(s, system = system_choices()[1], variables) {
     gf_fun <- c(scatter = "gf_point", jitter = "gf_jitter", boxplot = "gf_boxplot", 
-                violin = "gf_violin", line = "gf_line")
+                violin = "gf_violin", line = "gf_line", sina = "gf_sina", 
+                'density_2d' = "gf_density_2d", 
+                'density_2d_filled' = 'gf_density_2d_filled')
     geom <- c(scatter = "geom_point()", jitter = "geom_jitter()", boxplot = "geom_boxplot()", 
-              violin = "geom_violin()", line = "geom_line()")
+              violin = "geom_violin()", line = "geom_line()",
+                'density_2d' = "geom_density_2d()", 
+                'density_2d_filled' = 'geom_density_2d_filled()'
+              )
     system <- match.arg(system, system_choices())
     s$logx <- s$logScales %in% c("both","x")
     s$logy <- s$logScales %in% c("both","y")
-    if (s$plotType %in% c("boxplot","violin") &&  (s$x %in% variables$q) ) {
+    if (s$plotType %in% c("boxplot", "violin", "sina") &&  (s$x %in% variables$q) ) {
       s$x <- glue::glue("ntiles({s$x})")
     }
     
@@ -477,7 +499,8 @@ mScatter <- function(data, default = c('scatter','jitter','boxplot','violin','li
         res <- paste(res, ' + coord_flip()', sep = "")
       }
     } else {
-      plotname <- c(scatter = 'xyplot', jitter = 'xyplot', boxplot = 'bwplot', violin = 'bwplot', line = "xyplot")
+      plotname <- 
+        c(scatter = 'xyplot', jitter = 'xyplot', boxplot = 'bwplot', violin = 'bwplot', line = "xyplot")
       if (s$flipCoords) {
         res <- paste( plotname[s$plotType], "( ", s$x , " ~ ", s$y, sep = "")
       } else {
