@@ -4,11 +4,20 @@ assign("mosaic.theme",   list(), envir = .mosaicEnv)
 assign("mosaic.options", list(), envir = .mosaicEnv)
 
 .onLoad <- function(libname, pkgname) {
-    ## library.dynam("mosaic", pkgname, libname )
-    mosaic.par.set(.defaultMosaicOptions())
+  ## library.dynam("mosaic", pkgname, libname )
+ 
+  pks <- invisible(suppressPackageStartupMessages(
+    sapply(pkgs_to_attach, requireNamespace, quietly = TRUE)
+  ))
+  for (p in pkgs_to_attach) {
+    if (! is_attached(p)) suppressPackageStartupMessages(attachNamespace(p))
+  }
+  
+  mosaic.par.set(.defaultMosaicOptions())
 }
 
 .onAttach <- function(libname, pkgname) {
+
   # have histogram use xhistogram stuff by default
   origLatticeOptions <- lattice::lattice.options(
     histogram.breaks = xhistogramBreaks,
@@ -18,11 +27,15 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
   packageStartupMessage(
     paste0("\nThe 'mosaic' package masks several functions from core packages ",
            "in order to add \nadditional features.  ",
-           "The original behavior of these functions should not be affected by this.",
-           "\n\nNote: If you use the Matrix package, be sure to load it BEFORE loading mosaic.",
-           "\n\nHave you tried the ggformula package for your plots?"
+           "The original behavior of these functions should not be affected by this."
+           # "\n\nNote: If you use the Matrix package, be sure to load it BEFORE loading mosaic.",
+           # "\n\nHave you tried the ggformula package for your plots?"
            ),
     appendLF = TRUE)
+}
+
+is_attached <- function(x) {
+  paste0("package:", x) %in% search()
 }
 
 .noGenerics <- FALSE
@@ -32,3 +45,5 @@ assign("mosaic.options", list(), envir = .mosaicEnv)
 }
 
 
+pkgs_to_attach <-
+  c("lattice", "ggplot2", "Matrix", "dplyr", "ggstance", "ggformula", "mosaicData")

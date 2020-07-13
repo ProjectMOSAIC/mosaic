@@ -15,12 +15,13 @@ Authors@R: c(
     )
 Depends:
     R (>= 3.0.0),
+Imports:
     dplyr,
+    purrr,
     lattice (>= 0.20-21),
     ggformula,
     mosaicData,
-    Matrix
-Imports:
+    Matrix,
     mosaicCore (>= 0.5.0),
     ggplot2,
     ggrepel,
