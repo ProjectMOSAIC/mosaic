@@ -43,7 +43,6 @@
     stop("RStudio required for manipulate.")
   if (! requireNamespace("manipulate", quietly=TRUE))
     stop("Unable to locate the manipulate package.  Please install with `install.packages(\"manipulate\")'")
-  requireNamespace("manipulate", quietly=TRUE)
 }
 
 #' Check whether RStudio is in use
