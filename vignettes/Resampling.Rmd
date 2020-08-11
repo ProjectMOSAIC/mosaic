@@ -26,7 +26,6 @@ options(keep.blank.line=FALSE)
 options(width=70)
 require(vcd)
 require(knitr)
-
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -61,10 +60,9 @@ inference: Randomization, Replication, and Rejection (Cobb, 2007).
 By putting the 3 Rs together in various ways, students learn to
 generalize and internalize the logic of inference, rather than just
 to blindly follow formulaic methods.
-
 Terry Speed (2011) notes the changing role of simulation in statistics.
-<!-- begin quote -->
 
+<!-- begin quote -->
 [Simulation used to be] something that people did when they can't do the math...
 It now seems that we are heading into an era when all statistical analysis can be 
 done by simulation.
@@ -76,7 +74,6 @@ sampling takes work and time, so instructors tend to de-emphasize the
 actual practice of sampling in favor of theoretical descriptions.
 What's more, the algebraic notation in which much of conventional
 textbook statistics is written does not offer an obvious notation for sampling.
-
 With the computer, however, these efficiency and notation obstacles
 can be overcome.  Sampling can be placed in its rightfully central
 place among the statistical concepts in our courses.
@@ -84,10 +81,11 @@ place among the statistical concepts in our courses.
 Randomization-based inference using permutation testing and bootstrapping are an
 increasingly important set of techniques for introductory statistics and beyond.
 To help educators usefully compare different software approaches, 
-Robin Lock and colleagues posed a series of problems at USCOTS 2011 
+Five members of the Lock family  posed a series of problems at USCOTS 2011 
 (United States Conference on Teaching Statistics), 
-as described at http://www.causeweb.org/uscots/breakout/breakout3_6.php, 
+as described at https://www.causeweb.org/cause/uscots/uscots11/breakout,
 relating to bootstrapping and permutation tests. 
+
 Bootstrapping and permutation testing are powerful and elegant approaches to
 estimation and testing that can be implemented even in many
 situations where asymptotic results are difficult to find or otherwise
@@ -104,7 +102,6 @@ problems.  Then we will move beyond the simple settings of the Lock problems to
 show how the mosaic operations makes it straightforward to generalize the 
 logic of randomization to more complicated models.
 
-
 ## Background and setup
 
 ### R and RStudio
@@ -117,10 +114,10 @@ advanced and professional statistics. RStudio (http://www.rstudio.org)
 is an open-source integrated development environment for R which facilitates
 use of the system.
 
-
 ### Setup
-The mosaic package is available over the Internet and can be installed
-into R using the standard features of the system (this needs only be done once).  
+
+The mosaic package can be installed
+using the standard features of the system (this needs only be done once).  
 ```{r eval=FALSE, echo=TRUE}
 install.packages("mosaic")
 ```
@@ -135,7 +132,7 @@ simulations.]
 
 ```{r moreSetup}
 require(mosaic)
-options(digits=3)
+options(digits = 3)
 ```
  
 
@@ -147,10 +144,8 @@ so any of the data facilities within R can be used to
 provide data sets to students.  In particular, R functions 
 such as `read.csv()` and `read.table()` support 
 accessing data files via a website URL, avoiding the need to download data 
-files to individual student machines.  <!-- The mosaic package provides the function -->
-<!-- `read.file()` that can read files of several different types and provides  -->
-<!-- a common set of defaults across these file types.   -->
-
+files to individual student machines.  
+ 
 Here, one of the Lock data sets are read into R via the Internet:
 ```{r }
 Mustangs <- read.csv("http://www.mosaic-web.org/go/datasets/MustangPrice.csv")
@@ -169,7 +164,7 @@ The Lock problems are a series of short problems in statistical inference provid
   Mustang cars being offered for sale at an internet website. The
   price (in \$1,000's), age (in years) and miles driven (in 1,000's)
   for the 25 cars in the sample are given in the [file `MustangPrice.csv`].  
-  Use these data to construct a 90\<!--  confidence interval for the mean -->
+  Use these data to construct a 90% confidence interval for the mean
   price (in \$1,000's) of used Mustangs.*
 <!-- end quotation -->
 
@@ -252,7 +247,11 @@ Let's generate five more, with a single command:
 do(5) * mean(~ Price, data = resample(Mustangs))
 ```
 
-Now conduct 1000 resampling trials^[1000 is a reasonable number of trials 
+```{r }
+numsim <- 2000
+```
+
+Now conduct `r numsim` resampling trials^[`r numsim` is a reasonable number of trials 
 for illustration purposes, but Monte Carlo variability can be considerably reduced
 by using 10,000 or more.
 ], 
@@ -265,7 +264,7 @@ makes it clear which data set an variable are being considered and that we are
 creating a bootstrap distribution (as opposed to simulating a null distribution).]
 
 ```{r }
-Mustangs.Price.boot <- do(1000) * mean(~ Price, data = resample(Mustangs))
+Mustangs.Price.boot <- do(numsim) * mean(~ Price, data = resample(Mustangs))
 ```
  
 
@@ -287,7 +286,7 @@ The `confint()` function is a black box.  In introducing it, an instructor might
 <!-- begin itemize -->
 
 
-#. Calculation of the 90\<!--  confidence interval using quantiles -->
+#. Calculation of the 90% confidence interval using quantiles
 ```{r qdata}
 qdata(~ mean, c(.05, .95), data = Mustangs.Price.boot)
 # alternative
@@ -297,15 +296,14 @@ cdata(~ mean, 0.90, data = Mustangs.Price.boot)
 
 #. Using normal theory and the standard error.
 First calculate the critical value $t_\star$ for
-the appropriate degrees of freedom.  Or use $z_\star$, either for simplicity or to demonstrate how $t_\star$ differs.  In either case, the confidence level needs to be converted to the appropriate tail probability, e.g. a level of 90\<!--  corresponds to a tail probability of 0.95. -->
+the appropriate degrees of freedom.  Or use $z_\star$, either for simplicity or to demonstrate how $t_\star$ differs.  In either case, the confidence level needs to be converted to the appropriate tail probability.
 
 ```{r tstar}
 tstar <- qt(.95, df = 24)
 zstar <- qnorm(.95)
 ```
  
-The resulting
-margin of error will be
+The resulting margin of error will be
 ```{r margin}
 tstar * sd(~ mean, data = Mustangs.Price.boot)
 zstar * sd(~ mean, data = Mustangs.Price.boot)
@@ -395,10 +393,10 @@ do(1) * rflip(428)
 ```
  
 
-We'll do 1,000 trials, and count what fraction of the trials the
+We'll do `r numsim` trials, and count what fraction of the trials the
 coin toss winner (say, "heads") wins 240 or more of the 428 attempts:
 ```{r flips1, fig.width=4, fig.height=3}
-NFL.null <- do(1000) * rflip(428)
+NFL.null <- do(numsim) * rflip(428)
 prop(~ heads >= 240, data = NFL.null)
 ```
 
@@ -464,7 +462,7 @@ set.seed(134) # make sure the result below is "typical"
 
 
 ```{r sleep, tidy=FALSE, fig.width=4, fig.height=2}
-Sleep.null <- do(1000) * diff(mean(Words ~ shuffle(Group), data = Sleep))
+Sleep.null <- do(numsim) * diff(mean(Words ~ shuffle(Group), data = Sleep))
 gf_histogram(~ Sleep, fill = ~ (Sleep >= obs), data = Sleep.null, 
   binwidth = 0.4,
   xlab = "Distribution of difference in means under the null hypothesis")
@@ -475,20 +473,19 @@ The one-sided p-value for this test is the proportion of
 trials which yielded a result as extreme or more extreme as the observed difference.
 We can calculate the one-sided p-value for this test by summing up the number of 
 trials which yielded a result as extreme or more extreme as the observed difference.
-Here only `r sum(Sleep.null$Sleep >= obs)` of the 1000 trials gave a result that large, so the p-value is equal to `r prop(~ Sleep.null$Sleep >= obs)`.  We conclude that
+Here only `r sum(Sleep.null$Sleep >= obs)` of the `r numsim` trials gave a result that large, so the p-value is equal to `r prop(~ Sleep.null$Sleep >= obs)`.  We conclude that
 it's unlikely that the two groups have the same mean word recall back in their respective populations.
 
 
 ### Lock problem 4: Bootstrapping a correlation {-}
 
 <!-- begin quotation -->
-
 *The data on Mustang prices in Problem \#1 also contains the number
  of miles each car had been driven (in thousands).  Find a
- 95\<!--  confidence interval for the correlation between price and mileage.* -->
+ 95% confidence interval for the correlation between price and mileage.*
 <!-- end quotation -->
 
-We can fallow essentially the same workflow to obtain a confidence interval
+We can follow essentially the same workflow to obtain a confidence interval
 for other statistics, including the correlation coefficient.^[Naive 
 confidence intervals based on percentiles or bootstrap standard errors from 
 small samples may not be
@@ -503,7 +500,7 @@ cor(Price ~ Miles, data = Mustangs)
 
 
 ```{r }
-Mustangs.cor.boot <- do(1000) * cor(Price ~ Miles, data = resample(Mustangs))
+Mustangs.cor.boot <- do(numsim) * cor(Price ~ Miles, data = resample(Mustangs))
 quantiles <- qdata(~ cor, c(.025, .975), data = Mustangs.cor.boot)
 quantiles
 ```
@@ -543,13 +540,13 @@ The built-in R `lm()` function does the calculations:
 lm(Price ~ Miles, data = Mustangs)
 ```
 
-The notation used is the same as used to produce a scatter plot.  
+The notation used is the same as used to produce a scatter plot.
 The result indicates that for every additional 1000 miles driven, the price of a car 
 typically decreases by \$219 dollars (or, given the units of the data, 0.2188 thousand 
 dollars).  In other words, the value of a Mustang goes down by about 22 cents per mile 
 driven.
 
-This number, 22 cents decrease per mile, can be thought of as an "effect size."  It's likely much more meaningful to students (and car buyers!) than the correlation coefficient of $-0.82$.  The ability to give a description in terms of an effect size is an advantage of using regression as a description rather than correlation.  There are more such advantages to regression, which we will describe later.  But for now, our emphasis is on the use of regression as a framework for the traditional sorts of calculations of means, proportions, and differences of means and proportions.
+This number, 22 cents decrease per mile, can be thought of as a slope.  It's likely much more meaningful to students (and car buyers!) than the correlation coefficient of $-0.82$.  The ability to give a description in terms of predicted change is an advantage of using regression as a description rather than correlation.  There are more such advantages to regression, which we will describe later.  But for now, our emphasis is on the use of regression as a framework for the traditional sorts of calculations of means, proportions, and differences of means and proportions.
 
 The mean price of the Mustangs is, calculated in the ordinary way:
 ```{r }
@@ -639,17 +636,22 @@ lm(homeless=="homeless" ~ sex, data = HELPrct)
 Randomization can be performed with `lm()` in the same style as with `mean()` and `prop()`.  Here, for instance, is a resampling confidence interval on the 
 price change with mileage in the Mustang data:
 ```{r }
-Mustangs.lm.boot <- do(1000) * lm(Price ~ Miles, data = resample(Mustangs))
+Mustangs.lm.boot <- do(numsim) * lm(Price ~ Miles, data = resample(Mustangs))
 confint(Mustangs.lm.boot)
+# compare to large sample estimate
+confint(lm(Price ~ Miles, data = Mustangs))
 ```
 
 
 
-Or, we can calculate a permutation test on the difference between homeless rates among men and women using the `HELPrct` data:
+Or, we can calculate a permutation test on the difference between age among men and women using the `HELPrct` data:
 
 ```{r }
-HELPrct.null <- do(1000) * lm(homeless=="homeless" ~ shuffle(sex), data = HELPrct)
-prop(~ (abs(sexmale) > 0.1146), data = HELPrct.null)
+# large sample estimate
+msummary(lm(age ~ sex, data = HELPrct))
+# compare to permutation test
+HELPrct.null <- do(numsim) * lm(age ~ shuffle(sex), data = HELPrct)
+prop(~ (abs(sexmale) > 0.7841), data = HELPrct.null) 
 ```
 
 
@@ -658,9 +660,10 @@ prop(~ (abs(sexmale) > 0.1146), data = HELPrct.null)
 The regression framework allows more than one explanatory to be used.  For instance, one can examine how each of `Age` and `Miles` is related to the `Price` of the Mustangs.
 
 ```{r }
-Mustangs.boot1 <- do(1000) * lm(Price ~ Age, data = resample(Mustangs))
-Mustangs.boot2 <- do(1000) * lm(Price ~ Miles, data = resample(Mustangs))
-Mustangs.boot3 <- do(1000) * lm(Price ~ Miles + Age, data = resample(Mustangs))
+Mustangs.boot1 <- do(numsim) * lm(Price ~ Age, data = resample(Mustangs))
+Mustangs.boot2 <- do(numsim) * lm(Price ~ Miles, data = resample(Mustangs))
+Mustangs.boot3 <- do(numsim) * lm(Price ~ Miles + Age, data = resample(Mustangs))
+
 ```
 
 The first model suggests that `Price` goes down by about one to two thousand dollars per year of `Age`. 
@@ -685,6 +688,51 @@ there is little
 evidence for an `Age` effect.  The inflation of the confidence intervals for 
 `Miles` and `Age` is a result of the collinearity 
 between those explanatory variables. 
+
+We can compare the last model to the large sample result.
+
+```{r}
+confint(lm(Price ~ Miles + Age, data = Mustangs))
+```
+
+### More on Multiple Regression 
+
+The previous example examining mustang prices using both age and miles demonstrates one method of bootstrapping commonly known as case resampling. Observations from the original data are randomly sampled to create a new bootstrap sample where further analysis (in this case multiple regression) are conducted.
+
+Another method, residual resampling, involves adding randomly sampled residuals to the observed y values to generate a new response vector. For example, if we had a data table of 3 observations along with their residuals after fitting on a linear model.
+We can use `resample()` to randomly select residuals for each observation, and generate a new predicted value by adding the original observed y value to the resampled residual. 
+
+```{r results = "asis", echo = FALSE}
+ds <- data.frame(
+  y = c(234,324,231), residual = c(25,-23,-22))
+set.seed(104)
+
+ds <- ds %>%
+  mutate(
+    predicted = y - residual,
+    resamp_residual = resample(residual),
+    resamp_observed = predicted + resamp_residual) %>%
+  select(y, predicted, residual, resamp_residual, resamp_observed)
+knitr::kable(ds)
+```
+
+Here we see that the results are unchanged for the first car but the second and third cars have swapped residuals.
+
+
+The `relm()` function does the aforementioned process in a convenient way. We can use `do()` to repeat this process and create a bootstrap distribution to generate a range of possible slope coefficient values.
+
+```{r}
+set.seed(104)
+
+mustang.relm.mod <- lm(Price ~ Miles + Age, data = Mustangs)
+mustang.relm.boot <- do(numsim) * relm(mustang.relm.mod)
+```
+A 95% confidence interval can be constructed, and a histogram for the slope coefficent `Miles` variable is shown below.
+```{r}
+confint(mustang.relm.boot)
+gf_histogram(~Miles, data = mustang.relm.boot)
+```
+
 
 #### Simulation and ANOVA
 
@@ -714,7 +762,7 @@ Here, `do()` has been used without any randomization, merely to format the resul
 
 Shuffling `Age` allows the actual change in $R^2$ to be compared to what would be expected under the null hypothesis:
 ```{r }
-Mustangs.Age.boot <- do(1000) * lm(Price ~ Miles + shuffle(Age), data = Mustangs )
+Mustangs.Age.boot <- do(numsim) * lm(Price ~ Miles + shuffle(Age), data = Mustangs )
 favstats(~ r.squared, data = Mustangs.Age.boot)
 cdata(~ r.squared, .95, data = Mustangs.Age.boot)
 ```
@@ -725,7 +773,7 @@ observed range when `Age` is shuffled.  We can conclude that `Age` is not an imp
 
 The result is very different when `Miles` is shuffled instead.
 ```{r }
-Mustangs.Miles.boot <- do(1000) * lm(Price ~ shuffle(Miles) + Age, data = Mustangs)
+Mustangs.Miles.boot <- do(numsim) * lm(Price ~ shuffle(Miles) + Age, data = Mustangs)
 favstats(~ r.squared, data = Mustangs.Miles.boot)
 cdata(~ r.squared, .95, data = Mustangs.Miles.boot)
 ```
@@ -769,7 +817,7 @@ pval(chisq.test(tally(~ shuffle(homeless) + sex,
 
 #. Iterate to get the distribution under the null:
 ```{r }
-Chisq.null <- do(1000)* pval(chisq.test(tally(~ shuffle(homeless) + sex, 
+Chisq.null <- do(numsim)* pval(chisq.test(tally(~ shuffle(homeless) + sex, 
                          data = HELPrct, margins = FALSE)))
 ```
 
@@ -797,7 +845,7 @@ qqmath(~ p.value, data = Chisq.null, dist = qunif)
 
 Perhaps more important, with the simulation approach it's straightforward to segue into more advanced and appropriate models and tests.  So, rather than the esteemed $\chi^2$ test, perhaps something a bit more modern and flexible such as logistic regression with `age` as a covariate:
 ```{r }
-HELP.logistic.boot <- do(1000) * 
+HELP.logistic.boot <- do(numsim) * 
    glm(homeless=="homeless" ~ age + sex, 
      data = resample(HELPrct), family = "binomial")
 confint(HELP.logistic.boot)
@@ -806,11 +854,11 @@ confint(HELP.logistic.boot)
 
 ## Acknowledgments
 
-Thanks to Sarah Anoke for comments on a draft, as well as to Robin
-Lock of St. Lawrence University for organizing the resampling demonstration
+Thanks to Sarah Anoke for useful comments on a draft and Jessica Yu for editorial assistance.
+We also thank Robin Lock of St. Lawrence University for organizing the resampling demonstration
 session at USCOTS 2011.
 
-Project MOSAIC is supported by the US National Science Foundation (DUE-0920350).
+Project MOSAIC was supported by the US National Science Foundation (DUE-0920350).
 More information about the package and this initiative can be 
 found at the Project MOSAIC website: www.mosaic-web.org.
 
