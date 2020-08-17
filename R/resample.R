@@ -315,7 +315,20 @@ sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 	return(data)
 }
 
+#' @rdname resample
+#' @param parametric A logical indicating whether the resampling should be done parametrically.
+#' 
 #' @export
+#' @examples 
+#' model <- lm(width ~length * sex, data = KidsFeet)
+#' KidsFeet %>% head()
+#' resample(model) %>% head()
+#' Boot <- do(1000) * lm(width ~ length * sex, data = resample(KidsFeet))
+#' df_stats(~ Intercept + length + sexG + length.sexG, data = Boot, sd)
+#' head(Boot)
+#' summary(coef(model))
+#' 
+#' 
 sample.lm <- 
   function(
     x, size, replace = FALSE, prob = NULL, groups=NULL, 
@@ -366,7 +379,8 @@ sample.lm <-
     res[[1]] <- do.call(transformation, list(res$new_response))
     # remove "scratch columns"
     res <- res %>% 
-      select_(.dots = setdiff(names(res), c("resid", "new_resid", "new_response")))
+      #select_(.dots = setdiff(names(res), c("resid", "new_resid", "new_response")))
+      select(any_of(setdiff(names(res), c("resid", "new_resid", "new_response"))))
     res
   }
 

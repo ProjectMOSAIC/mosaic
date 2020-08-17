@@ -34,7 +34,6 @@ NA
 #' @importFrom dplyr bind_rows bind_cols 
 #' @importFrom dplyr filter select mutate summarise group_by arrange ungroup 
 #' @importFrom dplyr tibble do n first left_join 
-#' @importFrom dplyr group_by_ select_
 #' @importFrom tidyr gather
 #' @importFrom grid grid.polyline grid.text grid.lines grid.points grid.rect grid.layout gpar unit.c 
 #' @import lattice
