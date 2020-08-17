@@ -108,6 +108,10 @@ examples.}
 \item{drop.unused.levels}{a logical, should unused levels be dropped?}
 
 \item{parametric}{A logical indicating whether the resampling should be done parametrically.}
+
+\item{transformation}{NULL or a function providing a transformation to be applied to the
+synthetic responses.  If NULL, an attempt it made to infer the appropriate transformation
+from the original call as recorded in \code{x}.}
 }
 \description{
 These functions simplify and unify sampling in various ways.

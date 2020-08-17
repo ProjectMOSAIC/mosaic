@@ -57,7 +57,8 @@ Suggests:
     rgl,
     rmarkdown,
     covr,
-    formatR
+    formatR,
+    palmerpenguins
 Enhances: manipulate
 VignetteBuilder: knitr
 License: GPL (>=2)

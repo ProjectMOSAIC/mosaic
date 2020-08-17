@@ -15,8 +15,9 @@ zscore(x, na.rm = getOption("na.rm", FALSE))
 Compute z-scores
 }
 \examples{
-iris \%>\% 
-  group_by(Species) \%>\% 
-  mutate(zSepal.Length = zscore(Sepal.Length)) \%>\% 
+data(penguins, package = "palmerpenguins")
+penguins \%>\% 
+  group_by(species) \%>\% 
+  mutate(zbill_length_mm = zscore(bill_length_mm, na.rm = TRUE)) \%>\% 
   head()
 }
