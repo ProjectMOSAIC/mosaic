@@ -9,6 +9,7 @@
 \alias{sample.data.frame}
 \alias{sample.matrix}
 \alias{sample.factor}
+\alias{sample.lm}
 \title{More Random Samples}
 \usage{
 resample(..., replace = TRUE)
@@ -62,6 +63,19 @@ sample(x, size, replace = FALSE, ...)
   drop.unused.levels = FALSE,
   ...
 )
+
+\method{sample}{lm}(
+  x,
+  size,
+  replace = FALSE,
+  prob = NULL,
+  groups = NULL,
+  orig.ids = FALSE,
+  drop.unused.levels = FALSE,
+  parametric = FALSE,
+  transformation = NULL,
+  ...
+)
 }
 \arguments{
 \item{\dots}{additional arguments passed to
@@ -92,6 +106,8 @@ examples.}
 \item{invisibly.return}{a logical, should return be invisible?}
 
 \item{drop.unused.levels}{a logical, should unused levels be dropped?}
+
+\item{parametric}{A logical indicating whether the resampling should be done parametrically.}
 }
 \description{
 These functions simplify and unify sampling in various ways.
@@ -121,4 +137,13 @@ resample(Small, groups=sex, shuffled=c("id1","id2"))
 }
 deal(Cards, 13)    # A Bridge hand
 shuffle(Cards)
+model <- lm(width ~length * sex, data = KidsFeet)
+KidsFeet \%>\% head()
+resample(model) \%>\% head()
+Boot <- do(1000) * lm(width ~ length * sex, data = resample(KidsFeet))
+df_stats(~ Intercept + length + sexG + length.sexG, data = Boot, sd)
+head(Boot)
+summary(coef(model))
+
+
 }
