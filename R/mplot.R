@@ -178,7 +178,7 @@ mplot.lm <-
   
   
   # residuals vs fitted
-  g1 <- ggplot(fdata, aes(.fitted, .resid)) +
+  g1 <- ggplot(fdata, aes(.fitted, .std.resid)) +
     geom_point()  +
     geom_smooth_or_not +
     geom_hline(linetype = 2, size = .2, yintercept = 0) +
@@ -193,7 +193,7 @@ mplot.lm <-
     labs(title = "Residuals vs Fitted")
   
   l1 <- do.call(xyplot, 
-                c(list( .resid ~ .fitted, data = fdata,
+                c(list( .std.resid ~ .fitted, data = fdata,
                         type = c("p","smooth"),
                         panel = function(x,y,...) {
                           panel.abline(h = 0, linetype = 2, lwd = .5) 
