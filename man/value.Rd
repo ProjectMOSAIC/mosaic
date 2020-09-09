@@ -23,7 +23,7 @@ information that simply the value of the integration or optimization.  \code{val
 the primary value from such objects.  Currently implemented situations include the output from
 \code{\link[=integrate]{integrate()}},
 \code{\link[=nlm]{nlm()}},
-\code{\link[cubature:adaptIntegrate]{cubature::adaptIntegrate()}}, and
+\code{\link[cubature:hcubature]{cubature::adaptIntegrate()}}, and
 \code{\link[=uniroot]{uniroot()}}.
 }
 \examples{
