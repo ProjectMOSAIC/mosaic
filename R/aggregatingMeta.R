@@ -85,7 +85,12 @@ aggregatingFunction1 <-
             data <- parent.frame()
           }
           formula <- formularise(lazy_formula, parent.frame(2)) 
-          formula <- mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), max.slots = 3) 
+          formula <- 
+            if (is.null(groups)) {
+              mosaicCore::mosaic_formula_q(formula, max.slots = 3) 
+            } else {
+              mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), max.slots = 3) 
+            }
           maggregate(formula, data = data, FUN = FUNCTION_TBD, na.rm = na.rm, ..., .multiple = output.multiple)
         },
       formula = 
@@ -102,7 +107,12 @@ aggregatingFunction1 <-
             data <- parent.frame()
           }
           if (! inherits(x, "formula")) stop("`x' must be a formula")
-          formula <- mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
+          formula <- 
+            if (is.null(groups)) {
+              mosaicCore::mosaic_formula_q(x, max.slots = 3) 
+            } else {
+              mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
+            }
           maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
         },
       
@@ -115,7 +125,13 @@ aggregatingFunction1 <-
         {
           if (rlang::is_formula(x)) {
             if (is.null(data)) data <- environment(x)
-            formula <- mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
+            formula <- 
+              if (is.null(groups)) {
+                mosaicCore::mosaic_formula_q(x, max.slots = 3) 
+              } else {
+                mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
+              }
+            
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
                               na.rm = na.rm,
                               .multiple = OUTPUT.MULTIPLE))

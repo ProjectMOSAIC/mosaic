@@ -57,8 +57,13 @@ bargraph <- function(x, data = parent.frame(), groups = NULL, horizontal = FALSE
   
   if (!inherits(x, "formula") || !is.null(lhs(x)))
     stop("first argument should be a formula with no lhs.")
-  
-  xtab0 <- tally(x, data = data, groups = !!rlang::enexpr(groups), format = type, groups.first = TRUE)
+ 
+  xtab0 <- 
+    if (is.null(groups)) {
+      tally(x, data = data, format = type, groups.first = TRUE)
+    } else {
+      tally(x, data = data, groups = !!rlang::enexpr(groups), format = type, groups.first = TRUE)
+    }
   
   xtab <- as.data.frame(xtab0) 
   # grab the last variable name, to handle the case that 
