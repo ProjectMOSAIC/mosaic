@@ -11,7 +11,7 @@ safe_eval <- function(x) {
 }
 
 
-.fetchFromDots <- function( dots, name, class='data.frame', n=1, default=NULL ) {
+.fetchFromDots <- function( dots, name, class = 'data.frame', n = 1, default = NULL ) {
   result <- dots[[name]]
   if (is.null(result)) {
     if (length(result) < n) return(default)
@@ -87,7 +87,7 @@ safe_eval <- function(x) {
 #'                            describe subsets.  If the left side is empty, right side and condition are
 #'                            shifted over as a convenience.
 #' @param data a data frame.  
-#' Note that the default is `data=parent.frame()`.  This makes it convenient to
+#' Note that the default is `data = parent.frame()`.  This makes it convenient to
 #' use this function interactively by treating the working environment as if it were 
 #' a data frame.  But this may not be appropriate for programming uses.  
 #' When programming, it is best to use an explicit `data` argument
@@ -114,32 +114,32 @@ safe_eval <- function(x) {
 #'
 #' @examples
 #' if (require(mosaicData)) {
-#' maggregate( cesd ~ sex, HELPrct, FUN=mean )
+#' maggregate( cesd ~ sex, HELPrct, FUN = mean )
 #' # using groups instead
-#' maggregate( ~ cesd, groups = sex, HELPrct, FUN=sd )
+#' maggregate( ~ cesd, groups = sex, HELPrct, FUN = sd )
 #' # the next four all do the same thing
-#' maggregate( cesd ~ sex + homeless, HELPrct, FUN=mean )
-#' maggregate( cesd ~ sex | homeless, HELPrct, FUN=sd )
-#' maggregate( ~ cesd | sex , groups= homeless, HELPrct, FUN=sd )
-#' maggregate( cesd ~ sex, groups = homeless, HELPrct, FUN=sd )
+#' maggregate( cesd ~ sex + homeless, HELPrct, FUN = mean )
+#' maggregate( cesd ~ sex | homeless, HELPrct, FUN = sd )
+#' maggregate( ~ cesd | sex , groups= homeless, HELPrct, FUN = sd )
+#' maggregate( cesd ~ sex, groups = homeless, HELPrct, FUN = sd )
 #' # this is unusual, but also works.
-#' maggregate( cesd ~ NULL , groups = sex, HELPrct, FUN=sd )
+#' maggregate( cesd ~ NULL , groups = sex, HELPrct, FUN = sd )
 #' }
 #'
 #' @export
 maggregate <- 
   function(
     formula, 
-    data=parent.frame(), 
+    data = parent.frame(), 
     FUN, 
-    groups=NULL, 
+    groups = NULL, 
     subset, 
-    drop=FALSE, 
+    drop = FALSE, 
     ...,
     .format = c('default', 'table', 'flat'), 
     .overall = mosaic.par.get("aggregate.overall"), 
     # .multiple = NULL,
-    .multiple=FALSE, 
+    .multiple = FALSE, 
     # .name = NULL,
     .name = deparse(substitute(FUN)), 
     # .envir = NULL,
@@ -171,13 +171,13 @@ maggregate <-
   groupName <- ".group"  # gets changed to something better later when possible.
   
   .format <- match.arg(.format, c('default', 'table', 'flat'))
-  evalF <- mosaicCore::evalFormula(formula, data=data)
+  evalF <- mosaicCore::evalFormula(formula, data = data)
   
   if (!missing(subset)) {
     subset <- eval(substitute(subset), data, environment(formula))
-    if (!is.null(evalF$left))           evalF$left <- evalF$left[subset,]
-    if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
-    if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
+    if (!is.null(evalF$left))           evalF$left <- evalF$left[subset, ]
+    if (!is.null(evalF$right))         evalF$right <- evalF$right[subset, ]
+    if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset, ]
   }
   # this should now be standardized by the call to mosaic_formula_q() above.
   #  if ( is.null( evalF$left ) ) {
@@ -188,30 +188,30 @@ maggregate <-
   
   if ( is.null(evalF$left) || ncol(evalF$left) < 1 )  {
     if (ncol(evalF$right) > 1) warning("Too many variables in rhs; ignoring all but first.")
-    if (.format=="table") {
+    if (.format == "table") {
       if (.multiple) stop ("table view unavailable for this function.")
-      ldata <- evalF$right[,1,drop=FALSE]
+      ldata <- evalF$right[ , 1, drop = FALSE]
       gdata <- group_by(data)
       res <- as.data.frame(
         dplyr::do(gdata, foo = FUN( as.data.frame(.)[, 1], ...) ) )
       names(res)[ncol(res)] <- gsub(".*::", "", .name)
       return(res)
       
-      return(evalF$right[,1,drop=FALSE] %>% 
+      return(evalF$right[ , 1, drop = FALSE] %>% 
                group_by() %>%
-               dplyr::do( do.call(FUN, list(evalF$right[,1], ...)) ) %>%
+               dplyr::do( do.call(FUN, list(evalF$right[, 1], ...)) ) %>%
                as.data.frame()
       )
-      #      return(plyr::ddply(evalF$right[,1,drop=FALSE], names(NULL),
-      #                   function(x) do.call(FUN, list(evalF$right[,1], ...)) 
-      #      )[,-1])  # remove the .id column since it is uninteresting here.
+      #      return(plyr::ddply(evalF$right[ , 1, drop = FALSE], names(NULL),
+      #                   function(x) do.call(FUN, list(evalF$right[, 1], ...)) 
+      #      )[, -1])  # remove the .id column since it is uninteresting here.
     }
-    return( do.call(FUN, alist(evalF$right[,1], ...) ) )
+    return( do.call(FUN, alist(evalF$right[, 1], ...) ) )
   } else {
     if (ncol(evalF$left) > 1) warning("Too many variables in lhs; ignoring all but first.")
-    if (.format=='table') {
+    if (.format == 'table') {
       if (.multiple) stop ("table view unavailable for this function.")
-      ldata <- mosaicCore::joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
+      ldata <- mosaicCore::joinFrames(evalF$left[ , 1, drop = FALSE], evalF$right, evalF$condition) 
       ldata$.var <- ldata[, 1]
       gdata <- do.call( group_by, c(list(ldata),  
                                     lapply(union(names(evalF$right), names(evalF$condition)),
@@ -220,27 +220,27 @@ maggregate <-
         dplyr::do(gdata, foo = FUN( as.data.frame(.)[, 1], ...) ) )
       names(res)[ncol(res)] <- gsub(".*::", "", .name)
       #      res <-  plyr::ddply( 
-      #        mosaicCore::joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition), 
+      #        mosaicCore::joinFrames(evalF$left[ , 1, drop = FALSE], evalF$right, evalF$condition), 
       #        union(names(evalF$right), names(evalF$condition)),
-      #        function(x) do.call(FUN, list(x[,1], ...))
+      #        function(x) do.call(FUN, list(x[, 1], ...))
       #      )
       
     } else {
       res <- lapply( split( evalF$left[, 1], 
                             mosaicCore::joinFrames(evalF$right, evalF$condition), 
-                            drop=drop),
+                            drop = drop),
                      function(x) { do.call(FUN, alist(x, ...) ) }
       )
-      groupName <- paste(c(names(evalF$right), names(evalF$condition)), collapse=".")
+      groupName <- paste(c(names(evalF$right), names(evalF$condition)), collapse = ".")
       
       if (! .multiple ) res <- unlist(res)
       
       if (! is.null(evalF$condition) ) {
         if (ncol(evalF$left) > 1) message("Too many variables in lhs; ignoring all but first.")
-        res2 <- lapply( split( evalF$left[, 1], evalF$condition, drop=drop),
+        res2 <- lapply( split( evalF$left[, 1], evalF$condition, drop = drop),
                         function(x) { do.call(FUN, alist(x, ...) ) }
         )
-        groupName <- paste(names(evalF$condition), collapse=".")
+        groupName <- paste(names(evalF$condition), collapse = ".")
         if (!.multiple) {
           res <- c( res, unlist(res2) )
         } else {
@@ -251,12 +251,12 @@ maggregate <-
         result <- res
         res <- result[[1]]
         for (item in result[-1]) {
-          res <- as.data.frame(rbind(res,item))
+          res <- as.data.frame(rbind(res, item))
         }
         if ( nrow(res) == length(names(result)) ) {
           res[groupName] <- names(result)
         } else {
-          res[groupName] <- rep(names(result), each=nrow(res) / length(names(result)) )
+          res[groupName] <- rep(names(result), each = nrow(res) / length(names(result)) )
         }
         res <- res[, c(ncol(res), 1:(ncol(res) -1))]
       }
@@ -275,11 +275,11 @@ maggregate <-
 # for handling functions of two inputs
 # under construction still
 
-maggregate2 <- function(formula, data=parent.frame(), FUN, subset, 
-                        overall=mosaic.par.get("aggregate.overall"), 
-                        .format=c('default', 'table', 'flat'), drop=FALSE, 
-                        .multiple=FALSE, 
-                        groups=NULL, 
+maggregate2 <- function(formula, data = parent.frame(), FUN, subset, 
+                        overall = mosaic.par.get("aggregate.overall"), 
+                        .format = c('default', 'table', 'flat'), drop = FALSE, 
+                        .multiple = FALSE, 
+                        groups = NULL, 
                         .name = deparse(substitute(FUN)), 
                         ...) {
   dots <- list(...)
@@ -287,13 +287,13 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
   
   .format <- match.arg(.format)
   
-  evalF <- mosaicCore::evalFormula(formula, data=data)
+  evalF <- mosaicCore::evalFormula(formula, data = data)
   
   if (!missing(subset)) {
     subset <- eval(substitute(subset), data, environment(formula))
-    if (!is.null(evalF$left))           evalF$left <- evalF$left[subset,]
-    if (!is.null(evalF$right))         evalF$right <- evalF$right[subset,]
-    if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset,]
+    if (!is.null(evalF$left))           evalF$left <- evalF$left[subset, ]
+    if (!is.null(evalF$right))         evalF$right <- evalF$right[subset, ]
+    if (!is.null(evalF$condition)) evalF$condition <- evalF$condition[subset, ]
   }
   # this should now be standardized by the call to mosaic_formula_q() above.
   #  if ( is.null( evalF$left ) ) {
@@ -307,29 +307,29 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
   
   if (ncol(evalF$left) > 1) stop("Too many variables in lhs.")
   
-  if (.format=='table') {
+  if (.format == 'table') {
     if (.multiple) stop ("table view unavailable.")
-    ldata <- mosaicCore::joinFrames(evalF$left[,1,drop=FALSE], evalF$right, evalF$condition) 
+    ldata <- mosaicCore::joinFrames(evalF$left[ , 1, drop = FALSE], evalF$right, evalF$condition) 
     ldata$.var <- ldata[, 1]
     gdata <- do.call( group_by, c(list(ldata),  as.name(names(evalF$condition)) ) )
-    res <- as.data.frame( dplyr::do(gdata, foo = FUN( as.data.frame(.)[,1], as.data.frame(.)[,2], ...) ) )
+    res <- as.data.frame( dplyr::do(gdata, foo = FUN( as.data.frame(.)[, 1], as.data.frame(.)[, 2], ...) ) )
     names(res)[ncol(res)] <- gsub(".*::", "", .name)
   } else {
-    res <- lapply( split( evalF$left[,1], 
+    res <- lapply( split( evalF$left[, 1], 
                           mosaicCore::joinFrames(evalF$right, evalF$condition), 
-                          drop=drop),
+                          drop = drop),
                    function(x) { do.call(FUN, alist(x, ...) ) }
     )
-    groupName <- paste(c(names(evalF$right), names(evalF$condition)), collapse=".")
+    groupName <- paste(c(names(evalF$right), names(evalF$condition)), collapse = ".")
     
     if (! .multiple ) res <- unlist(res)
     
     if (! is.null(evalF$condition) ) {
       if (ncol(evalF$left) > 1) message("Too many variables in lhs; ignoring all but first.")
-      res2 <- lapply( split( evalF$left[,1], evalF$condition, drop=drop),
+      res2 <- lapply( split( evalF$left[, 1], evalF$condition, drop = drop),
                       function(x) { do.call(FUN, alist(x, ...) ) }
       )
-      groupName <- paste(names(evalF$condition), collapse=".")
+      groupName <- paste(names(evalF$condition), collapse = ".")
       if (!.multiple) {
         res <- c( res , unlist(res2) )
       } else {
@@ -340,12 +340,12 @@ maggregate2 <- function(formula, data=parent.frame(), FUN, subset,
       result <- res
       res <- result[[1]]
       for (item in result[-1]) {
-        res <- as.data.frame(rbind(res,item))
+        res <- as.data.frame(rbind(res, item))
       }
       if ( nrow(res) == length(names(result)) ) {
         res[groupName] <- names(result)
       } else {
-        res[groupName] <- rep(names(result), each=nrow(res) / length(names(result)) )
+        res[groupName] <- rep(names(result), each = nrow(res) / length(names(result)) )
       }
       res <- res[, c(ncol(res), 1:(ncol(res) -1))]
     }
