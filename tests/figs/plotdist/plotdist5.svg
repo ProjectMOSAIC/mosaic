@@ -59,6 +59,7 @@
     <rect x='47.66' y='35.01' width='643.33' height='499.39' />
   </clipPath>
 </defs>
+<circle cx='-5.95' cy='532.53' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <circle cx='47.66' cy='518.83' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <circle cx='101.27' cy='472.11' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <circle cx='154.89' cy='375.21' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
@@ -72,6 +73,9 @@
 <circle cx='583.77' cy='487.38' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <circle cx='637.38' cy='516.11' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <circle cx='690.99' cy='528.30' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
+<circle cx='744.60' cy='532.66' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
+<circle cx='798.21' cy='533.97' r='2.40pt' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
+<line x1='-5.95' y1='532.53' x2='-5.95' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <line x1='47.66' y1='518.83' x2='47.66' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <line x1='101.27' y1='472.11' x2='101.27' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <line x1='154.89' y1='375.21' x2='154.89' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
@@ -85,6 +89,8 @@
 <line x1='583.77' y1='487.38' x2='583.77' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <line x1='637.38' y1='516.11' x2='637.38' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <line x1='690.99' y1='528.30' x2='690.99' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
+<line x1='744.60' y1='532.66' x2='744.60' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
+<line x1='798.21' y1='533.97' x2='798.21' y2='534.40' style='stroke-width: 0.75; stroke: #0080FF;' clip-path='url(#cpNDcuNjZ8NjkwLjk5fDUzNC40MHwzNS4wMQ==)' />
 <defs>
   <clipPath id='cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA='>
     <rect x='0.00' y='0.00' width='720.00' height='576.00' />
