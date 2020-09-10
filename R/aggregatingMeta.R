@@ -86,12 +86,9 @@ aggregatingFunction1 <-
           }
           formula <- formularise(lazy_formula, parent.frame(2)) 
           formula <- 
-            if (FALSE && is.null(groups)) {
-              mosaicCore::mosaic_formula_q(formula, max.slots = 3) 
-            } else {
-              mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), max.slots = 3) 
-            }
-          maggregate(formula, data = data, FUN = FUNCTION_TBD, na.rm = na.rm, ..., .multiple = output.multiple)
+            mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), max.slots = 3) 
+          maggregate(formula, data = data, FUN = FUNCTION_TBD, na.rm = na.rm, ..., 
+                     .multiple = output.multiple)
         },
       formula = 
         function(
@@ -108,11 +105,7 @@ aggregatingFunction1 <-
           }
           if (! inherits(x, "formula")) stop("`x' must be a formula")
           formula <- 
-            if (FALSE && is.null(groups)) {
-              mosaicCore::mosaic_formula_q(x, max.slots = 3) 
-            } else {
-              mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
-            }
+            mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
           maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., .multiple = output.multiple)
         },
       
@@ -126,11 +119,7 @@ aggregatingFunction1 <-
           if (rlang::is_formula(x)) {
             if (is.null(data)) data <- environment(x)
             formula <- 
-              if (FALSE && is.null(groups)) {
-                mosaicCore::mosaic_formula_q(x, max.slots = 3) 
-              } else {
-                mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
-              }
+              mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 3) 
             
             return(maggregate(formula, data = data, FUN = FUNCTION_TBD, ..., 
                               na.rm = na.rm,

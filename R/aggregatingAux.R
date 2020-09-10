@@ -160,11 +160,8 @@ maggregate <-
     else 
       stop("data must be an environment or data.frame.", call. = FALSE)
   }
-  if (FALSE && is.null(groups)) {
-    formula <- mosaicCore::mosaic_formula_q(formula, envir = .envir)
-  } else {
-    formula <- mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), envir = .envir)
-  }
+  formula <- 
+    mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), envir = .envir)
   
   if (length(formula) == 2) { 
     return(FUN( eval(formula[[2]], data, .envir), ...))
@@ -287,11 +284,7 @@ maggregate2 <- function(formula, data = parent.frame(), FUN, subset,
                         ...) {
   dots <- list(...)
   formula <- 
-    if (FALSE && is.null(groups)) {
-      mosaicCore::mosaic_formula_q(formula, as.environment(data))
-    } else {
-      mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), as.environment(data))
-    }
+    mosaicCore::mosaic_formula_q(formula, groups = !!rlang::enexpr(groups), as.environment(data))
   
   .format <- match.arg(.format)
   

@@ -61,15 +61,9 @@ t_test.formula <-
   function (formula, data, ..., groups = NULL) {
     
     formula <- 
-      if (FALSE && is.null(groups)) {
-        mosaicCore::mosaic_formula_q(
-          formula, max.slots = 2, 
-          envir = if (is.environment(data)) data else environment(formula))
-      } else {
-        mosaicCore::mosaic_formula_q(
-          formula, groups = !!rlang::enexpr(groups), max.slots = 2, 
-          envir = if (is.environment(data)) data else environment(formula))
-      }
+      mosaicCore::mosaic_formula_q(
+        formula, groups = !!rlang::enexpr(groups), max.slots = 2, 
+        envir = if (is.environment(data)) data else environment(formula))
     dots <- list(...)
    
     if (length(formula) == 3) {

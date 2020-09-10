@@ -166,11 +166,8 @@ prop_test.formula <-
     }
     
     formula <- 
-      if (FALSE && is.null(groups)) {
-        mosaicCore::mosaic_formula_q(x, max.slots = 2) 
-      } else {
-        mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 2)
-      }
+      mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 2)
+    
     missing_data.name <- missing(data.name)
     if (is.null(data)) {
       data <- environment(x)
