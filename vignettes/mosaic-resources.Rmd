@@ -66,7 +66,8 @@ The following longer documents are available at
  * *Start Teaching Statistics Using R* includes 
 some strategies for teaching beginners, and introduction to the `mosaic` package,
 and some additional things that instructors should know about using R.
-(A spanish language translation can be found at https://github.com/jarochoeltrocho/MOSAIC-LittleBooks-Spanish.)
+(A spanish language translation can be found at
+https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish.)
 
  * *[A Student's Guide to R](https://github.com/ProjectMOSAIC/LittleBooks/raw/master/StudentGuide/MOSAIC-StudentGuide.pdf)* provides a brief introduction to 
 the R commands needed for all the basic statistical procedures in 
@@ -86,7 +87,7 @@ is an introduction to statistics embracing a modeling approach and employing
 resampling methods. 
 The `mosaic` package is used throughout.
 
-    * [www.mosaic-web.org/StatisticalModeling](http://www.mosaic-web.org/StatisticalModeling)
+    * [www.mosaic-web.org/StatisticalModeling](http://www.mosaic-web.org/StatisticalModeling/)
 
  * *Foundations and Applications of Statistics: An Introduction Using R* (R Pruim, second edition) 
 is an R-infused probability and mathematical statistics text that emphasizes
@@ -130,7 +131,7 @@ plotting.
     
     and the `Lock5withR` R package provides all the data sets used in the text.
 		
-    * [lock5stat.com](http://lock5stat.com) 
+    * [lock5stat.com](http://lock5stat.com/) 
 		
 
  * *Stats: Data and Models* (NJ Horton)
@@ -161,7 +162,7 @@ plotting.
     The `ISIwithR` R package provides all the data sets used in the text.
     Additional information about the book and the approach used there can be found at
 		
-    * [math.hope.edu/isi/](http://math.hope.edu/isi/)
+    * [www.isi-sats.com/isi/](http://www.isi-stats.com/isi/)
 		
   * [Open Intro Stats](https://www.openintro.org/stat/labs.php)
   
@@ -173,7 +174,7 @@ plotting.
 ## Articles
  * GW Cobb, "The introductory statistics course: a Ptolemaic curriculum?", 
    *Technology Innovations in Statistics Education*, 2007, 1(1), 
-   [escholarship.org/uc/item/6hb3k0nz](http://escholarship.org/uc/item/6hb3k0nz).
+   [escholarship.org/uc/item/6hb3k0nz](https://escholarship.org/uc/item/6hb3k0nz).
 
  * Fieberg JR, Vitense K, Johnson DH. 2020. Resampling-based methods for biologists. 
  PeerJ 8:e9089 <https://doi.org/10.7717/peerj.9089>
@@ -182,11 +183,11 @@ plotting.
  [nhorton.people.amherst.edu/precursors](http://nhorton.people.amherst.edu/precursors)
 
  * NJ Horton, and J Hardin, "Teaching the next generation of statistics students to "Think With Data": special issue on statistics and the undergraduate curriculum," *TAS*, 2015, 69(4):259-265, 
- [http://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283](http://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283)
+ [https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283](https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283)
  
  * D Nolan and D Temple Lang, "Computing in the statistics curricula", 
 *The American Statistician*, 2010, 64(2), 
-[www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf](http://www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf).
+[www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf](https://www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf).
 
 ## Other Resources
 
