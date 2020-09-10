@@ -90,6 +90,16 @@ mplot.default <- function(object, ...) {
 #' relatively simple models.  When the results for a logistic regression model created with
 #' [glm()] are satisfactory will depend on the format and structure of the data
 #' used to fit the model.
+#' 
+#' Due to a bug in RStudio 1.3, the method for data frames may not display the controls
+#' consistently.  We have found that executing this code usually fixes the problem:
+#' 
+#' ```
+#' library(manipulate) 
+#' manipulate(plot(A), A = slider(1, 10))
+#' ```
+#' 
+#' 
 #' @examples
 #' lm( width ~ length * sex, data = KidsFeet) %>%
 #'   mplot(which = 1:3, id.n = 5)
