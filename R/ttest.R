@@ -61,7 +61,7 @@ t_test.formula <-
   function (formula, data, ..., groups = NULL) {
     
     formula <- 
-      if (is.null(groups)) {
+      if (FALSE && is.null(groups)) {
         mosaicCore::mosaic_formula_q(
           formula, max.slots = 2, 
           envir = if (is.environment(data)) data else environment(formula))

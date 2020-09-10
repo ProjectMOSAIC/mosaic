@@ -166,7 +166,7 @@ prop_test.formula <-
     }
     
     formula <- 
-      if (is.null(groups)) {
+      if (FALSE && is.null(groups)) {
         mosaicCore::mosaic_formula_q(x, max.slots = 2) 
       } else {
         mosaicCore::mosaic_formula_q(x, groups = !!rlang::enexpr(groups), max.slots = 2)
