@@ -79,7 +79,7 @@ backtransformed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -275,10 +275,12 @@ more details and the confidence intervals are displayed.</p>
 #&gt; NULL</div><div class='output co'>#&gt; [1] 0.9993747</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
 <span class='fu'>relrisk</span>(<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(~ <span class='no'>homeless</span> + <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>) )
 <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>relrisk</span>( <span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>homeless</span> + <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>) )
-}</div><div class='output co'>#&gt;         RR
-#&gt; 1 1.052852
-#&gt; 2 1.013884
-#&gt; 3 1.274876</div></pre>
+}</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;          RR
+#&gt; 1 1.0934775
+#&gt; 2 1.0528518
+#&gt; 3 0.8098361</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -191,9 +191,13 @@ applied.</p></td>
   <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>chisq</span>( <span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>outcome</span> + <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>treatment</span>),  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Mites</span> ) )
   <span class='no'>Mites.rand</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>1000</span>) * <span class='fu'>chisq</span>( <span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>outcome</span> + <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>treatment</span>),  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Mites</span> ) )
   <span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~(<span class='no'>X.squared</span> <span class='kw'>&gt;=</span> <span class='fu'>chisq</span>(<span class='no'>Mites.table</span>)), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Mites.rand</span>, <span class='kw'>format</span><span class='kw'>=</span><span class='st'>"proportion"</span>)
-}</div><div class='output co'>#&gt; (X.squared &gt;= chisq(Mites.table))
+}</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; (X.squared &gt;= chisq(Mites.table))
 #&gt;  TRUE FALSE 
-#&gt;  0.01  0.99 </div><div class='input'>  
+#&gt; 0.022 0.978 </div><div class='input'>  
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

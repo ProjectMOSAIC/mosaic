@@ -74,7 +74,7 @@ and verbosity better." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -208,17 +208,19 @@ and verbosity better.</p>
     <pre class="examples"><div class='input'><span class='fu'>rflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; 
 #&gt; Flipping 10 coins [ Prob(Heads) = 0.5 ] ...
 #&gt; 
-#&gt; H H H H T T T H H H
+#&gt; T H H H H H T H T H
 #&gt; 
 #&gt; Number of Heads: 7 [Proportion Heads: 0.7]
 #&gt; </div><div class='input'><span class='fu'>rflip</span>(<span class='fl'>10</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'>rflip</span>(<span class='fl'>10</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>, <span class='kw'>summarize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    n heads tails      prob
-#&gt; 1 10     2     8 0.1666667</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>5</span>) * <span class='fu'>rflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt;    n heads tails prop
-#&gt; 1 10     4     6  0.4
-#&gt; 2 10     6     4  0.6
-#&gt; 3 10     5     5  0.5
-#&gt; 4 10     5     5  0.5
-#&gt; 5 10     5     5  0.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'>rflip</span>(<span class='fl'>10</span>))</div><div class='output co'>#&gt; [1] 7</div><div class='input'><span class='fu'>nflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; [1] 7</div></pre>
+#&gt; 1 10     2     8 0.1666667</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>5</span>) * <span class='fu'>rflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;    n heads tails prop
+#&gt; 1 10     5     5  0.5
+#&gt; 2 10     5     5  0.5
+#&gt; 3 10     6     4  0.6
+#&gt; 4 10     1     9  0.1
+#&gt; 5 10     6     4  0.6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'>rflip</span>(<span class='fl'>10</span>))</div><div class='output co'>#&gt; [1] 7</div><div class='input'><span class='fu'>nflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; [1] 5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

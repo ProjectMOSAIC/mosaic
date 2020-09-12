@@ -73,7 +73,7 @@ htest object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -201,27 +201,29 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
     <p>the extracted p-value, confidence interval, or test statistic</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='confint.html'>confint</a></span>(<span class='fu'><a href='ttest.html'>t.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)))</div><div class='output co'>#&gt;    mean of x      lower     upper level
-#&gt; 1 0.02967354 -0.1755472 0.2348942  0.95</div><div class='input'><span class='fu'>pval</span>(<span class='fu'><a href='ttest.html'>t.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)))</div><div class='output co'>#&gt;   p.value 
-#&gt; 0.6039811 </div><div class='input'><span class='fu'>stat</span>(<span class='fu'><a href='ttest.html'>t.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)))</div><div class='output co'>#&gt;          t 
-#&gt; -0.3345916 </div><div class='input'><span class='fu'><a href='confint.html'>confint</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/var.test.html'>var.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>)))</div><div class='output co'>#&gt;   ratio of variances    lower    upper level
-#&gt; 1          0.3279891 0.113883 1.208095  0.95</div><div class='input'><span class='fu'>pval</span>(<span class='fu'><a href='https://rdrr.io/r/stats/var.test.html'>var.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>)))</div><div class='output co'>#&gt;    p.value 
-#&gt; 0.02553581 </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
+    <pre class="examples"><div class='input'><span class='fu'><a href='confint.html'>confint</a></span>(<span class='fu'><a href='ttest.html'>t.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)))</div><div class='output co'>#&gt;      mean of x      lower     upper level
+#&gt; 1 -0.006451192 -0.2071248 0.1942224  0.95</div><div class='input'><span class='fu'>pval</span>(<span class='fu'><a href='ttest.html'>t.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)))</div><div class='output co'>#&gt;   p.value 
+#&gt; 0.3227409 </div><div class='input'><span class='fu'>stat</span>(<span class='fu'><a href='ttest.html'>t.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)))</div><div class='output co'>#&gt;        t 
+#&gt; 1.539478 </div><div class='input'><span class='fu'><a href='confint.html'>confint</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/var.test.html'>var.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>)))</div><div class='output co'>#&gt;   ratio of variances     lower    upper level
+#&gt; 1          0.3064514 0.1064048 1.128764  0.95</div><div class='input'><span class='fu'>pval</span>(<span class='fu'><a href='https://rdrr.io/r/stats/var.test.html'>var.test</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>10</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>)))</div><div class='output co'>#&gt;   p.value 
+#&gt; 0.1359995 </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>HELPrct</span>)
 <span class='fu'>stat</span>(<span class='fu'><a href='ttest.html'>t.test</a></span> (<span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>))
 <span class='co'># Compare to test statistic computed with permuted values of sex.</span>
 <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>10</span>) * <span class='fu'>stat</span>(<span class='fu'><a href='ttest.html'>t.test</a></span> (<span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>))
-}</div><div class='output co'>#&gt;              t
-#&gt; 1  -1.03485015
-#&gt; 2   0.02986026
-#&gt; 3   0.98876997
-#&gt; 4  -0.27501184
-#&gt; 5   0.35325209
-#&gt; 6  -1.72610387
-#&gt; 7   0.00113302
-#&gt; 8   1.13971098
-#&gt; 9   0.58472115
-#&gt; 10  0.22917871</div></pre>
+}</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;             t
+#&gt; 1  -0.9483430
+#&gt; 2   0.8458801
+#&gt; 3  -1.0342058
+#&gt; 4   0.1853414
+#&gt; 5  -0.2320483
+#&gt; 6  -0.2097493
+#&gt; 7   0.4114783
+#&gt; 8   2.2663608
+#&gt; 9   0.6008257
+#&gt; 10 -1.3415732</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

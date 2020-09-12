@@ -73,7 +73,7 @@ facilitate better naming of the result" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@ facilitate better naming of the result</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x, data, ...</th>
-      <td><p>as in <code><a href='aggregating.html'>mosaic::mean()</a></code> or <code><a href='https://rdrr.io/pkg/mosaicCore/man/prop.html'>mosaic::prop()</a></code></p></td>
+      <td><p>as in <code><a href='aggregating.html'>mean()</a></code> or <code><a href='https://rdrr.io/pkg/mosaicCore/man/prop.html'>prop()</a></code></p></td>
     </tr>
     <tr>
       <th>only.2</th>
@@ -173,10 +173,16 @@ between two groups.</p></td>
 <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>diffmean</span>(<span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>substance</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>, <span class='kw'>only.2</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='fu'>diffmean</span>( <span class='no'>age</span> ~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
 <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>diffmean</span>(<span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-}</div><div class='output co'>#&gt;     diffmean
-#&gt; 1  0.6352439
-#&gt; 2  0.1825131
-#&gt; 3 -0.5883529</div></pre>
+}</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;     diffmean
+#&gt; 1  0.1090973
+#&gt; 2 -0.9554319
+#&gt; 3  0.7943115</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

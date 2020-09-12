@@ -73,7 +73,7 @@ from data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -195,38 +195,38 @@ upper and lower limits and the central proportion requested</p>
 <p>For <code>ddata</code>, a vector of probabilities (empirical densities)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>qdata</span>(<span class='no'>Sepal.Length</span> ~ <span class='no'>Species</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species 50%
-#&gt; 1     setosa 5.0
-#&gt; 2 versicolor 5.9
-#&gt; 3  virginica 6.5</div><div class='input'><span class='fu'>qdata</span>(~<span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>Species</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species 50%
-#&gt; 1     setosa 5.0
-#&gt; 2 versicolor 5.9
-#&gt; 3  virginica 6.5</div><div class='input'><span class='fu'>qdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; 50% 
-#&gt; 5.8 </div><div class='input'><span class='fu'>qdata</span>(~ <span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt; 50% 
-#&gt; 5.8 </div><div class='input'><span class='fu'>qdata</span>(~ <span class='no'>Sepal.Length</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>Species</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species 50%
-#&gt; 1     setosa 5.0
-#&gt; 2 versicolor 5.9
-#&gt; 3  virginica 6.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>cdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;     lower upper central.p
-#&gt; 25%   5.1   6.4       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='output co'>#&gt;     lower upper central.p
-#&gt; 25%   5.1   6.4       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)</div><div class='output co'>#&gt;     lower upper central.p
-#&gt; 25%   5.1   6.4       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>Sepal.Length</span> <span class='kw'>|</span> <span class='no'>Species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>.5</span>)</div><div class='output co'>#&gt;      Species lower upper central.p
-#&gt; 1     setosa 4.800   5.2       0.5
-#&gt; 2 versicolor 5.600   6.3       0.5
-#&gt; 3  virginica 6.225   6.9       0.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>pdata</span>(<span class='no'>iris</span>$<span class='no'>Sepal.Length</span>, <span class='fl'>3</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 0.0000000 0.0000000 0.2133333 0.5933333</div><div class='input'><span class='fu'>pdata</span>( ~ <span class='no'>Sepal.Length</span>, <span class='fl'>3</span>:<span class='fl'>6</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt; [1] 0.0000000 0.0000000 0.2133333 0.5933333</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>rdata</span>(<span class='no'>iris</span>$<span class='no'>Species</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1] virginica  virginica  setosa     versicolor versicolor virginica 
-#&gt;  [7] setosa     versicolor setosa     versicolor
-#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'>rdata</span>(~<span class='no'>Species</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;  [1] virginica  setosa     versicolor versicolor virginica  setosa    
-#&gt;  [7] virginica  versicolor virginica  virginica 
-#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'>rdata</span>(<span class='no'>Sepal.Length</span> ~ <span class='no'>Species</span>,  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;      Species rdata_v1 rdata_v2 rdata_v3 rdata_v4 rdata_v5
-#&gt; 1     setosa      4.9      4.6      5.0      4.9      5.7
-#&gt; 2 versicolor      6.9      5.0      5.6      5.0      5.4
-#&gt; 3  virginica      6.4      6.3      6.9      5.8      6.4</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>iris</span>)
-<span class='fu'>ddata</span>(<span class='no'>iris</span>$<span class='no'>Species</span>, <span class='st'>'setosa'</span>)</div><div class='output co'>#&gt;    setosa 
-#&gt; 0.3333333 </div><div class='input'><span class='fu'>ddata</span>(~<span class='no'>Species</span>, <span class='st'>'setosa'</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>iris</span>)</div><div class='output co'>#&gt;    setosa 
-#&gt; 0.3333333 </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"palmerpenguins"</span>)
+<span class='fu'>qdata</span>(<span class='no'>flipper_length_mm</span> ~ <span class='no'>species</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species 50%
+#&gt; 1    Adelie 190
+#&gt; 2 Chinstrap 196
+#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'>qdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species 50%
+#&gt; 1    Adelie 190
+#&gt; 2 Chinstrap 196
+#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'>qdata</span>(<span class='no'>penguins</span>$<span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; 50% 
+#&gt; 197 </div><div class='input'><span class='fu'>qdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt; 50% 
+#&gt; 197 </div><div class='input'><span class='fu'>qdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species 50%
+#&gt; 1    Adelie 190
+#&gt; 2 Chinstrap 196
+#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
+<span class='fu'>cdata</span>(<span class='no'>penguins</span>$<span class='no'>flipper_length_mm</span>, <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;     lower upper central.p
+#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     lower upper central.p
+#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     lower upper central.p
+#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>flipper_length_mm</span> <span class='kw'>|</span> <span class='no'>species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>.5</span>)</div><div class='output co'>#&gt;     species lower upper central.p
+#&gt; 1    Adelie   186   195       0.5
+#&gt; 2 Chinstrap   191   201       0.5
+#&gt; 3    Gentoo   212   221       0.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
+<span class='fu'>pdata</span>(<span class='no'>penguins</span>$<span class='no'>flipper_length_mm</span>, <span class='fl'>3</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 0 0 0 0</div><div class='input'><span class='fu'>pdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='fl'>3</span>:<span class='fl'>6</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt; [1] 0 0 0 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
+<span class='fu'>rdata</span>(<span class='no'>penguins</span>$<span class='no'>species</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1] Chinstrap Adelie    Adelie    Adelie    Chinstrap Adelie    Gentoo   
+#&gt;  [8] Adelie    Adelie    Gentoo   
+#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='fu'>rdata</span>( ~ <span class='no'>species</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;  [1] Gentoo    Gentoo    Gentoo    Chinstrap Adelie    Adelie    Chinstrap
+#&gt;  [8] Adelie    Chinstrap Gentoo   
+#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='fu'>rdata</span>(<span class='no'>flipper_length_mm</span> ~ <span class='no'>species</span>,  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species rdata_v1 rdata_v2 rdata_v3 rdata_v4 rdata_v5
+#&gt; 1    Adelie      180      189      184      193      185
+#&gt; 2 Chinstrap      196      197      190      195      197
+#&gt; 3    Gentoo      220      221      219      214      220</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
+<span class='fu'>ddata</span>(<span class='no'>penguins</span>$<span class='no'>species</span>, <span class='st'>'setosa'</span>)</div><div class='output co'>#&gt; setosa 
+#&gt;      0 </div><div class='input'><span class='fu'>ddata</span>( ~ <span class='no'>species</span>, <span class='st'>'setosa'</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt; setosa 
+#&gt;      0 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

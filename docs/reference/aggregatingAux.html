@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -171,7 +171,7 @@ shifted over as a convenience.</p></td>
     <tr>
       <th>data</th>
       <td><p>a data frame.
-Note that the default is <code>data=parent.frame()</code>.  This makes it convenient to
+Note that the default is <code>data = parent.frame()</code>.  This makes it convenient to
 use this function interactively by treating the working environment as if it were
 a data frame.  But this may not be appropriate for programming uses.
 When programming, it is best to use an explicit <code>data</code> argument
@@ -228,16 +228,16 @@ Ignored if <code>.multiple</code> is not <code>NULL</code>.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span><span class='kw'>=</span><span class='no'>mean</span> )
+<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>mean</span> )
 <span class='co'># using groups instead</span>
-<span class='fu'>maggregate</span>( ~ <span class='no'>cesd</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span><span class='kw'>=</span><span class='no'>sd</span> )
+<span class='fu'>maggregate</span>( ~ <span class='no'>cesd</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
 <span class='co'># the next four all do the same thing</span>
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span> + <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span><span class='kw'>=</span><span class='no'>mean</span> )
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span> <span class='kw'>|</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span><span class='kw'>=</span><span class='no'>sd</span> )
-<span class='fu'>maggregate</span>( ~ <span class='no'>cesd</span> <span class='kw'>|</span> <span class='no'>sex</span> , <span class='kw'>groups</span><span class='kw'>=</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span><span class='kw'>=</span><span class='no'>sd</span> )
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span><span class='kw'>=</span><span class='no'>sd</span> )
+<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span> + <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>mean</span> )
+<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span> <span class='kw'>|</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
+<span class='fu'>maggregate</span>( ~ <span class='no'>cesd</span> <span class='kw'>|</span> <span class='no'>sex</span> , <span class='kw'>groups</span><span class='kw'>=</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
+<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
 <span class='co'># this is unusual, but also works.</span>
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='kw'>NULL</span> , <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span><span class='kw'>=</span><span class='no'>sd</span> )
+<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='kw'>NULL</span> , <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
 }</div><div class='output co'>#&gt;   female     male 
 #&gt; 13.01764 12.10332 </div><div class='input'>
 </div></pre>

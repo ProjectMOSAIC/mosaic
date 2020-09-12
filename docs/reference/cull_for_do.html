@@ -78,7 +78,7 @@ classes of objects." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -183,7 +183,9 @@ of determinism, an the estimate for the variance, etc.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>cull_for_do</span>(<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>length</span> ~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>KidsFeet</span>))</div><div class='output co'>#&gt;   Intercept    width    sigma r.squared        F numdf dendf
-#&gt; 1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>1</span>) * <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>length</span> ~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>KidsFeet</span>)</div><div class='output co'>#&gt;   Intercept    width    sigma r.squared        F numdf dendf .row .index
+#&gt; 1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>1</span>) * <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>length</span> ~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>KidsFeet</span>)</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   Intercept    width    sigma r.squared        F numdf dendf .row .index
 #&gt; 1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37    1      1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -91,13 +91,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="LessVolume-MoreCreativity_files/header-attrs-2.3/header-attrs.js"></script><script src="LessVolume-MoreCreativity_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Less Volume, More Creativity – Getting Started with the mosaic Package</h1>
                         <h4 class="author">Randall Pruim (updated by Nicholas Horton)</h4>
             
-            <h4 class="date">2020-05-15</h4>
+            <h4 class="date">2020-09-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/master/vignettes/web-only/LessVolume-MoreCreativity.Rmd"><code>vignettes/web-only/LessVolume-MoreCreativity.Rmd</code></a></small>
       <div class="hidden name"><code>LessVolume-MoreCreativity.Rmd</code></div>
@@ -550,11 +550,11 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <li>can be used to make custom summary tables</li>
 </ul>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu">df_stats</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
-<pre><code>##   min Q1 median Q3 max     mean       sd   n missing
-## 1  19 30     35 40  60 35.65342 7.710266 453       0</code></pre>
+<pre><code>##   response min Q1 median Q3 max     mean       sd   n missing
+## 1      age  19 30     35 40  60 35.65342 7.710266 453       0</code></pre>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu">df_stats</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">mean</span>, <span class="no">sd</span>, <span class="no">median</span>, <span class="no">iqr</span>)</pre></body></html></div>
-<pre><code>##   mean_age   sd_age median_age iqr_age
-## 1 35.65342 7.710266         35      10</code></pre>
+<pre><code>##   response     mean       sd median iqr
+## 1      age 35.65342 7.710266     35  10</code></pre>
 </div>
 </div>
 <div id="tallying" class="section level3">
@@ -569,8 +569,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 ## alcohol cocaine  heroin 
 ##     177     152     124</code></pre>
 <div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu">df_stats</span>(~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">counts</span>, <span class="no">props</span>)</pre></body></html></div>
-<pre><code>##   n_alcohol n_cocaine n_heroin prop_alcohol prop_cocaine prop_heroin
-## 1       177       152      124    0.3907285    0.3355408   0.2737307</code></pre>
+<pre><code>##    response n_alcohol n_cocaine n_heroin prop_alcohol prop_cocaine prop_heroin
+## 1 substance       177       152      124    0.3907285    0.3355408   0.2737307</code></pre>
 </div>
 <div id="numerical-summaries-two-variables" class="section level3">
 <h3 class="hasAnchor">
@@ -585,10 +585,10 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <p>This makes it possible to easily convert three different types of plots into the (same) corresponding numerical summary.</p>
 <p><code>df_stats()</code> can also be used with multiple variables and provides a different output format.</p>
 <div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="fu">df_stats</span>(<span class="no">age</span> ~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">sd</span>)</pre></body></html></div>
-<pre><code>##   substance   sd_age
-## 1   alcohol 7.652272
-## 2   cocaine 6.692881
-## 3    heroin 7.986068</code></pre>
+<pre><code>##   response substance       sd
+## 1      age   alcohol 7.652272
+## 2      age   cocaine 6.692881
+## 3      age    heroin 7.986068</code></pre>
 </div>
 <div id="numerical-summaries-tables" class="section level3">
 <h3 class="hasAnchor">
@@ -605,10 +605,10 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 ##   female      36      41     30
 ##   male       141     111     94</code></pre>
 <div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu">df_stats</span>(<span class="no">sex</span> ~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">counts</span>)</pre></body></html></div>
-<pre><code>##   substance n_female n_male
-## 1   alcohol       36    141
-## 2   cocaine       41    111
-## 3    heroin       30     94</code></pre>
+<pre><code>##   response substance n_female n_male
+## 1      sex   alcohol       36    141
+## 2      sex   cocaine       41    111
+## 3      sex    heroin       30     94</code></pre>
 <p>Other output formats are available</p>
 <div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(<span class="no">sex</span> ~ <span class="no">substance</span>,   <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"proportion"</span>)</pre></body></html></div>
 <pre><code>##         substance
@@ -634,10 +634,10 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 ##   female 20.33898 26.97368 24.19355
 ##   male   79.66102 73.02632 75.80645</code></pre>
 <div class="sourceCode" id="cb46"><html><body><pre class="r"><span class="fu">df_stats</span>(<span class="no">sex</span> ~ <span class="no">substance</span>,   <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">props</span>, <span class="no">percs</span>)</pre></body></html></div>
-<pre><code>##   substance prop_female prop_male perc_female perc_male
-## 1   alcohol   0.2033898 0.7966102    20.33898  79.66102
-## 2   cocaine   0.2697368 0.7302632    26.97368  73.02632
-## 3    heroin   0.2419355 0.7580645    24.19355  75.80645</code></pre>
+<pre><code>##   response substance prop_female prop_male perc_female perc_male
+## 1      sex   alcohol   0.2033898 0.7966102    20.33898  79.66102
+## 2      sex   cocaine   0.2697368 0.7302632    26.97368  73.02632
+## 3      sex    heroin   0.2419355 0.7580645    24.19355  75.80645</code></pre>
 <div id="more-examples" class="section level4">
 <h4 class="hasAnchor">
 <a href="#more-examples" class="anchor"></a>More examples</h4>

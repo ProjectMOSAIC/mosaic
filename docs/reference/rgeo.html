@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -202,20 +202,20 @@ to the sphere.  This method must oversample to allow for the discarded points.</
     <div class='dont-index'><p><code><a href='deg2rad.html'>deg2rad()</a></code>, <code><a href='googleMap.html'>googleMap()</a></code> and <code><a href='latlon2xyz.html'>latlon2xyz()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rgeo</span>(<span class='fl'>4</span>)</div><div class='output co'>#&gt;          lat         lon
-#&gt; 1 -26.753299    4.880432
-#&gt; 2 -64.369786   51.715726
-#&gt; 3  18.181790  -66.721506
-#&gt; 4  -6.281018 -103.974445</div><div class='input'><span class='co'># sample from a region that contains the continental US</span>
-<span class='fu'>rgeo</span>(<span class='fl'>4</span>, <span class='kw'>latlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>25</span>,<span class='fl'>50</span>), <span class='kw'>lonlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>65</span>, -<span class='fl'>125</span>))</div><div class='output co'>#&gt;        lat        lon
-#&gt; 1 27.27968 -117.01791
-#&gt; 2 48.57241  -80.02287
-#&gt; 3 34.33344  -89.51643
-#&gt; 4 34.95282 -110.67493</div><div class='input'><span class='fu'>rgeo2</span>(<span class='fl'>4</span>)</div><div class='output co'>#&gt;          lat       lon
-#&gt; 1   9.714323 -88.59965
-#&gt; 2  27.981377 167.53559
-#&gt; 3 -64.222853  32.77816
-#&gt; 4  40.528947 124.11740</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>rgeo</span>(<span class='fl'>4</span>)</div><div class='output co'>#&gt;         lat        lon
+#&gt; 1  19.05610  -19.50941
+#&gt; 2 -46.04375 -159.67086
+#&gt; 3  29.63209   15.40611
+#&gt; 4  72.95190  -82.24508</div><div class='input'><span class='co'># sample from a region that contains the continental US</span>
+<span class='fu'>rgeo</span>(<span class='fl'>4</span>, <span class='kw'>latlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>25</span>,<span class='fl'>50</span>), <span class='kw'>lonlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>65</span>, -<span class='fl'>125</span>))</div><div class='output co'>#&gt;        lat       lon
+#&gt; 1 36.36937 -66.79376
+#&gt; 2 49.46031 -96.11946
+#&gt; 3 34.01832 -78.01901
+#&gt; 4 48.02587 -93.43284</div><div class='input'><span class='fu'>rgeo2</span>(<span class='fl'>4</span>)</div><div class='output co'>#&gt;         lat      lon
+#&gt; 1 -22.57304 -36.6247
+#&gt; 2 -54.70960 134.5217
+#&gt; 3  20.75593 -48.0073
+#&gt; 4 -77.45501 162.2262</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

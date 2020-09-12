@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -174,12 +174,20 @@ randomizations should be kept modest (approximately 1000) unless you are very pa
   <span class='fu'><a href='aggregating.html'>mean</a></span>( ~(<span class='no'>drug1</span> - <span class='no'>drug2</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Sleep2</span>)
   <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'><a href='aggregating.html'>mean</a></span>( ~(<span class='no'>drug1</span> - <span class='no'>drug2</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Sleep2</span> <span class='kw'>%&gt;%</span> <span class='fu'>swap</span>(<span class='no'>drug1</span> ~ <span class='no'>drug2</span>) )
 }</div><div class='output co'>#&gt; <span class='message'>Loading required package: tidyr</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘tidyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:Matrix’:</span>
+#&gt; <span class='message'>Attaching package: ‘tidyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    expand, pack, unpack</span></div><div class='output co'>#&gt;    mean
-#&gt; 1 -0.06
-#&gt; 2 -0.24
-#&gt; 3 -0.16</div></pre>
+#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:Matrix’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    expand, pack, unpack</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; <span class='message'>  * Set seed with set.rseed().</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   mean
+#&gt; 1 0.32
+#&gt; 2 0.16
+#&gt; 3 0.90</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
