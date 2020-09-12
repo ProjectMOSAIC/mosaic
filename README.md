@@ -3,7 +3,6 @@
 
 <!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mosaic)](http://cran.r-project.org/package=mosaic) -->
 [![Travis-CI Build Status](https://travis-ci.org/ProjectMOSAIC/mosaic.svg?branch=master)](https://travis-ci.org/ProjectMOSAIC/mosaic/)
-![R-CMD-check](https://github.com/ProjectMOSAIC/mosaic/workflows/R-CMD-check/badge.svg)
 
 ## Purpose and design
 
@@ -29,6 +28,15 @@ If you want to try out our developmental code (the beta branch), use
 ```r
 devtools::install_github("ProjectMOSAIC/mosaic", ref="beta")
 ```
+
+Some features of the mosaic package have been split off into auxiliary packages. These include:
+
+* mosaicModel -- implements high-level systems for working with statistical models: effect-size calculation, bootstrapped confidence intervals, prediction error, graphics for models with multiple inputs. The package contains an introductory vignette.
+* mosaicCalc -- provides the calculus components of mosaic, including integration, differentiation, and differential equation solving. See *[Modeling-based calculus with R/mosaic](http://mosaic-web.org/wp-content/uploads/2019/01/UMAP-mosaic-calculus.pdf)* for an instructor-oriented introduction and *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* for a student-facing guide.
+
+Install these packages using `install.packages(c("mosaicCalc", "mosaicModel"))` or from GitHub as described above. 
+
+
 Updates to the master github repository are more frequent than CRAN updates.
 Our beta branch is where we implement bug fixes most quickly and develop new features.
 We try to keep it pretty stable, but there may be a few rough edges, missing documentation, etc. while things are in progress.  
@@ -44,7 +52,7 @@ package and external to it.  That's a good place to start.
 
 ## Getting Help
 
-Need help?  Try posting a question on Stack Overflow using the tag [r-mosaic](http://stackoverflow.com/questions/tagged/r-mosaic).
+Need help?  Try posting a question on Stack Overflow using the tag [r-mosaic](https://stackoverflow.com/questions/tagged/r-mosaic).
 
 
 ## Project MOSAIC
