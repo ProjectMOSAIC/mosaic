@@ -870,7 +870,7 @@ This document was produced using `r sessionInfo()$R.version$version.string` and 
    _Technology Innovations in Statistics Education_, 2007, 1(1).
 #. B. Efron \& R. J. Tibshirani, *An Introduction to the Bootstrap*, 1993, Chapman \& Hall, New York.
 #. T. Hesterberg, D. S. Moore, S. Monaghan, A. Clipson \& R. Epstein.  *Bootstrap Methods and Permutation Tests (2nd edition)*, (2005), W.H. Freeman, New York.
-#. D.T. Kaplan, *Statistical Modeling: A Fresh Approach*, 2nd edition, http://www.mosaic-web.org/StatisticalModeling.
+#. D.T. Kaplan, *Statistical Modeling: A Fresh Approach*, 2nd edition, http://www.mosaic-web.org/go/StatisticalModeling/.
 #. S.C. Mednicj, D. J. Cai, J. Kanady, S. P. Drummond.  "Comparing the benefits of caffeine, naps and placebo on verbal, motor and perceptual memory", *Behavioural Brain Research*, 2008, 193(1):79-86.
 #. T. Speed, "Simulation", _IMS Bulletin_, 2011, 40(3):18.
 <!-- end itemize -->

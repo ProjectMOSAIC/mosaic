@@ -72,7 +72,8 @@ https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish.)
  * *[A Student's Guide to R](https://github.com/ProjectMOSAIC/LittleBooks/raw/master/StudentGuide/MOSAIC-StudentGuide.pdf)* provides a brief introduction to 
 the R commands needed for all the basic statistical procedures in 
 an Intro Stats course.  
-(A spanish language translation can be found at https://github.com/jarochoeltrocho/MOSAIC-LittleBooks-Spanish.)
+(A spanish language translation can be found at
+https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish.)
 
 
  * *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* highlights features 
@@ -87,7 +88,7 @@ is an introduction to statistics embracing a modeling approach and employing
 resampling methods. 
 The `mosaic` package is used throughout.
 
-    * [www.mosaic-web.org/StatisticalModeling](http://www.mosaic-web.org/StatisticalModeling/)
+    * [www.mosaic-web.org/StatisticalModeling](http://www.mosaic-web.org/go/StatisticalModeling/)
 
  * *Foundations and Applications of Statistics: An Introduction Using R* (R Pruim, second edition) 
 is an R-infused probability and mathematical statistics text that emphasizes
@@ -131,7 +132,7 @@ plotting.
     
     and the `Lock5withR` R package provides all the data sets used in the text.
 		
-    * [lock5stat.com](http://lock5stat.com/) 
+    * [lock5stat.com](http://www.lock5stat.com/) 
 		
 
  * *Stats: Data and Models* (NJ Horton)
