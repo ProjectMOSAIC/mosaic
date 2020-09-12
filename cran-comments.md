@@ -1,27 +1,16 @@
-## Context
-
-This is a relatively small update, primarily fixing some types to allow this 
-to successfully build when the new dplyr hits CRAN.
-
 ## Test environments
 
-* local OS X install
-  * R version 4.0.0 (2020-04-24)
+* local
+
+  * R (4.0.2 and 4.1 (unstable))
   * Platform: x86_64-apple-darwin17.0 (64-bit)
   * Running under: macOS Catalina 10.15.4
-  
-* win-builder via devtools::check_win_release()
-* win-builder via devtools::check_win_devel()
-* rhub via devtools::check_rhub()
 
+* win-builder
 
-## R CMD check results
+## Mosaic suite udpates
 
-0 errors ✓ | 0 warnings ✓ | 1 note x
+This is submission is part of parallel submissions of mosaicCore, mosaicData, mosaic, and ggformula.
+All of which are currently checking clean locally and with check_win_devel()
 
-R CMD check succeeded
-
-## Note
-
-We have moved several vignettes out of the package to reduce the size.
 

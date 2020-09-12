@@ -1,5 +1,5 @@
 
-# mosaic 1.7.0
+# mosaic 1.8.0
 
 * Fixed dplyr 1.0.0 failure by stabilizing types
 * Fixed a few bugs leftover from migration from tidyeval to rlang
