@@ -10,6 +10,7 @@
 *.toc
 *.ilg
 *.log
+.DS_Store
 vignettes/*/*_cache/*
 vignettes/*/*_files/*
 figure/
