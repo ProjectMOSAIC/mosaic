@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 Text can be decorated with **bold** or *italics*.  It is also possible to 
 
-* create [links](http://rmarkdown.rstudio.com/) 
+* create [links](https://rmarkdown.rstudio.com/) 
 * include mathematics like $e=mc^2$ or 
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
 
