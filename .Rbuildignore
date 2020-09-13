@@ -8,6 +8,8 @@
 ^ExtraDocs/.*$
 ^vignettes-source$
 ^vignettes/.*\.R$
+^tests/figs$
+^tests/figs/\.*/.*\.svg$
 ^vignettes/.*\.pdf$
 ^vignettes/.*\.html$
 ^vignettes/.*\.md$
