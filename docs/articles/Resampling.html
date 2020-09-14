@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.1</span>
       </span>
     </div>
 
@@ -178,11 +178,11 @@ Use these data to construct a 90% confidence interval for the mean price (in $1,
 <p>Resampling, also known as random selection with replacement, is an important operation in randomization. The <code><a href="../reference/resample.html">resample()</a></code> function performs this. It can be illustrated in a very basic way on a small set of numbers:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">simple</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>)
 <span class="fu"><a href="../reference/resample.html">resample</a></span>(<span class="no">simple</span>)
-<span class="co">#&gt; [1] 3 4 3 2 4</span>
+<span class="co">#&gt; [1] 2 4 3 3 1</span>
 <span class="fu"><a href="../reference/resample.html">resample</a></span>(<span class="no">simple</span>)
-<span class="co">#&gt; [1] 4 5 5 4 1</span>
+<span class="co">#&gt; [1] 1 2 1 1 5</span>
 <span class="fu"><a href="../reference/resample.html">resample</a></span>(<span class="no">simple</span>)
-<span class="co">#&gt; [1] 3 2 1 1 1</span></pre></body></html></div>
+<span class="co">#&gt; [1] 1 1 2 1 4</span></pre></body></html></div>
 <p>When applied to a dataframe, <code><a href="../reference/resample.html">resample()</a></code> selects random rows. It’s easy to demonstrate this with a statement such as:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/resample.html">resample</a></span>(<span class="no">Mustangs</span>)</pre></body></html></div>
 <pre><code>#&gt;      Age Miles Price orig.id
@@ -691,7 +691,7 @@ In this case, the p-value:</li>
 <div id="technical-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#technical-information" class="anchor"></a>Technical information</h2>
-<p>This document was produced using R version 4.0.2 (2020-06-22) and version 1.7.0.9000 of the mosaic package.</p>
+<p>This document was produced using R version 4.0.2 (2020-06-22) and version 1.8.1 of the mosaic package.</p>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
