@@ -137,7 +137,7 @@
 \newcommand{\myindex}[1]{\index{mainIndex}{#1}}
 \newcommand{\mathindex}[1]{\index{mainIndex}{$#1$}}
 
-\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+\newcommand{\cran}{\href{https://www.R-project.org/}{CRAN}}
 
 \newcommand{\rterm}[1]{\textbf{#1}}
 
@@ -289,7 +289,7 @@ And most importantly: What is your creativity to volume quotient?
 
 \newpage
 
-\lhead{\href{http://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
+\lhead{\href{https://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
 \rhead{\href{http://mosaic-web.org}{mosaic-web.org}}
 
 \begin{multicols}{4}

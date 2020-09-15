@@ -5,7 +5,7 @@ output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Simulation-based inference}
+  %\VignetteIndexEntry{Simulation-based inference with mosaic}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   %\VignetteKeywords{mosaic, resampling, simulation, bootstrapping, permutation}
@@ -110,7 +110,7 @@ R is an open-source statistical environment that has been used at a number
 of institutions to teach introductory statistics.  Among other advantages, R
 makes it easy to demonstrate the concepts of statistical inference through
 randomization while providing a sensible path for beginners to progress to
-advanced and professional statistics. RStudio (http://www.rstudio.org)
+advanced and professional statistics. RStudio (https://www.rstudio.org)
 is an open-source integrated development environment for R which facilitates
 use of the system.
 

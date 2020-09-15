@@ -326,7 +326,7 @@ sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 #' model <- lm(width ~length * sex, data = KidsFeet)
 #' KidsFeet %>% head()
 #' resample(model) %>% head()
-#' Boot <- do(1000) * lm(width ~ length * sex, data = resample(KidsFeet))
+#' Boot <- do(500) * lm(width ~ length * sex, data = resample(KidsFeet))
 #' df_stats(~ Intercept + length + sexG + length.sexG, data = Boot, sd)
 #' head(Boot)
 #' summary(coef(model))

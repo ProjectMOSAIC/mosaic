@@ -56,7 +56,7 @@
 \providecommand{\code}[1]{}
 \renewcommand{\code}[1]{{\color{blue!80!black}\texttt{#1}}}
 
-\newcommand{\cran}{\href{http://www.R-project.org/}{CRAN}}
+\newcommand{\cran}{\href{https://www.R-project.org/}{CRAN}}
 \newcommand{\rterm}[1]{\textbf{#1}}
 
 \usepackage{textcomp}  % for \texttildelow
@@ -208,7 +208,7 @@ And most importantly: What is your creativity to volume quotient?
 
 \newpage
 
-\lhead{\href{http://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
+\lhead{\href{https://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
 \rhead{\href{http://mosaic-web.org}{http://mosaic-web.org} (\Sexpr{Sys.Date()})}
 
 \begin{multicols}{4}

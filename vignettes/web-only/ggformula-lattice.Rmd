@@ -391,7 +391,7 @@ More information about `ggformula` can be found at https://projectmosaic.github.
 
 More information regarding Project MOSAIC (Kaplan, Pruim, and Horton) can be found at http://www.mosaic-web.org.  Further information regarding the `mosaic` package can be found at https://projectmosaic.github.io/mosaic and https://journal.r-project.org/archive/2017/RJ-2017-024.
 
-Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at http://escholarship.org/uc/item/84v3774z. 
+Examples of how to bring multidimensional graphics into day one of an introductory statistics course can be found at https://escholarship.org/uc/item/84v3774z. 
 
 \vfill
 

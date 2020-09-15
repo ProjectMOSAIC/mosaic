@@ -131,5 +131,5 @@ lm(width ~ length * sex, data = KidsFeet) \%>\%
 Tim C. Hesterberg (2015): What Teachers Should Know about the Bootstrap:
 Resampling in the Undergraduate Statistics Curriculum,
 The American Statistician,
-\url{http://dx.doi.org/10.1080/00031305.2015.1089789}.
+\url{https://www.tandfonline.com/doi/full/10.1080/00031305.2015.1089789}.
 }

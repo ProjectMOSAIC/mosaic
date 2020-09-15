@@ -103,25 +103,24 @@ plotting.
  * *Modern Data Science with R* (BS Baumer, DT Kaplan, and NJ Horton)
 		is an R-infused data science text that emphasizes conceptual understanding and computation.
 
-    * [http://mdsr-book.github.io/](http://mdsr-book.github.io/)
-
+    * [http://mdsr-book.github.io/](https://mdsr-book.github.io/)
+    
  * *The Statistical Sleuth in R* (NJ Horton)
 		describes how to undertake analyses in R for the
 		examples in the Third Edition of the
 		*Statistical Sleuth: A Course in Methods of Data Analysis* (2013),
 		by Fred Ramsey and Dan Schafer.
 
-    * [nhorton.people.amherst.edu/sleuth](http://nhorton.people.amherst.edu/sleuth)
+    * [nhorton.people.amherst.edu/sleuth](https://nhorton.people.amherst.edu/sleuth)
 
-		
  * *Introduction to the Practice of Statistics in R* (NJ Horton and BS Baumer)
 		describes how to undertake analyses in R that are introduced as examples in 
 		*Introduction to the Practice of
 		Statistics*, by David Moore, George McCabe,
 		and Bruce Craig. 
 		
-    * [9th edition: nhorton.people.amherst.edu/ips9](http://nhorton.people.amherst.edu/ips9) 
-    * [6th edition: nhorton.people.amherst.edu/ips6e](http://nhorton.people.amherst.edu/ips6e) 
+    * [9th edition: nhorton.people.amherst.edu/ips9](https://nhorton.people.amherst.edu/ips9) 
+    * [6th edition: nhorton.people.amherst.edu/ips6e](https://nhorton.people.amherst.edu/ips6e) 
 
  * *Statistics: Unlocking the Power of Data* (Lock, Lock, Lock, Lock, and Lock) 
 		is an introductory statistics textbook that embraces a resampling approach. 
@@ -132,7 +131,7 @@ plotting.
     
     and the `Lock5withR` R package provides all the data sets used in the text.
 		
-    * [lock5stat.com](http://www.lock5stat.com/) 
+    * [lock5stat.com](https://www.lock5stat.com/) 
 		
 
  * *Stats: Data and Models* (NJ Horton)
@@ -141,7 +140,7 @@ plotting.
 		*Stats: Data and Models* (2015),
 		by Dick de Veaux, Paul Velleman, and Dave Bock.
 
-    * [nhorton.people.amherst.edu/sdm4](http://nhorton.people.amherst.edu/sdm4)
+    * [nhorton.people.amherst.edu/sdm4](https://nhorton.people.amherst.edu/sdm4)
 
  * *Intro Stats* (P Frenett and NJ Horton)
 		describes how to undertake analyses in R for the
@@ -149,8 +148,8 @@ plotting.
 		*Intro Stats* (2013),
 		by Dick de Veaux, Paul Velleman, and Dave Bock.
 
-    * [5th edition: nhorton.people.amherst.edu/is5](http://nhorton.people.amherst.edu/is5)
-    * [4th edition: nhorton.people.amherst.edu/is4](http://nhorton.people.amherst.edu/is4)
+    * [5th edition: nhorton.people.amherst.edu/is5](https://nhorton.people.amherst.edu/is5)
+    * [4th edition: nhorton.people.amherst.edu/is4](https://nhorton.people.amherst.edu/is4)
 
 
  * *Introduction to Statistical Investigations* (Tintle *et al*) 
@@ -163,7 +162,7 @@ plotting.
     The `ISIwithR` R package provides all the data sets used in the text.
     Additional information about the book and the approach used there can be found at
 		
-    * [www.isi-sats.com/isi/](http://www.isi-stats.com/isi/)
+    * [www.isi-sats.com/isi/](https://www.isi-stats.com/isi/)
 		
   * [Open Intro Stats](https://www.openintro.org/stat/labs.php)
   
@@ -181,7 +180,7 @@ plotting.
  PeerJ 8:e9089 <https://doi.org/10.7717/peerj.9089>
  
  * NJ Horton, BS Baumer, and H Wickham, "Teaching precursors to data science in introductory and second courses in statistics," *CHANCE*, 2015, 28(2):40-50, 
- [nhorton.people.amherst.edu/precursors](http://nhorton.people.amherst.edu/precursors)
+ [nhorton.people.amherst.edu/precursors](https://nhorton.people.amherst.edu/precursors)
 
  * NJ Horton, and J Hardin, "Teaching the next generation of statistics students to "Think With Data": special issue on statistics and the undergraduate curriculum," *TAS*, 2015, 69(4):259-265, 
  [https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283](https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283)
