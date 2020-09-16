@@ -79,7 +79,7 @@ initiative can be found at the Project MOSAIC website:
 of institutions to teach introductory statistics.  Among other advantages, \R{}
 makes it easy to demonstrate the concepts of statistical inference through
 randomization while providing a sensible path for beginners to progress to
-advanced and professional statistics. \RStudio{} (\url{http://www.rstudio.org})
+advanced and professional statistics. \RStudio{} (\url{https://rstudio.com/})
 is an open-source integrated development environment for \R{} which facilitates
 use of the system.
 

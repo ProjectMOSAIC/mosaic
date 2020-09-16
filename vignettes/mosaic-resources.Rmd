@@ -162,7 +162,7 @@ plotting.
     The `ISIwithR` R package provides all the data sets used in the text.
     Additional information about the book and the approach used there can be found at
 		
-    * [www.isi-sats.com/isi/](https://www.isi-stats.com/isi/)
+    * [www.isi-sats.com/isi/](http://www.isi-stats.com/isi/)
 		
   * [Open Intro Stats](https://www.openintro.org/stat/labs.php)
   
