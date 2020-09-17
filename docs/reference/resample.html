@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
       </span>
     </div>
 
@@ -344,13 +344,13 @@ natural names.</p>
 #&gt; 3 9.444851   24.5   B
 #&gt; 4 8.763734   25.2   B
 #&gt; 5 9.141002   25.1   B
-#&gt; 6 9.090498   25.7   B</div><div class='input'><span class='no'>Boot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>1000</span>) * <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>width</span> ~ <span class='no'>length</span> * <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>KidsFeet</span>))</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; 6 9.090498   25.7   B</div><div class='input'><span class='no'>Boot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>500</span>) * <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>width</span> ~ <span class='no'>length</span> * <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>KidsFeet</span>))</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='input'><span class='fu'>df_stats</span>(~ <span class='no'>Intercept</span> + <span class='no'>length</span> + <span class='no'>sexG</span> + <span class='no'>length.sexG</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Boot</span>, <span class='no'>sd</span>)</div><div class='output co'>#&gt;      response         sd
-#&gt; 1   Intercept 1.35509003
-#&gt; 2      length 0.05328181
-#&gt; 3        sexG 1.98486330
-#&gt; 4 length.sexG 0.07946280</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>Boot</span>)</div><div class='output co'>#&gt;   Intercept    length      sexG  length.sexG     sigma r.squared         F
+#&gt; 1   Intercept 1.34047944
+#&gt; 2      length 0.05289191
+#&gt; 3        sexG 1.99298145
+#&gt; 4 length.sexG 0.07979467</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>Boot</span>)</div><div class='output co'>#&gt;   Intercept    length      sexG  length.sexG     sigma r.squared         F
 #&gt; 1  4.061731 0.1998271 -1.627390  0.055943489 0.3988934 0.4812676 10.824056
 #&gt; 2  3.396541 0.2307611  2.059666 -0.095689727 0.3896124 0.4227335  8.543525
 #&gt; 3  2.657438 0.2533723  1.783024 -0.071805843 0.3559803 0.3278852  5.691478
