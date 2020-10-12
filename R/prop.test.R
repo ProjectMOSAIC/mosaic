@@ -138,17 +138,28 @@ prop_test <-
 #' @export
 prop_test.default <-
   function(
-    x, n, p=NULL, 
+    x, n, p = NULL, 
     alternative = c("two.sided", "less", "greater"), 
     conf.level = 0.95, ..., data, data.name) 
   {
     dots <- list(...)
-    res <- do.call(stats::prop.test, 
-                   c(
-                     list(x = x, n = n , p = p, alternative = alternative,
-                          conf.level = conf.level), 
-                     dots)
-    )
+    dots[['success']] <- NULL
+    if (missing(n)) {
+      res <- do.call(stats::prop.test, 
+                     c(
+                       list(x = x, p = p, alternative = alternative,
+                            conf.level = conf.level), 
+                       dots)
+      )
+    } else {
+      res <- do.call(stats::prop.test, 
+                     c(
+                       list(x = x, n = n , p = p, alternative = alternative,
+                            conf.level = conf.level), 
+                       dots)
+      )
+    }
+    res$data.name <- data.name$x
     res
   }
 
