@@ -24,6 +24,7 @@
 \alias{n_missing}
 \alias{logit}
 \alias{ilogit}
+\alias{compare}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -33,6 +34,6 @@ below to see their documentation.
 \describe{
   \item{MASS}{\code{\link[MASS]{fitdistr}}, \code{\link[MASS]{fractions}}}
 
-  \item{mosaicCore}{\code{\link[mosaicCore:parseFormula]{condition}}, \code{\link[mosaicCore:prop]{count}}, \code{\link[mosaicCore:props]{counts}}, \code{\link[mosaicCore:props]{counts}}, \code{\link[mosaicCore]{dfapply}}, \code{\link[mosaicCore]{ediff}}, \code{\link[mosaicCore:logit]{ilogit}}, \code{\link[mosaicCore]{inspect}}, \code{\link[mosaicCore:parseFormula]{lhs}}, \code{\link[mosaicCore]{logit}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{msummary}}, \code{\link[mosaicCore]{n_missing}}, \code{\link[mosaicCore:prop]{perc}}, \code{\link[mosaicCore:props]{percs}}, \code{\link[mosaicCore]{prop}}, \code{\link[mosaicCore:prop]{prop1}}, \code{\link[mosaicCore]{props}}, \code{\link[mosaicCore:parseFormula]{rhs}}, \code{\link[mosaicCore]{tally}}}
+  \item{mosaicCore}{\code{\link[mosaicCore]{compare}}, \code{\link[mosaicCore:parseFormula]{condition}}, \code{\link[mosaicCore:prop]{count}}, \code{\link[mosaicCore:props]{counts}}, \code{\link[mosaicCore:props]{counts}}, \code{\link[mosaicCore]{dfapply}}, \code{\link[mosaicCore]{ediff}}, \code{\link[mosaicCore:logit]{ilogit}}, \code{\link[mosaicCore]{inspect}}, \code{\link[mosaicCore:parseFormula]{lhs}}, \code{\link[mosaicCore]{logit}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{msummary}}, \code{\link[mosaicCore]{n_missing}}, \code{\link[mosaicCore:prop]{perc}}, \code{\link[mosaicCore:props]{percs}}, \code{\link[mosaicCore]{prop}}, \code{\link[mosaicCore:prop]{prop1}}, \code{\link[mosaicCore]{props}}, \code{\link[mosaicCore:parseFormula]{rhs}}, \code{\link[mosaicCore]{tally}}}
 }}
 

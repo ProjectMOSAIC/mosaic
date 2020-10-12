@@ -12,6 +12,7 @@ MASS::fractions
 #' @importFrom mosaicCore counts props prop prop1 perc percs count counts tally 
 #' @importFrom mosaicCore dfapply ediff inspect msummary n_missing
 #' @importFrom mosaicCore logit ilogit
+#' @importFrom mosaicCore compare 
 #' @export
 mosaicCore::lhs
 #' @export
@@ -52,3 +53,5 @@ mosaicCore::n_missing
 mosaicCore::logit
 #' @export
 mosaicCore::ilogit
+#' @export
+mosaicCore::compare
