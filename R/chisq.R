@@ -50,8 +50,19 @@ chisq.table <- function(x, correct = FALSE, ...) {
 #' @rdname chisq
 #' @export
 chisq.default <- function(x, correct = FALSE, ...) {
+  dots <- list(...)
+  chisq_dots <- dots[intersect(names(dots), names(formals(chisq.test)))]
+  # remove chisq.test() ... from tally_dots
+  tally_dots <- dots
+  tally_dots[names(chisq_dots)] <- NULL
+  
+  tally_res <- do.call(tally, c(list(x), tally_dots)) 
   setNames(
-    chisq.test(tally(x, ...), correct = correct)$statistic,
+    suppressWarnings(
+    do.call(
+      chisq.test, 
+      c(list(tally_res, correct = correct), chisq_dots)
+    )$statistic),
     "X.squared"
   )
 }
