@@ -42,7 +42,7 @@ chisq.htest <- function(x, ...) {
 #' @export
 chisq.table <- function(x, correct = FALSE, ...) {
   setNames(
-    chisq.test(x, correct = correct, ...)$statistic,
+  suppressWarnings(chisq.test(x, correct = correct, ...)$statistic),
     "X.squared"
   )
 }
