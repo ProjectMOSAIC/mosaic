@@ -55,8 +55,8 @@ testthat::test_that("Clustering works", {
   # expect_equal(testcase4, fortify(Cl, which="labels") %>% head(3))
   
   
-  vdiffr::expect_doppelganger("clustering1", mplot(Cl, data=KidsFeet2, k=4, heatmap=2))
-  vdiffr::expect_doppelganger("clustering2", mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent"))
-  vdiffr::expect_doppelganger("clustering3", mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle"))
-  vdiffr::expect_doppelganger("clustering4", mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle"))
+  wrapped_expect_doppelganger("clustering1", mplot(Cl, data=KidsFeet2, k=4, heatmap=2))
+  wrapped_expect_doppelganger("clustering2", mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent"))
+  wrapped_expect_doppelganger("clustering3", mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle"))
+  wrapped_expect_doppelganger("clustering4", mplot(Cl, data=KidsFeet2, k=4, heatmap=0, type="triangle"))
 })

@@ -38,9 +38,9 @@ nullDist <- do(999) * diffmean( age ~ shuffle(sex), data = HELPrct)
 
 testthat::test_that("statTally works", {
   
-  vdiffr::expect_doppelganger("statTally1", statTally(x, rdata, fun = max, binwidth = 1))
-  vdiffr::expect_doppelganger("statTally2", statTally(x, rdata, fun = var, shade = "red", binwidth = 2))
-  vdiffr::expect_doppelganger("statTally3", statTally(x, rdata, fun = max, binwidth = 1))
-  #vdiffr::expect_doppelganger("statTally4", statTally(D, nullDist))
-  #vdiffr::expect_doppelganger("statTally5", statTally(D, nullDist, system = "lattice"))
+  wrapped_expect_doppelganger("statTally1", statTally(x, rdata, fun = max, binwidth = 1))
+  wrapped_expect_doppelganger("statTally2", statTally(x, rdata, fun = var, shade = "red", binwidth = 2))
+  wrapped_expect_doppelganger("statTally3", statTally(x, rdata, fun = max, binwidth = 1))
+  #wrapped_expect_doppelganger("statTally4", statTally(D, nullDist))
+  #wrapped_expect_doppelganger("statTally5", statTally(D, nullDist, system = "lattice"))
 })

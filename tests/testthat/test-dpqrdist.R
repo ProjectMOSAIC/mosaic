@@ -64,7 +64,7 @@ test_that("dpqrdist works for binomial dist", {
 #   #               0.977249868051821)
 #   # test <- pdist("norm", -2:2)
 #   # expect_equivalent(test, testcase)
-#   #vdiffr::expect_doppelganger("pdist1", test <- pdist("norm", -2:2))
+#   #wrapped_expect_doppelganger("pdist1", test <- pdist("norm", -2:2))
 #   #pdist("norm", seq(80,120, by = 10), mean = 100, sd = 10)
 #   # pdist("chisq", 2:4, df = 3)
 #   # pdist("f", 1, df1 = 2, df2 = 10)

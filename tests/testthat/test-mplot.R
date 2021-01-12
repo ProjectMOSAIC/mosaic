@@ -16,16 +16,16 @@ testthat::test_that("lm mplot works", {
   num <- 1
   
   for(case in testcases1) {
-    vdiffr::expect_doppelganger(paste("mplot", as.character(num), sep = ""), case)
+    wrapped_expect_doppelganger(paste("mplot", as.character(num), sep = ""), case)
     num <- num + 1
   }
   
   for(case in testcases2) {
-    vdiffr::expect_doppelganger(paste("mplot", as.character(num), sep = ""), case)
+    wrapped_expect_doppelganger(paste("mplot", as.character(num), sep = ""), case)
     num <- num + 1
   }
   
-  vdiffr::expect_doppelganger(paste("mplot", as.character(num), sep = ""), singletest)
+  wrapped_expect_doppelganger(paste("mplot", as.character(num), sep = ""), singletest)
   num <- num + 1
   
   testthat::test_that("getVarFormula Works", {

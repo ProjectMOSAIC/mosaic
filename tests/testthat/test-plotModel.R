@@ -6,9 +6,9 @@ testthat::test_that("plotModel works", {
   mod2 <- lm( mpg ~ wt, data = mtcars)
   mod3 <- lm( mpg ~ wt + factor(cyl), data=mtcars)
   # Default
-  vdiffr::expect_doppelganger("plotModel1", plotModel(mod))
+  wrapped_expect_doppelganger("plotModel1", plotModel(mod))
   # SLR
-  vdiffr::expect_doppelganger("plotModel2", plotModel(mod2, pch = 19))
+  wrapped_expect_doppelganger("plotModel2", plotModel(mod2, pch = 19))
   # parallel slopes
-  vdiffr::expect_doppelganger("plotModel3", plotModel(mod3))
+  wrapped_expect_doppelganger("plotModel3", plotModel(mod3))
 })
