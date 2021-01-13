@@ -30,8 +30,8 @@ diffmean <- function( x, ..., data=parent.frame(), only.2=TRUE ) {
 
 #' @rdname diffmean
 #' @export
-diffprop<- function( x, ..., data=parent.frame(), only.2 = TRUE ) {
-  p <- prop(x, ..., data=data)
+diffprop <- function( x, ..., data = parent.frame(), only.2 = TRUE ) {
+  p <- prop(x, ..., data = data)
   nms <- names(p)
   res <- diff(p)
   names(res) <- if (length(nms) < 3) "diffprop" else paste(tail(nms,-1), head(nms, -1), sep="-")
