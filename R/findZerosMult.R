@@ -191,11 +191,19 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
   #introduce some sort of infer args business...
   
   if(type == 'byx'){
-    return(data[order(data[1]),])
+    if (inherits(data, "data.frame")) {
+      return(data[order(data[[1]]),])
+    } else {
+      return(data[order(data[1]),])
+    }
   }
   
   if(type == 'byy'){
-    return(data[order(data[2]),])
+    if (inherits(data, "data.frame")) {
+      return(data[order(data[[2]]),])
+    } else {
+      return(data[order(data[2]),])
+    }
   }
   
   if(type == 'radial'){
