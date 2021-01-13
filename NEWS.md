@@ -1,7 +1,7 @@
 # mosaic (development version)
 
 
-# mosaic 1.8.1
+# mosaic 1.8.3
 
 * addressing CRAN issues with use of vdiffr and order()
 * a couple small bug fixes
