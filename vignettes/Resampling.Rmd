@@ -146,9 +146,11 @@ such as `read.csv()` and `read.table()` support
 accessing data files via a website URL, avoiding the need to download data 
 files to individual student machines.  
  
-Here, one of the Lock data sets are read into R via the Internet:
+Here, we load one of the Lock data sets:
+<!-- Mustangs <- read.csv("http://www.mosaic-web.org/go/datasets/MustangPrice.csv") -->
 ```{r }
-Mustangs <- read.csv("http://www.mosaic-web.org/go/datasets/MustangPrice.csv")
+library(mosaic)
+data(Mustangs)
 ```
 
 
@@ -419,8 +421,9 @@ The shading added through the <span style="color:brown">groups =</span> option h
   data indicate a difference in mean number of words recalled between
   the two treatments.*
 <!-- end quotation -->
+<!-- <- read.csv("http://www.mosaic-web.org/go/datasets/SleepCaffeine.csv") -->
 ```{r fetchsleep}
-Sleep <- read.csv("http://www.mosaic-web.org/go/datasets/SleepCaffeine.csv")
+data(Sleep) 
 ```
 
 
