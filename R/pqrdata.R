@@ -26,6 +26,7 @@ qdata <- function( formula, p = seq(0, 1, 0.25), data = NULL, ...) {
   if (! is.numeric(p) || any(p < 0) || any(p > 1)) {
     stop("Invalid values of p.  Are your arguments in the wrong order?")
   }
+  if (is.null(data)) { data <- parent.frame() }
   args <- eval(substitute(alist(vals_call, ...)))
   args [["p"]] <- p 
   args [["data"]] <- data
@@ -90,6 +91,7 @@ cdata <- function( formula, p = 0.95, data = NULL, ...) {
   if (! is.numeric(p) || any(p < 0) || any(p > 1)) {
     stop("Invalid values of p.  Are your arguments in the wrong order?")
   }
+  if (is.null(data)) { data <- parent.frame() }
   
   args <- eval(substitute(alist(vals_call, ...)))
   args [["p"]] <- p # substitute(p, parent.frame())
@@ -149,6 +151,7 @@ pdata <- function (formula, q, data = NULL, ...)
 {
   vals_call <- substitute(formula)
   args <- eval(substitute(alist(vals_call, ...)))
+  if (is.null(data)) { data <- parent.frame() }
   args[["q"]] <- q
   args[["data"]] <- data
   do.call("pdata_f", args)
@@ -194,6 +197,7 @@ rdata <- function (formula, n, data = NULL, ...)
   if ( ! is.numeric(n) || n <= 0 ) {
     stop("Invalid value of n.  Are our arguments in the correct order?")
   }
+  if (is.null(data)) { data <- parent.frame() }
   args <- eval(substitute(alist(vals_call, ...)))
   args[["n"]] <- n
   args[["data"]] <- data
@@ -224,6 +228,7 @@ ddata <- function (formula, q, data = NULL, ...)
 {
   vals_call <- substitute(formula)
   args <- eval(substitute(alist(vals_call, ...)))
+  if (is.null(data)) { data <- parent.frame() }
   args[["q"]] <- q
   args[["data"]] <- data
   do.call("ddata_f", args)
