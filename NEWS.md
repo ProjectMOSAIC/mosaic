@@ -1,6 +1,12 @@
 # mosaic (development version)
 
 
+# mosaic 1.8.1
+
+* addressing CRAN issues with use of vdiffr and order()
+* a couple small bug fixes
+* introduction of a new function: compare()
+
 # mosaic 1.8.0
 
 * Fixed dplyr 1.0.0 failure by stabilizing types
