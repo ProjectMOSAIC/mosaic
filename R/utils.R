@@ -43,6 +43,12 @@
     stop("RStudio required for manipulate.")
   if (! requireNamespace("manipulate", quietly=TRUE))
     stop("Unable to locate the manipulate package.  Please install with `install.packages(\"manipulate\")'")
+  
+  if( ! get('mosaic.manipulate.initialized', .mosaicEnv) ) {
+    manipulate::manipulate(plot(1:N), N = manipulate::slider(5, 10))
+    assign("mosaic.manipulate.initialized", TRUE, envir = .mosaicEnv)
+  }
+  
 }
 
 #' Check whether RStudio is in use

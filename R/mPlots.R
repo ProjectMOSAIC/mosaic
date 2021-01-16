@@ -151,7 +151,7 @@ mPlot <- function(data,
                   data_text = substitute(data), # rlang::expr_text(data),
                   ...)
 {
-      
+
   plotTypes <- 
     c('scatter', 'jitter', 'boxplot', 'violin', 'sina', 'density (contours)', 'density (filled)',
       'histogram', 'density', 'frequency polygon', 'ASH plot', 'xyplot', 'map')

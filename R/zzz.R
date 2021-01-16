@@ -2,6 +2,7 @@
 .mosaicEnv <- new.env()
 assign("mosaic.theme",   list(), envir = .mosaicEnv)
 assign("mosaic.options", list(), envir = .mosaicEnv)
+assign("mosaic.manipulate.initialized", FALSE, envir = .mosaicEnv)
 
 .onLoad <- function(libname, pkgname) {
   ## library.dynam("mosaic", pkgname, libname )
