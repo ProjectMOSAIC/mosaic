@@ -1,4 +1,5 @@
 ---
+title: The mosaic package
 ---
 
 <!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mosaic)](http://cran.r-project.org/package=mosaic) -->
@@ -32,7 +33,13 @@ devtools::install_github("ProjectMOSAIC/mosaic", ref="beta")
 Some features of the mosaic package have been split off into auxiliary packages. These include:
 
 * mosaicModel -- implements high-level systems for working with statistical models: effect-size calculation, bootstrapped confidence intervals, prediction error, graphics for models with multiple inputs. The package contains an introductory vignette.
-* mosaicCalc -- provides the calculus components of mosaic, including integration, differentiation, and differential equation solving. See *[Modeling-based calculus with R/mosaic](http://www.mosaic-web.org/wp-content/uploads/2019/01/UMAP-mosaic-calculus.pdf)* for an instructor-oriented introduction and *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* for a student-facing guide.
+* mosaicCalc -- provides the calculus components of mosaic, including integration, differentiation, and differential equation solving. 
+
+<!-- See *[Modeling-based calculus with -->
+<!-- R/mosaic](http://www.mosaic-web.org/wp-content/uploads/2019/01/UMAP-mosaic-calculus.pdf)* -->
+<!-- for an instructor-oriented introduction and *[Start R in -->
+<!-- Calculus](http://project-mosaic-books.com/?page_id=22)* for a student-facing -->
+<!-- guide. -->
 
 Install these packages using `install.packages(c("mosaicCalc", "mosaicModel"))` or from GitHub as described above. 
 
