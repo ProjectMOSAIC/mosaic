@@ -65,7 +65,7 @@ This can be copied and pasted elsewhere to (into an RMarkdown document, for exam
 Only works in RStudio. Requires the \pkg{manipulate} package.
 }
 \examples{
-\donttest{
+\dontrun{
   mtcars2 <- 
     mtcars \%>\% 
       mutate(

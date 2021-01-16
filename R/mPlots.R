@@ -4,7 +4,7 @@
 utils::globalVariables( 
   c('picker', 'button', 'slider', 'checkbox', 'x', 'y', 'color', 'size', 
     'logScales', 'key', 'nbins',  'plotType',  
-    'flipCoords', 'group', 'projection', 'facet'))
+    'flipCoords', 'group', 'projection', 'facet', 'N'))
 NA
 
 system_choices <- function() {
@@ -200,7 +200,7 @@ mPlot <- function(data,
 #' @inheritParams mPlot
 #' @return Noting.  Used for side effects.
 #' @examples 
-#' \donttest{
+#' \dontrun{
 #'   mtcars2 <- 
 #'     mtcars %>% 
 #'       mutate(
