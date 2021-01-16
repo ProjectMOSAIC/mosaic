@@ -3,9 +3,11 @@
 
 # mosaic 1.8.3
 
-* addressing CRAN issues with use of vdiffr and order()
-* a couple small bug fixes
-* introduction of a new function: compare()
+* Addressing CRAN issues with use of vdiffr and order().
+* A couple small bug fixes.
+* Introduction of a new functions: `compare()`, and `design_plot()`.
+* `mplot(model, which = 1)` now uses raw residuals rather than standardized/studentized. This mathes
+behavior in `plot()`.
 
 # mosaic 1.8.0
 
