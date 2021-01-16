@@ -78,9 +78,9 @@ an Intro Stats course.
 https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish.)
 
 
- * *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* highlights features 
-of R and the `mosaic` package that can be used to teach 
-calculus with R.
+<!--  * *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* highlights features  -->
+<!-- of R and the `mosaic` package that can be used to teach  -->
+<!-- calculus with R. -->
 
  
 ## Textbook Related
