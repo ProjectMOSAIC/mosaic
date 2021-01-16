@@ -16,7 +16,7 @@ in science, technology, engineering and mathematics will need in their professio
 but which are usually taught in isolation, if at all.
 }
 \references{
-\url{http://mosaic-web.org}
+\url{http://www.mosaic-web.org}
 }
 \author{
 Randall Pruim (\email{rpruim@calvin.edu}), Daniel Kaplan (\email{kaplan@macalester.edu}), Nicholas Horton (\email{nhorton@smith.edu})

@@ -22,7 +22,7 @@ NA
 #' @title mosaic: the Project MOSAIC package
 #' @author Randall Pruim (\email{rpruim@@calvin.edu}), Daniel Kaplan (\email{kaplan@@macalester.edu}), Nicholas Horton (\email{nhorton@@smith.edu})
 #' @references
-#' \url{http://mosaic-web.org}
+#' \url{http://www.mosaic-web.org}
 #'
 #' @keywords package
 #' @importFrom Matrix mean

@@ -209,7 +209,7 @@ And most importantly: What is your creativity to volume quotient?
 \newpage
 
 \lhead{\href{https://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
-\rhead{\href{http://mosaic-web.org}{http://mosaic-web.org} (\Sexpr{Sys.Date()})}
+\rhead{\href{http://www.mosaic-web.org}{http://www.mosaic-web.org} (\Sexpr{Sys.Date()})}
 
 \begin{multicols}{4}
 

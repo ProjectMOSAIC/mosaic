@@ -290,7 +290,7 @@ And most importantly: What is your creativity to volume quotient?
 \newpage
 
 \lhead{\href{https://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
-\rhead{\href{http://mosaic-web.org}{mosaic-web.org}}
+\rhead{\href{http://www.mosaic-web.org}{mosaic-web.org}}
 
 \begin{multicols}{4}
 

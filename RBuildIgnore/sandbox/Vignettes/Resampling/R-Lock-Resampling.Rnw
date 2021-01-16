@@ -305,7 +305,7 @@ For additional examples of the use of simulations in introductory
 statistics using R, see
 \begin{itemize}
   \item R. Pruim, N. Horton, \& D. Kaplan, {\em Teaching Statistics
-      with R}, \url{http://mosaic-web.org/uscots2011/WorkshopNotes-001.pdf}
+      with R}, \url{http://www.mosaic-web.org/uscots2011/WorkshopNotes-001.pdf}
   \item D. Kaplan, {\em Statistical Modeling: A Fresh Approach}, \url{http://www.macalester.edu/~kaplan/ISM}
 \end{itemize}
 

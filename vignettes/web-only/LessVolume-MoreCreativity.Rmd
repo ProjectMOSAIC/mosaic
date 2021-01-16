@@ -46,7 +46,7 @@ options(width = 90)
 NSF-funded project to develop a new way to introduce mathematics, statistics, computation 
 and modeling to students in colleges and universities.
 
- * more information at [mosaic-web.org](http://mosaic-web.org)
+ * more information at [mosaic-web.org](http://www.mosaic-web.org)
  
  * the `mosaic` package is available via 
      * [CRAN](https://cran.r-project.org/package=mosaic)
