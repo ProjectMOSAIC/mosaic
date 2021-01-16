@@ -190,9 +190,32 @@ mPlot <- function(data,
   )
 }
 
+#' Interactively design plots
+#' 
+#' Proves a simple interface to let users interactively design plots in \pkg{ggformula}, \pkg{lattice}, or \pkg{ggplot2}.
+#' An option is available to show the code used to create the plot. 
+#' This can be copied and pasted elsewhere to (into an RMarkdown document, for example) to recreate the plot.
+#' Only works in RStudio. Requires the \pkg{manipulate} package.
+#' 
+#' @inheritParams mPlot
+#' @return Noting.  Used for side effects.
+#' @examples 
+#' \donttest{
+#'   mtcars2 <- 
+#'     mtcars %>% 
+#'       mutate(
+#'         cyl2 = factor(cyl), 
+#'         carb2 = factor(carb),
+#'         shape = c("V-shaped", "straight")[1 + vs], 
+#'         gear2 = factor(gear), 
+#'         transmission = c("automatic", "manual")[1 + am])
+#'   design_plot(mtcars2)
+#' }
+#' @export
+design_plot <- mPlot
+
 #' @rdname mPlotting
 #' @export
-
 mMap <- function(data, default = 'map',
                  system = "ggplot2",
                  show = FALSE, title = title, data_text = rlang::expr_text(data), ...) {
