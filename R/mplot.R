@@ -188,7 +188,7 @@ mplot.lm <-
   
   
   # residuals vs fitted
-  g1 <- ggplot(fdata, aes(.fitted, .std.resid)) +
+  g1 <- ggplot(fdata, aes(.fitted, .resid)) +
     geom_point()  +
     geom_smooth_or_not +
     geom_hline(linetype = 2, size = .2, yintercept = 0) +
@@ -198,7 +198,7 @@ mplot.lm <-
       color = id.color,
       segment.color = id.color,
       size = id.size) + 
-    scale_x_continuous("Fitted Values") +
+    scale_x_continuous("Fitted Value") +
     scale_y_continuous("Residual") +
     labs(title = "Residuals vs Fitted")
   
