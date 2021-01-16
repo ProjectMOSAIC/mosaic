@@ -76,7 +76,7 @@ use of the formula interface." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -84,7 +84,7 @@ use of the formula interface." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -122,7 +122,7 @@ use of the formula interface." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -152,24 +152,24 @@ These wrappers provide an extended interface that allows for a more systematic
 use of the formula interface.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>t_test</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>t_test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>t.test</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>t.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for formula</span>
-<span class='fu'>t_test</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>t_test</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>data</span>, <span class='va'>...</span>, groups <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>t_test</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
-  <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>t_test</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alternative <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span><span class='op'>)</span>,
+  mu <span class='op'>=</span> <span class='fl'>0</span>,
+  paired <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  var.equal <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  conf.level <span class='op'>=</span> <span class='fl'>0.95</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -253,7 +253,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 <code><a href='https://rdrr.io/r/stats/t.test.html'>stats::t.test()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='fu'>t.test</span>(<span class='no'>HELPrct</span>$<span class='no'>age</span>)</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'>  <span class='fu'>t.test</span><span class='op'>(</span><span class='va'>HELPrct</span><span class='op'>$</span><span class='va'>age</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	One Sample t-test
 #&gt; 
 #&gt; data:  HELPrct$age
@@ -265,7 +266,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; mean of x 
 #&gt;  35.65342 
 #&gt; </div><div class='input'>  <span class='co'># We can now do this with a formula</span>
-  <span class='fu'>t.test</span>(~ <span class='no'>age</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)</div><div class='output co'>#&gt; 
+  <span class='fu'>t.test</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>age</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	One Sample t-test
 #&gt; 
 #&gt; data:  age
@@ -277,7 +279,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; mean of x 
 #&gt;  35.65342 
 #&gt; </div><div class='input'>  <span class='co'># data = can be omitted, but it is better to use it</span>
-  <span class='fu'>t.test</span>(~ <span class='no'>age</span>, <span class='no'>HELPrct</span>)</div><div class='output co'>#&gt; 
+  <span class='fu'>t.test</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>age</span>, <span class='va'>HELPrct</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	One Sample t-test
 #&gt; 
 #&gt; data:  age
@@ -289,7 +292,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; mean of x 
 #&gt;  35.65342 
 #&gt; </div><div class='input'>  <span class='co'># the original 2-sample formula</span>
-  <span class='fu'>t.test</span>(<span class='no'>age</span> ~ <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)</div><div class='output co'>#&gt; 
+  <span class='fu'>t.test</span><span class='op'>(</span><span class='va'>age</span> <span class='op'>~</span> <span class='va'>sex</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Welch Two Sample t-test
 #&gt; 
 #&gt; data:  age by sex
@@ -301,7 +305,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; mean in group female   mean in group male 
 #&gt;             36.25234             35.46821 
 #&gt; </div><div class='input'>  <span class='co'># alternative 2-sample formulas</span>
-  <span class='fu'>t.test</span>(~ <span class='no'>age</span> <span class='kw'>|</span> <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)</div><div class='output co'>#&gt; 
+  <span class='fu'>t.test</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>age</span> <span class='op'>|</span> <span class='va'>sex</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Welch Two Sample t-test
 #&gt; 
 #&gt; data:  age by sex
@@ -312,7 +317,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; sample estimates:
 #&gt; mean in group female   mean in group male 
 #&gt;             36.25234             35.46821 
-#&gt; </div><div class='input'>  <span class='fu'>t.test</span>(~ <span class='no'>age</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'>  <span class='fu'>t.test</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>age</span>, groups <span class='op'>=</span> <span class='va'>sex</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Welch Two Sample t-test
 #&gt; 
 #&gt; data:  age by sex
@@ -324,7 +330,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; mean in group female   mean in group male 
 #&gt;             36.25234             35.46821 
 #&gt; </div><div class='input'>  <span class='co'># 2-sample t from vectors</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(<span class='no'>HELPrct</span>, <span class='fu'>t.test</span>(<span class='no'>age</span>[<span class='no'>sex</span> <span class='kw'>==</span> <span class='st'>"male"</span>], <span class='no'>age</span>[<span class='no'>sex</span> <span class='kw'>==</span> <span class='st'>"female"</span>]))</div><div class='output co'>#&gt; 
+  <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span><span class='va'>HELPrct</span>, <span class='fu'>t.test</span><span class='op'>(</span><span class='va'>age</span><span class='op'>[</span><span class='va'>sex</span> <span class='op'>==</span> <span class='st'>"male"</span><span class='op'>]</span>, <span class='va'>age</span><span class='op'>[</span><span class='va'>sex</span> <span class='op'>==</span> <span class='st'>"female"</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Welch Two Sample t-test
 #&gt; 
 #&gt; data:  age[sex == "male"] and age[sex == "female"]
@@ -336,7 +343,8 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 #&gt; mean of x mean of y 
 #&gt;  35.46821  36.25234 
 #&gt; </div><div class='input'>  <span class='co'># just the means</span>
-  <span class='fu'><a href='aggregating.html'>mean</a></span>(<span class='no'>age</span> ~ <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)</div><div class='output co'>#&gt;   female     male 
+  <span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span><span class='va'>age</span> <span class='op'>~</span> <span class='va'>sex</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   female     male 
 #&gt; 36.25234 35.46821 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -353,7 +361,7 @@ for the 2-sample test has also be broadened.  See the examples.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -77,7 +77,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -91,13 +91,13 @@
 
       
 
-      </header><script src="LessVolume-MoreCreativity_files/header-attrs-2.3/header-attrs.js"></script><script src="LessVolume-MoreCreativity_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="LessVolume-MoreCreativity_files/header-attrs-2.6/header-attrs.js"></script><script src="LessVolume-MoreCreativity_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Less Volume, More Creativity – Getting Started with the mosaic Package</h1>
                         <h4 class="author">Randall Pruim (updated by Nicholas Horton)</h4>
             
-            <h4 class="date">2020-09-17</h4>
+            <h4 class="date">2021-01-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/master/vignettes/web-only/LessVolume-MoreCreativity.Rmd"><code>vignettes/web-only/LessVolume-MoreCreativity.Rmd</code></a></small>
       <div class="hidden name"><code>LessVolume-MoreCreativity.Rmd</code></div>
@@ -150,7 +150,8 @@ border:0px;
 <a href="#a-note-about-this-document" class="anchor"></a>A note about this document</h3>
 <p>This document was originally created as an R presentation to be used as slides accompanying various presentations. It has been converted into a more traditional document for use as a vignette in the <code>mosaic</code> package.</p>
 <p>The examples below use the <code>mosaic</code> and <code>mosaicData</code> packages. An earlier version of this document used <code>lattice</code> graphics, but it has been updated to use <code>ggformula</code></p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">mosaic</span>)  <span class="co"># loads mosaicData and ggformula as well</span></pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ProjectMOSAIC/mosaic">mosaic</a></span><span class="op">)</span>  <span class="co"># loads mosaicData and ggformula as well</span></code></pre></div>
 </div>
 </div>
 <div id="less-volume-more-creativity" class="section level2">
@@ -269,12 +270,13 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <h3 class="hasAnchor">
 <a href="#other-versions" class="anchor"></a>Other versions</h3>
 <p>Here are some variations on the template.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># simpler version</span>
-<span class="fu">goal</span>(~ <span class="no">x</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">mydata</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># simpler version</span>
+<span class="fu">goal</span><span class="op">(</span><span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">mydata</span><span class="op">)</span>          
 <span class="co"># fancier version</span>
-<span class="fu">goal</span>(<span class="no">y</span> ~ <span class="no">x</span> <span class="kw">|</span> <span class="no">z</span> , <span class="kw">data</span> <span class="kw">=</span> <span class="no">mydata</span>)
+<span class="fu">goal</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span> <span class="op">|</span> <span class="va">z</span> , data <span class="op">=</span> <span class="va">mydata</span><span class="op">)</span>   
 <span class="co"># unified version</span>
-<span class="fu">goal</span>(<span class="no">formula</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">mydata</span>)</pre></body></html></div>
+<span class="fu">goal</span><span class="op">(</span><span class="va">formula</span>, data <span class="op">=</span> <span class="va">mydata</span><span class="op">)</span>     </code></pre></div>
 </div>
 </div>
 <div id="questions" class="section level2">
@@ -340,7 +342,7 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <li>which variable goes where (<code>births ~ date</code>)</li>
 <li>which data set (<code>data = Births78</code>)
 <ul>
-<li>use <code>?Births78</code> for documentation</li>
+<li>use <code><a href="https://rdrr.io/pkg/mosaicData/man/Births78.html">?Births78</a></code> for documentation</li>
 </ul>
 </li>
 </ul>
@@ -348,7 +350,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="putting-it-all-together" class="section level4">
 <h4 class="hasAnchor">
 <a href="#putting-it-all-together" class="anchor"></a>Putting it all together</h4>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu">gf_point</span>(<span class="no">births</span> ~ <span class="no">date</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Births78</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">births</span> <span class="op">~</span> <span class="va">date</span>, data <span class="op">=</span> <span class="va">Births78</span><span class="op">)</span> </code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-5-1.png" width="60%" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -364,12 +367,13 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <ul>
 <li>Variables: <code>age</code>, <code>substance</code>
 </li>
-<li>use <code>?HELPrct</code> for info about data</li>
+<li>use <code><a href="https://rdrr.io/pkg/mosaicData/man/HELPrct.html">?HELPrct</a></code> for info about data</li>
 </ul>
 <div id="answer" class="section level4">
 <h4 class="hasAnchor">
 <a href="#answer" class="anchor"></a>Answer</h4>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu">gf_boxplot</span>(<span class="no">age</span> ~ <span class="no">substance</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_boxplot</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span>, data<span class="op">=</span><span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -385,14 +389,15 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <ul>
 <li>Variables: <code>age</code>, <code>substance</code>
 </li>
-<li>use <code>?HELPrct</code> for info about data</li>
+<li>use <code><a href="https://rdrr.io/pkg/mosaicData/man/HELPrct.html">?HELPrct</a></code> for info about data</li>
 </ul>
 </li>
 </ol>
 <div id="answer-1" class="section level4">
 <h4 class="hasAnchor">
 <a href="#answer-1" class="anchor"></a>Answer</h4>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu">gf_boxploth</span>(<span class="no">substance</span> ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_boxploth</span><span class="op">(</span><span class="va">substance</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p>Note that we have reversed which variable is mapped to the x-axis and which to the y-axis by reversing their order in the formula and using <code>gf_boxploth()</code> instead of <code>gf_boxplot()</code>.</p>
 </div>
@@ -400,7 +405,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="graphical-summaries-one-variable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#graphical-summaries-one-variable" class="anchor"></a>Graphical Summaries: One Variable</h3>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu">gf_histogram</span>(~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span><span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> </code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p>Note: When there is <strong>one variable</strong> it is on the <strong>right side</strong> of the formula.</p>
 </div>
@@ -410,17 +416,19 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="one-variable" class="section level4">
 <h4 class="hasAnchor">
 <a href="#one-variable" class="anchor"></a>One Variable</h4>
-<div class="sourceCode" id="cb7"><html><body><pre class="r">  <span class="fu">gf_histogram</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-    <span class="fu">gf_density</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-    <span class="fu">gf_boxplot</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-         <span class="fu">gf_qq</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-   <span class="fu">gf_freqpoly</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R">  <span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> 
+    <span class="fu">gf_density</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> 
+    <span class="fu">gf_boxplot</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> 
+         <span class="fu">gf_qq</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> 
+   <span class="fu">gf_freqpoly</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> </code></pre></div>
 </div>
 <div id="two-variables" class="section level4">
 <h4 class="hasAnchor">
 <a href="#two-variables" class="anchor"></a>Two Variables</h4>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu">gf_point</span>(<span class="no">i1</span> ~ <span class="no">age</span>,          <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-<span class="fu">gf_boxplot</span>(<span class="no">age</span> ~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">i1</span> <span class="op">~</span> <span class="va">age</span>,          data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> 
+<span class="fu">gf_boxplot</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> </code></pre></div>
 <p><strong>Note:</strong> <code>i1</code> is the average number of drinks (standard units) consumed per day in the past 30 days (measured at baseline)</p>
 </div>
 </div>
@@ -466,13 +474,16 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <h3 class="hasAnchor">
 <a href="#your-turn" class="anchor"></a>Your turn</h3>
 <p>Create a plot of your own choosing with one of these data sets</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">KidsFeet</span>)    <span class="co"># 4th graders' feet</span>
-?<span class="no">KidsFeet</span></pre></body></html></div>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">Utilities</span>)   <span class="co"># utility bill data</span>
-?<span class="no">Utilities</span></pre></body></html></div>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">NHANES</span>)    <span class="co"># load package</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">NHANES</span>)      <span class="co"># body shape, etc. </span>
-?<span class="no">NHANES</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">KidsFeet</span><span class="op">)</span>    <span class="co"># 4th graders' feet</span>
+<span class="op">?</span><span class="va">KidsFeet</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Utilities</span><span class="op">)</span>   <span class="co"># utility bill data</span>
+<span class="op">?</span><span class="va">Utilities</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">NHANES</span><span class="op">)</span>    <span class="co"># load package</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">NHANES</span><span class="op">)</span>      <span class="co"># body shape, etc. </span>
+<span class="op">?</span><span class="va">NHANES</span></code></pre></div>
 </div>
 <div id="groups-and-panels" class="section level3">
 <h3 class="hasAnchor">
@@ -482,7 +493,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <li><p>Use <code>y ~ x | z</code> to create multipanel plots.</p></li>
 </ul>
 <p>Here is an example.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">gf_density</span>( ~ <span class="no">age</span> <span class="kw">|</span> <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="kw">fill</span> <span class="kw">=</span> ~ <span class="no">substance</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_density</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span> <span class="op">|</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, fill <span class="op">=</span> <span class="op">~</span> <span class="va">substance</span><span class="op">)</span></code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p>Beginners can create plots with 3 or 4 variables easily and quickly using this template.</p>
 </div>
@@ -507,10 +519,11 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="an-example-with-some-bells-and-whistles" class="section level4">
 <h4 class="hasAnchor">
 <a href="#an-example-with-some-bells-and-whistles" class="anchor"></a>An example with some bells and whistles</h4>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lubridate</span>)
-<span class="no">Births78</span> <span class="kw">&lt;-</span> <span class="no">Births78</span> <span class="kw">%&gt;%</span>
-  <span class="fu">mutate</span>(<span class="kw">weekday</span> <span class="kw">=</span> <span class="fu"><a href="http://lubridate.tidyverse.org/reference/day.html">wday</a></span>(<span class="no">date</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">abbr</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
-<span class="fu">gf_line</span>(<span class="no">births</span> ~ <span class="no">date</span>, <span class="kw">color</span> <span class="kw">=</span> ~ <span class="no">weekday</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Births78</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>
+<span class="va">Births78</span> <span class="op">&lt;-</span> <span class="va">Births78</span> <span class="op">%&gt;%</span>
+  <span class="fu">mutate</span><span class="op">(</span>weekday <span class="op">=</span> <span class="fu"><a href="http://lubridate.tidyverse.org/reference/day.html">wday</a></span><span class="op">(</span><span class="va">date</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, abbr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">gf_line</span><span class="op">(</span><span class="va">births</span> <span class="op">~</span> <span class="va">date</span>, color <span class="op">=</span> <span class="op">~</span> <span class="va">weekday</span>, data <span class="op">=</span> <span class="va">Births78</span><span class="op">)</span></code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p><strong>Notes</strong></p>
 <ul>
@@ -531,28 +544,32 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <li>Replace plot name with summary name</li>
 <li>Nothing else changes</li>
 </ul>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu">gf_histogram</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)  <span class="co"># binwidth = 5 (or 10) might be good here</span>
-        <span class="fu"><a href="../../reference/aggregating.html">mean</a></span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>  <span class="co"># binwidth = 5 (or 10) might be good here</span>
+        <span class="fu"><a href="../../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 35.65342</code></pre>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;"></p>
 <div id="other-summaries" class="section level4">
 <h4 class="hasAnchor">
 <a href="#other-summaries" class="anchor"></a>Other summaries</h4>
-<p>The mosaic package includes formula aware versions of <code><a href="../../reference/aggregating.html">mean()</a></code>, <code><a href="../../reference/aggregating.html">sd()</a></code>, <code><a href="../../reference/aggregating.html">var()</a></code>, <code><a href="../../reference/aggregating.html">min()</a></code>, <code><a href="../../reference/aggregating.html">max()</a></code>, <code><a href="../../reference/aggregating.html">sum()</a></code>, <code><a href="../../reference/aggregating.html">IQR()</a></code>, …</p>
-<p>Also provides <code><a href="../../reference/aggregating.html">favstats()</a></code> to compute our favorites.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../../reference/aggregating.html">favstats</a></span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<p>The mosaic package includes formula aware versions of <code><a href="../../reference/mean_.html">mean()</a></code>, <code><a href="../../reference/mean_.html">sd()</a></code>, <code><a href="../../reference/mean_.html">var()</a></code>, <code><a href="../../reference/mean_.html">min()</a></code>, <code><a href="../../reference/mean_.html">max()</a></code>, <code><a href="../../reference/mean_.html">sum()</a></code>, <code><a href="../../reference/mean_.html">IQR()</a></code>, …</p>
+<p>Also provides <code><a href="../../reference/mean_.html">favstats()</a></code> to compute our favorites.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/mean_.html">favstats</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##  min Q1 median Q3 max     mean       sd   n missing
 ##   19 30     35 40  60 35.65342 7.710266 453       0</code></pre>
-<p><code><a href="../../reference/aggregating.html">favstats()</a></code> quickly becomes a go-to function in our courses.</p>
+<p><code><a href="../../reference/mean_.html">favstats()</a></code> quickly becomes a go-to function in our courses.</p>
 <p><code>df_stats()</code> is similar, but</p>
 <ul>
 <li>stores the results in a data frame</li>
 <li>can be used to make custom summary tables</li>
 </ul>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu">df_stats</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">df_stats</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##   response min Q1 median Q3 max     mean       sd   n missing
 ## 1      age  19 30     35 40  60 35.65342 7.710266 453       0</code></pre>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu">df_stats</span>( ~ <span class="no">age</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">mean</span>, <span class="no">sd</span>, <span class="no">median</span>, <span class="no">iqr</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">df_stats</span><span class="op">(</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, <span class="va">mean</span>, <span class="va">sd</span>, <span class="va">median</span>, <span class="va">iqr</span><span class="op">)</span></code></pre></div>
 <pre><code>##   response     mean       sd median iqr
 ## 1      age 35.65342 7.710266     35  10</code></pre>
 </div>
@@ -560,15 +577,18 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="tallying" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tallying" class="anchor"></a>Tallying</h3>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(~ <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span><span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>## sex
 ## female   male 
 ##    107    346</code></pre>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span><span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>## substance
 ## alcohol cocaine  heroin 
 ##     177     152     124</code></pre>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu">df_stats</span>(~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">counts</span>, <span class="no">props</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">df_stats</span><span class="op">(</span><span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, <span class="va">counts</span>, <span class="va">props</span><span class="op">)</span></code></pre></div>
 <pre><code>##    response n_alcohol n_cocaine n_heroin prop_alcohol prop_cocaine prop_heroin
 ## 1 substance       177       152      124    0.3907285    0.3355408   0.2737307</code></pre>
 </div>
@@ -576,15 +596,17 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <h3 class="hasAnchor">
 <a href="#numerical-summaries-two-variables" class="anchor"></a>Numerical Summaries: Two Variables</h3>
 <p>There are three ways to think about this. All do the same thing.</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="../../reference/aggregating.html">sd</a></span>(<span class="no">age</span> ~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-<span class="fu"><a href="../../reference/aggregating.html">sd</a></span>(~ <span class="no">age</span> <span class="kw">|</span> <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-<span class="fu"><a href="../../reference/aggregating.html">sd</a></span>(~ <span class="no">age</span>, <span class="kw">groups</span> <span class="kw">=</span> <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-<span class="co"># note option color = ~ substance is used for graphics</span></pre></body></html></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/mean_.html">sd</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/mean_.html">sd</a></span><span class="op">(</span><span class="op">~</span> <span class="va">age</span> <span class="op">|</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/mean_.html">sd</a></span><span class="op">(</span><span class="op">~</span> <span class="va">age</span>, groups <span class="op">=</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>  
+<span class="co"># note option color = ~ substance is used for graphics</span></code></pre></div>
 <pre><code>##  alcohol  cocaine   heroin 
 ## 7.652272 6.692881 7.986068</code></pre>
 <p>This makes it possible to easily convert three different types of plots into the (same) corresponding numerical summary.</p>
 <p><code>df_stats()</code> can also be used with multiple variables and provides a different output format.</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="fu">df_stats</span>(<span class="no">age</span> ~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">sd</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">df_stats</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, <span class="va">sd</span><span class="op">)</span>  </code></pre></div>
 <pre><code>##   response substance       sd
 ## 1      age   alcohol 7.652272
 ## 2      age   cocaine 6.692881
@@ -594,46 +616,54 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <h3 class="hasAnchor">
 <a href="#numerical-summaries-tables" class="anchor"></a>Numerical Summaries: Tables</h3>
 <p>2-way tables are just tallies of 2 variables.</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(<span class="no">sex</span> ~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##         substance
 ## sex      alcohol cocaine heroin
 ##   female      36      41     30
 ##   male       141     111     94</code></pre>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>( ~ <span class="no">sex</span> + <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##         substance
 ## sex      alcohol cocaine heroin
 ##   female      36      41     30
 ##   male       141     111     94</code></pre>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu">df_stats</span>(<span class="no">sex</span> ~ <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">counts</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">df_stats</span><span class="op">(</span><span class="va">sex</span> <span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, <span class="va">counts</span><span class="op">)</span></code></pre></div>
 <pre><code>##   response substance n_female n_male
 ## 1      sex   alcohol       36    141
 ## 2      sex   cocaine       41    111
 ## 3      sex    heroin       30     94</code></pre>
 <p>Other output formats are available</p>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(<span class="no">sex</span> ~ <span class="no">substance</span>,   <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"proportion"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">~</span> <span class="va">substance</span>,   data <span class="op">=</span> <span class="va">HELPrct</span>, format <span class="op">=</span> <span class="st">"proportion"</span><span class="op">)</span></code></pre></div>
 <pre><code>##         substance
 ## sex        alcohol   cocaine    heroin
 ##   female 0.2033898 0.2697368 0.2419355
 ##   male   0.7966102 0.7302632 0.7580645</code></pre>
-<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(<span class="no">substance</span> ~ <span class="no">sex</span>,   <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"proportion"</span>, <span class="kw">margins</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span><span class="va">substance</span> <span class="op">~</span> <span class="va">sex</span>,   data <span class="op">=</span> <span class="va">HELPrct</span>, format <span class="op">=</span> <span class="st">"proportion"</span>, margins <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>##          sex
 ## substance    female      male
 ##   alcohol 0.3364486 0.4075145
 ##   cocaine 0.3831776 0.3208092
 ##   heroin  0.2803738 0.2716763
 ##   Total   1.0000000 1.0000000</code></pre>
-<div class="sourceCode" id="cb42"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(~ <span class="no">sex</span> + <span class="no">substance</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"proportion"</span>, <span class="kw">margins</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span><span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, format <span class="op">=</span> <span class="st">"proportion"</span>, margins <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>##         substance
 ## sex         alcohol    cocaine     heroin      Total
 ##   female 0.07947020 0.09050773 0.06622517 0.23620309
 ##   male   0.31125828 0.24503311 0.20750552 0.76379691
 ##   Total  0.39072848 0.33554084 0.27373068 1.00000000</code></pre>
-<div class="sourceCode" id="cb44"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>(<span class="no">sex</span> ~ <span class="no">substance</span>,   <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"percent"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">~</span> <span class="va">substance</span>,   data <span class="op">=</span> <span class="va">HELPrct</span>, format <span class="op">=</span> <span class="st">"percent"</span><span class="op">)</span></code></pre></div>
 <pre><code>##         substance
 ## sex       alcohol  cocaine   heroin
 ##   female 20.33898 26.97368 24.19355
 ##   male   79.66102 73.02632 75.80645</code></pre>
-<div class="sourceCode" id="cb46"><html><body><pre class="r"><span class="fu">df_stats</span>(<span class="no">sex</span> ~ <span class="no">substance</span>,   <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="no">props</span>, <span class="no">percs</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">df_stats</span><span class="op">(</span><span class="va">sex</span> <span class="op">~</span> <span class="va">substance</span>,   data <span class="op">=</span> <span class="va">HELPrct</span>, <span class="va">props</span>, <span class="va">percs</span><span class="op">)</span></code></pre></div>
 <pre><code>##   response substance prop_female prop_male perc_female perc_male
 ## 1      sex   alcohol   0.2033898 0.7966102    20.33898  79.66102
 ## 2      sex   cocaine   0.2697368 0.7302632    26.97368  73.02632
@@ -641,10 +671,12 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="more-examples" class="section level4">
 <h4 class="hasAnchor">
 <a href="#more-examples" class="anchor"></a>More examples</h4>
-<div class="sourceCode" id="cb48"><html><body><pre class="r"><span class="fu"><a href="../../reference/aggregating.html">mean</a></span>(<span class="no">age</span> ~ <span class="no">substance</span> <span class="kw">|</span> <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span> <span class="op">|</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##      A.F      C.F      H.F      A.M      C.M      H.M        F        M 
 ## 39.16667 34.85366 34.66667 37.95035 34.36036 33.05319 36.25234 35.46821</code></pre>
-<div class="sourceCode" id="cb50"><html><body><pre class="r"><span class="fu"><a href="../../reference/aggregating.html">mean</a></span>(<span class="no">age</span> ~ <span class="no">substance</span> <span class="kw">|</span> <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>, <span class="kw">.format</span> <span class="kw">=</span> <span class="st">"table"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span> <span class="op">|</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, .format <span class="op">=</span> <span class="st">"table"</span><span class="op">)</span></code></pre></div>
 <pre><code>##   substance sex     mean
 ## 1         A   F 39.16667
 ## 2         A   M 37.95035
@@ -654,7 +686,7 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 ## 6         H   M 33.05319</code></pre>
 <ul>
 <li>I’ve abbreviated some labels to make things fit better. You can do this using <code>mutate()</code> (in the <code>dplyr</code> package) or <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>.</li>
-<li>This also works for <code><a href="../../reference/aggregating.html">median()</a></code>, <code><a href="../../reference/aggregating.html">min()</a></code>, <code><a href="../../reference/aggregating.html">max()</a></code>, <code><a href="../../reference/aggregating.html">sd()</a></code>, <code><a href="../../reference/aggregating.html">var()</a></code>, <code><a href="../../reference/aggregating.html">favstats()</a></code>, etc.</li>
+<li>This also works for <code><a href="../../reference/mean_.html">median()</a></code>, <code><a href="../../reference/mean_.html">min()</a></code>, <code><a href="../../reference/mean_.html">max()</a></code>, <code><a href="../../reference/mean_.html">sd()</a></code>, <code><a href="../../reference/mean_.html">var()</a></code>, <code><a href="../../reference/mean_.html">favstats()</a></code>, etc.</li>
 </ul>
 </div>
 </div>
@@ -667,9 +699,10 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <li>single and multiple variable numerical summaries</li>
 <li>linear models</li>
 </ul>
-<div class="sourceCode" id="cb52"><html><body><pre class="r">      <span class="fu"><a href="../../reference/aggregating.html">mean</a></span>(<span class="no">age</span> ~ <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-<span class="fu">gf_boxplot</span>(<span class="no">age</span> ~ <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)
-        <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">age</span> ~ <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R">      <span class="fu"><a href="../../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
+<span class="fu">gf_boxplot</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> 
+        <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##   female     male 
 ## 36.25234 35.46821</code></pre>
 <pre><code>## (Intercept)     sexmale 
@@ -694,7 +727,7 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <ul>
 <li>
 <code><a href="../../reference/mplot.html">mplot(HELPrct)</a></code> interactive plot creation</li>
-<li>replacements for <code><a href="https://rdrr.io/r/base/plot.html">plot()</a></code> in some situations</li>
+<li>replacements for <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> in some situations</li>
 </ul>
 </li>
 <li>simplified <code>gf_histogram()</code> controls (e.g., <code>binwidth</code>)</li>
@@ -703,7 +736,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="examples" class="section level3">
 <h3 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h3>
-<div class="sourceCode" id="cb55"><html><body><pre class="r"><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span>(<span class="fl">700</span>, <span class="kw">mean</span> <span class="kw">=</span> <span class="fl">500</span>, <span class="kw">sd</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span><span class="op">(</span><span class="fl">700</span>, mean <span class="op">=</span> <span class="fl">500</span>, sd <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
 <pre><code>## </code></pre>
 <pre><code>## If X ~ N(500, 100), then</code></pre>
 <pre><code>##  P(X &lt;= 700) = P(Z &lt;= 2) = 0.9772</code></pre>
@@ -711,7 +745,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <pre><code>## </code></pre>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-30-1.png" width="70%" style="display: block; margin: auto;"></p>
 <pre><code>## [1] 0.9772499</code></pre>
-<div class="sourceCode" id="cb62"><html><body><pre class="r"><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">300</span>, <span class="fl">700</span>), <span class="kw">mean</span> <span class="kw">=</span> <span class="fl">500</span>, <span class="kw">sd</span> <span class="kw">=</span> <span class="fl">100</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">300</span>, <span class="fl">700</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">500</span>, sd <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
 <pre><code>## </code></pre>
 <pre><code>## If X ~ N(500, 100), then</code></pre>
 <pre><code>##  P(X &lt;= 300) = P(Z &lt;= -2) = 0.02275  P(X &lt;= 700) = P(Z &lt;=  2) = 0.97725</code></pre>
@@ -719,7 +754,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <pre><code>## </code></pre>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-31-1.png" width="70%" style="display: block; margin: auto;"></p>
 <pre><code>## [1] 0.02275013 0.97724987</code></pre>
-<div class="sourceCode" id="cb69"><html><body><pre class="r"><span class="fu"><a href="../../reference/xchisq.test.html">xchisq.test</a></span>(<span class="no">phs</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/xchisq.test.html">xchisq.test</a></span><span class="op">(</span><span class="va">phs</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson's Chi-squared test with Yates' continuity correction
 ## 
@@ -757,20 +793,23 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="models-as-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#models-as-functions" class="anchor"></a>Models as Functions</h3>
-<div class="sourceCode" id="cb71"><html><body><pre class="r"><span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">width</span> ~ <span class="no">length</span> * <span class="no">sex</span>,
-            <span class="kw">data</span> <span class="kw">=</span> <span class="no">KidsFeet</span>)
-<span class="no">Width</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html">makeFun</a></span>(<span class="no">model</span>)
-<span class="fu">Width</span>(<span class="kw">length</span> <span class="kw">=</span> <span class="fl">25</span>, <span class="kw">sex</span> <span class="kw">=</span> <span class="st">"B"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span> <span class="op">*</span> <span class="va">sex</span>, 
+            data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span>
+<span class="va">Width</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html">makeFun</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
+<span class="fu">Width</span><span class="op">(</span>length <span class="op">=</span> <span class="fl">25</span>, sex <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></code></pre></div>
 <pre><code>##        1 
 ## 9.167675</code></pre>
-<div class="sourceCode" id="cb73"><html><body><pre class="r"><span class="fu">Width</span>(<span class="kw">length</span> <span class="kw">=</span> <span class="fl">25</span>, <span class="kw">sex</span> <span class="kw">=</span> <span class="st">"G"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">Width</span><span class="op">(</span>length <span class="op">=</span> <span class="fl">25</span>, sex <span class="op">=</span> <span class="st">"G"</span><span class="op">)</span></code></pre></div>
 <pre><code>##        1 
 ## 8.939312</code></pre>
 <p>Once models have been converted into functions, we can easily add them to our plots using <code><a href="../../reference/plotFun.html">plotFun()</a></code>.</p>
-<div class="sourceCode" id="cb75"><html><body><pre class="r"><span class="fu">gf_point</span>(<span class="no">width</span> ~ <span class="no">length</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">KidsFeet</span>,
-        <span class="kw">color</span> <span class="kw">=</span> ~ <span class="no">sex</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">gf_fun</span>(<span class="fu">Width</span>(<span class="no">length</span>, <span class="kw">sex</span> <span class="kw">=</span> <span class="st">"B"</span>) ~ <span class="no">length</span>, <span class="kw">color</span> <span class="kw">=</span> ~<span class="st">"B"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">gf_fun</span>(<span class="fu">Width</span>(<span class="no">length</span>, <span class="kw">sex</span> <span class="kw">=</span> <span class="st">"G"</span>) ~ <span class="no">length</span>, <span class="kw">color</span> <span class="kw">=</span> ~<span class="st">"G"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span>, data <span class="op">=</span> <span class="va">KidsFeet</span>, 
+        color <span class="op">=</span> <span class="op">~</span> <span class="va">sex</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_fun</span><span class="op">(</span><span class="fu">Width</span><span class="op">(</span><span class="va">length</span>, sex <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span> <span class="op">~</span> <span class="va">length</span>, color <span class="op">=</span> <span class="op">~</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_fun</span><span class="op">(</span><span class="fu">Width</span><span class="op">(</span><span class="va">length</span>, sex <span class="op">=</span> <span class="st">"G"</span><span class="op">)</span> <span class="op">~</span> <span class="va">length</span>, color <span class="op">=</span> <span class="op">~</span><span class="st">"G"</span><span class="op">)</span></code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-35-1.png" width="70%" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -792,7 +831,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 </li>
 </ul>
 <p>We use <code><a href="../../reference/rflip.html">rflip()</a></code> to simulate flipping coins</p>
-<div class="sourceCode" id="cb76"><html><body><pre class="r"><span class="fu"><a href="../../reference/rflip.html">rflip</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Flipping 1 coin [ Prob(Heads) = 0.5 ] ...
 ## 
@@ -801,7 +841,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 ## Number of Heads: 1 [Proportion Heads: 1]</code></pre>
 <p><strong>Note:</strong> We do this with students who do not (yet) know what a binomial distribution is, so we want to avoid using <code><a href="https://rdrr.io/r/stats/Binomial.html">rbinom()</a></code> at this point.</p>
 <p>Rather than flip each coin separately, we can flip multiple coins at once.</p>
-<div class="sourceCode" id="cb78"><html><body><pre class="r"><span class="fu"><a href="../../reference/rflip.html">rflip</a></span>(<span class="fl">10</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Flipping 10 coins [ Prob(Heads) = 0.5 ] ...
 ## 
@@ -821,7 +862,8 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <a href="#now-lets-do-that-a-lot-of-times" class="anchor"></a>Now let’s do that a lot of times</h3>
 <p><code><a href="../../reference/rflip.html">rflip(10)</a></code> simulates 1 lady tasting 10 cups 1 time.</p>
 <p>We can do that many times to see how guessing ladies do:</p>
-<div class="sourceCode" id="cb80"><html><body><pre class="r"><span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">2</span>) * <span class="fu"><a href="../../reference/rflip.html">rflip</a></span>(<span class="fl">10</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></code></pre></div>
 <pre><code>##    n heads tails prop
 ## 1 10     6     4  0.6
 ## 2 10     5     5  0.5</code></pre>
@@ -831,24 +873,29 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <li>2 isn’t many – we’ll do many next – but it is a good idea to take a look at a small example before generating a lot of random data.</li>
 </ul>
 <p>Now let’s simulate 5000 guessing ladies</p>
-<div class="sourceCode" id="cb82"><html><body><pre class="r"><span class="no">Ladies</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">5000</span>) * <span class="fu"><a href="../../reference/rflip.html">rflip</a></span>(<span class="fl">10</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">Ladies</span>, <span class="fl">2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Ladies</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Ladies</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>##    n heads tails prop
 ## 1 10     4     6  0.4
 ## 2 10     7     3  0.7</code></pre>
-<div class="sourceCode" id="cb84"><html><body><pre class="r"><span class="fu">gf_histogram</span>(~ <span class="no">heads</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Ladies</span>, <span class="kw">binwidth</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span><span class="op">~</span> <span class="va">heads</span>, data <span class="op">=</span> <span class="va">Ladies</span>, binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/ladies5000-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p><strong>Q.</strong> How often does guessing score 9 or 10?</p>
 <p>Here are 3 ways to find out</p>
-<div class="sourceCode" id="cb85"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>( ~ (<span class="no">heads</span> <span class="kw">&gt;=</span> <span class="fl">9</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">Ladies</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="op">(</span><span class="va">heads</span> <span class="op">&gt;=</span> <span class="fl">9</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Ladies</span><span class="op">)</span></code></pre></div>
 <pre><code>## (heads &gt;= 9)
 ##  TRUE FALSE 
 ##    52  4948</code></pre>
-<div class="sourceCode" id="cb87"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span>( ~ (<span class="no">heads</span> <span class="kw">&gt;=</span> <span class="fl">9</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">Ladies</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"prop"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="op">(</span><span class="va">heads</span> <span class="op">&gt;=</span> <span class="fl">9</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Ladies</span>, format <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span></code></pre></div>
 <pre><code>## (heads &gt;= 9)
 ##   TRUE  FALSE 
 ## 0.0104 0.9896</code></pre>
-<div class="sourceCode" id="cb89"><html><body><pre class="r"> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span>( ~ (<span class="no">heads</span> <span class="kw">&gt;=</span> <span class="fl">9</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">Ladies</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="op">(</span><span class="va">heads</span> <span class="op">&gt;=</span> <span class="fl">9</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Ladies</span><span class="op">)</span></code></pre></div>
 <pre><code>## prop_TRUE 
 ##    0.0104</code></pre>
 </div>
@@ -869,76 +916,92 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 <div id="example-do-mean-ages-differ-by-sex" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-do-mean-ages-differ-by-sex" class="anchor"></a>Example: Do mean ages differ by sex?</h3>
-<div class="sourceCode" id="cb91"><html><body><pre class="r"><span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span>(<span class="no">age</span> ~ <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##   diffmean 
 ## -0.7841284</code></pre>
-<div class="sourceCode" id="cb93"><html><body><pre class="r"><span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">1</span>) *
-  <span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span>(<span class="no">age</span> ~ <span class="fu"><a href="../../reference/resample.html">shuffle</a></span>(<span class="no">sex</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> 
+  <span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="../../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
 <pre><code>##     diffmean
 ## 1 0.09686133</code></pre>
-<div class="sourceCode" id="cb95"><html><body><pre class="r"><span class="no">Null</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">5000</span>) *
-  <span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span>(<span class="no">age</span> ~ <span class="fu"><a href="../../reference/resample.html">shuffle</a></span>(<span class="no">sex</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">HELPrct</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb96"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span>( ~ (<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="no">diffmean</span>) <span class="kw">&gt;</span> <span class="fl">0.7841</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">Null</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span> <span class="op">*</span> 
+  <span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="../../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">diffmean</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.7841</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Null</span><span class="op">)</span> </code></pre></div>
 <pre><code>## prop_TRUE 
 ##    0.3412</code></pre>
-<div class="sourceCode" id="cb98"><html><body><pre class="r"><span class="fu">gf_histogram</span>( ~ <span class="no">diffmean</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Null</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">gf_vline</span>(<span class="kw">xintercept</span> <span class="kw">=</span> -<span class="fl">0.7841</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">diffmean</span>, data <span class="op">=</span> <span class="va">Null</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="op">-</span><span class="fl">0.7841</span><span class="op">)</span> </code></pre></div>
 <pre><code>## Warning: geom_vline(): Ignoring `mapping` because `xintercept` was provided.</code></pre>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-43-1.png" width="70%" style="display: block; margin: auto;"></p>
 </div>
 <div id="example-bootstrap-ci-for-difference-in-means" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-bootstrap-ci-for-difference-in-means" class="anchor"></a>Example: Bootstrap CI for difference in means</h3>
-<div class="sourceCode" id="cb100"><html><body><pre class="r"><span class="no">Bootstrap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">5000</span>) *
-  <span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span>(<span class="no">age</span> ~ <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="../../reference/resample.html">resample</a></span>(<span class="no">HELPrct</span>))
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Bootstrap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span> <span class="op">*</span> 
+  <span class="fu"><a href="../../reference/diffmean.html">diffmean</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="fu"><a href="../../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">HELPrct</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">gf_histogram</span>( ~ <span class="no">diffmean</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Bootstrap</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">gf_vline</span>(<span class="kw">xintercept</span> <span class="kw">=</span> -<span class="fl">0.7841</span>)</pre></body></html></div>
+<span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">diffmean</span>, data <span class="op">=</span> <span class="va">Bootstrap</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="op">-</span><span class="fl">0.7841</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: geom_vline(): Ignoring `mapping` because `xintercept` was provided.</code></pre>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-44-1.png" width="70%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb102"><html><body><pre class="r"><span class="fu"><a href="../../reference/pqrdata.html">cdata</a></span>( ~ <span class="no">diffmean</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Bootstrap</span>, <span class="kw">p</span> <span class="kw">=</span> <span class="fl">0.95</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/qdata.html">cdata</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">diffmean</span>, data <span class="op">=</span> <span class="va">Bootstrap</span>, p <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></code></pre></div>
 <pre><code>##          lower     upper central.p
 ## 2.5% -2.438299 0.8177243      0.95</code></pre>
-<div class="sourceCode" id="cb104"><html><body><pre class="r"><span class="fu"><a href="../../reference/confint.html">confint</a></span>(<span class="no">Bootstrap</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"quantile"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">Bootstrap</span>, method <span class="op">=</span> <span class="st">"quantile"</span><span class="op">)</span></code></pre></div>
 <pre><code>##       name     lower     upper level     method   estimate
 ## 1 diffmean -2.438299 0.8177243  0.95 percentile -0.7841284</code></pre>
-<div class="sourceCode" id="cb106"><html><body><pre class="r"><span class="fu"><a href="../../reference/confint.html">confint</a></span>(<span class="no">Bootstrap</span>)  <span class="co"># default uses bootstrap st. err.</span></pre></body></html></div>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">Bootstrap</span><span class="op">)</span>  <span class="co"># default uses bootstrap st. err.</span></code></pre></div>
 <pre><code>##       name     lower     upper level     method   estimate
 ## 1 diffmean -2.438299 0.8177243  0.95 percentile -0.7841284</code></pre>
 </div>
 <div id="randomization-and-linear-models" class="section level3">
 <h3 class="hasAnchor">
 <a href="#randomization-and-linear-models" class="anchor"></a>Randomization and linear models</h3>
-<div class="sourceCode" id="cb108"><html><body><pre class="r"><span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">1</span>) * <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">width</span> ~ <span class="no">length</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">KidsFeet</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Intercept    length     sigma r.squared        F numdf dendf .row .index
 ## 1  2.862276 0.2479478 0.3963356 0.4110041 25.81878     1    37    1      1</code></pre>
-<div class="sourceCode" id="cb110"><html><body><pre class="r"><span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">3</span>) * <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">width</span> ~ <span class="fu"><a href="../../reference/resample.html">shuffle</a></span>(<span class="no">length</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">KidsFeet</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="fu"><a href="../../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">length</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Intercept      length     sigma   r.squared         F numdf dendf .row .index
 ## 1  6.347607  0.10697295 0.4962778 0.076502169 3.0650643     1    37    1      1
 ## 2  9.877910 -0.03582090 0.5142048 0.008578250 0.3201415     1    37    1      2
 ## 3  9.840434 -0.03430504 0.5143891 0.007867588 0.2934092     1    37    1      3</code></pre>
-<div class="sourceCode" id="cb112"><html><body><pre class="r"><span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">1</span>) *
-  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">width</span> ~ <span class="no">length</span> + <span class="no">sex</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">KidsFeet</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> 
+  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span> <span class="op">+</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Intercept   length       sexG     sigma r.squared        F numdf dendf .row .index
 ## 1  3.641168 0.221025 -0.2325175 0.3848905 0.4595428 15.30513     2    36    1      1</code></pre>
-<div class="sourceCode" id="cb114"><html><body><pre class="r"><span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">3</span>) *
-  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">width</span> ~ <span class="no">length</span> + <span class="fu"><a href="../../reference/resample.html">shuffle</a></span>(<span class="no">sex</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">KidsFeet</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> 
+  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span> <span class="op">+</span> <span class="fu"><a href="../../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span></code></pre></div>
 <pre><code>##   Intercept    length        sexG     sigma r.squared        F numdf dendf .row .index
 ## 1  3.068833 0.2378303  0.08945102 0.3993335 0.4182207 12.93957     2    36    1      1
 ## 2  2.916037 0.2478853 -0.10717940 0.3979148 0.4223471 13.16058     2    36    1      2
 ## 3  3.351286 0.2334825 -0.26968267 0.3770203 0.4814193 16.71013     2    36    1      3</code></pre>
-<div class="sourceCode" id="cb116"><html><body><pre class="r"><span class="no">Null</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span>(<span class="fl">5000</span>) *
-  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">width</span> ~ <span class="no">length</span> + <span class="fu"><a href="../../reference/resample.html">shuffle</a></span>(<span class="no">sex</span>),
-                       <span class="kw">data</span> <span class="kw">=</span> <span class="no">KidsFeet</span>)
-<span class="fu">gf_histogram</span>( ~ <span class="no">sexG</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Null</span>, <span class="kw">boundary</span> <span class="kw">=</span> -<span class="fl">0.2325</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">gf_vline</span>(<span class="kw">xintercept</span> <span class="kw">=</span> -<span class="fl">0.2325</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/do.html">do</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span> <span class="op">*</span> 
+  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span> <span class="op">+</span> <span class="fu"><a href="../../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, 
+                       data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span>
+<span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">sexG</span>, data <span class="op">=</span> <span class="va">Null</span>, boundary <span class="op">=</span> <span class="op">-</span><span class="fl">0.2325</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="op">-</span><span class="fl">0.2325</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: geom_vline(): Ignoring `mapping` because `xintercept` was provided.</code></pre>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-48-1.png" width="70%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb118"><html><body><pre class="r"><span class="fu">gf_histogram</span>(~ <span class="no">sexG</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Null</span>, <span class="kw">boundary</span> <span class="kw">=</span> -<span class="fl">0.2325</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">gf_vline</span>(<span class="kw">xintercept</span> <span class="kw">=</span> -<span class="fl">0.2325</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span><span class="op">~</span> <span class="va">sexG</span>, data <span class="op">=</span> <span class="va">Null</span>, boundary <span class="op">=</span> <span class="op">-</span><span class="fl">0.2325</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">gf_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="op">-</span><span class="fl">0.2325</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: geom_vline(): Ignoring `mapping` because `xintercept` was provided.</code></pre>
 <p><img src="LessVolume-MoreCreativity_files/figure-html/unnamed-chunk-49-1.png" width="70%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb120"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span>(~ (<span class="no">sexG</span> <span class="kw">&lt;=</span> -<span class="fl">0.2325</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">Null</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span><span class="op">~</span> <span class="op">(</span><span class="va">sexG</span> <span class="op">&lt;=</span> <span class="op">-</span><span class="fl">0.2325</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Null</span><span class="op">)</span></code></pre></div>
 <pre><code>## prop_TRUE 
 ##    0.0344</code></pre>
 </div>
@@ -967,7 +1030,7 @@ Perfection is achieved, not when there is nothing more to add, but when there is
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

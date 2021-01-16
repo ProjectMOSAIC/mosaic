@@ -73,7 +73,7 @@ distributions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ distributions." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@ distributions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,49 +146,49 @@ distributions." />
 distributions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>freqpolygon</span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>panel</span> <span class='kw'>=</span> <span class='st'>"panel.freqpolygon"</span>,
-  <span class='kw'>prepanel</span> <span class='kw'>=</span> <span class='st'>"prepanel.default.freqpolygon"</span>
-)
+    <pre class="usage"><span class='fu'>freqpolygon</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>...</span>,
+  panel <span class='op'>=</span> <span class='st'>"panel.freqpolygon"</span>,
+  prepanel <span class='op'>=</span> <span class='st'>"prepanel.default.freqpolygon"</span>
+<span class='op'>)</span>
 
-<span class='fu'>prepanel.default.freqpolygon</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>darg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>plot.points</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ref</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>subscripts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>jitter.amount</span> <span class='kw'>=</span> <span class='fl'>0.01</span> * <span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='fu'>current.panel.limits</span>()$<span class='no'>ylim</span>),
-  <span class='kw'>center</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nint</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='no'>darg</span>$<span class='no'>width</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"density"</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>prepanel.default.freqpolygon</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  darg <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  plot.points <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ref <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  subscripts <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  jitter.amount <span class='op'>=</span> <span class='fl'>0.01</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='fu'>current.panel.limits</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ylim</span><span class='op'>)</span>,
+  center <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nint <span class='op'>=</span> <span class='cn'>NULL</span>,
+  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  width <span class='op'>=</span> <span class='va'>darg</span><span class='op'>$</span><span class='va'>width</span>,
+  type <span class='op'>=</span> <span class='st'>"density"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>panel.freqpolygon</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>darg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>plot.points</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ref</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>jitter.amount</span> <span class='kw'>=</span> <span class='fl'>0.01</span> * <span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='fu'>current.panel.limits</span>()$<span class='no'>ylim</span>),
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"density"</span>,
-  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nint</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>center</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='no'>darg</span>$<span class='no'>width</span>,
-  <span class='kw'>gcol</span> <span class='kw'>=</span> <span class='fu'>trellis.par.get</span>(<span class='st'>"reference.line"</span>)$<span class='no'>col</span>,
-  <span class='kw'>glwd</span> <span class='kw'>=</span> <span class='fu'>trellis.par.get</span>(<span class='st'>"reference.line"</span>)$<span class='no'>lwd</span>,
-  <span class='no'>h</span>,
-  <span class='no'>v</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>identifier</span> <span class='kw'>=</span> <span class='st'>"freqpoly"</span>
-)</pre>
+<span class='fu'>panel.freqpolygon</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  darg <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  plot.points <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ref <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  weights <span class='op'>=</span> <span class='cn'>NULL</span>,
+  jitter.amount <span class='op'>=</span> <span class='fl'>0.01</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='fu'>current.panel.limits</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ylim</span><span class='op'>)</span>,
+  type <span class='op'>=</span> <span class='st'>"density"</span>,
+  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nint <span class='op'>=</span> <span class='cn'>NULL</span>,
+  center <span class='op'>=</span> <span class='cn'>NULL</span>,
+  width <span class='op'>=</span> <span class='va'>darg</span><span class='op'>$</span><span class='va'>width</span>,
+  gcol <span class='op'>=</span> <span class='fu'>trellis.par.get</span><span class='op'>(</span><span class='st'>"reference.line"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>col</span>,
+  glwd <span class='op'>=</span> <span class='fu'>trellis.par.get</span><span class='op'>(</span><span class='st'>"reference.line"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lwd</span>,
+  <span class='va'>h</span>,
+  <span class='va'>v</span>,
+  <span class='va'>...</span>,
+  identifier <span class='op'>=</span> <span class='st'>"freqpoly"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,7 +199,7 @@ distributions.</p>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>additional arguments passed on to <code><a href='xhistogram.html'>histogram()</a></code>
+      <td><p>additional arguments passed on to <code><a href='xhistogramBreaks.html'>histogram()</a></code>
 and <code>panel</code>.</p></td>
     </tr>
     <tr>
@@ -229,7 +229,7 @@ added (roughly equivalent to <code>h=0</code>)</p></td>
     <tr>
       <th>groups, weights, jitter.amount, identifier</th>
       <td><p>as in <code>densityplot()</code>
-or <code><a href='xhistogram.html'>histogram()</a></code></p></td>
+or <code><a href='xhistogramBreaks.html'>histogram()</a></code></p></td>
     </tr>
     <tr>
       <th>subscripts</th>
@@ -282,8 +282,14 @@ necessary to use <code>ylim</code> to determine an appropriate viewing rectangle
 plot.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>freqpolygon</span>(~<span class='no'>age</span> <span class='kw'>|</span> <span class='no'>substance</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>, <span class='kw'>v</span><span class='kw'>=</span><span class='fl'>35</span>)</div><div class='img'><img src='freqpolygon-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>freqpolygon</span>(~<span class='no'>age</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>, <span class='kw'>labels</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'count'</span>)</div><div class='img'><img src='freqpolygon-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>freqpolygon</span>(~<span class='no'>age</span> <span class='kw'>|</span> <span class='no'>substance</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>sex</span>)</div><div class='img'><img src='freqpolygon-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>freqpolygon</span>(~<span class='no'>age</span> <span class='kw'>|</span> <span class='no'>substance</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>sex</span>, <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0.11</span>))</div><div class='img'><img src='freqpolygon-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## comparison of histogram and frequency polygon</span>
-<span class='fu'><a href='xhistogram.html'>histogram</a></span>(~<span class='no'>eruptions</span>, <span class='no'>faithful</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'density'</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>.5</span>)</div><div class='img'><img src='freqpolygon-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='ladd.html'>ladd</a></span>( <span class='fu'>panel.freqpolygon</span>(<span class='no'>faithful</span>$<span class='no'>eruptions</span>, <span class='kw'>width</span><span class='kw'>=</span><span class='fl'>.5</span> ))</div><div class='img'><img src='freqpolygon-6.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>freqpolygon</span><span class='op'>(</span><span class='op'>~</span><span class='va'>age</span> <span class='op'>|</span> <span class='va'>substance</span>, data<span class='op'>=</span><span class='va'>HELPrct</span>, v<span class='op'>=</span><span class='fl'>35</span><span class='op'>)</span>
+</div><div class='img'><img src='freqpolygon-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>freqpolygon</span><span class='op'>(</span><span class='op'>~</span><span class='va'>age</span>, data<span class='op'>=</span><span class='va'>HELPrct</span>, labels<span class='op'>=</span><span class='cn'>TRUE</span>, type<span class='op'>=</span><span class='st'>'count'</span><span class='op'>)</span>
+</div><div class='img'><img src='freqpolygon-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>freqpolygon</span><span class='op'>(</span><span class='op'>~</span><span class='va'>age</span> <span class='op'>|</span> <span class='va'>substance</span>, data<span class='op'>=</span><span class='va'>HELPrct</span>, groups<span class='op'>=</span><span class='va'>sex</span><span class='op'>)</span>
+</div><div class='img'><img src='freqpolygon-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>freqpolygon</span><span class='op'>(</span><span class='op'>~</span><span class='va'>age</span> <span class='op'>|</span> <span class='va'>substance</span>, data<span class='op'>=</span><span class='va'>HELPrct</span>, groups<span class='op'>=</span><span class='va'>sex</span>, ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0.11</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='freqpolygon-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## comparison of histogram and frequency polygon</span>
+<span class='fu'><a href='xhistogramBreaks.html'>histogram</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>eruptions</span>, <span class='va'>faithful</span>, type<span class='op'>=</span><span class='st'>'density'</span>, width<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span>
+</div><div class='img'><img src='freqpolygon-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='ladd.html'>ladd</a></span><span class='op'>(</span> <span class='fu'>panel.freqpolygon</span><span class='op'>(</span><span class='va'>faithful</span><span class='op'>$</span><span class='va'>eruptions</span>, width<span class='op'>=</span><span class='fl'>.5</span> <span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='freqpolygon-6.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -299,7 +305,7 @@ plot.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

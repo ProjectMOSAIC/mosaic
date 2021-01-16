@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,13 +144,13 @@
     <p>Convert a data frame or a matrix into an <code>xtabs</code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as.xtabs</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>as.xtabs</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>as.xtabs</span>(<span class='no'>x</span>, <span class='kw'>rowvar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>colvar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
+<span class='fu'>as.xtabs</span><span class='op'>(</span><span class='va'>x</span>, rowvar <span class='op'>=</span> <span class='cn'>NULL</span>, colvar <span class='op'>=</span> <span class='cn'>NULL</span>, labels <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>as.xtabs</span>(<span class='no'>x</span>, <span class='kw'>rowvar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>colvar</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>as.xtabs</span><span class='op'>(</span><span class='va'>x</span>, rowvar <span class='op'>=</span> <span class='cn'>NULL</span>, colvar <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,11 +189,13 @@ frame or a matrix into an <code>xtabs</code> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># example from example(fisher.test)</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>( <span class='kw'>X</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Tea'</span>,<span class='st'>'Milk'</span>), <span class='kw'>Tea</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>1</span>), <span class='kw'>Milk</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>3</span>) )
-<span class='no'>xt</span> <span class='kw'>&lt;-</span> <span class='fu'>as.xtabs</span>(<span class='no'>df</span>, <span class='kw'>rowvar</span><span class='kw'>=</span><span class='st'>"Guess"</span>, <span class='kw'>colvar</span><span class='kw'>=</span><span class='st'>"Truth"</span>); <span class='no'>xt</span></div><div class='output co'>#&gt;       Truth
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span> X<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Tea'</span>,<span class='st'>'Milk'</span><span class='op'>)</span>, Tea<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>1</span><span class='op'>)</span>, Milk<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>3</span><span class='op'>)</span> <span class='op'>)</span>
+<span class='va'>xt</span> <span class='op'>&lt;-</span> <span class='fu'>as.xtabs</span><span class='op'>(</span><span class='va'>df</span>, rowvar<span class='op'>=</span><span class='st'>"Guess"</span>, colvar<span class='op'>=</span><span class='st'>"Truth"</span><span class='op'>)</span>; <span class='va'>xt</span>
+</div><div class='output co'>#&gt;       Truth
 #&gt; Guess  Tea Milk
 #&gt;   Tea    3    1
-#&gt;   Milk   1    3</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>vcd</span>)) { <span class='fu'><a href='mosaic-package.html'>mosaic</a></span>(<span class='no'>xt</span>) }</div><div class='output co'>#&gt; <span class='message'>Loading required package: vcd</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: grid</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt;   Milk   1    3</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>vcd</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='mosaic-package.html'>mosaic</a></span><span class='op'>(</span><span class='va'>xt</span><span class='op'>)</span> <span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: vcd</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: grid</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘vcd’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:mosaic’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    mplot</span></div><div class='img'><img src='as-xtabs-1.png' alt='' width='700' height='433' /></div></pre>
@@ -212,7 +214,7 @@ frame or a matrix into an <code>xtabs</code> object.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

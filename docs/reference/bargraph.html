@@ -75,7 +75,7 @@ an interface that is consistent with the other lattice functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@ an interface that is consistent with the other lattice functions." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +121,7 @@ an interface that is consistent with the other lattice functions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -150,19 +150,19 @@ is unusual compared to the other lattice plotting functions.  <code>bargraph</co
 an interface that is consistent with the other <code>lattice</code> functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bargraph</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>origin</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>horizontal</span>, <span class='st'>""</span>, <span class='no'>type</span>),
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>horizontal</span>, <span class='no'>type</span>, <span class='st'>""</span>),
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"count"</span>, <span class='st'>"frequency"</span>, <span class='st'>"proportion"</span>, <span class='st'>"percent"</span>),
-  <span class='kw'>auto.key</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>scales</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>bargraph</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  horizontal <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  origin <span class='op'>=</span> <span class='fl'>0</span>,
+  ylab <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>horizontal</span>, <span class='st'>""</span>, <span class='va'>type</span><span class='op'>)</span>,
+  xlab <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>horizontal</span>, <span class='va'>type</span>, <span class='st'>""</span><span class='op'>)</span>,
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"count"</span>, <span class='st'>"frequency"</span>, <span class='st'>"proportion"</span>, <span class='st'>"percent"</span><span class='op'>)</span>,
+  auto.key <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  scales <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,16 +234,17 @@ See the examples.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/lattice/man/xyplot.html'>lattice::barchart()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>HELPrct</span>)
-<span class='fu'>bargraph</span>( ~ <span class='no'>substance</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)
-<span class='fu'>bargraph</span>( ~ <span class='no'>substance</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>, <span class='kw'>horizontal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>bargraph</span>( ~ <span class='no'>substance</span> <span class='kw'>|</span> <span class='no'>sex</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>homeless</span>, <span class='kw'>auto.key</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)
-<span class='fu'>bargraph</span>( ~ <span class='no'>substance</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>homeless</span>, <span class='kw'>auto.key</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-            <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span>(<span class='no'>sex</span> <span class='kw'>==</span> <span class='st'>"male"</span>))
-<span class='no'>HELPrct2</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate</span>(<span class='no'>HELPrct</span>, <span class='kw'>older</span> <span class='kw'>=</span> <span class='no'>age</span> <span class='kw'>&gt;</span> <span class='fl'>40</span>)
-<span class='fu'>bargraph</span>( ~ <span class='no'>substance</span> <span class='kw'>|</span> <span class='no'>older</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct2</span>)
-}</div><div class='img'><img src='bargraph-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'>bargraph</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>substance</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'>bargraph</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>substance</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span>, horizontal <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>bargraph</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>substance</span> <span class='op'>|</span> <span class='va'>sex</span>, groups <span class='op'>=</span> <span class='va'>homeless</span>, auto.key <span class='op'>=</span> <span class='cn'>TRUE</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'>bargraph</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>substance</span>, groups <span class='op'>=</span> <span class='va'>homeless</span>, auto.key<span class='op'>=</span><span class='cn'>TRUE</span>, 
+            data <span class='op'>=</span> <span class='va'>HELPrct</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>sex</span> <span class='op'>==</span> <span class='st'>"male"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>HELPrct2</span> <span class='op'>&lt;-</span> <span class='fu'>mutate</span><span class='op'>(</span><span class='va'>HELPrct</span>, older <span class='op'>=</span> <span class='va'>age</span> <span class='op'>&gt;</span> <span class='fl'>40</span><span class='op'>)</span>
+<span class='fu'>bargraph</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>substance</span> <span class='op'>|</span> <span class='va'>older</span>, data <span class='op'>=</span> <span class='va'>HELPrct2</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='img'><img src='bargraph-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -259,7 +260,7 @@ See the examples.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

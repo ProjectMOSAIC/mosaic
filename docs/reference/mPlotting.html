@@ -77,7 +77,7 @@ use." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@ use." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -123,7 +123,7 @@ use." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -154,45 +154,45 @@ console, whence it can be copied to a document for later direct, non-interactive
 use.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mPlot</span>(
-  <span class='no'>data</span>,
-  <span class='no'>format</span>,
-  <span class='kw'>default</span> <span class='kw'>=</span> <span class='no'>format</span>,
-  <span class='kw'>system</span> <span class='kw'>=</span> <span class='fu'>system_choices</span>()[<span class='fl'>1</span>],
-  <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>data_text</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='no'>data</span>),
-  <span class='no'>...</span>
-)
+    <pre class="usage"><span class='fu'>mPlot</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>format</span>,
+  default <span class='op'>=</span> <span class='va'>format</span>,
+  system <span class='op'>=</span> <span class='fu'>system_choices</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
+  show <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  title <span class='op'>=</span> <span class='st'>""</span>,
+  data_text <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>mMap</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>default</span> <span class='kw'>=</span> <span class='st'>"map"</span>,
-  <span class='kw'>system</span> <span class='kw'>=</span> <span class='st'>"ggplot2"</span>,
-  <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='no'>title</span>,
-  <span class='kw'>data_text</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/expr_label.html'>expr_text</a></span>(<span class='no'>data</span>),
-  <span class='no'>...</span>
-)
+<span class='fu'>mMap</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  default <span class='op'>=</span> <span class='st'>"map"</span>,
+  system <span class='op'>=</span> <span class='st'>"ggplot2"</span>,
+  show <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  title <span class='op'>=</span> <span class='va'>title</span>,
+  data_text <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/expr_label.html'>expr_text</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>mScatter</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>default</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"scatter"</span>, <span class='st'>"jitter"</span>, <span class='st'>"boxplot"</span>, <span class='st'>"violin"</span>, <span class='st'>"line"</span>, <span class='st'>"sina"</span>,
-    <span class='st'>"density (contours)"</span>, <span class='st'>"density (filled)"</span>),
-  <span class='kw'>system</span> <span class='kw'>=</span> <span class='st'>"ggformula"</span>,
-  <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>data_text</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/expr_label.html'>expr_text</a></span>(<span class='no'>data</span>)
-)
+<span class='fu'>mScatter</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  default <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"scatter"</span>, <span class='st'>"jitter"</span>, <span class='st'>"boxplot"</span>, <span class='st'>"violin"</span>, <span class='st'>"line"</span>, <span class='st'>"sina"</span>,
+    <span class='st'>"density (contours)"</span>, <span class='st'>"density (filled)"</span><span class='op'>)</span>,
+  system <span class='op'>=</span> <span class='st'>"ggformula"</span>,
+  show <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  title <span class='op'>=</span> <span class='st'>""</span>,
+  data_text <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/expr_label.html'>expr_text</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'>mUniplot</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>default</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"histogram"</span>, <span class='st'>"density"</span>, <span class='st'>"frequency polygon"</span>, <span class='st'>"ASH plot"</span>),
-  <span class='kw'>system</span> <span class='kw'>=</span> <span class='fu'>system_choices</span>()[<span class='fl'>1</span>],
-  <span class='kw'>show</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>data_text</span> <span class='kw'>=</span> <span class='kw pkg'>rlang</span><span class='kw ns'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/expr_label.html'>expr_text</a></span>(<span class='no'>data</span>)
-)</pre>
+<span class='fu'>mUniplot</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  default <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"histogram"</span>, <span class='st'>"density"</span>, <span class='st'>"frequency polygon"</span>, <span class='st'>"ASH plot"</span><span class='op'>)</span>,
+  system <span class='op'>=</span> <span class='fu'>system_choices</span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
+  show <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  title <span class='op'>=</span> <span class='st'>""</span>,
+  data_text <span class='op'>=</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/expr_label.html'>expr_text</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -265,10 +265,11 @@ will dispatch <code>mPlot</code> when provided a data frame.</p>
 <p>Currently maps are only supported in <span class="pkg">ggplot2</span> and not in <span class="pkg">lattice</span>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>mPlot</span>(<span class='no'>HELPrct</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"scatter"</span>)
-<span class='fu'>mPlot</span>(<span class='no'>HELPrct</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"density"</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>mPlot</span><span class='op'>(</span><span class='va'>HELPrct</span>, format <span class='op'>=</span> <span class='st'>"scatter"</span><span class='op'>)</span>
+<span class='fu'>mPlot</span><span class='op'>(</span><span class='va'>HELPrct</span>, format <span class='op'>=</span> <span class='st'>"density"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -284,7 +285,7 @@ will dispatch <code>mPlot</code> when provided a data frame.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

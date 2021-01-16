@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,25 +144,25 @@
     <p>Panel function for plotting functions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>panel.plotFun1</span>(
-  <span class='no'>..f..</span>,
-  <span class='no'>...</span>,
-  <span class='no'>x</span>,
-  <span class='no'>y</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>,
-  <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fu'>trellis.par.get</span>(<span class='st'>"superpose.line"</span>)$<span class='no'>lwd</span>,
-  <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fu'>trellis.par.get</span>(<span class='st'>"superpose.line"</span>)$<span class='no'>lty</span>,
-  <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'>trellis.par.get</span>(<span class='st'>"superpose.line"</span>)$<span class='no'>col</span>,
-  <span class='kw'>npts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>zlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>filled</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>levels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nlevels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>surface</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>discontinuity</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>discontinuities</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>panel.plotFun1</span><span class='op'>(</span>
+  <span class='va'>..f..</span>,
+  <span class='va'>...</span>,
+  <span class='va'>x</span>,
+  <span class='va'>y</span>,
+  type <span class='op'>=</span> <span class='st'>"l"</span>,
+  lwd <span class='op'>=</span> <span class='fu'>trellis.par.get</span><span class='op'>(</span><span class='st'>"superpose.line"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lwd</span>,
+  lty <span class='op'>=</span> <span class='fu'>trellis.par.get</span><span class='op'>(</span><span class='st'>"superpose.line"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lty</span>,
+  col <span class='op'>=</span> <span class='fu'>trellis.par.get</span><span class='op'>(</span><span class='st'>"superpose.line"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>col</span>,
+  npts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  zlab <span class='op'>=</span> <span class='cn'>NULL</span>,
+  filled <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  levels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nlevels <span class='op'>=</span> <span class='fl'>10</span>,
+  surface <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  alpha <span class='op'>=</span> <span class='cn'>NULL</span>,
+  discontinuity <span class='op'>=</span> <span class='cn'>NULL</span>,
+  discontinuities <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,7 +175,7 @@
       <th>...</th>
       <td><p>additional arguments, typically processed by <code>lattice</code> panel functions
 such as <code><a href='https://rdrr.io/pkg/lattice/man/panel.xyplot.html'>lattice::panel.xyplot()</a></code> or <code><a href='https://rdrr.io/pkg/lattice/man/panel.levelplot.html'>lattice::panel.levelplot()</a></code>.
-Frequently used arguments include</p><dl'>
+Frequently used arguments include</p><dl>
 <dt><code>lwd</code></dt><dd><p>line width</p></dd>
 <dt><code>lty</code></dt><dd><p>line type</p></dd>
 <dt><code>col</code></dt><dd><p>a color</p></dd>
@@ -250,9 +250,13 @@ a heuristic to auto-detect.</p></td>
     <div class='dont-index'><p>plotFun</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>30</span>,<span class='fl'>0</span>,<span class='fl'>2</span>*<span class='no'>pi</span>)
-<span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>( <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>x</span>,  <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='no'>x</span>) + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>30</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>.2</span>) )
-<span class='fu'>xyplot</span>( <span class='no'>y</span> ~ <span class='no'>x</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>d</span> )</div><div class='img'><img src='panel.plotFun1-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='ladd.html'>ladd</a></span>(<span class='fu'>panel.plotFun1</span>( <span class='no'>sin</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>'red'</span> ) )</div><div class='img'><img src='panel.plotFun1-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xyplot</span>( <span class='no'>y</span> ~ <span class='no'>x</span> <span class='kw'>|</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span>(<span class='fl'>30</span>,<span class='fl'>1</span>,<span class='fl'>.5</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>d</span> )</div><div class='img'><img src='panel.plotFun1-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='ladd.html'>ladd</a></span>(<span class='fu'>panel.plotFun1</span>( <span class='no'>sin</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>'red'</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span> ) )    <span class='co'># plots sin(x) in each panel</span></div><div class='img'><img src='panel.plotFun1-4.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>30</span>,<span class='fl'>0</span>,<span class='fl'>2</span><span class='op'>*</span><span class='va'>pi</span><span class='op'>)</span> 
+<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span> x <span class='op'>=</span> <span class='va'>x</span>,  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>30</span>,sd<span class='op'>=</span><span class='fl'>.2</span><span class='op'>)</span> <span class='op'>)</span>
+<span class='fu'>xyplot</span><span class='op'>(</span> <span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span>, data<span class='op'>=</span><span class='va'>d</span> <span class='op'>)</span>
+</div><div class='img'><img src='panel.plotFun1-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='ladd.html'>ladd</a></span><span class='op'>(</span><span class='fu'>panel.plotFun1</span><span class='op'>(</span> <span class='va'>sin</span>, col<span class='op'>=</span><span class='st'>'red'</span> <span class='op'>)</span> <span class='op'>)</span>
+</div><div class='img'><img src='panel.plotFun1-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xyplot</span><span class='op'>(</span> <span class='va'>y</span> <span class='op'>~</span> <span class='va'>x</span> <span class='op'>|</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>rbinom</a></span><span class='op'>(</span><span class='fl'>30</span>,<span class='fl'>1</span>,<span class='fl'>.5</span><span class='op'>)</span>, data<span class='op'>=</span><span class='va'>d</span> <span class='op'>)</span>
+</div><div class='img'><img src='panel.plotFun1-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='ladd.html'>ladd</a></span><span class='op'>(</span><span class='fu'>panel.plotFun1</span><span class='op'>(</span> <span class='va'>sin</span>, col<span class='op'>=</span><span class='st'>'red'</span>, lty<span class='op'>=</span><span class='fl'>2</span> <span class='op'>)</span> <span class='op'>)</span>    <span class='co'># plots sin(x) in each panel</span>
+</div><div class='img'><img src='panel.plotFun1-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -268,7 +272,7 @@ a heuristic to auto-detect.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

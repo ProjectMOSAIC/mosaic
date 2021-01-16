@@ -74,7 +74,7 @@ and verbosity better." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ and verbosity better." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +120,7 @@ and verbosity better." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -148,19 +148,19 @@ who are not yet familiar with the binomial distributions or just like this synta
 and verbosity better.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rflip</span>(
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> !<span class='no'>quiet</span>,
-  <span class='kw'>summarize</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>summarise</span> <span class='kw'>=</span> <span class='no'>summarize</span>
-)
+    <pre class="usage"><span class='fu'>rflip</span><span class='op'>(</span>
+  n <span class='op'>=</span> <span class='fl'>1</span>,
+  prob <span class='op'>=</span> <span class='fl'>0.5</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='op'>!</span><span class='va'>quiet</span>,
+  summarize <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  summarise <span class='op'>=</span> <span class='va'>summarize</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for cointoss</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>nflip</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>nflip</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span>, prob <span class='op'>=</span> <span class='fl'>0.5</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,22 +205,27 @@ and verbosity better.</p>
 <p>for <code>nflip</code>, a numeric vector</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'>rflip</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; Flipping 10 coins [ Prob(Heads) = 0.5 ] ...
 #&gt; 
 #&gt; T H H H H H T H T H
 #&gt; 
 #&gt; Number of Heads: 7 [Proportion Heads: 0.7]
-#&gt; </div><div class='input'><span class='fu'>rflip</span>(<span class='fl'>10</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>rflip</span>(<span class='fl'>10</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>, <span class='kw'>summarize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    n heads tails      prob
-#&gt; 1 10     2     8 0.1666667</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>5</span>) * <span class='fu'>rflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; </div><div class='input'><span class='fu'>rflip</span><span class='op'>(</span><span class='fl'>10</span>, prob <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>6</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>rflip</span><span class='op'>(</span><span class='fl'>10</span>, prob <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>6</span>, summarize <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    n heads tails      prob
+#&gt; 1 10     2     8 0.1666667</div><div class='input'><span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'>rflip</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;    n heads tails prop
 #&gt; 1 10     5     5  0.5
 #&gt; 2 10     5     5  0.5
 #&gt; 3 10     6     4  0.6
 #&gt; 4 10     1     9  0.1
-#&gt; 5 10     6     4  0.6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'>rflip</span>(<span class='fl'>10</span>))</div><div class='output co'>#&gt; [1] 7</div><div class='input'><span class='fu'>nflip</span>(<span class='fl'>10</span>)</div><div class='output co'>#&gt; [1] 5</div></pre>
+#&gt; 5 10     6     4  0.6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'>rflip</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 7</div><div class='input'><span class='fu'>nflip</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -236,7 +241,7 @@ and verbosity better.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

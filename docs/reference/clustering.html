@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -145,25 +145,25 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for hclust</span>
-<span class='fu'>fortify</span>(
-  <span class='no'>model</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"segments"</span>, <span class='st'>"heatmap"</span>, <span class='st'>"leaves"</span>, <span class='st'>"labels"</span>, <span class='st'>"data"</span>),
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>fortify</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  <span class='va'>data</span>,
+  which <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"segments"</span>, <span class='st'>"heatmap"</span>, <span class='st'>"leaves"</span>, <span class='st'>"labels"</span>, <span class='st'>"data"</span><span class='op'>)</span>,
+  k <span class='op'>=</span> <span class='fl'>1</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for hclust</span>
-<span class='fu'><a href='mplot.html'>mplot</a></span>(
-  <span class='no'>object</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>colorize</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>heatmap</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>enumerate</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'><a href='mplot.html'>mplot</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>data</span>,
+  colorize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  k <span class='op'>=</span> <span class='fl'>1</span>,
+  labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  heatmap <span class='op'>=</span> <span class='fl'>0</span>,
+  enumerate <span class='op'>=</span> <span class='st'>"white"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -215,22 +215,30 @@ Use <code>0</code> or <code>FALSE</code> to omit the heatmap.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>KidsFeet</span> <span class='kw'>%&gt;%</span> <span class='fu'>select</span>(-<span class='no'>name</span>, -<span class='no'>birthmonth</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='rescale.html'>rescale</a></span>() <span class='kw'>-&gt;</span> <span class='no'>KidsFeet2</span>
-  <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span>(<span class='no'>KidsFeet2</span>)
-  <span class='no'>Cl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span>(<span class='no'>M</span>)
-  <span class='fu'>fortify</span>(<span class='no'>Cl</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>5</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt;          x        y    xend     yend order group
+    <pre class="examples"><div class='input'><span class='va'>KidsFeet</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>name</span>, <span class='op'>-</span><span class='va'>birthmonth</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='rescale.html'>rescale</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>KidsFeet2</span>
+  <span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/dist.html'>dist</a></span><span class='op'>(</span><span class='va'>KidsFeet2</span><span class='op'>)</span>
+  <span class='va'>Cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span>
+  <span class='fu'>fortify</span><span class='op'>(</span><span class='va'>Cl</span>, k<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          x        y    xend     yend order group
 #&gt; 1 17.64258 2.153880 6.03125 2.153880    34     4
 #&gt; 2  6.03125 2.153880 6.03125 1.833039    34     4
-#&gt; 3  6.03125 1.833039 2.68750 1.833039    35     4</div><div class='input'>  <span class='fu'>fortify</span>(<span class='no'>Cl</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"heatmap"</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet2</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt;   idx position  variable value variable_num
+#&gt; 3  6.03125 1.833039 2.68750 1.833039    35     4</div><div class='input'>  <span class='fu'>fortify</span><span class='op'>(</span><span class='va'>Cl</span>, which<span class='op'>=</span><span class='st'>"heatmap"</span>, data<span class='op'>=</span><span class='va'>KidsFeet2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   idx position  variable value variable_num
 #&gt; 1   1       15 birthyear     1            1
 #&gt; 2   2       37 birthyear     0            1
-#&gt; 3   3       35 birthyear     0            1</div><div class='input'>  <span class='fu'>fortify</span>(<span class='no'>Cl</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"data"</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet2</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt;   birthyear    length     width sex biggerfoot domhand idx position
+#&gt; 3   3       35 birthyear     0            1</div><div class='input'>  <span class='fu'>fortify</span><span class='op'>(</span><span class='va'>Cl</span>, which<span class='op'>=</span><span class='st'>"data"</span>, data<span class='op'>=</span><span class='va'>KidsFeet2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   birthyear    length     width sex biggerfoot domhand idx position
 #&gt; 1         1 0.4745763 0.2631579   0          0       1   1       15
 #&gt; 2         0 0.6440678 0.4736842   0          0       0   2       37
-#&gt; 3         0 0.4915254 0.9473684   0          1       1   3       35</div><div class='input'>  <span class='fu'>fortify</span>(<span class='no'>Cl</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"labels"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fl'>3</span>)</div><div class='output co'>#&gt;   x y label order
+#&gt; 3         0 0.4915254 0.9473684   0          1       1   3       35</div><div class='input'>  <span class='fu'>fortify</span><span class='op'>(</span><span class='va'>Cl</span>, which<span class='op'>=</span><span class='st'>"labels"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   x y label order
 #&gt; 1 1 0     6     6
 #&gt; 2 2 0    21    21
-#&gt; 3 3 0    35    35</div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span>(<span class='no'>Cl</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet2</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>heatmap</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='clustering-1.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span>(<span class='no'>Cl</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet2</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>heatmap</span><span class='kw'>=</span><span class='fl'>0.5</span>, <span class='kw'>enumerate</span><span class='kw'>=</span><span class='st'>"transparent"</span>)</div><div class='img'><img src='clustering-2.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span>(<span class='no'>Cl</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet2</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>heatmap</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"triangle"</span>)</div><div class='img'><img src='clustering-3.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span>(<span class='no'>Cl</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet2</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>heatmap</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"triangle"</span>)</div><div class='img'><img src='clustering-4.png' alt='' width='700' height='433' /></div></pre>
+#&gt; 3 3 0    35    35</div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span><span class='op'>(</span><span class='va'>Cl</span>, data<span class='op'>=</span><span class='va'>KidsFeet2</span>, k<span class='op'>=</span><span class='fl'>4</span>, heatmap<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='img'><img src='clustering-1.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span><span class='op'>(</span><span class='va'>Cl</span>, data<span class='op'>=</span><span class='va'>KidsFeet2</span>, k<span class='op'>=</span><span class='fl'>4</span>, heatmap<span class='op'>=</span><span class='fl'>0.5</span>, enumerate<span class='op'>=</span><span class='st'>"transparent"</span><span class='op'>)</span>
+</div><div class='img'><img src='clustering-2.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span><span class='op'>(</span><span class='va'>Cl</span>, data<span class='op'>=</span><span class='va'>KidsFeet2</span>, k<span class='op'>=</span><span class='fl'>4</span>, heatmap<span class='op'>=</span><span class='fl'>2</span>, type<span class='op'>=</span><span class='st'>"triangle"</span><span class='op'>)</span>
+</div><div class='img'><img src='clustering-3.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='mplot.html'>mplot</a></span><span class='op'>(</span><span class='va'>Cl</span>, data<span class='op'>=</span><span class='va'>KidsFeet2</span>, k<span class='op'>=</span><span class='fl'>4</span>, heatmap<span class='op'>=</span><span class='fl'>0</span>, type<span class='op'>=</span><span class='st'>"triangle"</span><span class='op'>)</span>
+</div><div class='img'><img src='clustering-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -246,7 +254,7 @@ Use <code>0</code> or <code>FALSE</code> to omit the heatmap.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

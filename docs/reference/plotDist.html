@@ -74,7 +74,7 @@ known to R." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ known to R." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +120,7 @@ known to R." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -148,24 +148,24 @@ cdfs, probability histograms, and normal-quantile plots for distributions
 known to R.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plotDist</span>(
-  <span class='no'>dist</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>add</span>,
-  <span class='kw'>under</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>packets</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>columns</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kind</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"density"</span>, <span class='st'>"cdf"</span>, <span class='st'>"qq"</span>, <span class='st'>"histogram"</span>),
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>type</span>,
-  <span class='kw'>resolution</span> <span class='kw'>=</span> <span class='fl'>5000L</span>,
-  <span class='kw'>params</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plotDist</span><span class='op'>(</span>
+  <span class='va'>dist</span>,
+  <span class='va'>...</span>,
+  xlim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ylim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>add</span>,
+  under <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  packets <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rows <span class='op'>=</span> <span class='cn'>NULL</span>,
+  columns <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kind <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"density"</span>, <span class='st'>"cdf"</span>, <span class='st'>"qq"</span>, <span class='st'>"histogram"</span><span class='op'>)</span>,
+  xlab <span class='op'>=</span> <span class='st'>""</span>,
+  ylab <span class='op'>=</span> <span class='st'>""</span>,
+  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>type</span>,
+  resolution <span class='op'>=</span> <span class='fl'>5000L</span>,
+  params <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -222,7 +222,7 @@ of any of these)</p></td>
     <tr>
       <th>breaks</th>
       <td><p>a vector of break points for bins of histograms,
-as in <code><a href='xhistogram.html'>histogram()</a></code></p></td>
+as in <code><a href='xhistogramBreaks.html'>histogram()</a></code></p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -255,17 +255,36 @@ with the <code>groups</code> argument.  See the examples.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/ggformula/man/gf_dist.html'>ggformula::gf_dist()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'norm'</span>)</div><div class='img'><img src='plotDist-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'norm'</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'h'</span>)</div><div class='img'><img src='plotDist-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'norm'</span>, <span class='kw'>kind</span><span class='kw'>=</span><span class='st'>'cdf'</span>)</div><div class='img'><img src='plotDist-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'exp'</span>,  <span class='kw'>kind</span><span class='kw'>=</span><span class='st'>'histogram'</span>)</div><div class='img'><img src='plotDist-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'binom'</span>, <span class='kw'>params</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>( <span class='fl'>25</span>, <span class='fl'>.25</span>))       <span class='co'># explicit params</span></div><div class='img'><img src='plotDist-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'binom'</span>, <span class='fl'>25</span>, <span class='fl'>.25</span>)                     <span class='co'># params inferred</span></div><div class='img'><img src='plotDist-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'norm'</span>, <span class='kw'>mean</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>kind</span><span class='kw'>=</span><span class='st'>'cdf'</span>)  <span class='co'># params inferred</span></div><div class='img'><img src='plotDist-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'binom'</span>, <span class='fl'>25</span>, <span class='fl'>.25</span>, <span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>1</span>,<span class='fl'>26</span>) )     <span class='co'># params inferred</span></div><div class='img'><img src='plotDist-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'binom'</span>, <span class='kw'>params</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>( <span class='fl'>25</span>, <span class='fl'>.25</span>), <span class='kw'>kind</span><span class='kw'>=</span><span class='st'>'cdf'</span>)</div><div class='img'><img src='plotDist-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'beta'</span>, <span class='kw'>params</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>( <span class='fl'>3</span>, <span class='fl'>10</span>), <span class='kw'>kind</span><span class='kw'>=</span><span class='st'>'density'</span>)</div><div class='img'><img src='plotDist-10.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>'beta'</span>, <span class='kw'>params</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>( <span class='fl'>3</span>, <span class='fl'>10</span>), <span class='kw'>kind</span><span class='kw'>=</span><span class='st'>'cdf'</span>)</div><div class='img'><img src='plotDist-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>( <span class='st'>"binom"</span>, <span class='kw'>params</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>35</span>,<span class='fl'>.25</span>),
-           <span class='kw'>groups</span><span class='kw'>=</span> <span class='no'>y</span> <span class='kw'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>dbinom</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>qbinom</a></span>(<span class='fl'>0.05</span>, <span class='fl'>35</span>, <span class='fl'>.25</span>), <span class='fl'>35</span>,<span class='fl'>.25</span>) )</div><div class='img'><img src='plotDist-12.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>( <span class='st'>"binom"</span>, <span class='kw'>params</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fl'>35</span>,<span class='fl'>.25</span>),
-           <span class='kw'>groups</span><span class='kw'>=</span> <span class='no'>y</span> <span class='kw'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>dbinom</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>qbinom</a></span>(<span class='fl'>0.05</span>, <span class='fl'>35</span>, <span class='fl'>.25</span>), <span class='fl'>35</span>,<span class='fl'>.25</span>),
-           <span class='kw'>kind</span><span class='kw'>=</span><span class='st'>'hist'</span>)</div><div class='img'><img src='plotDist-13.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>"norm"</span>, <span class='kw'>mean</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"h"</span>)</div><div class='img'><img src='plotDist-14.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>"norm"</span>, <span class='kw'>mean</span><span class='kw'>=</span><span class='fl'>12</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"h"</span>, <span class='kw'>under</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='img'><img src='plotDist-15.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>"binom"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>prob</span><span class='kw'>=</span><span class='fl'>.30</span>) +
-  <span class='fu'>plotDist</span>(<span class='st'>"norm"</span>, <span class='kw'>mean</span><span class='kw'>=</span><span class='fl'>30</span>, <span class='kw'>sd</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fl'>100</span> * <span class='fl'>.3</span> * <span class='fl'>.7</span>))</div><div class='img'><img src='plotDist-16.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>"chisq"</span>, <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>x</span> <span class='kw'>&gt;</span> <span class='fl'>6</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"h"</span>)</div><div class='img'><img src='plotDist-17.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span>(<span class='st'>"f"</span>, <span class='kw'>df1</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>df2</span> <span class='kw'>=</span> <span class='fl'>99</span>)</div><div class='img'><img src='plotDist-18.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='fu'><a href='xhistogram.html'>histogram</a></span>( ~<span class='no'>age</span><span class='kw'>|</span><span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggregating.html'>mean</a></span>( ~<span class='no'>age</span><span class='kw'>|</span><span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-<span class='no'>s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggregating.html'>sd</a></span>(~<span class='no'>age</span><span class='kw'>|</span><span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-<span class='fu'>plotDist</span>( <span class='st'>"norm"</span>, <span class='kw'>mean</span><span class='kw'>=</span><span class='no'>m</span>[<span class='fl'>1</span>], <span class='kw'>sd</span><span class='kw'>=</span><span class='no'>s</span>[<span class='fl'>1</span>], <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>packets</span><span class='kw'>=</span><span class='fl'>1</span>)
-<span class='fu'>plotDist</span>( <span class='st'>"norm"</span>, <span class='kw'>mean</span><span class='kw'>=</span><span class='no'>m</span>[<span class='fl'>2</span>], <span class='kw'>sd</span><span class='kw'>=</span><span class='no'>s</span>[<span class='fl'>2</span>], <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>under</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>packets</span><span class='kw'>=</span><span class='fl'>2</span>)
-}</div><div class='img'><img src='plotDist-19.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'norm'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'norm'</span>, type<span class='op'>=</span><span class='st'>'h'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'norm'</span>, kind<span class='op'>=</span><span class='st'>'cdf'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'exp'</span>,  kind<span class='op'>=</span><span class='st'>'histogram'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'binom'</span>, params<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span> <span class='fl'>25</span>, <span class='fl'>.25</span><span class='op'>)</span><span class='op'>)</span>       <span class='co'># explicit params</span>
+</div><div class='img'><img src='plotDist-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'binom'</span>, <span class='fl'>25</span>, <span class='fl'>.25</span><span class='op'>)</span>                     <span class='co'># params inferred</span>
+</div><div class='img'><img src='plotDist-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'norm'</span>, mean<span class='op'>=</span><span class='fl'>100</span>, sd<span class='op'>=</span><span class='fl'>10</span>, kind<span class='op'>=</span><span class='st'>'cdf'</span><span class='op'>)</span>  <span class='co'># params inferred</span>
+</div><div class='img'><img src='plotDist-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'binom'</span>, <span class='fl'>25</span>, <span class='fl'>.25</span>, xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>,<span class='fl'>26</span><span class='op'>)</span> <span class='op'>)</span>     <span class='co'># params inferred</span>
+</div><div class='img'><img src='plotDist-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'binom'</span>, params<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span> <span class='fl'>25</span>, <span class='fl'>.25</span><span class='op'>)</span>, kind<span class='op'>=</span><span class='st'>'cdf'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'beta'</span>, params<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span> <span class='fl'>3</span>, <span class='fl'>10</span><span class='op'>)</span>, kind<span class='op'>=</span><span class='st'>'density'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-10.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>'beta'</span>, params<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span> <span class='fl'>3</span>, <span class='fl'>10</span><span class='op'>)</span>, kind<span class='op'>=</span><span class='st'>'cdf'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span> <span class='st'>"binom"</span>, params<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>35</span>,<span class='fl'>.25</span><span class='op'>)</span>, 
+           groups<span class='op'>=</span> <span class='va'>y</span> <span class='op'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>dbinom</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>qbinom</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>35</span>, <span class='fl'>.25</span><span class='op'>)</span>, <span class='fl'>35</span>,<span class='fl'>.25</span><span class='op'>)</span> <span class='op'>)</span>
+</div><div class='img'><img src='plotDist-12.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span> <span class='st'>"binom"</span>, params<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>35</span>,<span class='fl'>.25</span><span class='op'>)</span>, 
+           groups<span class='op'>=</span> <span class='va'>y</span> <span class='op'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>dbinom</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Binomial.html'>qbinom</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>35</span>, <span class='fl'>.25</span><span class='op'>)</span>, <span class='fl'>35</span>,<span class='fl'>.25</span><span class='op'>)</span>, 
+           kind<span class='op'>=</span><span class='st'>'hist'</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-13.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>"norm"</span>, mean<span class='op'>=</span><span class='fl'>10</span>, sd<span class='op'>=</span><span class='fl'>2</span>, col<span class='op'>=</span><span class='st'>"blue"</span>, type<span class='op'>=</span><span class='st'>"h"</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-14.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>"norm"</span>, mean<span class='op'>=</span><span class='fl'>12</span>, sd<span class='op'>=</span><span class='fl'>2</span>, col<span class='op'>=</span><span class='st'>"red"</span>, type<span class='op'>=</span><span class='st'>"h"</span>, under<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-15.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>"binom"</span>, size<span class='op'>=</span><span class='fl'>100</span>, prob<span class='op'>=</span><span class='fl'>.30</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>"norm"</span>, mean<span class='op'>=</span><span class='fl'>30</span>, sd<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fl'>100</span> <span class='op'>*</span> <span class='fl'>.3</span> <span class='op'>*</span> <span class='fl'>.7</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-16.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>"chisq"</span>, df<span class='op'>=</span><span class='fl'>4</span>, groups <span class='op'>=</span> <span class='va'>x</span> <span class='op'>&gt;</span> <span class='fl'>6</span>, type<span class='op'>=</span><span class='st'>"h"</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-17.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotDist</span><span class='op'>(</span><span class='st'>"f"</span>, df1<span class='op'>=</span><span class='fl'>1</span>, df2 <span class='op'>=</span> <span class='fl'>99</span><span class='op'>)</span>
+</div><div class='img'><img src='plotDist-18.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='xhistogramBreaks.html'>histogram</a></span><span class='op'>(</span> <span class='op'>~</span><span class='va'>age</span><span class='op'>|</span><span class='va'>sex</span>, data<span class='op'>=</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span> <span class='op'>~</span><span class='va'>age</span><span class='op'>|</span><span class='va'>sex</span>, data<span class='op'>=</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='va'>s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mean_.html'>sd</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>age</span><span class='op'>|</span><span class='va'>sex</span>, data<span class='op'>=</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'>plotDist</span><span class='op'>(</span> <span class='st'>"norm"</span>, mean<span class='op'>=</span><span class='va'>m</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, sd<span class='op'>=</span><span class='va'>s</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, col<span class='op'>=</span><span class='st'>"red"</span>, add<span class='op'>=</span><span class='cn'>TRUE</span>, packets<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>plotDist</span><span class='op'>(</span> <span class='st'>"norm"</span>, mean<span class='op'>=</span><span class='va'>m</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>, sd<span class='op'>=</span><span class='va'>s</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>, col<span class='op'>=</span><span class='st'>"blue"</span>, under<span class='op'>=</span><span class='cn'>TRUE</span>, packets<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='img'><img src='plotDist-19.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -282,7 +301,7 @@ with the <code>groups</code> argument.  See the examples.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

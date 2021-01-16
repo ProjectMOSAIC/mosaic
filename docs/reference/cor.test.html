@@ -74,7 +74,7 @@ of y ~ x as an alternative formula shape." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ of y ~ x as an alternative formula shape." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +120,7 @@ of y ~ x as an alternative formula shape." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -149,14 +149,14 @@ of <code>y ~ x</code> as an alternative formula shape.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for formula</span>
-<span class='fu'>cor_test</span>(<span class='no'>formula</span>, <span class='no'>...</span>)
+<span class='fu'>cor_test</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>cor.test</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>cor.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>cor_test</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>cor_test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>cor_test</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>cor_test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,8 +181,9 @@ of <code>y ~ x</code> as an alternative formula shape.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># This is an example from example(stats::cor.test) done in old and new style</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>graphics</span>)
-<span class='fu'>cor.test</span>(~ <span class='no'>CONT</span> + <span class='no'>INTG</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>USJudgeRatings</span>)</div><div class='output co'>#&gt; 
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>graphics</span><span class='op'>)</span>
+<span class='fu'>cor.test</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>CONT</span> <span class='op'>+</span> <span class='va'>INTG</span>, data <span class='op'>=</span> <span class='va'>USJudgeRatings</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Pearson's product-moment correlation
 #&gt; 
 #&gt; data:  CONT and INTG
@@ -193,7 +194,8 @@ of <code>y ~ x</code> as an alternative formula shape.</p>
 #&gt; sample estimates:
 #&gt;        cor 
 #&gt; -0.1331909 
-#&gt; </div><div class='input'><span class='fu'>cor.test</span>(<span class='no'>CONT</span> ~ <span class='no'>INTG</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>USJudgeRatings</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>cor.test</span><span class='op'>(</span><span class='va'>CONT</span> <span class='op'>~</span> <span class='va'>INTG</span>, data <span class='op'>=</span> <span class='va'>USJudgeRatings</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Pearson's product-moment correlation
 #&gt; 
 #&gt; data:  CONT and INTG
@@ -220,7 +222,7 @@ of <code>y ~ x</code> as an alternative formula shape.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

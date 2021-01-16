@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,7 +144,7 @@
     <p>Fit a new model to data created using <code><a href='resample.html'>resample(model)</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>relm</span>(<span class='no'>model</span>, <span class='no'>...</span>, <span class='kw'>envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span>(<span class='no'>model</span>)))</pre>
+    <pre class="usage"><span class='fu'>relm</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>...</span>, envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/formula.html'>formula</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,20 +168,25 @@
     <div class='dont-index'><p><code><a href='resample.html'>resample()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mod</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>length</span> ~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>KidsFeet</span>)
-<span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>1</span>) * <span class='no'>mod</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+    <pre class="examples"><div class='input'><span class='va'>mod</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>length</span> <span class='op'>~</span> <span class='va'>width</span>, data <span class='op'>=</span> <span class='va'>KidsFeet</span><span class='op'>)</span>
+<span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>mod</span> 
+</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   Intercept    width    sigma r.squared        F numdf dendf .row .index
-#&gt; 1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37    1      1</div><div class='input'><span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>relm</span>(<span class='no'>mod</span>)</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; 1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37    1      1</div><div class='input'><span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'>relm</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span> 
+</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   Intercept    width     sigma r.squared        F numdf dendf .row .index
 #&gt; 1 11.311765 1.475611 1.0454138 0.3469818 19.65998     1    37    1      1
 #&gt; 2  9.739407 1.670964 0.8886576 0.4853133 34.88839     1    37    1      2
 #&gt; 3 12.103496 1.425416 0.8519418 0.4274531 27.62353     1    37    1      3</div><div class='input'><span class='co'># use residual resampling to estimate standard error (very crude because so few replications)</span>
-<span class='no'>Boot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>100</span>) * <span class='fu'>relm</span>(<span class='no'>mod</span>)</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+<span class='va'>Boot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'>relm</span><span class='op'>(</span><span class='va'>mod</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
-#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='input'><span class='fu'><a href='aggregating.html'>sd</a></span>(~ <span class='no'>width</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Boot</span>)</div><div class='output co'>#&gt; [1] 0.3410556</div><div class='input'><span class='co'># standard error as produced by summary() for comparison</span>
-<span class='no'>mod</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>()</div><div class='output co'>#&gt;             Estimate Std. Error  t value     Pr(&gt;|t|)
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='input'><span class='fu'><a href='mean_.html'>sd</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>width</span>, data <span class='op'>=</span> <span class='va'>Boot</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.3410556</div><div class='input'><span class='co'># standard error as produced by summary() for comparison</span>
+<span class='va'>mod</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='op'>)</span> 
+</div><div class='output co'>#&gt;             Estimate Std. Error  t value     Pr(&gt;|t|)
 #&gt; (Intercept) 9.817212  2.9381078 3.341338 1.915251e-03
 #&gt; width       1.657624  0.3262257 5.081218 1.097225e-05</div><div class='input'>
 </div></pre>
@@ -200,7 +205,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

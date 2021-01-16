@@ -73,7 +73,7 @@ from a simulated null distribution" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ from a simulated null distribution" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@ from a simulated null distribution" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,28 +146,28 @@ from a simulated null distribution" />
 from a simulated null distribution</p>
     </div>
 
-    <pre class="usage"><span class='fu'>statTally</span>(
-  <span class='no'>sample</span>,
-  <span class='no'>rdata</span>,
-  <span class='no'>FUN</span>,
-  <span class='kw'>direction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"default"</span>, <span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
-  <span class='kw'>sig.level</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>system</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gg"</span>, <span class='st'>"lattice"</span>),
-  <span class='kw'>shade</span> <span class='kw'>=</span> <span class='st'>"navy"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bins</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fill</span> <span class='kw'>=</span> <span class='st'>"gray80"</span>,
-  <span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>center</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stemplot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>rdata</span>)[<span class='no'>direction</span>] <span class='kw'>&lt;</span> <span class='fl'>201</span>,
-  <span class='kw'>q</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>0.9</span>, <span class='fl'>0.95</span>, <span class='fl'>0.99</span>),
-  <span class='kw'>fun</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span>,
-  <span class='no'>xlim</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>statTally</span><span class='op'>(</span>
+  <span class='va'>sample</span>,
+  <span class='va'>rdata</span>,
+  <span class='va'>FUN</span>,
+  direction <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alternative <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"default"</span>, <span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span><span class='op'>)</span>,
+  sig.level <span class='op'>=</span> <span class='fl'>0.1</span>,
+  system <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gg"</span>, <span class='st'>"lattice"</span><span class='op'>)</span>,
+  shade <span class='op'>=</span> <span class='st'>"navy"</span>,
+  alpha <span class='op'>=</span> <span class='fl'>0.1</span>,
+  binwidth <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bins <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fill <span class='op'>=</span> <span class='st'>"gray80"</span>,
+  color <span class='op'>=</span> <span class='st'>"black"</span>,
+  center <span class='op'>=</span> <span class='cn'>NULL</span>,
+  stemplot <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>rdata</span><span class='op'>)</span><span class='op'>[</span><span class='va'>direction</span><span class='op'>]</span> <span class='op'>&lt;</span> <span class='fl'>201</span>,
+  q <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>0.9</span>, <span class='fl'>0.95</span>, <span class='fl'>0.99</span><span class='op'>)</span>,
+  fun <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>x</span>,
+  <span class='va'>xlim</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -269,9 +269,10 @@ printed to the screen.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># is my spinner fair?</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>18</span>, <span class='fl'>9</span>, <span class='fl'>15</span>)   <span class='co'># counts in four cells</span>
-<span class='no'>rdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Multinom.html'>rmultinom</a></span>(<span class='fl'>999</span>, <span class='fu'><a href='aggregating.html'>sum</a></span>(<span class='no'>x</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>.25</span>, <span class='fl'>4</span>))
-<span class='fu'>statTally</span>(<span class='no'>x</span>, <span class='no'>rdata</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>max</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>1</span>)  <span class='co'># unusual test statistic</span></div><div class='output co'>#&gt; 
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>18</span>, <span class='fl'>9</span>, <span class='fl'>15</span><span class='op'>)</span>   <span class='co'># counts in four cells</span>
+<span class='va'>rdata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Multinom.html'>rmultinom</a></span><span class='op'>(</span><span class='fl'>999</span>, <span class='fu'><a href='mean_.html'>sum</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>.25</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>statTally</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>rdata</span>, fun <span class='op'>=</span> <span class='va'>max</span>, binwidth <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>  <span class='co'># unusual test statistic</span>
+</div><div class='output co'>#&gt; 
 #&gt; Null distribution appears to be asymmetric. (p = 0.00144) 
 #&gt; 
 #&gt; Test statistic applied to sample data =  18 
@@ -282,7 +283,8 @@ printed to the screen.</p>
 #&gt; 
 #&gt; Of the  1000  samples (1 original +  999  random), 
 #&gt; 	 131 ( 13.1 % ) had test stats = 18 
-#&gt; 	 321 ( 32.1 % ) had test stats &gt;= 18 </div><div class='img'><img src='statTally-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>statTally</span>(<span class='no'>x</span>, <span class='no'>rdata</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='no'>var</span>, <span class='kw'>shade</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>binwidth</span> <span class='kw'>=</span> <span class='fl'>2</span>)  <span class='co'># equivalent to chi-squared test</span></div><div class='output co'>#&gt; 
+#&gt; 	 321 ( 32.1 % ) had test stats &gt;= 18 </div><div class='img'><img src='statTally-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>statTally</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>rdata</span>, fun <span class='op'>=</span> <span class='va'>var</span>, shade <span class='op'>=</span> <span class='st'>"red"</span>, binwidth <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>  <span class='co'># equivalent to chi-squared test</span>
+</div><div class='output co'>#&gt; 
 #&gt; Null distribution appears to be asymmetric. (p = 7.94e-06) 
 #&gt; 
 #&gt; Test statistic applied to sample data =  18 
@@ -294,12 +296,13 @@ printed to the screen.</p>
 #&gt; Of the  1000  samples (1 original +  999  random), 
 #&gt; 	 24 ( 2.4 % ) had test stats = 18 
 #&gt; 	 261 ( 26.1 % ) had test stats &gt;= 18 </div><div class='img'><img src='statTally-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Can also be used with test stats that are precomputed.</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffmean.html'>diffmean</a></span>( <span class='no'>age</span> ~ <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>); <span class='no'>D</span>
-<span class='no'>nullDist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>999</span>) * <span class='fu'><a href='diffmean.html'>diffmean</a></span>( <span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)
-<span class='fu'>statTally</span>(<span class='no'>D</span>, <span class='no'>nullDist</span>)
-<span class='fu'>statTally</span>(<span class='no'>D</span>, <span class='no'>nullDist</span>, <span class='kw'>system</span> <span class='kw'>=</span> <span class='st'>"lattice"</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>D</span> <span class='op'>&lt;-</span> <span class='fu'><a href='diffmean.html'>diffmean</a></span><span class='op'>(</span> <span class='va'>age</span> <span class='op'>~</span> <span class='va'>sex</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>; <span class='va'>D</span>
+<span class='va'>nullDist</span> <span class='op'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>999</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='diffmean.html'>diffmean</a></span><span class='op'>(</span> <span class='va'>age</span> <span class='op'>~</span> <span class='fu'><a href='resample.html'>shuffle</a></span><span class='op'>(</span><span class='va'>sex</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'>statTally</span><span class='op'>(</span><span class='va'>D</span>, <span class='va'>nullDist</span><span class='op'>)</span>
+<span class='fu'>statTally</span><span class='op'>(</span><span class='va'>D</span>, <span class='va'>nullDist</span>, system <span class='op'>=</span> <span class='st'>"lattice"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; 
 #&gt; Null distribution appears to be symmetric. (p =  0.894 ) 
@@ -343,7 +346,7 @@ printed to the screen.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

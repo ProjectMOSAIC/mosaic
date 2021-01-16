@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make a world map with <code>ggplot2</code> — mWorldMap • mosaic</title>
+<title>Make a world map with ggplot2 — mWorldMap • mosaic</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Make a world map with <code>ggplot2</code> — mWorldMap" />
+<meta property="og:title" content="Make a world map with ggplot2 — mWorldMap" />
 <meta property="og:description" content="mWorldMap takes in one dataframe that includes information
 about different countries. It merges this dataframe with a dataframe
 that includes geographical coordinate information. Depending on the
@@ -76,7 +76,7 @@ with the data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -84,7 +84,7 @@ with the data." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -122,7 +122,7 @@ with the data." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -152,12 +152,12 @@ arguments passed, it returns this data or a ggplot object constructed
 with the data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mWorldMap</span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>key</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>fill</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"borders"</span>, <span class='st'>"frame"</span>, <span class='st'>"none"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>mWorldMap</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  key <span class='op'>=</span> <span class='cn'>NA</span>,
+  fill <span class='op'>=</span> <span class='cn'>NULL</span>,
+  plot <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"borders"</span>, <span class='st'>"frame"</span>, <span class='st'>"none"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,22 +190,23 @@ one geom_polygon layer that shows the borders of the countries</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>gdpData</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CIAdata.html'>CIAdata</a></span>(<span class='st'>"GDP"</span>)      <span class='co'># load some world data</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>gdpData</span> <span class='op'>&lt;-</span> <span class='fu'><a href='CIAdata.html'>CIAdata</a></span><span class='op'>(</span><span class='st'>"GDP"</span><span class='op'>)</span>      <span class='co'># load some world data</span>
 
-<span class='fu'>mWorldMap</span>(<span class='no'>gdpData</span>, <span class='kw'>key</span><span class='kw'>=</span><span class='st'>"country"</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='st'>"GDP"</span>)
+<span class='fu'>mWorldMap</span><span class='op'>(</span><span class='va'>gdpData</span>, key<span class='op'>=</span><span class='st'>"country"</span>, fill<span class='op'>=</span><span class='st'>"GDP"</span><span class='op'>)</span>
 
-<span class='no'>gdpData</span> <span class='kw'>&lt;-</span> <span class='no'>gdpData</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>GDP5</span> <span class='kw'>=</span> <span class='fu'><a href='ntiles.html'>ntiles</a></span>(-<span class='no'>GDP</span>, <span class='fl'>5</span>, <span class='kw'>format</span><span class='kw'>=</span><span class='st'>"rank"</span>))
-<span class='fu'>mWorldMap</span>(<span class='no'>gdpData</span>, <span class='kw'>key</span><span class='kw'>=</span><span class='st'>"country"</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='st'>"GDP5"</span>)
+<span class='va'>gdpData</span> <span class='op'>&lt;-</span> <span class='va'>gdpData</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>GDP5 <span class='op'>=</span> <span class='fu'><a href='ntiles.html'>ntiles</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>GDP</span>, <span class='fl'>5</span>, format<span class='op'>=</span><span class='st'>"rank"</span><span class='op'>)</span><span class='op'>)</span> 
+<span class='fu'>mWorldMap</span><span class='op'>(</span><span class='va'>gdpData</span>, key<span class='op'>=</span><span class='st'>"country"</span>, fill<span class='op'>=</span><span class='st'>"GDP5"</span><span class='op'>)</span>
 
-<span class='fu'>mWorldMap</span>(<span class='no'>gdpData</span>, <span class='kw'>key</span><span class='kw'>=</span><span class='st'>"country"</span>, <span class='kw'>plot</span><span class='kw'>=</span><span class='st'>"frame"</span>) +
-<span class='fu'>geom_point</span>()
+<span class='fu'>mWorldMap</span><span class='op'>(</span><span class='va'>gdpData</span>, key<span class='op'>=</span><span class='st'>"country"</span>, plot<span class='op'>=</span><span class='st'>"frame"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>geom_point</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='no'>mergedData</span> <span class='kw'>&lt;-</span> <span class='fu'>mWorldMap</span>(<span class='no'>gdpData</span>, <span class='kw'>key</span><span class='kw'>=</span><span class='st'>"country"</span>, <span class='kw'>plot</span><span class='kw'>=</span><span class='st'>"none"</span>)
+<span class='va'>mergedData</span> <span class='op'>&lt;-</span> <span class='fu'>mWorldMap</span><span class='op'>(</span><span class='va'>gdpData</span>, key<span class='op'>=</span><span class='st'>"country"</span>, plot<span class='op'>=</span><span class='st'>"none"</span><span class='op'>)</span>
 
-<span class='fu'>ggplot</span>(<span class='no'>mergedData</span>, <span class='fu'>aes</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>long</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>lat</span>, <span class='kw'>group</span><span class='kw'>=</span><span class='no'>group</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='no'>order</span>)) +
-<span class='fu'>geom_polygon</span>(<span class='fu'>aes</span>(<span class='kw'>fill</span><span class='kw'>=</span><span class='no'>GDP5</span>), <span class='kw'>color</span><span class='kw'>=</span><span class='st'>"gray70"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='fl'>.5</span>) + <span class='fu'>guides</span>(<span class='kw'>fill</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>mergedData</span>, <span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>long</span>, y<span class='op'>=</span><span class='va'>lat</span>, group<span class='op'>=</span><span class='va'>group</span>, order<span class='op'>=</span><span class='va'>order</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>geom_polygon</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>fill<span class='op'>=</span><span class='va'>GDP5</span><span class='op'>)</span>, color<span class='op'>=</span><span class='st'>"gray70"</span>, size<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>guides</span><span class='op'>(</span>fill<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>  
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -221,7 +222,7 @@ one geom_polygon layer that shows the borders of the countries</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

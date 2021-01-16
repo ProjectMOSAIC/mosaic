@@ -73,7 +73,7 @@ output." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ output." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@ output." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,16 +146,16 @@ output." />
 output.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xchisq.test</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>), <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>)),
-  <span class='kw'>rescale.p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>simulate.p.value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>2000</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span>(<span class='no'>x</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>xchisq.test</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  correct <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  p <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>,
+  rescale.p <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  simulate.p.value <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  B <span class='op'>=</span> <span class='fl'>2000</span>,
+  data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/environment.html'>environment</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,12 +178,14 @@ prior to the call to <code><a href='https://rdrr.io/r/stats/chisq.test.html'>chi
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Physicians' Health Study data</span>
-<span class='no'>phs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>104</span>,<span class='fl'>189</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10933</span>,<span class='fl'>10845</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>phs</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"aspirin"</span>,<span class='st'>"placebo"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>phs</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"heart attack"</span>,<span class='st'>"no heart attack"</span>)
-<span class='no'>phs</span></div><div class='output co'>#&gt;         heart attack no heart attack
+<span class='va'>phs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>104</span>,<span class='fl'>189</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10933</span>,<span class='fl'>10845</span><span class='op'>)</span><span class='op'>)</span> 
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>phs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"aspirin"</span>,<span class='st'>"placebo"</span><span class='op'>)</span> 
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>phs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"heart attack"</span>,<span class='st'>"no heart attack"</span><span class='op'>)</span> 
+<span class='va'>phs</span> 
+</div><div class='output co'>#&gt;         heart attack no heart attack
 #&gt; aspirin          104           10933
-#&gt; placebo          189           10845</div><div class='input'><span class='fu'>xchisq.test</span>(<span class='no'>phs</span>)</div><div class='output co'>#&gt; 
+#&gt; placebo          189           10845</div><div class='input'><span class='fu'>xchisq.test</span><span class='op'>(</span><span class='va'>phs</span><span class='op'>)</span> 
+</div><div class='output co'>#&gt; 
 #&gt; 	Pearson's Chi-squared test with Yates' continuity correction
 #&gt; 
 #&gt; data:  x
@@ -203,7 +205,8 @@ prior to the call to <code><a href='https://rdrr.io/r/stats/chisq.test.html'>chi
 #&gt; 	observed
 #&gt; 	(expected)
 #&gt; 	[contribution to X-squared]
-#&gt; 	&lt;Pearson residual&gt;</div><div class='input'><span class='fu'>xchisq.test</span>(<span class='no'>sex</span> ~ <span class='no'>substance</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>HELPrct</span>)</div><div class='output co'>#&gt; 
+#&gt; 	&lt;Pearson residual&gt;</div><div class='input'><span class='fu'>xchisq.test</span><span class='op'>(</span><span class='va'>sex</span> <span class='op'>~</span> <span class='va'>substance</span>, data <span class='op'>=</span> <span class='va'>HELPrct</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Pearson's Chi-squared test
 #&gt; 
 #&gt; data:  x
@@ -239,7 +242,7 @@ prior to the call to <code><a href='https://rdrr.io/r/stats/chisq.test.html'>chi
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

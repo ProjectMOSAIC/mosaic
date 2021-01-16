@@ -73,7 +73,7 @@ from data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ from data." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@ from data." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,15 +146,15 @@ from data." />
 from data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>qdata</span>(<span class='no'>formula</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.25</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>qdata</span><span class='op'>(</span><span class='va'>formula</span>, p <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.25</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>cdata</span>(<span class='no'>formula</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>cdata</span><span class='op'>(</span><span class='va'>formula</span>, p <span class='op'>=</span> <span class='fl'>0.95</span>, data <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>pdata</span>(<span class='no'>formula</span>, <span class='no'>q</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>pdata</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>q</span>, data <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>rdata</span>(<span class='no'>formula</span>, <span class='no'>n</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>rdata</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>n</span>, data <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>ddata</span>(<span class='no'>formula</span>, <span class='no'>q</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>ddata</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>q</span>, data <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,37 +195,53 @@ upper and lower limits and the central proportion requested</p>
 <p>For <code>ddata</code>, a vector of probabilities (empirical densities)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"palmerpenguins"</span>)
-<span class='fu'>qdata</span>(<span class='no'>flipper_length_mm</span> ~ <span class='no'>species</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species 50%
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>penguins</span>, package <span class='op'>=</span> <span class='st'>"palmerpenguins"</span><span class='op'>)</span>
+<span class='fu'>qdata</span><span class='op'>(</span><span class='va'>flipper_length_mm</span> <span class='op'>~</span> <span class='va'>species</span>, <span class='fl'>0.5</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     species 50%
 #&gt; 1    Adelie 190
 #&gt; 2 Chinstrap 196
-#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'>qdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species 50%
+#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'>qdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>flipper_length_mm</span>, p <span class='op'>=</span> <span class='fl'>0.5</span>, groups <span class='op'>=</span> <span class='va'>species</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     species 50%
 #&gt; 1    Adelie 190
 #&gt; 2 Chinstrap 196
-#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'>qdata</span>(<span class='no'>penguins</span>$<span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; 50% 
-#&gt; 197 </div><div class='input'><span class='fu'>qdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt; 50% 
-#&gt; 197 </div><div class='input'><span class='fu'>qdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species 50%
+#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'>qdata</span><span class='op'>(</span><span class='va'>penguins</span><span class='op'>$</span><span class='va'>flipper_length_mm</span>, p <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 50% 
+#&gt; 197 </div><div class='input'><span class='fu'>qdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>flipper_length_mm</span>, p <span class='op'>=</span> <span class='fl'>0.5</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 50% 
+#&gt; 197 </div><div class='input'><span class='fu'>qdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>flipper_length_mm</span>, p <span class='op'>=</span> <span class='fl'>0.5</span>, groups <span class='op'>=</span> <span class='va'>species</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     species 50%
 #&gt; 1    Adelie 190
 #&gt; 2 Chinstrap 196
-#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
-<span class='fu'>cdata</span>(<span class='no'>penguins</span>$<span class='no'>flipper_length_mm</span>, <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;     lower upper central.p
-#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     lower upper central.p
-#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='fl'>0.5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     lower upper central.p
-#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span>( ~ <span class='no'>flipper_length_mm</span> <span class='kw'>|</span> <span class='no'>species</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>.5</span>)</div><div class='output co'>#&gt;     species lower upper central.p
+#&gt; 3    Gentoo 216</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>penguins</span>, package <span class='op'>=</span> <span class='st'>'palmerpenguins'</span><span class='op'>)</span>
+<span class='fu'>cdata</span><span class='op'>(</span><span class='va'>penguins</span><span class='op'>$</span><span class='va'>flipper_length_mm</span>, <span class='fl'>0.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     lower upper central.p
+#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>flipper_length_mm</span>, <span class='fl'>0.5</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     lower upper central.p
+#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>flipper_length_mm</span>, <span class='fl'>0.5</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     lower upper central.p
+#&gt; 25%   190   213       0.5</div><div class='input'><span class='fu'>cdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>flipper_length_mm</span> <span class='op'>|</span> <span class='va'>species</span>, data <span class='op'>=</span> <span class='va'>penguins</span>, p <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     species lower upper central.p
 #&gt; 1    Adelie   186   195       0.5
 #&gt; 2 Chinstrap   191   201       0.5
-#&gt; 3    Gentoo   212   221       0.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
-<span class='fu'>pdata</span>(<span class='no'>penguins</span>$<span class='no'>flipper_length_mm</span>, <span class='fl'>3</span>:<span class='fl'>6</span>)</div><div class='output co'>#&gt; [1] 0 0 0 0</div><div class='input'><span class='fu'>pdata</span>( ~ <span class='no'>flipper_length_mm</span>, <span class='fl'>3</span>:<span class='fl'>6</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt; [1] 0 0 0 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
-<span class='fu'>rdata</span>(<span class='no'>penguins</span>$<span class='no'>species</span>, <span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1] Chinstrap Adelie    Adelie    Adelie    Chinstrap Adelie    Gentoo   
+#&gt; 3    Gentoo   212   221       0.5</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>penguins</span>, package <span class='op'>=</span> <span class='st'>'palmerpenguins'</span><span class='op'>)</span>
+<span class='fu'>pdata</span><span class='op'>(</span><span class='va'>penguins</span><span class='op'>$</span><span class='va'>flipper_length_mm</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0 0 0 0</div><div class='input'><span class='fu'>pdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>flipper_length_mm</span>, <span class='fl'>3</span><span class='op'>:</span><span class='fl'>6</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0 0 0 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>penguins</span>, package <span class='op'>=</span> <span class='st'>'palmerpenguins'</span><span class='op'>)</span>
+<span class='fu'>rdata</span><span class='op'>(</span><span class='va'>penguins</span><span class='op'>$</span><span class='va'>species</span>, <span class='fl'>10</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] Chinstrap Adelie    Adelie    Adelie    Chinstrap Adelie    Gentoo   
 #&gt;  [8] Adelie    Adelie    Gentoo   
-#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='fu'>rdata</span>( ~ <span class='no'>species</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;  [1] Gentoo    Gentoo    Gentoo    Chinstrap Adelie    Adelie    Chinstrap
+#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='fu'>rdata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>species</span>, n <span class='op'>=</span> <span class='fl'>10</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] Gentoo    Gentoo    Gentoo    Chinstrap Adelie    Adelie    Chinstrap
 #&gt;  [8] Adelie    Chinstrap Gentoo   
-#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='fu'>rdata</span>(<span class='no'>flipper_length_mm</span> ~ <span class='no'>species</span>,  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt;     species rdata_v1 rdata_v2 rdata_v3 rdata_v4 rdata_v5
+#&gt; Levels: Adelie Chinstrap Gentoo</div><div class='input'><span class='fu'>rdata</span><span class='op'>(</span><span class='va'>flipper_length_mm</span> <span class='op'>~</span> <span class='va'>species</span>,  n <span class='op'>=</span> <span class='fl'>5</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     species rdata_v1 rdata_v2 rdata_v3 rdata_v4 rdata_v5
 #&gt; 1    Adelie      180      189      184      193      185
 #&gt; 2 Chinstrap      196      197      190      195      197
-#&gt; 3    Gentoo      220      221      219      214      220</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>penguins</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>'palmerpenguins'</span>)
-<span class='fu'>ddata</span>(<span class='no'>penguins</span>$<span class='no'>species</span>, <span class='st'>'setosa'</span>)</div><div class='output co'>#&gt; setosa 
-#&gt;      0 </div><div class='input'><span class='fu'>ddata</span>( ~ <span class='no'>species</span>, <span class='st'>'setosa'</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)</div><div class='output co'>#&gt; setosa 
+#&gt; 3    Gentoo      220      221      219      214      220</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>penguins</span>, package <span class='op'>=</span> <span class='st'>'palmerpenguins'</span><span class='op'>)</span>
+<span class='fu'>ddata</span><span class='op'>(</span><span class='va'>penguins</span><span class='op'>$</span><span class='va'>species</span>, <span class='st'>'setosa'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; setosa 
+#&gt;      0 </div><div class='input'><span class='fu'>ddata</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>species</span>, <span class='st'>'setosa'</span>, data <span class='op'>=</span> <span class='va'>penguins</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; setosa 
 #&gt;      0 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -242,7 +258,7 @@ upper and lower limits and the central proportion requested</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

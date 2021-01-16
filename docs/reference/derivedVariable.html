@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,17 +144,17 @@
     <p>Utility functions for creating new variables from logicals describing the levels</p>
     </div>
 
-    <pre class="usage"><span class='fu'>derivedVariable</span>(
-  <span class='no'>...</span>,
-  <span class='kw'>.ordered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"unique"</span>, <span class='st'>"first"</span>, <span class='st'>"last"</span>),
-  <span class='kw'>.debug</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"default"</span>, <span class='st'>"always"</span>, <span class='st'>"never"</span>),
-  <span class='kw'>.sort</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"given"</span>, <span class='st'>"alpha"</span>),
-  <span class='kw'>.default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.asFactor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)
+    <pre class="usage"><span class='fu'>derivedVariable</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  .ordered <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  .method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"unique"</span>, <span class='st'>"first"</span>, <span class='st'>"last"</span><span class='op'>)</span>,
+  .debug <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"default"</span>, <span class='st'>"always"</span>, <span class='st'>"never"</span><span class='op'>)</span>,
+  .sort <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"given"</span>, <span class='st'>"alpha"</span><span class='op'>)</span>,
+  .default <span class='op'>=</span> <span class='cn'>NULL</span>,
+  .asFactor <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>derivedFactor</span>(<span class='no'>...</span>, <span class='kw'>.asFactor</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>derivedFactor</span><span class='op'>(</span><span class='va'>...</span>, .asFactor <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,65 +213,72 @@ variables to a data frame.  <code>derivedFactor</code>() is the same but that th
 default value for <code>.asFactor</code> is <code>TRUE</code>.  See the examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Kf</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate</span>(<span class='no'>KidsFeet</span>, <span class='kw'>biggerfoot2</span> <span class='kw'>=</span> <span class='fu'>derivedFactor</span>(
-                   <span class='kw'>dom</span> <span class='kw'>=</span> <span class='no'>biggerfoot</span> <span class='kw'>==</span> <span class='no'>domhand</span>,
-                   <span class='kw'>nondom</span> <span class='kw'>=</span> <span class='no'>biggerfoot</span> <span class='kw'>!=</span> <span class='no'>domhand</span>)
-                   )
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>biggerfoot</span> + <span class='no'>biggerfoot2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Kf</span>)</div><div class='output co'>#&gt;           biggerfoot2
+    <pre class="examples"><div class='input'><span class='va'>Kf</span> <span class='op'>&lt;-</span> <span class='fu'>mutate</span><span class='op'>(</span><span class='va'>KidsFeet</span>, biggerfoot2 <span class='op'>=</span> <span class='fu'>derivedFactor</span><span class='op'>(</span>
+                   dom <span class='op'>=</span> <span class='va'>biggerfoot</span> <span class='op'>==</span> <span class='va'>domhand</span>,
+                   nondom <span class='op'>=</span> <span class='va'>biggerfoot</span> <span class='op'>!=</span> <span class='va'>domhand</span><span class='op'>)</span>
+                   <span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>biggerfoot</span> <span class='op'>+</span> <span class='va'>biggerfoot2</span>, data <span class='op'>=</span> <span class='va'>Kf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           biggerfoot2
 #&gt; biggerfoot dom nondom
 #&gt;          L   2     20
-#&gt;          R  11      6</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>biggerfoot</span> + <span class='no'>domhand</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Kf</span>)</div><div class='output co'>#&gt;           domhand
+#&gt;          R  11      6</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>biggerfoot</span> <span class='op'>+</span> <span class='va'>domhand</span>, data <span class='op'>=</span> <span class='va'>Kf</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           domhand
 #&gt; biggerfoot  L  R
 #&gt;          L  2 20
 #&gt;          R  6 11</div><div class='input'>
 <span class='co'># Three equivalent ways to define a new variable</span>
 <span class='co'># Method 1: explicitly define all levels</span>
-<span class='no'>modHELP</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate</span>(<span class='no'>HELPrct</span>, <span class='kw'>drink_status</span> <span class='kw'>=</span> <span class='fu'>derivedFactor</span>(
-  <span class='kw'>abstinent</span> <span class='kw'>=</span> <span class='no'>i1</span> <span class='kw'>==</span> <span class='fl'>0</span>,
-  <span class='kw'>moderate</span> <span class='kw'>=</span> (<span class='no'>i1</span><span class='kw'>&gt;</span><span class='fl'>0</span> <span class='kw'>&amp;</span> <span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>1</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>3</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'female'</span>) <span class='kw'>|</span>
-     (<span class='no'>i1</span><span class='kw'>&gt;</span><span class='fl'>0</span> <span class='kw'>&amp;</span> <span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>2</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>4</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'male'</span>),
-  <span class='kw'>highrisk</span> <span class='kw'>=</span> ((<span class='no'>i1</span><span class='kw'>&gt;</span><span class='fl'>1</span> <span class='kw'>|</span> <span class='no'>i2</span><span class='kw'>&gt;</span><span class='fl'>3</span>) <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'female'</span>) <span class='kw'>|</span>
-      ((<span class='no'>i1</span><span class='kw'>&gt;</span><span class='fl'>2</span> <span class='kw'>|</span> <span class='no'>i2</span><span class='kw'>&gt;</span><span class='fl'>4</span>) <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'male'</span>),
-  <span class='kw'>.ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-)
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>drink_status</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>modHELP</span>)</div><div class='output co'>#&gt; drink_status
+<span class='va'>modHELP</span> <span class='op'>&lt;-</span> <span class='fu'>mutate</span><span class='op'>(</span><span class='va'>HELPrct</span>, drink_status <span class='op'>=</span> <span class='fu'>derivedFactor</span><span class='op'>(</span> 
+  abstinent <span class='op'>=</span> <span class='va'>i1</span> <span class='op'>==</span> <span class='fl'>0</span>,
+  moderate <span class='op'>=</span> <span class='op'>(</span><span class='va'>i1</span><span class='op'>&gt;</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>3</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'female'</span><span class='op'>)</span> <span class='op'>|</span>
+     <span class='op'>(</span><span class='va'>i1</span><span class='op'>&gt;</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>2</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'male'</span><span class='op'>)</span>,
+  highrisk <span class='op'>=</span> <span class='op'>(</span><span class='op'>(</span><span class='va'>i1</span><span class='op'>&gt;</span><span class='fl'>1</span> <span class='op'>|</span> <span class='va'>i2</span><span class='op'>&gt;</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'female'</span><span class='op'>)</span> <span class='op'>|</span> 
+      <span class='op'>(</span><span class='op'>(</span><span class='va'>i1</span><span class='op'>&gt;</span><span class='fl'>2</span> <span class='op'>|</span> <span class='va'>i2</span><span class='op'>&gt;</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'male'</span><span class='op'>)</span>,
+  .ordered <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>drink_status</span>, data <span class='op'>=</span> <span class='va'>modHELP</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; drink_status
 #&gt; abstinent  moderate  highrisk 
 #&gt;        68        28       357 </div><div class='input'>
 <span class='co'># Method 2: Use .default for last level</span>
-<span class='no'>modHELP</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate</span>(<span class='no'>HELPrct</span>, <span class='kw'>drink_status</span> <span class='kw'>=</span> <span class='fu'>derivedFactor</span>(
-  <span class='kw'>abstinent</span> <span class='kw'>=</span> <span class='no'>i1</span> <span class='kw'>==</span> <span class='fl'>0</span>,
-  <span class='kw'>moderate</span> <span class='kw'>=</span> (<span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>1</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>3</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'female'</span>) <span class='kw'>|</span>
-     (<span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>2</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>4</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'male'</span>),
-  <span class='kw'>.ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"first"</span>,
-  <span class='kw'>.default</span> <span class='kw'>=</span> <span class='st'>"highrisk"</span>)
-)
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>drink_status</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>modHELP</span>)</div><div class='output co'>#&gt; drink_status
+<span class='va'>modHELP</span> <span class='op'>&lt;-</span> <span class='fu'>mutate</span><span class='op'>(</span><span class='va'>HELPrct</span>, drink_status <span class='op'>=</span> <span class='fu'>derivedFactor</span><span class='op'>(</span> 
+  abstinent <span class='op'>=</span> <span class='va'>i1</span> <span class='op'>==</span> <span class='fl'>0</span>,
+  moderate <span class='op'>=</span> <span class='op'>(</span><span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>3</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'female'</span><span class='op'>)</span> <span class='op'>|</span>
+     <span class='op'>(</span><span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>2</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'male'</span><span class='op'>)</span>,
+  .ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  .method <span class='op'>=</span> <span class='st'>"first"</span>,
+  .default <span class='op'>=</span> <span class='st'>"highrisk"</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>drink_status</span>, data <span class='op'>=</span> <span class='va'>modHELP</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; drink_status
 #&gt; abstinent  moderate  highrisk 
 #&gt;        68        28       357 </div><div class='input'>
 <span class='co'># Method 3: use TRUE to catch any fall through slots</span>
-<span class='no'>modHELP</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate</span>(<span class='no'>HELPrct</span>, <span class='kw'>drink_status</span> <span class='kw'>=</span> <span class='fu'>derivedFactor</span>(
-  <span class='kw'>abstinent</span> <span class='kw'>=</span> <span class='no'>i1</span> <span class='kw'>==</span> <span class='fl'>0</span>,
-  <span class='kw'>moderate</span> <span class='kw'>=</span> (<span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>1</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>3</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'female'</span>) <span class='kw'>|</span>
-     (<span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>2</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>4</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'male'</span>),
-  <span class='kw'>highrisk</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-  <span class='kw'>.ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"first"</span>
-  )
-)
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>( ~ <span class='no'>drink_status</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>modHELP</span>)</div><div class='output co'>#&gt; drink_status
+<span class='va'>modHELP</span> <span class='op'>&lt;-</span> <span class='fu'>mutate</span><span class='op'>(</span><span class='va'>HELPrct</span>, drink_status <span class='op'>=</span> <span class='fu'>derivedFactor</span><span class='op'>(</span> 
+  abstinent <span class='op'>=</span> <span class='va'>i1</span> <span class='op'>==</span> <span class='fl'>0</span>,
+  moderate <span class='op'>=</span> <span class='op'>(</span><span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>3</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'female'</span><span class='op'>)</span> <span class='op'>|</span>
+     <span class='op'>(</span><span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>2</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'male'</span><span class='op'>)</span>,
+  highrisk<span class='op'>=</span><span class='cn'>TRUE</span>,
+  .ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  .method <span class='op'>=</span> <span class='st'>"first"</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>drink_status</span>, data <span class='op'>=</span> <span class='va'>modHELP</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; drink_status
 #&gt; abstinent  moderate  highrisk 
-#&gt;        68        28       357 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span>(<span class='no'>modHELP</span>$<span class='no'>drink_status</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='no'>modHELP</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate</span>(<span class='no'>HELPrct</span>, <span class='kw'>drink_status</span> <span class='kw'>=</span> <span class='fu'>derivedVariable</span>(
-  <span class='kw'>abstinent</span> <span class='kw'>=</span> <span class='no'>i1</span> <span class='kw'>==</span> <span class='fl'>0</span>,
-  <span class='kw'>moderate</span> <span class='kw'>=</span> (<span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>1</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>3</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'female'</span>) <span class='kw'>|</span>
-     (<span class='no'>i1</span><span class='kw'>&lt;=</span><span class='fl'>2</span> <span class='kw'>&amp;</span> <span class='no'>i2</span><span class='kw'>&lt;=</span><span class='fl'>4</span> <span class='kw'>&amp;</span> <span class='no'>sex</span><span class='kw'>==</span><span class='st'>'male'</span>),
-  <span class='kw'>highrisk</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-  <span class='kw'>.ordered</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.method</span> <span class='kw'>=</span> <span class='st'>"first"</span>
-  )
-)
-<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span>(<span class='no'>modHELP</span>$<span class='no'>drink_status</span>)</div><div class='output co'>#&gt; [1] FALSE</div></pre>
+#&gt;        68        28       357 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span><span class='op'>(</span><span class='va'>modHELP</span><span class='op'>$</span><span class='va'>drink_status</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='va'>modHELP</span> <span class='op'>&lt;-</span> <span class='fu'>mutate</span><span class='op'>(</span><span class='va'>HELPrct</span>, drink_status <span class='op'>=</span> <span class='fu'>derivedVariable</span><span class='op'>(</span> 
+  abstinent <span class='op'>=</span> <span class='va'>i1</span> <span class='op'>==</span> <span class='fl'>0</span>,
+  moderate <span class='op'>=</span> <span class='op'>(</span><span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>3</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'female'</span><span class='op'>)</span> <span class='op'>|</span>
+     <span class='op'>(</span><span class='va'>i1</span><span class='op'>&lt;=</span><span class='fl'>2</span> <span class='op'>&amp;</span> <span class='va'>i2</span><span class='op'>&lt;=</span><span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>sex</span><span class='op'>==</span><span class='st'>'male'</span><span class='op'>)</span>,
+  highrisk<span class='op'>=</span><span class='cn'>TRUE</span>,
+  .ordered <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  .method <span class='op'>=</span> <span class='st'>"first"</span>
+  <span class='op'>)</span>
+<span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>is.factor</a></span><span class='op'>(</span><span class='va'>modHELP</span><span class='op'>$</span><span class='va'>drink_status</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -287,7 +294,7 @@ default value for <code>.asFactor</code> is <code>TRUE</code>.  See the examples
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

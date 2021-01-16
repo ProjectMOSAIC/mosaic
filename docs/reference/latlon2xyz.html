@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,11 +144,11 @@
     <p>Convert back and forth between latitude/longitude and XYZ-space</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xyz2latlon</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>z</span>)
+    <pre class="usage"><span class='fu'>xyz2latlon</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>z</span><span class='op'>)</span>
 
-<span class='fu'>latlon2xyz</span>(<span class='no'>latitude</span>, <span class='no'>longitude</span>)
+<span class='fu'>latlon2xyz</span><span class='op'>(</span><span class='va'>latitude</span>, <span class='va'>longitude</span><span class='op'>)</span>
 
-<span class='fu'>lonlat2xyz</span>(<span class='no'>longitude</span>, <span class='no'>latitude</span>)</pre>
+<span class='fu'>lonlat2xyz</span><span class='op'>(</span><span class='va'>longitude</span>, <span class='va'>latitude</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,13 +169,17 @@
 <p>a matrix each row of which contains the x, y, and z coordinates of a point on a unit sphere</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='deg2rad.html'>deg2rad()</a></code>, <code><a href='googleMap.html'>googleMap()</a></code>, and <code><a href='rgeo.html'>rgeo()</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='deg2rad.html'>deg2rad()</a></code>, <code><a href='googleMap.html'>googleMap()</a></code>, and <code><a href='rlatlon.html'>rgeo()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>xyz2latlon</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>)     <span class='co'># point may be on sphere of any radius</span></div><div class='output co'>#&gt;           lat lon
-#&gt; [1,] 35.26439  45</div><div class='input'><span class='fu'>xyz2latlon</span>(<span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>)     <span class='co'># this produces a NaN for latitude</span></div><div class='output co'>#&gt;      lat lon
-#&gt; [1,] NaN   0</div><div class='input'><span class='fu'>latlon2xyz</span>(<span class='fl'>30</span>, <span class='fl'>45</span>)</div><div class='output co'>#&gt;             x        y   z
-#&gt; [1,] 30.09873 48.75318 0.5</div><div class='input'><span class='fu'>lonlat2xyz</span>(<span class='fl'>45</span>, <span class='fl'>30</span>)</div><div class='output co'>#&gt;             x        y   z
+    <pre class="examples"><div class='input'><span class='fu'>xyz2latlon</span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>     <span class='co'># point may be on sphere of any radius</span>
+</div><div class='output co'>#&gt;           lat lon
+#&gt; [1,] 35.26439  45</div><div class='input'><span class='fu'>xyz2latlon</span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>     <span class='co'># this produces a NaN for latitude</span>
+</div><div class='output co'>#&gt;      lat lon
+#&gt; [1,] NaN   0</div><div class='input'><span class='fu'>latlon2xyz</span><span class='op'>(</span><span class='fl'>30</span>, <span class='fl'>45</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;             x        y   z
+#&gt; [1,] 30.09873 48.75318 0.5</div><div class='input'><span class='fu'>lonlat2xyz</span><span class='op'>(</span><span class='fl'>45</span>, <span class='fl'>30</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;             x        y   z
 #&gt; [1,] 30.09873 48.75318 0.5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -192,7 +196,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

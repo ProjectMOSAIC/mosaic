@@ -73,7 +73,7 @@ facilitate better naming of the result" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ facilitate better naming of the result" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@ facilitate better naming of the result" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,16 +146,16 @@ facilitate better naming of the result" />
 facilitate better naming of the result</p>
     </div>
 
-    <pre class="usage"><span class='fu'>diffmean</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>only.2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>diffmean</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>, only.2 <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>diffprop</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(), <span class='kw'>only.2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+<span class='fu'>diffprop</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>, only.2 <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x, data, ...</th>
-      <td><p>as in <code><a href='aggregating.html'>mean()</a></code> or <code><a href='https://rdrr.io/pkg/mosaicCore/man/prop.html'>prop()</a></code></p></td>
+      <td><p>as in <code><a href='mean_.html'>mean()</a></code> or <code><a href='https://rdrr.io/pkg/mosaicCore/man/prop.html'>prop()</a></code></p></td>
     </tr>
     <tr>
       <th>only.2</th>
@@ -166,23 +166,24 @@ between two groups.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='fu'>diffprop</span>( <span class='no'>homeless</span> ~ <span class='no'>sex</span> , <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-<span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>diffprop</span>( <span class='no'>homeless</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>) , <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-<span class='fu'>diffmean</span>( <span class='no'>age</span> ~ <span class='no'>substance</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>, <span class='kw'>only.2</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>diffmean</span>(<span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>substance</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>, <span class='kw'>only.2</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'>diffmean</span>( <span class='no'>age</span> ~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-<span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>3</span>) * <span class='fu'>diffmean</span>(<span class='no'>age</span> ~ <span class='fu'><a href='resample.html'>shuffle</a></span>(<span class='no'>sex</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>HELPrct</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>diffprop</span><span class='op'>(</span> <span class='va'>homeless</span> <span class='op'>~</span> <span class='va'>sex</span> , data<span class='op'>=</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'>diffprop</span><span class='op'>(</span> <span class='va'>homeless</span> <span class='op'>~</span> <span class='fu'><a href='resample.html'>shuffle</a></span><span class='op'>(</span><span class='va'>sex</span><span class='op'>)</span> , data<span class='op'>=</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'>diffmean</span><span class='op'>(</span> <span class='va'>age</span> <span class='op'>~</span> <span class='va'>substance</span>, data<span class='op'>=</span><span class='va'>HELPrct</span>, only.2<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'>diffmean</span><span class='op'>(</span><span class='va'>age</span> <span class='op'>~</span> <span class='fu'><a href='resample.html'>shuffle</a></span><span class='op'>(</span><span class='va'>substance</span><span class='op'>)</span>, data<span class='op'>=</span><span class='va'>HELPrct</span>, only.2<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'>diffmean</span><span class='op'>(</span> <span class='va'>age</span> <span class='op'>~</span> <span class='va'>sex</span>, data<span class='op'>=</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'>diffmean</span><span class='op'>(</span><span class='va'>age</span> <span class='op'>~</span> <span class='fu'><a href='resample.html'>shuffle</a></span><span class='op'>(</span><span class='va'>sex</span><span class='op'>)</span>, data<span class='op'>=</span><span class='va'>HELPrct</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
-#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;     diffmean
-#&gt; 1 -0.1356221
-#&gt; 2 -1.4571066
-#&gt; 3 -0.6372967</div></pre>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;      diffmean
+#&gt; 1 -0.56388094
+#&gt; 2  0.91667117
+#&gt; 3 -0.07444222</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -198,7 +199,7 @@ between two groups.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

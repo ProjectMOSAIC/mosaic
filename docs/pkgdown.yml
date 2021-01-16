@@ -1,11 +1,11 @@
 pandoc: 2.9.2.1
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   Resampling: Resampling.html
   mosaic-resources: mosaic-resources.html
-  GraphicsWithMosaic: web-only/GraphicsWithMosaic.html
-  LessVolume-MoreCreativity: web-only/LessVolume-MoreCreativity.html
-  ggformula-lattice: web-only/ggformula-lattice.html
-last_built: 2020-09-17T15:52Z
+  web-only/GraphicsWithMosaic: GraphicsWithMosaic.html
+  web-only/LessVolume-MoreCreativity: LessVolume-MoreCreativity.html
+  web-only/ggformula-lattice: ggformula-lattice.html
+last_built: 2021-01-16T07:36Z
 

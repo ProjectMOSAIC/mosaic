@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,75 +144,75 @@
     <p>These functions simplify and unify sampling in various ways.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>resample</span>(<span class='no'>...</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>resample</span><span class='op'>(</span><span class='va'>...</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>deal</span>(<span class='no'>...</span>)
+<span class='fu'>deal</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>shuffle</span>(<span class='no'>x</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>orig.ids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>shuffle</span><span class='op'>(</span><span class='va'>x</span>, replace <span class='op'>=</span> <span class='cn'>FALSE</span>, prob <span class='op'>=</span> <span class='cn'>NULL</span>, groups <span class='op'>=</span> <span class='cn'>NULL</span>, orig.ids <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>sample</span>(<span class='no'>x</span>, <span class='no'>size</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+<span class='fu'>sample</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>size</span>, replace <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>sample</span>(
-  <span class='no'>x</span>,
-  <span class='no'>size</span>,
-  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>orig.ids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>sample</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>size</span>,
+  replace <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  prob <span class='op'>=</span> <span class='cn'>NULL</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orig.ids <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>sample</span>(
-  <span class='no'>x</span>,
-  <span class='no'>size</span>,
-  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>orig.ids</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>x</span>),
-  <span class='kw'>shuffled</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(),
-  <span class='kw'>invisibly.return</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>sample</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>size</span>,
+  replace <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  prob <span class='op'>=</span> <span class='cn'>NULL</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orig.ids <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  fixed <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,
+  shuffled <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>,
+  invisibly.return <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>sample</span>(
-  <span class='no'>x</span>,
-  <span class='no'>size</span>,
-  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>orig.ids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>sample</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>size</span>,
+  replace <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  prob <span class='op'>=</span> <span class='cn'>NULL</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orig.ids <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for factor</span>
-<span class='fu'>sample</span>(
-  <span class='no'>x</span>,
-  <span class='no'>size</span>,
-  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>orig.ids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>drop.unused.levels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>sample</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>size</span>,
+  replace <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  prob <span class='op'>=</span> <span class='cn'>NULL</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orig.ids <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  drop.unused.levels <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>sample</span>(
-  <span class='no'>x</span>,
-  <span class='no'>size</span>,
-  <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>orig.ids</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>drop.unused.levels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parametric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>transformation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>sample</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>size</span>,
+  replace <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  prob <span class='op'>=</span> <span class='cn'>NULL</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orig.ids <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  drop.unused.levels <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  parametric <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  transformation <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -287,70 +287,80 @@ natural names.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 100 Bernoulli trials -- no need for replace=TRUE</span>
-<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt;   [1] 0 0 1 0 1 1 0 0 1 0 1 1 1 0 1 0 1 1 0 0 1 0 1 0 0 1 0 0 0 0 1 1 1 1 1 1 0
+<span class='fu'>resample</span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fl'>100</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1] 0 0 1 0 1 1 0 0 1 0 1 1 1 0 1 0 1 1 0 0 1 0 1 0 0 1 0 0 0 0 1 1 1 1 1 1 0
 #&gt;  [38] 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 1 1 0 1 0 1
-#&gt;  [75] 1 1 0 1 1 1 0 0 1 1 0 0 1 0 1 1 0 0 1 1 0 1 0 1 0 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(<span class='fu'>resample</span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='fl'>100</span>))</div><div class='output co'>#&gt; X
+#&gt;  [75] 1 1 0 1 1 1 0 0 1 1 0 0 1 0 1 1 0 0 1 1 0 1 0 1 0 0</div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span><span class='fu'>resample</span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>1</span>, <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; X
 #&gt;  0  1 
-#&gt; 52 48 </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='no'>Small</span> <span class='kw'>&lt;-</span> <span class='fu'>sample</span>(<span class='no'>KidsFeet</span>, <span class='fl'>10</span>)
-<span class='fu'>resample</span>(<span class='no'>Small</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='fu'>resample</span>(<span class='no'>Small</span>))
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='fu'>resample</span>(<span class='no'>Small</span>))
+#&gt; 52 48 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>Small</span> <span class='op'>&lt;-</span> <span class='fu'>sample</span><span class='op'>(</span><span class='va'>KidsFeet</span>, <span class='fl'>10</span><span class='op'>)</span>
+<span class='fu'>resample</span><span class='op'>(</span><span class='va'>Small</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>sex</span>, data<span class='op'>=</span><span class='fu'>resample</span><span class='op'>(</span><span class='va'>Small</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>sex</span>, data<span class='op'>=</span><span class='fu'>resample</span><span class='op'>(</span><span class='va'>Small</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># fixed marginals for sex</span>
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>Small</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span>(~ <span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='fu'>resample</span>(<span class='no'>Small</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>sex</span>))
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>sex</span>, data<span class='op'>=</span><span class='va'>Small</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>sex</span>, data<span class='op'>=</span><span class='fu'>resample</span><span class='op'>(</span><span class='va'>Small</span>, groups<span class='op'>=</span><span class='va'>sex</span><span class='op'>)</span><span class='op'>)</span> 
 <span class='co'># shuffled can be used to reshuffle some variables within groups</span>
 <span class='co'># orig.id shows where the values were in original data frame.</span>
-<span class='no'>Small</span> <span class='kw'>&lt;-</span> <span class='fu'>mutate</span>(<span class='no'>Small</span>,
-   <span class='kw'>id1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>sex</span>,<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>),
-   <span class='kw'>id2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>sex</span>,<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>))
-<span class='fu'>resample</span>(<span class='no'>Small</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='no'>sex</span>, <span class='kw'>shuffled</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"id1"</span>,<span class='st'>"id2"</span>))
-}</div><div class='output co'>#&gt;        name birthmonth birthyear length width sex biggerfoot domhand orig.id
-#&gt; 8      Zach         12        87   24.5   9.7   B          R       R   8.8.1
-#&gt; 1    Scotty          3        88   25.7   9.7   B          R       R   1.1.8
-#&gt; 1.1  Scotty          3        88   25.7   9.7   B          R       R   1.1.1
-#&gt; 10   Hayley          1        88   21.6   7.9   G          R       R  10.6.7
-#&gt; 6   Heather          3        88   25.5   9.5   G          R       R   6.2.2
-#&gt; 2     Julie         11        87   26.0   9.3   G          L       R   2.7.6
-#&gt; 6.1 Heather          3        88   25.5   9.5   G          R       R   6.3.3
-#&gt; 3      Abby          2        88   26.1   9.5   G          L       R  3.6.10
-#&gt; 7   Caitlin          6        88   23.0   8.8   G          L       R   7.7.6
-#&gt; 7.1 Caitlin          6        88   23.0   8.8   G          L       R  7.10.7
-#&gt;      id1  id2
-#&gt; 8    B:8  B:1
-#&gt; 1    B:1  B:8
-#&gt; 1.1  B:1  B:1
-#&gt; 10   G:6  G:7
-#&gt; 6    G:2  G:2
-#&gt; 2    G:7  G:6
-#&gt; 6.1  G:3  G:3
-#&gt; 3    G:6 G:10
-#&gt; 7    G:7  G:6
-#&gt; 7.1 G:10  G:7</div><div class='input'><span class='fu'>deal</span>(<span class='no'>Cards</span>, <span class='fl'>13</span>)    <span class='co'># A Bridge hand</span></div><div class='output co'>#&gt;  [1] "AC"  "AS"  "KH"  "3H"  "8H"  "9H"  "10H" "8C"  "AD"  "7C"  "4C"  "KS" 
-#&gt; [13] "6D" </div><div class='input'><span class='fu'>shuffle</span>(<span class='no'>Cards</span>)</div><div class='output co'>#&gt;  [1] "JC"  "6H"  "5S"  "4H"  "KS"  "3C"  "7D"  "2D"  "QD"  "2H"  "10D" "8C" 
+<span class='va'>Small</span> <span class='op'>&lt;-</span> <span class='fu'>mutate</span><span class='op'>(</span><span class='va'>Small</span>, 
+   id1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>sex</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, sep<span class='op'>=</span><span class='st'>":"</span><span class='op'>)</span>,  
+   id2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>sex</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, sep<span class='op'>=</span><span class='st'>":"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>resample</span><span class='op'>(</span><span class='va'>Small</span>, groups<span class='op'>=</span><span class='va'>sex</span>, shuffled<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id1"</span>,<span class='st'>"id2"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;         name birthmonth birthyear length width sex biggerfoot domhand orig.id
+#&gt; 3       Zach         12        87   24.5   9.7   B          R       R   8.8.1
+#&gt; 6     Scotty          3        88   25.7   9.7   B          R       R   1.1.8
+#&gt; 6.1   Scotty          3        88   25.7   9.7   B          R       R   1.1.1
+#&gt; 38    Hayley          1        88   21.6   7.9   G          R       R  10.6.7
+#&gt; 20   Heather          3        88   25.5   9.5   G          R       R   6.2.2
+#&gt; 15     Julie         11        87   26.0   9.3   G          L       R   2.7.6
+#&gt; 20.1 Heather          3        88   25.5   9.5   G          R       R   6.3.3
+#&gt; 27      Abby          2        88   26.1   9.5   G          L       R  3.6.10
+#&gt; 8    Caitlin          6        88   23.0   8.8   G          L       R   7.7.6
+#&gt; 8.1  Caitlin          6        88   23.0   8.8   G          L       R  7.10.7
+#&gt;       id1  id2
+#&gt; 3     B:8  B:1
+#&gt; 6     B:1  B:8
+#&gt; 6.1   B:1  B:1
+#&gt; 38    G:6  G:7
+#&gt; 20    G:2  G:2
+#&gt; 15    G:7  G:6
+#&gt; 20.1  G:3  G:3
+#&gt; 27    G:6 G:10
+#&gt; 8     G:7  G:6
+#&gt; 8.1  G:10  G:7</div><div class='input'><span class='fu'>deal</span><span class='op'>(</span><span class='va'>Cards</span>, <span class='fl'>13</span><span class='op'>)</span>    <span class='co'># A Bridge hand</span>
+</div><div class='output co'>#&gt;  [1] "AC"  "AS"  "KH"  "3H"  "8H"  "9H"  "10H" "8C"  "AD"  "7C"  "4C"  "KS" 
+#&gt; [13] "6D" </div><div class='input'><span class='fu'>shuffle</span><span class='op'>(</span><span class='va'>Cards</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "JC"  "6H"  "5S"  "4H"  "KS"  "3C"  "7D"  "2D"  "QD"  "2H"  "10D" "8C" 
 #&gt; [13] "QH"  "JD"  "5H"  "4S"  "5C"  "AD"  "8H"  "10C" "KH"  "4D"  "QS"  "AH" 
 #&gt; [25] "4C"  "7H"  "KD"  "JS"  "KC"  "6S"  "7S"  "7C"  "10H" "9H"  "9C"  "JH" 
 #&gt; [37] "AC"  "3H"  "2C"  "3D"  "6C"  "5D"  "AS"  "8D"  "10S" "3S"  "2S"  "6D" 
-#&gt; [49] "9S"  "QC"  "9D"  "8S" </div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>width</span> ~<span class='no'>length</span> * <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>KidsFeet</span>)
-<span class='no'>KidsFeet</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;     name birthmonth birthyear length width sex biggerfoot domhand
+#&gt; [49] "9S"  "QC"  "9D"  "8S" </div><div class='input'><span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>width</span> <span class='op'>~</span><span class='va'>length</span> <span class='op'>*</span> <span class='va'>sex</span>, data <span class='op'>=</span> <span class='va'>KidsFeet</span><span class='op'>)</span>
+<span class='va'>KidsFeet</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     name birthmonth birthyear length width sex biggerfoot domhand
 #&gt; 1  David          5        88   24.4   8.4   B          L       R
 #&gt; 2   Lars         10        87   25.4   8.8   B          L       L
 #&gt; 3   Zach         12        87   24.5   9.7   B          R       R
 #&gt; 4   Josh          1        88   25.2   9.8   B          L       R
 #&gt; 5   Lang          2        88   25.1   8.9   B          L       R
-#&gt; 6 Scotty          3        88   25.7   9.7   B          R       R</div><div class='input'><span class='fu'>resample</span>(<span class='no'>model</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()</div><div class='output co'>#&gt;      width length sex
+#&gt; 6 Scotty          3        88   25.7   9.7   B          R       R</div><div class='input'><span class='fu'>resample</span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      width length sex
 #&gt; 1 8.593635   24.4   B
 #&gt; 2 9.420481   25.4   B
 #&gt; 3 9.444851   24.5   B
 #&gt; 4 8.763734   25.2   B
 #&gt; 5 9.141002   25.1   B
-#&gt; 6 9.090498   25.7   B</div><div class='input'><span class='no'>Boot</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='fl'>500</span>) * <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>width</span> ~ <span class='no'>length</span> * <span class='no'>sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'>resample</span>(<span class='no'>KidsFeet</span>))</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
+#&gt; 6 9.090498   25.7   B</div><div class='input'><span class='va'>Boot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='do.html'>do</a></span><span class='op'>(</span><span class='fl'>500</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>width</span> <span class='op'>~</span> <span class='va'>length</span> <span class='op'>*</span> <span class='va'>sex</span>, data <span class='op'>=</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>KidsFeet</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
-#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='input'><span class='fu'>df_stats</span>(~ <span class='no'>Intercept</span> + <span class='no'>length</span> + <span class='no'>sexG</span> + <span class='no'>length.sexG</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>Boot</span>, <span class='no'>sd</span>)</div><div class='output co'>#&gt;      response         sd
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='input'><span class='fu'>df_stats</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>Intercept</span> <span class='op'>+</span> <span class='va'>length</span> <span class='op'>+</span> <span class='va'>sexG</span> <span class='op'>+</span> <span class='va'>length.sexG</span>, data <span class='op'>=</span> <span class='va'>Boot</span>, <span class='va'>sd</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      response         sd
 #&gt; 1   Intercept 1.34047944
 #&gt; 2      length 0.05289191
 #&gt; 3        sexG 1.99298145
-#&gt; 4 length.sexG 0.07979467</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>Boot</span>)</div><div class='output co'>#&gt;   Intercept    length      sexG  length.sexG     sigma r.squared         F
+#&gt; 4 length.sexG 0.07979467</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>Boot</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Intercept    length      sexG  length.sexG     sigma r.squared         F
 #&gt; 1  4.061731 0.1998271 -1.627390  0.055943489 0.3988934 0.4812676 10.824056
 #&gt; 2  3.396541 0.2307611  2.059666 -0.095689727 0.3896124 0.4227335  8.543525
 #&gt; 3  2.657438 0.2533723  1.783024 -0.071805843 0.3559803 0.3278852  5.691478
@@ -363,7 +373,8 @@ natural names.</p>
 #&gt; 3     3    35    1      3
 #&gt; 4     3    35    1      4
 #&gt; 5     3    35    1      5
-#&gt; 6     3    35    1      6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>model</span>))</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt; 6     3    35    1      6</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>model</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #&gt; -0.6239 -0.1441  0.1142  0.8642  1.1225  3.8521 </div><div class='input'>
 
 </div></pre>
@@ -382,7 +393,7 @@ natural names.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

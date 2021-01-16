@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,20 +144,20 @@
     <p>Compute function on subsets of a variable in a data frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>maggregate</span>(
-  <span class='no'>formula</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(),
-  <span class='no'>FUN</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>subset</span>,
-  <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>.format</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"default"</span>, <span class='st'>"table"</span>, <span class='st'>"flat"</span>),
-  <span class='kw'>.overall</span> <span class='kw'>=</span> <span class='fu'><a href='mosaic.options.html'>mosaic.par.get</a></span>(<span class='st'>"aggregate.overall"</span>),
-  <span class='kw'>.multiple</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='no'>FUN</span>)),
-  <span class='kw'>.envir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>maggregate</span><span class='op'>(</span>
+  <span class='va'>formula</span>,
+  data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>,
+  <span class='va'>FUN</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>subset</span>,
+  drop <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>,
+  .format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"default"</span>, <span class='st'>"table"</span>, <span class='st'>"flat"</span><span class='op'>)</span>,
+  .overall <span class='op'>=</span> <span class='fu'><a href='mosaic.options.html'>mosaic.par.get</a></span><span class='op'>(</span><span class='st'>"aggregate.overall"</span><span class='op'>)</span>,
+  .multiple <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  .name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span><span class='op'>(</span><span class='va'>FUN</span><span class='op'>)</span><span class='op'>)</span>,
+  .envir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,18 +227,19 @@ Ignored if <code>.multiple</code> is not <code>NULL</code>.</p></td>
     <p>a vector</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>mean</span> )
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>maggregate</span><span class='op'>(</span> <span class='va'>cesd</span> <span class='op'>~</span> <span class='va'>sex</span>, <span class='va'>HELPrct</span>, FUN <span class='op'>=</span> <span class='va'>mean</span> <span class='op'>)</span>
 <span class='co'># using groups instead</span>
-<span class='fu'>maggregate</span>( ~ <span class='no'>cesd</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
+<span class='fu'>maggregate</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>cesd</span>, groups <span class='op'>=</span> <span class='va'>sex</span>, <span class='va'>HELPrct</span>, FUN <span class='op'>=</span> <span class='va'>sd</span> <span class='op'>)</span>
 <span class='co'># the next four all do the same thing</span>
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span> + <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>mean</span> )
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span> <span class='kw'>|</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
-<span class='fu'>maggregate</span>( ~ <span class='no'>cesd</span> <span class='kw'>|</span> <span class='no'>sex</span> , <span class='kw'>groups</span><span class='kw'>=</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='no'>sex</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>homeless</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
+<span class='fu'>maggregate</span><span class='op'>(</span> <span class='va'>cesd</span> <span class='op'>~</span> <span class='va'>sex</span> <span class='op'>+</span> <span class='va'>homeless</span>, <span class='va'>HELPrct</span>, FUN <span class='op'>=</span> <span class='va'>mean</span> <span class='op'>)</span>
+<span class='fu'>maggregate</span><span class='op'>(</span> <span class='va'>cesd</span> <span class='op'>~</span> <span class='va'>sex</span> <span class='op'>|</span> <span class='va'>homeless</span>, <span class='va'>HELPrct</span>, FUN <span class='op'>=</span> <span class='va'>sd</span> <span class='op'>)</span>
+<span class='fu'>maggregate</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>cesd</span> <span class='op'>|</span> <span class='va'>sex</span> , groups<span class='op'>=</span> <span class='va'>homeless</span>, <span class='va'>HELPrct</span>, FUN <span class='op'>=</span> <span class='va'>sd</span> <span class='op'>)</span>
+<span class='fu'>maggregate</span><span class='op'>(</span> <span class='va'>cesd</span> <span class='op'>~</span> <span class='va'>sex</span>, groups <span class='op'>=</span> <span class='va'>homeless</span>, <span class='va'>HELPrct</span>, FUN <span class='op'>=</span> <span class='va'>sd</span> <span class='op'>)</span>
 <span class='co'># this is unusual, but also works.</span>
-<span class='fu'>maggregate</span>( <span class='no'>cesd</span> ~ <span class='kw'>NULL</span> , <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>sex</span>, <span class='no'>HELPrct</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>sd</span> )
-}</div><div class='output co'>#&gt;   female     male 
+<span class='fu'>maggregate</span><span class='op'>(</span> <span class='va'>cesd</span> <span class='op'>~</span> <span class='cn'>NULL</span> , groups <span class='op'>=</span> <span class='va'>sex</span>, <span class='va'>HELPrct</span>, FUN <span class='op'>=</span> <span class='va'>sd</span> <span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   female     male 
 #&gt; 13.01764 12.10332 </div><div class='input'>
 </div></pre>
   </div>
@@ -256,7 +257,7 @@ Ignored if <code>.multiple</code> is not <code>NULL</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Augmented version of <code>qqmath</code> — xqqmath • mosaic</title>
+<title>Augmented version of qqmath — xqqmath • mosaic</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Augmented version of <code>qqmath</code> — xqqmath" />
+<meta property="og:title" content="Augmented version of qqmath — xqqmath" />
 <meta property="og:description" content="Augmented version of qqmath" />
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,23 +144,23 @@
     <p>Augmented version of <code>qqmath</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>xqqmath</span>(<span class='no'>x</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>panel</span> <span class='kw'>=</span> <span class='st'>"panel.xqqmath"</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>xqqmath</span><span class='op'>(</span><span class='va'>x</span>, data <span class='op'>=</span> <span class='cn'>NULL</span>, panel <span class='op'>=</span> <span class='st'>"panel.xqqmath"</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>panel.xqqmath</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>qqmathline</span> <span class='kw'>=</span> !(<span class='no'>fitline</span> <span class='kw'>||</span> <span class='no'>idline</span>),
-  <span class='kw'>idline</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>fitline</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>slope</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>overlines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>col.line</span> <span class='kw'>=</span> <span class='fu'>trellis.par.get</span>(<span class='st'>"add.line"</span>)$<span class='no'>col</span>,
-  <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>16</span>,
-  <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>
-)</pre>
+<span class='fu'>panel.xqqmath</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  qqmathline <span class='op'>=</span> <span class='op'>!</span><span class='op'>(</span><span class='va'>fitline</span> <span class='op'>||</span> <span class='va'>idline</span><span class='op'>)</span>,
+  idline <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  fitline <span class='op'>=</span> <span class='cn'>NULL</span>,
+  slope <span class='op'>=</span> <span class='cn'>NULL</span>,
+  intercept <span class='op'>=</span> <span class='cn'>NULL</span>,
+  overlines <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>,
+  col.line <span class='op'>=</span> <span class='fu'>trellis.par.get</span><span class='op'>(</span><span class='st'>"add.line"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>col</span>,
+  pch <span class='op'>=</span> <span class='fl'>16</span>,
+  lwd <span class='op'>=</span> <span class='fl'>2</span>,
+  lty <span class='op'>=</span> <span class='fl'>2</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,9 +211,15 @@ If <code>slope</code> is specified, the line will be added unless <code>fitline<
     <p>a trellis object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>)
-<span class='fu'>xqqmath</span>( ~ <span class='no'>x</span>)                  <span class='co'># with quartile line</span></div><div class='img'><img src='xqqmath-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span>( ~ <span class='no'>x</span>, <span class='kw'>fitline</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)  <span class='co'># with fitted line</span></div><div class='img'><img src='xqqmath-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span>( ~ <span class='no'>x</span>, <span class='kw'>idline</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)   <span class='co'># with y = x</span></div><div class='img'><img src='xqqmath-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Exponential.html'>rexp</a></span>(<span class='fl'>100</span>, <span class='kw'>rate</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-<span class='fu'>xqqmath</span>( ~ <span class='no'>x</span>, <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='no'>qexp</span>)     <span class='co'># with quartile line</span></div><div class='img'><img src='xqqmath-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span>( ~ <span class='no'>x</span>, <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='no'>qexp</span>, <span class='kw'>slope</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>10</span>)</div><div class='img'><img src='xqqmath-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span>( ~ <span class='no'>x</span>, <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='no'>qexp</span>, <span class='kw'>slope</span> <span class='kw'>=</span> <span class='fu'><a href='aggregating.html'>mean</a></span>(<span class='no'>x</span>))</div><div class='img'><img src='xqqmath-6.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span>
+<span class='fu'>xqqmath</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>x</span><span class='op'>)</span>                  <span class='co'># with quartile line</span>
+</div><div class='img'><img src='xqqmath-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>x</span>, fitline <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>  <span class='co'># with fitted line</span>
+</div><div class='img'><img src='xqqmath-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>x</span>, idline <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>   <span class='co'># with y = x</span>
+</div><div class='img'><img src='xqqmath-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Exponential.html'>rexp</a></span><span class='op'>(</span><span class='fl'>100</span>, rate <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
+<span class='fu'>xqqmath</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>x</span>, distribution <span class='op'>=</span> <span class='va'>qexp</span><span class='op'>)</span>     <span class='co'># with quartile line</span>
+</div><div class='img'><img src='xqqmath-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>x</span>, distribution <span class='op'>=</span> <span class='va'>qexp</span>, slope <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>10</span><span class='op'>)</span> 
+</div><div class='img'><img src='xqqmath-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>xqqmath</span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>x</span>, distribution <span class='op'>=</span> <span class='va'>qexp</span>, slope <span class='op'>=</span> <span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span> 
+</div><div class='img'><img src='xqqmath-6.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -229,7 +235,7 @@ If <code>slope</code> is specified, the line will be added unless <code>fitline<
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

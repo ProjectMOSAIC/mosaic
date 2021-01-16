@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -118,7 +118,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,29 +144,29 @@
     <p>Compute numerically zeros of a function or simultaneous zeros of multiple functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>findZeros</span>(
-  <span class='no'>expr</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>near</span> - <span class='no'>within</span>, <span class='no'>near</span> + <span class='no'>within</span>),
-  <span class='kw'>near</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>within</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>nearest</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>npts</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>iterate</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>sortBy</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"byx"</span>, <span class='st'>"byy"</span>, <span class='st'>"radial"</span>)
-)
+    <pre class="usage"><span class='fu'>findZeros</span><span class='op'>(</span>
+  <span class='va'>expr</span>,
+  <span class='va'>...</span>,
+  xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>near</span> <span class='op'>-</span> <span class='va'>within</span>, <span class='va'>near</span> <span class='op'>+</span> <span class='va'>within</span><span class='op'>)</span>,
+  near <span class='op'>=</span> <span class='fl'>0</span>,
+  within <span class='op'>=</span> <span class='cn'>Inf</span>,
+  nearest <span class='op'>=</span> <span class='fl'>10</span>,
+  npts <span class='op'>=</span> <span class='fl'>1000</span>,
+  iterate <span class='op'>=</span> <span class='fl'>1</span>,
+  sortBy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"byx"</span>, <span class='st'>"byy"</span>, <span class='st'>"radial"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for formula</span>
-<span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span>(
-  <span class='no'>form</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>near</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>within</span> <span class='kw'>=</span> <span class='fl'>Inf</span>,
-  <span class='kw'>nearest</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>npts</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>iterate</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>sortBy</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"byx"</span>, <span class='st'>"byy"</span>, <span class='st'>"radial"</span>)
-)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span><span class='op'>(</span>
+  <span class='va'>form</span>,
+  <span class='va'>...</span>,
+  near <span class='op'>=</span> <span class='fl'>0</span>,
+  within <span class='op'>=</span> <span class='cn'>Inf</span>,
+  nearest <span class='op'>=</span> <span class='fl'>10</span>,
+  npts <span class='op'>=</span> <span class='fl'>1000</span>,
+  iterate <span class='op'>=</span> <span class='fl'>1</span>,
+  sortBy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"byx"</span>, <span class='st'>"byy"</span>, <span class='st'>"radial"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -235,9 +235,14 @@ expression on the left side of the formula should result in values near zero.</p
 
     <p>Searches numerically using <code>uniroot</code>.</p>
 <p>Uses findZerosMult of findZeros to solve the given expression</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Daniel Kaplan (<a href='mailto:kaplan@macalester.edu'>kaplan@macalester.edu</a>)</p>
+<p>Cecylia Bocovich</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>findZeros</span>( <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='no'>t</span>) ~ <span class='no'>t</span>, <span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>10</span>,<span class='fl'>10</span>) )</div><div class='output co'>#&gt;          t
+    <pre class="examples"><div class='input'><span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>t</span>, xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt;          t
 #&gt; 1 -12.5664
 #&gt; 2  -9.4248
 #&gt; 3  -6.2832
@@ -247,7 +252,8 @@ expression on the left side of the formula should result in values near zero.</p
 #&gt; 7   6.2832
 #&gt; 8   9.4248
 #&gt; 9  12.5664</div><div class='input'><span class='co'># Can use tlim or t.lim instead of xlim if we prefer</span>
-<span class='fu'>findZeros</span>( <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='no'>t</span>) ~ <span class='no'>t</span>, <span class='kw'>tlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>10</span>,<span class='fl'>10</span>) )</div><div class='output co'>#&gt;          t
+<span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>t</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>t</span>, tlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt;          t
 #&gt; 1 -12.5664
 #&gt; 2  -9.4248
 #&gt; 3  -6.2832
@@ -256,7 +262,8 @@ expression on the left side of the formula should result in values near zero.</p
 #&gt; 6   3.1416
 #&gt; 7   6.2832
 #&gt; 8   9.4248
-#&gt; 9  12.5664</div><div class='input'><span class='fu'>findZeros</span>( <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='no'>theta</span>) ~ <span class='no'>theta</span>, <span class='kw'>near</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>nearest</span><span class='kw'>=</span><span class='fl'>20</span>)</div><div class='output co'>#&gt;       theta
+#&gt; 9  12.5664</div><div class='input'><span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>theta</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>theta</span>, near<span class='op'>=</span><span class='fl'>0</span>, nearest<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       theta
 #&gt; 1  -28.2743
 #&gt; 2  -25.1327
 #&gt; 3  -21.9912
@@ -275,25 +282,32 @@ expression on the left side of the formula should result in values near zero.</p
 #&gt; 16  18.8496
 #&gt; 17  21.9912
 #&gt; 18  25.1327
-#&gt; 19  28.2743</div><div class='input'><span class='fu'>findZeros</span>( <span class='no'>A</span>*<span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='fl'>2</span>*<span class='no'>pi</span>*<span class='no'>t</span>/<span class='no'>P</span>) ~ <span class='no'>t</span>, <span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>100</span>), <span class='kw'>P</span><span class='kw'>=</span><span class='fl'>50</span>, <span class='kw'>A</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;    t
+#&gt; 19  28.2743</div><div class='input'><span class='fu'>findZeros</span><span class='op'>(</span> <span class='va'>A</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>*</span><span class='va'>pi</span><span class='op'>*</span><span class='va'>t</span><span class='op'>/</span><span class='va'>P</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>t</span>, xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span><span class='op'>)</span>, P<span class='op'>=</span><span class='fl'>50</span>, A<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    t
 #&gt; 1  0
 #&gt; 2 25
 #&gt; 3 50
 #&gt; 4 75</div><div class='input'><span class='co'># Interval of a normal at half its maximum height.</span>
-<span class='fu'>findZeros</span>( <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>dnorm</a></span>(<span class='no'>x</span>,<span class='kw'>mean</span><span class='kw'>=</span><span class='fl'>0</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>10</span>) - <span class='fl'>0.5</span>*<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>dnorm</a></span>(<span class='fl'>0</span>,<span class='kw'>mean</span><span class='kw'>=</span><span class='fl'>0</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>10</span>) ~ <span class='no'>x</span> )</div><div class='output co'>#&gt;          x
+<span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>dnorm</a></span><span class='op'>(</span><span class='va'>x</span>,mean<span class='op'>=</span><span class='fl'>0</span>,sd<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>0.5</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>dnorm</a></span><span class='op'>(</span><span class='fl'>0</span>,mean<span class='op'>=</span><span class='fl'>0</span>,sd<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>x</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt;          x
 #&gt; 1 -11.7741
 #&gt; 2  11.7741</div><div class='input'><span class='co'># A pathological example</span>
 <span class='co'># There are no "neareset" zeros for this function.  Each iteration finds new zeros.</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) { <span class='kw'>if</span> (<span class='no'>x</span><span class='kw'>==</span><span class='fl'>0</span>) <span class='fl'>0</span> <span class='kw'>else</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span>(<span class='fl'>1</span>/<span class='no'>x</span>) }
-<span class='fu'>findZeros</span>( <span class='fu'>f</span>(<span class='no'>x</span>) ~ <span class='no'>x</span>, <span class='kw'>near</span><span class='kw'>=</span><span class='fl'>0</span> )</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='co'># Better to look nearer to 0</span>
-<span class='fu'>findZeros</span>( <span class='fu'>f</span>(<span class='no'>x</span>) ~ <span class='no'>x</span>, <span class='kw'>near</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>within</span><span class='kw'>=</span><span class='fl'>100</span> )</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='fu'>findZeros</span>( <span class='fu'>f</span>(<span class='no'>x</span>) ~ <span class='no'>x</span>, <span class='kw'>near</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>within</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>iterate</span><span class='kw'>=</span><span class='fl'>0</span> )</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='fu'>findZeros</span>( <span class='fu'>f</span>(<span class='no'>x</span>) ~ <span class='no'>x</span>, <span class='kw'>near</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>within</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>iterate</span><span class='kw'>=</span><span class='fl'>3</span> )</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='co'># Zeros in multiple dimensions (not run: these take a long time)</span>
+<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span> <span class='kw'>if</span> <span class='op'>(</span><span class='va'>x</span><span class='op'>==</span><span class='fl'>0</span><span class='op'>)</span> <span class='fl'>0</span> <span class='kw'>else</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>}</span>
+<span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'>f</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>x</span>, near<span class='op'>=</span><span class='fl'>0</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='co'># Better to look nearer to 0</span>
+<span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'>f</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>x</span>, near<span class='op'>=</span><span class='fl'>0</span>, within<span class='op'>=</span><span class='fl'>100</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'>f</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>x</span>, near<span class='op'>=</span><span class='fl'>0</span>, within<span class='op'>=</span><span class='fl'>100</span>, iterate<span class='op'>=</span><span class='fl'>0</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='fu'>findZeros</span><span class='op'>(</span> <span class='fu'>f</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>x</span>, near<span class='op'>=</span><span class='fl'>0</span>, within<span class='op'>=</span><span class='fl'>100</span>, iterate<span class='op'>=</span><span class='fl'>3</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in f(x): could not find function "f"</span></div><div class='input'><span class='co'># Zeros in multiple dimensions (not run: these take a long time)</span>
 <span class='co'># findZeros(x^2+y^2+z^2-5~x&amp;y&amp;z, nearest=3000, within = 5)</span>
 <span class='co'># findZeros(x*y+z^2~z&amp;y&amp;z, z+y~x&amp;y&amp;z, npts=10)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span>(<span class='fl'>3</span>*<span class='no'>x</span><span class='kw'>==</span><span class='fl'>3</span>~<span class='no'>x</span>)</div><div class='output co'>#&gt;   x
+<span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>*</span><span class='va'>x</span><span class='op'>==</span><span class='fl'>3</span><span class='op'>~</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   x
 #&gt; 1 1</div><div class='input'>
-# plot out sphere (not run)
-# sphere = solve(x^2+y^2+z^2==5~x&amp;y&amp;z, within=5, nearest=1000)
-# cloud(z~x+y, data=sphere)
+<span class='co'># plot out sphere (not run)</span>
+<span class='co'># sphere = solve(x^2+y^2+z^2==5~x&amp;y&amp;z, within=5, nearest=1000)</span>
+<span class='co'># cloud(z~x+y, data=sphere)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -310,7 +324,7 @@ expression on the left side of the formula should result in values near zero.</p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

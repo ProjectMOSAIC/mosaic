@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -117,7 +117,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -143,6 +143,16 @@
 <a href="#mosaic-development-version" class="anchor"></a>mosaic (development version)<small> Unreleased </small>
 </h1>
 </div>
+    <div id="mosaic-183" class="section level1">
+<h1 class="page-header" data-toc-text="1.8.3">
+<a href="#mosaic-183" class="anchor"></a>mosaic 1.8.3<small> Unreleased </small>
+</h1>
+<ul>
+<li>addressing CRAN issues with use of vdiffr and order()</li>
+<li>a couple small bug fixes</li>
+<li>introduction of a new function: compare()</li>
+</ul>
+</div>
     <div id="mosaic-180" class="section level1">
 <h1 class="page-header" data-toc-text="1.8.0">
 <a href="#mosaic-180" class="anchor"></a>mosaic 1.8.0<small> Unreleased </small>
@@ -160,8 +170,8 @@
 </h1>
 <ul>
 <li>Added <code>na.rm</code> argument to prop.test().</li>
-<li>Changed return type for <code><a href="../reference/pqrdata.html">qdata()</a></code> so that it is always a named vector.</li>
-<li>Changed return type for <code><a href="../reference/pqrdata.html">cdata()</a></code> so that is is always a data frame. Also changed names to “lo” and “hi”.</li>
+<li>Changed return type for <code><a href="../reference/qdata.html">qdata()</a></code> so that it is always a named vector.</li>
+<li>Changed return type for <code><a href="../reference/qdata.html">cdata()</a></code> so that is is always a data frame. Also changed names to “lo” and “hi”.</li>
 <li>Fixed bug in <code><a href="../reference/pdist.html">xpchisq()</a></code> caused by introducing explicit arguments and failing to retain <code>...</code>. (Issue <a href='https://github.com/ProjectMOSAIC/mosaic/issues/737'>#737</a>)</li>
 <li>Fixed bug in <code><a href="../reference/pdist.html">xpt()</a></code> caused by introducing explicit arguments and failing to handle missing <code>ncp</code> correctly. (Issue <a href='https://github.com/ProjectMOSAIC/mosaic/issues/736'>#736</a>)</li>
 </ul>
@@ -197,8 +207,8 @@
 <code><a href="../reference/mplot.html">mplot.lm()</a></code> now uses <code>ggrapel</code> to place labels and offers additional controls for the smooth curve that is overlaid. [gg version of plots only]</li>
 <li>viridis color palette used in some plots to improve readability for color-blind viewers.</li>
 <li>
-<code><a href="../reference/oddsRatio.html">orrr()</a></code>, <code><a href="../reference/oddsRatio.html">oddsRatio()</a></code>, and <code><a href="../reference/oddsRatio.html">relrisk()</a></code> now accept a 2x2 data frame to match claims in documentation.</li>
-<li>Support added for <code><a href="../reference/aggregating.html">cor(~y, ~x)</a></code>
+<code><a href="../reference/orrr.html">orrr()</a></code>, <code><a href="../reference/orrr.html">oddsRatio()</a></code>, and <code><a href="../reference/orrr.html">relrisk()</a></code> now accept a 2x2 data frame to match claims in documentation.</li>
+<li>Support added for <code><a href="../reference/mean_.html">cor(~y, ~x)</a></code>
 </li>
 <li>New website: <a href="http://www.mosaic-web.org/mosaic/" class="uri">http://www.mosaic-web.org/mosaic/</a>
 </li>
@@ -251,9 +261,9 @@
 <li>
 <code><a href="../reference/xpnorm.html">xpnorm()</a></code> and friends now use <code>ggplot2</code> and can return the plot object, if requested.</li>
 <li>
-<code><a href="../reference/ttest.html">t.test()</a></code> has been completely reimplemented. It no longer supports “bare variable mode”, but it is more similar to <code><a href="https://rdrr.io/r/stats/t.test.html">stats::t.test()</a></code> in some cases.</li>
+<code><a href="../reference/t_test.html">t.test()</a></code> has been completely reimplemented. It no longer supports “bare variable mode”, but it is more similar to <code><a href="https://rdrr.io/r/stats/t.test.html">stats::t.test()</a></code> in some cases.</li>
 <li>
-<code><a href="../reference/defunct.html">gwm()</a></code> has been removed since it no longer works with the current version of <code>dplyr</code>.<br>
+<code><a href="../reference/compareMean.html">gwm()</a></code> has been removed since it no longer works with the current version of <code>dplyr</code>.<br>
 We anticipate a better collection of modeling utilities in the forthcoming <code>mosaicModel</code> package.</li>
 <li>
 <code><a href="https://rdrr.io/pkg/mosaicCore/man/props.html">props()</a></code> and <code><a href="https://rdrr.io/pkg/mosaicCore/man/props.html">counts()</a></code> have been added. They are a bit like <code><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally()</a></code> but designed to play well with <code>df_stats()</code>. Currently the formula versions drop missing data, but that will likely be determined by a user-supplied option in the future.</li>
@@ -297,12 +307,12 @@ We anticipate a better collection of modeling utilities in the forthcoming <code
 <a href="#mosaic-0140" class="anchor"></a>mosaic 0.14.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>Aggregating functions (<code><a href="../reference/aggregating.html">favstats()</a></code>, <code><a href="../reference/aggregating.html">mean()</a></code>, <code><a href="../reference/aggregating.html">sd()</a></code>, etc.) now require that the first argument be a formula. This was always the preferred method, but some functions allowed bare variable names to be used instead. As a specific example, the following code now generates an error (unless there is another object named <code>age</code> in your environment).</li>
+<li>Aggregating functions (<code><a href="../reference/mean_.html">favstats()</a></code>, <code><a href="../reference/mean_.html">mean()</a></code>, <code><a href="../reference/mean_.html">sd()</a></code>, etc.) now require that the first argument be a formula. This was always the preferred method, but some functions allowed bare variable names to be used instead. As a specific example, the following code now generates an error (unless there is another object named <code>age</code> in your environment).</li>
 </ul>
-<pre><code><a href="../reference/aggregating.html">favstats(age, data = HELPrct)
+<pre><code><a href="../reference/mean_.html">favstats(age, data = HELPrct)
 ## Error in typeof(x) : object 'age' not found</a></code></pre>
 <p>Replace this with</p>
-<pre><code><a href="../reference/aggregating.html">favstats( ~ age, data = HELPrct)
+<pre><code><a href="../reference/mean_.html">favstats( ~ age, data = HELPrct)
 ##  min Q1 median Q3 max     mean       sd   n missing
 ##   19 30     35 40  60 35.65342 7.710266 453       0</a></code></pre>
 <ul>
@@ -310,7 +320,7 @@ We anticipate a better collection of modeling utilities in the forthcoming <code
 <li>A geom and stat have been added for creating average shifted histograms (ASH plots) using <code>ggplot2</code>.</li>
 <li>Improvements to <code><a href="../reference/mplot.html">mplot.data.frame()</a></code> allow it to work with an expression that evaluates to a data frame. ASH plots are now a choice for 1-variable plots.</li>
 <li>
-<code><a href="../reference/defunct.html">deltaMethod()</a></code> has been moved to a separate package (called <code>deltaMethod</code>) to reduce package dependencies</li>
+<code><a href="../reference/compareMean.html">deltaMethod()</a></code> has been moved to a separate package (called <code>deltaMethod</code>) to reduce package dependencies</li>
 <li>
 <code>cull_for_do.lm()</code> now returns a data frame instead of a vector. This makes it easier for <code><a href="../reference/do.html">do()</a></code> to bind things together by column name.</li>
 <li>
@@ -322,7 +332,7 @@ We anticipate a better collection of modeling utilities in the forthcoming <code
 <a href="#mosaic-0130" class="anchor"></a>mosaic 0.13.0<small> 2015-12-18 </small>
 </h1>
 <ul>
-<li>Arguments to <code><a href="../reference/pqrdata.html">cdata()</a></code>, <code><a href="../reference/pqrdata.html">ddata()</a></code>, <code><a href="../reference/pqrdata.html">pdata()</a></code>, <code><a href="../reference/pqrdata.html">qdata()</a></code> and <code><a href="../reference/pqrdata.html">rdata()</a></code> have been reordered so that the formula comes first.</li>
+<li>Arguments to <code><a href="../reference/qdata.html">cdata()</a></code>, <code><a href="../reference/qdata.html">ddata()</a></code>, <code><a href="../reference/qdata.html">pdata()</a></code>, <code><a href="../reference/qdata.html">qdata()</a></code> and <code><a href="../reference/qdata.html">rdata()</a></code> have been reordered so that the formula comes first.</li>
 <li>The print method for objects created by <code><a href="../reference/rflip.html">rflip()</a></code> has been improved.</li>
 <li>Bug fix in <code><a href="https://rdrr.io/pkg/mosaicCore/man/dfapply.html">dfapply()</a></code>, also default value for <code>select</code> changed to <code>TRUE</code>.</li>
 <li>Introduce <code><a href="https://rdrr.io/pkg/mosaicCore/man/inspect.html">inspect()</a></code>, which is primarily intended to give an over view of the variables in a data frame, but handles some additional objects as well.</li>
@@ -336,7 +346,7 @@ We anticipate a better collection of modeling utilities in the forthcoming <code
 <li>Aggregating functions now generate user friendly errors when the <code>data</code> argument is not an environment or data frame.</li>
 <li>We have fixed some bugs that arose in the “emergency” release of 0.11</li>
 <li>
-<code><a href="../reference/defunct.html">mm()</a></code> has been deprecated and replaced with <code><a href="../reference/defunct.html">gwm()</a></code> which does groupwise models where the response may be either categorical or quantitative.</li>
+<code><a href="../reference/compareMean.html">mm()</a></code> has been deprecated and replaced with <code><a href="../reference/compareMean.html">gwm()</a></code> which does groupwise models where the response may be either categorical or quantitative.</li>
 <li>Improvements have been made to <code><a href="../reference/plotModel.html">plotModel()</a></code>. This is likely still not the final version, but we are getting closer.</li>
 <li>Improvements have been made to naming in objects created with <code><a href="../reference/do.html">do()</a></code>.</li>
 <li>Dots in <code><a href="../reference/dotPlot.html">dotPlot()</a></code> are now the same size in all panels of multi-panel plots.</li>
@@ -350,7 +360,7 @@ We anticipate a better collection of modeling utilities in the forthcoming <code
 <code><a href="../reference/resample.html">resample()</a></code> can now do residual resampling from a linear model.</li>
 <li>Improvements have been made that make it easier to use <code><a href="../reference/do.html">do()</a></code> to create common bootstrap confidence intervals. In particular, <code><a href="../reference/confint.html">confint()</a></code> can now calculate three kinds of intervals in many common situations.</li>
 <li>
-<code><a href="../reference/defunct-fetch.html">fetchData()</a></code>, <code><a href="../reference/defunct-fetch.html">fetchGoogle()</a></code>, and <code><a href="../reference/defunct-fetch.html">fetchGapminder()</a></code> have been moved to a separate package, called <code>fetch()</code>.</li>
+<code><a href="../reference/fetchData.html">fetchData()</a></code>, <code><a href="../reference/fetchData.html">fetchGoogle()</a></code>, and <code><a href="../reference/fetchData.html">fetchGapminder()</a></code> have been moved to a separate package, called <code>fetch()</code>.</li>
 <li>
 <code><a href="../reference/plotModel.html">plotModel()</a></code> can be used to show data and model fits for a variety of models created with <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> or <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>.</li>
 </ul>
@@ -361,14 +371,14 @@ We anticipate a better collection of modeling utilities in the forthcoming <code
 </h1>
 <ul>
 <li>At the request of several users, and with CRAN’s approval, we have made <code>mosaicData</code> a dependency of <code>mosaic</code>. This avoids the problem of users forgetting to separately load the <code>mosaicData</code> package.</li>
-<li>We are planning to remove <code><a href="../reference/defunct-fetch.html">fetchGoogle()</a></code> (and perhaps <code><a href="../reference/read.file.html">read.file()</a></code>) from future versions of the package. More and more packages are providing utilities for bringing data into R and it doesn’t make sense for us to duplicate those efforts in this package. For google sheets, you might take a look at the <code>googlesheets</code> package which is available via github now and will be on CRAN soon.</li>
-<li>Improved output to <code><a href="../reference/binom.test.html">binom.test()</a></code>, <code><a href="../reference/prop.test.html">prop.test()</a></code>, and <code><a href="../reference/ttest.html">t.test()</a></code>, which have also undergone some internal restructuring. The objects returned now do a better job of reporting about the test conducted. In particular, <code><a href="../reference/binom.test.html">binom.test()</a></code> and <code><a href="../reference/prop.test.html">prop.test()</a></code> will report the value of <code>success</code> used.(<a href='https://github.com/ProjectMOSAIC/mosaic/issues/450'>#450</a>, <a href='https://github.com/ProjectMOSAIC/mosaic/issues/455'>#455</a>)</li>
+<li>We are planning to remove <code><a href="../reference/fetchData.html">fetchGoogle()</a></code> (and perhaps <code><a href="../reference/read.file.html">read.file()</a></code>) from future versions of the package. More and more packages are providing utilities for bringing data into R and it doesn’t make sense for us to duplicate those efforts in this package. For google sheets, you might take a look at the <code>googlesheets</code> package which is available via github now and will be on CRAN soon.</li>
+<li>Improved output to <code><a href="../reference/binom.test.html">binom.test()</a></code>, <code><a href="../reference/prop.test.html">prop.test()</a></code>, and <code><a href="../reference/t_test.html">t.test()</a></code>, which have also undergone some internal restructuring. The objects returned now do a better job of reporting about the test conducted. In particular, <code><a href="../reference/binom.test.html">binom.test()</a></code> and <code><a href="../reference/prop.test.html">prop.test()</a></code> will report the value of <code>success</code> used.(<a href='https://github.com/ProjectMOSAIC/mosaic/issues/450'>#450</a>, <a href='https://github.com/ProjectMOSAIC/mosaic/issues/455'>#455</a>)</li>
 <li>
 <code><a href="../reference/binom.test.html">binom.test()</a></code> can now compute several different kinds of confidence intervals including the Wald, Plus-4 and Agresti-Coull intervals. (<a href='https://github.com/ProjectMOSAIC/mosaic/issues/449'>#449</a>)</li>
 <li>
 <code><a href="../reference/derivedVariable.html">derivedFactor()</a></code> now handles NAs without throwing a warning. (<a href='https://github.com/ProjectMOSAIC/mosaic/issues/451'>#451</a>)</li>
 <li>Improved <code><a href="../reference/pdist.html">pdist()</a></code>, <code><a href="../reference/pdist.html">pdist()</a></code> and related functions now do a better (i.e., useful) job with discrete distributions (<a href='https://github.com/ProjectMOSAIC/mosaic/issues/417'>#417</a>)</li>
-<li>Bug fixes in several functions that use non-standard evaluation improve their robustness and scope. This affects <code><a href="../reference/ttest.html">t.test()</a></code> and all the “aggregating” functions like <code><a href="../reference/aggregating.html">mean()</a></code> and <code><a href="../reference/aggregating.html">favstats()</a></code>. In particular, it is now possible to reference variables both in the <code>data</code> argument and in the calling environment. (<a href='https://github.com/ProjectMOSAIC/mosaic/issues/435'>#435</a>)</li>
+<li>Bug fixes in several functions that use non-standard evaluation improve their robustness and scope. This affects <code><a href="../reference/t_test.html">t.test()</a></code> and all the “aggregating” functions like <code><a href="../reference/mean_.html">mean()</a></code> and <code><a href="../reference/mean_.html">favstats()</a></code>. In particular, it is now possible to reference variables both in the <code>data</code> argument and in the calling environment. (<a href='https://github.com/ProjectMOSAIC/mosaic/issues/435'>#435</a>)</li>
 <li>
 <code><a href="../reference/CIAdata.html">CIAdata()</a></code> now provides a message indicating the source URL for the data retrieved (<a href='https://github.com/ProjectMOSAIC/mosaic/issues/444'>#444</a>)</li>
 <li>Bug fixes to <code><a href="../reference/CIAdata.html">CIAdata()</a></code> that seem to be related to a changed in file format at the CIA World Factbook website. The “inflation” data set is still broken (on the CIA website). (<a href='https://github.com/ProjectMOSAIC/mosaic/issues/441'>#441</a>)</li>
@@ -397,7 +407,7 @@ We anticipate a better collection of modeling utilities in the forthcoming <code
 <li>implementation of <code>add=TRUE</code> improved for <code><a href="../reference/plotDist.html">plotDist()</a></code>.</li>
 <li>Added <code><a href="../reference/swap.html">swap()</a></code> which is useful for creating randomization distributions for paired designs. The current implementation is a bit slow.<br>
 We will improve that by implementing part of the code in C++.</li>
-<li>Some additional functions are now formula-aware: <code><a href="../reference/MAD.html">MAD()</a></code>, <code><a href="../reference/MAD.html">SAD()</a></code>, and <code><a href="../reference/aggregating.html">quantile()</a></code>.</li>
+<li>Some additional functions are now formula-aware: <code><a href="../reference/MAD.html">MAD()</a></code>, <code><a href="../reference/MAD.html">SAD()</a></code>, and <code><a href="../reference/mean_.html">quantile()</a></code>.</li>
 <li>
 <code><a href="../reference/docFile.html">docFile()</a></code> introduced to simplify accessing files included with package documentation. <code><a href="../reference/read.file.html">read.file()</a></code> enhanced to take a package as an argument and look among package documentation files.</li>
 <li>
@@ -422,7 +432,7 @@ The other vignette illustrates many of the plotting features added by the <code>
 <li>
 <code><a href="../reference/plotFun.html">plotFun()</a></code> has been improved so that it does a better job of selecting points where the function is evaluated and no longer warns about <code>NaN</code>s encountered while exploring the domain of the function.</li>
 <li>
-<code><a href="../reference/oddsRatio.html">oddsRatio()</a></code> has been redesigned and <code><a href="../reference/oddsRatio.html">relrisk()</a></code> has been added. Use their <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> methods or <code>verbose=TRUE</code> to see more information (including confidence intervals).</li>
+<code><a href="../reference/orrr.html">oddsRatio()</a></code> has been redesigned and <code><a href="../reference/orrr.html">relrisk()</a></code> has been added. Use their <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> methods or <code>verbose=TRUE</code> to see more information (including confidence intervals).</li>
 <li>Added <code>Birthdays</code> data set.</li>
 </ul>
 </div>
@@ -456,31 +466,31 @@ It was deprecated in version 0.5. Use <code>HELPrct</code> instead.</li>
 <code><a href="../reference/plotDist.html">plotDist()</a></code> now accepts <code>add=TRUE</code> and <code>under=TRUE</code>, making it easy to add plots of distributions over (or under) plots of data (e.g., histograms, densityplots, etc.) or other distributions.</li>
 <li>Plotting functions with with the option <code>add=TRUE</code> have been reimplemented using <code>layer</code> from <code>latticeExtra</code>. See documentation of these functions for details.</li>
 <li>
-<code><a href="../reference/ladd.html">ladd()</a></code> has been completely reimplemented using <code>layer()</code> from <code>latticeExtra</code>. See documentation of <code><a href="../reference/ladd.html">ladd()</a></code> for details, including some behavior changes.</li>
-<li>aggregating functions (<code><a href="../reference/aggregating.html">mean()</a></code>, <code><a href="../reference/aggregating.html">sd()</a></code>, <code><a href="../reference/aggregating.html">var()</a></code>, <em>et al</em>) now use <code>getOptions("na.rm")</code> to determine the default value of <code>na.rm</code>. Use <code><a href="https://rdrr.io/r/base/options.html">options(na.rm=TRUE)</a></code> to change the default behavior to remove <code>NA</code>s and options(na.rm=NULL) to restore defaults.</li>
+<code><a href="../reference/ladd.html">ladd()</a></code> has been completely reimplemented using <code><a href="https://ggplot2.tidyverse.org/reference/layer.html">layer()</a></code> from <code>latticeExtra</code>. See documentation of <code><a href="../reference/ladd.html">ladd()</a></code> for details, including some behavior changes.</li>
+<li>aggregating functions (<code><a href="../reference/mean_.html">mean()</a></code>, <code><a href="../reference/mean_.html">sd()</a></code>, <code><a href="../reference/mean_.html">var()</a></code>, <em>et al</em>) now use <code>getOptions("na.rm")</code> to determine the default value of <code>na.rm</code>. Use <code><a href="https://rdrr.io/r/base/options.html">options(na.rm=TRUE)</a></code> to change the default behavior to remove <code>NA</code>s and options(na.rm=NULL) to restore defaults.</li>
 <li>
 <code><a href="../reference/do.html">do()</a></code> has been largely rewritten with an eye toward improved efficiency. In particular, <code><a href="../reference/do.html">do()</a></code> will take advantage of multiple cores if the <code>parallel</code> package is available. At this point, sluggishness in applications of <code><a href="../reference/do.html">do()</a></code> are mostly likely due to the sluggishness of what is being done, not to <code><a href="../reference/do.html">do()</a></code> itself.</li>
-<li>Added an additional method to <code><a href="../reference/defunct.html">deltaMethod()</a></code> from the <code>car</code> package to make it easier to propagate uncertainty in some situations that commonly arise in the physical sciences and engineering.</li>
+<li>Added an additional method to <code><a href="../reference/compareMean.html">deltaMethod()</a></code> from the <code>car</code> package to make it easier to propagate uncertainty in some situations that commonly arise in the physical sciences and engineering.</li>
 <li>Added <code><a href="../reference/cdist.html">cdist()</a></code> to compute critical values for the central portion of a distribution.</li>
-<li>Some changes to the API for <code><a href="../reference/pqrdata.html">qdata()</a></code>. For interactive use, this should not cause any problems, but old programmatic uses of <code><a href="../reference/pqrdata.html">qdata()</a></code> should be checked as the object returned is now different.</li>
-<li>Fixed a bug that caused aggregating functions (<code><a href="../reference/aggregating.html">sum()</a></code>, <code><a href="../reference/aggregating.html">mean()</a></code>, <code><a href="../reference/aggregating.html">sd()</a></code>, etc.) to produce counter-intuitive results (but with a warning). The results are now what one would expect (and the warning is removed).</li>
-<li>Added <code><a href="../reference/rsquared.html">rsquared()</a></code> for extracting r-squared from models and model-like objects (<code><a href="../reference/defunct.html">r.squared()</a></code> has been deprecated).</li>
+<li>Some changes to the API for <code><a href="../reference/qdata.html">qdata()</a></code>. For interactive use, this should not cause any problems, but old programmatic uses of <code><a href="../reference/qdata.html">qdata()</a></code> should be checked as the object returned is now different.</li>
+<li>Fixed a bug that caused aggregating functions (<code><a href="../reference/mean_.html">sum()</a></code>, <code><a href="../reference/mean_.html">mean()</a></code>, <code><a href="../reference/mean_.html">sd()</a></code>, etc.) to produce counter-intuitive results (but with a warning). The results are now what one would expect (and the warning is removed).</li>
+<li>Added <code><a href="../reference/rsquared.html">rsquared()</a></code> for extracting r-squared from models and model-like objects (<code><a href="../reference/compareMean.html">r.squared()</a></code> has been deprecated).</li>
 <li>
 <code><a href="../reference/do.html">do()</a></code> now handles ANOVA-like objects better</li>
 <li>
-<code><a href="../reference/aggregatingAux.html">maggregate()</a></code> is now built on some improved behind the scenes functions. Among other features, the <code>groups</code> argument is now incorporated as an alternative method of specifying the groups to aggregate over and the <code>method</code> argument can be set to <code>"ddply"</code> to use <code>ddply()</code> from the <code>plyr</code> package for aggregation. This results in a different output format that may be desired in some applications. \item The <code><a href="../reference/pqrdata.html">cdata()</a></code>, <code><a href="../reference/pqrdata.html">pdata()</a></code> and <code><a href="../reference/pqrdata.html">qdata()</a></code> functions have been largely rewritten. In addition, <code><a href="../reference/pqrdata2.html">cdata_f()</a></code>, <code><a href="../reference/pqrdata2.html">pdata_f()</a></code> and <code><a href="../reference/pqrdata2.html">qdata_f()</a></code> are provided which produce similar results but have a formula in the first argument slot.</li>
+<code><a href="../reference/maggregate.html">maggregate()</a></code> is now built on some improved behind the scenes functions. Among other features, the <code>groups</code> argument is now incorporated as an alternative method of specifying the groups to aggregate over and the <code>method</code> argument can be set to <code>"ddply"</code> to use <code>ddply()</code> from the <code>plyr</code> package for aggregation. This results in a different output format that may be desired in some applications. \item The <code><a href="../reference/qdata.html">cdata()</a></code>, <code><a href="../reference/qdata.html">pdata()</a></code> and <code><a href="../reference/qdata.html">qdata()</a></code> functions have been largely rewritten. In addition, <code><a href="../reference/qdata_v.html">cdata_f()</a></code>, <code><a href="../reference/qdata_v.html">pdata_f()</a></code> and <code><a href="../reference/qdata_v.html">qdata_f()</a></code> are provided which produce similar results but have a formula in the first argument slot.</li>
 <li>Fixed bug in vignette generation. Static PDFs are now installed in <code>doc/</code> and so are available from within the package as well as via links to external files.</li>
-<li>Added <code><a href="../reference/defunct-fetch.html">fetchGapminder()</a></code> for fetching data sets originally from Gapminder.</li>
-<li>Added <code><a href="../reference/pqrdata.html">cdata()</a></code> for finding end points of a central portion of a variable.</li>
-<li>Name changes in functions like <code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop()</a></code> to avoid internal <code>:</code> which makes downstream processing messier.</li>
-<li>Improved detection of the availability of <code>manipulate()</code> (RStudio)</li>
-<li>Surface plots produced by <code><a href="../reference/plotFun.html">plotFun()</a></code> can be used without <code>manipulate()</code>. This makes it possible to put surface plots into RMarkdown or Rnw files or to generate them outside of RStudio.</li>
+<li>Added <code><a href="../reference/fetchData.html">fetchGapminder()</a></code> for fetching data sets originally from Gapminder.</li>
+<li>Added <code><a href="../reference/qdata.html">cdata()</a></code> for finding end points of a central portion of a variable.</li>
+<li>Name changes in functions like <code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop()</a></code> to avoid internal <code><a href="https://rdrr.io/r/base/Colon.html">:</a></code> which makes downstream processing messier.</li>
+<li>Improved detection of the availability of <code><a href="https://rdrr.io/pkg/manipulate/man/manipulate.html">manipulate()</a></code> (RStudio)</li>
+<li>Surface plots produced by <code><a href="../reference/plotFun.html">plotFun()</a></code> can be used without <code><a href="https://rdrr.io/pkg/manipulate/man/manipulate.html">manipulate()</a></code>. This makes it possible to put surface plots into RMarkdown or Rnw files or to generate them outside of RStudio.</li>
 <li>
 <code>do() * rflip()</code> now records proportion heads as well as counts of heads and tails.</li>
 <li>Added functions <code><a href="../reference/mosaic.options.html">mosaicLatticeOptions()</a></code> and <code><a href="../reference/mosaic.options.html">restoreLatticeOptions()</a></code> to switch back and forth between <code>lattice</code> defaults and <code>mosaic</code> defaults.</li>
 <li>
 <code><a href="../reference/dotPlot.html">dotPlot()</a></code> uses a different algorithm to determine dot sizes. (Still not perfect, but <code>cex</code> can be used to further scale the dots.)</li>
-<li>adjustments to <code><a href="../reference/xhistogram.html">histogram()</a></code> so that <code>nint</code> matches the number of bins used more accurately.</li>
+<li>adjustments to <code><a href="../reference/xhistogramBreaks.html">histogram()</a></code> so that <code>nint</code> matches the number of bins used more accurately.</li>
 <li>fixed coding error in the HELP datasets so that <code>i2</code>: max number of drinks is at least as large as <code>i1</code>: the average number of drinks.</li>
 <li>removed the deprecated HELP dataset (now called HELPrct)</li>
 <li>Various minor bug fixes and internal improvements.</li>
@@ -492,19 +502,19 @@ It was deprecated in version 0.5. Use <code>HELPrct</code> instead.</li>
 </h1>
 <ul>
 <li>Various improvements and bug fixes to <code><a href="https://rdrr.io/r/stats/deriv.html">D()</a></code> and <code>antiD()</code>.</li>
-<li>In RStudio, <code><a href="../reference/mPlotting.html">mPlot()</a></code> provides an interactive environment for creating <code>lattice</code> and <code>ggplot2</code> plots.</li>
+<li>In RStudio, <code><a href="../reference/mPlot.html">mPlot()</a></code> provides an interactive environment for creating <code>lattice</code> and <code>ggplot2</code> plots.</li>
 <li>Some support for producing maps has been introduced, notably <code><a href="../reference/sp2df.html">sp2df()</a></code> for converting SpatialPolygonDataFrames to regular data frames (which is useful for plotting with <code>ggplot2</code>, for example). Also the <code>Countries</code> data frame facilitates mapping country names among different sources of map data.</li>
 <li>Data frames returned by <code><a href="../reference/do.html">do()</a></code> are now marked as such so that <code><a href="../reference/confint.html">confint()</a></code> can behave differently for such data frames and for “regular” data frames.</li>
 <li>
-<code><a href="../reference/ttest.html">t.test()</a></code> can now do 1-sample t-test described using a formula.</li>
-<li>Aggregating functions (e.g. <code><a href="../reference/aggregating.html">mean()</a></code>, <code><a href="../reference/aggregating.html">var()</a></code>, etc. using a formula interface) have been completely reimplemented and additional aggregating functions are provided.</li>
+<code><a href="../reference/t_test.html">t.test()</a></code> can now do 1-sample t-test described using a formula.</li>
+<li>Aggregating functions (e.g. <code><a href="../reference/mean_.html">mean()</a></code>, <code><a href="../reference/mean_.html">var()</a></code>, etc. using a formula interface) have been completely reimplemented and additional aggregating functions are provided.</li>
 <li>An <code><a href="../reference/ntiles.html">ntiles()</a></code> function has been added to facilitate creating factors based on quantile ranges.</li>
 <li>Changes in format to <code>RailTrail</code> dataset.</li>
 <li>Minor changes in documentation.</li>
 <li>Added vignettes: Starting with R and A Compendium of Commands to Teach Statistics.</li>
 <li>Plan to deprecate datasets from the Carnegie Melon University Online Learning Initiative Statistics Modules in next release.</li>
 <li>
-<code><a href="../reference/defunct.html">xhistogram()</a></code> is now deprecated. Use <code><a href="../reference/xhistogram.html">histogram()</a></code> instead.</li>
+<code><a href="../reference/compareMean.html">xhistogram()</a></code> is now deprecated. Use <code><a href="../reference/xhistogramBreaks.html">histogram()</a></code> instead.</li>
 </ul>
 </div>
     <div id="mosaic-060" class="section level1">
@@ -514,15 +524,15 @@ It was deprecated in version 0.5. Use <code>HELPrct</code> instead.</li>
 <ul>
 <li>Added vignette: Minimal R for Intro Stats.</li>
 <li>Implemented symbolic integration for simple functions.</li>
-<li>Aggregating functions (<code><a href="../reference/aggregating.html">mean()</a></code>, <code><a href="../reference/aggregating.html">max()</a></code>, <code><a href="../reference/aggregating.html">median()</a></code>, <code><a href="../reference/aggregating.html">var()</a></code>, etc.) now use <code><a href="https://rdrr.io/r/base/options.html">getOption('na.rm')</a></code> to determine default behavior.</li>
-<li>Various bug fixes in <code><a href="../reference/aggregating.html">var()</a></code> allow it to work in a wider range of situations.</li>
+<li>Aggregating functions (<code><a href="../reference/mean_.html">mean()</a></code>, <code><a href="../reference/mean_.html">max()</a></code>, <code><a href="../reference/mean_.html">median()</a></code>, <code><a href="../reference/mean_.html">var()</a></code>, etc.) now use <code><a href="https://rdrr.io/r/base/options.html">getOption('na.rm')</a></code> to determine default behavior.</li>
+<li>Various bug fixes in <code><a href="../reference/mean_.html">var()</a></code> allow it to work in a wider range of situations.</li>
 <li>Augmented <code><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD()</a></code> so that explicit use of <code><a href="https://rdrr.io/r/stats/aov.html">aov()</a></code> is no longer required</li>
 <li>Added <code><a href="../reference/panel.lmbands.html">panel.lmbands()</a></code> for plotting confidence and prediction bands in linear regression</li>
 <li>Some data cleaning in the Carnegie Melon University Online Learning Initiative Statistics Modules. In particular the name collision with <code>Animals</code> from <code>MASS</code> has been removed by renaming the data set <code>GestationLongevity</code>.</li>
 <li>Added <code><a href="../reference/freqpolygon.html">freqpolygon()</a></code> for making frequency polygons.</li>
-<li>Added <code><a href="../reference/defunct.html">r.squared()</a></code> for extracting r-squared from models and model-like objects.</li>
+<li>Added <code><a href="../reference/compareMean.html">r.squared()</a></code> for extracting r-squared from models and model-like objects.</li>
 <li>Modified names of data frame produced by <code><a href="../reference/do.html">do()</a></code> so that hyphens (‘-’) are turned into dots (‘.’)</li>
-<li>Improvements to <code><a href="../reference/defunct-fetch.html">fetchData()</a></code>.</li>
+<li>Improvements to <code><a href="../reference/fetchData.html">fetchData()</a></code>.</li>
 </ul>
 </div>
     <div id="mosaic-050" class="section level1">
@@ -576,7 +586,7 @@ It was deprecated in version 0.5. Use <code>HELPrct</code> instead.</li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

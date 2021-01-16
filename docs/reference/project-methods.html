@@ -73,7 +73,7 @@ vector lengths in Euclidean space." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ vector lengths in Euclidean space." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,7 +119,7 @@ vector lengths in Euclidean space." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ProjectMOSAIC/mosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,20 +146,20 @@ vector lengths in Euclidean space." />
 vector lengths in Euclidean space.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>project</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>project</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for formula</span>
-<span class='fu'>project</span>(<span class='no'>x</span>, <span class='kw'>u</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>(<span class='fl'>2</span>), <span class='kw'>coefficients</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+<span class='fu'>project</span><span class='op'>(</span><span class='va'>x</span>, u <span class='op'>=</span> <span class='cn'>NULL</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>, coefficients <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for numeric</span>
-<span class='fu'>project</span>(<span class='no'>x</span>, <span class='kw'>u</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>)), <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"vector"</span>, <span class='st'>"length"</span>, <span class='st'>"coef"</span>), <span class='no'>...</span>)
+<span class='fu'>project</span><span class='op'>(</span><span class='va'>x</span>, u <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"vector"</span>, <span class='st'>"length"</span>, <span class='st'>"coef"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for matrix</span>
-<span class='fu'>project</span>(<span class='no'>x</span>, <span class='no'>u</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span>())
+<span class='fu'>project</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>u</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>vlength</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>vlength</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>dot</span>(<span class='no'>u</span>, <span class='no'>v</span>)</pre>
+<span class='fu'>dot</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -224,30 +224,46 @@ you want an intercept vector, include <code>+1</code> in your formula.</p>
     <div class='dont-index'><p><code>link{project}</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span>); <span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>); <span class='no'>y1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>); <span class='no'>y2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>3</span>)
+    <pre class="examples"><div class='input'><span class='va'>x1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>; <span class='va'>x2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span><span class='op'>)</span>; <span class='va'>y1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span><span class='op'>)</span>; <span class='va'>y2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
 <span class='co'># projection onto the 1 vector gives the mean vector</span>
-<span class='fu'><a href='aggregating.html'>mean</a></span>(<span class='no'>y2</span>)</div><div class='output co'>#&gt; [1] -0.2657772</div><div class='input'><span class='fu'>project</span>(<span class='no'>y2</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] -0.2657772 -0.2657772 -0.2657772</div><div class='input'><span class='co'># return the length of the vector, rather than the vector itself</span>
-<span class='fu'>project</span>(<span class='no'>y2</span>, <span class='fl'>1</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'length'</span>)</div><div class='output co'>#&gt; [1] 0.4603395</div><div class='input'><span class='fu'>project</span>(<span class='no'>y1</span> ~ <span class='no'>x1</span> + <span class='no'>x2</span>) <span class='kw'>-&gt;</span> <span class='no'>pr</span>; <span class='no'>pr</span></div><div class='output co'>#&gt;       x1       x2 
+<span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span><span class='va'>y2</span><span class='op'>)</span>            
+</div><div class='output co'>#&gt; [1] -0.2657772</div><div class='input'><span class='fu'>project</span><span class='op'>(</span><span class='va'>y2</span>, <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] -0.2657772 -0.2657772 -0.2657772</div><div class='input'><span class='co'># return the length of the vector, rather than the vector itself</span>
+<span class='fu'>project</span><span class='op'>(</span><span class='va'>y2</span>, <span class='fl'>1</span>, type<span class='op'>=</span><span class='st'>'length'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.4603395</div><div class='input'><span class='fu'>project</span><span class='op'>(</span><span class='va'>y1</span> <span class='op'>~</span> <span class='va'>x1</span> <span class='op'>+</span> <span class='va'>x2</span><span class='op'>)</span> <span class='op'>-&gt;</span> <span class='va'>pr</span>; <span class='va'>pr</span>
+</div><div class='output co'>#&gt;       x1       x2 
 #&gt; 1.230769 1.769231 </div><div class='input'><span class='co'># recover the projected vector </span>
-<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>x1</span>,<span class='no'>x2</span>) <span class='kw'>%*%</span> <span class='no'>pr</span> <span class='kw'>-&gt;</span> <span class='no'>v</span>; <span class='no'>v</span></div><div class='output co'>#&gt;          [,1]
+<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>x1</span>,<span class='va'>x2</span><span class='op'>)</span> <span class='op'>%*%</span> <span class='va'>pr</span> <span class='op'>-&gt;</span> <span class='va'>v</span>; <span class='va'>v</span>
+</div><div class='output co'>#&gt;          [,1]
 #&gt; [1,] 3.000000
 #&gt; [2,] 3.538462
-#&gt; [3,] 5.307692</div><div class='input'><span class='fu'>project</span>( <span class='no'>y1</span> ~ <span class='no'>x1</span> + <span class='no'>x2</span>, <span class='kw'>coefficients</span><span class='kw'>=</span><span class='fl'>FALSE</span> )</div><div class='output co'>#&gt; [1] 3.000000 3.538462 5.307692</div><div class='input'><span class='fu'>dot</span>( <span class='no'>y1</span> - <span class='no'>v</span>, <span class='no'>v</span> ) <span class='co'># left over should be orthogonal to projection, so this should be ~ 0</span></div><div class='output co'>#&gt; [1] 1.84297e-14</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='fu'>project</span>(<span class='no'>width</span>~<span class='no'>length</span>+<span class='no'>sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet</span>)
-}</div><div class='output co'>#&gt;   length     sexB     sexG 
-#&gt; 0.221025 3.641168 3.408651 </div><div class='input'><span class='fu'>vlength</span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fl'>4</span>))</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>mosaicData</span>)) {
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>( <span class='no'>length</span> ~ <span class='no'>width</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>KidsFeet</span> )
+#&gt; [3,] 5.307692</div><div class='input'><span class='fu'>project</span><span class='op'>(</span> <span class='va'>y1</span> <span class='op'>~</span> <span class='va'>x1</span> <span class='op'>+</span> <span class='va'>x2</span>, coefficients<span class='op'>=</span><span class='cn'>FALSE</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3.000000 3.538462 5.307692</div><div class='input'><span class='fu'>dot</span><span class='op'>(</span> <span class='va'>y1</span> <span class='op'>-</span> <span class='va'>v</span>, <span class='va'>v</span> <span class='op'>)</span> <span class='co'># left over should be orthogonal to projection, so this should be ~ 0</span>
+</div><div class='output co'>#&gt; [1] 1.84297e-14</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>project</span><span class='op'>(</span><span class='va'>width</span><span class='op'>~</span><span class='va'>length</span><span class='op'>+</span><span class='va'>sex</span>, data<span class='op'>=</span><span class='va'>KidsFeet</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;   length     sexB     sexG 
+#&gt; 0.221025 3.641168 3.408651 </div><div class='input'><span class='fu'>vlength</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ProjectMOSAIC/mosaicData'>mosaicData</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span> <span class='va'>length</span> <span class='op'>~</span> <span class='va'>width</span>, data<span class='op'>=</span><span class='va'>KidsFeet</span> <span class='op'>)</span>
 <span class='co'># These should be the same</span>
-<span class='fu'>vlength</span>( <span class='no'>m</span>$<span class='no'>effects</span> )
-<span class='fu'>vlength</span>( <span class='no'>KidsFeet</span>$<span class='no'>length</span>)
+<span class='fu'>vlength</span><span class='op'>(</span> <span class='va'>m</span><span class='op'>$</span><span class='va'>effects</span> <span class='op'>)</span>  
+<span class='fu'>vlength</span><span class='op'>(</span> <span class='va'>KidsFeet</span><span class='op'>$</span><span class='va'>length</span><span class='op'>)</span>
 <span class='co'># So should these</span>
-<span class='fu'>vlength</span>( <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>m</span>$<span class='no'>effects</span>, -<span class='fl'>2</span>) )
-<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='aggregating.html'>sum</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>resid</a></span>(<span class='no'>m</span>)^<span class='fl'>2</span>))
-}</div><div class='output co'>#&gt; [1] 6.233426</div><div class='input'><span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>); <span class='no'>w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>)
-<span class='no'>u</span> <span class='kw'>&lt;-</span> <span class='no'>v</span> / <span class='fu'>vlength</span>(<span class='no'>v</span>)  <span class='co'># make a unit vector</span>
+<span class='fu'>vlength</span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>$</span><span class='va'>effects</span>, <span class='op'>-</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'><a href='mean_.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>resid</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] 6.233426</div><div class='input'><span class='va'>v</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>; <span class='va'>w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>u</span> <span class='op'>&lt;-</span> <span class='va'>v</span> <span class='op'>/</span> <span class='fu'>vlength</span><span class='op'>(</span><span class='va'>v</span><span class='op'>)</span>  <span class='co'># make a unit vector</span>
 <span class='co'># The following should be the same:</span>
-<span class='fu'>project</span>(<span class='no'>w</span>,<span class='no'>v</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"coef"</span>) * <span class='no'>v</span></div><div class='output co'>#&gt; [1] 2 2 2</div><div class='input'><span class='fu'>project</span>(<span class='no'>w</span>,<span class='no'>v</span>)</div><div class='output co'>#&gt; [1] 2 2 2</div><div class='input'><span class='co'># The following are equivalent</span>
-<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'>dot</span>( <span class='no'>w</span>, <span class='no'>u</span> ))</div><div class='output co'>#&gt; [1] 3.464102</div><div class='input'><span class='fu'>vlength</span>( <span class='fu'>project</span>( <span class='no'>w</span>, <span class='no'>u</span>) )</div><div class='output co'>#&gt; [1] 3.464102</div><div class='input'><span class='fu'>vlength</span>( <span class='fu'>project</span>( <span class='no'>w</span>, <span class='no'>v</span>) )</div><div class='output co'>#&gt; [1] 3.464102</div><div class='input'><span class='fu'>project</span>( <span class='no'>w</span>, <span class='no'>v</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>'length'</span> )</div><div class='output co'>#&gt; [1] 3.464102</div></pre>
+<span class='fu'>project</span><span class='op'>(</span><span class='va'>w</span>,<span class='va'>v</span>, type<span class='op'>=</span><span class='st'>"coef"</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>v</span> 
+</div><div class='output co'>#&gt; [1] 2 2 2</div><div class='input'><span class='fu'>project</span><span class='op'>(</span><span class='va'>w</span>,<span class='va'>v</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2 2 2</div><div class='input'><span class='co'># The following are equivalent</span>
+<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'>dot</span><span class='op'>(</span> <span class='va'>w</span>, <span class='va'>u</span> <span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3.464102</div><div class='input'><span class='fu'>vlength</span><span class='op'>(</span> <span class='fu'>project</span><span class='op'>(</span> <span class='va'>w</span>, <span class='va'>u</span><span class='op'>)</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3.464102</div><div class='input'><span class='fu'>vlength</span><span class='op'>(</span> <span class='fu'>project</span><span class='op'>(</span> <span class='va'>w</span>, <span class='va'>v</span><span class='op'>)</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3.464102</div><div class='input'><span class='fu'>project</span><span class='op'>(</span> <span class='va'>w</span>, <span class='va'>v</span>, type<span class='op'>=</span><span class='st'>'length'</span> <span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 3.464102</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -263,7 +279,7 @@ you want an intercept vector, include <code>+1</code> in your formula.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
