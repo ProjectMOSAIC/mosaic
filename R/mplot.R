@@ -323,7 +323,7 @@ mplot.lm <-
     geom_hline(linetype = 2, size = .2, yintercept = 0) +
     labs(title = "Residuals vs Leverage",
          x     = "Leverage",
-         y     = "Standardized Residuals") +
+         y     = "Standardized Residual") +
     lims(x = c(0, NA))
   
   l5 <- do.call( xyplot, 
