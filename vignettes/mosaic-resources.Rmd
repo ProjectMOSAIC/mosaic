@@ -20,7 +20,7 @@ statistics with a focus on modeling and computation.
 The `mosaic` package includes a number of vignettes. These are available 
 from within R, from 
 [cran.r-project.org/package=mosaic](https://cran.r-project.org/package=mosaic),
-or from [projectmosaic.github.io/mosaic/](https://projectmosaic.github.io/mosaic/).
+or from [www.mosaic-web.org/mosaic/](https://www.mosaic-web.org/mosaic/).
 
  * *Minimal R* describes a minimal set of R commands for use in 
 	Introductory Statistics and discusses why it is important

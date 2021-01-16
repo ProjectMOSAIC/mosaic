@@ -64,7 +64,7 @@ VignetteBuilder: knitr
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: yes
-URL: https://github.com/ProjectMOSAIC/mosaic, https://projectmosaic.github.io/mosaic/
+URL: https://github.com/ProjectMOSAIC/mosaic, https://www.mosaic-web.org/mosaic/
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)

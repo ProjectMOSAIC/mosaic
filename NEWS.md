@@ -12,7 +12,7 @@
 * Fixed dplyr 1.0.0 failure by stabilizing types
 * Fixed a few bugs leftover from migration from tidyeval to rlang
 * Moved several vignettes out of the package to reduce size of package.  These are 
-  still available at <https://projectmosaic.github.io/mosaic/>
+  still available at <https://www.mosaic-web.org/mosaic/>
 
 # mosaic 1.6.0
 
@@ -48,7 +48,7 @@
  * `orrr()`, `oddsRatio()`, and `relrisk()` now accept a 2x2 data frame to match claims in
    documentation.
  * Support added for `cor(~y, ~x)`
- * New website: http://projectmosaic.github.io/mosaic/
+ * New website: http://www.mosaic-web.org/mosaic/
    
 # mosaic 1.3.0
 

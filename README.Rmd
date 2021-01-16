@@ -44,7 +44,7 @@ If you discover a problem with any version of the package, be sure to let us kno
 
 The package includes several vignettes to help you get started.  One of these 
 vignettes 
-([*Resources Related to the mosaic package*](https://projectmosaic.github.io/mosaic/articles/mosaic-resources.html)) includes a list of many resources, both within the
+([*Resources Related to the mosaic package*](https://www.mosaic-web.org/mosaic/articles/mosaic-resources.html)) includes a list of many resources, both within the
 package and external to it.  That's a good place to start.
 
 ## Getting Help
