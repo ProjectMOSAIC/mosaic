@@ -104,7 +104,17 @@ are dispatched based on the value of \code{default}.  Furthermore, \code{\link[=
 will dispatch \code{mPlot} when provided a data frame.
 
 Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
+
+Due to an unresolved issue with RStudio, the first time this function is called, and additional
+plot is created to correctily initialize the mainipulate frameowrk.
 }
+\section{Note}{
+
+
+Due to an unresolved issue with RStudio, the first time this function is called, and additional
+plot is created to correctily initialize the mainipulate frameowrk.
+}
+
 \examples{
 \dontrun{
 mPlot(HELPrct, format = "scatter")

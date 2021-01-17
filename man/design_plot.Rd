@@ -56,13 +56,19 @@ modify this from the default value.}
 \item{...}{additional arguments}
 }
 \value{
-Noting.  Used for side effects.
+Nothing.  Used for side effects.
 }
 \description{
 Proves a simple interface to let users interactively design plots in \pkg{ggformula}, \pkg{lattice}, or \pkg{ggplot2}.
 An option is available to show the code used to create the plot.
 This can be copied and pasted elsewhere to (into an RMarkdown document, for example) to recreate the plot.
 Only works in RStudio. Requires the \pkg{manipulate} package.
+}
+\details{
+Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
+
+Due to an unresolved issue with RStudio, the first time this function is called, and additional
+plot is created to correctily initialize the mainipulate frameowrk.
 }
 \examples{
 \dontrun{

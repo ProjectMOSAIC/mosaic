@@ -98,8 +98,10 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' are dispatched based on the value of `default`.  Furthermore, [mplot()] 
 #' will dispatch `mPlot` when provided a data frame.
 #' 
-#' @details
 #' Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
+#' 
+#' Due to an unresolved issue with RStudio, the first time this function is called, and additional
+#' plot is created to correctily initialize the mainipulate frameowrk.
 #' 
 #' @rdname mPlotting
 #' @aliases mPlot
@@ -134,6 +136,10 @@ getVarFormula <- function(formula, data = parent.frame(), intercept = FALSE){
 #' @param data_text A text string describing the data.  It must be possible to recover the data
 #' from this string using [eval()].  Typically users will not need to
 #' modify this from the default value.
+#' @section Note:
+#' 
+#' Due to an unresolved issue with RStudio, the first time this function is called, and additional
+#' plot is created to correctily initialize the mainipulate frameowrk.
 #' @return Nothing.  Just for side effects.  
 #' @examples
 #' \dontrun{
@@ -197,8 +203,13 @@ mPlot <- function(data,
 #' This can be copied and pasted elsewhere to (into an RMarkdown document, for example) to recreate the plot.
 #' Only works in RStudio. Requires the \pkg{manipulate} package.
 #' 
+#' Currently maps are only supported in \pkg{ggplot2} and not in \pkg{lattice}.
+#' 
+#' Due to an unresolved issue with RStudio, the first time this function is called, and additional
+#' plot is created to correctily initialize the mainipulate frameowrk.
+#' 
 #' @inheritParams mPlot
-#' @return Noting.  Used for side effects.
+#' @return Nothing.  Used for side effects.
 #' @examples 
 #' \dontrun{
 #'   mtcars2 <- 
