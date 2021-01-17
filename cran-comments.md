@@ -7,10 +7,11 @@
   * Running under: macOS Catalina 10.15.6
   * devtools::check(env_vars = c(`_R_CHECK_DEPENDS_ONLY_` = "true"))
 
-* win-builder isn't sending back emails the last couple days -- not sure why
+* win builder
 
 ## Mosaic suite udpates
 
-This is a minor update to address the use of vdiffr and order() applied to a data frame, both per CRAN request.
+This is a minor update mainly to address the use of vdiffr and order() applied to a
+data frame, both per CRAN request. We've also dealt with the broken URLs.
 
 
