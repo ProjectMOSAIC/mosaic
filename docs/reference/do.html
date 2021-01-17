@@ -257,9 +257,9 @@ and Randall Pruim (<a href='mailto:rpruim@calvin.edu'>rpruim@calvin.edu</a>)</p>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;        rnorm
-#&gt; 1 -1.9633309
-#&gt; 2  0.6799135
-#&gt; 3 -0.9810619</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='st'>"hello"</span>
+#&gt; 1 -1.0345478
+#&gt; 2  0.7987134
+#&gt; 3  0.1053965</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='st'>"hello"</span>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   hello
@@ -274,32 +274,32 @@ and Randall Pruim (<a href='mailto:rpruim@calvin.edu'>rpruim@calvin.edu</a>)</p>
 #&gt; 3  1  2  3  4</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>25</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
-#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;         mean
-#&gt; 1  0.4051522
-#&gt; 2  0.2165816
-#&gt; 3 -0.1151129</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='fu'><a href='resample.html'>shuffle</a></span><span class='op'>(</span><span class='va'>height</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>sex</span> <span class='op'>+</span> <span class='va'>mother</span>, <span class='va'>Galton</span><span class='op'>)</span>
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;           mean
+#&gt; 1  0.006721584
+#&gt; 2  0.039348176
+#&gt; 3 -0.192240406</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='fu'><a href='resample.html'>shuffle</a></span><span class='op'>(</span><span class='va'>height</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>sex</span> <span class='op'>+</span> <span class='va'>mother</span>, <span class='va'>Galton</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
-#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   Intercept        sexM       mother    sigma    r.squared        F numdf dendf
-#&gt; 1  68.63566 -0.07571604 -0.028645974 3.586134 0.0004379646 0.196075     2   895
-#&gt; 2  69.37194  0.08719953 -0.041451671 3.585334 0.0008835761 0.395750     2   895
-#&gt; 3  66.54729  0.14832865  0.002131402 3.586151 0.0004282589 0.191728     2   895
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   Intercept       sexM     mother    sigma   r.squared         F numdf dendf
+#&gt; 1  64.45391 -0.1710129 0.03737782 3.584785 0.001189603 0.5329814     2   895
+#&gt; 2  64.45215 -0.3852502 0.03913629 3.580419 0.003621433 1.6264814     2   895
+#&gt; 3  64.21043 -0.1280755 0.04083021 3.585047 0.001044051 0.4677011     2   895
 #&gt;   .row .index
 #&gt; 1    1      1
 #&gt; 2    1      2
 #&gt; 3    1      3</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/anova.html'>anova</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='fu'><a href='resample.html'>shuffle</a></span><span class='op'>(</span><span class='va'>height</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>sex</span> <span class='op'>+</span> <span class='va'>mother</span>, <span class='va'>Galton</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
-#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;                  source  df           SS        MS         F      pval .row
-#&gt; sex...1             sex   1     1.878168  1.878168 0.1460253 0.7024538    1
-#&gt; mother...2       mother   1     1.747952  1.747952 0.1359011 0.7124775    2
-#&gt; Residuals...3 Residuals 895 11511.436251 12.861940        NA        NA    3
-#&gt; sex...4             sex   1     6.501050  6.501050 0.5061294 0.4770046    1
-#&gt; mother...5       mother   1    12.608856 12.608856 0.9816434 0.3220612    2
-#&gt; Residuals...6 Residuals 895 11495.952466 12.844640        NA        NA    3
-#&gt; sex...7             sex   1    17.266731 17.266731 1.3464580 0.2462077    1
-#&gt; mother...8       mother   1    20.479387 20.479387 1.5969806 0.2066607    2
-#&gt; Residuals...9 Residuals 895 11477.316254 12.823817        NA        NA    3
+#&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;                  source  df           SS         MS          F      pval .row
+#&gt; sex...1             sex   1 5.919968e-01  0.5919968 0.04610984 0.8300252    1
+#&gt; mother...2       mother   1 2.371030e+01 23.7103009 1.84676376 0.1745026    2
+#&gt; Residuals...3 Residuals 895 1.149076e+04 12.8388381         NA        NA    3
+#&gt; sex...4             sex   1 1.842778e+01 18.4277826 1.43510543 0.2312502    1
+#&gt; mother...5       mother   1 4.192925e+00  4.1929247 0.32653353 0.5678509    2
+#&gt; Residuals...6 Residuals 895 1.149244e+04 12.8407169         NA        NA    3
+#&gt; sex...7             sex   1 4.488690e+01 44.8868984 3.50742895 0.0614200    1
+#&gt; mother...8       mother   1 1.626590e+01 16.2659019 1.27100551 0.2598803    2
+#&gt; Residuals...9 Residuals 895 1.145391e+04 12.7976643         NA        NA    3
 #&gt;               .index
 #&gt; sex...1            1
 #&gt; mother...2         1
@@ -313,22 +313,22 @@ and Randall Pruim (<a href='mailto:rpruim@calvin.edu'>rpruim@calvin.edu</a>)</p>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   sample.mean
-#&gt; 1 -0.47640160
-#&gt; 2  0.07563422
-#&gt; 3 -0.08604106</div><div class='input'><span class='co'># change the names on the fly</span>
+#&gt; 1  0.08799766
+#&gt; 2  0.14830201
+#&gt; 3  0.09310375</div><div class='input'><span class='co'># change the names on the fly</span>
 <span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>height</span>, data <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>Galton</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;       mean
-#&gt; 1 66.73296
-#&gt; 2 66.66047
-#&gt; 3 66.74777</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>mean_height <span class='op'>=</span> <span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>height</span>, data <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>Galton</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+#&gt; 1 66.63051
+#&gt; 2 66.67105
+#&gt; 3 66.68964</div><div class='input'><span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>mean_height <span class='op'>=</span> <span class='fu'><a href='mean_.html'>mean</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>height</span>, data <span class='op'>=</span> <span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>Galton</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
 #&gt; <span class='message'>  * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span></div><div class='output co'>#&gt;   mean_height
-#&gt; 1    66.77906
-#&gt; 2    66.74521
-#&gt; 3    66.73274</div><div class='input'><span class='fu'><a href='set.rseed.html'>set.rseed</a></span><span class='op'>(</span><span class='fl'>1234</span><span class='op'>)</span>
+#&gt; 1    66.71125
+#&gt; 2    66.65445
+#&gt; 3    66.92584</div><div class='input'><span class='fu'><a href='set.rseed.html'>set.rseed</a></span><span class='op'>(</span><span class='fl'>1234</span><span class='op'>)</span>
 <span class='fu'>do</span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/pkg/mosaicCore/man/tally.html'>tally</a></span><span class='op'>(</span> <span class='op'>~</span><span class='va'>sex</span><span class='op'>|</span><span class='va'>treat</span>, data<span class='op'>=</span><span class='fu'><a href='resample.html'>resample</a></span><span class='op'>(</span><span class='va'>HELPrct</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Using parallel package.</span>
 #&gt; <span class='message'>  * Set seed with set.rseed().</span>
