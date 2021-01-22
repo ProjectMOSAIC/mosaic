@@ -162,6 +162,12 @@ mplot.lm <-
     mutate(
       .row = 1L:nrow(fdata)
     )
+ 
+  # broom::augment() does always supply .resid :-/
+  
+  if (is.null(fdata[[".resid"]])) {
+    fdata <- fdata %>% mutate(.resid = resid(object))
+  }
   
   fdata_clean <- fdata %>% filter(!is.na(.std.resid))
   
