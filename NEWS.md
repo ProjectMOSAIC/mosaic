@@ -1,5 +1,8 @@
 # mosaic (development version)
 
+# mosaic 1.8.4
+
+* Bug fix in `mplot.lm()` for models where `broom::tidy()` doesn't record residuals.
 
 # mosaic 1.8.3
 
