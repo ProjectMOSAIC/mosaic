@@ -1,13 +1,13 @@
 #' Find zeros of functions
-#' 
+#'
 #' Compute numerically zeros of a function or simultaneous zeros of multiple functions.
-#' @param expr A formula.  The right side names the variable with respect to which the zeros should be found.  
-#' The left side is an expression, e.g. `sin(x) ~ x`.  
-#' All free variables (all but the variable on the right side) named in the expression must be assigned 
+#' @param expr A formula.  The right side names the variable with respect to which the zeros should be found.
+#' The left side is an expression, e.g. `sin(x) ~ x`.
+#' All free variables (all but the variable on the right side) named in the expression must be assigned
 #' a value via `\ldots`
 #' @param \dots Formulas corresponding to additional functions to use in simultaneous zero finding
 #' and/or specific numerical values for the free variables in the expression.
-#' @param xlim The range of the dependent variable to search for zeros. `Inf` is a legitimate value, 
+#' @param xlim The range of the dependent variable to search for zeros. `Inf` is a legitimate value,
 #' but is interpreted in the numerical sense as the non-Inf largest floating point number.  This can also
 #' be specified replacing `x` with the name of the variable.  See the examples.
 #' @param near a value near which zeros are desired
@@ -15,23 +15,23 @@
 #' alternative to using `xlim` to specify the search space.
 #' @param nearest the number of nearest zeros to return.  Fewer are returned if fewer are found.
 #' @param iterate maximum number of times to iterate the search. Subsequent searches take place with the range
-#'        of previously found zeros.  Choosing a large number here is likely to kill performance without 
+#'        of previously found zeros.  Choosing a large number here is likely to kill performance without
 #'        improving results, but a value of 1 (the default) or 2 works well when searching in `c(-Inf,Inf)` for
 #'        a modest number of zeros near `near`.
-#' @param npts How many sub-intervals to divide the `xlim` into when looking for candidates for zeros.  
+#' @param npts How many sub-intervals to divide the `xlim` into when looking for candidates for zeros.
 #' The default is usually good enough.
-#' If `Inf` is involved, the intervals are logarithmically spaced up to the largest finite floating point number.  
+#' If `Inf` is involved, the intervals are logarithmically spaced up to the largest finite floating point number.
 #' There is no guarantee that all the roots will be found.
 #' @param sortBy specifies how the zeros found will be sorted. Options are 'byx', 'byy', or 'radial'.
-#' 
+#'
 #' @details
 #' Searches numerically using `uniroot`.
-#' 
+#'
 #' @return A dataframe of zero or more numerical values.  Plugging these into the
 #' expression on the left side of the formula should result in values near zero.
 #'
-#' @author Daniel Kaplan (\email{kaplan@@macalester.edu}) 
-#' 
+#' @author Daniel Kaplan (\email{kaplan@@macalester.edu})
+#'
 #' @examples
 #' findZeros( sin(t) ~ t, xlim=c(-10,10) )
 #' # Can use tlim or t.lim instead of xlim if we prefer
@@ -51,10 +51,10 @@
 #' # Zeros in multiple dimensions (not run: these take a long time)
 #' # findZeros(x^2+y^2+z^2-5~x&y&z, nearest=3000, within = 5)
 #' # findZeros(x*y+z^2~z&y&z, z+y~x&y&z, npts=10)
-#' @keywords calculus 
+#' @keywords calculus
 #' @export
 
-findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf, 
+findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, within=Inf,
                       nearest=10, npts=1000, iterate=1, sortBy=c('byx', 'byy', 'radial')) {
   dots <- list(...)
   sortBy <- match.arg(sortBy)
@@ -65,35 +65,35 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
   } else { # this is the original call
     ignore.limits <- FALSE
   }
-  
+
   if( length(rhsVars) != 1 ){
     if(any(within==Inf))
       within[within==Inf]=100
     return(unique(signif(findZerosMult(expr,..., npts=nearest, rad=within, near = near, sortBy = sortBy), 7)))
   }
-  
+
   pfun <- function(x){  # removed . from name, was .x
     mydots <- dots
     mydots[[rhsVars]] <- x
-    eval( lhs(expr), envir=mydots, enclos=parent.frame() )
+    eval( lhs(expr), envir=mydots, enclos=environment(expr) ) # was enclos=parent.env()
   }
-  
+
   if (! ignore.limits ) {
     xlim <- inferArgs( dots=dots, vars=rhsVars, defaults=list(xlim=xlim) )[['xlim']]
   }
   tryCatch( xlim <- range(xlim), error = function(e) stop(paste('Improper limits value --', e)))
-  
-  if( xlim[1] >= xlim[2] )  
+
+  if( xlim[1] >= xlim[2] )
     stop(paste("Left limit (", xlim[1], ") must be less than right limit (", xlim[2], ")."))
   internal.near <- near
-  if ( internal.near  < xlim[1] || internal.near  > xlim[2]) { 
-    internal.near  <- mean(xlim[1],xlim[2]) 
+  if ( internal.near  < xlim[1] || internal.near  > xlim[2]) {
+    internal.near  <- mean(xlim[1],xlim[2])
   }
   mx <- max(xlim - internal.near )  # max amount to add to internal.near  when searching
   mn <- min(xlim - internal.near )  # min amount to add to internal.near  when searching (will be negative)
   if (mx < 0) stop('Bug alert: near outside search interval.')
   if (mn > 0) stop('Bug alert: near outside search interval.')
-  
+
   # Deal with very large numbers for the interval, e.g. Inf
   verybig <- .Machine$double.xmax
   plainbig <- npts^(.75) # linear spacing below this.
@@ -102,16 +102,16 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
   rightseq  <- NULL
   leftseq   <- NULL
   middleseq <- NULL
-  if( mx > plainbig ) { 
+  if( mx > plainbig ) {
     rightseq <- exp( seq( log(max(plainbig,mn)),log(mx),length=npts) )
   }
   middleseq <- seq( max(-plainbig,mn), min(plainbig,mx), length=npts)
   if( mn < -plainbig ){
     leftseq <- -exp( seq( log(-mn), log(-min(-plainbig,mx)), length=npts))
   }
-  
+
   searchx <- sort(unique(internal.near   + c(0, leftseq, middleseq, rightseq)))
-  
+
   y <- sapply( searchx, pfun )
   testinds <- which( diff(sign(y)) != 0 )
   if (length(testinds) < 1 ) {
@@ -130,16 +130,16 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
       }
     }
   }
-  
+
   o <- order( abs(zeros - near) )
   result <- sort(unique(zeros[o[1:min(nearest,length(zeros))]]))
   if ( iterate > 0 && length(result) > 1 )  {
     adjust <- min(diff(result))
     # Note: negative value of iterate to indicate that we will be in a secondary iteration
-    return ( findZeros( expr, ..., xlim=range(c(result-adjust, result+adjust)), 
-                        near=near, within=within, 
-                        nearest=nearest, 
-                        npts=npts, 
+    return ( findZeros( expr, ..., xlim=range(c(result-adjust, result+adjust)),
+                        near=near, within=within,
+                        nearest=nearest,
+                        npts=npts,
                         iterate= list(iterate=iterate - 1, ignore.limits = TRUE) ) )
   } else {
     result <- data.frame(result)
@@ -167,14 +167,14 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
 #'# cloud(z~x+y, data=sphere)
 #'@export
 
-solve.formula <- function(form, ..., near=0, 
+solve.formula <- function(form, ..., near=0,
                   within=Inf, nearest=10, npts=1000, iterate=1, sortBy=c('byx', 'byy', 'radial')){
   dots = list(...)
   system = list(form)
   sortBy <- match.arg(sortBy)
   freeVars = list()
-  
-  
+
+
   #Separate formulae and free vars
   if(length(dots)>0){
     for(i in (1:length(dots))){
@@ -187,7 +187,7 @@ solve.formula <- function(form, ..., near=0,
       }
     }
   }
-  
+
   #change expression into formula.
   for(i in (1:length(system))){
     formula = system[[i]]
@@ -197,7 +197,7 @@ solve.formula <- function(form, ..., near=0,
     formula[[2]] <- exp
     system[[i]] <- formula
   }
-  
-  return(do.call(findZeros, c(system, freeVars, near=near, 
+
+  return(do.call(findZeros, c(system, freeVars, near=near,
                               within=within, nearest=nearest, npts=npts, iterate=iterate, sortBy=sortBy)))
 }
