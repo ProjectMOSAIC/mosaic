@@ -124,7 +124,7 @@ findZeros <- function(expr, ..., xlim=c(near-within, near+within), near=0, withi
     for (k in 1:N) {  # look in subinterval k, i.e., between testinds[k] and  testinds[k+1]
       if ( searchx[testinds[k]] < searchx[testinds[k]+1] ) {
         ur <- uniroot(function(qqzz){ sapply( qqzz, pfun) }, lower=searchx[testinds[k]], upper=searchx[testinds[k]+1])
-        zeros[k] <- round( ur$root, digits=trunc(-log10(ur$estim.prec)) )
+        zeros[k] <- round( ur$root, digits=2 + trunc(-log10(ur$estim.prec)) )
       } else {
         warning("Potential bug alert: Attempting to search in region where signs of function at endpoints are equal.  Skipping this interval.")
       }
