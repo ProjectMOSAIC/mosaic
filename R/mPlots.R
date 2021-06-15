@@ -347,6 +347,7 @@ mMap <- function(data, default = 'map',
 # maps 
 .mapString <- function(s, system = system_choices()[1], variables)
 {
+  s$dataName <- name2string(s$dataName)
   #  res <- paste("ggplot(data = ", s$data, ")", sep = "")
   #    res<-paste(res, "+geom_point(aes(x = ", s$x, ", y = ", s$y, "))", sep = "")
   geom <- "geom_polygon()"
@@ -461,8 +462,21 @@ mScatter <-
   return(invisible(p))
 }
 
+name2string <- function(x) {
+  if (is.call(x)) {
+    x <- deparse(x)
+  }
+  if (is.character(x)) {
+    return(x)
+  }
+  message('returning `x` as is (', class(x), ')')
+}
+
 .scatterString <- 
   function(s, system = system_choices()[1], variables) {
+    
+    s$dataName <- name2string(s$dataName)
+    
     gf_fun <- c(scatter = "gf_point", jitter = "gf_jitter", boxplot = "gf_boxplot", 
                 violin = "gf_violin", line = "gf_line", sina = "gf_sina", 
                 'density (contours)' = "gf_density_2d", 
@@ -676,6 +690,7 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
 # 1-variable plots
 .uniplotString <- function(s, system = system_choices()[1], variables)
 {
+  s$dataName <- name2string(s$dataName)
   geom <- c(`histogram` = '', `densityplot` = ', geom = "line"',    
             `frequency polygon` = ', geom = "line"', `ASH plot` = ', geom = "blank"')
   stat <- c(`histogram` = '', `densityplot` = ', stat = "density"', 
