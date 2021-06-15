@@ -14,11 +14,11 @@
 #' @param df degrees of freedom (used to determine how many knots should be used)
 #' @param knots a vector of knots
 #' @param \dots additional arguments passed to spline basis functions
-#' ([ns()] and [bs()]).
+#' ([splines::ns()] and [splines::bs()]).
 #'
 #' @return a function of the explanatory variable
 #'
-#' @seealso [bs()]  and [ns()] for the bases used to generate the splines.
+#' @seealso [splines::bs()]  and [splines::ns()] for the bases used to generate the splines.
 #'
 #' @examples
 #' f <- fitSpline( weight ~ height, data=women, df=5 )
@@ -56,17 +56,17 @@ fitSpline <- function( formula, data=parent.frame(),
 					)
     if (method == 'natural') {
 		if (is.null(knots)) {
-			model <- lm( y ~ ns(x, df=df, ...) )
+			model <- lm( y ~ splines::ns(x, df=df, ...) )
 		} else {
-			model <- lm( y ~ ns(x, df=df, knots=knots, ...) )
+			model <- lm( y ~ splines::ns(x, df=df, knots=knots, ...) )
 		}
     } else {
 		if (method == 'linear') degree=1
 		if (method == 'cubic') degree=3
 		if (is.null(knots)) {
-			model <- lm( y ~ bs(x, df=df, degre=degree, ...) )
+			model <- lm( y ~ splines::bs(x, df=df, degre=degree, ...) )
 		} else {
-			model <- lm( y ~ bs(x, df=df, knots=knots, degre=degree, ...) )
+			model <- lm( y ~ splines::bs(x, df=df, knots=knots, degre=degree, ...) )
 		}
     }
 
