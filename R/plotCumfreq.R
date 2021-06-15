@@ -5,11 +5,12 @@
 #' 
 #' 
 #' @rdname plotCumfreq
-#' @param x a formula or numeric vector
+#' @param x a formula or numeric vector 
 #' @param data a data frame in which `x` is evaluated if `x` is a
 #' formula.
 #' @param \dots other lattice arguments
 #' @seealso [histogram()], [densityplot()]
+#' @return A plot of the empirical cumulative distribution function for sample values specified in `x`.
 #' @keywords graphics
 #' @examples
 #' plotCumfreq(~eruptions, faithful, xlab = 'duration of eruptions')
@@ -78,3 +79,4 @@ panel.cumfreq <- function(x, type=c('smooth','step'), groups=NULL, ...) {
 }
 
 
+ for sample values specified in `x`
