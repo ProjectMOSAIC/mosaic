@@ -78,5 +78,3 @@ panel.cumfreq <- function(x, type=c('smooth','step'), groups=NULL, ...) {
     }
 }
 
-
- for sample values specified in `x`
