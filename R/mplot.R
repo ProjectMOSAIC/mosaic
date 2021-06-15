@@ -22,7 +22,7 @@ NA
 
 mplot <- function(object, ...) {
   if (inherits(object, "data.frame")) {
-    return(mPlot(object, ..., data_text = substitute(object))) 
+    return(mPlot(object, ..., data_text = rlang::expr_text(substitute(object)))) # substitute(object))) 
   }
   
   UseMethod("mplot")
@@ -426,7 +426,8 @@ mplot.data.frame <-
     object, format, default = format, 
     system = c("ggformula", "ggplot2", "lattice"),  
     show = FALSE, 
-    data_text = substitute(object),
+    data_text = rlang::expr_text(substitute(object)),
+    # data_text = substitute(object),
     title = "", ...
   ) {
   print(data_text)
