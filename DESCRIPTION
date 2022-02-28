@@ -27,6 +27,7 @@ Imports:
     ggridges,
     ggrepel,
     rlang (>= 0.4.7),
+    purrr,
     MASS,
     grid,
     tidyr,
@@ -66,6 +67,6 @@ LazyLoad: yes
 LazyData: yes
 URL: https://github.com/ProjectMOSAIC/mosaic, https://www.mosaic-web.org/mosaic/
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8

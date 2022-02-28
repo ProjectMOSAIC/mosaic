@@ -19,15 +19,28 @@
 #' dpqrdist("norm", "d", x = 0) == dnorm(x = 0)
 #' dpqrdist("norm", "p", q = 0, mean = 1, sd = 2) == pnorm(q = 0, mean = 1, sd = 2)
 #' dpqrdist("norm", "q", p = 0.5, mean = 1, sd = 2) == qnorm(p = 0.5, mean = 1, sd = 2)
-#' 
-dpqrdist <- function( dist, type = c("d","p","q","r"), ... ) {
+#' @importFrom purrr possibly map_dbl
+ 
+dpqrdist <- function( dist, type = c("d","p","q","r"), ...) {
   type <- match.arg(type)
   dots <- list(...)
   distFunName <- paste0(type, dist)
+  distFun <- rlang::as_function(distFunName)
   dist_dots <- dots[names(dots) %in% names(formals(distFunName))]
-  
-  do.call(distFunName, dist_dots)
+  first_name <- as.name(names(formals(distFunName))[[1]])
+  first_val <- dist_dots[[first_name]]
+  dist_dots[[first_name]] <- NULL
+  # for the sake of some distribution functions that throw errors, for example when p = 0 or 1
+  # we convert errors into NaNs [Note: is.na(NaN) is TRUE]
+  dpqrfun <- purrr::possibly(distFun, otherwise = NaN)
+  res <- do.call(purrr::map_dbl, c(list(.f = dpqrfun, .x = first_val), dist_dots))
+  if (length(res) > 0 & all(is.na(res))) {
+    stop("No values could be computed. Did you specify all the required parameters?")
+  }
+  res
+  # do.call(distFunName, dist_dots)
 }
+
 
 #' Illustrated probability calculations from distributions
 #' 
@@ -250,11 +263,13 @@ plot_multi_dist <-
     if (! 'xlab' %in% names(plot_dots)) { plot_dots$xlab <- "" }
     
     if (missing(xlim) || is.null(xlim)) {
-      xlim_opts <- dpqrdist(dist, type = "q", p = c(0, 0.001, 0.999, 1), ...)
-      dxlim_opts <- diff(xlim_opts)
-      xlim <- xlim_opts[2:3]
-      if (dxlim_opts[1] < dxlim_opts[2] && is.finite(dxlim_opts[1])) {xlim[1] <- xlim_opts[1]}
-      if (dxlim_opts[3] < dxlim_opts[2] && is.finite(dxlim_opts[4])) {xlim[2] <- xlim_opts[4]}
+      xlim_opts <- dpqrdist(dist, type = "q", p = c(0, 0.0001, 0.001, 0.01, 0.99, 0.999, 0.9999, 1), ...)
+      xlim <- xlim_opts[4:5]
+      
+      # extend range if it doesn't extend too far
+      mid_width <- diff(xlim)
+      xlim[1] <- xlim_opts[min(which(xlim_opts[5] - xlim_opts < 1.8 * mid_width), na.rm = TRUE)]
+      xlim[2] <- xlim_opts[max(which(xlim_opts - xlim_opts[4] < 1.8 * mid_width), na.rm = TRUE)]
     }
     
     if (discrete) {
