@@ -154,7 +154,7 @@ mPlot <- function(data,
                   system = system_choices()[1],
                   show = FALSE, 
                   title = "",
-                  data_text = rlang::expr_text(substitute(data)),
+                  data_text = rlang::expr_deparse(substitute(data)),
                   # data_text = substitute(data), 
                   ...)
 {
@@ -230,7 +230,7 @@ design_plot <- mPlot
 #' @export
 mMap <- function(data, default = 'map',
                  system = "ggplot2",
-                 show = FALSE, title = title, data_text = rlang::expr_text(substitute(data)), ...) {
+                 show = FALSE, title = title, data_text = rlang::expr_deparse(substitute(data)), ...) {
   
   .require_manipulate_namespace()
   # system <- "ggplot2" # only handling ggplot2 for now.
@@ -320,7 +320,7 @@ mMap <- function(data, default = 'map',
                   facet = NA,
                   key = "right",
                   title = "",
-                  data_text = rlang::expr_text(substitute(data)))
+                  data_text = rlang::expr_deparse(substitute(data)))
 {
   system <- match.arg(system, "ggplot2")
   if (regexpr(",", projection) > 0) {
@@ -329,7 +329,7 @@ mMap <- function(data, default = 'map',
     projection <- paste(projection, '"', sep = "")
   }
   projection <- paste('"',projection, sep = "")
-  vals <- list(dataName = rlang::expr_text(substitute(data)), 
+  vals <- list(dataName = rlang::expr_deparse(substitute(data)), 
                x = x, y = y, 
                color = color, 
                group = group,
@@ -390,7 +390,7 @@ mScatter <-
     default = c('scatter','jitter','boxplot','violin','line', 'sina', 
                 'density (contours)', 'density (filled)'),
     system = "ggformula", show = FALSE, title = "",
-    data_text = rlang::expr_text(substitute(data))) {
+    data_text = rlang::expr_deparse(substitute(data))) {
   
   .require_manipulate_namespace()
   system <- match.arg(system, system_choices())
@@ -441,7 +441,7 @@ mScatter <-
                          c("scatter", "jitter", "boxplot", "violin", "line", "sina", "density (contours)", "density (filled)"),
                        x = NA, y = NA, color = NA, 
                        size = NA, facet = NA, logScales = "none", flipCoords = FALSE,
-                       model = "", key = "right", title = title, data_text  =  rlang::expr_text(substitute(data)))
+                       model = "", key = "right", title = title, data_text  =  rlang::expr_deparse(substitute(data)))
 {
   system <- match.arg(system, system_choices())
   plotType <- match.arg(plotType)
@@ -624,7 +624,7 @@ name2string <- function(x) {
 
 mUniplot <- function(data, default = c("histogram","density", "frequency polygon", "ASH plot"),
                      system = system_choices()[1], show = FALSE, title = "", 
-                     data_text = rlang::expr_text(substitute(data))) {
+                     data_text = rlang::expr_deparse(substitute(data))) {
   .require_manipulate_namespace()
   system <- match.arg(system, system_choices())
   default <- match.arg(default)
@@ -671,7 +671,7 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
                        facet = NA, 
                        # logx = FALSE, logy = FALSE, 
                        model = "", key = "right",
-                       title = "", data_text = rlang::expr_text(substitute(data)))
+                       title = "", data_text = rlang::expr_deparse(substitute(data)))
 {
   system <- match.arg(system, system_choices())
   plotType <- match.arg(plotType)
