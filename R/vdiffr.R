@@ -3,5 +3,7 @@
 
 wrapped_expect_doppelganger <- function(title, fig, path = NULL, ...) {
   testthat::skip_if_not_installed("vdiffr")
-  vdiffr::expect_doppelganger(title, fig, path = path, ...)
+  
+  # path arg has been deprecated, so don't pass it along
+  vdiffr::expect_doppelganger(title, fig, ...)
 }
