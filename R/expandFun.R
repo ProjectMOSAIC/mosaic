@@ -22,14 +22,14 @@ expandFun <- function(formula,...){
   #See if first operator is a primitive
   #Check if first operation is an arithmetic operator
   if(is.primitive(eval(exp[[1]]))&&getGroup(toString(exp[[1]]))[[1]]=="Arith"){
-    ##Recursively replace variables
-    if(class(exp[[2]]) == "call"){
+    ## Recursively replace variables
+    if (inherits(exp[[2]], 'call')) {
       form2 = formula
       form2[[2]] = exp[[2]]
       lside = Recall(form2)
       exp[[2]] = lside$formula[[2]]
     }
-    if(class(exp[[3]]) == "call"){
+    if (inheritis(exp[[3]] , "call")) {
       form3 = formula
       form3[[2]] = exp[[3]]
       rside = Recall(form3)

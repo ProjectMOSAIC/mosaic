@@ -33,13 +33,13 @@ findZerosMult <- function(..., npts=10, rad = 5, near=0, sortBy='byx'){
   freeVars = list()
   roots = data.frame()#where we will store the roots.
   
-  #Separate formulae and free vars
+  # Separate formulae and free vars
   for(i in (1:length(dots))){
-    if(class(dots[[i]])=="formula")
-      system = append(system, dots[[i]]) #system contains all equations
+    if( inherits(dots[[i]], "formula"))
+      system = append(system, dots[[i]]) # system contains all equations
     else{
-      if(class(dots[[i]])=="numeric")
-        freeVars[[names(dots)[i]]] <- dots[[i]] #freeVars contains values we will sub in
+      if (inherits(dots[[i]], "numeric"))
+        freeVars[[names(dots)[i]]] <- dots[[i]] # freeVars contains values we will sub in
       else stop(paste("Improper value: ", deparse(dots[[i]])))
     }
   }

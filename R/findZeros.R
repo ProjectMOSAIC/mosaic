@@ -175,20 +175,20 @@ solve.formula <- function(form, ..., near=0,
   freeVars = list()
   
   
-  #Separate formulae and free vars
+  # Separate formulae and free vars
   if(length(dots)>0){
     for(i in (1:length(dots))){
-      if(class(dots[[i]])=="formula")
-        system = append(system, dots[[i]]) #system contains all equations
+      if (inherits( dots[[i]], "formula"))
+        system = append(system, dots[[i]]) # system contains all equations
       else{
-        if(class(dots[[i]])=="numeric")
-          freeVars[[names(dots)[i]]] <- dots[[i]] #freeVars contains values we will sub in
+        if (inherits(dots[[i]], "numeric"))
+          freeVars[[names(dots)[i]]] <- dots[[i]] # freeVars contains values we will sub in
         else stop(paste("Improper value: ", deparse(dots[[i]])))
       }
     }
   }
   
-  #change expression into formula.
+  # change expression into formula.
   for(i in (1:length(system))){
     formula = system[[i]]
     exp = lhs(formula)
