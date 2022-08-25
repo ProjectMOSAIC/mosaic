@@ -8,11 +8,13 @@ reference:
   contents:
   - '`ashplot`'
   - '`bargraph`'
+  - '`design_plot`'
   - '`dotPlot`'
   - '`freqpoly`'
   - '`freqpolygon`'
   - '`googleMap`'
   - '`ladd`'
+  - '`leaflet_map`'
   - '`mPlot`'
   - '`mUSMap`'
   - '`mWorldMap`'
@@ -31,6 +33,7 @@ reference:
   - '`sp2df`'
   - '`theme_map`'
   - '`theme.mosaic`'
+  - '`xhistogramBreaks`'
   - '`xqqmath`'
 - title: Numerical Summaries
   desc: ~
@@ -126,6 +129,11 @@ reference:
   - '`standardName`'
   - '`surround`'
   - '`xyz2latlon`'
+- title: Data 
+  desc: ~
+  contents:
+  - '`Mustangs`'
+  - '`Sleep`'
 - title: Deprecated and Defunct
   desc: ~
   contents:
@@ -137,3 +145,4 @@ reference:
   - '`mm`'
   - '`r.squared`'
   - '`xhistogram`' 
+  
