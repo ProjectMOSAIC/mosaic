@@ -3,6 +3,10 @@
 # mosaic 1.8.4
 
 * Bug fix in `mplot.lm()` for models where `broom::tidy()` doesn't record residuals.
+* Due to changes in `mosaicCore`, `makeFun()` now accepts one-sided formulas such
+as `makeFun(~ x^2)`.
+* Distribution plotting functions can now handle distributions for which supplying
+`p = 0` or `p = 1` to the q-function throws an error.  [See #779]
 
 # mosaic 1.8.3
 
