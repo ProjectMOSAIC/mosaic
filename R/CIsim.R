@@ -91,7 +91,7 @@ CIsim <-
         geom_point(aes(color = cover), size = 0.7) + 
         geom_abline(slope = 0, intercept = estimand, alpha = 0.4) +
         scale_colour_manual(drop  =  FALSE, breaks = c("High", "Yes", "Low"),
-                              values = c("red", "navy", "red"), guide = FALSE)
+                              values = c("red", "navy", "red"), guide = 'none')
       
     switch(plot,
            return = return(plotG + facet_wrap(~ nlab)),
