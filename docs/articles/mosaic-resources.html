@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -76,7 +72,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/ProjectMOSAIC/mosaic/">
+  <a href="https://github.com/ProjectMOSAIC/mosaic/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,156 +87,243 @@
 
       
 
-      </header><script src="mosaic-resources_files/header-attrs-2.6/header-attrs.js"></script><script src="mosaic-resources_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Resources Related to the mosaic Package</h1>
-                        <h4 class="author">Randall Pruim, Daniel T. Kaplan, and Nicholas J. Horton</h4>
+                        <h4 data-toc-skip class="author">Randall Pruim,
+Daniel T. Kaplan, and Nicholas J. Horton</h4>
             
-            <h4 class="date">2021-01-16</h4>
+            <h4 data-toc-skip class="date">2022-08-25</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/master/vignettes/mosaic-resources.Rmd"><code>vignettes/mosaic-resources.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/HEAD/vignettes/mosaic-resources.Rmd" class="external-link"><code>vignettes/mosaic-resources.Rmd</code></a></small>
       <div class="hidden name"><code>mosaic-resources.Rmd</code></div>
 
     </div>
 
     
     
-<p>This vignette describes related resources and materials useful for teaching statistics with a focus on modeling and computation.</p>
-<div id="package-vignettes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-vignettes" class="anchor"></a>Package Vignettes</h2>
-<p>The <code>mosaic</code> package includes a number of vignettes. These are available from within R, from <a href="https://cran.r-project.org/package=mosaic">cran.r-project.org/package=mosaic</a>, or from <a href="https://www.mosaic-web.org/mosaic/">www.mosaic-web.org/mosaic/</a>.</p>
+<p>This vignette describes related resources and materials useful for
+teaching statistics with a focus on modeling and computation.</p>
+<div class="section level2">
+<h2 id="package-vignettes">Package Vignettes<a class="anchor" aria-label="anchor" href="#package-vignettes"></a>
+</h2>
+<p>The <code>mosaic</code> package includes a number of vignettes. These
+are available from within R, from <a href="https://cran.r-project.org/package=mosaic" class="external-link">cran.r-project.org/package=mosaic</a>,
+or from <a href="https://www.mosaic-web.org/mosaic/" class="external-link">www.mosaic-web.org/mosaic/</a>.</p>
 <ul>
-<li><p><em>Minimal R</em> describes a minimal set of R commands for use in Introductory Statistics and discusses why it is important to keep the set of commands small;</p></li>
-<li><p><em>Resampling methods in R</em> demonstrates how to use the <code>mosaic</code> package to compute p-values for randomization tests and bootstrap confidence intervals in a number of common situations. The examples are based on the ``resampling bake off’’ at USCOTS 2011.</p></li>
-<li><p><em>ggformula/lattice conversion examples</em> compares the lattice and ggformula formula interfaces for creating graphics.</p></li>
-<li><p><em>Less Volume, More Creativity</em>, based on slides from an ICOTS 2014 workshop, introduces the <code>mosaic</code> package and related tools and describes some of the philosophy behind the design choices made in the <code>mosaic</code> package.</p></li>
-<li><p><em>Graphics with the mosaic package</em> is gallery of plots made using tools from the <code>mosaic</code> package.</p></li>
+<li><p><em>Minimal R</em> describes a minimal set of R commands for use
+in Introductory Statistics and discusses why it is important to keep the
+set of commands small;</p></li>
+<li><p><em>Resampling methods in R</em> demonstrates how to use the
+<code>mosaic</code> package to compute p-values for randomization tests
+and bootstrap confidence intervals in a number of common situations. The
+examples are based on the ``resampling bake off’’ at USCOTS
+2011.</p></li>
+<li><p><em>ggformula/lattice conversion examples</em> compares the
+lattice and ggformula formula interfaces for creating graphics.</p></li>
+<li><p><em>Less Volume, More Creativity</em>, based on slides from an
+ICOTS 2014 workshop, introduces the <code>mosaic</code> package and
+related tools and describes some of the philosophy behind the design
+choices made in the <code>mosaic</code> package.</p></li>
+<li><p><em>Graphics with the mosaic package</em> is gallery of plots
+made using tools from the <code>mosaic</code> package.</p></li>
 </ul>
 </div>
-<div id="auxiliary-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#auxiliary-packages" class="anchor"></a>Auxiliary packages</h2>
-<p>Some features of the mosaic package are provided through auxiliary packages. These include:</p>
+<div class="section level2">
+<h2 id="auxiliary-packages">Auxiliary packages<a class="anchor" aria-label="anchor" href="#auxiliary-packages"></a>
+</h2>
+<p>Some features of the mosaic package are provided through auxiliary
+packages. These include:</p>
 <ul>
-<li>mosaicModel – implements high-level systems for working with statistical models: effect-size calculation, bootstrapped confidence intervals, prediction error, graphics for models with multiple inputs. The package contains an introductory vignette.</li>
-<li>mosaicCalc – provides the calculus components of mosaic, including integration, differentiation, and differential equation solving.</li>
+<li>mosaicModel – implements high-level systems for working with
+statistical models: effect-size calculation, bootstrapped confidence
+intervals, prediction error, graphics for models with multiple inputs.
+The package contains an introductory vignette.</li>
+<li>mosaicCalc – provides the calculus components of mosaic, including
+integration, differentiation, and differential equation solving.</li>
 </ul>
-<!-- See *[Modeling-based calculus with R/mosaic](http://www.mosaic-web.org/wp-content/uploads/2019/01/UMAP-mosaic-calculus.pdf)* for an instructor-oriented introduction and *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* for a student-facing guide. --><p>Install these packages using <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(c("mosaicCalc", "mosaicModel"))</a></code>.</p>
+<!-- See *[Modeling-based calculus with R/mosaic](http://www.mosaic-web.org/wp-content/uploads/2019/01/UMAP-mosaic-calculus.pdf)* for an instructor-oriented introduction and *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* for a student-facing guide. --><p>Install these packages using
+<code>install.packages(c("mosaicCalc", "mosaicModel"))</code>.</p>
 </div>
-<div id="mosaic-paper" class="section level2">
-<h2 class="hasAnchor">
-<a href="#mosaic-paper" class="anchor"></a>Mosaic paper</h2>
-<p>Pruim R, Kaplan DT and Horton NJ (2017). The mosaic Package: Helping Students to ‘Think with Data’ Using R. <em>The R Journal</em>, 9(1), pp. 77-102. <a href="https://journal.r-project.org/archive/2017/RJ-2017-024/index.html" class="uri">https://journal.r-project.org/archive/2017/RJ-2017-024/index.html</a>.</p>
-<p>Abstract: The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics. This introduction to the package describes some of the guiding principles behind the design of the package and provides illustrative examples of several of the most important functions it implements. These can be combined to help students ‘think with data’ using R in their early course work, starting with simple, yet powerful, declarative commands.</p>
+<div class="section level2">
+<h2 id="mosaic-paper">Mosaic paper<a class="anchor" aria-label="anchor" href="#mosaic-paper"></a>
+</h2>
+<p>Pruim R, Kaplan DT and Horton NJ (2017). The mosaic Package: Helping
+Students to ‘Think with Data’ Using R. <em>The R Journal</em>, 9(1), pp.
+77-102. <a href="https://journal.r-project.org/archive/2017/RJ-2017-024/index.html" class="external-link uri">https://journal.r-project.org/archive/2017/RJ-2017-024/index.html</a>.</p>
+<p>Abstract: The mosaic package provides a simplified and systematic
+introduction to the core functionality related to descriptive
+statistics, visualization, modeling, and simulation-based inference
+required in first and second courses in statistics. This introduction to
+the package describes some of the guiding principles behind the design
+of the package and provides illustrative examples of several of the most
+important functions it implements. These can be combined to help
+students ‘think with data’ using R in their early course work, starting
+with simple, yet powerful, declarative commands.</p>
 </div>
-<div id="project-mosaic-little-books" class="section level2">
-<h2 class="hasAnchor">
-<a href="#project-mosaic-little-books" class="anchor"></a>Project MOSAIC Little Books</h2>
-<p>The following longer documents are available at <a href="https://github.com/ProjectMOSAIC/LittleBooks/blob/master/README.md">github.com/ProjectMOSAIC/LittleBooks</a>.</p>
+<div class="section level2">
+<h2 id="project-mosaic-little-books">Project MOSAIC Little Books<a class="anchor" aria-label="anchor" href="#project-mosaic-little-books"></a>
+</h2>
+<p>The following longer documents are available at <a href="https://github.com/ProjectMOSAIC/LittleBooks/blob/master/README.md" class="external-link">github.com/ProjectMOSAIC/LittleBooks</a>.</p>
 <ul>
-<li><p><em>Start Teaching Statistics Using R</em> includes some strategies for teaching beginners, and introduction to the <code>mosaic</code> package, and some additional things that instructors should know about using R. (A spanish language translation can be found at <a href="https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish" class="uri">https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish</a>.)</p></li>
-<li><p><em><a href="https://github.com/ProjectMOSAIC/LittleBooks/raw/master/StudentGuide/MOSAIC-StudentGuide.pdf">A Student’s Guide to R</a></em> provides a brief introduction to the R commands needed for all the basic statistical procedures in an Intro Stats course.<br>
-(A spanish language translation can be found at <a href="https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish" class="uri">https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish</a>.)</p></li>
+<li><p><em>Start Teaching Statistics Using R</em> includes some
+strategies for teaching beginners, and introduction to the
+<code>mosaic</code> package, and some additional things that instructors
+should know about using R. (A spanish language translation can be found
+at <a href="https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish" class="external-link uri">https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish</a>.)</p></li>
+<li><p><em><a href="https://github.com/ProjectMOSAIC/LittleBooks/raw/master/StudentGuide/MOSAIC-StudentGuide.pdf" class="external-link">A
+Student’s Guide to R</a></em> provides a brief introduction to the R
+commands needed for all the basic statistical procedures in an Intro
+Stats course.<br>
+(A spanish language translation can be found at <a href="https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish" class="external-link uri">https://github.com/fjaraavilaa/MOSAIC-LittleBooks-Spanish</a>.)</p></li>
 </ul>
 <!--  * *[Start R in Calculus](http://project-mosaic-books.com/?page_id=22)* highlights features  --><!-- of R and the `mosaic` package that can be used to teach  --><!-- calculus with R. -->
 </div>
-<div id="textbook-related" class="section level2">
-<h2 class="hasAnchor">
-<a href="#textbook-related" class="anchor"></a>Textbook Related</h2>
+<div class="section level2">
+<h2 id="textbook-related">Textbook Related<a class="anchor" aria-label="anchor" href="#textbook-related"></a>
+</h2>
 <ul>
 <li>
-<p><em>Statistical Modeling: A Fresh Approach</em> (DT Kaplan, second edition)] is an introduction to statistics embracing a modeling approach and employing resampling methods. The <code>mosaic</code> package is used throughout.</p>
+<p><em>Statistical Modeling: A Fresh Approach</em> (DT Kaplan,
+second edition)] is an introduction to statistics embracing a modeling
+approach and employing resampling methods. The <code>mosaic</code>
+package is used throughout.</p>
 <ul>
-<li><a href="http://www.mosaic-web.org/go/StatisticalModeling/">www.mosaic-web.org/StatisticalModeling</a></li>
+<li><a href="http://www.mosaic-web.org/go/StatisticalModeling/" class="external-link">www.mosaic-web.org/StatisticalModeling</a></li>
 </ul>
 </li>
 <li>
-<p><em>Foundations and Applications of Statistics: An Introduction Using R</em> (R Pruim, second edition) is an R-infused probability and mathematical statistics text that emphasizes connections between probability and statistics. The first edition of the book predates the <code>mosaic</code> package, but much of the code originally in the <code>fastR</code> package has been moved into the <code>mosaic</code> package. The second edition is supported by the <code>fastR2</code> package and uses <code>ggformula</code> for plotting.</p>
+<p><em>Foundations and Applications of Statistics: An Introduction
+Using R</em> (R Pruim, second edition) is an R-infused probability and
+mathematical statistics text that emphasizes connections between
+probability and statistics. The first edition of the book predates the
+<code>mosaic</code> package, but much of the code originally in the
+<code>fastR</code> package has been moved into the <code>mosaic</code>
+package. The second edition is supported by the <code>fastR2</code>
+package and uses <code>ggformula</code> for plotting.</p>
 <ul>
-<li><a href="https://bookstore.ams.org/amstext-28">https://bookstore.ams.org/amstext-28</a></li>
-<li><a href="http://www.ams.org/publications/authors/books/postpub/amstext-28">www.ams.org/publications/authors/books/postpub/amstext-28</a></li>
+<li><a href="https://bookstore.ams.org/amstext-28" class="external-link">https://bookstore.ams.org/amstext-28</a></li>
+<li><a href="http://www.ams.org/publications/authors/books/postpub/amstext-28" class="external-link">www.ams.org/publications/authors/books/postpub/amstext-28</a></li>
 </ul>
 </li>
 <li>
-<p><em>Modern Data Science with R</em> (BS Baumer, DT Kaplan, and NJ Horton) is an R-infused data science text that emphasizes conceptual understanding and computation.</p>
+<p><em>Modern Data Science with R</em> (BS Baumer, DT Kaplan, and NJ
+Horton) is an R-infused data science text that emphasizes conceptual
+understanding and computation.</p>
 <ul>
-<li><a href="https://mdsr-book.github.io/">http://mdsr-book.github.io/</a></li>
+<li><a href="https://mdsr-book.github.io/" class="external-link">http://mdsr-book.github.io/</a></li>
 </ul>
 </li>
 <li>
-<p><em>The Statistical Sleuth in R</em> (NJ Horton) describes how to undertake analyses in R for the examples in the Third Edition of the <em>Statistical Sleuth: A Course in Methods of Data Analysis</em> (2013), by Fred Ramsey and Dan Schafer.</p>
+<p><em>The Statistical Sleuth in R</em> (NJ Horton) describes how to
+undertake analyses in R for the examples in the Third Edition of the
+<em>Statistical Sleuth: A Course in Methods of Data Analysis</em>
+(2013), by Fred Ramsey and Dan Schafer.</p>
 <ul>
-<li><a href="https://nhorton.people.amherst.edu/sleuth/">nhorton.people.amherst.edu/sleuth</a></li>
+<li><a href="https://nhorton.people.amherst.edu/sleuth/" class="external-link">nhorton.people.amherst.edu/sleuth</a></li>
 </ul>
 </li>
 <li>
-<p><em>Introduction to the Practice of Statistics in R</em> (NJ Horton and BS Baumer) describes how to undertake analyses in R that are introduced as examples in <em>Introduction to the Practice of Statistics</em>, by David Moore, George McCabe, and Bruce Craig.</p>
+<p><em>Introduction to the Practice of Statistics in R</em> (NJ
+Horton and BS Baumer) describes how to undertake analyses in R that are
+introduced as examples in <em>Introduction to the Practice of
+Statistics</em>, by David Moore, George McCabe, and Bruce Craig.</p>
 <ul>
-<li><a href="https://nhorton.people.amherst.edu/ips9/">9th edition: nhorton.people.amherst.edu/ips9</a></li>
-<li><a href="https://nhorton.people.amherst.edu/ips6e/">6th edition: nhorton.people.amherst.edu/ips6e</a></li>
+<li><a href="https://nhorton.people.amherst.edu/ips9/" class="external-link">9th edition:
+nhorton.people.amherst.edu/ips9</a></li>
+<li><a href="https://nhorton.people.amherst.edu/ips6e/" class="external-link">6th edition:
+nhorton.people.amherst.edu/ips6e</a></li>
 </ul>
 </li>
 <li>
-<p><em>Statistics: Unlocking the Power of Data</em> (Lock, Lock, Lock, Lock, and Lock) is an introductory statistics textbook that embraces a resampling approach.</p>
-<p>An annotated companion to the examples in the book implemented using R can be found at</p>
+<p><em>Statistics: Unlocking the Power of Data</em> (Lock, Lock,
+Lock, Lock, and Lock) is an introductory statistics textbook that
+embraces a resampling approach.</p>
+<p>An annotated companion to the examples in the book implemented using
+R can be found at</p>
 <ul>
-<li><a href="https://github.com/rpruim/Lock5withR/blob/master/README.md">github.com/rpruim/Lock5withR/</a></li>
+<li><a href="https://github.com/rpruim/Lock5withR/blob/master/README.md" class="external-link">github.com/rpruim/Lock5withR/</a></li>
 </ul>
-<p>and the <code>Lock5withR</code> R package provides all the data sets used in the text.</p>
+<p>and the <code>Lock5withR</code> R package provides all the data sets
+used in the text.</p>
 <ul>
-<li><a href="https://www.lock5stat.com/">lock5stat.com</a></li>
-</ul>
-</li>
-<li>
-<p><em>Stats: Data and Models</em> (NJ Horton) describes how to undertake analyses in R for the examples in the Fourth Edition of <em>Stats: Data and Models</em> (2015), by Dick de Veaux, Paul Velleman, and Dave Bock.</p>
-<ul>
-<li><a href="https://nhorton.people.amherst.edu/sdm4/">nhorton.people.amherst.edu/sdm4</a></li>
+<li><a href="https://www.lock5stat.com/" class="external-link">lock5stat.com</a></li>
 </ul>
 </li>
 <li>
-<p><em>Intro Stats</em> (P Frenett and NJ Horton) describes how to undertake analyses in R for the examples in the Fourth and Fifth Editions of <em>Intro Stats</em> (2013), by Dick de Veaux, Paul Velleman, and Dave Bock.</p>
+<p><em>Stats: Data and Models</em> (NJ Horton) describes how to
+undertake analyses in R for the examples in the Fourth Edition of
+<em>Stats: Data and Models</em> (2015), by Dick de Veaux, Paul Velleman,
+and Dave Bock.</p>
 <ul>
-<li><a href="https://nhorton.people.amherst.edu/is5/">5th edition: nhorton.people.amherst.edu/is5</a></li>
-<li><a href="https://nhorton.people.amherst.edu/is4/">4th edition: nhorton.people.amherst.edu/is4</a></li>
+<li><a href="https://nhorton.people.amherst.edu/sdm4/" class="external-link">nhorton.people.amherst.edu/sdm4</a></li>
 </ul>
 </li>
 <li>
-<p><em>Introduction to Statistical Investigations</em> (Tintle <em>et al</em>) is another introductory statistics textbook that embraces a resampling approach.</p>
-<p>An annotated companion to the examples in the book implemented using R can be found at</p>
+<p><em>Intro Stats</em> (P Frenett and NJ Horton) describes how to
+undertake analyses in R for the examples in the Fourth and Fifth
+Editions of <em>Intro Stats</em> (2013), by Dick de Veaux, Paul
+Velleman, and Dave Bock.</p>
 <ul>
-<li><a href="https://github.com/rpruim/ISIwithR/blob/master/README.md">github.com/rpruim/ISIwithR/</a></li>
-</ul>
-<p>The <code>ISIwithR</code> R package provides all the data sets used in the text. Additional information about the book and the approach used there can be found at</p>
-<ul>
-<li><a href="http://www.isi-stats.com/isi/">www.isi-sats.com/isi/</a></li>
+<li><a href="https://nhorton.people.amherst.edu/is5/" class="external-link">5th edition:
+nhorton.people.amherst.edu/is5</a></li>
+<li><a href="https://nhorton.people.amherst.edu/is4/" class="external-link">4th edition:
+nhorton.people.amherst.edu/is4</a></li>
 </ul>
 </li>
 <li>
-<p><a href="https://www.openintro.org/stat/labs.php">Open Intro Stats</a></p>
-<p>OpenIntro Stats now has versions of their labs designed for use with the <code>mosaic</code> package.<br>
-The <code>mosaic</code> labs were adapted by Ben Baumer and Galen Long of Smith College and updated to <code>ggformula</code> by Bonnie Lin and Nicholas Horton of Amherst College.</p>
+<p><em>Introduction to Statistical Investigations</em> (Tintle
+<em>et al</em>) is another introductory statistics textbook that
+embraces a resampling approach.</p>
+<p>An annotated companion to the examples in the book implemented using
+R can be found at</p>
+<ul>
+<li><a href="https://github.com/rpruim/ISIwithR/blob/master/README.md" class="external-link">github.com/rpruim/ISIwithR/</a></li>
+</ul>
+<p>The <code>ISIwithR</code> R package provides all the data sets used
+in the text. Additional information about the book and the approach used
+there can be found at</p>
+<ul>
+<li><a href="http://www.isi-stats.com/isi/" class="external-link">www.isi-sats.com/isi/</a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.openintro.org/stat/labs.php" class="external-link">Open Intro
+Stats</a></p>
+<p>OpenIntro Stats now has versions of their labs designed for use with
+the <code>mosaic</code> package.<br>
+The <code>mosaic</code> labs were adapted by Ben Baumer and Galen Long
+of Smith College and updated to <code>ggformula</code> by Bonnie Lin and
+Nicholas Horton of Amherst College.</p>
 </li>
 </ul>
 </div>
-<div id="articles" class="section level2">
-<h2 class="hasAnchor">
-<a href="#articles" class="anchor"></a>Articles</h2>
+<div class="section level2">
+<h2 id="articles">Articles<a class="anchor" aria-label="anchor" href="#articles"></a>
+</h2>
 <ul>
-<li><p>GW Cobb, “The introductory statistics course: a Ptolemaic curriculum?”, <em>Technology Innovations in Statistics Education</em>, 2007, 1(1), <a href="https://escholarship.org/uc/item/6hb3k0nz">escholarship.org/uc/item/6hb3k0nz</a>.</p></li>
-<li><p>Fieberg JR, Vitense K, Johnson DH. 2020. Resampling-based methods for biologists. PeerJ 8:e9089 <a href="https://doi.org/10.7717/peerj.9089" class="uri">https://doi.org/10.7717/peerj.9089</a></p></li>
-<li><p>NJ Horton, BS Baumer, and H Wickham, “Teaching precursors to data science in introductory and second courses in statistics,” <em>CHANCE</em>, 2015, 28(2):40-50, <a href="https://nhorton.people.amherst.edu/precursors/">nhorton.people.amherst.edu/precursors</a></p></li>
-<li><p>NJ Horton, and J Hardin, “Teaching the next generation of statistics students to”Think With Data“: special issue on statistics and the undergraduate curriculum,” <em>TAS</em>, 2015, 69(4):259-265, <a href="https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283">https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283</a></p></li>
-<li><p>D Nolan and D Temple Lang, “Computing in the statistics curricula”, <em>The American Statistician</em>, 2010, 64(2), <a href="https://www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf">www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf</a>.</p></li>
+<li><p>GW Cobb, “The introductory statistics course: a Ptolemaic
+curriculum?”, <em>Technology Innovations in Statistics Education</em>,
+2007, 1(1), <a href="https://escholarship.org/uc/item/6hb3k0nz" class="external-link">escholarship.org/uc/item/6hb3k0nz</a>.</p></li>
+<li><p>Fieberg JR, Vitense K, Johnson DH. 2020. Resampling-based methods
+for biologists. PeerJ 8:e9089 <a href="https://doi.org/10.7717/peerj.9089" class="external-link uri">https://doi.org/10.7717/peerj.9089</a></p></li>
+<li><p>NJ Horton, BS Baumer, and H Wickham, “Teaching precursors to data
+science in introductory and second courses in statistics,”
+<em>CHANCE</em>, 2015, 28(2):40-50, <a href="https://nhorton.people.amherst.edu/precursors/" class="external-link">nhorton.people.amherst.edu/precursors</a></p></li>
+<li><p>NJ Horton, and J Hardin, “Teaching the next generation of
+statistics students to”Think With Data”: special issue on statistics and
+the undergraduate curriculum,” <em>TAS</em>, 2015, 69(4):259-265, <a href="https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283" class="external-link">https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1094283</a></p></li>
+<li><p>D Nolan and D Temple Lang, “Computing in the statistics
+curricula”, <em>The American Statistician</em>, 2010, 64(2), <a href="https://www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf" class="external-link">www.stat.berkeley.edu/~statcur/Preprints/ComputingCurric3.pdf</a>.</p></li>
 </ul>
 </div>
-<div id="other-resources" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-resources" class="anchor"></a>Other Resources</h2>
+<div class="section level2">
+<h2 id="other-resources">Other Resources<a class="anchor" aria-label="anchor" href="#other-resources"></a>
+</h2>
 <ul>
 <li>
-<em>Example R Code/Graphs Using NHANES</em> by Amy Wagaman, <a href="https://awagaman.people.amherst.edu/stat230/Stat230CodeCompilationExampleCodeUsingNHANES.pdf" class="uri">https://awagaman.people.amherst.edu/stat230/Stat230CodeCompilationExampleCodeUsingNHANES.pdf</a>
+<em>Example R Code/Graphs Using NHANES</em> by Amy Wagaman, <a href="https://awagaman.people.amherst.edu/stat230/Stat230CodeCompilationExampleCodeUsingNHANES.pdf" class="external-link uri">https://awagaman.people.amherst.edu/stat230/Stat230CodeCompilationExampleCodeUsingNHANES.pdf</a>
 </li>
 </ul>
 </div>
@@ -257,11 +340,13 @@ The <code>mosaic</code> labs were adapted by Ben Baumer and Galen Long of Smith 
 
 
       <footer><div class="copyright">
-  <p>Developed by Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton.</p>
+  <p></p>
+<p>Developed by Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -269,6 +354,8 @@ The <code>mosaic</code> labs were adapted by Ben Baumer and Galen Long of Smith 
 
   
 
+
+  
 
   </body>
 </html>

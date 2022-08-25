@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -76,7 +72,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/ProjectMOSAIC/mosaic/">
+  <a href="https://github.com/ProjectMOSAIC/mosaic/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,492 +87,752 @@
 
       
 
-      </header><script src="Resampling_files/header-attrs-2.6/header-attrs.js"></script><script src="Resampling_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Simulation-based inference with mosaic</h1>
-                        <h4 class="author">Daniel Kaplan, Nicholas J. Horton, and Randall Pruim</h4>
+                        <h4 data-toc-skip class="author">Daniel Kaplan,
+Nicholas J. Horton, and Randall Pruim</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/master/vignettes/Resampling.Rmd"><code>vignettes/Resampling.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/HEAD/vignettes/Resampling.Rmd" class="external-link"><code>vignettes/Resampling.Rmd</code></a></small>
       <div class="hidden name"><code>Resampling.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>The mosaic package is intended to support teaching statistics and modeling (as well as calculus) in a way that embraces the possibilities offered by modern computational techniques. Our goal is to make effective computation accessible to university-level students at an introductory level. With the broad availability of inexpensive, fast computing and powerful, free software such as R the rate-limiting factor in accessibility is intellectual: providing a notation in which ideas can be expressed and understood clearly.</p>
-<p>This document describes how to use the mosaic package to carry out randomization-based statistical inference. The mosaic package supports an approach that is intended to be easy for students to learn and to generalize. To this end, we adopt the following tenets: <!-- begin itemize --></p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The mosaic package is intended to support teaching statistics and
+modeling (as well as calculus) in a way that embraces the possibilities
+offered by modern computational techniques. Our goal is to make
+effective computation accessible to university-level students at an
+introductory level. With the broad availability of inexpensive, fast
+computing and powerful, free software such as R the rate-limiting factor
+in accessibility is intellectual: providing a notation in which ideas
+can be expressed and understood clearly.</p>
+<p>This document describes how to use the mosaic package to carry out
+randomization-based statistical inference. The mosaic package supports
+an approach that is intended to be easy for students to learn and to
+generalize. To this end, we adopt the following tenets:
+<!-- begin itemize --></p>
 <ol>
-<li>Students should be able to carry out useful statistics with only a very few lines of commands.</li>
-<li>Basic commands should relate to statistical operations rather than programming operations. We seek to avoid programming overhead such as loops, counters, and accumulators.</li>
-<li>Black boxes should perform a conceptually straightforward operations. Their output should be verifiable.</li>
-<li>Statements should demonstrate the logical structure of statistics, rather than merely naming high-level procedures.</li>
-<li>There should be a simple path to generalizing from simple descriptions — means, counts, proportions — to more complicated ones such as generalized linear models. <!-- end itemize -->
+<li>Students should be able to carry out useful statistics with only a
+very few lines of commands.</li>
+<li>Basic commands should relate to statistical operations rather than
+programming operations. We seek to avoid programming overhead such as
+loops, counters, and accumulators.</li>
+<li>Black boxes should perform a conceptually straightforward
+operations. Their output should be verifiable.</li>
+<li>Statements should demonstrate the logical structure of statistics,
+rather than merely naming high-level procedures.</li>
+<li>There should be a simple path to generalizing from simple
+descriptions — means, counts, proportions — to more complicated ones
+such as generalized linear models. <!-- end itemize -->
 </li>
 </ol>
-<p>The mosaic operations allow students to implement each of the operations in what George Cobb calls the ``3 Rs’’ of statistical inference: Randomization, Replication, and Rejection (Cobb, 2007). By putting the 3 Rs together in various ways, students learn to generalize and internalize the logic of inference, rather than just to blindly follow formulaic methods. Terry Speed (2011) notes the changing role of simulation in statistics.</p>
+<p>The mosaic operations allow students to implement each of the
+operations in what George Cobb calls the ``3 Rs’’ of statistical
+inference: Randomization, Replication, and Rejection (Cobb, 2007). By
+putting the 3 Rs together in various ways, students learn to generalize
+and internalize the logic of inference, rather than just to blindly
+follow formulaic methods. Terry Speed (2011) notes the changing role of
+simulation in statistics.</p>
 <!-- begin quote -->
-<p>[Simulation used to be] something that people did when they can’t do the math… It now seems that we are heading into an era when all statistical analysis can be done by simulation. <!-- end quote --></p>
-<p>Arguably, the most important operation in statistics is sampling: ideally, selecting a random subset from a population. Regrettably, sampling takes work and time, so instructors tend to de-emphasize the actual practice of sampling in favor of theoretical descriptions. What’s more, the algebraic notation in which much of conventional textbook statistics is written does not offer an obvious notation for sampling. With the computer, however, these efficiency and notation obstacles can be overcome. Sampling can be placed in its rightfully central place among the statistical concepts in our courses.</p>
-<p>Randomization-based inference using permutation testing and bootstrapping are an increasingly important set of techniques for introductory statistics and beyond. To help educators usefully compare different software approaches, Five members of the Lock family posed a series of problems at USCOTS 2011 (United States Conference on Teaching Statistics), as described at <a href="https://www.causeweb.org/cause/uscots/uscots11/breakout" class="uri">https://www.causeweb.org/cause/uscots/uscots11/breakout</a>, relating to bootstrapping and permutation tests.</p>
-<p>Bootstrapping and permutation testing are powerful and elegant approaches to estimation and testing that can be implemented even in many situations where asymptotic results are difficult to find or otherwise unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al 2005). Bootstrapping involves sampling <em>with</em> replacement from a population, repeatedly calculating a sample statistic of interest to empirically construct the sampling distribution. Permutation testing for a two group comparison is done by <em>permuting</em> the labels for the grouping variable, then calculating the sample statistic (e.g. difference between two groups using these new labels) to empirically construct the null distribution.</p>
-<p>We will illustrate the use of the mosaic package using the Lock randomization problems. Then we will move beyond the simple settings of the Lock problems to show how the mosaic operations makes it straightforward to generalize the logic of randomization to more complicated models.</p>
+<p>[Simulation used to be] something that people did when they can’t do
+the math… It now seems that we are heading into an era when all
+statistical analysis can be done by simulation. <!-- end quote --></p>
+<p>Arguably, the most important operation in statistics is sampling:
+ideally, selecting a random subset from a population. Regrettably,
+sampling takes work and time, so instructors tend to de-emphasize the
+actual practice of sampling in favor of theoretical descriptions. What’s
+more, the algebraic notation in which much of conventional textbook
+statistics is written does not offer an obvious notation for sampling.
+With the computer, however, these efficiency and notation obstacles can
+be overcome. Sampling can be placed in its rightfully central place
+among the statistical concepts in our courses.</p>
+<p>Randomization-based inference using permutation testing and
+bootstrapping are an increasingly important set of techniques for
+introductory statistics and beyond. To help educators usefully compare
+different software approaches, Five members of the Lock family posed a
+series of problems at USCOTS 2011 (United States Conference on Teaching
+Statistics), as described at <a href="https://www.causeweb.org/cause/uscots/uscots11/breakout" class="external-link uri">https://www.causeweb.org/cause/uscots/uscots11/breakout</a>,
+relating to bootstrapping and permutation tests.</p>
+<p>Bootstrapping and permutation testing are powerful and elegant
+approaches to estimation and testing that can be implemented even in
+many situations where asymptotic results are difficult to find or
+otherwise unsatisfactory (Efron and Tibshirani, 1993; Hesterberg et al
+2005). Bootstrapping involves sampling <em>with</em> replacement from a
+population, repeatedly calculating a sample statistic of interest to
+empirically construct the sampling distribution. Permutation testing for
+a two group comparison is done by <em>permuting</em> the labels for the
+grouping variable, then calculating the sample statistic
+(e.g. difference between two groups using these new labels) to
+empirically construct the null distribution.</p>
+<p>We will illustrate the use of the mosaic package using the Lock
+randomization problems. Then we will move beyond the simple settings of
+the Lock problems to show how the mosaic operations makes it
+straightforward to generalize the logic of randomization to more
+complicated models.</p>
 </div>
-<div id="background-and-setup" class="section level2">
-<h2 class="hasAnchor">
-<a href="#background-and-setup" class="anchor"></a>Background and setup</h2>
-<div id="r-and-rstudio" class="section level3">
-<h3 class="hasAnchor">
-<a href="#r-and-rstudio" class="anchor"></a>R and RStudio</h3>
-<p>R is an open-source statistical environment that has been used at a number of institutions to teach introductory statistics. Among other advantages, R makes it easy to demonstrate the concepts of statistical inference through randomization while providing a sensible path for beginners to progress to advanced and professional statistics. RStudio (<a href="https://rstudio.com/" class="uri">https://rstudio.com/</a>) is an open-source integrated development environment for R which facilitates use of the system.</p>
+<div class="section level2">
+<h2 id="background-and-setup">Background and setup<a class="anchor" aria-label="anchor" href="#background-and-setup"></a>
+</h2>
+<div class="section level3">
+<h3 id="r-and-rstudio">R and RStudio<a class="anchor" aria-label="anchor" href="#r-and-rstudio"></a>
+</h3>
+<p>R is an open-source statistical environment that has been used at a
+number of institutions to teach introductory statistics. Among other
+advantages, R makes it easy to demonstrate the concepts of statistical
+inference through randomization while providing a sensible path for
+beginners to progress to advanced and professional statistics. RStudio
+(<a href="https://rstudio.com/" class="external-link uri">https://rstudio.com/</a>) is
+an open-source integrated development environment for R which
+facilitates use of the system.</p>
 </div>
-<div id="setup" class="section level3">
-<h3 class="hasAnchor">
-<a href="#setup" class="anchor"></a>Setup</h3>
-<p>The mosaic package can be installed using the standard features of the system (this needs only be done once).</p>
+<div class="section level3">
+<h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h3>
+<p>The mosaic package can be installed using the standard features of
+the system (this needs only be done once).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"mosaic"</span><span class="op">)</span></code></pre></div>
-<p>Once installed, the package must be loaded so that it is available (this must be done within each R session). In addition to loading the mosaic package, the following commands also set the number of digits to display by default.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"mosaic"</span><span class="op">)</span></span></code></pre></div>
+<p>Once installed, the package must be loaded so that it is available
+(this must be done within each R session). In addition to loading the
+mosaic package, the following commands also set the number of digits to
+display by default.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ProjectMOSAIC/mosaic">mosaic</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
-<p>Commands such as the above can be provided for students in a set-up file to be executed automatically each time an R session is started.</p>
-<p>The mosaic package works within R, so any of the data facilities within R can be used to provide data sets to students. In particular, R functions such as <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> and <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> support accessing data files via a website URL, avoiding the need to download data files to individual student machines.</p>
-<p>Here, we load one of the Lock data sets: <!-- Mustangs <- read.csv("http://www.mosaic-web.org/go/datasets/MustangPrice.csv") --></p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ProjectMOSAIC/mosaic" class="external-link">mosaic</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>Commands such as the above can be provided for students in a set-up
+file to be executed automatically each time an R session is started.</p>
+<p>The mosaic package works within R, so any of the data facilities
+within R can be used to provide data sets to students. In particular, R
+functions such as <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code> and <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table()</a></code>
+support accessing data files via a website URL, avoiding the need to
+download data files to individual student machines.</p>
+<p>Here, we load one of the Lock data sets:
+<!-- Mustangs <- read.csv("http://www.mosaic-web.org/go/datasets/MustangPrice.csv") --></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ProjectMOSAIC/mosaic">mosaic</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ProjectMOSAIC/mosaic" class="external-link">mosaic</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-<div id="the-lock-problems" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-lock-problems" class="anchor"></a>The Lock problems</h2>
-<p>The Lock problems are a series of short problems in statistical inference provided in 2011 by Robin Lock <em>et al.</em> to enable instructors to compare randomization software usability.</p>
-<div id="lock-problem-1--bootstrapping-a-mean-used-mustangs" class="section level3 unnumbered">
-<h3 class="hasAnchor">
-<a href="#lock-problem-1--bootstrapping-a-mean-used-mustangs" class="anchor"></a>Lock problem 1. Bootstrapping a mean (used Mustangs)</h3>
+<div class="section level2">
+<h2 id="the-lock-problems">The Lock problems<a class="anchor" aria-label="anchor" href="#the-lock-problems"></a>
+</h2>
+<p>The Lock problems are a series of short problems in statistical
+inference provided in 2011 by Robin Lock <em>et al.</em> to enable
+instructors to compare randomization software usability.</p>
+<div class="section level3 unnumbered">
+<h3 class="unnumbered" id="lock-problem-1--bootstrapping-a-mean-used-mustangs">Lock problem 1. Bootstrapping a mean (used
+Mustangs)<a class="anchor" aria-label="anchor" href="#lock-problem-1--bootstrapping-a-mean-used-mustangs"></a>
+</h3>
 <!-- begin quotation -->
-<p><em>A student collected data on the selling prices for a sample of used Mustang cars being offered for sale at an internet website. The price (in $1,000’s), age (in years) and miles driven (in 1,000’s) for the 25 cars in the sample are given in the [file <code>MustangPrice.csv</code>].<br>
-Use these data to construct a 90% confidence interval for the mean price (in $1,000’s) of used Mustangs.</em> <!-- end quotation --></p>
-<p>Students should learn to examine data before undertaking formal inference. Any of the standard R tools can be used for this. We advocate the use of ggformula-style graphics functions for two reasons: <!-- begin enumerate --></p>
+<p><em>A student collected data on the selling prices for a sample of
+used Mustang cars being offered for sale at an internet website. The
+price (in $1,000’s), age (in years) and miles driven (in 1,000’s) for
+the 25 cars in the sample are given in the [file
+<code>MustangPrice.csv</code>].<br>
+Use these data to construct a 90% confidence interval for the mean price
+(in $1,000’s) of used Mustangs.</em> <!-- end quotation --></p>
+<p>Students should learn to examine data before undertaking formal
+inference. Any of the standard R tools can be used for this. We advocate
+the use of ggformula-style graphics functions for two reasons:
+<!-- begin enumerate --></p>
 <ol>
-<li>They use a syntax that is consistent with the syntax used in mosaic.<br>
+<li>They use a syntax that is consistent with the syntax used in
+mosaic.<br>
 </li>
-<li>They extend naturally to more complicated settings. <!-- end enumerate -->
+<li>They extend naturally to more complicated settings.
+<!-- end enumerate -->
 </li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/dot-1.png" width="384" style="display: block; margin: auto;"></p>
-<p>The basic ggformula syntax here — operator, “formula” involving <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code>, and the use of <code>data =</code> to specify the relevant data set — will be used throughout mosaic. For example, here is the sample mean</p>
+<p>The basic ggformula syntax here — operator, “formula” involving
+<code>~</code>, and the use of <code>data =</code> to specify the
+relevant data set — will be used throughout mosaic. For example, here is
+the sample mean</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt; [1] 16</span></code></pre></div>
-<p>Those familiar with R may wonder why the statement has not been written as</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 16</span></span></code></pre></div>
+<p>Those familiar with R may wonder why the statement has not been
+written as</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">$</span><span class="va">Price</span><span class="op">)</span></code></pre></div>
-<p>You can, of course, carry out exactly the same calculation this way. By using</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">$</span><span class="va">Price</span><span class="op">)</span></span></code></pre></div>
+<p>You can, of course, carry out exactly the same calculation this way.
+By using</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></code></pre></div>
-<p>we are making graphical and numerical summaries fit into a common template and anticipating the next steps, including the introduction of additional operations such as randomization and modeling.</p>
-<p>Resampling, also known as random selection with replacement, is an important operation in randomization. The <code><a href="../reference/resample.html">resample()</a></code> function performs this. It can be illustrated in a very basic way on a small set of numbers:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span></code></pre></div>
+<p>we are making graphical and numerical summaries fit into a common
+template and anticipating the next steps, including the introduction of
+additional operations such as randomization and modeling.</p>
+<p>Resampling, also known as random selection with replacement, is an
+important operation in randomization. The <code><a href="../reference/resample.html">resample()</a></code>
+function performs this. It can be illustrated in a very basic way on a
+small set of numbers:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">simple</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">simple</span><span class="op">)</span>
-<span class="co">#&gt; [1] 4 5 2 5 1</span>
-<span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">simple</span><span class="op">)</span>
-<span class="co">#&gt; [1] 3 1 4 5 5</span>
-<span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">simple</span><span class="op">)</span>
-<span class="co">#&gt; [1] 5 1 5 3 4</span></code></pre></div>
-<p>When applied to a dataframe, <code><a href="../reference/resample.html">resample()</a></code> selects random rows. It’s easy to demonstrate this with a statement such as:</p>
+<code class="sourceCode R"><span><span class="va">simple</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">simple</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 5 3 4 2 1</span></span>
+<span><span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">simple</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4 1 3 3 1</span></span>
+<span><span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">simple</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4 4 2 3 3</span></span></code></pre></div>
+<p>When applied to a dataframe, <code><a href="../reference/resample.html">resample()</a></code> selects random
+rows. It’s easy to demonstrate this with a statement such as:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt;      Age Miles Price orig.id
-#&gt; 13     8 100.8   9.0      13
-#&gt; 3      9  82.8  11.9       3
-#&gt; 2      7  33.0  45.0       2
-#&gt; 24    12  72.9  12.9      24
-#&gt; 2.1    7  33.0  45.0       2
-#&gt; 24.1  12  72.9  12.9      24
-#&gt; ... and so on</code></pre>
-<p>By reference to the case numbers in the left column, you can see that case 19 has been selected twice.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt;      Age Miles Price orig.id</span></span>
+<span><span class="co">#&gt; 13     8 100.8   9.0      13</span></span>
+<span><span class="co">#&gt; 3      9  82.8  11.9       3</span></span>
+<span><span class="co">#&gt; 2      7  33.0  45.0       2</span></span>
+<span><span class="co">#&gt; 24    12  72.9  12.9      24</span></span>
+<span><span class="co">#&gt; 2.1    7  33.0  45.0       2</span></span>
+<span><span class="co">#&gt; 24.1  12  72.9  12.9      24</span></span>
+<span><span class="co">#&gt; ... and so on</span></span></code></pre>
+<p>By reference to the case numbers in the left column, you can see that
+case 19 has been selected twice.</p>
 <p>One resampling trial of the mean can be carried out with</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 16.3</span></code></pre></div>
-<p>Even though a single trial is of little use, it’s a nice idea to have students do the calculation to show that they are (usually) getting a different results with each resample.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 16.3</span></span></code></pre></div>
+<p>Even though a single trial is of little use, it’s a nice idea to have
+students do the calculation to show that they are (usually) getting a
+different results with each resample.</p>
 <p>Another trial can be carried out by repeating the command:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 13.9</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 13.9</span></span></code></pre></div>
 <p>Let’s generate five more, with a single command:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;   mean</span>
-<span class="co">#&gt; 1 11.8</span>
-<span class="co">#&gt; 2 14.0</span>
-<span class="co">#&gt; 3 13.8</span>
-<span class="co">#&gt; 4 15.6</span>
-<span class="co">#&gt; 5 20.2</span></code></pre></div>
-<p>Now conduct 2000 resampling trials<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, saving the results in an object called <span style="color:blue">Mustangs.Price.boot</span>:<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   mean</span></span>
+<span><span class="co">#&gt; 1 11.8</span></span>
+<span><span class="co">#&gt; 2 14.0</span></span>
+<span><span class="co">#&gt; 3 13.8</span></span>
+<span><span class="co">#&gt; 4 15.6</span></span>
+<span><span class="co">#&gt; 5 20.2</span></span></code></pre></div>
+<p>Now conduct 2000 resampling trials<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, saving the results in an object called
+<span style="color:blue">Mustangs.Price.boot</span>:<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mustangs_price_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mustangs_price_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Plotting this resampling distribution is straightforward, e.g.:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span>, 
-  xlab<span class="op">=</span><span class="st">"Mean Mustang Price (in thousand dollars)"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span>, </span>
+<span>  xlab<span class="op">=</span><span class="st">"Mean Mustang Price (in thousand dollars)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/hist-1.png" width="384" style="display: block; margin: auto;"></p>
-<p>The simplest way to translate this distribution into a confidence interval is to apply the operator for that purpose:</p>
+<p>The simplest way to translate this distribution into a confidence
+interval is to apply the operator for that purpose:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_price_boot</span>, level <span class="op">=</span> <span class="fl">0.90</span>, method <span class="op">=</span> <span class="st">"quantile"</span><span class="op">)</span>
-<span class="co">#&gt;   name lower upper level     method estimate</span>
-<span class="co">#&gt; 1 mean  12.5  19.7   0.9 percentile       16</span>
-<span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_price_boot</span>, level <span class="op">=</span> <span class="fl">0.90</span>, method <span class="op">=</span> <span class="st">"stderr"</span><span class="op">)</span>
-<span class="co">#&gt;   name lower upper level method estimate margin.of.error df</span>
-<span class="co">#&gt; 1 mean  12.2  19.6   0.9 stderr       16            3.68 24</span></code></pre></div>
-<p>The <code><a href="../reference/confint.html">confint()</a></code> function is a black box. In introducing it, an instructor might well want to show the calculations behind the confidence interval in some detail using general-purpose operations. <code><a href="../reference/confint.html">confint()</a></code> implements two basic approaches, one based on quantiles of the distribution and the other using normal theory. <!-- begin itemize --></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_price_boot</span>, level <span class="op">=</span> <span class="fl">0.90</span>, method <span class="op">=</span> <span class="st">"quantile"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   name lower upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1 mean  12.5  19.7   0.9 percentile       16</span></span>
+<span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_price_boot</span>, level <span class="op">=</span> <span class="fl">0.90</span>, method <span class="op">=</span> <span class="st">"stderr"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   name lower upper level method estimate margin.of.error df</span></span>
+<span><span class="co">#&gt; 1 mean  12.2  19.6   0.9 stderr       16            3.68 24</span></span></code></pre></div>
+<p>The <code><a href="../reference/confint.html">confint()</a></code> function is a black box. In introducing
+it, an instructor might well want to show the calculations behind the
+confidence interval in some detail using general-purpose operations.
+<code><a href="../reference/confint.html">confint()</a></code> implements two basic approaches, one based on
+quantiles of the distribution and the other using normal theory.
+<!-- begin itemize --></p>
 <ol>
 <li>Calculation of the 90% confidence interval using quantiles</li>
 </ol>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/qdata.html">qdata</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.05</span>, <span class="fl">.95</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span>
-<span class="co">#&gt;   5%  95% </span>
-<span class="co">#&gt; 12.5 19.7</span>
-<span class="co"># alternative</span>
-<span class="fu"><a href="../reference/qdata.html">cdata</a></span><span class="op">(</span><span class="op">~</span> <span class="va">mean</span>, <span class="fl">0.90</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span>
-<span class="co">#&gt;    lower upper central.p</span>
-<span class="co">#&gt; 5%  12.5  19.7       0.9</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pqrdata.html">qdata</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.05</span>, <span class="fl">.95</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   5%  95% </span></span>
+<span><span class="co">#&gt; 12.5 19.7</span></span>
+<span><span class="co"># alternative</span></span>
+<span><span class="fu"><a href="../reference/pqrdata.html">cdata</a></span><span class="op">(</span><span class="op">~</span> <span class="va">mean</span>, <span class="fl">0.90</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    lower upper central.p</span></span>
+<span><span class="co">#&gt; 5%  12.5  19.7       0.9</span></span></code></pre></div>
 <ol>
-<li>Using normal theory and the standard error. First calculate the critical value <span class="math inline">\(t_\star\)</span> for the appropriate degrees of freedom. Or use <span class="math inline">\(z_\star\)</span>, either for simplicity or to demonstrate how <span class="math inline">\(t_\star\)</span> differs. In either case, the confidence level needs to be converted to the appropriate tail probability.</li>
+<li>Using normal theory and the standard error. First calculate the
+critical value <span class="math inline">\(t_\star\)</span> for the
+appropriate degrees of freedom. Or use <span class="math inline">\(z_\star\)</span>, either for simplicity or to
+demonstrate how <span class="math inline">\(t_\star\)</span> differs. In
+either case, the confidence level needs to be converted to the
+appropriate tail probability.</li>
 </ol>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tstar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">.95</span>, df <span class="op">=</span> <span class="fl">24</span><span class="op">)</span>
-<span class="va">zstar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">.95</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tstar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">qt</a></span><span class="op">(</span><span class="fl">.95</span>, df <span class="op">=</span> <span class="fl">24</span><span class="op">)</span></span>
+<span><span class="va">zstar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">.95</span><span class="op">)</span></span></code></pre></div>
 <p>The resulting margin of error will be</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tstar</span> <span class="op">*</span> <span class="fu"><a href="../reference/mean_.html">sd</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span>
-<span class="co">#&gt; [1] 3.68</span>
-<span class="va">zstar</span> <span class="op">*</span> <span class="fu"><a href="../reference/mean_.html">sd</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span>
-<span class="co">#&gt; [1] 3.53</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tstar</span> <span class="op">*</span> <span class="fu"><a href="../reference/aggregating.html">sd</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 3.68</span></span>
+<span><span class="va">zstar</span> <span class="op">*</span> <span class="fu"><a href="../reference/aggregating.html">sd</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">mean</span>, data <span class="op">=</span> <span class="va">mustangs_price_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 3.53</span></span></code></pre></div>
 <!-- end itemize -->
-<p>There’s little reason to repeat this set of commands every time one needs a confidence interval. That’s where <code><a href="../reference/confint.html">confint()</a></code> comes in, abstracting the operation, allowing the user to specify a <code>level</code> and a <code>method</code> (<code>"quantile"</code> or <code>"stderr"</code>) and avoiding the need to convert the level into a tail probability. The extent to which one should repeat the detailed steps of the margin-of-error calculation is a decision the instructor can make depending on local circumstances and the instructor’s goals. R and mosaic supports both approaches.</p>
+<p>There’s little reason to repeat this set of commands every time one
+needs a confidence interval. That’s where <code><a href="../reference/confint.html">confint()</a></code> comes
+in, abstracting the operation, allowing the user to specify a
+<code>level</code> and a <code>method</code> (<code>"quantile"</code> or
+<code>"stderr"</code>) and avoiding the need to convert the level into a
+tail probability. The extent to which one should repeat the detailed
+steps of the margin-of-error calculation is a decision the instructor
+can make depending on local circumstances and the instructor’s goals. R
+and mosaic supports both approaches.</p>
 </div>
-<div id="lock-problem-2-testing-a-proportion-nfl-overtimes" class="section level3 unnumbered">
-<h3 class="hasAnchor">
-<a href="#lock-problem-2-testing-a-proportion-nfl-overtimes" class="anchor"></a>Lock problem 2: Testing a proportion (NFL Overtimes)</h3>
+<div class="section level3 unnumbered">
+<h3 class="unnumbered" id="lock-problem-2-testing-a-proportion-nfl-overtimes">Lock problem 2: Testing a proportion (NFL
+Overtimes)<a class="anchor" aria-label="anchor" href="#lock-problem-2-testing-a-proportion-nfl-overtimes"></a>
+</h3>
 <!-- begin quotation -->
-<p><em>The National Football League (NFL) uses an overtime period to determine a winner for games that are tied at the end of regulation time. The first team to score in the overtime wins the game. A coin flip is used to determine which team gets the ball first. Is there an advantage to winning the coin flip? Data from the 1974 through 2009 seasons show that the coin flip winner won 240 of the 428 games where a winner was determined in overtime. Treat these as a sample of NFL games to test whether there is sufficient evidence to show that the proportion of overtime games won by the coin flip winner is more than one half.</em> <!-- end quotation --></p>
-<p>By and large, introductory students understand that, if first possession of the ball is unrelated to the game outcome, one would expect to see about half of the 428 games won by the team that won the coin flip. The question is whether the observed 240 wins is “about” half of the 428 games. Statistical inference compares the 240 to the <span class="math inline">\(428/2 = 214\)</span> in the context of sampling variation.</p>
+<p><em>The National Football League (NFL) uses an overtime period to
+determine a winner for games that are tied at the end of regulation
+time. The first team to score in the overtime wins the game. A coin flip
+is used to determine which team gets the ball first. Is there an
+advantage to winning the coin flip? Data from the 1974 through 2009
+seasons show that the coin flip winner won 240 of the 428 games where a
+winner was determined in overtime. Treat these as a sample of NFL games
+to test whether there is sufficient evidence to show that the proportion
+of overtime games won by the coin flip winner is more than one
+half.</em> <!-- end quotation --></p>
+<p>By and large, introductory students understand that, if first
+possession of the ball is unrelated to the game outcome, one would
+expect to see about half of the 428 games won by the team that won the
+coin flip. The question is whether the observed 240 wins is “about” half
+of the 428 games. Statistical inference compares the 240 to the <span class="math inline">\(428/2 = 214\)</span> in the context of sampling
+variation.</p>
 <p>Using the built-in binomial distribution operators.</p>
-<p>Generate a simulation where each trial is a random sample of 428 games from a world in which the null hypothesis holds true and see what proportion of trials give a result as or more extreme as the observed 240.</p>
+<p>Generate a simulation where each trial is a random sample of 428
+games from a world in which the null hypothesis holds true and see what
+proportion of trials give a result as or more extreme as the observed
+240.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1000</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, size <span class="op">=</span> <span class="fl">428</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">240</span><span class="op">)</span>
-<span class="co">#&gt; prop_TRUE </span>
-<span class="co">#&gt;     0.009</span></code></pre></div>
-<p>The result indicates that it’s very unlikely, if the null were true, that the coin flip winner would win 240 or more times.</p>
-<p>The exact result differs slightly from one simulation to the next, but that variation can be made small by making the number of trials larger.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="fl">1000</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, size <span class="op">=</span> <span class="fl">428</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">240</span><span class="op">)</span></span>
+<span><span class="co">#&gt; prop_TRUE </span></span>
+<span><span class="co">#&gt;     0.009</span></span></code></pre></div>
+<p>The result indicates that it’s very unlikely, if the null were true,
+that the coin flip winner would win 240 or more times.</p>
+<p>The exact result differs slightly from one simulation to the next,
+but that variation can be made small by making the number of trials
+larger.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1000</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, size <span class="op">=</span> <span class="fl">428</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">240</span><span class="op">)</span>
-<span class="co">#&gt; prop_TRUE </span>
-<span class="co">#&gt;     0.003</span></code></pre></div>
-<p>In this case, it is tempting entirely to avoid the variation due to simulation by doing a deterministic probability calculation rather than the simulation. This exact reproducibility comes at a cost, though, the need to customize the cut-off point to reflect which tail of the distribution corresponds to “as or more extreme than 240.” On the right side, this means subtracting 1 from the observed number.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="fl">1000</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, size <span class="op">=</span> <span class="fl">428</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">240</span><span class="op">)</span></span>
+<span><span class="co">#&gt; prop_TRUE </span></span>
+<span><span class="co">#&gt;     0.003</span></span></code></pre></div>
+<p>In this case, it is tempting entirely to avoid the variation due to
+simulation by doing a deterministic probability calculation rather than
+the simulation. This exact reproducibility comes at a cost, though, the
+need to customize the cut-off point to reflect which tail of the
+distribution corresponds to “as or more extreme than 240.” On the right
+side, this means subtracting 1 from the observed number.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/pdist.html">xpbinom</a></span><span class="op">(</span><span class="fl">239</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, size <span class="op">=</span> <span class="fl">428</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.993</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/pdist.html">xpbinom</a></span><span class="op">(</span><span class="fl">239</span>, prob <span class="op">=</span> <span class="fl">0.5</span>, size <span class="op">=</span> <span class="fl">428</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 0.993</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/pbinom-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>Of course, R can handle all of these little details and do the entire calculation for us if we use the <code><a href="../reference/binom.test.html">binom.test()</a></code> function.</p>
+<p>Of course, R can handle all of these little details and do the entire
+calculation for us if we use the <code><a href="../reference/binom.test.html">binom.test()</a></code> function.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/binom.test.html">binom.test</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">240</span>, n <span class="op">=</span> <span class="fl">428</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  240 out of 428</span>
-<span class="co">#&gt; number of successes = 240, number of trials = 428, p-value =</span>
-<span class="co">#&gt; 0.01</span>
-<span class="co">#&gt; alternative hypothesis: true probability of success is not equal to 0.5</span>
-<span class="co">#&gt; 95 percent confidence interval:</span>
-<span class="co">#&gt;  0.512 0.608</span>
-<span class="co">#&gt; sample estimates:</span>
-<span class="co">#&gt; probability of success </span>
-<span class="co">#&gt;                  0.561</span></code></pre></div>
-<p>Even if you want to use the deterministic probability calculation (using either <code><a href="https://rdrr.io/r/stats/Binomial.html">pbinom()</a></code> or <code><a href="../reference/binom.test.html">binom.test()</a></code>), you might want to illustrate the logic with the random-number generator.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/binom.test.html">binom.test</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">240</span>, n <span class="op">=</span> <span class="fl">428</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  240 out of 428</span></span>
+<span><span class="co">#&gt; number of successes = 240, number of trials = 428, p-value =</span></span>
+<span><span class="co">#&gt; 0.01</span></span>
+<span><span class="co">#&gt; alternative hypothesis: true probability of success is not equal to 0.5</span></span>
+<span><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span><span class="co">#&gt;  0.512 0.608</span></span>
+<span><span class="co">#&gt; sample estimates:</span></span>
+<span><span class="co">#&gt; probability of success </span></span>
+<span><span class="co">#&gt;                  0.561</span></span></code></pre></div>
+<p>Even if you want to use the deterministic probability calculation
+(using either <code><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">pbinom()</a></code> or <code><a href="../reference/binom.test.html">binom.test()</a></code>), you
+might want to illustrate the logic with the random-number generator.</p>
 <p>Explicitly simulating a coin flip.</p>
-<p>Recognizing that coin flips are a staple of statistics courses, the mosaic package offers a function that simulates random coin tosses without the need to refer to the binomial distribution. Here is one trial involving flipping 428 coins:</p>
+<p>Recognizing that coin flips are a staple of statistics courses, the
+mosaic package offers a function that simulates random coin tosses
+without the need to refer to the binomial distribution. Here is one
+trial involving flipping 428 coins:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="fl">428</span><span class="op">)</span>
-<span class="co">#&gt;     n heads tails prop</span>
-<span class="co">#&gt; 1 428   214   214  0.5</span></code></pre></div>
-<p>We’ll do 2000 trials, and count what fraction of the trials the coin toss winner (say, “heads”) wins 240 or more of the 428 attempts:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="fl">428</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     n heads tails prop</span></span>
+<span><span class="co">#&gt; 1 428   214   214  0.5</span></span></code></pre></div>
+<p>We’ll do 2000 trials, and count what fraction of the trials the coin
+toss winner (say, “heads”) wins 240 or more of the 428 attempts:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nfl_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="fl">428</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">heads</span> <span class="op">&gt;=</span> <span class="fl">240</span>, data <span class="op">=</span> <span class="va">nfl_null</span><span class="op">)</span>
-<span class="co">#&gt; prop_TRUE </span>
-<span class="co">#&gt;    0.0105</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">nfl_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/rflip.html">rflip</a></span><span class="op">(</span><span class="fl">428</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">heads</span> <span class="op">&gt;=</span> <span class="fl">240</span>, data <span class="op">=</span> <span class="va">nfl_null</span><span class="op">)</span></span>
+<span><span class="co">#&gt; prop_TRUE </span></span>
+<span><span class="co">#&gt;    0.0105</span></span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">heads</span>, fill <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="va">heads</span> <span class="op">&gt;=</span> <span class="fl">240</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">nfl_null</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">heads</span>, fill <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="va">heads</span> <span class="op">&gt;=</span> <span class="fl">240</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">nfl_null</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/flips-1.png" width="384" style="display: block; margin: auto;"></p>
-<p>The observed pattern of 240 wins is not a likely outcome under the null hypothesis. The shading added through the <span style="color:brown">groups =</span> option helps to visually reinforce the result.</p>
+<p>The observed pattern of 240 wins is not a likely outcome under the
+null hypothesis. The shading added through the <span style="color:brown">groups =</span> option helps to visually reinforce
+the result.</p>
 </div>
-<div id="lock-problem-3-permutation-test-of-means-from-two-groups-sleep-and-memory" class="section level3 unnumbered">
-<h3 class="hasAnchor">
-<a href="#lock-problem-3-permutation-test-of-means-from-two-groups-sleep-and-memory" class="anchor"></a>Lock problem 3: Permutation test of means from two groups (sleep and memory)</h3>
+<div class="section level3 unnumbered">
+<h3 class="unnumbered" id="lock-problem-3-permutation-test-of-means-from-two-groups-sleep-and-memory">Lock problem 3: Permutation test of means from
+two groups (sleep and memory)<a class="anchor" aria-label="anchor" href="#lock-problem-3-permutation-test-of-means-from-two-groups-sleep-and-memory"></a>
+</h3>
 <!-- begin quotation -->
-<p><em>In an experiment on memory (Mednicj et al, 2008), students were given lists of 24 words to memorize. After hearing the words they were assigned at random to different groups. One group of 12 students took a nap for 1.5 hours while a second group of 12 students stayed awake and was given a caffeine pill. The results below display the number of words each participant was able to recall after the break. Test whether the data indicate a difference in mean number of words recalled between the two treatments.</em> <!-- end quotation --> <!-- <- read.csv("http://www.mosaic-web.org/go/datasets/SleepCaffeine.csv") --></p>
+<p><em>In an experiment on memory (Mednicj et al, 2008), students were
+given lists of 24 words to memorize. After hearing the words they were
+assigned at random to different groups. One group of 12 students took a
+nap for 1.5 hours while a second group of 12 students stayed awake and
+was given a caffeine pill. The results below display the number of words
+each participant was able to recall after the break. Test whether the
+data indicate a difference in mean number of words recalled between the
+two treatments.</em> <!-- end quotation -->
+<!-- <- read.csv("http://www.mosaic-web.org/go/datasets/SleepCaffeine.csv") --></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Sleep</span><span class="op">)</span> </code></pre></div>
-<p>The Sleep group tends to have remembered somewhat more words on average:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Sleep</span><span class="op">)</span> </span></code></pre></div>
+<p>The Sleep group tends to have remembered somewhat more words on
+average:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span>
-<span class="co">#&gt; Caffeine    Sleep </span>
-<span class="co">#&gt;     12.2     15.2</span>
-<span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span>
-<span class="va">obs</span>
-<span class="co">#&gt; Sleep </span>
-<span class="co">#&gt;     3</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Caffeine    Sleep </span></span>
+<span><span class="co">#&gt;     12.2     15.2</span></span>
+<span><span class="va">obs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">obs</span></span>
+<span><span class="co">#&gt; Sleep </span></span>
+<span><span class="co">#&gt;     3</span></span></code></pre></div>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_boxplot</span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">gf_boxplot</span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/unnamed-chunk-13-1.png" width="384" style="display: block; margin: auto;"></p>
-<p>To implement the null hypothesis, scramble the Group with respect to the outcome, Words:</p>
+<p>To implement the null hypothesis, scramble the Group with respect to
+the outcome, Words:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Sleep </span>
-<span class="co">#&gt; 0.833</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sleep </span></span>
+<span><span class="co">#&gt; 0.833</span></span></code></pre></div>
 <p>That’s just one trial. Let’s try again:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Sleep </span>
-<span class="co">#&gt;  1.17</span></code></pre></div>
-<p>To get the distribution under the null hypothesis, we carry out many trials:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sleep </span></span>
+<span><span class="co">#&gt;  1.17</span></span></code></pre></div>
+<p>To get the distribution under the null hypothesis, we carry out many
+trials:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sleep_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">Sleep</span>, fill <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="va">Sleep</span> <span class="op">&gt;=</span> <span class="va">obs</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleep_null</span>, 
-  binwidth <span class="op">=</span> <span class="fl">0.4</span>,
-  xlab <span class="op">=</span> <span class="st">"Distribution of difference in means under the null hypothesis"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sleep_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Group</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">Sleep</span>, fill <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="va">Sleep</span> <span class="op">&gt;=</span> <span class="va">obs</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleep_null</span>, </span>
+<span>  binwidth <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Distribution of difference in means under the null hypothesis"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/sleep-1.png" width="384" style="display: block; margin: auto;"></p>
 <p>The one-sided p-value for this test is the proportion of<br>
-trials which yielded a result as extreme or more extreme as the observed difference. We can calculate the one-sided p-value for this test by summing up the number of trials which yielded a result as extreme or more extreme as the observed difference. Here only 51 of the 2000 trials gave a result that large, so the p-value is equal to 0.025. We conclude that it’s unlikely that the two groups have the same mean word recall back in their respective populations.</p>
+trials which yielded a result as extreme or more extreme as the observed
+difference. We can calculate the one-sided p-value for this test by
+summing up the number of trials which yielded a result as extreme or
+more extreme as the observed difference. Here only 51 of the 2000 trials
+gave a result that large, so the p-value is equal to 0.025. We conclude
+that it’s unlikely that the two groups have the same mean word recall
+back in their respective populations.</p>
 </div>
-<div id="lock-problem-4-bootstrapping-a-correlation" class="section level3 unnumbered">
-<h3 class="hasAnchor">
-<a href="#lock-problem-4-bootstrapping-a-correlation" class="anchor"></a>Lock problem 4: Bootstrapping a correlation</h3>
+<div class="section level3 unnumbered">
+<h3 class="unnumbered" id="lock-problem-4-bootstrapping-a-correlation">Lock problem 4: Bootstrapping a correlation<a class="anchor" aria-label="anchor" href="#lock-problem-4-bootstrapping-a-correlation"></a>
+</h3>
 <!-- begin quotation -->
-<p><em>The data on Mustang prices in Problem #1 also contains the number of miles each car had been driven (in thousands). Find a 95% confidence interval for the correlation between price and mileage.</em> <!-- end quotation --></p>
-<p>We can follow essentially the same workflow to obtain a confidence interval for other statistics, including the correlation coefficient.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+<p><em>The data on Mustang prices in Problem #1 also contains the number
+of miles each car had been driven (in thousands). Find a 95% confidence
+interval for the correlation between price and mileage.</em>
+<!-- end quotation --></p>
+<p>We can follow essentially the same workflow to obtain a confidence
+interval for other statistics, including the correlation coefficient.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">cor</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt; [1] -0.825</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">cor</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] -0.825</span></span></code></pre></div>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mustangs_cor_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/mean_.html">cor</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="va">quantiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/qdata.html">qdata</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">cor</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">.975</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mustangs_cor_boot</span><span class="op">)</span>
-<span class="va">quantiles</span>
-<span class="co">#&gt;   2.5%  97.5% </span>
-<span class="co">#&gt; -0.928 -0.725</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mustangs_cor_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/aggregating.html">cor</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">quantiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pqrdata.html">qdata</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">cor</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">.975</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mustangs_cor_boot</span><span class="op">)</span></span>
+<span><span class="va">quantiles</span></span>
+<span><span class="co">#&gt;   2.5%  97.5% </span></span>
+<span><span class="co">#&gt; -0.928 -0.725</span></span></code></pre></div>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mustangs_hist</span> <span class="op">&lt;-</span> <span class="fu">mutate</span><span class="op">(</span><span class="va">mustangs_cor_boot</span>, 
-  colorval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">cor</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="va">quantiles</span>, <span class="cn">Inf</span><span class="op">)</span>,
-    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lower"</span>, <span class="st">"Middle"</span>, <span class="st">"Upper"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">cor</span>, data <span class="op">=</span> <span class="va">mustangs_hist</span>, fill <span class="op">=</span> <span class="op">~</span> <span class="va">colorval</span>, n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> 
-<span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_cor_boot</span><span class="op">)</span>
-<span class="co">#&gt;   name  lower  upper level     method estimate</span>
-<span class="co">#&gt; 1  cor -0.928 -0.725  0.95 percentile   -0.825</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mustangs_hist</span> <span class="op">&lt;-</span> <span class="fu">mutate</span><span class="op">(</span><span class="va">mustangs_cor_boot</span>, </span>
+<span>  colorval <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">cor</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="va">quantiles</span>, <span class="cn">Inf</span><span class="op">)</span>,</span>
+<span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lower"</span>, <span class="st">"Middle"</span>, <span class="st">"Upper"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">cor</span>, data <span class="op">=</span> <span class="va">mustangs_hist</span>, fill <span class="op">=</span> <span class="op">~</span> <span class="va">colorval</span>, n <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_cor_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   name  lower  upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1  cor -0.928 -0.725  0.95 percentile   -0.825</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/cor-1.png" width="384" style="display: block; margin: auto;"></p>
 </div>
 </div>
-<div id="moving-beyond-means-and-proportions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#moving-beyond-means-and-proportions" class="anchor"></a>Moving beyond means and proportions</h2>
-<p>The Lock problems refer to the descriptive statistics encountered in many introductory applied statistics courses: means, proportions, differences in means and proportions. There are advantages, however, in introducing such basic statistics in the context of a more general framework: linear models.</p>
-<p>Usually, people think about linear models in the context of regression. For instance, using the Lock Mustang price dataset, there is presumably a relationship between the price of a car and its mileage. Here’s a graph:</p>
+<div class="section level2">
+<h2 id="moving-beyond-means-and-proportions">Moving beyond means and proportions<a class="anchor" aria-label="anchor" href="#moving-beyond-means-and-proportions"></a>
+</h2>
+<p>The Lock problems refer to the descriptive statistics encountered in
+many introductory applied statistics courses: means, proportions,
+differences in means and proportions. There are advantages, however, in
+introducing such basic statistics in the context of a more general
+framework: linear models.</p>
+<p>Usually, people think about linear models in the context of
+regression. For instance, using the Lock Mustang price dataset, there is
+presumably a relationship between the price of a car and its mileage.
+Here’s a graph:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">gf_point</span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">gf_lm</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">gf_point</span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">gf_lm</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/price-mileage-graph-1.png" width="384" style="display: block; margin: auto;"></p>
-<p>There’s a pretty clear relationship here, which in the Lock problems was quantified with the correlation coefficient.</p>
-<p>In regression, one finds a straight-line functional relationship between the two variables. The built-in R <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function does the calculations:</p>
+<p>There’s a pretty clear relationship here, which in the Lock problems
+was quantified with the correlation coefficient.</p>
+<p>In regression, one finds a straight-line functional relationship
+between the two variables. The built-in R <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function
+does the calculations:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = Price ~ Miles, data = Mustangs)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt; (Intercept)        Miles  </span>
-<span class="co">#&gt;      30.495       -0.219</span></code></pre></div>
-<p>The notation used is the same as used to produce a scatter plot. The result indicates that for every additional 1000 miles driven, the price of a car typically decreases by $219 dollars (or, given the units of the data, 0.2188 thousand dollars). In other words, the value of a Mustang goes down by about 22 cents per mile driven.</p>
-<p>This number, 22 cents decrease per mile, can be thought of as a slope. It’s likely much more meaningful to students (and car buyers!) than the correlation coefficient of <span class="math inline">\(-0.82\)</span>. The ability to give a description in terms of predicted change is an advantage of using regression as a description rather than correlation. There are more such advantages to regression, which we will describe later. But for now, our emphasis is on the use of regression as a framework for the traditional sorts of calculations of means, proportions, and differences of means and proportions.</p>
-<p>The mean price of the Mustangs is, calculated in the ordinary way:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = Price ~ Miles, data = Mustangs)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt; (Intercept)        Miles  </span></span>
+<span><span class="co">#&gt;      30.495       -0.219</span></span></code></pre></div>
+<p>The notation used is the same as used to produce a scatter plot. The
+result indicates that for every additional 1000 miles driven, the price
+of a car typically decreases by $219 dollars (or, given the units of the
+data, 0.2188 thousand dollars). In other words, the value of a Mustang
+goes down by about 22 cents per mile driven.</p>
+<p>This number, 22 cents decrease per mile, can be thought of as a
+slope. It’s likely much more meaningful to students (and car buyers!)
+than the correlation coefficient of <span class="math inline">\(-0.82\)</span>. The ability to give a description
+in terms of predicted change is an advantage of using regression as a
+description rather than correlation. There are more such advantages to
+regression, which we will describe later. But for now, our emphasis is
+on the use of regression as a framework for the traditional sorts of
+calculations of means, proportions, and differences of means and
+proportions.</p>
+<p>The mean price of the Mustangs is, calculated in the ordinary
+way:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt; [1] 16</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">Price</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 16</span></span></code></pre></div>
 <p>The same result can be generate via a linear model:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = Price ~ 1, data = Mustangs)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt; (Intercept)  </span>
-<span class="co">#&gt;          16</span></code></pre></div>
-<p>This may seem obscure. In <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, the <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> notation is used to identify the response variable and the explanatory variables. In <code>Price ~ Miles</code>, the response variable is <code>Price</code> and <code>Miles</code> is being used as the explanatory variable.<br>
-The mileage varies from car to car; this variation in mileage is used to explain the variation in price.</p>
-<p>In <code>Price ~ 1</code>, the <code>1</code> can be thought of as signifying that there are no explanatory variables, or, from a slightly different perspective, that the cars are all the same. The <code><a href="../reference/mean_.html">mean()</a></code> function is set up to accept this same notation:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = Price ~ 1, data = Mustangs)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt; (Intercept)  </span></span>
+<span><span class="co">#&gt;          16</span></span></code></pre></div>
+<p>This may seem obscure. In <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>, the <code>~</code>
+notation is used to identify the response variable and the explanatory
+variables. In <code>Price ~ Miles</code>, the response variable is
+<code>Price</code> and <code>Miles</code> is being used as the
+explanatory variable.<br>
+The mileage varies from car to car; this variation in mileage is used to
+explain the variation in price.</p>
+<p>In <code>Price ~ 1</code>, the <code>1</code> can be thought of as
+signifying that there are no explanatory variables, or, from a slightly
+different perspective, that the cars are all the same. The
+<code><a href="../reference/aggregating.html">mean()</a></code> function is set up to accept this same notation:</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt;  1 </span>
-<span class="co">#&gt; 16</span></code></pre></div>
-<p>Why? So that the notation can be extended to include calculating the mean for different groups. To illustrate, consider the Lock <code>Sleep</code> data which compares the ability to memorize words after a nap versus after taking caffeine.</p>
-<p>The mean number of words memorized, ignoring the explanatory group, is:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  1 </span></span>
+<span><span class="co">#&gt; 16</span></span></code></pre></div>
+<p>Why? So that the notation can be extended to include calculating the
+mean for different groups. To illustrate, consider the Lock
+<code>Sleep</code> data which compares the ability to memorize words
+after a nap versus after taking caffeine.</p>
+<p>The mean number of words memorized, ignoring the explanatory group,
+is:</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span>
-<span class="co">#&gt;    1 </span>
-<span class="co">#&gt; 13.8</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    1 </span></span>
+<span><span class="co">#&gt; 13.8</span></span></code></pre></div>
 <p>To break this down by groups, use an explanatory variable:</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mean_.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span>
-<span class="co">#&gt; Caffeine    Sleep </span>
-<span class="co">#&gt;     12.2     15.2</span></code></pre></div>
-<p>Conventionally, regression is introduced as a technique for working with quantitative explanatory variables, e.g. the <code>Miles</code> in the Mustang data, while groupwise means are used for categorical variables such as <code>Group</code> in the sleep data. But the regression technique applies to categorical data as well:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/aggregating.html">mean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Caffeine    Sleep </span></span>
+<span><span class="co">#&gt;     12.2     15.2</span></span></code></pre></div>
+<p>Conventionally, regression is introduced as a technique for working
+with quantitative explanatory variables, e.g. the <code>Miles</code> in
+the Mustang data, while groupwise means are used for categorical
+variables such as <code>Group</code> in the sleep data. But the
+regression technique applies to categorical data as well:</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = Words ~ Group, data = Sleep)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt; (Intercept)   GroupSleep  </span>
-<span class="co">#&gt;        12.2          3.0</span></code></pre></div>
-<p>What’s different between the information reported from <code><a href="../reference/mean_.html">mean()</a></code> and the result of <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> is the format of the results. The <code>GroupSleep</code> coefficient from <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> gives the <em>difference</em> between the two groups.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = Words ~ Group, data = Sleep)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt; (Intercept)   GroupSleep  </span></span>
+<span><span class="co">#&gt;        12.2          3.0</span></span></code></pre></div>
+<p>What’s different between the information reported from
+<code><a href="../reference/aggregating.html">mean()</a></code> and the result of <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> is the format of
+the results. The <code>GroupSleep</code> coefficient from
+<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> gives the <em>difference</em> between the two
+groups.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/diffmean.html">diffmean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span> 
-<span class="co">#&gt; diffmean </span>
-<span class="co">#&gt;        3</span></code></pre></div>
-<p>The <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function also can be used to calculate proportions and differences in proportions. We’ll illustrate with the <code>HELPrct</code> data which contains information about patients in the Health Evaluation and Linkage to Primary Care randomized clinical trial. Consider the proportion of people who are reported as homeless:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/diffmean.html">diffmean</a></span><span class="op">(</span><span class="va">Words</span> <span class="op">~</span> <span class="va">Group</span>, data <span class="op">=</span> <span class="va">Sleep</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; diffmean </span></span>
+<span><span class="co">#&gt;        3</span></span></code></pre></div>
+<p>The <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> function also can be used to calculate
+proportions and differences in proportions. We’ll illustrate with the
+<code>HELPrct</code> data which contains information about patients in
+the Health Evaluation and Linkage to Primary Care randomized clinical
+trial. Consider the proportion of people who are reported as
+homeless:</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span><span class="va">homeless</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
-<span class="co">#&gt; prop_homeless.1 </span>
-<span class="co">#&gt;           0.461</span></code></pre></div>
-<p>The proportion of patients who are homeless differs somewhat between the sexes; males are somewhat more likely to be homeless.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop</a></span><span class="op">(</span><span class="va">homeless</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span>
+<span><span class="co">#&gt; prop_homeless.1 </span></span>
+<span><span class="co">#&gt;           0.461</span></span></code></pre></div>
+<p>The proportion of patients who are homeless differs somewhat between
+the sexes; males are somewhat more likely to be homeless.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span><span class="va">homeless</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
-<span class="co">#&gt; prop_homeless.female   prop_homeless.male </span>
-<span class="co">#&gt;                0.374                0.488</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop</a></span><span class="op">(</span><span class="va">homeless</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span>
+<span><span class="co">#&gt; prop_homeless.female   prop_homeless.male </span></span>
+<span><span class="co">#&gt;                0.374                0.488</span></span></code></pre></div>
 <p>The difference between these two proportions is:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/diffmean.html">diffprop</a></span><span class="op">(</span><span class="va">homeless</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
-<span class="co">#&gt; diffprop </span>
-<span class="co">#&gt;    0.115</span></code></pre></div>
-<p>The <code>lm</code> function gives the same results. (You have to specify which level you want the proportion of, “homeless” or “housed”.)</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/diffmean.html">diffprop</a></span><span class="op">(</span><span class="va">homeless</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span>
+<span><span class="co">#&gt; diffprop </span></span>
+<span><span class="co">#&gt;    0.115</span></span></code></pre></div>
+<p>The <code>lm</code> function gives the same results. (You have to
+specify which level you want the proportion of, “homeless” or
+“housed”.)</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">==</span><span class="st">"homeless"</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = homeless == "homeless" ~ 1, data = HELPrct)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt; (Intercept)  </span>
-<span class="co">#&gt;       0.461</span></code></pre></div>
-<p>Why use <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> when <code><a href="../reference/mean_.html">mean()</a></code> and <code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop()</a></code> and (and <code><a href="../reference/diffmean.html">diffmean()</a></code> and <code><a href="../reference/diffmean.html">diffprop()</a></code>) will give the same result?<br>
-Because <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> can be generalized. It works for both categorical and quantitative explanatory variables and, very importantly, <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> allows multiple explanatory variables to be used.</p>
-<p>Even when using <code><a href="../reference/mean_.html">mean()</a></code> and <code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop()</a></code>, there’s a reason to prefer the <code>~1</code> notation. It emphasizes that the calculation is not trying to explain the variability in the response variable; there are no explanatory variables being used.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">==</span><span class="st">"homeless"</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = homeless == "homeless" ~ 1, data = HELPrct)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt; (Intercept)  </span></span>
+<span><span class="co">#&gt;       0.461</span></span></code></pre></div>
+<p>Why use <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> when <code><a href="../reference/aggregating.html">mean()</a></code> and
+<code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop()</a></code> and (and <code><a href="../reference/diffmean.html">diffmean()</a></code> and
+<code><a href="../reference/diffmean.html">diffprop()</a></code>) will give the same result?<br>
+Because <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> can be generalized. It works for both
+categorical and quantitative explanatory variables and, very
+importantly, <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> allows multiple explanatory variables to
+be used.</p>
+<p>Even when using <code><a href="../reference/aggregating.html">mean()</a></code> and <code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop()</a></code>, there’s
+a reason to prefer the <code>~1</code> notation. It emphasizes that the
+calculation is not trying to explain the variability in the response
+variable; there are no explanatory variables being used.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">==</span><span class="st">"homeless"</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = homeless == "homeless" ~ sex, data = HELPrct)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt; (Intercept)      sexmale  </span>
-<span class="co">#&gt;       0.374        0.115</span></code></pre></div>
-<div id="randomization-with-linear-models" class="section level3">
-<h3 class="hasAnchor">
-<a href="#randomization-with-linear-models" class="anchor"></a>Randomization with linear models</h3>
-<p>Randomization can be performed with <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> in the same style as with <code><a href="../reference/mean_.html">mean()</a></code> and <code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop()</a></code>. Here, for instance, is a resampling confidence interval on the price change with mileage in the Mustang data:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">==</span><span class="st">"homeless"</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = homeless == "homeless" ~ sex, data = HELPrct)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt; (Intercept)      sexmale  </span></span>
+<span><span class="co">#&gt;       0.374        0.115</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="randomization-with-linear-models">Randomization with linear models<a class="anchor" aria-label="anchor" href="#randomization-with-linear-models"></a>
+</h3>
+<p>Randomization can be performed with <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code> in the same
+style as with <code><a href="../reference/aggregating.html">mean()</a></code> and <code><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop()</a></code>. Here, for
+instance, is a resampling confidence interval on the price change with
+mileage in the Mustang data:</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mustangs_lm_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_lm_boot</span><span class="op">)</span>
-<span class="co">#&gt;        name  lower   upper level     method estimate</span>
-<span class="co">#&gt; 1 Intercept 24.607  36.286  0.95 percentile   30.495</span>
-<span class="co">#&gt; 2     Miles -0.277  -0.162  0.95 percentile   -0.219</span>
-<span class="co">#&gt; 3     sigma  3.218   8.919  0.95 percentile    6.422</span>
-<span class="co">#&gt; 4 r.squared  0.527   0.859  0.95 percentile    0.680</span>
-<span class="co">#&gt; 5         F 25.662 140.401  0.95 percentile   48.873</span>
-<span class="co"># compare to large sample estimate</span>
-<span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;              2.5 % 97.5 %</span>
-<span class="co">#&gt; (Intercept) 25.445 35.546</span>
-<span class="co">#&gt; Miles       -0.284 -0.154</span></code></pre></div>
-<p>Or, we can calculate a permutation test on the difference between age among men and women using the <code>HELPrct</code> data:</p>
+<code class="sourceCode R"><span><span class="va">mustangs_lm_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_lm_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        name  lower   upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1 Intercept 24.607  36.286  0.95 percentile   30.495</span></span>
+<span><span class="co">#&gt; 2     Miles -0.277  -0.162  0.95 percentile   -0.219</span></span>
+<span><span class="co">#&gt; 3     sigma  3.218   8.919  0.95 percentile    6.422</span></span>
+<span><span class="co">#&gt; 4 r.squared  0.527   0.859  0.95 percentile    0.680</span></span>
+<span><span class="co">#&gt; 5         F 25.662 140.401  0.95 percentile   48.873</span></span>
+<span><span class="co"># compare to large sample estimate</span></span>
+<span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;              2.5 % 97.5 %</span></span>
+<span><span class="co">#&gt; (Intercept) 25.445 35.546</span></span>
+<span><span class="co">#&gt; Miles       -0.284 -0.154</span></span></code></pre></div>
+<p>Or, we can calculate a permutation test on the difference between age
+among men and women using the <code>HELPrct</code> data:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># large sample estimate</span>
-<span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/msummary.html">msummary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class="co">#&gt; (Intercept)   36.252      0.746   48.63   &lt;2e-16 ***</span>
-<span class="co">#&gt; sexmale       -0.784      0.853   -0.92     0.36    </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Residual standard error: 7.71 on 451 degrees of freedom</span>
-<span class="co">#&gt; Multiple R-squared:  0.00187,    Adjusted R-squared:  -0.000343 </span>
-<span class="co">#&gt; F-statistic: 0.845 on 1 and 451 DF,  p-value: 0.358</span>
-<span class="co"># compare to permutation test</span>
-<span class="va">HELPrct_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span><span class="op">~</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">sexmale</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.7841</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct_null</span><span class="op">)</span> 
-<span class="co">#&gt; prop_TRUE </span>
-<span class="co">#&gt;      0.35</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># large sample estimate</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/msummary.html" class="external-link">msummary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)   36.252      0.746   48.63   &lt;2e-16 ***</span></span>
+<span><span class="co">#&gt; sexmale       -0.784      0.853   -0.92     0.36    </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 7.71 on 451 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.00187,    Adjusted R-squared:  -0.000343 </span></span>
+<span><span class="co">#&gt; F-statistic: 0.845 on 1 and 451 DF,  p-value: 0.358</span></span>
+<span><span class="co"># compare to permutation test</span></span>
+<span><span class="va">HELPrct_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop</a></span><span class="op">(</span><span class="op">~</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">sexmale</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.7841</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct_null</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; prop_TRUE </span></span>
+<span><span class="co">#&gt;      0.35</span></span></code></pre></div>
 </div>
-<div id="multiple-explanatory-variables" class="section level3">
-<h3 class="hasAnchor">
-<a href="#multiple-explanatory-variables" class="anchor"></a>Multiple explanatory variables</h3>
-<p>The regression framework allows more than one explanatory to be used. For instance, one can examine how each of <code>Age</code> and <code>Miles</code> is related to the <code>Price</code> of the Mustangs.</p>
+<div class="section level3">
+<h3 id="multiple-explanatory-variables">Multiple explanatory variables<a class="anchor" aria-label="anchor" href="#multiple-explanatory-variables"></a>
+</h3>
+<p>The regression framework allows more than one explanatory to be used.
+For instance, one can examine how each of <code>Age</code> and
+<code>Miles</code> is related to the <code>Price</code> of the
+Mustangs.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mustangs_boot1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="va">mustangs_boot2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="va">mustangs_boot3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The first model suggests that <code>Price</code> goes down by about one to two thousand dollars per year of <code>Age</code>.</p>
+<code class="sourceCode R"><span><span class="va">mustangs_boot1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mustangs_boot2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mustangs_boot3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The first model suggests that <code>Price</code> goes down by about
+one to two thousand dollars per year of <code>Age</code>.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_boot1</span><span class="op">)</span>
-<span class="co">#&gt;        name  lower  upper level     method estimate</span>
-<span class="co">#&gt; 1 Intercept 24.039 37.822  0.95 percentile   30.264</span>
-<span class="co">#&gt; 2       Age -2.342 -1.231  0.95 percentile   -1.717</span>
-<span class="co">#&gt; 3     sigma  4.237 11.126  0.95 percentile    8.102</span>
-<span class="co">#&gt; 4 r.squared  0.277  0.748  0.95 percentile    0.491</span>
-<span class="co">#&gt; 5         F  8.802 68.235  0.95 percentile   22.154</span></code></pre></div>
-<p>The second model indicates that <code>Price</code> goes down by about 16 to 28 cents per mile driven.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_boot1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        name  lower  upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1 Intercept 24.039 37.822  0.95 percentile   30.264</span></span>
+<span><span class="co">#&gt; 2       Age -2.342 -1.231  0.95 percentile   -1.717</span></span>
+<span><span class="co">#&gt; 3     sigma  4.237 11.126  0.95 percentile    8.102</span></span>
+<span><span class="co">#&gt; 4 r.squared  0.277  0.748  0.95 percentile    0.491</span></span>
+<span><span class="co">#&gt; 5         F  8.802 68.235  0.95 percentile   22.154</span></span></code></pre></div>
+<p>The second model indicates that <code>Price</code> goes down by about
+16 to 28 cents per mile driven.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_boot2</span><span class="op">)</span>
-<span class="co">#&gt;        name  lower   upper level     method estimate</span>
-<span class="co">#&gt; 1 Intercept 24.673  36.421  0.95 percentile   30.495</span>
-<span class="co">#&gt; 2     Miles -0.284  -0.162  0.95 percentile   -0.219</span>
-<span class="co">#&gt; 3     sigma  3.102   8.866  0.95 percentile    6.422</span>
-<span class="co">#&gt; 4 r.squared  0.519   0.864  0.95 percentile    0.680</span>
-<span class="co">#&gt; 5         F 24.767 146.125  0.95 percentile   48.873</span></code></pre></div>
-<p>The third model puts each explanatory variable in the context of the other, and suggests that <code>Age</code> may just be a proxy for <code>Miles</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_boot2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        name  lower   upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1 Intercept 24.673  36.421  0.95 percentile   30.495</span></span>
+<span><span class="co">#&gt; 2     Miles -0.284  -0.162  0.95 percentile   -0.219</span></span>
+<span><span class="co">#&gt; 3     sigma  3.102   8.866  0.95 percentile    6.422</span></span>
+<span><span class="co">#&gt; 4 r.squared  0.519   0.864  0.95 percentile    0.680</span></span>
+<span><span class="co">#&gt; 5         F 24.767 146.125  0.95 percentile   48.873</span></span></code></pre></div>
+<p>The third model puts each explanatory variable in the context of the
+other, and suggests that <code>Age</code> may just be a proxy for
+<code>Miles</code>.</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_boot3</span><span class="op">)</span>
-<span class="co">#&gt;        name  lower  upper level     method estimate</span>
-<span class="co">#&gt; 1 Intercept 25.746 36.727  0.95 percentile   30.867</span>
-<span class="co">#&gt; 2     Miles -0.345 -0.111  0.95 percentile   -0.205</span>
-<span class="co">#&gt; 3       Age -0.863  0.916  0.95 percentile   -0.155</span>
-<span class="co">#&gt; 4     sigma  2.934  9.027  0.95 percentile    6.553</span>
-<span class="co">#&gt; 5 r.squared  0.531  0.881  0.95 percentile    0.681</span>
-<span class="co">#&gt; 6         F 12.472 81.269  0.95 percentile   23.512</span></code></pre></div>
-<p>One way to interpret this result is that, adjusting for <code>Miles</code>, there is little evidence for an <code>Age</code> effect. The inflation of the confidence intervals for <code>Miles</code> and <code>Age</code> is a result of the collinearity between those explanatory variables.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustangs_boot3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        name  lower  upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1 Intercept 25.746 36.727  0.95 percentile   30.867</span></span>
+<span><span class="co">#&gt; 2     Miles -0.345 -0.111  0.95 percentile   -0.205</span></span>
+<span><span class="co">#&gt; 3       Age -0.863  0.916  0.95 percentile   -0.155</span></span>
+<span><span class="co">#&gt; 4     sigma  2.934  9.027  0.95 percentile    6.553</span></span>
+<span><span class="co">#&gt; 5 r.squared  0.531  0.881  0.95 percentile    0.681</span></span>
+<span><span class="co">#&gt; 6         F 12.472 81.269  0.95 percentile   23.512</span></span></code></pre></div>
+<p>One way to interpret this result is that, adjusting for
+<code>Miles</code>, there is little evidence for an <code>Age</code>
+effect. The inflation of the confidence intervals for <code>Miles</code>
+and <code>Age</code> is a result of the collinearity between those
+explanatory variables.</p>
 <p>We can compare the last model to the large sample result.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;              2.5 %  97.5 %</span>
-<span class="co">#&gt; (Intercept) 25.086 36.6477</span>
-<span class="co">#&gt; Miles       -0.322 -0.0878</span>
-<span class="co">#&gt; Age         -1.237  0.9273</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;              2.5 %  97.5 %</span></span>
+<span><span class="co">#&gt; (Intercept) 25.086 36.6477</span></span>
+<span><span class="co">#&gt; Miles       -0.322 -0.0878</span></span>
+<span><span class="co">#&gt; Age         -1.237  0.9273</span></span></code></pre></div>
 </div>
-<div id="more-on-multiple-regression" class="section level3">
-<h3 class="hasAnchor">
-<a href="#more-on-multiple-regression" class="anchor"></a>More on Multiple Regression</h3>
-<p>The previous example examining mustang prices using both age and miles demonstrates one method of bootstrapping commonly known as case resampling. Observations from the original data are randomly sampled to create a new bootstrap sample where further analysis (in this case multiple regression) are conducted.</p>
-<p>Another method, residual resampling, involves adding randomly sampled residuals to the fitted y values to generate a new response vector. For example, if we had a data table of 3 observations along with their residuals after fitting on a linear model, we can use <code><a href="../reference/resample.html">resample()</a></code> to randomly select residuals for each observation, and generate a new predicted value by adding the original fitted y value to the resampled residual:</p>
+<div class="section level3">
+<h3 id="more-on-multiple-regression">More on Multiple Regression<a class="anchor" aria-label="anchor" href="#more-on-multiple-regression"></a>
+</h3>
+<p>The previous example examining mustang prices using both age and
+miles demonstrates one method of bootstrapping commonly known as case
+resampling. Observations from the original data are randomly sampled to
+create a new bootstrap sample where further analysis (in this case
+multiple regression) are conducted.</p>
+<p>Another method, residual resampling, involves adding randomly sampled
+residuals to the fitted y values to generate a new response vector. For
+example, if we had a data table of 3 observations along with their
+residuals after fitting on a linear model, we can use
+<code><a href="../reference/resample.html">resample()</a></code> to randomly select residuals for each
+observation, and generate a new predicted value by adding the original
+fitted y value to the resampled residual:</p>
 <table class="table">
 <thead><tr class="header">
 <th align="right">y</th>
@@ -609,183 +865,260 @@ Because <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> can be g
 </tr>
 </tbody>
 </table>
-<p>Here we see that the results are unchanged for the first car but the second and third cars have swapped residuals.</p>
-<p>The <code><a href="../reference/relm.html">relm()</a></code> function does the aforementioned process in a convenient way. We can use <code><a href="../reference/do.html">do()</a></code> to repeat this process and create a bootstrap distribution to generate a range of possible slope coefficient values.</p>
+<p>Here we see that the results are unchanged for the first car but the
+second and third cars have swapped residuals.</p>
+<p>The <code><a href="../reference/relm.html">relm()</a></code> function does the aforementioned process in a
+convenient way. We can use <code><a href="../reference/do.html">do()</a></code> to repeat this process and
+create a bootstrap distribution to generate a range of possible slope
+coefficient values.</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">104</span><span class="op">)</span>
-
-<span class="va">mustang_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="va">mustang_relm_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/relm.html">relm</a></span><span class="op">(</span><span class="va">mustang_mod</span><span class="op">)</span></code></pre></div>
-<p>A 95% confidence interval can be constructed, and a histogram for the slope coefficent <code>Miles</code> variable is shown below.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">104</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mustang_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="va">mustang_relm_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/relm.html">relm</a></span><span class="op">(</span><span class="va">mustang_mod</span><span class="op">)</span></span></code></pre></div>
+<p>A 95% confidence interval can be constructed, and a histogram for the
+slope coefficent <code>Miles</code> variable is shown below.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustang_relm_boot</span><span class="op">)</span>
-<span class="co">#&gt;        name  lower   upper level     method estimate</span>
-<span class="co">#&gt; 1 Intercept 25.540 36.0630  0.95 percentile   29.915</span>
-<span class="co">#&gt; 2     Miles -0.309 -0.0966  0.95 percentile   -0.178</span>
-<span class="co">#&gt; 3       Age -1.163  0.8655  0.95 percentile   -0.416</span>
-<span class="co">#&gt; 4     sigma  3.494  8.9940  0.95 percentile    4.588</span>
-<span class="co">#&gt; 5 r.squared  0.473  0.8916  0.95 percentile    0.810</span>
-<span class="co">#&gt; 6         F  9.885 90.4829  0.95 percentile   46.927</span>
-<span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">mustang_relm_boot</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">mustang_relm_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        name  lower   upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1 Intercept 25.540 36.0630  0.95 percentile   29.915</span></span>
+<span><span class="co">#&gt; 2     Miles -0.309 -0.0966  0.95 percentile   -0.178</span></span>
+<span><span class="co">#&gt; 3       Age -1.163  0.8655  0.95 percentile   -0.416</span></span>
+<span><span class="co">#&gt; 4     sigma  3.494  8.9940  0.95 percentile    4.588</span></span>
+<span><span class="co">#&gt; 5 r.squared  0.473  0.8916  0.95 percentile    0.810</span></span>
+<span><span class="co">#&gt; 6         F  9.885 90.4829  0.95 percentile   46.927</span></span>
+<span><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">mustang_relm_boot</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/unnamed-chunk-39-1.png" width="700" style="display: block; margin: auto;"></p>
-<div id="simulation-and-anova" class="section level4">
-<h4 class="hasAnchor">
-<a href="#simulation-and-anova" class="anchor"></a>Simulation and ANOVA</h4>
-<p>One way to think about ANOVA is a way of quantifying the extent to which a model term, in the context of other model terms, is better than random “junk.” Consider, for example, the role of <code>Age</code> in a model of the Mustang prices that includes <code>Miles</code>. Here’s one ANOVA report:</p>
+<div class="section level4">
+<h4 id="simulation-and-anova">Simulation and ANOVA<a class="anchor" aria-label="anchor" href="#simulation-and-anova"></a>
+</h4>
+<p>One way to think about ANOVA is a way of quantifying the extent to
+which a model term, in the context of other model terms, is better than
+random “junk.” Consider, for example, the role of <code>Age</code> in a
+model of the Mustang prices that includes <code>Miles</code>. Here’s one
+ANOVA report:</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Analysis of Variance Table</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Response: Price</span>
-<span class="co">#&gt;           Df Sum Sq Mean Sq F value Pr(&gt;F)    </span>
-<span class="co">#&gt; Miles      1   2016    2016   46.94  7e-07 ***</span>
-<span class="co">#&gt; Age        1      4       4    0.09   0.77    </span>
-<span class="co">#&gt; Residuals 22    945      43                   </span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre></div>
-<p>The p-value on <code>Age</code> suggests that <code>Age</code> is not contributing to the model. But there’s a different ANOVA report available that suggests a different conclusion.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Analysis of Variance Table</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Response: Price</span></span>
+<span><span class="co">#&gt;           Df Sum Sq Mean Sq F value Pr(&gt;F)    </span></span>
+<span><span class="co">#&gt; Miles      1   2016    2016   46.94  7e-07 ***</span></span>
+<span><span class="co">#&gt; Age        1      4       4    0.09   0.77    </span></span>
+<span><span class="co">#&gt; Residuals 22    945      43                   </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code></pre></div>
+<p>The p-value on <code>Age</code> suggests that <code>Age</code> is not
+contributing to the model. But there’s a different ANOVA report
+available that suggests a different conclusion.</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Analysis of Variance Table</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Response: Price</span>
-<span class="co">#&gt;           Df Sum Sq Mean Sq F value  Pr(&gt;F)    </span>
-<span class="co">#&gt; Age        1   1454    1454    33.9 7.4e-06 ***</span>
-<span class="co">#&gt; Miles      1    565     565    13.2  0.0015 ** </span>
-<span class="co">#&gt; Residuals 22    945      43                    </span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre></div>
-<p>The difference between the two ANOVA reports can be explained in several ways, for example by regarding ANOVA as a sequential report on a nested sequence of models, so that the order of model terms makes a difference. For instance, the <span class="math inline">\(R^2\)</span> from this sequence of models suggests that <code>Age</code> doesn’t add much to <code>Miles</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Analysis of Variance Table</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Response: Price</span></span>
+<span><span class="co">#&gt;           Df Sum Sq Mean Sq F value  Pr(&gt;F)    </span></span>
+<span><span class="co">#&gt; Age        1   1454    1454    33.9 7.4e-06 ***</span></span>
+<span><span class="co">#&gt; Miles      1    565     565    13.2  0.0015 ** </span></span>
+<span><span class="co">#&gt; Residuals 22    945      43                    </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span></code></pre></div>
+<p>The difference between the two ANOVA reports can be explained in
+several ways, for example by regarding ANOVA as a sequential report on a
+nested sequence of models, so that the order of model terms makes a
+difference. For instance, the <span class="math inline">\(R^2\)</span>
+from this sequence of models suggests that <code>Age</code> doesn’t add
+much to <code>Miles</code>.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt;   Intercept  Miles sigma r.squared    F numdf dendf .row .index</span>
-<span class="co">#&gt; 1      30.5 -0.219  6.42      0.68 48.9     1    23    1      1</span>
-<span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="co">#&gt;   Intercept  Miles    Age sigma r.squared    F numdf dendf .row</span>
-<span class="co">#&gt; 1      30.9 -0.205 -0.155  6.55     0.681 23.5     2    22    1</span>
-<span class="co">#&gt;   .index</span>
-<span class="co">#&gt; 1      1</span></code></pre></div>
-<p>Here, <code><a href="../reference/do.html">do()</a></code> has been used without any randomization, merely to format the results in a way that allows them be readily compared. Note that the addition of <code>Age</code> as an explanatory variable has increased <span class="math inline">\(R^2\)</span> by a little bit, from <span class="math inline">\(0.680\)</span> to <span class="math inline">\(0.681\)</span>.</p>
-<p>Shuffling <code>Age</code> allows the actual change in <span class="math inline">\(R^2\)</span> to be compared to what would be expected under the null hypothesis:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   Intercept  Miles sigma r.squared    F numdf dendf .row .index</span></span>
+<span><span class="co">#&gt; 1      30.5 -0.219  6.42      0.68 48.9     1    23    1      1</span></span>
+<span><span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   Intercept  Miles    Age sigma r.squared    F numdf dendf .row</span></span>
+<span><span class="co">#&gt; 1      30.9 -0.205 -0.155  6.55     0.681 23.5     2    22    1</span></span>
+<span><span class="co">#&gt;   .index</span></span>
+<span><span class="co">#&gt; 1      1</span></span></code></pre></div>
+<p>Here, <code><a href="../reference/do.html">do()</a></code> has been used without any randomization,
+merely to format the results in a way that allows them be readily
+compared. Note that the addition of <code>Age</code> as an explanatory
+variable has increased <span class="math inline">\(R^2\)</span> by a
+little bit, from <span class="math inline">\(0.680\)</span> to <span class="math inline">\(0.681\)</span>.</p>
+<p>Shuffling <code>Age</code> allows the actual change in <span class="math inline">\(R^2\)</span> to be compared to what would be
+expected under the null hypothesis:</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mustangs_age_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Mustangs</span> <span class="op">)</span>
-<span class="fu"><a href="../reference/mean_.html">favstats</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, data <span class="op">=</span> <span class="va">mustangs_age_boot</span><span class="op">)</span>
-<span class="co">#&gt;   min    Q1 median    Q3   max  mean     sd    n missing</span>
-<span class="co">#&gt;  0.68 0.682  0.687 0.701 0.821 0.694 0.0178 2000       0</span>
-<span class="fu"><a href="../reference/qdata.html">cdata</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, <span class="fl">.95</span>, data <span class="op">=</span> <span class="va">mustangs_age_boot</span><span class="op">)</span>
-<span class="co">#&gt;      lower upper central.p</span>
-<span class="co">#&gt; 2.5%  0.68 0.743      0.95</span></code></pre></div>
-<p>The observed <span class="math inline">\(R^2\)</span> from Price ~ Miles + Age- falls in the middle portion of the observed range when <code>Age</code> is shuffled. We can conclude that <code>Age</code> is not an important predictor.</p>
-<p>The result is very different when <code>Miles</code> is shuffled instead.</p>
+<code class="sourceCode R"><span><span class="va">mustangs_age_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="va">Miles</span> <span class="op">+</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Mustangs</span> <span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/aggregating.html">favstats</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, data <span class="op">=</span> <span class="va">mustangs_age_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   min    Q1 median    Q3   max  mean     sd    n missing</span></span>
+<span><span class="co">#&gt;  0.68 0.682  0.687 0.701 0.821 0.694 0.0178 2000       0</span></span>
+<span><span class="fu"><a href="../reference/pqrdata.html">cdata</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, <span class="fl">.95</span>, data <span class="op">=</span> <span class="va">mustangs_age_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      lower upper central.p</span></span>
+<span><span class="co">#&gt; 2.5%  0.68 0.743      0.95</span></span></code></pre></div>
+<p>The observed <span class="math inline">\(R^2\)</span> from Price ~
+Miles + Age- falls in the middle portion of the observed range when
+<code>Age</code> is shuffled. We can conclude that <code>Age</code> is
+not an important predictor.</p>
+<p>The result is very different when <code>Miles</code> is shuffled
+instead.</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mustangs_miles_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Miles</span><span class="op">)</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span>
-<span class="fu"><a href="../reference/mean_.html">favstats</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, data <span class="op">=</span> <span class="va">mustangs_miles_boot</span><span class="op">)</span>
-<span class="co">#&gt;    min    Q1 median    Q3   max  mean     sd    n missing</span>
-<span class="co">#&gt;  0.491 0.493  0.502 0.524 0.697 0.514 0.0294 2000       0</span>
-<span class="fu"><a href="../reference/qdata.html">cdata</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, <span class="fl">.95</span>, data <span class="op">=</span> <span class="va">mustangs_miles_boot</span><span class="op">)</span>
-<span class="co">#&gt;      lower upper central.p</span>
-<span class="co">#&gt; 2.5% 0.491 0.597      0.95</span></code></pre></div>
-<p>The observed value of <span class="math inline">\(R^2 = 0.681\)</span> falls well above the central 95% of resampled values; we conclude that <code>Miles</code> is an important predictor.</p>
+<code class="sourceCode R"><span><span class="va">mustangs_miles_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Price</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">Miles</span><span class="op">)</span> <span class="op">+</span> <span class="va">Age</span>, data <span class="op">=</span> <span class="va">Mustangs</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/aggregating.html">favstats</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, data <span class="op">=</span> <span class="va">mustangs_miles_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    min    Q1 median    Q3   max  mean     sd    n missing</span></span>
+<span><span class="co">#&gt;  0.491 0.493  0.502 0.524 0.697 0.514 0.0294 2000       0</span></span>
+<span><span class="fu"><a href="../reference/pqrdata.html">cdata</a></span><span class="op">(</span><span class="op">~</span> <span class="va">r.squared</span>, <span class="fl">.95</span>, data <span class="op">=</span> <span class="va">mustangs_miles_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      lower upper central.p</span></span>
+<span><span class="co">#&gt; 2.5% 0.491 0.597      0.95</span></span></code></pre></div>
+<p>The observed value of <span class="math inline">\(R^2 =
+0.681\)</span> falls well above the central 95% of resampled values; we
+conclude that <code>Miles</code> is an important predictor.</p>
 </div>
 </div>
 </div>
-<div id="using-simulations-in-other-ways" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-simulations-in-other-ways" class="anchor"></a>Using simulations in other ways</h2>
-<p>The basic technology of resampling and shuffling can be used to demonstrate many other concepts in statistics than the generation of confidence intervals and p-values. For example, it is very useful for showing the origins of distributions such as t and F.</p>
-<p>For the sake of illustration, consider a <span class="math inline">\(\chi^2\)</span>-test of the independence of <code>homeless</code> and <code>sex</code> in the <code>HELPrct</code> data. To illustrate, here is a simulation to construct the distribution of p-values from a simple test under the null hypothesis. The</p>
+<div class="section level2">
+<h2 id="using-simulations-in-other-ways">Using simulations in other ways<a class="anchor" aria-label="anchor" href="#using-simulations-in-other-ways"></a>
+</h2>
+<p>The basic technology of resampling and shuffling can be used to
+demonstrate many other concepts in statistics than the generation of
+confidence intervals and p-values. For example, it is very useful for
+showing the origins of distributions such as t and F.</p>
+<p>For the sake of illustration, consider a <span class="math inline">\(\chi^2\)</span>-test of the independence of
+<code>homeless</code> and <code>sex</code> in the <code>HELPrct</code>
+data. To illustrate, here is a simulation to construct the distribution
+of p-values from a simple test under the null hypothesis. The</p>
 <!-- begin enumerate -->
 <ol>
 <li>Carry out the test, e.g.</li>
 </ol>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">homeless</span> <span class="op">+</span> <span class="va">sex</span>, 
-                   data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Pearson's Chi-squared test with Yates' continuity correction</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; data:  tally(~homeless + sex, data = HELPrct, margins = FALSE)</span>
-<span class="co">#&gt; X-squared = 4, df = 1, p-value = 0.05</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html" class="external-link">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">homeless</span> <span class="op">+</span> <span class="va">sex</span>, </span>
+<span>                   data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Pearson's Chi-squared test with Yates' continuity correction</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; data:  tally(~homeless + sex, data = HELPrct, margins = FALSE)</span></span>
+<span><span class="co">#&gt; X-squared = 4, df = 1, p-value = 0.05</span></span></code></pre></div>
 <ol>
 <li>Modify the statement to extract the portion of interest.<br>
 In this case, the p-value:</li>
 </ol>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.htest.html">pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">homeless</span> <span class="op">+</span> <span class="va">sex</span>, 
-                   data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span>
-<span class="co">#&gt; p.value </span>
-<span class="co">#&gt;  0.0491</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/interval.html">pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html" class="external-link">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="va">homeless</span> <span class="op">+</span> <span class="va">sex</span>, </span>
+<span>                   data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="co">#&gt; p.value </span></span>
+<span><span class="co">#&gt;  0.0491</span></span></code></pre></div>
 <ol>
 <li>Insert randomization to implement the null hypothesis:</li>
 </ol>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/confint.htest.html">pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">)</span> <span class="op">+</span> <span class="va">sex</span>, 
-                         data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; p.value </span>
-<span class="co">#&gt;   0.848</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/interval.html">pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html" class="external-link">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">)</span> <span class="op">+</span> <span class="va">sex</span>, </span>
+<span>                         data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; p.value </span></span>
+<span><span class="co">#&gt;   0.848</span></span></code></pre></div>
 <ol>
 <li>Iterate to get the distribution under the null:</li>
 </ol>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">chisq_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span><span class="op">*</span> <span class="fu"><a href="../reference/confint.htest.html">pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">)</span> <span class="op">+</span> <span class="va">sex</span>, 
-                         data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">chisq_null</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span><span class="op">*</span> <span class="fu"><a href="../reference/interval.html">pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html" class="external-link">tally</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="../reference/resample.html">shuffle</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">)</span> <span class="op">+</span> <span class="va">sex</span>, </span>
+<span>                         data <span class="op">=</span> <span class="va">HELPrct</span>, margins <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <!-- end enumerate -->
-<p>Strictly speaking, only the last step is needed. The others are merely to illustrate construction of the statement and how each individual component fits into the whole.</p>
-<p>Students often think that when the null hypothesis is true, p-values should be large. They can be surprised to see that the distribution of p-values under the null hypothesis is uniform from 0 to 1, or that there is a roughly 5% chance of rejecting the null (at <span class="math inline">\(p &lt; 0.05\)</span>) even when the null hypothesis is true.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
+<p>Strictly speaking, only the last step is needed. The others are
+merely to illustrate construction of the statement and how each
+individual component fits into the whole.</p>
+<p>Students often think that when the null hypothesis is true, p-values
+should be large. They can be surprised to see that the distribution of
+p-values under the null hypothesis is uniform from 0 to 1, or that there
+is a roughly 5% chance of rejecting the null (at <span class="math inline">\(p &lt; 0.05\)</span>) even when the null
+hypothesis is true.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">chisq_null</span><span class="op">)</span>
-<span class="co">#&gt; prop_TRUE </span>
-<span class="co">#&gt;    0.0505</span>
-<span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">p.value</span>, data <span class="op">=</span> <span class="va">chisq_null</span>, binwidth <span class="op">=</span> <span class="fl">0.1</span>, center <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/prop.html" class="external-link">prop</a></span><span class="op">(</span> <span class="op">~</span> <span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">chisq_null</span><span class="op">)</span></span>
+<span><span class="co">#&gt; prop_TRUE </span></span>
+<span><span class="co">#&gt;    0.0505</span></span>
+<span><span class="fu">gf_histogram</span><span class="op">(</span> <span class="op">~</span> <span class="va">p.value</span>, data <span class="op">=</span> <span class="va">chisq_null</span>, binwidth <span class="op">=</span> <span class="fl">0.1</span>, center <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/unnamed-chunk-49-1.png" width="384" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">qqmath</span><span class="op">(</span> <span class="op">~</span> <span class="va">p.value</span>, data <span class="op">=</span> <span class="va">chisq_null</span>, dist <span class="op">=</span> <span class="va">qunif</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">qqmath</span><span class="op">(</span> <span class="op">~</span> <span class="va">p.value</span>, data <span class="op">=</span> <span class="va">chisq_null</span>, dist <span class="op">=</span> <span class="va">qunif</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Resampling_files/figure-html/unnamed-chunk-50-1.png" width="384" style="display: block; margin: auto;"></p>
-<p>Perhaps more important, with the simulation approach it’s straightforward to segue into more advanced and appropriate models and tests. So, rather than the esteemed <span class="math inline">\(\chi^2\)</span> test, perhaps something a bit more modern and flexible such as logistic regression with <code>age</code> as a covariate:</p>
+<p>Perhaps more important, with the simulation approach it’s
+straightforward to segue into more advanced and appropriate models and
+tests. So, rather than the esteemed <span class="math inline">\(\chi^2\)</span> test, perhaps something a bit more
+modern and flexible such as logistic regression with <code>age</code> as
+a covariate:</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">HELP_logistic_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> 
-   <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">==</span><span class="st">"homeless"</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sex</span>, 
-     data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">HELPrct</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">HELP_logistic_boot</span><span class="op">)</span>
-<span class="co">#&gt;        name    lower   upper level     method estimate</span>
-<span class="co">#&gt; 1 Intercept -2.35666 -0.4528  0.95 percentile  -1.3846</span>
-<span class="co">#&gt; 2       age  0.00035  0.0486  0.95 percentile   0.0239</span>
-<span class="co">#&gt; 3   sexmale  0.04311  0.9448  0.95 percentile   0.4920</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">HELP_logistic_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/do.html">do</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">)</span> <span class="op">*</span> </span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">homeless</span><span class="op">==</span><span class="st">"homeless"</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sex</span>, </span>
+<span>     data <span class="op">=</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span><span class="va">HELPrct</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/confint.html">confint</a></span><span class="op">(</span><span class="va">HELP_logistic_boot</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        name    lower   upper level     method estimate</span></span>
+<span><span class="co">#&gt; 1 Intercept -2.35666 -0.4528  0.95 percentile  -1.3846</span></span>
+<span><span class="co">#&gt; 2       age  0.00035  0.0486  0.95 percentile   0.0239</span></span>
+<span><span class="co">#&gt; 3   sexmale  0.04311  0.9448  0.95 percentile   0.4920</span></span></code></pre></div>
 </div>
-<div id="acknowledgments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
-<p>Thanks to Sarah Anoke for useful comments on a draft and Jessica Yu for editorial assistance. We also thank Robin Lock of St. Lawrence University for organizing the resampling demonstration session at USCOTS 2011.</p>
-<p>Project MOSAIC was supported by the US National Science Foundation (DUE-0920350). More information about the package and this initiative can be found at the Project MOSAIC website: www.mosaic-web.org.</p>
+<div class="section level2">
+<h2 id="acknowledgments">Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"></a>
+</h2>
+<p>Thanks to Sarah Anoke for useful comments on a draft and Jessica Yu
+for editorial assistance. We also thank Robin Lock of St. Lawrence
+University for organizing the resampling demonstration session at USCOTS
+2011.</p>
+<p>Project MOSAIC was supported by the US National Science Foundation
+(DUE-0920350). More information about the package and this initiative
+can be found at the Project MOSAIC website: www.mosaic-web.org.</p>
 </div>
-<div id="technical-information" class="section level2">
-<h2 class="hasAnchor">
-<a href="#technical-information" class="anchor"></a>Technical information</h2>
-<p>This document was produced using R version 4.0.3 (2020-10-10) and version 1.8.3 of the mosaic package.</p>
+<div class="section level2">
+<h2 id="technical-information">Technical information<a class="anchor" aria-label="anchor" href="#technical-information"></a>
+</h2>
+<p>This document was produced using R version 4.2.1 (2022-06-23) and
+version 1.8.4 of the mosaic package.</p>
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <!-- begin itemize -->
 <ol>
-<li>G. W. Cobb, The introductory statistics course: a Ptolemaic curriculum?, <em>Technology Innovations in Statistics Education</em>, 2007, 1(1).</li>
-<li>B. Efron &amp; R. J. Tibshirani, <em>An Introduction to the Bootstrap</em>, 1993, Chapman &amp; Hall, New York.</li>
-<li>T. Hesterberg, D. S. Moore, S. Monaghan, A. Clipson &amp; R. Epstein. <em>Bootstrap Methods and Permutation Tests (2nd edition)</em>, (2005), W.H. Freeman, New York.</li>
-<li>D.T. Kaplan, <em>Statistical Modeling: A Fresh Approach</em>, 2nd edition, <a href="http://www.mosaic-web.org/go/StatisticalModeling/" class="uri">http://www.mosaic-web.org/go/StatisticalModeling/</a>.</li>
-<li>S.C. Mednicj, D. J. Cai, J. Kanady, S. P. Drummond. “Comparing the benefits of caffeine, naps and placebo on verbal, motor and perceptual memory”, <em>Behavioural Brain Research</em>, 2008, 193(1):79-86.</li>
-<li>T. Speed, “Simulation”, <em>IMS Bulletin</em>, 2011, 40(3):18. <!-- end itemize -->
+<li>G. W. Cobb, The introductory statistics course: a Ptolemaic
+curriculum?, <em>Technology Innovations in Statistics Education</em>,
+2007, 1(1).</li>
+<li>B. Efron &amp; R. J. Tibshirani, <em>An Introduction to the
+Bootstrap</em>, 1993, Chapman &amp; Hall, New York.</li>
+<li>T. Hesterberg, D. S. Moore, S. Monaghan, A. Clipson &amp; R.
+Epstein. <em>Bootstrap Methods and Permutation Tests (2nd edition)</em>,
+(2005), W.H. Freeman, New York.</li>
+<li>D.T. Kaplan, <em>Statistical Modeling: A Fresh Approach</em>, 2nd
+edition, <a href="http://www.mosaic-web.org/go/StatisticalModeling/" class="external-link uri">http://www.mosaic-web.org/go/StatisticalModeling/</a>.</li>
+<li>S.C. Mednicj, D. J. Cai, J. Kanady, S. P. Drummond. “Comparing the
+benefits of caffeine, naps and placebo on verbal, motor and perceptual
+memory”, <em>Behavioural Brain Research</em>, 2008, 193(1):79-86.</li>
+<li>T. Speed, “Simulation”, <em>IMS Bulletin</em>, 2011, 40(3):18.
+<!-- end itemize -->
 </li>
 </ol>
 <!-- end document -->
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
-<li id="fn1"><p>If the parallel package is installed, loading it will allow the <code><a href="../reference/do.html">do()</a></code> function in the mosaic package to take advantage of multiple processors to speed up simulations.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>2000 is a reasonable number of trials for illustration purposes, but Monte Carlo variability can be considerably reduced by using 10,000 or more.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>It is a good idea to adopt a naming convention for your bootstrap and randomization distributions. Repeatedly using the same name (e.g., <code>Trials</code>) can become very confusing and lead to errors from misidentifying which distribution one has. The name we have chosen here makes it clear which data set an variable are being considered and that we are creating a bootstrap distribution (as opposed to simulating a null distribution).<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>Naive confidence intervals based on percentiles or bootstrap standard errors from small samples may not be as good as other methods (for example, the bootstrap t is preferred when generating a confidence interval for a mean), and the ability to easily create simulated bootstrap distributions does not guarantee that the resulting intervals will have the desired properties. Alternative methods and diagnostics are important topics not covered here.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
-<li id="fn5"><p>We can also observe in this data the challenges of approximating a discrete distribution that takes on relatively few values with a continuous distribution like the Chi-squared distribution.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>If the parallel package is installed, loading it will
+allow the <code><a href="../reference/do.html">do()</a></code> function in the mosaic package to take
+advantage of multiple processors to speed up simulations.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>2000 is a reasonable number of trials for illustration
+purposes, but Monte Carlo variability can be considerably reduced by
+using 10,000 or more.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>It is a good idea to adopt a naming convention for your
+bootstrap and randomization distributions. Repeatedly using the same
+name (e.g., <code>Trials</code>) can become very confusing and lead to
+errors from misidentifying which distribution one has. The name we have
+chosen here makes it clear which data set an variable are being
+considered and that we are creating a bootstrap distribution (as opposed
+to simulating a null distribution).<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Naive confidence intervals based on percentiles or
+bootstrap standard errors from small samples may not be as good as other
+methods (for example, the bootstrap t is preferred when generating a
+confidence interval for a mean), and the ability to easily create
+simulated bootstrap distributions does not guarantee that the resulting
+intervals will have the desired properties. Alternative methods and
+diagnostics are important topics not covered here.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>We can also observe in this data the challenges of
+approximating a discrete distribution that takes on relatively few
+values with a continuous distribution like the Chi-squared
+distribution.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -801,11 +1134,13 @@ In this case, the p-value:</li>
 
 
       <footer><div class="copyright">
-  <p>Developed by Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton.</p>
+  <p></p>
+<p>Developed by Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -813,6 +1148,8 @@ In this case, the p-value:</li>
 
   
 
+
+  
 
   </body>
 </html>

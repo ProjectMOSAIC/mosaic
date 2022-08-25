@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -76,7 +72,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/ProjectMOSAIC/mosaic/">
+  <a href="https://github.com/ProjectMOSAIC/mosaic/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,200 +87,215 @@
 
       
 
-      </header><script src="GraphicsWithMosaic_files/header-attrs-2.6/header-attrs.js"></script><script src="GraphicsWithMosaic_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Graphics with the mosaic and lattice packages</h1>
+      <h1 data-toc-skip>Graphics with the mosaic and lattice
+packages</h1>
             
-            <h4 class="date">2021-01-16</h4>
+            <h4 data-toc-skip class="date">2022-08-25</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/master/vignettes/web-only/GraphicsWithMosaic.Rmd"><code>vignettes/web-only/GraphicsWithMosaic.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/HEAD/vignettes/web-only/GraphicsWithMosaic.Rmd" class="external-link"><code>vignettes/web-only/GraphicsWithMosaic.Rmd</code></a></small>
       <div class="hidden name"><code>GraphicsWithMosaic.Rmd</code></div>
 
     </div>
 
     
     
-<p>This vignette is simply a suite of plots that exist primarily as part of our quality control for the package. But since the examples might be useful to others as well, we’ve added this as a vignette in the package.</p>
-<p><strong>This way of doing this is largely superceded by our <code>ggformula</code> package which provides a formula interface to <code>ggplot2</code>.</strong> You might also like to see the vignette that compares using <code>lattice</code> to using <code>ggformula</code>.</p>
-<div id="lattice-extras" class="section level3">
-<h3 class="hasAnchor">
-<a href="#lattice-extras" class="anchor"></a>lattice extras</h3>
-<p>The <code>mosaic</code> package resets the default panel function for histograms. This changes the default for bin selection and provides some additional arguments to histogram.</p>
+<p>This vignette is simply a suite of plots that exist primarily as part
+of our quality control for the package. But since the examples might be
+useful to others as well, we’ve added this as a vignette in the
+package.</p>
+<p><strong>This way of doing this is largely superceded by our
+<code>ggformula</code> package which provides a formula interface to
+<code>ggplot2</code>.</strong> You might also like to see the vignette
+that compares using <code>lattice</code> to using
+<code>ggformula</code>.</p>
+<div class="section level3">
+<h3 id="lattice-extras">lattice extras<a class="anchor" aria-label="anchor" href="#lattice-extras"></a>
+</h3>
+<p>The <code>mosaic</code> package resets the default panel function for
+histograms. This changes the default for bin selection and provides some
+additional arguments to histogram.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/xhistogramBreaks.html">histogram</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span> <span class="fl">500</span>, <span class="fl">20</span>, <span class="fl">.3</span><span class="op">)</span>, width<span class="op">=</span><span class="fl">1</span>, fit<span class="op">=</span><span class="st">"normal"</span>, v<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">10</span><span class="op">)</span>, h<span class="op">=</span><span class="fl">0.1</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/xhistogram.html">histogram</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span> <span class="fl">500</span>, <span class="fl">20</span>, <span class="fl">.3</span><span class="op">)</span>, width<span class="op">=</span><span class="fl">1</span>, fit<span class="op">=</span><span class="st">"normal"</span>, v<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">10</span><span class="op">)</span>, h<span class="op">=</span><span class="fl">0.1</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-3-1.png" width="480"></p>
 </div>
-<div id="ladd" class="section level3">
-<h3 class="hasAnchor">
-<a href="#ladd" class="anchor"></a>ladd()</h3>
-<p><code><a href="../../reference/ladd.html">ladd()</a></code> provides a relatively easy way to add additional things to a lattice graphic.</p>
+<div class="section level3">
+<h3 id="ladd">ladd()<a class="anchor" aria-label="anchor" href="#ladd"></a>
+</h3>
+<p><code><a href="../../reference/ladd.html">ladd()</a></code> provides a relatively easy way to add additional
+things to a lattice graphic.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">xyplot</span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">)</span>
-<span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu">grid.text</span><span class="op">(</span><span class="st">"Here is some text"</span>, x<span class="op">=</span><span class="fl">0</span>, y<span class="op">=</span><span class="fl">0</span>, default.units<span class="op">=</span><span class="st">"native"</span><span class="op">)</span> <span class="op">)</span>
-<span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu">panel.abline</span><span class="op">(</span> a<span class="op">=</span><span class="fl">0</span>, b<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="st">"red"</span>, lwd<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">.4</span> <span class="op">)</span> <span class="op">)</span>
-<span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu">panel.rect</span><span class="op">(</span>x<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, y<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, width<span class="op">=</span><span class="fl">1</span>, height<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="st">"gray80"</span>, fill<span class="op">=</span><span class="st">"lightsalmon"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu">panel.rect</span><span class="op">(</span>x<span class="op">=</span><span class="fl">0</span>, y<span class="op">=</span><span class="fl">0</span>, width<span class="op">=</span><span class="fl">2</span>, height<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"gray80"</span>, fill<span class="op">=</span><span class="st">"lightskyblue"</span><span class="op">)</span>, 
-      under<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">xyplot</span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">grid.text</a></span><span class="op">(</span><span class="st">"Here is some text"</span>, x<span class="op">=</span><span class="fl">0</span>, y<span class="op">=</span><span class="fl">0</span>, default.units<span class="op">=</span><span class="st">"native"</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu">panel.abline</span><span class="op">(</span> a<span class="op">=</span><span class="fl">0</span>, b<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="st">"red"</span>, lwd<span class="op">=</span><span class="fl">3</span>, alpha<span class="op">=</span><span class="fl">.4</span> <span class="op">)</span> <span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu">panel.rect</span><span class="op">(</span>x<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, y<span class="op">=</span><span class="op">-</span><span class="fl">1</span>, width<span class="op">=</span><span class="fl">1</span>, height<span class="op">=</span><span class="fl">1</span>, col<span class="op">=</span><span class="st">"gray80"</span>, fill<span class="op">=</span><span class="st">"lightsalmon"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span> <span class="fu">panel.rect</span><span class="op">(</span>x<span class="op">=</span><span class="fl">0</span>, y<span class="op">=</span><span class="fl">0</span>, width<span class="op">=</span><span class="fl">2</span>, height<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"gray80"</span>, fill<span class="op">=</span><span class="st">"lightskyblue"</span><span class="op">)</span>, </span>
+<span>      under<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
 </div>
-<div id="mplot" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mplot" class="anchor"></a>mplot()</h3>
-<p>In addition to the interactive uses of <code><a href="../../reference/mplot.html">mplot()</a></code>, it can be used in place of <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> in several settings.</p>
+<div class="section level3">
+<h3 id="mplot">mplot()<a class="anchor" aria-label="anchor" href="#mplot"></a>
+</h3>
+<p>In addition to the interactive uses of <code><a href="../../reference/mplot.html">mplot()</a></code>, it can
+be used in place of <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> in several settings.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span>
-<span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span> <span class="op">*</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, multiplot <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span></span>
+<span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span> <span class="op">*</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, multiplot <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-5-1.png" width="480"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, system<span class="op">=</span><span class="st">"ggplot"</span>, ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre><code>## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'
-## `geom_smooth()` using formula 'y ~ x'</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, system<span class="op">=</span><span class="st">"ggplot"</span>, ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span>
+<span><span class="co">## `geom_smooth()` using formula 'y ~ x'</span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-6-1.png" width="480"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">7</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-7-1.png" width="480"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">7</span>, rows<span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">7</span>, rows<span class="op">=</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-7-2.png" width="480"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">7</span>, rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sexG"</span>, <span class="st">"length"</span>, <span class="st">"length:sexG"</span><span class="op">)</span>, 
-      title<span class="op">=</span><span class="st">"Custom titles are supported"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">mod</span>, which<span class="op">=</span><span class="fl">7</span>, rows<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sexG"</span>, <span class="st">"length"</span>, <span class="st">"length:sexG"</span><span class="op">)</span>, </span>
+<span>      title<span class="op">=</span><span class="st">"Custom titles are supported"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-7-3.png" width="480"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span>, data<span class="op">=</span><span class="va">HELPrct</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">substance</span>, data<span class="op">=</span><span class="va">HELPrct</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html" class="external-link">TukeyHSD</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-8-1.png" width="480"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html">TukeyHSD</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>, system<span class="op">=</span><span class="st">"ggplot"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TukeyHSD.html" class="external-link">TukeyHSD</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>, system<span class="op">=</span><span class="st">"ggplot"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-8-2.png" width="480"></p>
 </div>
-<div id="plotfun-and-makefun" class="section level3">
-<h3 class="hasAnchor">
-<a href="#plotfun-and-makefun" class="anchor"></a>plotFun() and makeFun()</h3>
+<div class="section level3">
+<h3 id="plotfun-and-makefun">plotFun() and makeFun()<a class="anchor" aria-label="anchor" href="#plotfun-and-makefun"></a>
+</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span><span class="op">*</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span>
-<span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html">makeFun</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
-<span class="fu">L</span><span class="op">(</span> length<span class="op">=</span><span class="fl">15</span>, sex<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></code></pre></div>
-<pre><code>##        1 
-## 7.041437</code></pre>
+<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span><span class="op">*</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">KidsFeet</span><span class="op">)</span></span>
+<span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html" class="external-link">makeFun</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
+<span><span class="fu">L</span><span class="op">(</span> length<span class="op">=</span><span class="fl">15</span>, sex<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        1 </span></span>
+<span><span class="co">## 7.041437</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">L</span><span class="op">(</span> length<span class="op">=</span><span class="fl">15</span>, sex<span class="op">=</span><span class="st">"G"</span><span class="op">)</span></code></pre></div>
-<pre><code>##        1 
-## 6.654868</code></pre>
+<code class="sourceCode R"><span><span class="fu">L</span><span class="op">(</span> length<span class="op">=</span><span class="fl">15</span>, sex<span class="op">=</span><span class="st">"G"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        1 </span></span>
+<span><span class="co">## 6.654868</span></span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">xyplot</span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span>, groups <span class="op">=</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">KidsFeet</span>, auto.key<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="fu">L</span><span class="op">(</span><span class="va">length</span>, sex<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">~</span> <span class="va">length</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="fl">1</span> <span class="op">)</span></code></pre></div>
-<pre><code>## converting numerical color value into a color using lattice settings</code></pre>
+<code class="sourceCode R"><span><span class="fu">xyplot</span><span class="op">(</span><span class="va">width</span> <span class="op">~</span> <span class="va">length</span>, groups <span class="op">=</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">KidsFeet</span>, auto.key<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="fu">L</span><span class="op">(</span><span class="va">length</span>, sex<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">~</span> <span class="va">length</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="fl">1</span> <span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## converting numerical color value into a color using lattice settings</span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="fu">L</span><span class="op">(</span><span class="va">length</span>, sex<span class="op">=</span><span class="st">"G"</span><span class="op">)</span> <span class="op">~</span> <span class="va">length</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="fl">2</span> <span class="op">)</span></code></pre></div>
-<pre><code>## converting numerical color value into a color using lattice settings
-## converting numerical color value into a color using lattice settings</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="fu">L</span><span class="op">(</span><span class="va">length</span>, sex<span class="op">=</span><span class="st">"G"</span><span class="op">)</span> <span class="op">~</span> <span class="va">length</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="fl">2</span> <span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## converting numerical color value into a color using lattice settings</span></span>
+<span><span class="co">## converting numerical color value into a color using lattice settings</span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-9-1.png" width="480"></p>
-<p>For logistic regression, <code><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html">makeFun()</a></code> handles the conversion back to probabilities by default.</p>
+<p>For logistic regression, <code><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html" class="external-link">makeFun()</a></code> handles the
+conversion back to probabilities by default.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span> <span class="va">SmokeNow</span> <span class="op">==</span><span class="st">"Yes"</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Race3</span>, data<span class="op">=</span><span class="va">NHANES</span>, family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="va">SmokerProb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html">makeFun</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span>
-<span class="fu">xyplot</span><span class="op">(</span> <span class="va">SmokeNow</span><span class="op">==</span><span class="st">"Yes"</span> <span class="op">~</span> <span class="va">Age</span>, groups<span class="op">=</span><span class="va">Race3</span>, data<span class="op">=</span><span class="va">NHANES</span>, alpha<span class="op">=</span><span class="fl">.01</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">90</span><span class="op">)</span> <span class="op">)</span>
-<span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="va">Age</span>, Race3<span class="op">=</span><span class="st">"Black"</span><span class="op">)</span> <span class="op">~</span> <span class="va">Age</span>, col<span class="op">=</span><span class="st">"black"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="va">Age</span>, Race3<span class="op">=</span><span class="st">"White"</span><span class="op">)</span> <span class="op">~</span> <span class="va">Age</span>, col<span class="op">=</span><span class="st">"red"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> 
-<span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span><span class="fu">grid.text</span><span class="op">(</span><span class="st">"Black"</span>, x<span class="op">=</span><span class="fl">25</span>, y<span class="op">=</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="fl">25</span>, Race<span class="op">=</span><span class="st">"Black"</span><span class="op">)</span>,hjust <span class="op">=</span> <span class="fl">0</span>, vjust<span class="op">=</span><span class="op">-</span><span class="fl">0.2</span>,
-               gp<span class="op">=</span><span class="fu">gpar</span><span class="op">(</span>col<span class="op">=</span><span class="st">"black"</span><span class="op">)</span>,
-               default.units<span class="op">=</span><span class="st">"native"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span><span class="fu">grid.text</span><span class="op">(</span><span class="st">"White"</span>, x<span class="op">=</span><span class="fl">25</span>, y<span class="op">=</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="fl">25</span>, Race<span class="op">=</span><span class="st">"White"</span><span class="op">)</span>,hjust <span class="op">=</span> <span class="fl">0</span>, vjust<span class="op">=</span><span class="op">-</span><span class="fl">0.2</span>,
-               gp<span class="op">=</span><span class="fu">gpar</span><span class="op">(</span>col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span>,
-               default.units<span class="op">=</span><span class="st">"native"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span> <span class="va">SmokeNow</span> <span class="op">==</span><span class="st">"Yes"</span> <span class="op">~</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Race3</span>, data<span class="op">=</span><span class="va">NHANES</span>, family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">SmokerProb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html" class="external-link">makeFun</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
+<span><span class="fu">xyplot</span><span class="op">(</span> <span class="va">SmokeNow</span><span class="op">==</span><span class="st">"Yes"</span> <span class="op">~</span> <span class="va">Age</span>, groups<span class="op">=</span><span class="va">Race3</span>, data<span class="op">=</span><span class="va">NHANES</span>, alpha<span class="op">=</span><span class="fl">.01</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">90</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="va">Age</span>, Race3<span class="op">=</span><span class="st">"Black"</span><span class="op">)</span> <span class="op">~</span> <span class="va">Age</span>, col<span class="op">=</span><span class="st">"black"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="va">Age</span>, Race3<span class="op">=</span><span class="st">"White"</span><span class="op">)</span> <span class="op">~</span> <span class="va">Age</span>, col<span class="op">=</span><span class="st">"red"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">grid.text</a></span><span class="op">(</span><span class="st">"Black"</span>, x<span class="op">=</span><span class="fl">25</span>, y<span class="op">=</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="fl">25</span>, Race<span class="op">=</span><span class="st">"Black"</span><span class="op">)</span>,hjust <span class="op">=</span> <span class="fl">0</span>, vjust<span class="op">=</span><span class="op">-</span><span class="fl">0.2</span>,</span>
+<span>               gp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">"black"</span><span class="op">)</span>,</span>
+<span>               default.units<span class="op">=</span><span class="st">"native"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/ladd.html">ladd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.text.html" class="external-link">grid.text</a></span><span class="op">(</span><span class="st">"White"</span>, x<span class="op">=</span><span class="fl">25</span>, y<span class="op">=</span><span class="fu">SmokerProb</span><span class="op">(</span><span class="fl">25</span>, Race<span class="op">=</span><span class="st">"White"</span><span class="op">)</span>,hjust <span class="op">=</span> <span class="fl">0</span>, vjust<span class="op">=</span><span class="op">-</span><span class="fl">0.2</span>,</span>
+<span>               gp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span>,</span>
+<span>               default.units<span class="op">=</span><span class="st">"native"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/logistic-1.png" width="480"></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html">makeFun</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="op">-</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span>, <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html" class="external-link">makeFun</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span> <span class="op">-</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span>, <span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span><span class="op">)</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-10-1.png" width="480"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="va">x</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="va">x</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-11-1.png" width="480"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="va">x</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, npts<span class="op">=</span><span class="fl">10000</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/plotFun.html">plotFun</a></span><span class="op">(</span> <span class="va">x</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">x</span><span class="op">)</span> <span class="op">~</span> <span class="va">x</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, npts<span class="op">=</span><span class="fl">10000</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-11-2.png" width="480"></p>
 </div>
-<div id="visualizing-distributions" class="section level3">
-<h3 class="hasAnchor">
-<a href="#visualizing-distributions" class="anchor"></a>Visualizing distributions</h3>
+<div class="section level3">
+<h3 id="visualizing-distributions">Visualizing distributions<a class="anchor" aria-label="anchor" href="#visualizing-distributions"></a>
+</h3>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"chisq"</span>, df<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"chisq"</span>, df<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-12-1.png" width="480"></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"chisq"</span>, df<span class="op">=</span><span class="fl">3</span>, kind<span class="op">=</span><span class="st">"cdf"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"chisq"</span>, df<span class="op">=</span><span class="fl">3</span>, kind<span class="op">=</span><span class="st">"cdf"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-12-2.png" width="480"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span><span class="op">(</span><span class="fl">80</span>, mean<span class="op">=</span><span class="fl">100</span>, sd<span class="op">=</span><span class="fl">15</span><span class="op">)</span></code></pre></div>
-<pre><code>## </code></pre>
-<pre><code>## If X ~ N(100, 15), then</code></pre>
-<pre><code>##  P(X &lt;= 80) = P(Z &lt;= -1.333) = 0.09121</code></pre>
-<pre><code>##  P(X &gt;  80) = P(Z &gt;  -1.333) = 0.9088</code></pre>
-<pre><code>## </code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span><span class="op">(</span><span class="fl">80</span>, mean<span class="op">=</span><span class="fl">100</span>, sd<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## If X ~ N(100, 15), then</span></span></code></pre>
+<pre><code><span><span class="co">##  P(X &lt;= 80) = P(Z &lt;= -1.333) = 0.09121</span></span></code></pre>
+<pre><code><span><span class="co">##  P(X &gt;  80) = P(Z &gt;  -1.333) = 0.9088</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-13-1.png" width="480"></p>
-<pre><code>## [1] 0.09121122</code></pre>
+<pre><code><span><span class="co">## [1] 0.09121122</span></span></code></pre>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">120</span><span class="op">)</span>, mean<span class="op">=</span><span class="fl">100</span>, sd<span class="op">=</span><span class="fl">15</span><span class="op">)</span></code></pre></div>
-<pre><code>## </code></pre>
-<pre><code>## If X ~ N(100, 15), then</code></pre>
-<pre><code>##  P(X &lt;=  80) = P(Z &lt;= -1.333) = 0.09121  P(X &lt;= 120) = P(Z &lt;=  1.333) = 0.90879</code></pre>
-<pre><code>##  P(X &gt;   80) = P(Z &gt;  -1.333) = 0.90879  P(X &gt;  120) = P(Z &gt;   1.333) = 0.09121</code></pre>
-<pre><code>## </code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/xpnorm.html">xpnorm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">80</span>,<span class="fl">120</span><span class="op">)</span>, mean<span class="op">=</span><span class="fl">100</span>, sd<span class="op">=</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## If X ~ N(100, 15), then</span></span></code></pre>
+<pre><code><span><span class="co">##  P(X &lt;=  80) = P(Z &lt;= -1.333) = 0.09121  P(X &lt;= 120) = P(Z &lt;=  1.333) = 0.90879</span></span></code></pre>
+<pre><code><span><span class="co">##  P(X &gt;   80) = P(Z &gt;  -1.333) = 0.90879  P(X &gt;  120) = P(Z &gt;   1.333) = 0.09121</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-13-2.png" width="480"></p>
-<pre><code>## [1] 0.09121122 0.90878878</code></pre>
+<pre><code><span><span class="co">## [1] 0.09121122 0.90878878</span></span></code></pre>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/pdist.html">pdist</a></span><span class="op">(</span><span class="st">"chisq"</span>, <span class="fl">4</span>, df<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/pdist.html">pdist</a></span><span class="op">(</span><span class="st">"chisq"</span>, <span class="fl">4</span>, df<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-14-1.png" width="480"></p>
-<pre><code>## [1] 0.7385359</code></pre>
+<pre><code><span><span class="co">## [1] 0.7385359</span></span></code></pre>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/pdist.html">pdist</a></span><span class="op">(</span><span class="st">"f"</span>, <span class="fl">3</span>, df1<span class="op">=</span><span class="fl">5</span>, df2<span class="op">=</span><span class="fl">20</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/pdist.html">pdist</a></span><span class="op">(</span><span class="st">"f"</span>, <span class="fl">3</span>, df1<span class="op">=</span><span class="fl">5</span>, df2<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-14-2.png" width="480"></p>
-<pre><code>## [1] 0.9647987</code></pre>
+<pre><code><span><span class="co">## [1] 0.9647987</span></span></code></pre>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/qdist.html">qdist</a></span><span class="op">(</span><span class="st">"t"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">.975</span><span class="op">)</span> , df<span class="op">=</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/qdist.html">qdist</a></span><span class="op">(</span><span class="st">"t"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.025</span>, <span class="fl">.975</span><span class="op">)</span> , df<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-14-3.png" width="480"></p>
-<pre><code>## [1] -2.570582  2.570582</code></pre>
+<pre><code><span><span class="co">## [1] -2.570582  2.570582</span></span></code></pre>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/xhistogramBreaks.html">histogram</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">20</span>, <span class="fl">.4</span><span class="op">)</span>, width<span class="op">=</span><span class="fl">1</span>, v<span class="op">=</span><span class="fl">20</span> <span class="op">*</span> <span class="fl">.4</span> <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/xhistogram.html">histogram</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">20</span>, <span class="fl">.4</span><span class="op">)</span>, width<span class="op">=</span><span class="fl">1</span>, v<span class="op">=</span><span class="fl">20</span> <span class="op">*</span> <span class="fl">.4</span> <span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-15-1.png" width="480"></p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">SD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">20</span> <span class="op">*</span> <span class="fl">.4</span> <span class="op">*</span> <span class="fl">.6</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, mean<span class="op">=</span><span class="fl">.4</span><span class="op">*</span><span class="fl">20</span>, sd<span class="op">=</span><span class="va">SD</span>, add<span class="op">=</span><span class="cn">TRUE</span>, alpha<span class="op">=</span><span class="fl">.7</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">SD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">20</span> <span class="op">*</span> <span class="fl">.4</span> <span class="op">*</span> <span class="fl">.6</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, mean<span class="op">=</span><span class="fl">.4</span><span class="op">*</span><span class="fl">20</span>, sd<span class="op">=</span><span class="va">SD</span>, add<span class="op">=</span><span class="cn">TRUE</span>, alpha<span class="op">=</span><span class="fl">.7</span><span class="op">)</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-15-2.png" width="480"></p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, col<span class="op">=</span><span class="st">"blue"</span>, mean<span class="op">=</span><span class="fl">2</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, mean<span class="op">=</span><span class="fl">5</span>, col<span class="op">=</span><span class="st">"green"</span>, kind<span class="op">=</span><span class="st">'histogram'</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># add, overtop</span>
-<span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, mean<span class="op">=</span><span class="fl">0</span>, col<span class="op">=</span><span class="st">"red"</span>, kind<span class="op">=</span><span class="st">'histogram'</span>, under<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># add, but underneath!</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, col<span class="op">=</span><span class="st">"blue"</span>, mean<span class="op">=</span><span class="fl">2</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, mean<span class="op">=</span><span class="fl">5</span>, col<span class="op">=</span><span class="st">"green"</span>, kind<span class="op">=</span><span class="st">'histogram'</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># add, overtop</span></span>
+<span><span class="fu"><a href="../../reference/plotDist.html">plotDist</a></span><span class="op">(</span><span class="st">"norm"</span>, mean<span class="op">=</span><span class="fl">0</span>, col<span class="op">=</span><span class="st">"red"</span>, kind<span class="op">=</span><span class="st">'histogram'</span>, under<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># add, but underneath!</span></span></code></pre></div>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-16-1.png" width="480"></p>
 </div>
-<div id="maps" class="section level3">
-<h3 class="hasAnchor">
-<a href="#maps" class="anchor"></a>Maps</h3>
-<p>The <code>mosaic</code> package now provides facilities for producing choropleth maps. The API is still under developement and may change in future releases.</p>
+<div class="section level3">
+<h3 id="maps">Maps<a class="anchor" aria-label="anchor" href="#maps"></a>
+</h3>
+<p>The <code>mosaic</code> package now provides facilities for producing
+choropleth maps. The API is still under developement and may change in
+future releases.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mUSMap.html">mUSMap</a></span><span class="op">(</span><span class="va">USArrests</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, key<span class="op">=</span><span class="st">"state"</span>, fill <span class="op">=</span> <span class="st">"UrbanPop"</span><span class="op">)</span> </code></pre></div>
-<pre><code>## Mapping API still under development and may change in future releases.</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/mUSMap.html">mUSMap</a></span><span class="op">(</span><span class="va">USArrests</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, key<span class="op">=</span><span class="st">"state"</span>, fill <span class="op">=</span> <span class="st">"UrbanPop"</span><span class="op">)</span> </span></code></pre></div>
+<pre><code><span><span class="co">## Mapping API still under development and may change in future releases.</span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-17-1.png" width="480"></p>
 <p>Looks like it is safer to live in the North:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/mUSMap.html">mUSMap</a></span><span class="op">(</span><span class="va">USArrests</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, key<span class="op">=</span><span class="st">"state"</span>, fill <span class="op">=</span> <span class="st">"Murder"</span><span class="op">)</span> </code></pre></div>
-<pre><code>## Mapping API still under development and may change in future releases.</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../../reference/mUSMap.html">mUSMap</a></span><span class="op">(</span><span class="va">USArrests</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, key<span class="op">=</span><span class="st">"state"</span>, fill <span class="op">=</span> <span class="st">"Murder"</span><span class="op">)</span> </span></code></pre></div>
+<pre><code><span><span class="co">## Mapping API still under development and may change in future releases.</span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-18-1.png" width="480"></p>
 <p>Here is a sillier example</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Countries</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>nletters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span><span class="op">(</span><span class="va">gapminder</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/mWorldMap.html">mWorldMap</a></span><span class="op">(</span>key<span class="op">=</span><span class="st">"gapminder"</span>, fill<span class="op">=</span><span class="st">"nletters"</span><span class="op">)</span> </code></pre></div>
-<pre><code>## Mapping API still under development and may change in future releases.</code></pre>
-<pre><code>## Warning in standardName(x, countryAlternatives, ignore.case = ignore.case, : 99
-## items were not translated</code></pre>
+<code class="sourceCode R"><span><span class="va">Countries</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>nletters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar</a></span><span class="op">(</span><span class="va">gapminder</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../../reference/mWorldMap.html">mWorldMap</a></span><span class="op">(</span>key<span class="op">=</span><span class="st">"gapminder"</span>, fill<span class="op">=</span><span class="st">"nletters"</span><span class="op">)</span> </span></code></pre></div>
+<pre><code><span><span class="co">## Mapping API still under development and may change in future releases.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in standardName(x, countryAlternatives, ignore.case = ignore.case, : 99</span></span>
+<span><span class="co">## items were not translated</span></span></code></pre>
 <p><img src="GraphicsWithMosaic_files/figure-html/unnamed-chunk-19-1.png" width="480"></p>
 </div>
   </div>
@@ -298,11 +309,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton.</p>
+  <p></p>
+<p>Developed by Randall Pruim, Daniel T. Kaplan, Nicholas J. Horton.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -310,6 +323,8 @@
 
   
 
+
+  
 
   </body>
 </html>
