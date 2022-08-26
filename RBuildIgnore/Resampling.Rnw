@@ -137,7 +137,7 @@ logic of randomization to more complicated models.
 of institutions to teach introductory statistics.  Among other advantages, \R{}
 makes it easy to demonstrate the concepts of statistical inference through
 randomization while providing a sensible path for beginners to progress to
-advanced and professional statistics. \RStudio{} (\url{http://rstudio.com/})
+advanced and professional statistics. \RStudio{} (\url{https://www.rstudio.com/})
 is an open-source integrated development environment for \R{} which facilitates
 use of the system.
 
@@ -763,7 +763,8 @@ This document was produced using \Sexpr{sessionInfo()$R.version$version.string} 
    \emph{Technology Innovations in Statistics Education}, 2007, 1(1).
 \item B. Efron \& R. J. Tibshirani, {\em An Introduction to the Bootstrap}, 1993, Chapman \& Hall, New York.
 \item T. Hesterberg, D. S. Moore, S. Monaghan, A. Clipson \& R. Epstein.  {\em Bootstrap Methods and Permutation Tests (2nd edition)}, (2005), W.H. Freeman, New York.
-\item D.T. Kaplan, {\em Statistical Modeling: A Fresh Approach}, 2nd edition, \url{http://www.mosaic-web.org/go/StatisticalModeling/}.
+\item D.T. Kaplan, {\em Statistical Modeling: A Fresh Approach}, 2nd edition, 
+\url{https://dtkaplan.github.io/SM2-bookdown/}.
 \item S.C. Mednicj, D. J. Cai, J. Kanady, S. P. Drummond.  ``Comparing the benefits of caffeine, naps and placebo on verbal, motor and perceptual memory", {\em Behavioural Brain Research}, 2008, 193(1):79-86.
 \item T. Speed, ``Simulation", \emph{IMS Bulletin}, 2011, 40(3):18.
 \end{itemize}

@@ -90,7 +90,7 @@ is an introduction to statistics embracing a modeling approach and employing
 resampling methods. 
 The `mosaic` package is used throughout.
 
-    * [www.mosaic-web.org/StatisticalModeling](http://www.mosaic-web.org/go/StatisticalModeling/)
+    * [www.mosaic-web.org/StatisticalModeling](https://dtkaplan.github.io/SM2-bookdown/)
 
  * *Foundations and Applications of Statistics: An Introduction Using R* (R Pruim, second edition) 
 is an R-infused probability and mathematical statistics text that emphasizes
