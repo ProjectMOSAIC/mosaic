@@ -17,3 +17,5 @@ functions defined there but re-exported from this package.)
 * change guide = FALSE to guide = 'none' to avoid deprecation message from ggplot2
 
 * change calls to expect_doppelganger to avoid deprecated path argument
+
+It is being submitted in tandem with the mosaicCore package.
