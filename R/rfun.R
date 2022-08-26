@@ -30,8 +30,8 @@
 #' @export
  
 rfun <- function(vars=~x&y, seed=NULL, n=0) {
-  if( !is.null(seed) ) set.seed(seed)
-  if( class(vars) != "formula" )
+  if (!is.null(seed) ) set.seed(seed)
+  if (! inherits(vars, "formula"))
     stop("Must provide a formula, e.g. ~x&y, to identify the variables")
   nmaxes <- ifelse(n==0, ceiling( runif(1,min=4,max=10)), n)
   varnames <- all.vars(vars)
@@ -110,8 +110,8 @@ rfun <- function(vars=~x&y, seed=NULL, n=0) {
 #' @export
 
 rpoly2 <- function(vars=~x&y,seed=NULL){
-  if( !is.null(seed) ) set.seed(round(seed))
-  if( class(vars) != "formula" )
+  if (! is.null(seed)) set.seed(round(seed))
+  if (! inherits(vars, "formula"))
     stop("Must provide a formula, e.g. ~x&y, to identify the variables")
   varnames <- all.vars(vars)
   if( length(vars)==2) {

@@ -21,7 +21,7 @@ expandFun <- function(formula,...){
   exp = lhs(formula)
   #See if first operator is a primitive
   #Check if first operation is an arithmetic operator
-  if(is.primitive(eval(exp[[1]]))&&getGroup(toString(exp[[1]]))[[1]]=="Arith"){
+  if (is.primitive(eval(exp[[1]]))&&getGroup(toString(exp[[1]]))[[1]]=="Arith"){
     ## Recursively replace variables
     if (inherits(exp[[2]], 'call')) {
       form2 = formula
@@ -53,13 +53,13 @@ expandFun <- function(formula,...){
   exp[[1]] <- as.name("fnew")
   argmap = eval(exp)
   #Substitute new variables into the body.
-  if("{"==class(body)){#If there is more than one call in the function, takes the last call.
+  if (inherits(body, "{")){#If there is more than one call in the function, takes the last call.
     body=body[[length(body)]]
   }
   sformals = deparse(formals)
   sbody = deparse(body)
   for (pattern in vars) { # loop over the names of the formals
-    if(!is.null(argmap[[pattern]])){
+    if (!is.null(argmap[[pattern]])){
       replacement = deparse(argmap[[pattern]])
       sformals = gsub(pattern, replacement, sformals)
       replacement = paste("(",replacement,")") #To preserve order of operations

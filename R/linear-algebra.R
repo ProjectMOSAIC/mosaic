@@ -43,9 +43,9 @@
 #' @export
 
 mat <- function(formula, data=parent.frame(), A = formula) {
-  if( class(A) != "formula" ) stop("Must provide a formula, e.g., ~ a or ~ a + b ")
+  if (! inherits(A, "formula")) stop("Must provide a formula, e.g., ~ a or ~ a + b ")
   A <- update(A, ~-1+.) # kill off automatic Intercept term
-  if( is.null(data) )
+  if (is.null(data))
     M <- model.matrix( A )
   else
     M <- model.matrix( A, data=data ) 
