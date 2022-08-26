@@ -54,3 +54,5 @@ vignettes/*.html
 vignettes/*.md
 vignettes/*.out
 revdep/
+/doc/
+/Meta/
