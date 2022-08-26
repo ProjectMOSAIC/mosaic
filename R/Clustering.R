@@ -21,6 +21,7 @@ fortify.hclust <- function(model, data,
   ord <- model$order
   
   if (which == "segments") {
+    rlang::check_installed('ggdendro')
     grps <- cutree(model, k=k)
     return( ggdendro::segment(ggdendro::dendro_data(model, ...)) %>%
               dplyr::mutate(order = ord[round(xend)], 
@@ -30,6 +31,7 @@ fortify.hclust <- function(model, data,
   }
   
   if (which %in% c("leaves", "labels")) { 
+    rlang::check_installed('ggdendro')
     ord <- model$order
     return( ggdendro::label(ggdendro::dendro_data(model, ...)) %>% 
               dplyr::mutate( order = ord )

@@ -285,6 +285,7 @@ plotModel.parsedModel <-
              ...,
              panel = panel.superpose,
              panel.groups = mypanel) 
+#       rlang::check_installed('latticeExtra')
 #       xyplot( formula, data = point_data,
 #               groups = .group,
 #               auto.key = TRUE,

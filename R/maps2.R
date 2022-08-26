@@ -308,10 +308,11 @@ mUSMap <- function(data = NULL, key, fill = NULL,
 #'   arrange(density) %>% 
 #'   tail()
 #' }
-#' @importFrom readr parse_number
+# #' @importFrom readr parse_number
 #' @export
 CIAdata <- function (name = NULL) {
-  
+ 
+  rlang::check_installed('readr') 
   if (is.null(name)) return(CIA)  
   
   if (length(name) > 1) {

@@ -188,6 +188,7 @@ plotDist <- function(
   }
   
   if (add) {
+    rlang::check_installed('latticeExtra')
     call_without_add <- original_call
     call_without_add["add"] <- FALSE
     return( 

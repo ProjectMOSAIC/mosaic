@@ -42,6 +42,7 @@ plotPoints <- function( x, data=parent.frame(), add=NULL, under=FALSE,
   if (is.null(add)) add <- under
   if (!add) return(plotfun(x, data=data, ...))
   # else we're adding on
+    rlang::check_installed('latticeExtra')
     xpts <- evalSubFormula(rhs(x),data=data)
     ypts <- evalSubFormula(lhs(x),data=data)
     dots <- list(...)

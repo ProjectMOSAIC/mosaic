@@ -189,6 +189,7 @@ plotFun <- function(object, ...,
   
   if (add) { 
     if (ndims==1) {
+      rlang::check_installed('latticeExtra')  
       return( 
         plot + 
           latticeExtra::layer( 
@@ -209,6 +210,7 @@ plotFun <- function(object, ...,
       ) 
     }
     # message("2-D adding temporarily un-discontinued.")
+    check_installed('latticeExtra')
     return( plot + latticeExtra::layer(
       do.call( panel.plotFun,
                c(list( object=object, npts=npts, 

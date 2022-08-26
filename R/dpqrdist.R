@@ -382,6 +382,8 @@ plot_multi_dist <-
 
 #' @rdname pdist
 #' @inheritParams stats::pgamma 
+#' @param log.p A logical indicating whether probabilities should be 
+#'   returned on the log scale.
 #' @seealso [qdist()], [xpnorm()], [xqnorm()].
 #' @export
 xpgamma <- function(q, shape, rate = 1, scale = 1/rate, 
@@ -396,6 +398,8 @@ xpgamma <- function(q, shape, rate = 1, scale = 1/rate,
 }
 #' @rdname qdist
 #' @inheritParams stats::qgamma
+#' @param log.p A logical indicating whether probabilities should be 
+#'   returned on the log scale.
 #' @export
 xqgamma <- function(p, shape, rate = 1, scale = 1/rate, 
                     lower.tail = TRUE, log.p = FALSE, ...) {
@@ -410,6 +414,8 @@ xqgamma <- function(p, shape, rate = 1, scale = 1/rate,
 }
 #' @rdname cdist
 #' @inheritParams stats::qgamma
+#' @param log.p A logical indicating whether probabilities should be 
+#'   returned on the log scale.
 #' @export
 xcgamma <- function(p, shape, rate = 1, scale = 1/rate, 
                     lower.tail = TRUE, log.p = FALSE, ...) {
@@ -425,6 +431,8 @@ xcgamma <- function(p, shape, rate = 1, scale = 1/rate,
 
 #' @rdname pdist
 #' @inheritParams stats::pt
+#' @param log.p A logical indicating whether probabilities should be 
+#'   returned on the log scale.
 #' @export
 xpt <- function(q, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
   if (missing(ncp)) {
@@ -436,6 +444,8 @@ xpt <- function(q, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
   }
 #' @rdname qdist
 #' @inheritParams stats::qt
+#' @param log.p A logical indicating whether probabilities should be 
+#'   returned on the log scale.
 #' @export
 xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
   if (missing(ncp)) {
@@ -450,6 +460,8 @@ xqt <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)
 
 #' @rdname cdist
 #' @inheritParams stats::pt
+#' @param log.p A logical indicating whether probabilities should be 
+#'   returned on the log scale.
 #' @export
 xct <- function(p, df , ncp, lower.tail = TRUE, log.p = FALSE, ...)  
   if (missing(ncp)) {

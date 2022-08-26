@@ -237,6 +237,7 @@ googleMap <- function(latitude, longitude, position=NULL,
 #' Primarily designed to work with [rgeo()] to display randomly sampled
 #' points on the globe.
 #' 
+# @importFrom leaflet leaflet addTiles addCircles addMarkers
 #' @param latitude,longitude vectors of latitude and longitude values.
 #'   If `latitude` is a data frame, then it is treated as `position`.
 #'   This facilitates "piping" from [rgeo()].  See examples.
@@ -249,6 +250,8 @@ googleMap <- function(latitude, longitude, position=NULL,
 #' @param \dots additional arguments passed to [leaflet::addCircles()]
 #' @return a leaflet map
 #' @examples
+#' # the leaflet package is required
+#' if (require(leaflet)) {
 #'   # Times Square
 #'   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
 #'   # 3 random locations; 5 km circles
@@ -256,8 +259,8 @@ googleMap <- function(latitude, longitude, position=NULL,
 #'   # using pipes
 #'   rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) %>%
 #'     leaflet_map(radius = 5, mark = TRUE, color = "purple")
+#' }
 #' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
-#' @importFrom leaflet leaflet addTiles addCircles addMarkers
 #' @export
  
 leaflet_map <- 
@@ -267,6 +270,7 @@ leaflet_map <-
            units = c("km", "miles", "meters", "feet"),
            ...
   ) {
+    rlang::check_installed('leaflet')
     units <- match.arg(units)
     # how many meters per unit?
     if (inherits(latitude, "data.frame")) {
@@ -309,7 +313,7 @@ leaflet_map <-
       )
     }
     m <- m %>% 
-      addCircles(
+      leaflet::addCircles(
         lng = longitude,
         lat = latitude,
         radius = radius * conversion,  # convert from unit to meters

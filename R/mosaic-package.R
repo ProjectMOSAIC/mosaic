@@ -27,8 +27,8 @@ NA
 #' @keywords package
 #' @importFrom Matrix mean
 #' @importFrom utils head modifyList
-#' @importFrom gridExtra grid.arrange arrangeGrob
-#' @importFrom ggdendro segment label dendro_data
+# #' @importFrom gridExtra grid.arrange arrangeGrob
+# #' @importFrom ggdendro segment label dendro_data
 #' @import methods
 #' @importFrom MASS fitdistr fractions
 #' @importFrom dplyr bind_rows bind_cols 
@@ -37,7 +37,6 @@ NA
 #' @importFrom tidyr gather
 #' @importFrom grid grid.polyline grid.text grid.lines grid.points grid.rect grid.layout gpar unit.c 
 #' @import lattice
-#' @import splines 
 #' @import mosaicData
 #' @importFrom grDevices col2rgb colorRampPalette gray heat.colors rgb topo.colors
 #' @importFrom graphics hist plot stem

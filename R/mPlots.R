@@ -1,9 +1,9 @@
 
-#' @importFrom glue glue
+# #' @importFrom glue glue
 
 utils::globalVariables( 
   c('picker', 'button', 'slider', 'checkbox', 'x', 'y', 'color', 'size', 
-    'logScales', 'key', 'nbins',  'plotType',  
+    'logScales', 'key', 'nbins',  'plotType', '.scatterString',
     'flipCoords', 'group', 'projection', 'facet', 'N'))
 NA
 
@@ -476,6 +476,7 @@ name2string <- function(x) {
 }
 
 .scatterString <- 
+  check_installed('glue')
   function(s, system = system_choices()[1], variables) {
     
     # s$dataName <- name2string(s$dataName)
@@ -693,6 +694,8 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
 # 1-variable plots
 .uniplotString <- function(s, system = system_choices()[1], variables)
 {
+  
+  check_installed('glue')
   # s$dataName <- name2string(s$dataName)
   geom <- c(`histogram` = '', `densityplot` = ', geom = "line"',    
             `frequency polygon` = ', geom = "line"', `ASH plot` = ', geom = "blank"')

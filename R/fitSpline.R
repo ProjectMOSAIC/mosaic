@@ -38,6 +38,8 @@ fitSpline <- function( formula, data=parent.frame(),
 			degree = 3,
  			type=c('natural','linear','cubic','polynomial'),
 			...) {
+  
+  rlang::check_installed('splines')
 
 	type <- match.arg(type)
 

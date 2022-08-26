@@ -47,4 +47,5 @@ is_attached <- function(x) {
 
 
 pkgs_to_attach <-
-  c("lattice", "ggplot2", "Matrix", "dplyr", "ggstance", "ggformula", "mosaicData", "ggridges")
+  c("lattice", "ggplot2", "Matrix", "dplyr", "ggformula", "mosaicData")
+  # c("ggstance", "ggridges")

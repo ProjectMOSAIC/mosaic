@@ -29,7 +29,7 @@ expandFun <- function(formula,...){
       lside = Recall(form2)
       exp[[2]] = lside$formula[[2]]
     }
-    if (inheritis(exp[[3]] , "call")) {
+    if (inherits(exp[[3]] , "call")) {
       form3 = formula
       form3[[2]] = exp[[3]]
       rside = Recall(form3)

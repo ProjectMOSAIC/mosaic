@@ -45,6 +45,7 @@
 
 ladd <- function (x, data=NULL, ..., plot=trellis.last.object()) 
 {
+  rlang::check_installed('latticeExtra')
   return( plot + eval( substitute( latticeExtra::layer(foo, data=data, ...),
                                    list(foo=substitute(x) ) )
   ) )

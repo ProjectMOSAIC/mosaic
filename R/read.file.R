@@ -69,7 +69,7 @@ read.file <-
             readr = FALSE,
             package = NULL, ...) 
 {
-    readr_available <- readr && requireNamespace("readr")
+    readr_available <- readr && rlang::is_installed('readr')
     using_readr <- FALSE
     
     if (!is.null(package)) {
@@ -110,6 +110,8 @@ read.file <-
     
     using_readr <- using_readr && readr_available
     
+    if (using_readr){ rlang::check_installed('readr') }
+    
     if (using_readr) { 
       if (! is.null(comment.char)) message("comment.char is currently being ignored.")
       if (length(na.strings) > 1) {
@@ -130,6 +132,7 @@ read.file <-
     }
     
     if (filetype == "fw" && readr_available) {
+      rlang::check_installed('readr')
       message("Reading data with readr::read_table()")
       return(as.data.frame(readr::read_table(file, col_names = header, na = na.strings, ...)))
     }

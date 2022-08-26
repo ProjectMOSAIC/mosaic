@@ -202,6 +202,7 @@ xcnorm <-
 #' @param side One of "upper", "lower", or "both" indicating
 #' whether a vector of upper or lower quantiles or a matrix of 
 #' both should be returned.
+#' @param log.p logical.  If TRUE, uses the log of probabilities.
 #' 
 #' @export
 #' 
