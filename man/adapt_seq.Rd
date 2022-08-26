@@ -8,7 +8,9 @@ adapt_seq(
   from,
   to,
   length.out = 200,
-  f = function(x, ...) {     1 },
+  f = function(x, ...) {
+     1
+ },
   args = list(),
   quiet = FALSE
 )

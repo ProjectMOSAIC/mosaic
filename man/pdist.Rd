@@ -82,19 +82,16 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_aux]{ggformula::gf_refine()}}.}
 
-\item{shape}{shape and scale parameters.  Must be positive,
+\item{shape, scale}{shape and scale parameters.  Must be positive,
     \code{scale} strictly.}
 
 \item{rate}{an alternative way to specify the scale.}
 
-\item{scale}{shape and scale parameters.  Must be positive,
-    \code{scale} strictly.}
-
 \item{lower.tail}{logical; if TRUE (default), probabilities are
     \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
 
-\item{log.p}{logical; if \code{TRUE}, probabilities/densities \eqn{p}
-    are returned as \eqn{log(p)}.}
+\item{log.p}{A logical indicating whether probabilities should be
+returned on the log scale.}
 
 \item{df}{degrees of freedom (\eqn{> 0}, maybe non-integer).  \code{df
       = Inf} is allowed.}
@@ -103,9 +100,7 @@ that have many distinct values, especially if these values are not evenly spaced
     currently except for \code{rt()}, only for \code{abs(ncp) <= 37.62}.
     If omitted, use the central t distribution.}
 
-\item{df1}{degrees of freedom.  \code{Inf} is allowed.}
-
-\item{df2}{degrees of freedom.  \code{Inf} is allowed.}
+\item{df1, df2}{degrees of freedom.  \code{Inf} is allowed.}
 
 \item{size}{number of trials (zero or more).}
 
@@ -115,9 +110,7 @@ that have many distinct values, especially if these values are not evenly spaced
 
 \item{mu}{alternative parametrization via mean: see \sQuote{Details}.}
 
-\item{shape1}{non-negative parameters of the Beta distribution.}
-
-\item{shape2}{non-negative parameters of the Beta distribution.}
+\item{shape1, shape2}{non-negative parameters of the Beta distribution.}
 }
 \value{
 A vector of probabilities; a plot is printed as a side effect.

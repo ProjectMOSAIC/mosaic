@@ -16,7 +16,7 @@ ct(p, df, ncp, log.p = FALSE, side = c("upper", "lower", "both"))
 
 \item{sd}{vector of standard deviations.}
 
-\item{log.p}{logical; if TRUE, probabilities p are given as log(p).}
+\item{log.p}{logical.  If TRUE, uses the log of probabilities.}
 
 \item{side}{One of "upper", "lower", or "both" indicating
 whether a vector of upper or lower quantiles or a matrix of

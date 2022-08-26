@@ -41,7 +41,7 @@ mplot(object, ...)
   default = format,
   system = c("ggformula", "ggplot2", "lattice"),
   show = FALSE,
-  data_text = substitute(object),
+  data_text = rlang::expr_deparse(substitute(object)),
   title = "",
   ...
 )
@@ -70,7 +70,7 @@ mplot(object, ...)
 \item{object}{an R object from which a plot will be constructed.}
 
 \item{...}{additional arguments.  If \code{object} is an \code{lm}, subsets
-of these arguments are passed to \code{grid.arrange} and to the
+of these arguments are passed to \code{gridExtra::grid.arrange} and to the
 \pkg{lattice} plotting routines; in particular,
 \code{nrow} and \code{ncol} can be used to control the number of rows
 and columns used.}
@@ -156,9 +156,11 @@ relatively simple models.  When the results for a logistic regression model crea
 used to fit the model.
 
 Due to a bug in RStudio 1.3, the method for data frames may not display the controls
-consistently.  We have found that executing this code usually fixes the problem:\preformatted{library(manipulate) 
+consistently.  We have found that executing this code usually fixes the problem:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{library(manipulate) 
 manipulate(plot(A), A = slider(1, 10))
-}
+}\if{html}{\out{</div>}}
 }
 \examples{
 lm( width ~ length * sex, data = KidsFeet) \%>\%

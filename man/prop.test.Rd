@@ -58,8 +58,8 @@ probability of success in a Bernoulli or multinomial experiment
 from summarized data or from raw data.
 }
 \details{
-\preformatted{				conf.level = 0.95, ...)
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{				conf.level = 0.95, ...)
+}\if{html}{\out{</div>}}
 
 This is a wrapper around \code{\link[=prop.test]{prop.test()}} to simplify its use
 when the raw data are available, in which case

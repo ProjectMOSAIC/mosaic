@@ -32,6 +32,9 @@ formula.}
 
 \item{groups}{grouping variable}
 }
+\value{
+A plot of the empirical cumulative distribution function for sample values specified in \code{x}.
+}
 \description{
 A high-level function for producing a cumulative frequency plot using
 \code{lattice} graphics.

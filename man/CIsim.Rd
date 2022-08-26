@@ -14,10 +14,14 @@ CIsim(
   conf.level = 0.95,
   method = t.test,
   method.args = list(),
-  interval = function(x) {     do.call(method, c(list(x, conf.level = conf.level),
-    method.args))$conf.int },
-  estimate = function(x) {     do.call(method, c(list(x, conf.level = conf.level),
-    method.args))$estimate },
+  interval = function(x) {
+     do.call(method, c(list(x, conf.level = conf.level),
+    method.args))$conf.int
+ },
+  estimate = function(x) {
+     do.call(method, c(list(x, conf.level = conf.level),
+    method.args))$estimate
+ },
   verbose = TRUE
 )
 }

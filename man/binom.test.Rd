@@ -10,8 +10,8 @@ binom.test(
   p = 0.5,
   alternative = c("two.sided", "less", "greater"),
   conf.level = 0.95,
-  ci.method = c("Clopper-Pearson", "binom.test", "Score", "Wilson", "prop.test",
-    "Wald", "Agresti-Coull", "Plus4"),
+  ci.method = c("Clopper-Pearson", "binom.test", "Score", "Wilson", "prop.test", "Wald",
+    "Agresti-Coull", "Plus4"),
   data = NULL,
   success = NULL,
   ...

@@ -26,5 +26,4 @@ dpqrdist("norm", "r", n = 3, mean = 1, sd = 2)
 dpqrdist("norm", "d", x = 0) == dnorm(x = 0)
 dpqrdist("norm", "p", q = 0, mean = 1, sd = 2) == pnorm(q = 0, mean = 1, sd = 2)
 dpqrdist("norm", "q", p = 0.5, mean = 1, sd = 2) == qnorm(p = 0.5, mean = 1, sd = 2)
-
 }

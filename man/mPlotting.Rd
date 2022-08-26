@@ -14,7 +14,7 @@ mPlot(
   system = system_choices()[1],
   show = FALSE,
   title = "",
-  data_text = substitute(data),
+  data_text = rlang::expr_deparse(substitute(data)),
   ...
 )
 
@@ -24,7 +24,7 @@ mMap(
   system = "ggplot2",
   show = FALSE,
   title = title,
-  data_text = rlang::expr_text(data),
+  data_text = rlang::expr_deparse(substitute(data)),
   ...
 )
 
@@ -35,7 +35,7 @@ mScatter(
   system = "ggformula",
   show = FALSE,
   title = "",
-  data_text = rlang::expr_text(data)
+  data_text = rlang::expr_deparse(substitute(data))
 )
 
 mUniplot(
@@ -44,7 +44,7 @@ mUniplot(
   system = system_choices()[1],
   show = FALSE,
   title = "",
-  data_text = rlang::expr_text(data)
+  data_text = rlang::expr_deparse(substitute(data))
 )
 }
 \arguments{

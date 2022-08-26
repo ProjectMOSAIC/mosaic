@@ -11,7 +11,7 @@ design_plot(
   system = system_choices()[1],
   show = FALSE,
   title = "",
-  data_text = substitute(data),
+  data_text = rlang::expr_deparse(substitute(data)),
   ...
 )
 }

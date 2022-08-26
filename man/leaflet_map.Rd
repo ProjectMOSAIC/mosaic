@@ -40,6 +40,8 @@ Primarily designed to work with \code{\link[=rgeo]{rgeo()}} to display randomly 
 points on the globe.
 }
 \examples{
+# the leaflet package is required
+if (require(leaflet)) {
   # Times Square
   leaflet_map(40.7566, -73.9863, radius = 1, units = "miles")  
   # 3 random locations; 5 km circles
@@ -47,6 +49,7 @@ points on the globe.
   # using pipes
   rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) \%>\%
     leaflet_map(radius = 5, mark = TRUE, color = "purple")
+}
 }
 \seealso{
 \code{\link[=deg2rad]{deg2rad()}}, \code{\link[=latlon2xyz]{latlon2xyz()}} and \code{\link[=rgeo]{rgeo()}}.

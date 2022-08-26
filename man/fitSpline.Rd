@@ -32,7 +32,7 @@ output quantity}
 or \code{"polynomial"}.}
 
 \item{\dots}{additional arguments passed to spline basis functions
-(\code{\link[=ns]{ns()}} and \code{\link[=bs]{bs()}}).}
+(\code{\link[splines:ns]{splines::ns()}} and \code{\link[splines:bs]{splines::bs()}}).}
 }
 \value{
 a function of the explanatory variable
@@ -52,5 +52,5 @@ plotFun(g, add=TRUE, col='navy')
 plotFun(h, add=TRUE, col='red')
 }
 \seealso{
-\code{\link[=bs]{bs()}}  and \code{\link[=ns]{ns()}} for the bases used to generate the splines.
+\code{\link[splines:bs]{splines::bs()}}  and \code{\link[splines:ns]{splines::ns()}} for the bases used to generate the splines.
 }

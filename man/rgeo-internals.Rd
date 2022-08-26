@@ -16,9 +16,7 @@
 )
 }
 \arguments{
-\item{latitude}{vectors of latitude and longitude values}
-
-\item{longitude}{vectors of latitude and longitude values}
+\item{latitude, longitude}{vectors of latitude and longitude values}
 
 \item{position}{a data frame containing latitude and longitude positions}
 
