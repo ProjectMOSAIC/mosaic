@@ -33,7 +33,8 @@ dpqrdist <- function( dist, type = c("d","p","q","r"), ...) {
   # for the sake of some distribution functions that throw errors, for example when p = 0 or 1
   # we convert errors into NaNs [Note: is.na(NaN) is TRUE]
   dpqrfun <- purrr::possibly(distFun, otherwise = NaN)
-  res <- do.call(purrr::map_dbl, c(list(.f = dpqrfun, .x = first_val), dist_dots))
+  # res <- do.call(purrr::map_dbl, c(list(.f = dpqrfun, .x = first_val), dist_dots))
+  res <- do.call(dpqrfun,  c(list(first_val), dist_dots))
   if (length(res) > 0 & all(is.na(res))) {
     stop("No values could be computed. Did you specify all the required parameters?")
   }
