@@ -7,15 +7,8 @@
 
 * win-builder
 
-## Mosaic suite udpates
+## Changes
 
-This is a minor update mainly to 
+This is an emergency bug fix that affects only one function (mplot()).  Somehow a line 
+of code was currupted (likely clumsy typing/editing on on my part).
 
-* move a few tests from this package to mosaicCore (since they were testing 
-functions defined there but re-exported from this package.)
-
-* change guide = FALSE to guide = 'none' to avoid deprecation message from ggplot2
-
-* change calls to expect_doppelganger to avoid deprecated path argument
-
-It is being submitted in tandem with the mosaicCore package.
