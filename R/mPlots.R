@@ -476,8 +476,8 @@ name2string <- function(x) {
 }
 
 .scatterString <- 
-  check_installed('glue')
   function(s, system = system_choices()[1], variables) {
+    check_installed('glue')
     
     # s$dataName <- name2string(s$dataName)
     
