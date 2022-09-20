@@ -9,6 +9,5 @@
 
 ## Changes
 
-This is an emergency bug fix that affects only one function (mplot()).  Somehow a line 
-of code was currupted (likely clumsy typing/editing on on my part).
+Removing a link to a resource that has apparently been removed from OpenIntro.
 

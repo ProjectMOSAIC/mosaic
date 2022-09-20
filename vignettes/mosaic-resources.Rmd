@@ -166,12 +166,12 @@ plotting.
 		
     * [www.isi-sats.com/isi/](http://www.isi-stats.com/isi/)
 		
-  * [Open Intro Stats](https://www.openintro.org/stat/labs.php)
-  
-    OpenIntro Stats now has versions of their labs designed for 
-    use with the `mosaic` package.  
-    The `mosaic` labs were adapted by 
-    Ben Baumer and Galen Long of Smith College and updated to `ggformula` by Bonnie Lin and Nicholas Horton of Amherst College.
+  <!-- * [Open Intro Stats](https://www.openintro.org/) -->
+
+  <!--   OpenIntro Stats now has versions of their labs designed for  -->
+  <!--   use with the `mosaic` package.   -->
+  <!--   The `mosaic` labs were adapted by  -->
+  <!--   Ben Baumer and Galen Long of Smith College and updated to `ggformula` by Bonnie Lin and Nicholas Horton of Amherst College. -->
 
 ## Articles
  * GW Cobb, "The introductory statistics course: a Ptolemaic curriculum?", 
