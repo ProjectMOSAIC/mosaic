@@ -264,6 +264,7 @@ mWorldMap <- function(data = NULL, key = NA, fill = NULL, plot = c("borders", "f
 #' USArrests2 <- USArrests %>% mutate(state = row.names(.))
 #' mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 #' @export 
+#' @importFrom rlang .data
 mUSMap <- function(data = NULL, key, fill = NULL, 
                    plot = c("borders", "frame", "none"),
                    style = c("compact","real")) {
@@ -273,7 +274,7 @@ mUSMap <- function(data = NULL, key, fill = NULL,
   map <- makeMap(data = data, map = US_States_df, key = c(key, "STATE_ABBR"), 
               tr.data = standardState, tr.map = toupper, plot = plot)
   if ( (!is.null(fill) && plot != "none") ) {
-    map <- map + geom_polygon(aes_string(fill = fill), color = "darkgray")
+    map <- map + geom_polygon(aes(fill = .data[[fill]]), color = "darkgray")
   }
   map
 }
@@ -361,32 +362,13 @@ CIAdata <- function (name = NULL) {
 #' @param ... Other arguments, currently ignored
 #' @return A dataframe, in which the first 7 columns hold geographical
 #' information (ex: `long` and `lat`)
-#' @examples
-#'
-#' \dontrun{ 
-#' if(require(maptools)) {
-#'   data(wrld_simpl)
-#'   worldmap <- sp2df(wrld_simpl)
-#' }
-#' 
-#' if ( require(ggplot2) && require(maptools) ) { 
-#'   data(wrld_simpl)
-#'   World <- sp2df(wrld_simpl)
-#'   World2 <- merge(World, Countries, by.x="NAME", by.y="maptools", all.y=FALSE)
-#'   Mdata <- merge(Alcohol, World2, by.x="country", by.y="gapminder", all.y=FALSE) 
-#'   Mdata <- Mdata[order(Mdata$order),]
-#'   qplot( x=long, y=lat, fill=ntiles(alcohol,5), 
-#'          data=subset(Mdata, year==2008), group = group, 
-#'                      geom="polygon")
-#' }
-#' }
 #' @export
 sp2df <- function (map, ...) 
 {
   if (! requireNamespace("sp")) stop( "Package `sp' must be installed.")
 
   map@data$id <- rownames(map@data)
-  coords_matrix <- sp::coordinates(map)  # in sp, which maptools depends on
+  coords_matrix <- sp::coordinates(map)  # in sp
   map@data$clon = coords_matrix[, 1]
   map@data$clat = coords_matrix[, 2]
   map_points <- do.call(fortify, list(map, region="id"), 

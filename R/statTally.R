@@ -169,7 +169,7 @@ function (sample, rdata, FUN, direction = NULL,
 	      tryCatch( 
 	        ggplot() +
 	          geom_histogram(na.rm = TRUE,
-	            aes(y = stat(density), x = stat),
+	            aes(y = after_stat(density), x = stat),
 	            data = results,
 	            fill = fill, color = color, binwidth = binwidth, bins = bins,
 	            ...) +

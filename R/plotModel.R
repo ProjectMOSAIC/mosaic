@@ -264,15 +264,15 @@ plotModel.parsedModel <-
     if (system == "ggplot2") {
       if (length(unique(point_data$.color)) < 2L) {
         ggplot() +
-          geom_point(aes_string(y = x$responseName, x = key), size=1.2,
+          geom_point(aes(y = .data[[x$responseName]], x = .data[[key]]), size=1.2,
                      data = point_data %>% droplevels()) +
-          geom_line (aes_string(y = x$responseName, x = key), size=0.5,
+          geom_line (aes(y = .data[[x$responseName]], x = .data[[key]]), linewidth=0.5,
                      data = line_data %>% droplevels())
       } else {
         ggplot() +
-          geom_point(aes_string(y = x$responseName, x = key, colour=".color", group=".group"), size=1.2,
+          geom_point(aes(y = .data[[x$responseName]], x = .data[[key]], colour= .color, group= .group), size=1.2,
                      data = point_data %>% droplevels()) +
-          geom_line (aes_string(y = x$responseName, x = key, colour=".color", group = ".group"), size=0.5,
+          geom_line (aes(y = .data[[x$responseName]], x = .data[[key]], colour=.color, group = .group), linewidth=0.5,
                      data = line_data %>% droplevels())
       }
     } else {

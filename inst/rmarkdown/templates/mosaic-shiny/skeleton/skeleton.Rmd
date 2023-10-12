@@ -65,7 +65,7 @@ renderPlot(
                 color = ~"ASH", size = 1.2)
     if ("freq" %in% input$show)
       the_plot <- the_plot %>%
-        gf_freqpoly( stat(density) ~ eruptions, data = faithful, 
+        gf_freqpoly( after_stat(density) ~ eruptions, data = faithful, 
                     binwidth = as.numeric(input$binwidth), 
                     size = 1.2, color = ~"frequency polygon",
                     alpha = 0.7,

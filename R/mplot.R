@@ -138,7 +138,7 @@ mplot.lm <-
   geom_smooth_or_not <-  
     if (add.smooth)
       geom_line(stat = "smooth", method = "loess", span = span, 
-                alpha = smooth.alpha, color = smooth.color, size = smooth.size) 
+                alpha = smooth.alpha, color = smooth.color, linewidth = smooth.size) 
     else
       geom_blank() 
   
@@ -199,7 +199,7 @@ mplot.lm <-
   g1 <- ggplot(fdata, aes(.fitted, .resid)) +
     geom_point()  +
     geom_smooth_or_not +
-    geom_hline(linetype = 2, size = .2, yintercept = 0) +
+    geom_hline(linetype = 2, linewidth = .2, yintercept = 0) +
     ggrepel::geom_text_repel(
       data = fdata %>% arrange(-abs(.std.resid)) %>% head(id.n),
       aes(label = .row), 
@@ -328,7 +328,7 @@ mplot.lm <-
       color = id.color,
       segment.color = id.color,
       size = id.size) + 
-    geom_hline(linetype = 2, size = .2, yintercept = 0) +
+    geom_hline(linetype = 2, linewidth = .2, yintercept = 0) +
     labs(title = "Residuals vs Leverage",
          x     = "Leverage",
          y     = "Standardized Residual") +
