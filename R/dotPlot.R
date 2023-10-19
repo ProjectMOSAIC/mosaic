@@ -107,10 +107,11 @@ panel.dotPlot <-
                 yvals <- 1:(h$counts[bin])
                 xvals <- rep( h$mids[bin], h$counts[bin] )
                 grid.points( 
-                  size= cex * grid::unit( 0.9 / current.panel.limits()$ylim[2], 
-                                    "snpc"),  
+                  size = cex * grid::unit(0.9 / current.panel.limits()$ylim[2], 
+                                          "snpc"),  
                   pch = pch, 
-                  gp = gpar(fill = col, alpha = alpha, col = col, lty = lty, lwd = lwd), 
+                  gp = gpar(fill = col, alpha = alpha, col = col, 
+                            lty = lty, lwd = lwd), 
 				  		    x = xvals,
                   y = yvals - 0.5, 
 						default.units = "native")
