@@ -27,6 +27,6 @@ testthat::test_that("World Maps work", {
 
 USArrests2 <- USArrests %>% mutate(state = row.names(.))
 testthat::test_that("US Maps work", {
-  wrapped_expect_doppelganger("usmaps1", mUSMap(USArrests2, key="state", fill = "UrbanPop"))
+  wrapped_expect_doppelganger("usmaps1", mUSMap(USArrests2, key = "state", fill = "UrbanPop"))
   
 })
