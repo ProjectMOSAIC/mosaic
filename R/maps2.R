@@ -229,7 +229,7 @@ mWorldMap <- function(data = NULL, key = NA, fill = NULL, plot = c("borders", "f
     map <- map # + coord_map()   
   }
   if ( (!is.null(fill) && plot != "none") ) {
-    map <- map + geom_polygon(aes_string(fill=fill), color="darkgray")
+    map <- map + geom_polygon(aes(fill = {{ fill }}), color = "darkgray")
   }
   map
 }
@@ -273,7 +273,7 @@ mUSMap <- function(data = NULL, key, fill = NULL,
   map <- makeMap(data = data, map = US_States_df, key = c(key, "STATE_ABBR"), 
               tr.data = standardState, tr.map = toupper, plot = plot)
   if ( (!is.null(fill) && plot != "none") ) {
-    map <- map + geom_polygon(aes_string(fill = fill), color = "darkgray")
+    map <- map + geom_polygon(aes(fill = .data[[{{fill}}]]), color = "darkgray")
   }
   map
 }
