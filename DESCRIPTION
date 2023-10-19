@@ -39,7 +39,6 @@ Suggests:
     NHANES,
     RCurl,
     sp,
-    maptools,
     vcd,
     testthat,
     knitr,
