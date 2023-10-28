@@ -77,7 +77,7 @@
 cdist <- function (
   dist = "norm", p, plot = TRUE, verbose = FALSE, invisible = FALSE, 
   digits = 3L, 
-  xlim, ylim,
+  xlim = NULL, ylim = NULL,
   resolution = 500L,
   return = c("values", "plot"),
   pattern = c("rings", "stripes"),
