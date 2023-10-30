@@ -1,7 +1,7 @@
 Package: mosaic
 Type: Package
 Title: Project MOSAIC Statistics and Mathematics Teaching Utilities
-Version: 1.8.4.4
+Version: 1.9.0
 Description: Data sets and utilities from Project MOSAIC (<http://www.mosaic-web.org>) used
     to teach mathematics, statistics, computation and modeling.  Funded by the
     NSF, Project MOSAIC is a community of educators working to tie together
@@ -14,9 +14,10 @@ Authors@R: c(
     person(given = "Nicholas J.", family = "Horton", email = "nhorton@amherst.edu", role = "aut")
     )
 Depends:
-    R (>= 3.0.0),
+    R (>= 4.1),
 Imports:
     dplyr,
+    tibble,
     lattice (>= 0.20-21),
     ggformula,
     mosaicData,
