@@ -3,7 +3,7 @@ title: The mosaic package
 ---
 
 <!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/mosaic)](http://cran.r-project.org/package=mosaic) -->
-[![Travis-CI Build Status](https://travis-ci.org/ProjectMOSAIC/mosaic.svg?branch=master)](https://travis-ci.org/ProjectMOSAIC/mosaic/)
+<!-- [![Travis-CI Build Status](https://travis-ci.org/ProjectMOSAIC/mosaic.svg?branch=master)](https://app.travis-ci.com/ProjectMOSAIC/mosaic/) -->
 
 ## Purpose and design
 
