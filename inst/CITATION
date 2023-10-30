@@ -1,6 +1,6 @@
 citHeader("To cite mosaic in publications, please use:")
 
-citEntry(entry = "article",
+bibentry("article",
   author = "Randall Pruim and Daniel T Kaplan and Nicholas J Horton",
   title = "The mosaic Package: Helping Students to 'Think with Data' Using R",
   journal = "The R Journal",
