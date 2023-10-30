@@ -261,7 +261,7 @@ mWorldMap <- function(data = NULL, key = NA, fill = NULL, plot = c("borders", "f
 #' projection.
 #'  
 #' @examples
-#' USArrests2 <- USArrests |> mutate(state = row.names(.))
+#' USArrests2 <- USArrests |> tibble::rownames_to_column("state")
 #' mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 #' @export 
 mUSMap <- function(data = NULL, key, fill = NULL, 
