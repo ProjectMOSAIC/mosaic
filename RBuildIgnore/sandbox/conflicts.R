@@ -30,13 +30,13 @@ package_conflict_message <- function (x)
   if (length(x) == 0) 
     return("")
   header <- cli::rule(left = crayon::bold("Conflicts"), right = "mosaic_conflicts()")
-  pkgs <- x %>% purrr::map(~gsub("^package:", "", .))
-  others <- pkgs %>% purrr::map(`[`, -1)
+  pkgs <- x |> purrr::map(~gsub("^package:", "", .))
+  others <- pkgs |> purrr::map(`[`, -1)
   other_calls <- 
     purrr::map2_chr(
       others, names(others), 
       ~paste0(crayon::blue(.x), "::", .y, "()", collapse = ", "))
-  winner <- pkgs %>% purrr::map_chr(1)
+  winner <- pkgs |> purrr::map_chr(1)
   funs <- 
     format(
       paste0(crayon::blue(winner), "::", crayon::green(paste0(names(x), "()")))
@@ -50,7 +50,7 @@ package_conflict_message <- function (x)
 
 confirm_conflict <-
   function (packages, name) {
-    objs <- packages %>% purrr::map(~get(name, pos = .)) %>% 
+    objs <- packages |> purrr::map(~get(name, pos = .)) |> 
       purrr::keep(is.function)
     if (length(objs) <= 1) 
       return()
@@ -65,7 +65,7 @@ find_conflicts <- function(pkg = 'mosaic') {
   # based on ideas in 
   #   * https://stackoverflow.com/questions/39137110/what-does-the-following-object-is-masked-from-packagexxx-mean
   #   * tidyverse
-  envs <- search() %>% setNames(., .)
+  envs <- search() |> setNames(., .)
   
   # For each environment, get the exported functions (and other variables).
   fns <- lapply(envs, ls)
@@ -77,13 +77,13 @@ find_conflicts <- function(pkg = 'mosaic') {
   )
   
   # Find cases where the object appears more than once.
-  fns_by_env %>% 
-    dplyr::group_by(fn) %>% 
-    dplyr::tally() %>% 
-    dplyr::filter(n > 1) %>% 
-    dplyr::inner_join(fns_by_env) %>%
-    dplry::group_by(fn) %>% 
-    dplyr::mutate(keep = grepl(paste0('package:pkg' %in% env))) %>% 
+  fns_by_env |> 
+    dplyr::group_by(fn) |> 
+    dplyr::tally() |> 
+    dplyr::filter(n > 1) |> 
+    dplyr::inner_join(fns_by_env) |>
+    dplry::group_by(fn) |> 
+    dplyr::mutate(keep = grepl(paste0('package:pkg' %in% env))) |> 
     filter(keep) 
 }
 

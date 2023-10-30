@@ -321,12 +321,12 @@ plot_multi_dist <-
     # res_plot <- do.call("xyplot", args)
     
     Groups <- 
-      tibble::tibble(p = diff(p_less)) %>%
+      tibble::tibble(p = diff(p_less)) |>
       mutate(
         i = 1 : n(),
         name = if (pattern == "stripes") LETTERS[i] else LETTERS[ceiling(1 + abs(i - mean(i)))]
-      ) %>% 
-      group_by(name) %>%
+      ) |> 
+      group_by(name) |>
       mutate(
         p_all = sum(p),
         label = paste(first(name), ":", formatC(p_all, format = "f", digits = digits), sep = "")
@@ -343,7 +343,7 @@ plot_multi_dist <-
         tibble::tibble(
           x = xdata, density = ydata, 
           group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
-        ) %>%
+        ) |>
         mutate(
           group = pmax(1, group),
           probability = Groups$label[group] 
@@ -355,9 +355,9 @@ plot_multi_dist <-
         do.call(
           gf_point, 
           c(list(density ~ x, color = ~ probability, group = ~ group, fill = ~ probability,
-                 data = Ddensity), plot_dots)) %>%
-        gf_segment(density + 0 ~ x + x) %>%
-        gf_labs(x = "", y = "probability") %>%
+                 data = Ddensity), plot_dots)) |>
+        gf_segment(density + 0 ~ x + x) |>
+        gf_labs(x = "", y = "probability") |>
         gf_refine(
         scale_fill_viridis_d(end = 0.9),
         scale_color_viridis_d(end = 0.9)
@@ -368,17 +368,17 @@ plot_multi_dist <-
       tibble::tibble(
         x = xdata, density = ydata, 
         group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
-      ) %>%
+      ) |>
       mutate(
         group = pmax(1, group),
         probability = Groups$label[group] # factor(group, labels = labels[sort(unique(group))])
-      ) %>%
+      ) |>
       dplyr::filter(!is.na(probability))  # avoids issues when xlim is wider than support
     
     plot <- 
       do.call(gf_area, 
               c(list(density ~ x, fill = ~ probability, 
-                     group = ~ group, data = Ddensity), plot_dots)) %>%
+                     group = ~ group, data = Ddensity), plot_dots)) |>
       gf_refine(
         scale_fill_viridis_d(end = 0.9),
         scale_color_viridis_d(end = 0.9)

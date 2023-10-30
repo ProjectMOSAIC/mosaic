@@ -270,8 +270,8 @@ print.repeater <- function(x, ...)
   # if each element is a data frame, combine them with bind_rows
   if ( all( sapply( l, is.data.frame ) ) ) {
     return(
-      lapply(l, function(x) {mutate(x, .row= 1:n())}) %>% 
-        dplyr::bind_rows() %>% 
+      lapply(l, function(x) {mutate(x, .row= 1:n())}) |> 
+        dplyr::bind_rows() |> 
         mutate(.index = c(1, 1 + cumsum( diff(.row) != 1 ))) 
     )
   }

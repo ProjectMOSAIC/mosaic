@@ -9,6 +9,6 @@ testthat::test_that("bargraph works", {
   wrapped_expect_doppelganger("bargraph2", bargraph( ~ substance, data = HELPrct, horizontal = TRUE))
   wrapped_expect_doppelganger("bargraph3", bargraph( ~ substance | sex, groups = homeless, auto.key = TRUE, data = HELPrct))
   wrapped_expect_doppelganger("bargraph4", bargraph( ~ substance, groups = homeless, auto.key=TRUE,
-                                                     data = HELPrct %>% filter(sex == "male")))
+                                                     data = HELPrct |> filter(sex == "male")))
   wrapped_expect_doppelganger("bargraph5", bargraph( ~ substance | older, data = HELPrct2))
 })

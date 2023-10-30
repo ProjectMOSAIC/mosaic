@@ -59,7 +59,7 @@ test_that("dpqrdist works for binomial dist", {
 })
 
 # test_that("pdist works", {
-#   #pdist("norm", -2:2) %>% dput()
+#   #pdist("norm", -2:2) |> dput()
 #   # testcase <- c(0.0227501319481792, 0.158655253931457, 0.5, 0.841344746068543, 
 #   #               0.977249868051821)
 #   # test <- pdist("norm", -2:2)

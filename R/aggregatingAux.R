@@ -197,9 +197,9 @@ maggregate <-
       names(res)[ncol(res)] <- gsub(".*::", "", .name)
       return(res)
       
-      return(evalF$right[ , 1, drop = FALSE] %>% 
-               group_by() %>%
-               dplyr::do( do.call(FUN, list(evalF$right[, 1], ...)) ) %>%
+      return(evalF$right[ , 1, drop = FALSE] |> 
+               group_by() |>
+               dplyr::do( do.call(FUN, list(evalF$right[, 1], ...)) ) |>
                as.data.frame()
       )
       #      return(plyr::ddply(evalF$right[ , 1, drop = FALSE], names(NULL),

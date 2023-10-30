@@ -214,7 +214,7 @@ mPlot <- function(data,
 #' @examples 
 #' \dontrun{
 #'   mtcars2 <- 
-#'     mtcars %>% 
+#'     mtcars |> 
 #'       mutate(
 #'         cyl2 = factor(cyl), 
 #'         carb2 = factor(carb),
@@ -448,7 +448,7 @@ mScatter <-
   
   if (system == "lattice" && plotType %in% c("sina", "density (contours)", "density (filled)")) {
     message('plot type ', plotType, ' unavailable in lattice.')
-    return(gf_text(0 ~ 0, label = paste0("plot type ", plotType, " unavailable in lattice.")) %>%
+    return(gf_text(0 ~ 0, label = paste0("plot type ", plotType, " unavailable in lattice.")) |>
              gf_theme(theme_void()))
   }
   
@@ -513,22 +513,22 @@ name2string <- function(x) {
       res <- glue::glue(.trim = FALSE, 
         "{gf_fun[s$plotType]}({s$y} ~ {s$x}, data = {s$dataName}{color_chunk}{size_chunk})")
       
-      if (s$model == "spline") res <- glue::glue(.trim = FALSE, "{res} %>%\n  gf_spline()")
-      if (s$model == "linear") res <- glue::glue(.trim = FALSE, "{res} %>%\n  gf_lm()")
-      if (s$model == "smooth") res <- glue::glue(.trim = FALSE, "{res} %>%\n  gf_smooth()")
+      if (s$model == "spline") res <- glue::glue(.trim = FALSE, "{res} |>\n  gf_spline()")
+      if (s$model == "linear") res <- glue::glue(.trim = FALSE, "{res} |>\n  gf_lm()")
+      if (s$model == "smooth") res <- glue::glue(.trim = FALSE, "{res} |>\n  gf_smooth()")
       
-      if (s$logx) res <- glue::glue(.trim = FALSE, "{res} %>%\n   gf_refine(scale_x_log10())")
-      if (s$logy) res <- glue::glue(.trim = FALSE, "{res} %>%\n   gf_refine(scale_y_log10())")
+      if (s$logx) res <- glue::glue(.trim = FALSE, "{res} |>\n   gf_refine(scale_x_log10())")
+      if (s$logy) res <- glue::glue(.trim = FALSE, "{res} |>\n   gf_refine(scale_y_log10())")
       if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
-        res <- glue::glue(.trim = FALSE, "{res} %>%\n  gf_facet_wrap(~ {s$facet}, ncol = 4)")
+        res <- glue::glue(.trim = FALSE, "{res} |>\n  gf_facet_wrap(~ {s$facet}, ncol = 4)")
       
       if ((!is.null(s$color) && !is.na(s$color)) || 
           (!is.null(s$size)  && !is.na(s$size))) {
-        res <- glue::glue(.trim = FALSE, '{res} %>% \n  gf_theme(legend.position = {ggdir2pos(s$key)})')
+        res <- glue::glue(.trim = FALSE, '{res} |> \n  gf_theme(legend.position = {ggdir2pos(s$key)})')
       } 
-      res <- glue::glue(.trim = FALSE, '{res} %>% \n  gf_labs(title = "{s$title}", caption = "")')
+      res <- glue::glue(.trim = FALSE, '{res} |> \n  gf_labs(title = "{s$title}", caption = "")')
       if ( s$flipCoords) {
-        res <- glue::glue(.trim = FALSE, "{res} %>% \n  gf_refine(coord_flip())")
+        res <- glue::glue(.trim = FALSE, "{res} |> \n  gf_refine(coord_flip())")
       }
     } else if (system == "ggplot2") {
       res <- paste("ggplot(data = ", s$dataName, ", aes(x = ", s$x, ", y = ", s$y, "))", sep = "")
@@ -732,11 +732,11 @@ mUniplot <- function(data, default = c("histogram","density", "frequency polygon
     res <- glue::glue(.trim = FALSE, '{gf_fun[s$plotType]}(~ {s$x}, data = {s$dataName}{color_chunk}{params})')
     
     if (!is.null(s$facet) && !is.na(s$facet)) # why do I need both?
-      res <- glue::glue(.trim = FALSE, "{res} %>%\n   gf_facet_wrap(~ {s$facet})")
-    res <- glue::glue(.trim = FALSE, '{res} %>%\n   gf_labs(title = "{s$title}")')
+      res <- glue::glue(.trim = FALSE, "{res} |>\n   gf_facet_wrap(~ {s$facet})")
+    res <- glue::glue(.trim = FALSE, '{res} |>\n   gf_labs(title = "{s$title}")')
     
     if (!is.null(s$color) && !is.na(s$color)){
-      res <- glue::glue(.trim = FALSE, '{res} %>% \n  gf_theme(legend.position = {ggdir2pos(s$key)})')
+      res <- glue::glue(.trim = FALSE, '{res} |> \n  gf_theme(legend.position = {ggdir2pos(s$key)})')
     }  
   } else if (system == "ggplot2") {
     res <- paste0("ggplot( data = ", s$dataName, ", aes(x = ", s$x, "))", sep = "")

@@ -257,7 +257,7 @@ googleMap <- function(latitude, longitude, position=NULL,
 #'   # 3 random locations; 5 km circles
 #'   leaflet_map(position = rgeo(3), radius = 5, mark = TRUE, color = "red") 
 #'   # using pipes
-#'   rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) %>%
+#'   rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) |>
 #'     leaflet_map(radius = 5, mark = TRUE, color = "purple")
 #' }
 #' @seealso [deg2rad()], [latlon2xyz()] and [rgeo()].
@@ -303,16 +303,16 @@ leaflet_map <-
     }
     
     m <-
-      leaflet::leaflet() %>%
+      leaflet::leaflet() |>
       leaflet::addTiles() # Add default OpenStreetMap map tiles
     if (mark) {
-      m <- m %>% leaflet::addMarkers(
+      m <- m |> leaflet::addMarkers(
         lng = longitude, lat = latitude, 
         popup = paste("lat/lon: ", format(latitude, digits = 5), 
                       "/", format(longitude, digits = 5), sep = "")
       )
     }
-    m <- m %>% 
+    m <- m |> 
       leaflet::addCircles(
         lng = longitude,
         lat = latitude,

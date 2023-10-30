@@ -10,7 +10,7 @@
 #' @examples
 #' if (require(NHANES)) {
 #'   tally( ~ is.na(Height) + is.na(Weight), data = NHANES, margins = TRUE)
-#'   NHANES %>% 
+#'   NHANES |> 
 #'     summarise(
 #'       mean.wt = mean(Weight, na.rm = TRUE),
 #'       missing.Wt = n_missing(Weight),

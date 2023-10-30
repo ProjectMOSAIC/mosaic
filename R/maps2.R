@@ -169,12 +169,12 @@ makeMap <- function (data = NULL, map=NULL, key=c(key.data, key.map),
   
   switch(plot, 
          borders = 
-           ggplot(data %>% group_by(group) %>% arrange(order) %>% ungroup(), 
+           ggplot(data |> group_by(group) |> arrange(order) |> ungroup(), 
                   aes(x=long, y=lat, group=group)) +
            geom_polygon(color="darkgray", fill=NA) + theme_map() +
            labs(x="", y=""),
          frame = 
-           ggplot(data %>% group_by(group) %>% arrange(order) %>% ungroup(), 
+           ggplot(data |> group_by(group) |> arrange(order) |> ungroup(), 
                   aes(x=long, y=lat, group=group)),
          none = 
            data)
@@ -208,7 +208,7 @@ makeMap <- function (data = NULL, map=NULL, key=c(key.data, key.map),
 #' 
 #' mWorldMap(gdpData, key="country", fill="GDP")
 #'
-#' gdpData <- gdpData %>% mutate(GDP5 = ntiles(-GDP, 5, format="rank")) 
+#' gdpData <- gdpData |> mutate(GDP5 = ntiles(-GDP, 5, format="rank")) 
 #' mWorldMap(gdpData, key="country", fill="GDP5")
 #'
 #' mWorldMap(gdpData, key="country", plot="frame") +
@@ -261,7 +261,7 @@ mWorldMap <- function(data = NULL, key = NA, fill = NULL, plot = c("borders", "f
 #' projection.
 #'  
 #' @examples
-#' USArrests2 <- USArrests %>% mutate(state = row.names(.))
+#' USArrests2 <- USArrests |> mutate(state = row.names(.))
 #' mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 #' @export 
 mUSMap <- function(data = NULL, key, fill = NULL, 
@@ -299,13 +299,13 @@ mUSMap <- function(data = NULL, key, fill = NULL,
 #' head(Population)
 #' 
 #' PopArea <- 
-#'   CIAdata(c("pop","area")) %>% 
+#'   CIAdata(c("pop","area")) |> 
 #'   mutate(density = pop / area)
 #' nrow(PopArea)
 #' head(PopArea)
-#' PopArea %>% 
-#'   filter(!is.na(density)) %>%
-#'   arrange(density) %>% 
+#' PopArea |> 
+#'   filter(!is.na(density)) |>
+#'   arrange(density) |> 
 #'   tail()
 #' }
 # #' @importFrom readr parse_number

@@ -200,10 +200,10 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
     tryCatch({
       orig_data <- extract_data(object) 
       orig_data <- 
-        orig_data %>%
+        orig_data |>
         select(
           .dots = intersect(names(orig_data), 
-                            rlang::f_rhs(attr(object, "lazy")) %>% all.vars())
+                            rlang::f_rhs(attr(object, "lazy")) |> all.vars())
         )
       df <- nrow(orig_data) - 1
       if ( ! all(complete.cases(orig_data)) ) {
@@ -293,7 +293,7 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
     res$df = df
     res$df[res$method != "stderr"] <- NA
   }
-  res <- res %>% filter( !is.na(lower) & !is.na(upper) & !(lower == upper) )
+  res <- res |> filter( !is.na(lower) & !is.na(upper) & !(lower == upper) )
   return( as.data.frame(res) )
 }
 
@@ -407,7 +407,7 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
   if (max(object$.row) == 1) {
     parm <- "mean"
     Boot <-
-      object %>%
+      object |>
       mutate(estimate.star = mean, SE.star = sd / sqrt(n), 
              t = (estimate.star - mean(estimate.star)) / SE.star)
   } 
@@ -415,9 +415,9 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
   if (max(object$.row) == 2) {
     parm <- "diffmean"
     Boot <-
-      object %>%
-      group_by(.index) %>%
-      summarise(estimate.star = diff(mean), SE.star = sqrt(sum(sd^2/ n))) %>% 
+      object |>
+      group_by(.index) |>
+      summarise(estimate.star = diff(mean), SE.star = sqrt(sum(sd^2/ n))) |> 
       mutate(t = (estimate.star - mean(estimate.star)) / SE.star)
     estimate <- diff(estimate)
   }

@@ -41,8 +41,8 @@ utils::globalVariables(
 #' @examples
 #' xpnorm(650, 500, 100)
 #' xqnorm(.75, 500, 100)
-#' xpnorm(-3:3, return = "plot", system = "gg") %>% 
-#'   gf_labs(title = "My Plot", x = "") %>% 
+#' xpnorm(-3:3, return = "plot", system = "gg") |> 
+#'   gf_labs(title = "My Plot", x = "") |> 
 #'   gf_theme(theme_bw())
 #' 
 #' \dontrun{
@@ -210,7 +210,7 @@ xcnorm <-
 #' qnorm(.975)
 #' cnorm(.95)
 #' xcnorm(.95)
-#' xcnorm(.95, verbose = FALSE, return = "plot") %>%
+#' xcnorm(.95, verbose = FALSE, return = "plot") |>
 #'   gf_refine(
 #'   scale_fill_manual( values = c("navy", "limegreen")),
 #'   scale_color_manual(values = c("black", "black")))
@@ -296,12 +296,12 @@ mid <- function(x) {
 	q <- c(xlim[1], q, xlim[2])
 
 	D <- 
-	  data.frame(x = xdata, density = ydata) %>%
-	  mutate(group = apply(sapply(x, function(x) {x >= q}), 2, sum)) %>%
-	  head(-1) %>% tail(-1)
+	  data.frame(x = xdata, density = ydata) |>
+	  mutate(group = apply(sapply(x, function(x) {x >= q}), 2, sum)) |>
+	  head(-1) |> tail(-1)
 	
 	Q <- 
-	  data.frame(q = mid(q), m = 1.1 * max(D$density)) %>%
+	  data.frame(q = mid(q), m = 1.1 * max(D$density)) |>
 	  mutate(group = apply(sapply(q, function(x) {x >= q}), 2, sum))
 	
 	# plot <- 
@@ -315,12 +315,12 @@ mid <- function(x) {
 	plot <- 
 	  gf_area(density ~ x, fill = ~as.character(group %% 2), data = D, 
 	          group = ~group,
-	          show.legend = FALSE, ...) %>%
+	          show.legend = FALSE, ...) |>
 	  gf_text(m ~ q, color = ~ as.character(group %% 2), data = Q, 
 	            label = paste("", round(diff(p), 3), sep = ""),
-	            angle = 45, show.legend = FALSE) %>%
+	            angle = 45, show.legend = FALSE) |>
 	  gf_point((1.1 * m) ~ q, color = "transparent", data = Q, 
-	           inherit = FALSE, show.legend = FALSE) %>%
+	           inherit = FALSE, show.legend = FALSE) |>
 	  gf_refine(
 	    scale_fill_viridis_d(end = 0.9),
 	    scale_color_viridis_d(end = 0.9)
@@ -370,17 +370,17 @@ mid <- function(x) {
 
 	res_plot <-
 	  gf_area(density ~ x, data = Ddensity, group = ~ tail, fill = ~ tail, 
-	          show.legend = FALSE, ...) %>%
+	          show.legend = FALSE, ...) |>
 	  gf_text(y2 ~ x, label = ~label, data = Dtext, 
 	          vjust = 1, hjust = 0.5, inherit = FALSE,
-	          show.legend = FALSE) %>%
-	  gf_segment(0 + y1 ~ x + x, data = Dtext, inherit = FALSE)  %>%
+	          show.legend = FALSE) |>
+	  gf_segment(0 + y1 ~ x + x, data = Dtext, inherit = FALSE)  |>
 	  gf_refine(
 	    scale_fill_viridis_d(end = 0.9),
 	    scale_color_viridis_d(end = 0.9)
 	  )
 	  
-	    # gf_refine(guides(fill = guide_legend(title = ""))) %>%
+	    # gf_refine(guides(fill = guide_legend(title = ""))) |>
 	
 	return(res_plot)
 	

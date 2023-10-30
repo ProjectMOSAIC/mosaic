@@ -22,7 +22,7 @@ rescale.data.frame <- function( x,
                                 ...) {
   dfapply( x, 
            function(x) { rescale(x, range = range, domain = domain, ...) },
-           function(x) TRUE ) %>%
+           function(x) TRUE ) |>
     as.data.frame()
 }
 

@@ -125,7 +125,7 @@ cdata_v <- function( x, p = .95, na.rm = TRUE, ... ) {
 #   args [["p"]] <- p # substitute(p, parent.frame())
 #   args [["data"]] <- data
 #   cd <- do.call( "cdata_f", args )
-#   data %>%
+#   data |>
 #     mutate(
 #       status = dplyr::case_when(
 #         cd$low ~ "tail"

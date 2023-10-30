@@ -109,9 +109,9 @@ test_that("aggregatingFunctions work", {
 test_that("aggregating functions are compatible with dplyr", {
   require(dplyr)
   expect_equivalent(
-    data.frame(x = 1:10, y = 1:10) %>% 
+    data.frame(x = 1:10, y = 1:10) |> 
       summarise(mean = mean(~x), cor = cor(y ~ x)),
-    data.frame(x = 1:10, y = 1:10) %>% 
+    data.frame(x = 1:10, y = 1:10) |> 
       summarise(mean = base::mean(x), cor = stats::cor(y, x))
   )
 })

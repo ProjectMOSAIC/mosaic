@@ -31,13 +31,13 @@ inspect.list <- function(object, max.level = 2, ...) {
 #' @rdname inspect
 #' @export
 inspect.character <- function(object, ...) {
-  inspect(factor(object)) %>% mutate(class = "character")
+  inspect(factor(object)) |> mutate(class = "character")
 }
 
 #' @rdname inspect
 #' @export
 inspect.logical <- function(object, ...) {
-  inspect(as.character(object, ...)) %>% mutate(class = "logical")
+  inspect(as.character(object, ...)) |> mutate(class = "logical")
 }
 
 #' @rdname inspect

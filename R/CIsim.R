@@ -64,12 +64,12 @@ CIsim <-
 {
     plot <- match.arg(plot, c("draw", "horizontal", "return", "none"))
     # Grid will have a row for each simulated sample
-    Grid <- expand.grid(n = n, sample = 1:samples) %>% mutate(estimand = estimand)
+    Grid <- expand.grid(n = n, sample = 1:samples) |> mutate(estimand = estimand)
     # a list of data sets, one for each row in Grid
     sampleData <- 
       lapply(1:nrow(Grid),
              function(r) do.call(rdist, c(list(n = Grid[r, "n"]),  args)))
-    CIs <- Grid %>% mutate(
+    CIs <- Grid |> mutate(
       lower    = sapply(sampleData, function(x) { interval(x)[1] }),
       upper    = sapply(sampleData, function(x) { interval(x)[2] }),
       estimate =  sapply(sampleData, function(x) { estimate(x) }),
@@ -99,7 +99,7 @@ CIsim <-
            draw = print(plotG + facet_wrap(~ nlab)),
            none = {}
            )
-    return(invisible(CIs %>% select(-nlab)))
+    return(invisible(CIs |> select(-nlab)))
 }
 
 

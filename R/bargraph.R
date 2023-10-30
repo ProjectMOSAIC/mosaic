@@ -39,7 +39,7 @@
 #' bargraph( ~ substance, data = HELPrct, horizontal = TRUE)
 #' bargraph( ~ substance | sex, groups = homeless, auto.key = TRUE, data = HELPrct)
 #' bargraph( ~ substance, groups = homeless, auto.key=TRUE, 
-#'             data = HELPrct %>% filter(sex == "male"))
+#'             data = HELPrct |> filter(sex == "male"))
 #' HELPrct2 <- mutate(HELPrct, older = age > 40)
 #' bargraph( ~ substance | older, data = HELPrct2)
 #' }
@@ -72,7 +72,7 @@ bargraph <- function(x, data = parent.frame(), groups = NULL, horizontal = FALSE
   # there is a variable called "Freq"
   lastvar <- names(xtab)[ncol(xtab)]
   # add dummy variable to handle case when 
-  xtab <- xtab %>% dplyr::mutate(..X.. = xtab[, 1])
+  xtab <- xtab |> dplyr::mutate(..X.. = xtab[, 1])
   sgroups <- substitute(groups)
   
   

@@ -23,7 +23,7 @@ fortify.hclust <- function(model, data,
   if (which == "segments") {
     rlang::check_installed('ggdendro')
     grps <- cutree(model, k=k)
-    return( ggdendro::segment(ggdendro::dendro_data(model, ...)) %>%
+    return( ggdendro::segment(ggdendro::dendro_data(model, ...)) |>
               dplyr::mutate(order = ord[round(xend)], 
                      group = grps[ord[round(xend)]])
             
@@ -33,14 +33,14 @@ fortify.hclust <- function(model, data,
   if (which %in% c("leaves", "labels")) { 
     rlang::check_installed('ggdendro')
     ord <- model$order
-    return( ggdendro::label(ggdendro::dendro_data(model, ...)) %>% 
+    return( ggdendro::label(ggdendro::dendro_data(model, ...)) |> 
               dplyr::mutate( order = ord )
     )
   }
   
   # if (which == "heatmap0") {
-  #   res <- fortify(model, data, which="data") %>% 
-  #     melt(id.vars = c("idx","position")) %>% 
+  #   res <- fortify(model, data, which="data") |> 
+  #     melt(id.vars = c("idx","position")) |> 
   #     mutate(variable = as.character(variable))
   #   uv <- unique(res$variable)
   #   res$variable_num <-  sapply( 
@@ -51,8 +51,8 @@ fortify.hclust <- function(model, data,
   # }
   
   if (which == "heatmap") {
-    res <- fortify(model, data, which="data") %>% 
-      tidyr::gather(variable, value, -idx, -position) %>%
+    res <- fortify(model, data, which="data") |> 
+      tidyr::gather(variable, value, -idx, -position) |>
       dplyr::mutate(variable = as.character(variable))
     uv <- unique(res$variable)
     res$variable_num <-  sapply( 
@@ -66,7 +66,7 @@ fortify.hclust <- function(model, data,
       stop('missing data')
     } else {
       return( 
-        data %>% 
+        data |> 
           dplyr::mutate(idx = 1:nrow(data),
                  position = order(ord))
       )
@@ -89,13 +89,13 @@ fortify.hclust <- function(model, data,
 #' @param enumerate a color used for numbers within heatmap.  Use 
 #'   `"transparent"` to hide.
 #' @examples
-#' KidsFeet %>% select(-name, -birthmonth) %>% rescale() -> KidsFeet2
+#' KidsFeet |> select(-name, -birthmonth) |> rescale() -> KidsFeet2
 #'   M <- dist(KidsFeet2)
 #'   Cl <- hclust(M)
-#'   fortify(Cl, k=5) %>% head(3)
-#'   fortify(Cl, which="heatmap", data=KidsFeet2) %>% head(3)
-#'   fortify(Cl, which="data", data=KidsFeet2) %>% head(3)
-#'   fortify(Cl, which="labels") %>% head(3)
+#'   fortify(Cl, k=5) |> head(3)
+#'   fortify(Cl, which="heatmap", data=KidsFeet2) |> head(3)
+#'   fortify(Cl, which="data", data=KidsFeet2) |> head(3)
+#'   fortify(Cl, which="labels") |> head(3)
 #'   mplot(Cl, data=KidsFeet2, k=4, heatmap=2)
 #'   mplot(Cl, data=KidsFeet2, k=4, heatmap=0.5, enumerate="transparent")
 #'   mplot(Cl, data=KidsFeet2, k=4, heatmap=2, type="triangle")
@@ -128,11 +128,11 @@ mplot.hclust <- function(object, data, colorize = TRUE, k=1,
   }
   
   if (heatmap) {
-    HeatMapData <- fortify(object, data, which="heatmap") %>%
+    HeatMapData <- fortify(object, data, which="heatmap") |>
       mutate(h = rescale(variable_num, heatmap * max(object$height) * c(-1/12, -1)))
     TicksData <-  
-      HeatMapData %>%  
-      group_by(variable) %>% 
+      HeatMapData |>  
+      group_by(variable) |> 
       summarise(pos=unique(variable_num), h=unique(h)) 
     p <- p + 
       geom_tile(data=HeatMapData,
@@ -147,8 +147,8 @@ mplot.hclust <- function(object, data, colorize = TRUE, k=1,
         breaks = TicksData$h,
         labels = TicksData$variable
       )
-#      geom_text(data = HeatMapData %>% 
-#                  group_by(variable) %>% 
+#      geom_text(data = HeatMapData |> 
+#                  group_by(variable) |> 
 #                  summarise(pos=unique(variable_num), h=min(h)), 
 #                aes(x = 0, y = h, label=variable),
 #                hjust=1)  

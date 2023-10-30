@@ -167,7 +167,7 @@ plotModel.parsedModel <-
 #       this determines which lines show up in which panels
     
     point_data <- 
-      x$data %>%
+      x$data |>
       mutate(
         .color = my_interaction(x$data[, intersect(discreteVars, restVars), 
                                        drop = FALSE]),
@@ -230,7 +230,7 @@ plotModel.parsedModel <-
     }
     
     line_data <- 
-      line_data %>%
+      line_data |>
       mutate(
         .color = my_interaction(line_data[, restVars, drop = FALSE]),
         .group = my_interaction(line_data[, c(coVars, restVars, condVars), drop = FALSE]),
@@ -244,10 +244,10 @@ plotModel.parsedModel <-
                ...) {
         panel.xyplot(x, y, type = "p", ...)
         line_data <- 
-          line_data %>% 
+          line_data |> 
           arrange(.color, .group, x) 
         if (! is.null(group.value) ) {
-          line_data <- line_data %>% filter(as.numeric(.cond) == packet.number())
+          line_data <- line_data |> filter(as.numeric(.cond) == packet.number())
         }
         ncolors <- length(unique(line_data$.color))
         ngroups <- length(unique(line_data$.group))
@@ -266,24 +266,24 @@ plotModel.parsedModel <-
         ggplot() +
           geom_point(aes(y = .data[[x$responseName]], x = .data[[key]]), 
                      size = 1.2,
-                     data = point_data %>% droplevels()) +
+                     data = point_data |> droplevels()) +
           geom_line (aes(y = .data[[x$responseName]], x = .data[[key]]), 
                      linewidth = 0.5,
-                     data = line_data %>% droplevels())
+                     data = line_data |> droplevels())
       } else {
         ggplot() +
           geom_point(aes(y = .data[[x$responseName]], x = .data[[key]], 
                          colour = .data[[".color"]], group = .data[[".group"]]), 
-                     size=1.2, data = point_data %>% droplevels()) +
+                     size=1.2, data = point_data |> droplevels()) +
           geom_line (aes(y = .data[[x$responseName]], x = .data[[key]], 
                          colour = .data[[".color"]], group = .data[[".group"]]), 
-                     linewidth = 0.5, data = line_data %>% droplevels())
+                     linewidth = 0.5, data = line_data |> droplevels())
       }
     } else {
       xyplot(formula, 
-             data = point_data %>% droplevels(),
-             line_data = line_data %>% droplevels(),
-             point_data = point_data %>% droplevels(),
+             data = point_data |> droplevels(),
+             line_data = line_data |> droplevels(),
+             point_data = point_data |> droplevels(),
              groups = .color,
              auto.key = auto.key,
              ...,

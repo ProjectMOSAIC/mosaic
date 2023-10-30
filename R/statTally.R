@@ -131,8 +131,8 @@ function (sample, rdata, FUN, direction = NULL,
 
     mymessage(paste("\nTest statistic applied to sample data = ", signif(dstat, 4)))
     mymessage("\nQuantiles of test statistic applied to random data:")
-    capture.output(quantile(stats, q, na.rm = TRUE)) %>%
-      paste(collapse = "\n") %>% 
+    capture.output(quantile(stats, q, na.rm = TRUE)) |>
+      paste(collapse = "\n") |> 
       mymessage()
     if (any( ! is.finite(stats))) {
       mymessage("** Note:  ", table(is.finite(stats))["FALSE"], " non-finite or missing values excluded.")
@@ -180,9 +180,9 @@ function (sample, rdata, FUN, direction = NULL,
 	          lims(x = xlim),
 	        #             
 	        #                  
-	        # gf_dhistogram( ~ stat, data = results, fill = fill, color = color, binwidth = binwidth) %>%
+	        # gf_dhistogram( ~ stat, data = results, fill = fill, color = color, binwidth = binwidth) |>
 	        #   gf_rect(0 + Inf ~ xleft + xright, fill = shade, alpha = alpha, data = Rect_Data,
-	        #           inherit = FALSE) %>%
+	        #           inherit = FALSE) |>
 	        #   gf_lims(x = xlim), 
 	        error = function(e) NULL
 	      ),
@@ -207,7 +207,7 @@ function (sample, rdata, FUN, direction = NULL,
 	
 	# for backward compatibility with a code chunk in fast 2e
 	if (system == "gg" && !is.null(dots$xlab)) {
-	  plot1 <- plot1 %>% gf_labs(x = dots$xlab)
+	  plot1 <- plot1 |> gf_labs(x = dots$xlab)
 	}
 	
 	

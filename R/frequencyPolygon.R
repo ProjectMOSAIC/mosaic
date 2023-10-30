@@ -169,8 +169,8 @@ hist2freqpolygon <- function(hist) {
     tibble::tibble(
       x = c(res$mids, head(tail(res$breaks, -1), -1)), 
       density = c(res$density, brk_density),
-      counts = c(res$counts, brk_counts)) %>% 
-    arrange(x) %>% 
+      counts = c(res$counts, brk_counts)) |> 
+    arrange(x) |> 
     as.list()
   res$equidist <- hist$equidist
   res$xname <- hist$xname

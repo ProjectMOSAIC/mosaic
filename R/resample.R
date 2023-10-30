@@ -324,8 +324,8 @@ sample.factor <- function(x, size, replace = FALSE, prob = NULL, groups=NULL, or
 #' @export
 #' @examples 
 #' model <- lm(width ~length * sex, data = KidsFeet)
-#' KidsFeet %>% head()
-#' resample(model) %>% head()
+#' KidsFeet |> head()
+#' resample(model) |> head()
 #' Boot <- do(500) * lm(width ~ length * sex, data = resample(KidsFeet))
 #' df_stats(~ Intercept + length + sexG + length.sexG, data = Boot, sd)
 #' head(Boot)
@@ -381,7 +381,7 @@ sample.lm <-
     }
     res[[1]] <- do.call(transformation, list(res$new_response))
     # remove "scratch columns"
-    res <- res %>% 
+    res <- res |> 
       #select_(.dots = setdiff(names(res), c("resid", "new_resid", "new_response")))
       select(any_of(setdiff(names(res), c("resid", "new_resid", "new_response"))))
     res
@@ -406,7 +406,7 @@ sample.lm <-
 #' Boot <- do(100) * relm(mod)
 #' sd(~ width, data = Boot)
 #' # standard error as produced by summary() for comparison
-#' mod %>% summary() %>% coef() 
+#' mod |> summary() |> coef() 
 #' 
 #' @export
 relm <- function(model, ..., envir = environment(formula(model))) {
@@ -434,7 +434,7 @@ rspin <- function(n, probs, labels=1:length(probs)) {
     stop("All probs must be non-negative.")
   
   probs <- probs/sum(probs)
-  res <- t(rmultinom(1, n, probs)) %>% as.data.frame()
+  res <- t(rmultinom(1, n, probs)) |> as.data.frame()
   names(res) <- labels
   res
 }

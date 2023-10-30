@@ -162,9 +162,9 @@ test_that("CI methods correct", {
 
 test_that("binom.test compatibile with dplyr", {
   expect_equivalent(
-    data.frame(x = rep(c('a', 'b'), c(5, 10))) %>%
+    data.frame(x = rep(c('a', 'b'), c(5, 10))) |>
       summarise(pval = pval(binom.test( ~ x))),
-    data.frame(x = rep(c('a', 'b'), c(5, 10))) %>%
+    data.frame(x = rep(c('a', 'b'), c(5, 10))) |>
       summarise(pval = pval(stats::binom.test(5, 15)))
   )
 })

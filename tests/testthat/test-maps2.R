@@ -5,7 +5,7 @@ context("maps2")
 
 if (FALSE) {
 gdpData <- CIAdata("GDP")      # load some world data
-gdpData <- gdpData %>% mutate(GDP5 = ntiles(-GDP, 5, format="rank"))
+gdpData <- gdpData |> mutate(GDP5 = ntiles(-GDP, 5, format="rank"))
 
 
 testthat::test_that("World Maps work", {
@@ -25,7 +25,7 @@ testthat::test_that("World Maps work", {
 }  # end if(FALSE)
 
 
-USArrests2 <- USArrests %>% mutate(state = row.names(.))
+USArrests2 <- USArrests |> mutate(state = row.names(.))
 testthat::test_that("US Maps work", {
   wrapped_expect_doppelganger("usmaps1", mUSMap(USArrests2, key = "state", fill = "UrbanPop"))
   

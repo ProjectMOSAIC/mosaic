@@ -101,11 +101,11 @@ mplot.default <- function(object, ...) {
 #' 
 #' 
 #' @examples
-#' lm( width ~ length * sex, data = KidsFeet) %>%
+#' lm( width ~ length * sex, data = KidsFeet) |>
 #'   mplot(which = 1:3, id.n = 5)
-#' lm( width ~ length * sex, data = KidsFeet) %>%
+#' lm( width ~ length * sex, data = KidsFeet) |>
 #'   mplot(smooth.color = "blue", smooth.size = 1.2, smooth.alpha = 0.3, id.size = 3)
-#' lm(width ~ length * sex, data = KidsFeet) %>%
+#' lm(width ~ length * sex, data = KidsFeet) |>
 #'   mplot(rows = 2:3, which = 7)
 # #' @importFrom ggrepel geom_text_repel
 #' @export
@@ -160,7 +160,7 @@ mplot.lm <-
   rlang::check_installed('broom') 
   fdata <- broom::augment(object) 
   fdata <- 
-    fdata %>% 
+    fdata |> 
     mutate(
       .row = 1L:nrow(fdata)
     )
@@ -168,10 +168,10 @@ mplot.lm <-
   # broom::augment() does always supply .resid :-/
   
   if (is.null(fdata[[".resid"]])) {
-    fdata <- fdata %>% mutate(.resid = resid(object))
+    fdata <- fdata |> mutate(.resid = resid(object))
   }
   
-  fdata_clean <- fdata %>% filter(!is.na(.std.resid))
+  fdata_clean <- fdata |> filter(!is.na(.std.resid))
   
   removed_idx <- which(fdata$.hat >= 1)
   if (any(c(2, 3, 5, 6) %in% which) && length(removed_idx)) {
@@ -201,7 +201,7 @@ mplot.lm <-
     geom_smooth_or_not +
     geom_hline(linetype = 2, linewidth = .2, yintercept = 0) +
     ggrepel::geom_text_repel(
-      data = fdata %>% arrange(-abs(.std.resid)) %>% head(id.n),
+      data = fdata |> arrange(-abs(.std.resid)) |> head(id.n),
       aes(label = .row), 
       color = id.color,
       segment.color = id.color,
@@ -232,14 +232,14 @@ mplot.lm <-
   slope <- diff(a)/diff(b)
   int <- a[1] - slope * b[1]
   QN <- 
-    as.data.frame(qqnorm(fdata$.std.resid, plot.it = FALSE)) %>% 
+    as.data.frame(qqnorm(fdata$.std.resid, plot.it = FALSE)) |> 
     mutate(.row = 1:nrow(fdata))
   g2 <- ggplot(fdata_clean, aes(sample = .std.resid)) +
     stat_qq() +
     geom_abline(slope = slope, intercept = int, linetype = "dashed") +
     ggrepel::geom_text_repel(
       inherit.aes = FALSE,
-      data = QN %>% arrange(-abs(y)) %>% head(id.n),
+      data = QN |> arrange(-abs(y)) |> head(id.n),
       aes(y = y,  x = x, label = .row),
       color = id.color,
       segment.color = id.color,
@@ -267,7 +267,7 @@ mplot.lm <-
     geom_point() +
     geom_smooth_or_not +
     ggrepel::geom_text_repel(
-      data = fdata_clean %>% arrange(-abs(.std.resid)) %>% head(id.n),
+      data = fdata_clean |> arrange(-abs(.std.resid)) |> head(id.n),
       aes(label = .row), 
       color = id.color,
       segment.color = id.color,
@@ -300,7 +300,7 @@ mplot.lm <-
   if (id.n > 0L) {
     g4 <- g4 + 
       ggrepel::geom_text_repel(
-        data = fdata %>% arrange(-abs(.cooksd)) %>% head(id.n),
+        data = fdata |> arrange(-abs(.cooksd)) |> head(id.n),
         aes(x = .row, y = .cooksd, label = .row),
         color = id.color,
         segment.color = id.color,
@@ -323,7 +323,7 @@ mplot.lm <-
     geom_point() +
     geom_smooth_or_not +
     ggrepel::geom_text_repel(
-      data = fdata_clean %>% arrange(-abs(.std.resid)) %>% head(id.n),
+      data = fdata_clean |> arrange(-abs(.std.resid)) |> head(id.n),
       aes(label = .row), 
       color = id.color,
       segment.color = id.color,
@@ -353,7 +353,7 @@ mplot.lm <-
     geom_point() +
     geom_smooth_or_not +
     ggrepel::geom_text_repel(
-      data = fdata_clean %>% arrange(-abs(.std.resid)) %>% head(id.n),
+      data = fdata_clean |> arrange(-abs(.std.resid)) |> head(id.n),
       aes(label = .row), 
       color = id.color,
       segment.color = id.color,
@@ -519,8 +519,8 @@ fortify.summary.glm <- function(model, data = NULL, level = 0.95, ...) {
 #' @param parm a vector of parameters
 #' @param level a confidence level
 #' @examples
-#' lm(width ~ length * sex, data = KidsFeet) %>%
-#'   summary() %>%
+#' lm(width ~ length * sex, data = KidsFeet) |>
+#'   summary() |>
 #'   confint()
 #' @export
 
@@ -548,16 +548,16 @@ confint.summary.lm <- function (object, parm, level = 0.95, ...)  {
 #' @param rows rows to show.  This may be a numeric vector, 
 #' `TRUE` (for all rows), or a character vector of row names.
 #' @examples
-#' lm(width ~ length * sex, data = KidsFeet) %>%
-#'   summary() %>%
+#' lm(width ~ length * sex, data = KidsFeet) |>
+#'   summary() |>
 #'   mplot()
 #'   
-#' lm(width ~ length * sex, data = KidsFeet) %>%
-#'   summary() %>%
+#' lm(width ~ length * sex, data = KidsFeet) |>
+#'   summary() |>
 #'   mplot(rows = c("sex", "length"))
 #'   
-#' lm(width ~ length * sex, data = KidsFeet) %>%
-#'   summary() %>%
+#' lm(width ~ length * sex, data = KidsFeet) |>
+#'   summary() |>
 #'   mplot(rows = TRUE)
 #' @export
  
@@ -568,7 +568,7 @@ mplot.summary.lm <- function(object,
                              rows = TRUE,
                              ...){
   system <- match.arg(system)
-  fdata <- fortify(object, level = level) %>% 
+  fdata <- fortify(object, level = level) |> 
     mutate(signif = pval < (1-level),
            fcoef = factor(coef, levels = coef)
            )
@@ -669,7 +669,7 @@ fortify.TukeyHSD <- function(model, data, order = c("asis", "pval", "difference"
   )
   names(plotData) <- c("diff", "lwr", "upr", "pval", "var", "pair")
   plotData <-
-    plotData %>%
+    plotData |>
     mutate(pair = 
              switch(order,
                     "asis" = reorder(pair, 1:nrow(plotData)),
@@ -688,11 +688,11 @@ fortify.TukeyHSD <- function(model, data, order = c("asis", "pval", "difference"
 #'   order of the `pair` factor, which determines the order in which the differences
 #'   are displayed on the plot.
 #' @examples
-#' lm(age ~ substance, data = HELPrct) %>%
-#'   TukeyHSD() %>%
+#' lm(age ~ substance, data = HELPrct) |>
+#'   TukeyHSD() |>
 #'   mplot()
-#' lm(age ~ substance, data = HELPrct) %>%
-#'   TukeyHSD() %>%
+#' lm(age ~ substance, data = HELPrct) |>
+#'   TukeyHSD() |>
 #'   mplot(system = "lattice")
 #' @export
 
