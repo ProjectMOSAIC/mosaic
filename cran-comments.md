@@ -2,12 +2,16 @@
 
 * local
     * R version 4.2.1 (2022-06-23)
-    * macOS Monterey 12.5.1
+    * macOS Ventura 13.5
     * x86_64, darwin17.0
 
 * win-builder
 
 ## Changes
 
-Removing a link to a resource that has apparently been removed from OpenIntro.
-
+* Removed dependence on maptools 
+* Migrated some deprecated tidyverse functions to their replacements
+* Removed use of ggplot2::aes_string()
+* Updated a few URLs
+* Fixed a few minor bugs
+* Migrated citEntry() to bibentry()
