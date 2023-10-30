@@ -1,7 +1,7 @@
 #' Augmented version of `qqmath`
 #'
 #' 
-#' @param x,data,panel,xqqmath,\dots  as in [lattice::qqmath()]
+#' @param x,data,panel,\dots  as in [lattice::qqmath()]
 #'
 #' @return a trellis object
 #'
