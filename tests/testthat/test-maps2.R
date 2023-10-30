@@ -25,7 +25,7 @@ testthat::test_that("World Maps work", {
 }  # end if(FALSE)
 
 
-USArrests2 <- USArrests |> mutate(state = row.names(.))
+USArrests2 <- USArrests |> tibble::rownames_to_column("state")
 testthat::test_that("US Maps work", {
   wrapped_expect_doppelganger("usmaps1", mUSMap(USArrests2, key = "state", fill = "UrbanPop"))
   
