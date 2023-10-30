@@ -111,11 +111,13 @@ plotModel.default <- function(mod, ...) {
 }
 
 plotModel.parsedModel <- 
-  function(x, formula = NULL, ..., auto.key = NULL, drop = TRUE, 
+  function(mod, formula = NULL, ..., auto.key = NULL, drop = TRUE, 
            max.levels = 9L, system=c("ggplot2", "lattice")) {
     
     system <- match.arg(system)
   
+    x <- mod # fixing variable name mis-match with generic method.
+    
     if (length(x$varTypes) < 2L) 
       stop("Only models with explanatory variables can be plotted.")
     
