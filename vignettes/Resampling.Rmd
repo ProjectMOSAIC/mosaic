@@ -110,7 +110,7 @@ R is an open-source statistical environment that has been used at a number
 of institutions to teach introductory statistics.  Among other advantages, R
 makes it easy to demonstrate the concepts of statistical inference through
 randomization while providing a sensible path for beginners to progress to
-advanced and professional statistics. RStudio (https://www.posit.co/)
+advanced and professional statistics. RStudio (https://posit.co/)
 is an open-source integrated development environment for R which facilitates
 use of the system.
 
