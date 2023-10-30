@@ -41,7 +41,7 @@ gdpData <- CIAdata("GDP")      # load some world data
 
 mWorldMap(gdpData, key="country", fill="GDP")
 
-gdpData <- gdpData \%>\% mutate(GDP5 = ntiles(-GDP, 5, format="rank")) 
+gdpData <- gdpData |> mutate(GDP5 = ntiles(-GDP, 5, format="rank")) 
 mWorldMap(gdpData, key="country", fill="GDP5")
 
 mWorldMap(gdpData, key="country", plot="frame") +

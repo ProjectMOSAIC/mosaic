@@ -123,8 +123,8 @@ if (require(mosaicData)) {
   bootstrap2 <- do(500) * favstats(resample(1:10)) 
   confint(bootstrap2, method = "boot")
 }
-lm(width ~ length * sex, data = KidsFeet) \%>\%
-  summary() \%>\%
+lm(width ~ length * sex, data = KidsFeet) |>
+  summary() |>
   confint()
 }
 \references{

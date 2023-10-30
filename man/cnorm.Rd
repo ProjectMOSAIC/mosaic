@@ -37,7 +37,7 @@ These versions of the quantile functions take a vector of
 qnorm(.975)
 cnorm(.95)
 xcnorm(.95)
-xcnorm(.95, verbose = FALSE, return = "plot") \%>\%
+xcnorm(.95, verbose = FALSE, return = "plot") |>
   gf_refine(
   scale_fill_manual( values = c("navy", "limegreen")),
   scale_color_manual(values = c("black", "black")))

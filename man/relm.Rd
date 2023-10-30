@@ -24,7 +24,7 @@ do(3) * relm(mod)
 Boot <- do(100) * relm(mod)
 sd(~ width, data = Boot)
 # standard error as produced by summary() for comparison
-mod \%>\% summary() \%>\% coef() 
+mod |> summary() |> coef() 
 
 }
 \seealso{

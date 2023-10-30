@@ -24,7 +24,7 @@ panel.xqqmath(
 )
 }
 \arguments{
-\item{x, data, panel, xqqmath, \dots}{as in \code{\link[lattice:qqmath]{lattice::qqmath()}}}
+\item{x, data, panel, \dots}{as in \code{\link[lattice:qqmath]{lattice::qqmath()}}}
 
 \item{qqmathline}{a logical: should line be displayed passing through first and third quartiles?}
 

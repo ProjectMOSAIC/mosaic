@@ -42,6 +42,6 @@ arguments passed, it returns this data or a ggplot object constructed
 with the data.
 }
 \examples{
-USArrests2 <- USArrests \%>\% mutate(state = row.names(.))
+USArrests2 <- USArrests |> tibble::rownames_to_column("state")
 mUSMap(USArrests2, key="state", fill = "UrbanPop") 
 }

@@ -73,7 +73,7 @@ plot is created to correctily initialize the mainipulate frameowrk.
 \examples{
 \dontrun{
   mtcars2 <- 
-    mtcars \%>\% 
+    mtcars |> 
       mutate(
         cyl2 = factor(cyl), 
         carb2 = factor(carb),

@@ -16,8 +16,8 @@ Compute z-scores
 }
 \examples{
 data(penguins, package = "palmerpenguins")
-penguins \%>\% 
-  group_by(species) \%>\% 
-  mutate(zbill_length_mm = zscore(bill_length_mm, na.rm = TRUE)) \%>\% 
+penguins |> 
+  group_by(species) |> 
+  mutate(zbill_length_mm = zscore(bill_length_mm, na.rm = TRUE)) |> 
   head()
 }

@@ -26,13 +26,13 @@ nrow(Population)
 head(Population)
 
 PopArea <- 
-  CIAdata(c("pop","area")) \%>\% 
+  CIAdata(c("pop","area")) |> 
   mutate(density = pop / area)
 nrow(PopArea)
 head(PopArea)
-PopArea \%>\% 
-  filter(!is.na(density)) \%>\%
-  arrange(density) \%>\% 
+PopArea |> 
+  filter(!is.na(density)) |>
+  arrange(density) |> 
   tail()
 }
 }

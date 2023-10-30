@@ -47,7 +47,7 @@ if (require(leaflet)) {
   # 3 random locations; 5 km circles
   leaflet_map(position = rgeo(3), radius = 5, mark = TRUE, color = "red") 
   # using pipes
-  rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) \%>\%
+  rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)) |>
     leaflet_map(radius = 5, mark = TRUE, color = "purple")
 }
 }

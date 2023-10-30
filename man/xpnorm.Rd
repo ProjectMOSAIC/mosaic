@@ -95,8 +95,8 @@ removed from their names but add more verbose output and graphics.
 \examples{
 xpnorm(650, 500, 100)
 xqnorm(.75, 500, 100)
-xpnorm(-3:3, return = "plot", system = "gg") \%>\% 
-  gf_labs(title = "My Plot", x = "") \%>\% 
+xpnorm(-3:3, return = "plot", system = "gg") |> 
+  gf_labs(title = "My Plot", x = "") |> 
   gf_theme(theme_bw())
 
 \dontrun{

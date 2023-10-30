@@ -44,5 +44,5 @@ if(require(mosaicData)) {
   
 }
 \seealso{
-\code{\link[=stat]{stat()}}
+\code{\link[=after_stat]{after_stat()}}
 }

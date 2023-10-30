@@ -27,7 +27,7 @@ the primary value from such objects.  Currently implemented situations include t
 \code{\link[=uniroot]{uniroot()}}.
 }
 \examples{
-integrate(sin, 0, 1) \%>\% value()
-nlm(cos, p = 0) \%>\% value()
-uniroot(cos, c(0, 2)) \%>\% value()
+integrate(sin, 0, 1) |> value()
+nlm(cos, p = 0) |> value()
+uniroot(cos, c(0, 2)) |> value()
 }

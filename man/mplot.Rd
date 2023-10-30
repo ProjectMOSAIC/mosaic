@@ -163,31 +163,31 @@ manipulate(plot(A), A = slider(1, 10))
 }\if{html}{\out{</div>}}
 }
 \examples{
-lm( width ~ length * sex, data = KidsFeet) \%>\%
+lm( width ~ length * sex, data = KidsFeet) |>
   mplot(which = 1:3, id.n = 5)
-lm( width ~ length * sex, data = KidsFeet) \%>\%
+lm( width ~ length * sex, data = KidsFeet) |>
   mplot(smooth.color = "blue", smooth.size = 1.2, smooth.alpha = 0.3, id.size = 3)
-lm(width ~ length * sex, data = KidsFeet) \%>\%
+lm(width ~ length * sex, data = KidsFeet) |>
   mplot(rows = 2:3, which = 7)
 \dontrun{
 mplot( HELPrct )
 mplot( HELPrct, "histogram" )
 }
-lm(width ~ length * sex, data = KidsFeet) \%>\%
-  summary() \%>\%
+lm(width ~ length * sex, data = KidsFeet) |>
+  summary() |>
   mplot()
   
-lm(width ~ length * sex, data = KidsFeet) \%>\%
-  summary() \%>\%
+lm(width ~ length * sex, data = KidsFeet) |>
+  summary() |>
   mplot(rows = c("sex", "length"))
   
-lm(width ~ length * sex, data = KidsFeet) \%>\%
-  summary() \%>\%
+lm(width ~ length * sex, data = KidsFeet) |>
+  summary() |>
   mplot(rows = TRUE)
-lm(age ~ substance, data = HELPrct) \%>\%
-  TukeyHSD() \%>\%
+lm(age ~ substance, data = HELPrct) |>
+  TukeyHSD() |>
   mplot()
-lm(age ~ substance, data = HELPrct) \%>\%
-  TukeyHSD() \%>\%
+lm(age ~ substance, data = HELPrct) |>
+  TukeyHSD() |>
   mplot(system = "lattice")
 }
