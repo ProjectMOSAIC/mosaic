@@ -21,7 +21,7 @@ This function takes in a shapefile (formal class of
 }
 \examples{
 
-gdontrun{
+\dontrun{
 if(require(maptools)) {
   data(wrld_simpl)
   worldmap <- sp2df(wrld_simpl)

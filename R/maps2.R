@@ -363,7 +363,7 @@ CIAdata <- function (name = NULL) {
 #' information (ex: `long` and `lat`)
 #' @examples
 #'
-#' gdontrun{
+#' \dontrun{
 #' if(require(maptools)) {
 #'   data(wrld_simpl)
 #'   worldmap <- sp2df(wrld_simpl)
