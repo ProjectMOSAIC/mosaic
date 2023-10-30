@@ -1,5 +1,11 @@
 # mosaic (development version)
 
+# mosaic 1.9.0
+
+* Remove dependence on maptools, which is being archived
+* Migrate some deprecated tidyverse functions to their replacements
+* Fix a few minor bugs
+
 # mosaic 1.8.4
 
 * Bug fix in `mplot.lm()` for models where `broom::tidy()` doesn't record residuals.
