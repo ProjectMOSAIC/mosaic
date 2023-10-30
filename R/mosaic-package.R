@@ -33,7 +33,7 @@ NA
 #' @importFrom MASS fitdistr fractions
 #' @importFrom dplyr bind_rows bind_cols 
 #' @importFrom dplyr filter select mutate summarise group_by arrange ungroup 
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble rownames_to_column
 #' @importFrom dplyr do n first left_join 
 #' @importFrom tidyr gather
 #' @importFrom grid grid.polyline grid.text grid.lines grid.points grid.rect grid.layout gpar unit.c 
