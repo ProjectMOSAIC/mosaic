@@ -264,12 +264,16 @@ plot_multi_dist <-
     
     if (missing(xlim) || is.null(xlim)) {
       xlim_opts <- dpqrdist(dist, type = "q", p = c(0, 0.0001, 0.001, 0.01, 0.99, 0.999, 0.9999, 1), ...)
-      xlim <- xlim_opts[4:5]
+      if (is.matrix(xlim_opts)) {
+        xlim <- c(min(xlim_opts[, 4], na.rm = TRUE), max(xlim_opts[,5], na.rm = TRUE))
+      } else {
+        xlim <- xlim_opts[4:5]
+      }
       
       # extend range if it doesn't extend too far
       mid_width <- diff(xlim)
-      xlim[1] <- xlim_opts[min(which(xlim_opts[5] - xlim_opts < 1.8 * mid_width), na.rm = TRUE)]
-      xlim[2] <- xlim_opts[max(which(xlim_opts - xlim_opts[4] < 1.8 * mid_width), na.rm = TRUE)]
+      xlim[1] <- xlim_opts[min(which(xlim[2] - xlim_opts < 1.8 * mid_width), na.rm = TRUE)]
+      xlim[2] <- xlim_opts[max(which(xlim_opts - xlim[1] < 1.8 * mid_width), na.rm = TRUE)]
     }
     
     if (discrete) {
@@ -317,7 +321,7 @@ plot_multi_dist <-
     # res_plot <- do.call("xyplot", args)
     
     Groups <- 
-      dplyr::tibble(p = diff(p_less)) %>%
+      tibble::tibble(p = diff(p_less)) %>%
       mutate(
         i = 1 : n(),
         name = if (pattern == "stripes") LETTERS[i] else LETTERS[ceiling(1 + abs(i - mean(i)))]
@@ -328,10 +332,15 @@ plot_multi_dist <-
         label = paste(first(name), ":", formatC(p_all, format = "f", digits = digits), sep = "")
       )
     
+    if (length(xdata) != length(ydata)) {
+      stop("It looks like you have multiple parameter settingss specified for your distribution. 
+           Plotting only works for one parameter setting.")
+    }
+    
     if (discrete) { 
       # q <- tail(q, -1)
       Ddensity <- 
-        dplyr::tibble(
+        tibble::tibble(
           x = xdata, density = ydata, 
           group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
         ) %>%
@@ -356,7 +365,7 @@ plot_multi_dist <-
     
   } else {
     Ddensity <- 
-      dplyr::tibble(
+      tibble::tibble(
         x = xdata, density = ydata, 
         group = sapply(xdata, function(x) {sum(x > q, na.rm = TRUE)})
       ) %>%
