@@ -71,7 +71,7 @@ find_conflicts <- function(pkg = 'mosaic') {
   fns <- lapply(envs, ls)
   # Turn this into a data frame, for easy use with dplyr.
   
-  fns_by_env <- dplyr::tibble(
+  fns_by_env <- tibble::tibble(
     env = rep.int(names(fns), lengths(fns)),
     fn  = unlist(fns)
   )

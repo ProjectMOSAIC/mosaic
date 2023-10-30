@@ -44,7 +44,7 @@ inspect.logical <- function(object, ...) {
 #' @export
 inspect.numeric <- function(object, ...) {
   bind_cols(
-    dplyr::tibble(class = head(class(object),1)),
+    tibble::tibble(class = head(class(object),1)),
     favstats(object, ...) 
     )
 }
@@ -72,7 +72,7 @@ inspect.factor <- function(object, ...) {
 #' @rdname inspect
 #' @export
 inspect.POSIXt <- function(object, ...) {
-  dplyr::tibble(
+  tibble::tibble(
     class = head(class(object),1),
     first = min(object),
     last = max(object),
@@ -96,7 +96,7 @@ inspect.data.frame <- function(object, select = TRUE, digits = getOption("digits
   for (class in uclasses) {
     idx <- which(classes == class)
     res[[class]] <- 
-    bind_cols(dplyr::tibble(name = names(L[idx])), bind_rows(L[idx]))
+    bind_cols(tibble::tibble(name = names(L[idx])), bind_rows(L[idx]))
   }
   
   structure(res, class = "inspected_data_frame", digits = digits)
