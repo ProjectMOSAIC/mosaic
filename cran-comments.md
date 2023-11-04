@@ -1,3 +1,26 @@
+
+## Submission notes
+
+This is a relatively minor update to the package. The main issues addressed are
+
+* removal of dependence on maptools and rgeos
+* migration to |> from %>%
+* migration away from some deprecated tidyverse/ggplot2 functions
+* removal of ggplot2::aes_string()
+* updating a few URLs
+* fixing a few minor bugs
+* migration from citEntry() to bibentry()
+
+We are submitting four packages in parallel:
+
+* mosaicCore
+* mosaicData
+* mosaic
+* ggformula
+
+## Changes
+
+
 ## Test environments
 
 * local
@@ -7,11 +30,7 @@
 
 * win-builder
 
-## Changes
 
-* Removed dependence on maptools 
-* Migrated some deprecated tidyverse functions to their replacements
-* Removed use of ggplot2::aes_string()
-* Updated a few URLs
-* Fixed a few minor bugs
-* Migrated citEntry() to bibentry()
+## revdep check
+
+*Wow, no problems at all. :)*
