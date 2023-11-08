@@ -105,11 +105,14 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 
 plotModel <- function(mod, ...) { UseMethod("plotModel") }
 
+#' @rdname plotModel
 #' @export
 plotModel.default <- function(mod, ...) {
   plotModel(parseModel(mod), ...)
 }
 
+#' @rdname plotModel
+#' @export
 plotModel.parsedModel <- 
   function(mod, formula = NULL, ..., auto.key = NULL, drop = TRUE, 
            max.levels = 9L, system=c("ggplot2", "lattice")) {
