@@ -112,6 +112,12 @@ plotModel.default <- function(mod, ...) {
 }
 
 #' @rdname plotModel
+#' @param formula a formula indicating how the variables are to be displayed.  In the style of 
+#'   `lattice` and `ggformula`. 
+#' @param auto.key If TRUE, automatically generate a key.
+#' @param drop If TRUE, unused factor levels are dropped from `interaction()`. 
+#' @param max.levels currently unused
+#' @param system which of `ggplot2` or `lattice` to use for plotting
 #' @export
 plotModel.parsedModel <- 
   function(mod, formula = NULL, ..., auto.key = NULL, drop = TRUE, 
