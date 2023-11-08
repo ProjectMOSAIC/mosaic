@@ -6,7 +6,7 @@
 #' @name Sleep
 #' @usage data(Sleep)
 #' @format  A data.frame with 24 observations on the following 2 variables.
-#' \itemize{
+#' \describe{
 #'    \item{\code{Group }}{treatment group of the subject}
 #'    \item{\code{Words }}{number of words recalled}
 #' }
