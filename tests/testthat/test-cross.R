@@ -1,4 +1,4 @@
-context("cross")
+# context("cross")
 
 testthat::test_that("Cross works", {
   x <- letters[1:3]
@@ -14,6 +14,6 @@ testthat::test_that("Cross works", {
                          .Label = c("a:1", "a:3", "b:2", "b:3", "c:1"), 
                          class = "factor")
   
-  expect_equivalent(testcase1, cross(x, y))
-  expect_equivalent(testcase2, cross(x, y, drop.unused.levels=TRUE))
+  expect_equal(ignore_attr = TRUE, testcase1, cross(x, y))
+  expect_equal(ignore_attr = TRUE, testcase2, cross(x, y, drop.unused.levels=TRUE))
 })

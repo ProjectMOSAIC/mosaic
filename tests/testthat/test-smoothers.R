@@ -1,4 +1,4 @@
-context("smoothers")
+# context("smoothers")
 require(mosaicData)
 testthat::test_that("smoothers works", {
   
@@ -51,10 +51,10 @@ testthat::test_that("smoothers works", {
     else SF(x, deriv = deriv)
   }
   
-  expect_equivalent(testcase2, f(40))
-  expect_equivalent(testcase4, g(age=40, educ=12))
+  expect_equal(ignore_attr = TRUE, testcase2, f(40))
+  expect_equal(ignore_attr = TRUE, testcase4, g(age=40, educ=12))
   
-  expect_equivalent(testcase6, f1(x=8:10))
+  expect_equal(ignore_attr = TRUE, testcase6, f1(x=8:10))
   
   
 })

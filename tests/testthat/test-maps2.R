@@ -1,4 +1,4 @@
-context("maps2")
+# context("maps2")
 
 # turning off because CIAdata load seems to be causing trouble for CRAN
 # should replace this with some other data

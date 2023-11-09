@@ -1,4 +1,4 @@
-context("oddsRatio")
+# context("oddsRatio")
 
 M1 <- matrix(c(14, 38, 51, 11), nrow = 2)
 M2 <- matrix(c(18515, 18496, 1427, 1438), nrow = 2)
@@ -48,8 +48,8 @@ testthat::test_that("oddsRatio works", {
                          conf.level = 0.95, 
                          class = c("relrisk", "numeric"))
   
-  expect_equivalent(testcase1, oddsRatio(M1))
-  expect_equivalent(testcase2, oddsRatio(M2))
+  expect_equal(ignore_attr = TRUE, testcase1, oddsRatio(M1))
+  expect_equal(ignore_attr = TRUE, testcase2, oddsRatio(M2))
   expect_output(oddsRatio(M2, verbose = TRUE))
   expect_output(relrisk(M2, verbose = TRUE))
   require(mosaicData)
@@ -68,5 +68,5 @@ testthat::test_that("oddsRatio works", {
                          conf.level = 0.95, 
                          class = c("relrisk", "numeric"))
   
-  expect_equivalent(testcase4, relrisk(tally(~ homeless + sex, data = HELPrct) ))
+  expect_equal(ignore_attr = TRUE, testcase4, relrisk(tally(~ homeless + sex, data = HELPrct) ))
 })

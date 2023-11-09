@@ -1,4 +1,4 @@
-context("rand()")
+# context("rand()")
 
 testthat::test_that("rand works", {
   
@@ -11,9 +11,9 @@ testthat::test_that("rand works", {
   
   
   set.seed(19)
-  expect_equivalent(testcase1, rand(2,nrow=4))
+  expect_equal(ignore_attr = TRUE, testcase1, rand(2,nrow=4))
   set.seed(19)
-  expect_equivalent(testcase2, rand(2,rdist=rpois, args=list(lambda=3), nrow=4))
+  expect_equal(ignore_attr = TRUE, testcase2, rand(2,rdist=rpois, args=list(lambda=3), nrow=4))
   
   
 })

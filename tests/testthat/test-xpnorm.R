@@ -1,4 +1,4 @@
-context("xpnorm")
+# context("xpnorm")
 require(manipulate)
 testthat::test_that("xpnorm works", {
   wrapped_expect_doppelganger("xpnorm1", xpnorm(650, 500, 100)) 

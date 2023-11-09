@@ -1,4 +1,4 @@
-context("adapt_seq()")
+# context("adapt_seq()")
 testthat::test_that("Test adapt_seq", {
   output <- c(0, 0.174532925199433, 0.349065850398866, 0.436332312998582, 
               0.523598775598299, 0.610865238198015, 0.698131700797732, 0.785398163397448, 
@@ -9,5 +9,5 @@ testthat::test_that("Test adapt_seq", {
               2.26892802759263, 2.35619449019234, 2.44346095279206, 2.53072741539178, 
               2.61799387799149, 2.70526034059121, 2.79252680319093, 2.96705972839036, 
               3.14159265358979)
-  expect_equivalent(adapt_seq(0, pi, 25, sin), output)
+  expect_equal(ignore_attr = TRUE, adapt_seq(0, pi, 25, sin), output)
 })

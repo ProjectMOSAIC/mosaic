@@ -1,4 +1,4 @@
-context('statTally()')
+# context('statTally()')
 
 expect_output <- function(x, expectation) {
   expect_true(any(grepl(expectation, x)))

@@ -1,4 +1,4 @@
-context("ladd()")
+# context("ladd()")
 
 testthat::test_that("basic ladd works", {
   set.seed(5)

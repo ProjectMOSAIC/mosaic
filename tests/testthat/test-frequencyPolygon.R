@@ -1,4 +1,4 @@
-context("frequencypolygon")
+# context("frequencypolygon")
 
 testthat::test_that("freqpolygon() examples are working",{
  

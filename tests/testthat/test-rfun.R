@@ -1,4 +1,4 @@
-context("rfun()")
+# context("rfun()")
 
 testthat::test_that("rfun works", {
   f <- rfun( ~ u & v)

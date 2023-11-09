@@ -1,4 +1,4 @@
-context("factorize")
+# context("factorize")
 
 testthat::test_that("factorize works", {
   data(KidsFeet, package="mosaicData")
@@ -8,7 +8,7 @@ testthat::test_that("factorize works", {
                          .Label = c("87", "88"), 
                          class = "factor")
   
-  expect_equivalent(testcase, factorize(KidsFeet$birthyear))
+  expect_equal(ignore_attr = TRUE, testcase, factorize(KidsFeet$birthyear))
   # alternative spelling
-  expect_equivalent(testcase, factorise(KidsFeet$birthyear))
+  expect_equal(ignore_attr = TRUE, testcase, factorise(KidsFeet$birthyear))
 })

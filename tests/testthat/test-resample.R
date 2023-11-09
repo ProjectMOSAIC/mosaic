@@ -1,4 +1,4 @@
-context("resample")
+# context("resample")
 
 testthat::test_that("resample works", {
   require(mosaicData)
@@ -70,21 +70,21 @@ testthat::test_that("resample works", {
   
   
   set.seed(13)
-  expect_equivalent(testcase1, resample(0:1, 100))
+  expect_equal(ignore_attr = TRUE, testcase1, resample(0:1, 100))
   tally(resample(0:1, 100))
   set.seed(17) 
   Small <- sample(KidsFeet, 10)
-  expect_equivalent(testcase2, resample(Small))
+  expect_equal(ignore_attr = TRUE, testcase2, resample(Small))
   set.seed(21) 
   Small <- sample(KidsFeet, 10)
-  expect_equivalent(testcase3, tally(~ sex, data=resample(Small, groups=sex)))
+  expect_equal(ignore_attr = TRUE, testcase3, tally(~ sex, data=resample(Small, groups=sex)))
   # shuffled can be used to reshuffle some variables within groups
   # orig.id shows where the values were in original data frame.
   set.seed(6)
   Small <- mutate(Small,
      id1 = paste(sex,1:10, sep=":"),
      id2 = paste(sex,1:10, sep=":"))
-  expect_equivalent(testcase4, resample(Small, groups=sex, shuffled=c("id1","id2")))
+  expect_equal(ignore_attr = TRUE, testcase4, resample(Small, groups=sex, shuffled=c("id1","id2")))
   
 })
 
@@ -114,9 +114,9 @@ testthat::test_that("rflip works", {
                          row.names = c(NA, -1L))
   
   set.seed(18)
-  expect_equivalent(testcase1, rflip(10))
+  expect_equal(ignore_attr = TRUE, testcase1, rflip(10))
   set.seed(28)
-  expect_equivalent(testcase2, rflip(10, prob = 1/6, quiet = TRUE))
+  expect_equal(ignore_attr = TRUE, testcase2, rflip(10, prob = 1/6, quiet = TRUE))
   set.seed(5)
-  expect_equivalent(testcase3, rflip(10, prob = 1/6, summarize = TRUE))
+  expect_equal(ignore_attr = TRUE, testcase3, rflip(10, prob = 1/6, summarize = TRUE))
 })

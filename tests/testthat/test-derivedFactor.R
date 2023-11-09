@@ -1,4 +1,4 @@
-context("derivedFactor()")
+# context("derivedFactor()")
 
 testthat::test_that("derivedFactor Works", {
   Kf <- mutate(KidsFeet, biggerfoot2 = derivedFactor(
@@ -99,10 +99,10 @@ testthat::test_that("derivedFactor Works", {
   testcase5 <- structure(c(abstinent = 68L, moderate = 28L, highrisk = 357L), .Dim = 3L, .Dimnames = list(
     drink_status = c("abstinent", "moderate", "highrisk")), class = "table")
   
-  expect_equivalent(regressionTest, Kf)
-  expect_equivalent(testcase1, tally( ~ biggerfoot + biggerfoot2, data = Kf) )
-  expect_equivalent(testcase2, tally( ~ biggerfoot + domhand, data = Kf) )
-  expect_equivalent(testcase3, tally( ~ drink_status, data = modHELP) )
-  expect_equivalent(testcase4, tally( ~ drink_status, data = modHELP2) )
-  expect_equivalent(testcase5, tally( ~ drink_status, data = modHELP3) )
+  expect_equal(ignore_attr = TRUE, regressionTest, Kf)
+  expect_equal(ignore_attr = TRUE, testcase1, tally( ~ biggerfoot + biggerfoot2, data = Kf) )
+  expect_equal(ignore_attr = TRUE, testcase2, tally( ~ biggerfoot + domhand, data = Kf) )
+  expect_equal(ignore_attr = TRUE, testcase3, tally( ~ drink_status, data = modHELP) )
+  expect_equal(ignore_attr = TRUE, testcase4, tally( ~ drink_status, data = modHELP2) )
+  expect_equal(ignore_attr = TRUE, testcase5, tally( ~ drink_status, data = modHELP3) )
 })

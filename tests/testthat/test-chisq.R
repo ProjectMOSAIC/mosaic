@@ -34,7 +34,7 @@ testthat::test_that("chisq works", {
   testcase2 <- c(X.squared = 7.20374769340935)
   testcase3 <- c(X.squared = 5.68847857969099)
   
-  expect_equivalent(chisq.test(Mites.table), testcase1)
-  expect_equivalent(chisq(Mites.table), testcase2)
-  expect_equivalent(chisq(chisq.test(Mites.table)), testcase3)
+  expect_equal(ignore_attr = TRUE, chisq.test(Mites.table), testcase1)
+  expect_equal(ignore_attr = TRUE, chisq(Mites.table), testcase2)
+  expect_equal(ignore_attr = TRUE, chisq(chisq.test(Mites.table)), testcase3)
 })

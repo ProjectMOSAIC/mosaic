@@ -1,4 +1,4 @@
-context("dotPlot()")
+# context("dotPlot()")
 
 testthat::test_that("Dot Plot works", {
   require(mosaicData)

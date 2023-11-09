@@ -1,4 +1,4 @@
-context("mplot")
+# context("mplot")
 
 testthat::test_that("lm mplot works", {
   
@@ -49,6 +49,6 @@ testthat::test_that("lm mplot works", {
                                              "Ferrari Dino", "Maserati Bora", "Volvo 142E"), 
                                            c("wt", "mpg")))
     
-    expect_equivalent(testcase, getVarFormula( ~ wt + mpg, data = mtcars))
+    expect_equal(ignore_attr = TRUE, testcase, getVarFormula( ~ wt + mpg, data = mtcars))
   })
 })

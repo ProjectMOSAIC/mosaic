@@ -1,4 +1,4 @@
-context("plotPoints()")
+# context("plotPoints()")
 require(mosaicData)
 testthat::test_that("plotPoints works", {
   

@@ -1,4 +1,4 @@
-context("Testing panicAttack")
+# context("Testing panicAttack")
 
 test_that("nothing happens when nothing should",{
   conflicts <- panicAttack() 

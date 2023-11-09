@@ -1,5 +1,5 @@
 
-context("Confidence Intervals")
+# context("Confidence Intervals")
 
 # Examples to test
 #' 

@@ -1,4 +1,4 @@
-context("cor.test()")
+# context("cor.test()")
 
 testthat::test_that("Cor test works", {
   require(graphics)
@@ -17,6 +17,6 @@ testthat::test_that("Cor test works", {
                               conf.int = structure(c(-0.41685910878005, 0.174118233649785
                               ), conf.level = 0.95)), class = "htest")
   
-  expect_equivalent(testcase1, cor.test(~ CONT + INTG, data = USJudgeRatings))
-  expect_equivalent(testcase2, cor.test(CONT ~ INTG, data = USJudgeRatings))
+  expect_equal(ignore_attr = TRUE, testcase1, cor.test(~ CONT + INTG, data = USJudgeRatings))
+  expect_equal(ignore_attr = TRUE, testcase2, cor.test(CONT ~ INTG, data = USJudgeRatings))
 })

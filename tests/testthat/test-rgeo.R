@@ -1,4 +1,4 @@
-context("rgeo()")
+# context("rgeo()")
 
 testthat::test_that("rgeo works", {
   set.seed(17)
@@ -12,9 +12,9 @@ testthat::test_that("rgeo works", {
                                                                  -112.586740185507, -113.773786681704)), class = "data.frame", row.names = c(NA, 
                                                                                                                                              -4L))
   
-  expect_equivalent(testcase1, rgeo(4))
+  expect_equal(ignore_attr = TRUE, testcase1, rgeo(4))
   # sample from a region that contains the continental US
   set.seed(17)
-  expect_equivalent(testcase2, rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)))
+  expect_equal(ignore_attr = TRUE, testcase2, rgeo(4, latlim = c(25,50), lonlim = c(-65, -125)))
   
 })

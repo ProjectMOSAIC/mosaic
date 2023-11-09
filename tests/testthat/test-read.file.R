@@ -1,4 +1,4 @@
-context("read.file()")
+# context("read.file()")
 
 testthat::test_that("read.file works", {
   
@@ -44,5 +44,5 @@ testthat::test_that("read.file works", {
   
   
   Dome <- read.file("http://www.mosaic-web.org/go/datasets/Dome.csv")
-  expect_equivalent(testcase, Dome)
+  expect_equal(ignore_attr = TRUE, testcase, Dome)
 })

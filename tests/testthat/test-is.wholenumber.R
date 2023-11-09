@@ -1,4 +1,4 @@
-context("is.wholenumber")
+# context("is.wholenumber")
 
 testthat::test_that("is.wholenumber works", {
   expect_true(is.wholenumber(1))

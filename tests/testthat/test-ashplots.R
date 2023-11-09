@@ -1,4 +1,4 @@
-context("ashplot()")
+# context("ashplot()")
 ashplot( ~age | substance, groups = sex, data = HELPrct)
 
 testthat::test_that("Ashplots work", {

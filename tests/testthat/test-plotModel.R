@@ -1,4 +1,4 @@
-context("plotModel")
+# context("plotModel")
 
 testthat::test_that("plotModel works", {
 

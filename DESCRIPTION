@@ -41,7 +41,7 @@ Suggests:
     RCurl,
     sp,
     vcd,
-    testthat,
+    testthat (>= 3.0.0),
     knitr,
     tools,
     parallel,
@@ -70,3 +70,4 @@ BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
+Config/testthat/edition: 3

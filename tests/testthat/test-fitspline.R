@@ -1,4 +1,4 @@
-context("fitSpline()")
+# context("fitSpline()")
 
 testthat::test_that("fitSpline works", {
   

@@ -1,4 +1,4 @@
-context("plotDist()")
+# context("plotDist()")
 require(mosaicData)
 testthat::test_that("plotDist works", {
   wrapped_expect_doppelganger("plotDist1", plotDist('norm'))
