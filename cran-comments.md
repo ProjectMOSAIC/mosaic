@@ -10,16 +10,14 @@ This is a relatively minor update to the package. The main issues addressed are
 * updating a few URLs
 * fixing a few minor bugs
 * migration from citEntry() to bibentry()
+* update to edition 3 of testthat
 
-We are submitting four packages in parallel:
+We are submitting four packages roughly in parallel:
 
-* mosaicCore
-* mosaicData
+* mosaicCore [already on CRAN]
+* mosaicData [already on CRAN]
+* ggformula [already on CRAN]
 * mosaic
-* ggformula
-
-## Changes
-
 
 ## Test environments
 

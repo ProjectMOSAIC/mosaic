@@ -2,9 +2,10 @@
 
 # mosaic 1.9.0
 
-* Remove dependence on maptools, which is being archived
-* Migrate some deprecated tidyverse functions to their replacements
-* Fix a few minor bugs
+* Removed dependence on maptools, which is being archived
+* Migrated some deprecated tidyverse functions to their replacements
+* Fixed a few minor bugs
+* Updated to edition 3 of tetsthat
 
 # mosaic 1.8.4
 
