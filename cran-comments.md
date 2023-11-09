@@ -33,3 +33,5 @@ We are submitting four packages roughly in parallel:
 ## revdep check
 
 *Wow, no problems at all. :)*
+
+Some earlier issues seen to have resolved now that the other packages have made it to CRAN.
