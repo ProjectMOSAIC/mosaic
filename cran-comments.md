@@ -28,7 +28,8 @@ We are submitting four packages roughly in parallel:
 
 * win-builder
 
-
+    * win builder complains about <https://www.tandfonline.com/doi/full/10.1080/00031305.2015.1094283> which is a redirect from <https://doi.org/10.1080/00031305.2015.1094283>, but both of these work for me.
+    
 ## revdep check
 
 *Wow, no problems at all. :)*
