@@ -20,7 +20,7 @@ but it can be used with any distribution."><!-- mathjax --><script src="https://
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -88,8 +88,8 @@ but it can be used with any distribution.</p>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  invisible <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">3L</span>,</span>
-<span>  <span class="va">xlim</span>,</span>
-<span>  <span class="va">ylim</span>,</span>
+<span>  xlim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  resolution <span class="op">=</span> <span class="fl">500L</span>,</span>
 <span>  return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"values"</span>, <span class="st">"plot"</span><span class="op">)</span>,</span>
 <span>  pattern <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rings"</span>, <span class="st">"stripes"</span><span class="op">)</span>,</span>
@@ -186,7 +186,7 @@ these specify the parameters of the particular distribution desired.  See the ex
 <dd><p>A list of refinements to the plot.  See <code><a href="https://rdrr.io/pkg/ggformula/man/gf_aux.html" class="external-link">ggformula::gf_refine()</a></code>.</p></dd>
 
 
-<dt>shape</dt>
+<dt>shape, scale</dt>
 <dd><p>shape and scale parameters.  Must be positive,
     <code>scale</code> strictly.</p></dd>
 
@@ -195,19 +195,14 @@ these specify the parameters of the particular distribution desired.  See the ex
 <dd><p>an alternative way to specify the scale.</p></dd>
 
 
-<dt>scale</dt>
-<dd><p>shape and scale parameters.  Must be positive,
-    <code>scale</code> strictly.</p></dd>
-
-
 <dt>lower.tail</dt>
 <dd><p>logical; if TRUE (default), probabilities are
     \(P[X \le x]\), otherwise, \(P[X &gt; x]\).</p></dd>
 
 
 <dt>log.p</dt>
-<dd><p>logical; if <code>TRUE</code>, probabilities/densities \(p\)
-    are returned as \(log(p)\).</p></dd>
+<dd><p>A logical indicating whether probabilities should be
+returned on the log scale.</p></dd>
 
 
 <dt>df</dt>
@@ -221,11 +216,7 @@ these specify the parameters of the particular distribution desired.  See the ex
     If omitted, use the central t distribution.</p></dd>
 
 
-<dt>df1</dt>
-<dd><p>degrees of freedom.  <code>Inf</code> is allowed.</p></dd>
-
-
-<dt>df2</dt>
+<dt>df1, df2</dt>
 <dd><p>degrees of freedom.  <code>Inf</code> is allowed.</p></dd>
 
 
@@ -245,11 +236,7 @@ these specify the parameters of the particular distribution desired.  See the ex
 <dd><p>alternative parametrization via mean: see ‘Details’.</p></dd>
 
 
-<dt>shape1</dt>
-<dd><p>non-negative parameters of the Beta distribution.</p></dd>
-
-
-<dt>shape2</dt>
+<dt>shape1, shape2</dt>
 <dd><p>non-negative parameters of the Beta distribution.</p></dd>
 
 </dl></div>
@@ -280,7 +267,11 @@ formats are possible in future versions of the package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -2.677793 -2.008559 -1.675905  1.675905  2.008559  2.677793</span>
 <span class="r-in"><span><span class="co"># plotting doesn't work well when the parameters are not constant</span></span></span>
 <span class="r-in"><span><span class="fu">cdist</span><span class="op">(</span> <span class="st">"t"</span>, <span class="fl">.95</span>, df<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">20</span><span class="op">)</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in stop_bad_type(x, expected, actual = actual, what = what, arg = arg,     recycle = recycle, message = message, .subclass = c(.subclass,         "purrr_error_bad_vector")):</span> Result 1 must be a single double, not a double vector of length 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]     [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -3.182446 3.182446</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -2.570582 2.570582</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -2.228139 2.228139</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -2.085963 2.085963</span>
 <span class="r-in"><span><span class="fu">cdist</span><span class="op">(</span> <span class="st">"norm"</span>, <span class="fl">.95</span>, mean<span class="op">=</span><span class="fl">500</span>, sd<span class="op">=</span><span class="fl">100</span> <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="cdist-4.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 304.0036 695.9964</span>
@@ -294,10 +285,10 @@ formats are possible in future versions of the package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -2.073873  2.073873</span>
 <span class="r-in"><span><span class="fu"><a href="aggregating.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">+</span> <span class="fu">cdist</span><span class="op">(</span><span class="st">"t"</span>, p <span class="op">=</span> <span class="fl">0.95</span>, df<span class="op">=</span><span class="fl">22</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="aggregating.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">23</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="cdist-7.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  8.817601 10.393075</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  9.341198 10.850446</span>
 <span class="r-in"><span><span class="fu"><a href="confint.html">confint</a></span><span class="op">(</span><span class="fu"><a href="ttest.html">t.test</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean of x    lower    upper level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  9.605338 8.817601 10.39308  0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  10.09582 9.341198 10.85045  0.95</span>
 <span class="r-in"><span><span class="fu">cdist</span><span class="op">(</span><span class="st">"t"</span>, p <span class="op">=</span> <span class="fl">0.95</span>, df<span class="op">=</span><span class="fl">22</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Verbose output not yet implemented.</span>
 <span class="r-plt img"><img src="cdist-8.png" alt="" width="700" height="433"></span>
@@ -316,7 +307,7 @@ formats are possible in future versions of the package.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -21,7 +21,7 @@ These wrappers provide an extended interface (including formulas)."><!-- mathjax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -89,8 +89,8 @@ These wrappers provide an extended interface (including formulas).</p>
 <span>  p <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  alternative <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two.sided"</span>, <span class="st">"less"</span>, <span class="st">"greater"</span><span class="op">)</span>,</span>
 <span>  conf.level <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  ci.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Clopper-Pearson"</span>, <span class="st">"binom.test"</span>, <span class="st">"Score"</span>, <span class="st">"Wilson"</span>, <span class="st">"prop.test"</span>,</span>
-<span>    <span class="st">"Wald"</span>, <span class="st">"Agresti-Coull"</span>, <span class="st">"Plus4"</span><span class="op">)</span>,</span>
+<span>  ci.method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Clopper-Pearson"</span>, <span class="st">"binom.test"</span>, <span class="st">"Score"</span>, <span class="st">"Wilson"</span>, <span class="st">"prop.test"</span>, <span class="st">"Wald"</span>,</span>
+<span>    <span class="st">"Agresti-Coull"</span>, <span class="st">"Plus4"</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  success <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -249,13 +249,13 @@ for a logical vector <code>TRUE</code> is treated as success and <code>FALSE</co
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  resample(1:4, 400)  [with success = 1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> number of successes = 100, number of trials = 400, p-value = 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of successes = 92, number of trials = 400, p-value = 0.3865</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true probability of success is not equal to 0.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2083015 0.2954417</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.1896388 0.2744081</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> probability of success </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   0.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   0.23 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">binom.test</span><span class="op">(</span><span class="op">~</span> <span class="va">long</span>, data <span class="op">=</span> <span class="va">faithful</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -337,7 +337,7 @@ for a logical vector <code>TRUE</code> is treated as success and <code>FALSE</co
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

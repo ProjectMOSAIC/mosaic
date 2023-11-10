@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -175,7 +175,7 @@ be renamed to remove <code>plot_</code> and passed only to the plot.  The unpref
 used as a parameter for the the distribution.</p></dd>
 
 
-<dt>shape</dt>
+<dt>shape, scale</dt>
 <dd><p>shape and scale parameters.  Must be positive,
     <code>scale</code> strictly.</p></dd>
 
@@ -184,19 +184,14 @@ used as a parameter for the the distribution.</p></dd>
 <dd><p>an alternative way to specify the scale.</p></dd>
 
 
-<dt>scale</dt>
-<dd><p>shape and scale parameters.  Must be positive,
-    <code>scale</code> strictly.</p></dd>
-
-
 <dt>lower.tail</dt>
 <dd><p>logical; if TRUE (default), probabilities are
     \(P[X \le x]\), otherwise, \(P[X &gt; x]\).</p></dd>
 
 
 <dt>log.p</dt>
-<dd><p>logical; if <code>TRUE</code>, probabilities/densities \(p\)
-    are returned as \(log(p)\).</p></dd>
+<dd><p>A logical indicating whether probabilities should be
+returned on the log scale.</p></dd>
 
 
 <dt>df</dt>
@@ -210,11 +205,7 @@ used as a parameter for the the distribution.</p></dd>
     If omitted, use the central t distribution.</p></dd>
 
 
-<dt>df1</dt>
-<dd><p>degrees of freedom.  <code>Inf</code> is allowed.</p></dd>
-
-
-<dt>df2</dt>
+<dt>df1, df2</dt>
 <dd><p>degrees of freedom.  <code>Inf</code> is allowed.</p></dd>
 
 
@@ -234,11 +225,7 @@ used as a parameter for the the distribution.</p></dd>
 <dd><p>alternative parametrization via mean: see ‘Details’.</p></dd>
 
 
-<dt>shape1</dt>
-<dd><p>non-negative parameters of the Beta distribution.</p></dd>
-
-
-<dt>shape2</dt>
+<dt>shape1, shape2</dt>
 <dd><p>non-negative parameters of the Beta distribution.</p></dd>
 
 </dl></div>
@@ -306,8 +293,8 @@ provided for several common distributions.</p>
 <span class="r-plt img"><img src="qdist-13.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10 14</span>
 <span class="r-in"><span><span class="fu"><a href="cdist.html">xcpois</a></span><span class="op">(</span><span class="fl">0.50</span>, lambda <span class="op">=</span> <span class="fl">12</span>, refinements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">scale_color_brewer</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for 'colour' is already present. Adding another scale for 'colour',</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> which will replace the existing scale.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">colour</span> is already present.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">colour</span>, which will replace the existing scale.</span>
 <span class="r-plt img"><img src="qdist-14.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10 14</span>
 </code></pre></div>
@@ -324,7 +311,7 @@ provided for several common distributions.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

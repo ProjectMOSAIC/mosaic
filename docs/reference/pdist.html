@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -170,7 +170,7 @@ that have many distinct values, especially if these values are not evenly spaced
 <dd><p>A list of refinements to the plot.  See <code><a href="https://rdrr.io/pkg/ggformula/man/gf_aux.html" class="external-link">ggformula::gf_refine()</a></code>.</p></dd>
 
 
-<dt>shape</dt>
+<dt>shape, scale</dt>
 <dd><p>shape and scale parameters.  Must be positive,
     <code>scale</code> strictly.</p></dd>
 
@@ -179,19 +179,14 @@ that have many distinct values, especially if these values are not evenly spaced
 <dd><p>an alternative way to specify the scale.</p></dd>
 
 
-<dt>scale</dt>
-<dd><p>shape and scale parameters.  Must be positive,
-    <code>scale</code> strictly.</p></dd>
-
-
 <dt>lower.tail</dt>
 <dd><p>logical; if TRUE (default), probabilities are
     \(P[X \le x]\), otherwise, \(P[X &gt; x]\).</p></dd>
 
 
 <dt>log.p</dt>
-<dd><p>logical; if <code>TRUE</code>, probabilities/densities \(p\)
-    are returned as \(log(p)\).</p></dd>
+<dd><p>A logical indicating whether probabilities should be
+returned on the log scale.</p></dd>
 
 
 <dt>df</dt>
@@ -205,11 +200,7 @@ that have many distinct values, especially if these values are not evenly spaced
     If omitted, use the central t distribution.</p></dd>
 
 
-<dt>df1</dt>
-<dd><p>degrees of freedom.  <code>Inf</code> is allowed.</p></dd>
-
-
-<dt>df2</dt>
+<dt>df1, df2</dt>
 <dd><p>degrees of freedom.  <code>Inf</code> is allowed.</p></dd>
 
 
@@ -229,11 +220,7 @@ that have many distinct values, especially if these values are not evenly spaced
 <dd><p>alternative parametrization via mean: see ‘Details’.</p></dd>
 
 
-<dt>shape1</dt>
-<dd><p>non-negative parameters of the Beta distribution.</p></dd>
-
-
-<dt>shape2</dt>
+<dt>shape1, shape2</dt>
 <dd><p>non-negative parameters of the Beta distribution.</p></dd>
 
 </dl></div>
@@ -285,7 +272,7 @@ provided for several common distributions.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@
                         <h4 data-toc-skip class="author">Nicholas Horton
 (<a href="mailto:nhorton@amherst.edu" class="email">nhorton@amherst.edu</a>)</h4>
             
-            <h4 data-toc-skip class="date">2022-08-25</h4>
+            <h4 data-toc-skip class="date">2023-11-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ProjectMOSAIC/mosaic/blob/HEAD/vignettes/web-only/ggformula-lattice.Rmd" class="external-link"><code>vignettes/web-only/ggformula-lattice.Rmd</code></a></small>
       <div class="hidden name"><code>ggformula-lattice.Rmd</code></div>
@@ -247,6 +247,8 @@ histogram.</p>
 </h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gf_boxploth</span><span class="op">(</span><span class="va">sex</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: This function has been deprecated.  Use gf_boxplot() instead.  See</span></span>
+<span><span class="co">## `?ggstance'.</span></span></code></pre>
 <p><img src="ggformula-lattice_files/figure-html/boxploth-gg-1.png" width="700"></p>
 </div>
 </div>
@@ -254,14 +256,14 @@ histogram.</p>
 <div class="section level3">
 <h3 id="side-by-side-boxplots-lattice">Side by side boxplots (lattice)<a class="anchor" aria-label="anchor" href="#side-by-side-boxplots-lattice"></a>
 </h3>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">bwplot</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/boxplot-lattice-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="faceted-side-by-side-boxplots-lattice">Faceted side by side boxplots (lattice)<a class="anchor" aria-label="anchor" href="#faceted-side-by-side-boxplots-lattice"></a>
 </h3>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">bwplot</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">|</span> <span class="va">homeless</span>, </span>
 <span>       data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/boxplot-facet-lattice-1.png" width="700"></p>
@@ -269,7 +271,7 @@ histogram.</p>
 <div class="section level3">
 <h3 id="horizontal-boxplots-lattice">Horizontal boxplots (lattice)<a class="anchor" aria-label="anchor" href="#horizontal-boxplots-lattice"></a>
 </h3>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">bwplot</span><span class="op">(</span><span class="va">sex</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/boxploth-lattice-1.png" width="700"></p>
 </div>
@@ -285,17 +287,22 @@ histogram.</p>
 <div class="section level3">
 <h3 id="basic-scatterplot-ggformula">Basic scatterplot (ggformula)<a class="anchor" aria-label="anchor" href="#basic-scatterplot-ggformula"></a>
 </h3>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gf_point</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter-gg-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="overlaid-scatterplot-with-linear-fit-ggformula">Overlaid scatterplot with linear fit (ggformula)<a class="anchor" aria-label="anchor" href="#overlaid-scatterplot-with-linear-fit-ggformula"></a>
 </h3>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gf_point</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span>,</span>
 <span>         color <span class="op">=</span> <span class="op">~</span> <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">gf_lm</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: Using the `size` aesthetic with geom_line was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use the `linewidth` aesthetic instead.</span></span>
+<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
 <p><img src="ggformula-lattice_files/figure-html/scatter2-gg-1.png" width="700"></p>
 </div>
 </div>
@@ -303,14 +310,14 @@ histogram.</p>
 <div class="section level3">
 <h3 id="basic-scatterplot-lattice">Basic Scatterplot (lattice)<a class="anchor" aria-label="anchor" href="#basic-scatterplot-lattice"></a>
 </h3>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">xyplot</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/scatter-lattice-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="overlaid-scatterplot-with-linear-fit-lattice">Overlaid scatterplot with linear fit (lattice)<a class="anchor" aria-label="anchor" href="#overlaid-scatterplot-with-linear-fit-lattice"></a>
 </h3>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">xyplot</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>,  data <span class="op">=</span> <span class="va">HELPrct</span>,</span>
 <span>       groups <span class="op">=</span> <span class="va">sex</span>, </span>
 <span>       type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p"</span>, <span class="st">"r"</span><span class="op">)</span>, </span>
@@ -325,7 +332,7 @@ histogram.</p>
 <div class="section level3">
 <h3 id="faceted-scatterplot-with-smooth-fit-ggformula">Faceted scatterplot with smooth fit (ggformula)<a class="anchor" aria-label="anchor" href="#faceted-scatterplot-with-smooth-fit-ggformula"></a>
 </h3>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gf_point</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span> <span class="op">|</span> <span class="va">sex</span>, </span>
 <span>         data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">gf_smooth</span><span class="op">(</span>se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -334,7 +341,7 @@ histogram.</p>
 <div class="section level2">
 <h2 id="more-options-for-scatterplot-with-linear-fit-ggformula">More options for scatterplot with linear fit (ggformula)<a class="anchor" aria-label="anchor" href="#more-options-for-scatterplot-with-linear-fit-ggformula"></a>
 </h2>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gf_point</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span>,</span>
 <span>         color <span class="op">=</span> <span class="op">~</span> <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">gf_lm</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -352,7 +359,7 @@ histogram.</p>
 <div class="section level2">
 <h2 id="faceted-scatterplot-with-smooth-fit-lattice">Faceted scatterplot with smooth fit (lattice)<a class="anchor" aria-label="anchor" href="#faceted-scatterplot-with-smooth-fit-lattice"></a>
 </h2>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">xyplot</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span> <span class="op">|</span> <span class="va">sex</span>,  data <span class="op">=</span> <span class="va">HELPrct</span>,</span>
 <span>       type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p"</span>, <span class="st">"smooth"</span><span class="op">)</span>, </span>
 <span>       auto.key <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
@@ -361,7 +368,7 @@ histogram.</p>
 <div class="section level2">
 <h2 id="more-options-for-scatterplot-with-linear-fit-lattice">More options for scatterplot with linear fit (lattice)<a class="anchor" aria-label="anchor" href="#more-options-for-scatterplot-with-linear-fit-lattice"></a>
 </h2>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">xyplot</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>, groups <span class="op">=</span> <span class="va">sex</span>, </span>
 <span>       type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p"</span>, <span class="st">"r"</span><span class="op">)</span>, </span>
 <span>       auto.key <span class="op">=</span> <span class="cn">TRUE</span>, </span>
@@ -384,7 +391,7 @@ histogram.</p>
 <div class="section level3">
 <h3 id="log-scales-ggformula">Log scales (ggformula)<a class="anchor" aria-label="anchor" href="#log-scales-ggformula"></a>
 </h3>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gf_point</span><span class="op">(</span><span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">gf_refine</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 <p><img src="ggformula-lattice_files/figure-html/log-scales-gg-1.png" width="700"></p>
@@ -392,7 +399,7 @@ histogram.</p>
 <div class="section level3">
 <h3 id="custom-colors-ggformula">Custom Colors (ggformula)<a class="anchor" aria-label="anchor" href="#custom-colors-ggformula"></a>
 </h3>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gf_dens</span><span class="op">(</span></span>
 <span>  <span class="op">~</span> <span class="va">cesd</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, </span>
 <span>  color <span class="op">=</span> <span class="op">~</span> <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -410,7 +417,7 @@ histogram.</p>
 <div class="section level3">
 <h3 id="log-scales-lattice">Log scales (lattice)<a class="anchor" aria-label="anchor" href="#log-scales-lattice"></a>
 </h3>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">xyplot</span><span class="op">(</span></span>
 <span>  <span class="va">cesd</span> <span class="op">~</span> <span class="va">age</span>, data <span class="op">=</span> <span class="va">HELPrct</span>,</span>
 <span>  scales <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -419,7 +426,7 @@ histogram.</p>
 <div class="section level3">
 <h3 id="custom-colors-lattice">Custom Colors (lattice)<a class="anchor" aria-label="anchor" href="#custom-colors-lattice"></a>
 </h3>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">densityplot</span><span class="op">(</span> </span>
 <span>  <span class="op">~</span> <span class="va">cesd</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, groups <span class="op">=</span> <span class="va">sex</span>,</span>
 <span>  rug <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -476,7 +483,7 @@ introductory statistics course can be found at <a href="https://escholarship.org
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

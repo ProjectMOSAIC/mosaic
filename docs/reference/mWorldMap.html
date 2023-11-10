@@ -21,7 +21,7 @@ with the data."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@ one geom_polygon layer that shows the borders of the countries</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">mWorldMap</span><span class="op">(</span><span class="va">gdpData</span>, key<span class="op">=</span><span class="st">"country"</span>, fill<span class="op">=</span><span class="st">"GDP"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">gdpData</span> <span class="op">&lt;-</span> <span class="va">gdpData</span> <span class="op">%&gt;%</span> <span class="fu">mutate</span><span class="op">(</span>GDP5 <span class="op">=</span> <span class="fu"><a href="ntiles.html">ntiles</a></span><span class="op">(</span><span class="op">-</span><span class="va">GDP</span>, <span class="fl">5</span>, format<span class="op">=</span><span class="st">"rank"</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="va">gdpData</span> <span class="op">&lt;-</span> <span class="va">gdpData</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span>GDP5 <span class="op">=</span> <span class="fu"><a href="ntiles.html">ntiles</a></span><span class="op">(</span><span class="op">-</span><span class="va">GDP</span>, <span class="fl">5</span>, format<span class="op">=</span><span class="st">"rank"</span><span class="op">)</span><span class="op">)</span> </span></span>
 <span class="r-in"><span><span class="fu">mWorldMap</span><span class="op">(</span><span class="va">gdpData</span>, key<span class="op">=</span><span class="st">"country"</span>, fill<span class="op">=</span><span class="st">"GDP5"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">mWorldMap</span><span class="op">(</span><span class="va">gdpData</span>, key<span class="op">=</span><span class="st">"country"</span>, plot<span class="op">=</span><span class="st">"frame"</span><span class="op">)</span> <span class="op">+</span></span></span>
@@ -150,7 +150,7 @@ one geom_polygon layer that shows the borders of the countries</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

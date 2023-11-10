@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -73,10 +73,18 @@
 <h2 class="page-header" data-toc-text="development version" id="mosaic-development-version">mosaic (development version)<a class="anchor" aria-label="anchor" href="#mosaic-development-version"></a></h2>
 </div>
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.8.4" id="mosaic-184">mosaic 1.8.4<a class="anchor" aria-label="anchor" href="#mosaic-184"></a></h2>
+<h2 class="page-header" data-toc-text="1.9.0" id="mosaic-190">mosaic 1.9.0<small>2023-11-09</small><a class="anchor" aria-label="anchor" href="#mosaic-190"></a></h2>
+<ul><li>Removed dependence on maptools, which is being archived</li>
+<li>Migrated some deprecated tidyverse functions to their replacements</li>
+<li>Fixed a few minor bugs</li>
+<li>Updated to edition 3 of tetsthat</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.8.4" id="mosaic-184">mosaic 1.8.4<small>2022-08-26</small><a class="anchor" aria-label="anchor" href="#mosaic-184"></a></h2>
 <ul><li>Bug fix in <code><a href="../reference/mplot.html">mplot.lm()</a></code> for models where <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">broom::tidy()</a></code> doesn’t record residuals.</li>
 <li>Due to changes in <code>mosaicCore</code>, <code><a href="https://rdrr.io/pkg/mosaicCore/man/makeFun.html" class="external-link">makeFun()</a></code> now accepts one-sided formulas such as <code>makeFun(~ x^2)</code>.</li>
 <li>Distribution plotting functions can now handle distributions for which supplying <code>p = 0</code> or <code>p = 1</code> to the q-function throws an error. [See <a href="https://github.com/ProjectMOSAIC/mosaic/issues/779" class="external-link">#779</a>]</li>
+<li>Some previously imported packages are now only suggested. Users will be prompted to install packages that are missing only when they are used.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.8.3" id="mosaic-183">mosaic 1.8.3<small>2021-01-18</small><a class="anchor" aria-label="anchor" href="#mosaic-183"></a></h2>
@@ -426,7 +434,7 @@ The <code><a href="../reference/pqrdata.html">cdata()</a></code>, <code><a href=
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

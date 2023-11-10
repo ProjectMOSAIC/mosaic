@@ -20,7 +20,7 @@ an interface that is consistent with the other lattice functions."><!-- mathjax 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -175,7 +175,7 @@ See the examples.</p>
 <span class="r-in"><span><span class="fu">bargraph</span><span class="op">(</span> <span class="op">~</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, horizontal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">bargraph</span><span class="op">(</span> <span class="op">~</span> <span class="va">substance</span> <span class="op">|</span> <span class="va">sex</span>, groups <span class="op">=</span> <span class="va">homeless</span>, auto.key <span class="op">=</span> <span class="cn">TRUE</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">bargraph</span><span class="op">(</span> <span class="op">~</span> <span class="va">substance</span>, groups <span class="op">=</span> <span class="va">homeless</span>, auto.key<span class="op">=</span><span class="cn">TRUE</span>, </span></span>
-<span class="r-in"><span>            data <span class="op">=</span> <span class="va">HELPrct</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">==</span> <span class="st">"male"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>            data <span class="op">=</span> <span class="va">HELPrct</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sex</span> <span class="op">==</span> <span class="st">"male"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">HELPrct2</span> <span class="op">&lt;-</span> <span class="fu">mutate</span><span class="op">(</span><span class="va">HELPrct</span>, older <span class="op">=</span> <span class="va">age</span> <span class="op">&gt;</span> <span class="fl">40</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">bargraph</span><span class="op">(</span> <span class="op">~</span> <span class="va">substance</span> <span class="op">|</span> <span class="va">older</span>, data <span class="op">=</span> <span class="va">HELPrct2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -194,7 +194,7 @@ See the examples.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

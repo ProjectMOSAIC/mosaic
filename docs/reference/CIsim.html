@@ -18,7 +18,7 @@ the robustness of confidence interval methods."><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -87,10 +87,14 @@ the robustness of confidence interval methods.</p>
 <span>  conf.level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  method <span class="op">=</span> <span class="va">t.test</span>,</span>
 <span>  method.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  interval <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>     <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">method</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span><span class="op">)</span>,</span>
-<span>    <span class="va">method.args</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">conf.int</span> <span class="op">}</span>,</span>
-<span>  estimate <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>     <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">method</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span><span class="op">)</span>,</span>
-<span>    <span class="va">method.args</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">estimate</span> <span class="op">}</span>,</span>
+<span>  interval <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">method</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span><span class="op">)</span>,</span>
+<span>    <span class="va">method.args</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">conf.int</span></span>
+<span> <span class="op">}</span>,</span>
+<span>  estimate <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>     <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">method</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">x</span>, conf.level <span class="op">=</span> <span class="va">conf.level</span><span class="op">)</span>,</span>
+<span>    <span class="va">method.args</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">estimate</span></span>
+<span> <span class="op">}</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -169,25 +173,25 @@ graphically.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># 1000 95% intervals using t.test; population is N(0,1)</span></span></span>
-<span class="r-in"><span><span class="fu">CIsim</span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span>, samples<span class="op">=</span><span class="fl">1000</span><span class="op">)</span>    </span></span>
+<span class="r-in"><span><span class="fu">CIsim</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, samples <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>    </span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Interval coverage:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     cover</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> n      Low   Yes  High</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   10 0.038 0.944 0.018</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   10 0.021 0.951 0.028</span>
 <span class="r-in"><span><span class="co"># this time population is Exp(1); fewer samples, so we get a plot </span></span></span>
-<span class="r-in"><span><span class="fu">CIsim</span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span>, samples<span class="op">=</span><span class="fl">100</span>, rdist<span class="op">=</span><span class="va">rexp</span>, estimand<span class="op">=</span><span class="fl">1</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="fu">CIsim</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, samples <span class="op">=</span> <span class="fl">100</span>, rdist <span class="op">=</span> <span class="va">rexp</span>, estimand <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Interval coverage:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     cover</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> n     Low  Yes High</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   10 0.07 0.92 0.01</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   10 0.17 0.83 0.00</span>
 <span class="r-plt img"><img src="CIsim-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># Binomial treats 1 like success, 0 like failure</span></span></span>
-<span class="r-in"><span><span class="fu">CIsim</span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span>, samples<span class="op">=</span><span class="fl">100</span>, rdist<span class="op">=</span><span class="va">rbinom</span>, args<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">1</span>, prob<span class="op">=</span><span class="fl">.7</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>       estimand <span class="op">=</span> <span class="fl">.7</span>, method <span class="op">=</span> <span class="va">binom.test</span>, method.args<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ci <span class="op">=</span> <span class="st">"Plus4"</span><span class="op">)</span><span class="op">)</span>  </span></span>
+<span class="r-in"><span><span class="fu">CIsim</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">30</span>, samples <span class="op">=</span> <span class="fl">100</span>, rdist <span class="op">=</span> <span class="va">rbinom</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span>, prob <span class="op">=</span> <span class="fl">.7</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>       estimand <span class="op">=</span> <span class="fl">.7</span>, method <span class="op">=</span> <span class="va">binom.test</span>, method.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>ci <span class="op">=</span> <span class="st">"Plus4"</span><span class="op">)</span><span class="op">)</span>  </span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Interval coverage:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     cover</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> n     Low  Yes High</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   30 0.02 0.98 0.00</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   30 0.02 0.97 0.01</span>
 <span class="r-plt img"><img src="CIsim-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -204,7 +208,7 @@ graphically.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

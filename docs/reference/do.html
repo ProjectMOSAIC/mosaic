@@ -18,7 +18,7 @@ with replication and resampling methods."><!-- mathjax --><script src="https://c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -192,9 +192,9 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        rnorm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -1.8056091</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.1914100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.2423873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.7494472</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.2921462</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -1.5571653</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="st">"hello"</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using parallel package.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
@@ -215,36 +215,36 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using parallel package.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.1142425314</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.0002201565</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -0.2875418309</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.0623133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.2401102</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -0.3108011</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">mother</span>, <span class="va">Galton</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using parallel package.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Intercept        sexM       mother    sigma    r.squared          F numdf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  66.52871 -0.05339408  0.004051405 3.586805 6.370146e-05 0.02850822     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  68.00014 -0.01440351 -0.019224550 3.586641 1.554971e-04 0.06959576     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  63.54233  0.10569387  0.049366686 3.584777 1.194536e-03 0.53519426     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dendf .row .index</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   895    1      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   895    1      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   895    1      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Intercept        sexM     mother    sigma    r.squared        F numdf dendf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  65.53609 -0.14171521 0.02025432 3.585880 0.0005795053 0.259479     2   895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  62.71526 -0.30775453 0.06561335 3.580173 0.0037583440 1.688204     2   895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  64.15243 -0.03260937 0.04096384 3.585619 0.0007249713 0.324660     2   895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .row .index</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    1      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    1      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    1      3</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">mother</span>, <span class="va">Galton</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using parallel package.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  source  df           SS         MS          F      pval .row</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex...1             sex   1 1.758369e-01  0.1758369 0.01367136 0.9069460    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mother...2       mother   1 3.666937e+00  3.6669368 0.28510519 0.5935070    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...3 Residuals 895 1.151122e+04 12.8616979         NA        NA    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex...4             sex   1 8.396726e-01  0.8396726 0.06535430 0.7982838    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mother...5       mother   1 1.525575e+01 15.2557506 1.18740204 0.2761475    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...6 Residuals 895 1.149897e+04 12.8480078         NA        NA    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex...7             sex   1 1.491102e+01 14.9110212 1.16193197 0.2813557    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mother...8       mother   1 1.465629e+01 14.6562916 1.14208233 0.2855009    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...9 Residuals 895 1.148550e+04 12.8329554         NA        NA    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex...1             sex   1 2.687166e+01 26.8716589 2.09376158 0.1482517    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mother...2       mother   1 1.622736e+00  1.6227361 0.12643888 0.7222371    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...3 Residuals 895 1.148657e+04 12.8341542         NA        NA    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex...4             sex   1 2.950616e+00  2.9506165 0.22965706 0.6318953    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mother...5       mother   1 1.321957e+01 13.2195671 1.02892629 0.3106851    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...6 Residuals 895 1.149889e+04 12.8479242         NA        NA    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex...7             sex   1 8.103037e-01  0.8103037 0.06301493 0.8018503    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mother...8       mother   1 5.522774e+00  5.5227745 0.42948991 0.5124078    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...9 Residuals 895 1.150873e+04 12.8589154         NA        NA    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               .index</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sex...1            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mother...2         1</span>
@@ -260,26 +260,26 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sample.mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.01235415</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.09427374</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -0.09801412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  -0.1857070</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   0.2775839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   0.1669131</span>
 <span class="r-in"><span><span class="co"># change the names on the fly</span></span></span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="aggregating.html">mean</a></span><span class="op">(</span><span class="op">~</span><span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">Galton</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using parallel package.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 66.76381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 66.72617</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 66.64187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 66.63330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 66.76158</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 66.75835</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mean_height <span class="op">=</span> <span class="fu"><a href="aggregating.html">mean</a></span><span class="op">(</span><span class="op">~</span><span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">Galton</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using parallel package.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Set seed with set.rseed().</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   * Disable this message with options(`mosaic:parallelMessage` = FALSE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean_height</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    66.73597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    66.67350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    66.57661</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    66.92940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    66.67238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    66.79822</span>
 <span class="r-in"><span><span class="fu"><a href="set.rseed.html">set.rseed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html" class="external-link">tally</a></span><span class="op">(</span> <span class="op">~</span><span class="va">sex</span><span class="op">|</span><span class="va">treat</span>, data<span class="op">=</span><span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">HELPrct</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Using parallel package.</span>
@@ -312,7 +312,7 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

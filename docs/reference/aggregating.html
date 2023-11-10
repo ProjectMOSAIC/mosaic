@@ -18,7 +18,7 @@ formula aware."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/l
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.8.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -174,16 +174,16 @@ and (c) difficult to maintain.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.887168</span>
 <span class="r-in"><span><span class="fu">mean</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   female     male </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35.78505 35.61272 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36.39252 35.42486 </span>
 <span class="r-in"><span><span class="fu">mean</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, .format <span class="op">=</span> <span class="st">"table"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   shuffle(sex)     mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       female 36.26168</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         male 35.46532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       female 35.81308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         male 35.60405</span>
 <span class="r-in"><span><span class="co"># wrap in data.frame() to auto-convert awkward variable names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu">mean</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">HELPrct</span>, .format <span class="op">=</span> <span class="st">"table"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   shuffle.sex.     mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       female 35.74766</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         male 35.62428</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       female 35.51402</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         male 35.69653</span>
 <span class="r-in"><span><span class="fu">mean</span><span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">substance</span>, data <span class="op">=</span> <span class="va">HELPrct</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> female.alcohol   male.alcohol female.cocaine   male.cocaine  female.heroin </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       39.16667       37.95035       34.85366       34.36036       34.66667 </span>
@@ -241,7 +241,7 @@ and (c) difficult to maintain.</p>
 <span class="r-in"><span><span class="fu">cov</span><span class="op">(</span><span class="va">mcs</span> <span class="op">~</span> <span class="va">pcs</span>, data <span class="op">=</span> <span class="va">HELPmiss</span>, use <span class="op">=</span> <span class="st">"complete"</span><span class="op">)</span>  <span class="co"># ignore missing data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 13.46433</span>
 <span class="r-in"><span><span class="co"># alternative approach using filter explicitly</span></span></span>
-<span class="r-in"><span><span class="fu">cov</span><span class="op">(</span><span class="va">mcs</span> <span class="op">~</span> <span class="va">pcs</span>, data <span class="op">=</span> <span class="va">HELPmiss</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">mcs</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>    </span></span>
+<span class="r-in"><span><span class="fu">cov</span><span class="op">(</span><span class="va">mcs</span> <span class="op">~</span> <span class="va">pcs</span>, data <span class="op">=</span> <span class="va">HELPmiss</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">mcs</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>    </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 13.46433</span>
 </code></pre></div>
     </div>
@@ -257,7 +257,7 @@ and (c) difficult to maintain.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
