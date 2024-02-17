@@ -272,8 +272,9 @@ plot_multi_dist <-
       
       # extend range if it doesn't extend too far
       mid_width <- diff(xlim)
-      xlim[1] <- xlim_opts[min(which(xlim[2] - xlim_opts < 1.8 * mid_width), na.rm = TRUE)]
-      xlim[2] <- xlim_opts[max(which(xlim_opts - xlim[1] < 1.8 * mid_width), na.rm = TRUE)]
+      a <- xlim_opts[min(which(xlim[2] - xlim_opts < 1.8 * mid_width), na.rm = TRUE)]
+      b <- xlim_opts[max(which(xlim_opts - xlim[1] < 1.8 * mid_width), na.rm = TRUE)]
+      xlim = c(a,b)
     }
     
     if (discrete) {
