@@ -18,6 +18,15 @@ but which are usually taught in isolation, if at all.
 \references{
 \url{http://www.mosaic-web.org}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/ProjectMOSAIC/mosaic}
+  \item \url{https://www.mosaic-web.org/mosaic/}
+  \item Report bugs at \url{https://github.com/ProjectMOSAIC/mosaic/issues}
+}
+
+}
 \author{
 Randall Pruim (\email{rpruim@calvin.edu}), Daniel Kaplan (\email{kaplan@macalester.edu}), Nicholas Horton (\email{nhorton@smith.edu})
 }

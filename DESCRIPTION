@@ -67,7 +67,7 @@ LazyLoad: yes
 LazyData: yes
 URL: https://github.com/ProjectMOSAIC/mosaic, https://www.mosaic-web.org/mosaic/
 BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
 Config/testthat/edition: 3
