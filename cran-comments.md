@@ -1,23 +1,13 @@
 
 ## Submission notes
 
-This is a relatively minor update to the package. The main issues addressed are
+This is a relatively minor update to the package, primarily to aid the CRAN
+submission of ggdendro. Changes to that package had breaking changes in some 
+of our tests. We've updated our tests to match the github version of ggdendro.
+All tests pass with that version on our test systems. We expect ggdendro to
+be submitted to CRAN in the next day or two.
 
-* removal of dependence on maptools and rgeos
-* migration to |> from %>%
-* migration away from some deprecated tidyverse/ggplot2 functions
-* removal of ggplot2::aes_string()
-* updating a few URLs
-* fixing a few minor bugs
-* migration from citEntry() to bibentry()
-* update to edition 3 of testthat
-
-We are submitting four packages roughly in parallel:
-
-* mosaicCore [already on CRAN]
-* mosaicData [already on CRAN]
-* ggformula [already on CRAN]
-* mosaic
+We made one additional change to repair a small bug.
 
 ## Test environments
 
@@ -29,9 +19,3 @@ We are submitting four packages roughly in parallel:
 * win-builder
 
     * win builder complains about <https://www.tandfonline.com/doi/full/10.1080/00031305.2015.1094283> which is a redirect from <https://doi.org/10.1080/00031305.2015.1094283>, but both of these work for me.
-    
-## revdep check
-
-*Wow, no problems at all. :)*
-
-Some earlier issues seen to have resolved now that the other packages have made it to CRAN.
