@@ -27,13 +27,16 @@ t.test(x, ...)
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}
 
-\item{...}{further arguments to be passed to or from methods.}
+\item{...}{further arguments to be passed to or from methods.
+    For the \code{formula} method, this includes arguments of the
+    default method, but not \code{paired}.}
 
 \item{formula}{a formula of the form \code{lhs ~ rhs} where \code{lhs}
     is a numeric variable giving the data values and \code{rhs} either 
     \code{1} for a one-sample or paired test or a factor
     with two levels giving the corresponding groups. If \code{lhs} is of 
-    class \code{"Pair"} and \code{rhs} is \code{1}, a paired test is done}
+    class \code{"\link[stats]{Pair}"} and \code{rhs} is \code{1}, a paired test
+    is done, see Examples.}
 
 \item{data}{an optional matrix or data frame (or similar: see
     \code{\link[stats]{model.frame}}) containing the variables in the

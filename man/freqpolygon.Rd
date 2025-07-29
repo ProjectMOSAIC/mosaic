@@ -70,7 +70,7 @@ how points are to be displayed}
 \item{ref}{a logical indicating whether a horizontal reference line should be
 added (roughly equivalent to \code{h=0})}
 
-\item{groups, weights, jitter.amount, identifier}{as in \code{\link[=densityplot]{densityplot()}}
+\item{groups, weights, jitter.amount, identifier}{as in \code{\link[lattice:histogram]{lattice::densityplot()}}
 or \code{\link[=histogram]{histogram()}}}
 
 \item{subscripts}{as in other lattice prepanel functions}

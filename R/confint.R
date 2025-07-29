@@ -394,6 +394,7 @@ boott <- function(object, ...) {
   UseMethod("boott")
 }
 
+#' @export
 boott.do.data.frame <- function( object, level = 0.95, ... ) {
   lz <- attr(object, "lazy")
   if (! all( c("mean", "sd", "n") %in% names(object))) {

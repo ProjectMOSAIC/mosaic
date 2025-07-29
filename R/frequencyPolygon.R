@@ -252,7 +252,7 @@ plot.freqpolygon <-
 #' how points are to be displayed
 #' @param gcol color of guidelines
 #' @param glwd width of guidelines
-#' @param groups,weights,jitter.amount,identifier as in [densityplot()] 
+#' @param groups,weights,jitter.amount,identifier as in [lattice::densityplot()] 
 #' or [histogram()]
 #' @param type one of `'density'`, `'percent'`, or `'count'`
 #' @param breaks a vector of breaks for the frequency polygon bins

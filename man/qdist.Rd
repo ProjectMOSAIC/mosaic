@@ -102,7 +102,7 @@ returned on the log scale.}
       = Inf} is allowed.}
 
 \item{ncp}{non-centrality parameter \eqn{\delta}{delta};
-    currently except for \code{rt()}, only for \code{abs(ncp) <= 37.62}.
+    currently except for \code{rt()}, accurate only for \code{abs(ncp) <= 37.62}.
     If omitted, use the central t distribution.}
 
 \item{df1, df2}{degrees of freedom.  \code{Inf} is allowed.}

@@ -17,11 +17,11 @@ col.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1, lwd = 2, ...)
 \item{lwd}{vector of line widths}
 
 \item{...}{additional named arguments passed to
-\code{\link[=trellis.par.set]{trellis.par.set()}}}
+\code{\link[lattice:trellis.par.get]{lattice::trellis.par.set()}}}
 }
 \value{
 Returns a list that can be supplied as the \code{theme} to
-\code{\link[=trellis.par.set]{trellis.par.set()}}.
+\code{\link[lattice:trellis.par.get]{lattice::trellis.par.set()}}.
 }
 \description{
 A theme for use with lattice graphics.
@@ -39,6 +39,6 @@ show.settings()
 
 }
 \seealso{
-\code{\link[=trellis.par.set]{trellis.par.set()}}, \code{\link[=show.settings]{show.settings()}}
+\code{\link[lattice:trellis.par.get]{lattice::trellis.par.set()}}, \code{\link[lattice:trellis.par.get]{lattice::show.settings()}}
 }
 \keyword{graphics}

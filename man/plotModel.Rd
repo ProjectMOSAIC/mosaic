@@ -23,7 +23,7 @@ plotModel(mod, ...)
 \arguments{
 \item{mod}{A model of type \code{\link[=lm]{lm()}} or \code{\link[=glm]{glm()}}}
 
-\item{\dots}{arguments passed to \code{\link[=xyplot]{xyplot()}} or \code{rgl::plot3d}.}
+\item{\dots}{arguments passed to \code{\link[lattice:xyplot]{lattice::xyplot()}} or \code{rgl::plot3d}.}
 
 \item{formula}{a formula indicating how the variables are to be displayed.  In the style of
 \code{lattice} and \code{ggformula}.}

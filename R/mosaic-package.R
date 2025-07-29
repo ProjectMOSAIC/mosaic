@@ -18,7 +18,6 @@ NA
 #'
 #' @name mosaic-package
 #' @aliases mosaic mosaic-package
-#' @docType package
 #' @title mosaic: the Project MOSAIC package
 #' @author Randall Pruim (\email{rpruim@@calvin.edu}), Daniel Kaplan (\email{kaplan@@macalester.edu}), Nicholas Horton (\email{nhorton@@smith.edu})
 #' @references
@@ -49,4 +48,5 @@ NA
 #' @importFrom stats  model.response na.omit pnorm ppoints predict printCoefmat qnorm qt rbinom resid
 #' @importFrom stats rmultinom rnorm runif setNames splinefun terms uniroot update vcov wilcox.test xtabs
 #' @importFrom utils browseURL capture.output menu read.csv read.table str tail head
-NA
+
+"_PACKAGE"

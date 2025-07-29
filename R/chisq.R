@@ -9,7 +9,7 @@
 #' @param correct a logical indicating whether a continuity correction should be 
 #' applied.
 #' @param ... additional arguments passed on to `tally` or `chisq.test`.
-#' @seealso [after_stat()]
+#' @seealso [ggplot2::after_stat()]
 #' @examples
 #' 
 #' if(require(mosaicData)) {

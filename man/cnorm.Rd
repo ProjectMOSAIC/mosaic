@@ -26,7 +26,7 @@ both should be returned.}
       = Inf} is allowed.}
 
 \item{ncp}{non-centrality parameter \eqn{\delta}{delta};
-    currently except for \code{rt()}, only for \code{abs(ncp) <= 37.62}.
+    currently except for \code{rt()}, accurate only for \code{abs(ncp) <= 37.62}.
     If omitted, use the central t distribution.}
 }
 \description{

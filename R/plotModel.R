@@ -5,7 +5,7 @@ utils::globalVariables(c(".group", ".color", ".cond", "mypanel"))
 #' @description Visualize a regression model amid the data that generated it. 
 #' 
 #' @param mod A model of type [lm()] or [glm()]
-#' @param \dots arguments passed to [xyplot()] or `rgl::plot3d`.
+#' @param \dots arguments passed to [lattice::xyplot()] or `rgl::plot3d`.
 #'
 #' @section Caution:
 #' This is still underdevelopment.  The API is subject to change, and some

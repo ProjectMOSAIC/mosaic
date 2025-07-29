@@ -30,11 +30,11 @@ utils::globalVariables(
 #' @param \dots additional arguments.
 #' 
 #' 
-#' @seealso [histogram()], 
+#' @seealso [lattice::histogram()], 
 #' [chisq.test()], 
 #' [pnorm()], 
 #' [qnorm()], 
-#' [qqmath()], and
+#' [lattice::qqmath()], and
 #' [plot()]. 
 #' 
 #' 

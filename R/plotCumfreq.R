@@ -9,7 +9,7 @@
 #' @param data a data frame in which `x` is evaluated if `x` is a
 #' formula.
 #' @param \dots other lattice arguments
-#' @seealso [histogram()], [densityplot()]
+#' @seealso [lattice::histogram()], [lattice::densityplot()]
 #' @return A plot of the empirical cumulative distribution function for sample values specified in `x`.
 #' @keywords graphics
 #' @examples

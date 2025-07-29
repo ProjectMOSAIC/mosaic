@@ -6,17 +6,17 @@
 #' @param lty vector of line type codes
 #' @param lwd vector of line widths
 #' @param ... additional named arguments passed to 
-#'   [trellis.par.set()]
+#'   [lattice::trellis.par.set()]
 #' 
 #' @return Returns a list that can be supplied as the `theme` to 
-#' [trellis.par.set()].
+#' [lattice::trellis.par.set()].
 #' @note
 #'   These two functions are identical.  `col.mosaic` is named 
 #' similarly to [lattice::col.whitebg()], but since more 
 #' than just colors are set, `theme.mosaic` is a preferable name.
 #'
 #'
-#' @seealso [trellis.par.set()], [show.settings()] 
+#' @seealso [lattice::trellis.par.set()], [lattice::show.settings()] 
 #' 
 #' @rdname themes
 #'

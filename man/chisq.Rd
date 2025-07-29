@@ -44,5 +44,5 @@ if(require(mosaicData)) {
   
 }
 \seealso{
-\code{\link[=after_stat]{after_stat()}}
+\code{\link[ggplot2:aes_eval]{ggplot2::after_stat()}}
 }

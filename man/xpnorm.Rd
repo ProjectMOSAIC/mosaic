@@ -109,10 +109,10 @@ if (rstudio_is_available() & require(manipulate)) {
 }
 }
 \seealso{
-\code{\link[=histogram]{histogram()}},
+\code{\link[lattice:histogram]{lattice::histogram()}},
 \code{\link[=chisq.test]{chisq.test()}},
 \code{\link[=pnorm]{pnorm()}},
 \code{\link[=qnorm]{qnorm()}},
-\code{\link[=qqmath]{qqmath()}}, and
+\code{\link[lattice:qqmath]{lattice::qqmath()}}, and
 \code{\link[=plot]{plot()}}.
 }
