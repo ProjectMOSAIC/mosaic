@@ -11,6 +11,12 @@ test_that("naming as expected", {
 })
 
 
+test_that("expression is re-evaluated on each iteration", {
+  set.seed(1)
+  result <- do(5) * mean(~cesd, data = resample(mosaicData::HELPrct))
+  expect_gt(length(unique(result[[1]])), 1)
+})
+
 test_that("dimension as expected", {
   expect_equal(ignore_attr = TRUE,  dim( do(2) * mean(~cesd, data=mosaicData::HELPrct)), c(2,1))
   expect_equal(ignore_attr = TRUE,  dim( do(2) * var(~cesd, data=mosaicData::HELPrct)), c(2,1))
