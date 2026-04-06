@@ -171,7 +171,7 @@ gf_boxplot(age ~ sex | homeless,
 ### Horizontal boxplots (ggformula)
 
 ```{r, boxploth-gg, message = FALSE}
-gf_boxploth(sex ~ age, data = HELPrct)
+gf_boxplot(sex ~ age, data = HELPrct)
 ```
 
 
@@ -225,7 +225,7 @@ gf_point(cesd ~ age, data = HELPrct)
 gf_point(cesd ~ age, data = HELPrct,
          color = ~ sex) %>%
   gf_lm()
-``````
+```
 
 </div>
 \newpage
@@ -264,7 +264,7 @@ xyplot(cesd ~ age,  data = HELPrct,
 gf_point(cesd ~ age | sex, 
          data = HELPrct) %>%
   gf_smooth(se = FALSE)
-``````
+```
 
 
 
