@@ -58,3 +58,4 @@ revdep/
 /Meta/
 tests/testthat/Rplots.pdf
 tests/testthat/_snaps
+.Rhistory
