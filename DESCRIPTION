@@ -9,7 +9,7 @@ Description: Data sets and utilities from Project MOSAIC (<http://www.mosaic-web
     engineering and mathematics will need in their professional lives, but
     which are usually taught in isolation, if at all.
 Authors@R: c(
-    person(given = "Randall",  family = "Pruim", email = "rpruim@calvin.edu", role = c("aut", "cre")), 
+    person(given = "Randall",  family = "Pruim", email = "rpruim@gmail.com", role = c("aut", "cre")), 
     person(given = "Daniel T.",   family = "Kaplan", email = "dtkaplan@macalester.edu", role = "aut"), 
     person(given = "Nicholas J.", family = "Horton", email = "nhorton@amherst.edu", role = "aut")
     )

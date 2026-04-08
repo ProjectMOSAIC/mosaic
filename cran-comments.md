@@ -1,10 +1,11 @@
 
 ## Submission notes
 
-This is a minor update to the package to update some documentation in accordance with new CRAN checks.
+The primary reason for this update is in response to the recent changes to rlang.
+
+Maintainer email is changing from <rpruim@calvin.edu> to <rpruim@gmail.com>.
 
 ## Test environments
-
 
 * local
   * R version 4.5.1 (2025-06-13)
