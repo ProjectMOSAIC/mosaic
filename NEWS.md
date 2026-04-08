@@ -1,4 +1,4 @@
-# mosaic (development version)
+# mosaic 1.10.0
 
 # mosaic 1.9.1
 
