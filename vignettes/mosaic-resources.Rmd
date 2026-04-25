@@ -56,7 +56,7 @@ Install these packages using `install.packages(c("mosaicCalc", "mosaicModel"))`.
 
 Pruim R, Kaplan DT and Horton NJ (2017). The mosaic Package: Helping
 Students to 'Think with Data' Using R. *The R Journal*, 9(1), pp.
-77-102.  https://journal.r-project.org/archive/2017/RJ-2017-024/index.html.
+77-102.  https://journal.r-project.org/articles/RJ-2017-024/index.html.
 
 Abstract: The mosaic package provides a simplified and systematic introduction to the core functionality related to descriptive statistics, visualization, modeling, and simulation-based inference required in first and second courses in statistics. This introduction to the package describes some of the guiding principles behind the design of the package and provides illustrative examples of several of the most important functions it implements. These can be combined to help students 'think with data' using R in their early course work, starting with simple, yet powerful, declarative commands.
 

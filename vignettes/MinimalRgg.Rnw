@@ -2,7 +2,7 @@
 %\VignetteIndexEntry{Minimal R (ggformula version)}
 %\VignettePackage{mosaic}
 %\VignetteKeywords{mosaic, vignettes, minimal}
-%\VignetteEngine{knitr::knitr} 
+%\VignetteEngine{knitr::knitr}
 
 \documentclass[10pt]{report}
 
@@ -104,7 +104,7 @@ knitr::opts_chunk$set(
 	fig.show='hold',
 	message=FALSE
 	)
-@ 
+@
 
 
 \let\oldchapter=\chapter
@@ -126,7 +126,7 @@ knitr::opts_chunk$set(
 
 \begin{center}
 	\Large
-	``Less volume, more creativity." 
+	``Less volume, more creativity."
 
 	\medskip
 
@@ -140,26 +140,26 @@ knitr::opts_chunk$set(
 	\parindent=.5cm
 	\parskip=4mm
 
-Mike McCarthy had signs proclaiming his ``Less volume, more creativity" mantra 
+Mike McCarthy had signs proclaiming his ``Less volume, more creativity" mantra
 hung on the office walls of all of his coordinators during one off-season.  When asked about it, he
-said,  ``A lot of times you end up putting in a lot more volume, because you are teaching fundamentals 
+said,  ``A lot of times you end up putting in a lot more volume, because you are teaching fundamentals
 and you are teaching concepts that you need to put in, but you may not necessarily use
 because they are building blocks for other concepts and variations that will come off of that \dots
-In the offseason you have a chance to take a step back and tailor it more specifically towards your 
-team and towards your players." % I think we've been able to accomplish that in Green Bay." 
+In the offseason you have a chance to take a step back and tailor it more specifically towards your
+team and towards your players." % I think we've been able to accomplish that in Green Bay."
 
 
 Statistics instructors using \R\ face a similar dilemma.  \R\ is capable of so much that it is tempting
 to include this, and then that, and then the other, and then one more thing.  Vectors and lists and
-recycling and coercion and functions and \dots  It all seems so fundamental to the way \R\ works.  And 
+recycling and coercion and functions and \dots  It all seems so fundamental to the way \R\ works.  And
 when mastered, these concepts do become building blocks for other concepts and variations.
 
 
-But when looking back at the end of a term, we have to admit that some of these things really aren't 
+But when looking back at the end of a term, we have to admit that some of these things really aren't
 necessary to get the job done, and may do more harm than good for beginners.  We too need to take a step
 back and tailor things toward our students and their abilities and needs.
-The colored commands on the next page are sufficient for an Introductory Statistics course that includes 
-ANOVA, regression, and resampling techniques.  The others are optional extras.   
+The colored commands on the next page are sufficient for an Introductory Statistics course that includes
+ANOVA, regression, and resampling techniques.  The others are optional extras.
 This is followed by a 1-page sampler showing usage examples for some of the functions.
 
 
@@ -168,28 +168,28 @@ may also be useful for students, they would need supplementing with additional d
 
 \columnbreak
 
-The list of functions we present are not the only sufficient set of functions, but they were carefully chosen to fit as much 
+The list of functions we present are not the only sufficient set of functions, but they were carefully chosen to fit as much
 as possible into a small number of paradigms.  In particular,
 \begin{enumerate}
 	\item
 		We make use of the ``formula interface" whenever possible.
 
-		Students will need the formula interface to do regression an ANOVA.  Since we are going 
+		Students will need the formula interface to do regression an ANOVA.  Since we are going
 		to teach it anyway, we use formulas as consistently and as often as we can.
-		In some cases, my colleagues and I have written new functions or expanded the use of existing functions 
+		In some cases, my colleagues and I have written new functions or expanded the use of existing functions
 		to serve this end.  These functions are available in the \pkg{mosaic} package and are
-		indicated in the comments in our palette.  Some of the data sets are from the 
+		indicated in the comments in our palette.  Some of the data sets are from the
 		\pkg{mosaicData} package.
 
-	\item 
+	\item
 		We use \pkg{ggformula} for graphics.
 
     The \pkg{ggformula} package provides an interface to \pkg{ggplot2} graphics
-		that uses the same formula interface used elsewhere. 
-		It encourages students to think about disaggregating data according to 
+		that uses the same formula interface used elsewhere.
+		It encourages students to think about disaggregating data according to
 		the values of covariates by making this very easy to do.  In addition,
 		complex plots can be created by layering simpler plots.
-		
+
 		Previously we used \pkg{lattice} for graphics; \pkg{lattice} also uses
 		a formula interface, but layering in \pkg{lattice} is more challenging
 		and the \pkg{ggformula} interface is a bit cleaner.
@@ -199,7 +199,7 @@ as possible into a small number of paradigms.  In particular,
 Whether you use this list or some other list, we encourage you to make a complete list of the commands you
 want your students to learn over the course of a semester.  Organize them by topic.  Organize them again
 by syntactic structure.  Ask yourself how they look as a whole.  Have you chosen a set of functions that
-fit well together?  
+fit well together?
 And most importantly: What is your creativity to volume quotient?
 
 
@@ -208,7 +208,7 @@ And most importantly: What is your creativity to volume quotient?
 
 \newpage
 
-\lhead{\href{https://cran.r-project.org/web/packages/mosaic}{cran.r-project.org/web/packages/mosaic}}
+\lhead{\href{https://cran.r-project.org/web/packages/mosaic/}{cran.r-project.org/web/packages/mosaic/}}
 \rhead{\href{http://www.mosaic-web.org}{http://www.mosaic-web.org} (\Sexpr{Sys.Date()})}
 
 \begin{multicols}{4}
@@ -216,7 +216,7 @@ And most importantly: What is your creativity to volume quotient?
 \iftrue
 \subsection*{Help}
 <<>>=
-apropos()  
+apropos()
 ?
 ??
 example()
@@ -240,8 +240,8 @@ log10(); abs(); choose()
 
 
 \subsection*{Formula Interface}
-The following syntax (often with 
-some parts omitted) is used for 
+The following syntax (often with
+some parts omitted) is used for
 graphical summaries, numerical summaries,
 and inference procedures.
 
@@ -256,15 +256,15 @@ For plots:
 	\item
 		\texttt{x}: is x-axis variable
 	\item
-		\texttt{z}: conditioning variable 
-		
+		\texttt{z}: conditioning variable
+
 		(separate panels)
 \end{itemize}
 For other things:
 \medskip
 
 `\code{y \twiddle{} x | z}' can usually be
-read `\code{y} is modeled by (or depends on) \code{x} 
+read `\code{y} is modeled by (or depends on) \code{x}
 differently for each \code{z}'.
 \medskip
 
@@ -273,7 +273,7 @@ See the sampler for examples.
 
 
 \subsection*{Numerical Summaries}
-These functions have 
+These functions have
 a formula interface to match plotting.
 %
 <<>>=
@@ -350,11 +350,11 @@ rnorm()     # etc, if needed
 %
 <<>>=
 gf_dist()    # ggformula
-# plain 
-pbinom(); pnorm();   
+# plain
+pbinom(); pnorm();
 # mosaic augmented
 xpnorm(); xpchisq(); xpt()
-xqbinom(); xqnorm(); 
+xqbinom(); xqnorm();
 xqchisq(); xqt()
 @
 
@@ -364,7 +364,7 @@ xqchisq(); xqt()
 t.test()       # mosaic augmented
 binom.test()   # mosaic augmented
 prop.test()    # mosaic augmented
-xchisq.test()            # mosaic 
+xchisq.test()            # mosaic
 fisher.test()
 pval()                   # mosaic
 model <- lm()     # linear models
@@ -372,7 +372,7 @@ summary(model)
 coef(model)
 confint(model) # mosaic augmented
 anova(model)
-makeFun(model)           # mosaic 
+makeFun(model)           # mosaic
 resid(model); fitted(model)
 gf_model(model)       # ggformula
 @
@@ -445,7 +445,7 @@ inner_join()         # dplyr
 
 <<more-hooks,eval=TRUE,echo=FALSE>>=
 knitr::opts_chunk$set(
-	eval=TRUE, 
+	eval=TRUE,
   size='small',
 	fig.width=4,
 	fig.height=1.9,
@@ -488,7 +488,7 @@ favstats(age ~ sex, data = HELPrct)
 \vspace*{-.15in}
 <<densityplot,fig.height=2.4, tidy = FALSE>>=
 gf_dens(~ age | sex, data = HELPrct,
-                color = ~ substance) 
+                color = ~ substance)
 @
 \vspace*{-.25in}
 <<bwplot>>=
@@ -501,20 +501,20 @@ confint(t.test(~ age, data = HELPrct))
 @
 \iffalse
 <<tidy=FALSE>>=
-model <- 
-  lm(age ~ sex + substance, data = HELPrct) 
+model <-
+  lm(age ~ sex + substance, data = HELPrct)
 anova(model)
 @
 \fi
 \iffalse
 <<tidy=FALSE>>=
-gf_point(Sepal.Length ~ Sepal.Width, 
-        color = ~Species, data = iris) 
+gf_point(Sepal.Length ~ Sepal.Width,
+        color = ~Species, data = iris)
 @
 \fi
 \vspace{-.2in}
 <<fig.keep="last", tidy=FALSE, fig.height=2.3>>=
-model <- 
+model <-
   lm(length ~ width + sex, data = KidsFeet)
 l.hat <- makeFun(model)
 l.hat(width = 8.25, sex = "B")
