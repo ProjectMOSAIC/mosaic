@@ -1,5 +1,7 @@
 # mosaic 1.10.0
 
+* repair bug introduced by a breaking change in rlang.
+
 # mosaic 1.9.1
 
 * updated documentation to comply with new CRAN checks.
