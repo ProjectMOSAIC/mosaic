@@ -18,7 +18,7 @@ from a simulated null distribution"><!-- mathjax --><script src="https://cdnjs.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10.0</span>
       </span>
     </div>
 
@@ -206,31 +206,31 @@ printed to the screen.</p>
 <span class="r-in"><span><span class="va">rdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Multinom.html" class="external-link">rmultinom</a></span><span class="op">(</span><span class="fl">999</span>, <span class="fu"><a href="aggregating.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">statTally</span><span class="op">(</span><span class="va">x</span>, <span class="va">rdata</span>, fun <span class="op">=</span> <span class="va">max</span>, binwidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># unusual test statistic</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be asymmetric. (p = 4.54e-06) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be asymmetric. (p = 3.22e-34) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Test statistic applied to sample data =  18 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Quantiles of test statistic applied to random data: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   50%   90%   95%   99% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17.00 20.00 20.00 22.02  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16.00 19.00 20.00 22.02  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Of the  1000  samples (1 original +  999  random), </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 133 ( 13.3 % ) had test stats = 18 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 301 ( 30.1 % ) had test stats &gt;= 18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 132 ( 13.2 % ) had test stats = 18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 305 ( 30.5 % ) had test stats &gt;= 18 </span>
 <span class="r-plt img"><img src="statTally-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu">statTally</span><span class="op">(</span><span class="va">x</span>, <span class="va">rdata</span>, fun <span class="op">=</span> <span class="va">var</span>, shade <span class="op">=</span> <span class="st">"red"</span>, binwidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>  <span class="co"># equivalent to chi-squared test</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be asymmetric. (p = 3.54e-07) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be asymmetric. (p = 9.63e-08) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Test statistic applied to sample data =  18 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Quantiles of test statistic applied to random data: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      50%      90%      95%      99% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10.00000 27.33333 32.66667 51.38667  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10.00000 26.00000 32.66667 48.70667  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Of the  1000  samples (1 original +  999  random), </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 31 ( 3.1 % ) had test stats = 18 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 258 ( 25.8 % ) had test stats &gt;= 18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 39 ( 3.9 % ) had test stats = 18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 255 ( 25.5 % ) had test stats &gt;= 18 </span>
 <span class="r-plt img"><img src="statTally-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># Can also be used with test stats that are precomputed.</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ProjectMOSAIC/mosaicData" class="external-link">mosaicData</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -240,31 +240,31 @@ printed to the screen.</p>
 <span class="r-in"><span><span class="fu">statTally</span><span class="op">(</span><span class="va">D</span>, <span class="va">nullDist</span>, system <span class="op">=</span> <span class="st">"lattice"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be symmetric. (p =  0.246 ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be symmetric. (p =  0.338 ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Test statistic applied to sample data =  -0.7841 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Quantiles of test statistic applied to random data: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        50%        90%        95%        99% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.01120955 1.17362649 1.47952569 1.95770731  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.02344552 1.17362649 1.47952569 1.95770731  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Of the  1000  samples (1 original +  999  random), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	 6 ( 0.6 % ) had test stats = -0.7841 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 156 ( 15.6 % ) had test stats &lt;= -0.7841 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 192 ( 19.2 % ) had test stats &gt;= 0.8065 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 155 ( 15.5 % ) had test stats &lt;= -0.7841 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 185 ( 18.5 % ) had test stats &gt;= 0.831 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be symmetric. (p =  0.246 ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Null distribution appears to be symmetric. (p =  0.338 ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Test statistic applied to sample data =  -0.7841 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Quantiles of test statistic applied to random data: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        50%        90%        95%        99% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.01120955 1.17362649 1.47952569 1.95770731  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.02344552 1.17362649 1.47952569 1.95770731  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Of the  1000  samples (1 original +  999  random), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	 6 ( 0.6 % ) had test stats = -0.7841 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 156 ( 15.6 % ) had test stats &lt;= -0.7841 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	 192 ( 19.2 % ) had test stats &gt;= 0.8065 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 155 ( 15.5 % ) had test stats &lt;= -0.7841 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	 185 ( 18.5 % ) had test stats &gt;= 0.831 </span>
 <span class="r-plt img"><img src="statTally-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -281,7 +281,7 @@ printed to the screen.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

@@ -272,13 +272,14 @@ gf_boxplot(age ~ substance, data=HELPrct)
 ### Your turn: How about this one?
 
 ```{r, echo=FALSE}
-gf_boxploth(substance ~ age, data = HELPrct)
+gf_boxplot(substance ~ age, data = HELPrct)
 ```
 
 Some things you will need to know:
 
-1. Command: <code>gf_boxploth()</code> for horizontal boxplots
-
+1. `gf_boxplot()` chooses between horizontal and 
+vertical orientation based on the types of variables
+assigned to each axis.
 
 2. The data: <code>HELPrct</code
 >
@@ -288,12 +289,12 @@ Some things you will need to know:
 #### Answer
 
 ```{r, echo=TRUE}
-gf_boxploth(substance ~ age, data = HELPrct)
+gf_boxplot(substance ~ age, data = HELPrct)
 ```
 
-Note that we have reversed which variable is mapped to the x-axis and which
-to the y-axis by reversing their order in the formula and using
-`gf_boxploth()` instead of `gf_boxplot()`.
+Note that we have reversed which variable is mapped to 
+the x-axis and which to the y-axis by reversing their order 
+in the formula. 
 
 ### Graphical Summaries: One Variable
 ```{r, }

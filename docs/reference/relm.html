@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10.0</span>
       </span>
     </div>
 
@@ -107,13 +107,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  9.817212 1.657624 1.024769 0.4110041 25.81878     1    37    1      1</span>
 <span class="r-in"><span><span class="fu"><a href="do.html">do</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu">relm</span><span class="op">(</span><span class="va">mod</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Intercept    width     sigma r.squared        F numdf dendf .row .index</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  7.911397 1.886100 0.9180185 0.5295769 41.65259     1    37    1      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  8.216654 1.820666 1.0921031 0.4256900 27.42513     1    37    1      2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 13.484026 1.254594 1.1881964 0.2291883 11.00134     1    37    1      3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  12.33530 1.416479 0.8256297 0.4397726 29.04461     1    37    1      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  11.33455 1.482402 1.0740143 0.3369019 18.79868     1    37    1      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  11.62397 1.467124 1.1671387 0.2964721 15.59208     1    37    1      3</span>
 <span class="r-in"><span><span class="co"># use residual resampling to estimate standard error (very crude because so few replications)</span></span></span>
 <span class="r-in"><span><span class="va">Boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="do.html">do</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="op">*</span> <span class="fu">relm</span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="aggregating.html">sd</a></span><span class="op">(</span><span class="op">~</span> <span class="va">width</span>, data <span class="op">=</span> <span class="va">Boot</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.326671</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3057475</span>
 <span class="r-in"><span><span class="co"># standard error as produced by summary() for comparison</span></span></span>
 <span class="r-in"><span><span class="va">mod</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="op">)</span> </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std. Error  t value     Pr(&gt;|t|)</span>
@@ -134,7 +134,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

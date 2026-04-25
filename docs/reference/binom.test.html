@@ -21,7 +21,7 @@ These wrappers provide an extended interface (including formulas)."><!-- mathjax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10.0</span>
       </span>
     </div>
 
@@ -159,7 +159,7 @@ the nominal coverage rate, but may produce wider intervals than some of the meth
 below, which may either under- or over-cover depending on the data.</p><ul><li><p>`"Score", "Wilson", "prop.test":  This is the usual method used by <code><a href="https://rdrr.io/r/stats/prop.test.html" class="external-link">stats::prop.test()</a></code>
 and is computed by inverting p-values from score tests. It is often attributed to
 Edwin Wilson.  If specified with <code>"prop.test"</code>, the continuity correction is applied
-(as is the default in <code><a href="prop.test.html">prop.test</a>()</code>), else the continuity correction is not
+(as is the default in <code><a href="prop.test.html">prop.test()</a></code>), else the continuity correction is not
 applied.</p><ul><li><p><code>"Wald"</code> This is the interval traditionally taught in entry level statistics courses.
 It uses the sample proportion to estimate the standard error and uses normal
 theory to determine how many standard deviations to add and/or subtract from
@@ -247,13 +247,13 @@ for a logical vector <code>TRUE</code> is treated as success and <code>FALSE</co
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  resample(1:4, 400)  [with success = 1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> number of successes = 102, number of trials = 400, p-value = 0.8174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of successes = 108, number of trials = 400, p-value = 0.3558</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true probability of success is not equal to 0.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2129864 0.3006811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2270847 0.3163560</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> probability of success </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  0.255 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   0.27 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">binom.test</span><span class="op">(</span><span class="op">~</span> <span class="va">long</span>, data <span class="op">=</span> <span class="va">faithful</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -335,7 +335,7 @@ for a logical vector <code>TRUE</code> is treated as success and <code>FALSE</co
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

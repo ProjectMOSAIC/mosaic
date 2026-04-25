@@ -18,7 +18,7 @@ htest object."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10.0</span>
       </span>
     </div>
 
@@ -136,19 +136,19 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="confint.html">confint</a></span><span class="op">(</span><span class="fu"><a href="ttest.html">t.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    mean of x      lower     upper level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.03443204 -0.1642955 0.2331596  0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.02967354 -0.1755472 0.2348942  0.95</span>
 <span class="r-in"><span><span class="fu">pval</span><span class="op">(</span><span class="fu"><a href="ttest.html">t.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   p.value </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.9644067 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.6039811 </span>
 <span class="r-in"><span><span class="fu">stat</span><span class="op">(</span><span class="fu"><a href="ttest.html">t.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         t </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.414192 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          t </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.3345916 </span>
 <span class="r-in"><span><span class="fu"><a href="confint.html">confint</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/var.test.html" class="external-link">var.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span>,sd<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">20</span>, sd<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ratio of variances     lower   upper level</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          0.3131725 0.1087385 1.15352  0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ratio of variances    lower    upper level</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          0.3279891 0.113883 1.208095  0.95</span>
 <span class="r-in"><span><span class="fu">pval</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/var.test.html" class="external-link">var.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span>,sd<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">20</span>, sd<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     p.value </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.000886518 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    p.value </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.02553581 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ProjectMOSAIC/mosaicData" class="external-link">mosaicData</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">HELPrct</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">stat</span><span class="op">(</span><span class="fu"><a href="ttest.html">t.test</a></span> <span class="op">(</span><span class="va">age</span> <span class="op">~</span> <span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, data<span class="op">=</span><span class="va">HELPrct</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -180,7 +180,7 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

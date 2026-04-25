@@ -18,7 +18,7 @@ with replication and resampling methods."><!-- mathjax --><script src="https://c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.10.0</span>
       </span>
     </div>
 
@@ -189,9 +189,9 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        rnorm</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.7045291</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.6722831</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -1.2826290</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.9537124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.3084539</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -0.1936198</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="st">"hello"</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   hello</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 hello</span>
@@ -203,30 +203,30 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1  2  3  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3  1  2  3  4</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="aggregating.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.1469577</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1167505</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.1334250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.32228041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.13824416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.04960635</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">mother</span>, <span class="va">Galton</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Intercept       sexM      mother    sigma    r.squared         F numdf dendf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  69.36793 0.01015402 -0.04076656 3.585675 0.0006936883 0.3106410     2   895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  68.24441 0.13106505 -0.02421169 3.585847 0.0005978337 0.2676906     2   895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  64.50780 0.20611057  0.03348964 3.584681 0.0012479970 0.5591765     2   895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Intercept       sexM      mother    sigma    r.squared        F numdf dendf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.74839 -0.1303453 -0.09238138 3.580112 0.0037920883 1.703419     2   895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  64.77094 -0.1727158  0.03244444 3.585030 0.0010531400 0.471777     2   895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  65.71198 -0.1644362  0.01769318 3.585709 0.0006749052 0.302224     2   895</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .row .index</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    1      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    1      2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3    1      3</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/anova.html" class="external-link">anova</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="resample.html">shuffle</a></span><span class="op">(</span><span class="va">height</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span> <span class="op">+</span> <span class="va">mother</span>, <span class="va">Galton</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  source  df           SS        MS         F      pval .row</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex...1             sex   1    32.893416 32.893416 2.5669585 0.1094702    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mother...2       mother   1    13.496052 13.496052 1.0532140 0.3050453    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...3 Residuals 895 11468.672904 12.814160        NA        NA    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex...4             sex   1     8.665588  8.665588 0.6742219 0.4118022    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mother...5       mother   1     3.208958  3.208958 0.2496714 0.6174293    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...6 Residuals 895 11503.187826 12.852724        NA        NA    3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex...7             sex   1     1.896518  1.896518 0.1476001 0.7009307    1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mother...8       mother   1    13.283584 13.283584 1.0338200 0.3095379    2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...9 Residuals 895 11499.882270 12.849030        NA        NA    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  source  df           SS         MS          F      pval .row</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex...1             sex   1 1.200378e+01 12.0037764 0.93463244 0.3339232    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mother...2       mother   1 8.294034e+00  8.2940336 0.64578618 0.4218366    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...3 Residuals 895 1.149476e+04 12.8433124         NA        NA    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex...4             sex   1 1.623471e+00  1.6234711 0.12621332 0.7224747    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mother...5       mother   1 1.130675e+00  1.1306750 0.08790193 0.7669303    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...6 Residuals 895 1.151231e+04 12.8629142         NA        NA    3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex...7             sex   1 1.758369e-01  0.1758369 0.01366807 0.9069572    1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mother...8       mother   1 8.987272e-01  0.8987272 0.06985945 0.7916024    2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...9 Residuals 895 1.151399e+04 12.8647908         NA        NA    3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               .index</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sex...1            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mother...2         1</span>
@@ -239,20 +239,20 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residuals...9      3</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>sample.mean <span class="op">=</span> <span class="fu"><a href="aggregating.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   sample.mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.13363120</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.05743587</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.19931276</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -0.07759286</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.22312550</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.04760878</span>
 <span class="r-in"><span><span class="co"># change the names on the fly</span></span></span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="aggregating.html">mean</a></span><span class="op">(</span><span class="op">~</span><span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">Galton</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 66.70234</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 66.72038</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 66.81114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 66.61247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 66.69477</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 66.88731</span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mean_height <span class="op">=</span> <span class="fu"><a href="aggregating.html">mean</a></span><span class="op">(</span><span class="op">~</span><span class="va">height</span>, data <span class="op">=</span> <span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">Galton</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean_height</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    66.88853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    66.38274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    66.75523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    66.80846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    66.41080</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    66.75022</span>
 <span class="r-in"><span><span class="fu"><a href="set.rseed.html">set.rseed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">do</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/pkg/mosaicCore/man/tally.html" class="external-link">tally</a></span><span class="op">(</span> <span class="op">~</span><span class="va">sex</span><span class="op">|</span><span class="va">treat</span>, data<span class="op">=</span><span class="fu"><a href="resample.html">resample</a></span><span class="op">(</span><span class="va">HELPrct</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   female.no male.no female.yes male.yes</span>
@@ -279,7 +279,7 @@ and Randall Pruim (<a href="mailto:rpruim@calvin.edu">rpruim@calvin.edu</a>)</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>
