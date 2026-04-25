@@ -1,49 +1,49 @@
 utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
-                       
+
 #' Confidence interval methods for output of resampling
-#' 
+#'
 #' Methods for `confint` to compute confidence intervals
 #' on numerical vectors and numerical components of data frames.
-#' 
+#'
 #' @rdname confint
 #' @name confint
 #'
 #' @param method a character vector of methods to use for creating confidence
-#' intervals.  Choices are "percentile" (or "quantile") which is the default, 
+#' intervals.  Choices are "percentile" (or "quantile") which is the default,
 #' "stderr" (or "se"), "bootstrap-t", and
 #' "reverse" (or "basic"))
 #'
 #' @param margin.of.error if true, report intervals as a center and margin of error.
 #' @param df degrees for freedom. This is required when `object` was produced using
-#' \code{link{do}} when 
-#' using the standard error to compute the confidence interval since 
+#' \code{link{do}} when
+#' using the standard error to compute the confidence interval since
 #' typically this information is not recorded in these objects.  The default (`Inf`)
 #' uses a normal critical value rather than a one derived from a t-distribution.
-#' 
+#'
 #' @param ... additional arguments
 #'
-#' @return When applied to a data frame, returns a data frame giving the 
-#' confidence interval for each variable in the data frame using 
+#' @return When applied to a data frame, returns a data frame giving the
+#' confidence interval for each variable in the data frame using
 #' `t.test` or `binom.test`, unless the data frame was produced using `do`, in which case
 #' it is assumed that each variable contains resampled statistics that serve as an estimated sampling
 #' distribution from which a confidence interval can be computed using either a central proportion
-#' of this distribution or using the standard error as estimated by the standard deviation of the 
+#' of this distribution or using the standard error as estimated by the standard deviation of the
 #' estimated sampling distribution.  For the standard error method, the user must supply the correct
 #' degrees of freedom for the t distribution since this information is typically not available in
 #' the output of [do()].
-#' 
+#'
 #' When applied to a numerical vector, returns a vector.
-#' 
+#'
 #' @details
 #' The methods of producing confidence intervals from bootstrap distributions are currently
-#' quite naive.  In particular, when using the standard error, assistance may be required with the 
+#' quite naive.  In particular, when using the standard error, assistance may be required with the
 #' degrees of freedom, and it may not be possible to provide a correct value in all situations.
 #' None of the methods include explicit bias correction.
 #' Let \eqn{q_a} be the \eqn{a} quantile of the bootstrap distribution,
-#' let \eqn{t_a, df} be the \eqn{a} quantile of the t distribution with \eqn{df} 
+#' let \eqn{t_a, df} be the \eqn{a} quantile of the t distribution with \eqn{df}
 #' degrees of freedom,
 #' let \eqn{SE_b} be the standard deviation of the bootstrap distribution,
-#' and let \eqn{\hat{\theta}} be the estimate computed from the original data.  
+#' and let \eqn{\hat{\theta}} be the estimate computed from the original data.
 #' Then the confidence intervals with confidence level \eqn{1 - 2a} are
 #' \describe{
 #' \item{quantile}{\eqn{(q_a, q_{1-a}) } }
@@ -51,21 +51,21 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #' \item{stderr}{\eqn{(\hat{\theta} - t_{1-a,df} SE_b, \hat{\theta} + t_{1-a,df} SE_b) }.
 #'  When `df` is not provided,
 #' at attempt is made to determine an appropriate value, but this should be double checked.
-#' In particular, missing data an lead to unreliable results. 
+#' In particular, missing data an lead to unreliable results.
 #' }
 #' The bootstrap-t confidence interval is computed much like the reverse confidence interval
-#' but the bootstrap t distribution is used in place of a theoretical t distribution.  
-#' This interval has much better properties than the reverse (or basic) method, which 
+#' but the bootstrap t distribution is used in place of a theoretical t distribution.
+#' This interval has much better properties than the reverse (or basic) method, which
 #' is here for comparison purposes only and is not recommended.  The t-statistic
 #' is computed from a mean, a standard deviation, a sample size which much be named
 #' `"mean"`, `"sd"`, and `"n"` as they are when using [favstats()].
 #' }
 #' @references
-#' Tim C. Hesterberg (2015): What Teachers Should Know about the Bootstrap: 
-#' Resampling in the Undergraduate Statistics Curriculum, 
-#' The American Statistician, 
+#' Tim C. Hesterberg (2015): What Teachers Should Know about the Bootstrap:
+#' Resampling in the Undergraduate Statistics Curriculum,
+#' The American Statistician,
 #' \url{https://www.tandfonline.com/doi/full/10.1080/00031305.2015.1089789}.
-#' 
+#'
 #' @examples
 #' if (require(mosaicData)) {
 #'   bootstrap <- do(500) * diffmean( age ~ sex, data = resample(HELPrct) )
@@ -74,29 +74,29 @@ utils::globalVariables(c("SE.star", "estimate.star", ".index", "SE"))
 #'   confint(bootstrap, method = "boot")
 #'   confint(bootstrap, method = "se", df = nrow(HELPrct) - 1)
 #'   confint(bootstrap, margin.of.error = FALSE)
-#'   confint(bootstrap, margin.of.error = TRUE, level = 0.99, 
+#'   confint(bootstrap, margin.of.error = TRUE, level = 0.99,
 #'     method = c("se", "perc") )
-#'     
+#'
 #'   # bootstrap t method requires both mean and sd
-#'   bootstrap2 <- do(500) * favstats(resample(1:10)) 
+#'   bootstrap2 <- do(500) * favstats(resample(1:10))
 #'   confint(bootstrap2, method = "boot")
 #' }
 #' @export
 
 confint.numeric <- function(object, parm, level = 0.95, ...,
-                            method = "percentile", 
+                            method = "percentile",
                             margin.of.error = "stderr" %in% method == "stderr") {
-  
+
   if ("conf.level" %in% names(list(...))) {
     stop("Use `level` to set the confidence level, not `conf.level`.")
   }
   method <- match.arg(method, c("stderr","percentile","quantile"), several.ok = TRUE)
-  result <- list() 
+  result <- list()
   for (m in method) {
     vals <- .mosaic.get.ci( object, level, m )
-    result[[m]] <-  if( margin.of.error ) { 
-      c(center = mean(vals), margin.of.error = diff(vals) / 2, 
-        method = m, level = level)  
+    result[[m]] <-  if( margin.of.error ) {
+      c(center = mean(vals), margin.of.error = diff(vals) / 2,
+        method = m, level = level)
     } else {
       vals
     }
@@ -111,7 +111,7 @@ confint.numeric <- function(object, parm, level = 0.95, ...,
     length(object),
     " replicates)")
     )
-  result  
+  result
 }
 
 dont_randomize_data <- list(
@@ -121,17 +121,17 @@ dont_randomize_data <- list(
   max = function(x, ...) x,
   min = function(x, ...) x,
   sample = function(x, ...) x,
-  resample = function(x, ...) 
+  resample = function(x, ...)
     if ( inherits(x, "lm") ) eval( x$call[["data"]], environment(formula(x)) ) else x,
   shuffle = function(x, ...) x,
   rflip = function(n, prob = 0.5, quiet, verbose, ...) {
-    c( x = round(prob * n), n = n ) 
+    c( x = round(prob * n), n = n )
   }
 )
 
 dont_randomize_estimate <- list(
   sample = function(x, ...) x,
-  resample = function(x, ...) 
+  resample = function(x, ...)
     if ( inherits(x, "lm") ) eval( x$call[["data"]], environment(formula(x)) ) else x,
   shuffle = function(x, ...) x,
   rflip = function(n, prob = 0.5, quiet, verbose, ...) {
@@ -141,69 +141,90 @@ dont_randomize_estimate <- list(
 
 extract_data <- function(x) {
   x_lazy <- attr(x, "lazy")
+  x_lazy_env <- attr(x, "lazy_env")
   if (is.null(x_lazy)) return(NULL)
-  res <- eval( rlang::f_rhs(x_lazy)[["data"]], envir = dont_randomize_data, enclos = environment(x_lazy) )
+  res <- eval(
+    # rlang::f_rhs(x_lazy)[["data"]],
+    x_lazy[["data"]],
+    envir = dont_randomize_data,
+    enclos = x_lazy_env
+  )
   if (is.null(res)) {
-    res <- eval( rlang::f_rhs(x_lazy), envir = dont_randomize_data, enclos = environment(x_lazy) )
+    res <- eval(
+      # rlang::f_rhs(x_lazy),
+      x_lazy,
+      envir = dont_randomize_data,
+      enclos = x_lazy_env
+    )
   }
   as.data.frame(res)
 }
 
 extract_estimate <- function(x) {
   x_lazy <- attr(x, "lazy")
+  x_lazy_env <- attr(x, "lazy_env")
   if (is.null(x_lazy)) return(NA)
-  eval( rlang::f_rhs(x_lazy), envir = dont_randomize_estimate, enclos = environment(x_lazy) )
+  if (rlang::is_formula(x_lazy)) {
+    x_lazy <- rlang::f_rhs(x_lazy)
+  }
+  eval(
+    # rlang::f_rhs(x_lazy),
+    x_lazy,
+    envir = dont_randomize_estimate,
+    enclos = x_lazy_env)
 }
 
 #' @rdname confint
 #' @export
-confint.do.tbl_df <- function(object, parm, level = 0.95, ..., 
-                                 method = "percentile", 
+confint.do.tbl_df <- function(object, parm, level = 0.95, ...,
+                                 method = "percentile",
                                  margin.of.error = "stderr" %in% method,
                                  df = NULL) {
-  
+
   if ("conf.level" %in% names(list(...))) {
     stop("Use `level` to set the confidence level, not `conf.level`.")
   }
   class(object) <- c("do.data.frame", class(object))
   confint(object, parm, level = level, ..., method = method,
-          margin.of.error = margin.of.error, df = df) 
+          margin.of.error = margin.of.error, df = df)
 }
 
 #' @rdname confint
 #' @export
-confint.do.data.frame <- function(object, parm, level = 0.95, ..., 
-                                 method = "percentile", 
+confint.do.data.frame <- function(object, parm, level = 0.95, ...,
+                                 method = "percentile",
                                  margin.of.error = "stderr" %in% method,
                                  df = NULL) {
- 
-  method <- tolower(method) 
-  method <- 
+
+  method <- tolower(method)
+  method <-
     match.arg(
-      method, 
-      c("percentile", "se", "stderr", "basic", "reverse", 
-        "quantile", "bootstrap-t"), 
+      method,
+      c("percentile", "se", "stderr", "basic", "reverse",
+        "quantile", "bootstrap-t"),
       several.ok = TRUE) # which method was selected
   method[method == "quantile"] <- "percentile"
   method[method == "basic"] <- "reverse"
   method[method == 'se'] <- 'stderr'
   method <- unique(method)
-  
-  bootT <- ("bootstrap-t" %in% method) && 
+
+  bootT <- ("bootstrap-t" %in% method) &&
     all(c("mean", "sd", "n") %in% names(object))
   method <- setdiff(method, "bootstrap-t")
-  
+
   compute_t_df <-
-    grepl("^diffmean$|^mean$", as.character(rlang::f_rhs(attr(object, "lazy"))[[1]]))
-  
+    grepl("^diffmean$|^mean$", as.character(attr(object, "lazy")[[1]]))
+    # grepl("^diffmean$|^mean$", as.character(rlang::f_rhs(attr(object, "lazy"))[[1]]))
+
   if ("stderr" %in% method && is.null(df) && compute_t_df) {
     tryCatch({
-      orig_data <- extract_data(object) 
-      orig_data <- 
+      orig_data <- extract_data(object)
+      orig_data <-
         orig_data |>
         select(
-          .dots = intersect(names(orig_data), 
-                            rlang::f_rhs(attr(object, "lazy")) |> all.vars())
+          .dots = intersect(names(orig_data),
+          attr(object, "lazy") |> all.vars())
+          #rlang::f_rhs(attr(object, "lazy")) |> all.vars())
         )
       df <- nrow(orig_data) - 1
       if ( ! all(complete.cases(orig_data)) ) {
@@ -214,15 +235,15 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
     },
       error = function(e) warning(
         "confint: I can't determine df from the original data.",
-        call. = FALSE) 
+        call. = FALSE)
     )
   }
-  
+
   if (is.null(df) || length(df) != 1) {
     df <- Inf
     if ("stderr" %in% method) warning("confint: Using df = Inf.", call. = FALSE)
   }
-  
+
   if (missing(parm)) parm <- names(object)
   nms <- intersect(names(object),parm)
   res <- data.frame(
@@ -239,7 +260,7 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
   if (is.null(names(estimate))) {
     names(estimate) <- names(object)
   }
-  
+
   for (k in 1:length(nms) ) {
     for (m in method) {
       for (l in level) {
@@ -247,9 +268,9 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
           if (! nms[k] %in% names(estimate) ) next
           row <- row + 1
           # vals <- .mosaic.get.ci2( object[[nms[k]]], l, m, df = df)
-          vals <- 
-            bootstrap_ci( 
-              object[[nms[k]]], level = l, method = m, df = df, 
+          vals <-
+            bootstrap_ci(
+              object[[nms[k]]], level = l, method = m, df = df,
               estimate =  estimate[[ nms[k] ]]
             )
           res[row, "name"] <- nms[k]
@@ -275,17 +296,17 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
     res[, "margin.of.error"] <- with( res,  (res$upper-res$lower)/2 )
 #    res[ res$method != "stderr", "estimate"] <- NA
     res[ res$method != "stderr", "margin.of.error"] <- NA
-  } 
+  }
 #  else {
 #    res <- res[ , setdiff(names(res), "estimate") ]
 #  }
 
   # Change the names to those given by confint.default
-#  colnames(res) <- 
-#    if (method == "quantile") 
+#  colnames(res) <-
+#    if (method == "quantile")
 #      c("name", paste(c((1-level)/2, 1-(1-level)/2)*100, "%" ))
 #    else c("name", "lower", "upper")
-  
+
 #  if (margin.of.error)  # Report as a center and margin of error
 #    res = .turn.to.margin(res)
 
@@ -306,7 +327,7 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
   alpha <- (1-level)/2
   if( method == "stderr" ) {
     if (is.null(df)) { df <- sum(!is.na(vals)) - 1 }
-    res = mean(vals, na.rm = TRUE) + 
+    res = mean(vals, na.rm = TRUE) +
       c(-1,1) * sd(vals, na.rm = TRUE) * qt(1-alpha, df)
   }
   # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
@@ -317,7 +338,7 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
 .mosaic.get.ci2 <- function( vals, level, method, df = Inf) {
   alpha <- (1 - level) / 2
   if( method == "stderr" ) {
-    res = mean(vals, na.rm = TRUE) + 
+    res = mean(vals, na.rm = TRUE) +
     c(-1,1) * sd(vals, na.rm = TRUE) * qt(1-alpha, df)
   }
   # the sum(!is.na(vals)) above is to account for NAs in finding the degrees of freedom
@@ -325,7 +346,7 @@ confint.do.data.frame <- function(object, parm, level = 0.95, ...,
   return(res)
 }
 
-bootstrap_ci <- function( x, level = 0.95, method, 
+bootstrap_ci <- function( x, level = 0.95, method,
                           df = Inf, t, ... ) {
   switch(
     method,
@@ -335,7 +356,7 @@ bootstrap_ci <- function( x, level = 0.95, method,
     `bootstrap-t` = boott_bootstrap_ci(x, level = level, estimate, ...)
   )
 }
-  
+
 basic_bootstrap_ci <- function( x, estimate, ..., df = Inf, level = 0.95 ) {
   alpha <- (1 - level) / 2
   2 * estimate - stats::quantile(x, c(1-alpha, alpha))
@@ -348,7 +369,7 @@ percentile_bootstrap_ci <- function( x, ..., level = 0.95 ) {
 
 tse_bootstrap_ci <- function( x, ..., df = Inf, level = 0.95 ) {
   alpha <- (1 - level) / 2
-  mean(x, na.rm = TRUE) + 
+  mean(x, na.rm = TRUE) +
     c(-1,1) * sd(x, na.rm = TRUE) * qt(1-alpha, df)
 }
 
@@ -363,7 +384,7 @@ boott_bootstrap_ci <- function( x, se, ..., level = 0.95, estimate ) {
 
 #' @rdname confint
 #' @export
- 
+
 confint.data.frame <- function(object, parm, level = 0.95, ... )  {
   if ("conf.level" %in% names(list(...))) {
     stop("Use `level` to set the confidence level, not `conf.level`.")
@@ -371,22 +392,22 @@ confint.data.frame <- function(object, parm, level = 0.95, ... )  {
   results <- list()
   for (c in 1:ncol(object)) {
     x <- object[,c]
-    if (is.numeric(x)) { 
+    if (is.numeric(x)) {
       newCI <- confint(t.test(x, ...))
-      newRow <- data.frame( method = "t.test", estimate = newCI[1], lower = newCI[2], 
+      newRow <- data.frame( method = "t.test", estimate = newCI[1], lower = newCI[2],
                             upper = newCI[3], level = newCI[4])
-      
-    } else if ( (is.factor(x) && nlevels(x) <= 2) || (is.character(x) && length(unique(x)) <= 2) || is.logical(x)) { 
-      newCI <- confint(binom.test(x, ...)) 
+
+    } else if ( (is.factor(x) && nlevels(x) <= 2) || (is.character(x) && length(unique(x)) <= 2) || is.logical(x)) {
+      newCI <- confint(binom.test(x, ...))
       newRow <- data.frame( method = "binom.test", estimate = newCI[1], lower = newCI[2], upper = newCI[3], level = newCI[4])
     } else {
       newRow <- data.frame(method = "none", estimate = NA, lower = NA, upper = NA, level = NA)
     }
     results <- rbind(results,newRow)
-  }  
-  
-  row.names(results) <- names(object) 
-  
+  }
+
+  row.names(results) <- names(object)
+
   return(results)
 }
 
@@ -402,27 +423,27 @@ boott.do.data.frame <- function( object, level = 0.95, ... ) {
          call. = FALSE)
   }
   if (base::max(object$.row) > 2) stop("Too many groups.")
- 
+
   estimate <- extract_estimate(object)$mean
-  
+
   if (max(object$.row) == 1) {
     parm <- "mean"
     Boot <-
       object |>
-      mutate(estimate.star = mean, SE.star = sd / sqrt(n), 
+      mutate(estimate.star = mean, SE.star = sd / sqrt(n),
              t = (estimate.star - mean(estimate.star)) / SE.star)
-  } 
-  
+  }
+
   if (max(object$.row) == 2) {
     parm <- "diffmean"
     Boot <-
       object |>
       group_by(.index) |>
-      summarise(estimate.star = diff(mean), SE.star = sqrt(sum(sd^2/ n))) |> 
+      summarise(estimate.star = diff(mean), SE.star = sqrt(sum(sd^2/ n))) |>
       mutate(t = (estimate.star - mean(estimate.star)) / SE.star)
     estimate <- diff(estimate)
   }
-  
+
   q <- cdata( ~ t, level, data = Boot)
   res <-
     data.frame(
