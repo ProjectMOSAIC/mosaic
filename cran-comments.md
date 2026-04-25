@@ -1,7 +1,10 @@
 
 ## Submission notes
 
-The primary reason for this update is in response to the recent changes to rlang.
+The primary reason for this update is in response to the recent changes to rlang. 
+Sorry this took longer than I originally hoped.
+
+Also fixed a small bug in mosaic::var() where na.rm was not being passed along in some cases.
 
 Maintainer email is changing from <rpruim@calvin.edu> to <rpruim@gmail.com>.
 
