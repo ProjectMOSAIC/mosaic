@@ -242,8 +242,14 @@ aggregatingFunction1or2 <-
           } else {
             formula <- mosaicCore::mosaic_formula_q(x, max.slots = 2)
             if (is.null(data)) data <- environment(formula)
-            return(maggregate(formula, data = data, FUN = FUNCTION_TBD, 
-                              .multiple = OUTPUT.MULTIPLE, ...))
+            return(maggregate(
+              formula,
+              data = data,
+              FUN = FUNCTION_TBD,
+              .multiple = OUTPUT.MULTIPLE,
+              na.rm = na.rm,
+              ...
+            ))
           }
         }
         FUNCTION_TBD(x, y, na.rm = na.rm, ...)
@@ -571,4 +577,3 @@ MAD <- aggregatingFunction1(MAD_)
 #' @rdname MAD
 #' @export
 SAD <- aggregatingFunction1(SAD_)
-
