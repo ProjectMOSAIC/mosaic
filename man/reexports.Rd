@@ -32,8 +32,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{MASS}{\code{\link[MASS]{fitdistr}}, \code{\link[MASS]{fractions}}}
+  \item{MASS}{\code{\link[MASS:fitdistr]{fitdistr()}}, \code{\link[MASS:fractions]{fractions()}}}
 
-  \item{mosaicCore}{\code{\link[mosaicCore]{compare}}, \code{\link[mosaicCore:parseFormula]{condition}}, \code{\link[mosaicCore:prop]{count}}, \code{\link[mosaicCore:props]{counts}}, \code{\link[mosaicCore:props]{counts}}, \code{\link[mosaicCore]{dfapply}}, \code{\link[mosaicCore]{ediff}}, \code{\link[mosaicCore:logit]{ilogit}}, \code{\link[mosaicCore]{inspect}}, \code{\link[mosaicCore:parseFormula]{lhs}}, \code{\link[mosaicCore]{logit}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{makeFun}}, \code{\link[mosaicCore]{msummary}}, \code{\link[mosaicCore]{n_missing}}, \code{\link[mosaicCore:prop]{perc}}, \code{\link[mosaicCore:props]{percs}}, \code{\link[mosaicCore]{prop}}, \code{\link[mosaicCore:prop]{prop1}}, \code{\link[mosaicCore]{props}}, \code{\link[mosaicCore:parseFormula]{rhs}}, \code{\link[mosaicCore]{tally}}}
+  \item{mosaicCore}{\code{\link[mosaicCore:compare]{compare()}}, \code{\link[mosaicCore:condition]{condition()}}, \code{\link[mosaicCore:count]{count()}}, \code{\link[mosaicCore:counts]{counts()}}, \code{\link[mosaicCore:counts]{counts()}}, \code{\link[mosaicCore:dfapply]{dfapply()}}, \code{\link[mosaicCore:ediff]{ediff()}}, \code{\link[mosaicCore:ilogit]{ilogit()}}, \code{\link[mosaicCore:inspect]{inspect()}}, \code{\link[mosaicCore:lhs]{lhs()}}, \code{\link[mosaicCore:logit]{logit()}}, \code{\link[mosaicCore:makeFun]{makeFun()}}, \code{\link[mosaicCore:makeFun]{makeFun()}}, \code{\link[mosaicCore:msummary]{msummary()}}, \code{\link[mosaicCore:n_missing]{n_missing()}}, \code{\link[mosaicCore:perc]{perc()}}, \code{\link[mosaicCore:percs]{percs()}}, \code{\link[mosaicCore:prop]{prop()}}, \code{\link[mosaicCore:prop1]{prop1()}}, \code{\link[mosaicCore:props]{props()}}, \code{\link[mosaicCore:rhs]{rhs()}}, \code{\link[mosaicCore:tally]{tally()}}}
 }}
 

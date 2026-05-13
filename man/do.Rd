@@ -82,6 +82,8 @@ it is named \code{result}.
 To get different names, one can rename the objects as they are created, or
 rename the result returned from \code{do()}.  Example of the former:
 \code{do(3) * c(mean_height = mean(~height, data = resample(Galton)))}.
+If you like the name \code{result}, try wrapping the expression in \code{{ }}:
+\code{do(3) * { mean(~ height, data = resample(Galton)) }}.
 }
 
 \examples{
@@ -95,6 +97,8 @@ do(3) * c(sample.mean = mean(rnorm(25)))
 # change the names on the fly
 do(3) * mean(~height, data = resample(Galton))
 do(3) * c(mean_height = mean(~height, data = resample(Galton)))
+# this results in the name being `result`
+do(3) * { mean(~height, data = resample(Galton)) }
 set.rseed(1234)
 do(3) * tally( ~sex|treat, data=resample(HELPrct))
 set.rseed(1234)  # re-using seed gives same results again

@@ -88,15 +88,16 @@ are grouped together for coloring and probability calculation.}
 \item{...}{additional arguments passed to the distribution functions.  Typically
 these specify the parameters of the particular distribution desired.  See the examples.}
 
-\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_aux]{ggformula::gf_refine()}}.}
+\item{refinements}{A list of refinements to the plot.  See \code{\link[ggformula:gf_refine]{ggformula::gf_refine()}}.}
 
 \item{shape, scale}{shape and scale parameters.  Must be positive,
     \code{scale} strictly.}
 
 \item{rate}{an alternative way to specify the scale.}
 
-\item{lower.tail}{logical; if TRUE (default), probabilities are
-    \eqn{P[X \le x]}, otherwise, \eqn{P[X > x]}.}
+\item{lower.tail}{logical; if \code{TRUE} (default), probabilities are
+    \eqn{P[X < x]}, otherwise, \eqn{P[X \ge x]} (exceptionally not
+    \emph{cadlag} here, to ensure, e.g., \code{pgamma(0, shape=0)} remains zero).}
 
 \item{log.p}{A logical indicating whether probabilities should be
 returned on the log scale.}
@@ -106,7 +107,7 @@ returned on the log scale.}
 
 \item{ncp}{non-centrality parameter \eqn{\delta}{delta};
     currently except for \code{rt()}, accurate only for \code{abs(ncp) <= 37.62}.
-    If omitted, use the central t distribution.}
+    If omitted, use the central \eqn{t} distribution.}
 
 \item{df1, df2}{degrees of freedom.  \code{Inf} is allowed.}
 

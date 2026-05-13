@@ -43,6 +43,6 @@ A high-level function for producing a cumulative frequency plot using
 plotCumfreq(~eruptions, faithful, xlab = 'duration of eruptions')
 }
 \seealso{
-\code{\link[lattice:histogram]{lattice::histogram()}}, \code{\link[lattice:histogram]{lattice::densityplot()}}
+\code{\link[lattice:histogram]{lattice::histogram()}}, \code{\link[lattice:densityplot]{lattice::densityplot()}}
 }
 \keyword{graphics}

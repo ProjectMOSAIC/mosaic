@@ -588,16 +588,29 @@ xcgeom <- function(p, prob, lower.tail = TRUE, log.p = FALSE, ...)
 #' @rdname pdist
 #' @inheritParams stats::pnbinom
 #' @export
-xpnbinom <- function(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
-  pdist("nbinom", q = q, size = size, prob =prob, mu = mu, 
+xpnbinom <- function(q, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...) { 
+  if (missing (mu)) {
+    pdist("nbinom", q = q, size = size, prob = prob, 
         lower.tail = lower.tail, log.p = log.p, ...)
+  } else {
+    pdist("nbinom", q = q, size = size, mu = mu, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+  }
+}
 
 #' @rdname qdist
 #' @inheritParams stats::qnbinom
 #' @export
-xqnbinom <- function(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...)  
-  qdist("nbinom", p = p, size = size, prob =prob, mu = mu, 
+#' 
+xqnbinom <- function(p, size, prob, mu, lower.tail = TRUE, log.p = FALSE, ...) {
+  if (missing (mu)) {
+    qdist("nbinom", p = p, size = size, prob = prob, 
         lower.tail = lower.tail, log.p = log.p, ...)
+  } else {
+    qdist("nbinom", p = p, size = size, mu = mu, 
+        lower.tail = lower.tail, log.p = log.p, ...)
+  }
+}
 
 #' @rdname cdist
 #' @inheritParams stats::qnbinom

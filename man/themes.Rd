@@ -17,18 +17,18 @@ col.mosaic(bw = FALSE, lty = if (bw) 1:7 else 1, lwd = 2, ...)
 \item{lwd}{vector of line widths}
 
 \item{...}{additional named arguments passed to
-\code{\link[lattice:trellis.par.get]{lattice::trellis.par.set()}}}
+\code{\link[lattice:trellis.par.set]{lattice::trellis.par.set()}}}
 }
 \value{
 Returns a list that can be supplied as the \code{theme} to
-\code{\link[lattice:trellis.par.get]{lattice::trellis.par.set()}}.
+\code{\link[lattice:trellis.par.set]{lattice::trellis.par.set()}}.
 }
 \description{
 A theme for use with lattice graphics.
 }
 \note{
 These two functions are identical.  \code{col.mosaic} is named
-similarly to \code{\link[lattice:standard.theme]{lattice::col.whitebg()}}, but since more
+similarly to \code{\link[lattice:col.whitebg]{lattice::col.whitebg()}}, but since more
 than just colors are set, \code{theme.mosaic} is a preferable name.
 }
 \examples{
@@ -39,6 +39,6 @@ show.settings()
 
 }
 \seealso{
-\code{\link[lattice:trellis.par.get]{lattice::trellis.par.set()}}, \code{\link[lattice:trellis.par.get]{lattice::show.settings()}}
+\code{\link[lattice:trellis.par.set]{lattice::trellis.par.set()}}, \code{\link[lattice:show.settings]{lattice::show.settings()}}
 }
 \keyword{graphics}

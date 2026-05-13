@@ -27,7 +27,7 @@ both should be returned.}
 
 \item{ncp}{non-centrality parameter \eqn{\delta}{delta};
     currently except for \code{rt()}, accurate only for \code{abs(ncp) <= 37.62}.
-    If omitted, use the central t distribution.}
+    If omitted, use the central \eqn{t} distribution.}
 }
 \description{
 These versions of the quantile functions take a vector of
@@ -46,5 +46,5 @@ xcnorm(.95, mean = 100, sd = 10)
 
 }
 \seealso{
-\code{\link[stats:Normal]{stats::qnorm()}}, \code{\link[=cdist]{cdist()}}
+\code{\link[stats:qnorm]{stats::qnorm()}}, \code{\link[=cdist]{cdist()}}
 }

@@ -116,11 +116,11 @@ if (require(mosaicData)) {
   confint(bootstrap, method = "boot")
   confint(bootstrap, method = "se", df = nrow(HELPrct) - 1)
   confint(bootstrap, margin.of.error = FALSE)
-  confint(bootstrap, margin.of.error = TRUE, level = 0.99, 
+  confint(bootstrap, margin.of.error = TRUE, level = 0.99,
     method = c("se", "perc") )
-    
+
   # bootstrap t method requires both mean and sd
-  bootstrap2 <- do(500) * favstats(resample(1:10)) 
+  bootstrap2 <- do(500) * favstats(resample(1:10))
   confint(bootstrap2, method = "boot")
 }
 lm(width ~ length * sex, data = KidsFeet) |>
